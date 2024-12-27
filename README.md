@@ -1,7 +1,7 @@
 
 
 # Cinema Web Application
-Java, JSP, MyBatis, JavaScript를 사용하여 개발한 영화 예매 웹 애플리케이션입니다.
+Java, Servlet, JSP, MyBatis, JavaScript를 사용하여 개발한 영화 예매 웹 애플리케이션입니다.
 
 ---
 
@@ -15,10 +15,10 @@ Java, JSP, MyBatis, JavaScript를 사용하여 개발한 영화 예매 웹 애�
 ---
 
 ## 기술 스택
-- **백엔드**: Java, JSP, MyBatis
-- **프론트엔드**: JavaScript, jQuery
+- **백엔드**: Java, Servlet, JSP, MyBatis
+- **프론트엔드**: HTML, CSS, JavaScript, jQuery, AJAX
 - **데이터베이스**: MySQL
-- **서버**: Apache Tomcat
+- **서버**: Apache Tomcat (Servlet Container)
 
 ---
 
@@ -30,7 +30,7 @@ Java, JSP, MyBatis, JavaScript를 사용하여 개발한 영화 예매 웹 애�
 - **MySQL**: 8.0.33 이상
 - **Tomcat**: 9.0.0 이상
 - **MyBatis**: 3.5.16 이상
-- **IDE**: IntelliJ IDEA 또는 Eclipse
+- **IDE**: IntelliJ IDEA
 
 ---
 
@@ -41,13 +41,13 @@ Java, JSP, MyBatis, JavaScript를 사용하여 개발한 영화 예매 웹 애�
 - **resources**: 데이터베이스 설정 파일
 
 
-📂 Cinema/
-├── 📂 src/
-│   ├── 📂 main/
-│   │   ├── 📂 java/ (Java 소스 파일, 패키지별 관리)
-│   │   ├── 📂 webapp/ (JSP, HTML, CSS, JS 파일)
-│   │   └── 📂 resources/ (MyBatis XML, 설정 파일 등)
-├── 📂 db/ (DB 관련 문서 및 초기 SQL 파일)
-├── 📂 docs/ (설계 문서, 기획 자료)
-├── README.md (프로젝트 소개 및 실행 방법)
-└── .gitignore (Git 관리에서 제외할 파일/폴더)
+📂 Cinema/  
+├── 📂 src/  
+│   ├── 📂 main/  
+│   │   ├── 📂 java/ (Java 소스 파일, 패키지별 관리)  
+│   │   ├── 📂 webapp/ (JSP, HTML, CSS, JS 파일)  
+│   │   └── 📂 resources/ (MyBatis XML, 설정 파일 등)  
+├── 📂 db/ (DB 관련 문서 및 초기 SQL 파일)  
+├── 📂 docs/ (설계 문서, 기획 자료)  
+├── README.md (프로젝트 소개 및 실행 방법)  
+└── .gitignore (Git 관리에서 제외할 파일/폴더)  
