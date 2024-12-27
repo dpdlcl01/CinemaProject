@@ -32,6 +32,11 @@ Java, Servlet, JSP, MyBatis, JavaScript를 사용하여 개발한 영화 예매 
 - **MyBatis**: 3.5.16 이상
 - **IDE**: IntelliJ IDEA
 
+
+**IntelliJ Tomcat 설정**
+1) 모든 Maven 프로젝트 동기화
+2) 구성편집 - 새 항목 추가 - Tomcat 서버 / 로컬 선택 - 배포 탭 선택 - [+로 추가] - 아티팩트 - 배포할 아티팩트에서 CinemaProject:war exploded 선택
+
 ---
 
 ## 프로젝트 구조
