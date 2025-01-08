@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Cinema Project</title>
 </head>
 <body>
 <h1><%= "Cinema Project" %>
 </h1>
 <br/>
-<a href="">Cinema Project</a>
+<a href="">Cinema 사용자 화면</a>
 </body>
 </html>
