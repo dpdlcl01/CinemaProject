@@ -1,4 +1,4 @@
-package common.util;
+package util;
 
 public class Paging {
     int nowPage = 1; // 현재 페이지 값 == 파라미터 이름은 cPage (Current Page)

@@ -1,6 +1,6 @@
-package user.control;
+package control;
 
-import common.action.Action;
+import action.Action;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
