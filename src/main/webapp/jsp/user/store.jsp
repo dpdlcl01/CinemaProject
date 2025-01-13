@@ -8,179 +8,134 @@
 <style>
 
 
-    /* 전역 스타일 */
-    body, html {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        box-sizing: border-box;
-        overflow-x: hidden; /* 좌우 스크롤 방지 */
-    }
-
-    .total {
+    #mid {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
-        max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px; /* 좌우 여백 */
+        padding: 0 20px;
+
     }
 
-    /* 제목 섹션 */
-    h2 {
-        padding: 20px 0;
-        font-size: 24px;
-        color: #222;
-        text-align: center;
-    }
 
-    /* 탭 메뉴 스타일 */
-    #title1 {
+    /* 상품 카드 배치 */
+    #products {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px; /* 카드 간격 */
+        width: 1100px;
+        margin: 0 auto;
+        height: 100%;
+        padding: 20px;
+    }
+    #title1{
         display: flex;
-        justify-content: center;
-        gap: 10px; /* 버튼 간 간격 */
-        margin-bottom: 20px;
-    }
+        padding: 20px;
 
-    #title1 a {
+    }
+    .total h2{
+        padding: 20px;
+        position: fixed;
+        left: 400px;
+
+    }
+    #title1 a{
         text-decoration: none;
-        width: 150px;
+        width: 273px;
         height: 41px;
         text-align: center;
         border: 1px solid #D3D3D3;
         border-bottom: 1px solid #503396;
         color: black;
+        margin-bottom: 20px;
         display: flex;
-        align-items: center;
+        align-items: center; /* 세로 중앙 정렬 */
         justify-content: center;
         transition: all 0.3s ease;
-        font-size: 14px;
-        font-weight: bold;
+
     }
 
+
+    /* 클릭된 상태 (active 클래스 추가 시) */
     #title1 a.active {
         color: #503396;
-        border-color: #503396;
+        border-color: #503396; /* 활성화된 테두리 색상 */
         border-bottom: white;
     }
 
-    #title1 a:hover {
-        color: #503396;
-    }
 
-    /* 상품 카드 그리드 */
-    #products {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 반응형 그리드 */
-        gap: 20px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 20px 0;
-    }
-
-    /* 상품 카드 스타일 */
+    /* 카드 개별 스타일 */
     .card {
+        text-align: center; /* 텍스트 가운데 정렬 */
         border: 1px solid #ddd;
-        border-radius: 8px;
         padding: 16px;
-        background-color: #fff;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-    .card:hover {
-        border-color: #503396;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 */
-    }
-
-    /* 상품 이미지 스타일 */
-    #products img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
         border-radius: 8px;
+        width: 230px;
     }
-
-    /* 상품 정보 */
-    .info {
-        margin-top: 10px;
+    #products img {
+        width: 200px; /* 이미지의 너비 */
+        height: 243px; /* 이미지의 높이 */
+        object-fit: cover; /* 비율 유지하며 크기 맞추기 */
     }
-
-    .name {
-        font-size: 16px;
-        font-weight: bold;
-        color: #222;
-        margin: 10px 0;
+    .info article{
+        display: flex;
+    }
+    .price{
+        color: #503396;
+        font-family: Roboto;
+        font-size: 1.6em;
+        font-weight: 400;
+        vertical-align: middle;
+        padding-top: 30px;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    em{
+        color: #503396;
+        font-family: Roboto;
+        font-size: 1.2em;
+        height: 61px;
+        padding-top: 35px;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    .name{
+        overflow: hidden;
         height: 39px;
-        overflow: hidden;
+        margin: 0 0 10px 0;
+        color: #222;
+        font-weight: 700;
     }
-
-    .explanation {
-        font-size: 14px;
+    .explanation{
+        font-size: .8667em;
         color: #666;
-        height: 36px;
-        text-overflow: ellipsis;
         overflow: hidden;
+        text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         line-clamp: 2;
         -webkit-box-orient: vertical;
-        margin-bottom: 10px;
+        height: 36px;
+        padding-bottom: 3px
     }
-
-    .price {
-        font-size: 18px;
-        color: #503396;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    em {
-        font-size: 14px;
-        color: #503396;
-    }
-
-    /* 반응형 디자인 */
-    @media (max-width: 768px) {
-        #title1 {
-            flex-direction: column; /* 버튼을 세로로 나열 */
-            gap: 5px;
-        }
-
-        #title1 a {
-            width: 100%; /* 버튼 너비를 100%로 */
-        }
-
-        #products {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            padding: 10px;
-        }
-
-        .card {
-            padding: 10px;
-        }
-
-        .price {
-            font-size: 16px;
-        }
-
-        em {
-            font-size: 12px;
-        }
+    .card:hover{
+        border: 1px solid #503396 ;
     }
 
 </style>
-
-<body class="total">
 <header>
-    <jsp:include page="store.jsp"/>
+    <jsp:include page="header.jsp"/>
 </header>
-<div>
+<body class="total">
+
+<h2>스토어</h2>
+<div id="mid">
+<br/><br/>
 
 
 
-    <h2>스토어</h2>
+
 
     <article id="title1">
         <a href="" class="active">전체상품</a>
