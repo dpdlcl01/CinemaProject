@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGABOX - 전체영화</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #4b0082;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #eee;
+            padding: 0.5rem 0;
+        }
+        .tab {
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .tab.active {
+            background-color: #4b0082;
+            color: white;
+        }
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .movie-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 200px;
+            margin: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .movie-card img {
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+        }
+        .movie-info {
+            padding: 1rem;
+            text-align: center;
+        }
+        .movie-info h4 {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        .movie-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .reserve-button {
+            background-color: #4b0082;
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .reserve-button:hover {
+            background-color: #5d24a9;
+        }
+        .load-more {
+            text-align: center;
+            margin: 2rem;
+        }
+        .load-more button {
+            background-color: #4b0082;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .load-more button:hover {
+            background-color: #5d24a9;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const movieContainers = document.querySelectorAll('.movie-container');
+            movieContainers.forEach(container => {
+                const movies = Array.from(container.querySelectorAll('.movie-card'));
+                const loadMoreButton = document.createElement('div');
+                loadMoreButton.classList.add('load-more');
+                loadMoreButton.innerHTML = '<button>더보기</button>';
+
+                movies.forEach((movie, index) => {
+                    if (index >= 20) {
+                        movie.style.display = 'none';
+                    }
+                });
+
+                loadMoreButton.querySelector('button').addEventListener('click', () => {
+                    const hiddenMovies = movies.filter(movie => movie.style.display === 'none').slice(0, 20);
+                    hiddenMovies.forEach(movie => {
+                        movie.style.display = 'block';
+                    });
+
+                    if (movies.filter(movie => movie.style.display === 'none').length === 0) {
+                        loadMoreButton.style.display = 'none';
+                    }
+                });
+
+                if (movies.length > 20) {
+                    container.appendChild(loadMoreButton);
+                }
+            });
+
+            showTab('boxOffice');
+        });
+
+        function showTab(tabName) {
+            const containers = document.querySelectorAll('.movie-container');
+            containers.forEach(container => {
+                container.style.display = 'none';
+            });
+            document.getElementById(tabName).style.display = 'flex';
+
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+<header>
+    <h1>MEGABOX - 전체영화</h1>
+</header>
+<div class="tabs">
+    <div class="tab active" data-tab="boxOffice" onclick="showTab('boxOffice')">박스오피스</div>
+    <div class="tab" data-tab="nowShowing" onclick="showTab('nowShowing')">개봉작</div>
+    <div class="tab" data-tab="comingSoon" onclick="showTab('comingSoon')">개봉예정</div>
+</div>
+<div id="boxOffice" class="movie-container">
+    <!-- 박스오피스 영화 카드 -->
+    <div class="movie-card">
+        <img src="movie1.jpg" alt="영화 포스터">
+        <div class="movie-info">
+            <h4>말할 수 없는 비밀</h4>
+            <p>개봉일: 2025.01.24</p>
+            <button class="reserve-button">예매하기</button>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="movie2.jpg" alt="영화 포스터">
+        <div class="movie-info">
+            <h4>검은 수녀들</h4>
+            <p>개봉일: 2025.01.24</p>
+            <button class="reserve-button">예매하기</button>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="movie3.jpg" alt="영화 포스터">
+        <div class="movie-info">
+            <h4>하얼빈</h4>
+            <p>개봉일: 2024.12.24</p>
+            <button class="reserve-button">예매하기</button>
+        </div>
+    </div>
+</div>
+<div id="nowShowing" class="movie-container" style="display: none;">
+    <!-- 개봉작 영화 카드 -->
+    <div class="movie-card">
+        <img src="movie4.jpg" alt="영화 포스터">
+        <div class="movie-info">
+            <h4>동감</h4>
+            <p>개봉일: 2024.11.10</p>
+            <button class="reserve-button">예매하기</button>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="movie5.jpg" alt="영화 포스터">
+        <div class="movie-info">
+            <h4>코넬의 상자</h4>
+            <p>개봉일: 2025.01.08</p>
+            <button class="reserve-button">예매하기</button>
+        </div>
+    </div>
+</div>
+<div id="comingSoon" class="movie-container" style="display: none;">
+    <!-- 개봉예정 영화 카드 -->
+    <div class="movie-card">
+        <img src="movie6.jpg" alt="영화 포스터">
+        <div class="movie-info">
+            <h4>히트맨 2</h4>
+            <p>개봉일: 2025.01.15</p>
+            <button class="reserve-button">예매하기</button>
+        </div>
+    </div>
+    <div class="movie-card">
+        <img src="movie7.jpg" alt="영화 포스터">
+        <div class="movie-info">
+            <h4>반지의 제왕</h4>
+            <p>개봉일: 2025.01.15</p>
+            <button class="reserve-button">예매하기</button>
+        </div>
+    </div>
+</div>
