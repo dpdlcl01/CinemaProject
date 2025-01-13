@@ -78,7 +78,9 @@
     <p><strong>user_action.properties</strong> 파일에 다음 항목을 추가: <em>main=user.action.MainAction</em></p>
 
     <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
-    <a href="jsp/user/main.jsp">Go to UserController</a>
+    <a href="jsp/user/main.jsp">Go to UserController</a> <br/>
+    <a href="jsp/user/reservation.jsp">Go to ReservationJSP</a> <br/>
+    <a href="jsp/user/seat.jsp">Go to SeatJSP</a> <br/>
 </main>
 
 <footer>
