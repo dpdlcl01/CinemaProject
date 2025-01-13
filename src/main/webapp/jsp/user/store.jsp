@@ -8,6 +8,7 @@
 <style>
 
 
+
     #mid {
         display: flex;
         flex-direction: column;
@@ -29,18 +30,23 @@
         height: 100%;
         padding: 20px;
     }
-    #title1{
+    #title{
         display: flex;
         padding: 20px;
 
     }
-    .total h2{
-        padding: 20px;
-        position: fixed;
-        left: 400px;
-
+    #h2>h2{
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
-    #title1 a{
+
+
+
+
+    #title a{
         text-decoration: none;
         width: 273px;
         height: 41px;
@@ -58,7 +64,7 @@
 
 
     /* 클릭된 상태 (active 클래스 추가 시) */
-    #title1 a.active {
+    #title a.active {
         color: #503396;
         border-color: #503396; /* 활성화된 테두리 색상 */
         border-bottom: white;
@@ -123,21 +129,24 @@
         border: 1px solid #503396 ;
     }
 
+
+
 </style>
 <header>
     <jsp:include page="header.jsp"/>
 </header>
 <body class="total">
+<div id="h2">
+    <h2>스토어</h2>
 
-<h2>스토어</h2>
+
 <div id="mid">
-<br/><br/>
 
 
 
 
 
-    <article id="title1">
+    <article id="title">
         <a href="" class="active">전체상품</a>
         <a href="">메가티켓</a>
         <a href="">팝콘,음료</a>
@@ -201,6 +210,7 @@
     </article>
 
 
+</div>
 </div>
 <footer>
     <jsp:include page="footer.jsp"/>
