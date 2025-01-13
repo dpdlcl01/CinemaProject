@@ -80,7 +80,7 @@
   height: 91px;
   margin: 0 auto;
 }
-#header .logo a {
+.main-page #header .logo a {
   position: absolute;
   left: 50%;
   top: 23px;
@@ -90,6 +90,17 @@
   height: 47px;
   text-indent: -9999px;
   background: url(images/logo-white.png);
+}
+#header .logo a {
+  position: absolute;
+  left: 50%;
+  top: 23px;
+  transform: translateX(-50%);
+  display: block;
+  width: 140px;
+  height: 47px;
+  text-indent: -9999px;
+  background: url(images/logo-purple.png);
 }
 #header .util-area {
   position: relative;
@@ -512,7 +523,7 @@
 #main #section02.main-benefit {
   overflow: hidden;
   position: relative;
-  min-height: 1148px;
+/*  min-height: 1148px;*/
   padding: 0 0 100px 0;
 }
 #main #section02.main-benefit:before {

@@ -8,11 +8,6 @@
         </h1>
         <!-- util-area -->
         <div class="util-area">
-            <div class="left-link">
-                <a href="#" title="VIP LOUNGE">VIP LOUNGE</a>
-                <a href="#" title="멤버십">멤버십</a>
-                <a href="#" title="고객센터">고객센터</a>
-            </div>
             <div class="right-link">
                 <a href="#" title="로그인">로그인</a>
                 <a href="#" title="회원가입">회원가입</a>
