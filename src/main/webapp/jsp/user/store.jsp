@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+        <jsp:include page="./common/head.jsp"/>
+
 </head>
 <style>
 
@@ -133,18 +136,16 @@
 
 </style>
 <header>
-    <jsp:include page="header.jsp"/>
+    <jsp:include page="common/header.jsp"/>
 </header>
+
 <body class="total">
+<div id="contents">
 <div id="h2">
     <h2>스토어</h2>
 
 
 <div id="mid">
-
-
-
-
 
     <article id="title">
         <a href="" class="active">전체상품</a>
@@ -212,9 +213,7 @@
 
 </div>
 </div>
-<footer>
-    <jsp:include page="footer.jsp"/>
-</footer>
+</div>
 <script>
     //////////////////////////////////////
     ///* card 클래스 클릭 이벤트 넣으세요 *///
@@ -238,4 +237,7 @@
 
 </script>
 </body>
+<footer>
+    <jsp:include page="footer.jsp"/>
+</footer>
 </html>

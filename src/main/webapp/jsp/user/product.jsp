@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
+    <jsp:include page="./common/head.jsp"/>
     <title>Title</title>
     <style>
       *{
@@ -131,7 +132,7 @@
   </head>
   <body>
   <header>
-    <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="./common/header.jsp"></jsp:include>
   </header>
   <div id="all">
 
@@ -191,7 +192,7 @@
     </div>
   </div>
   <footer>
-    <jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="./common/footer.jsp"></jsp:include>
   </footer>
   </body>
 </html>
