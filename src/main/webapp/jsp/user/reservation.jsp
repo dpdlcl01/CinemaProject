@@ -37,10 +37,10 @@
     <title>빠른 예매</title>
     <link rel="stylesheet" href="../../css/user/reservation.css">
     <link rel="stylesheet" href="../../css/user/style.css">
+    <jsp:include page="header.jsp"/>
 </head>
 <body>
-<div>
-    <jsp:include page="header.jsp"/>
+<div id="content">
     <!-- 추가된 page-util -->
     <div class="page-util">
         <div class="inner-wrap">
@@ -51,7 +51,6 @@
             </div>
         </div>
     </div>
-
     <div class="res-main">
         <h1 class="res-title">빠른 예매</h1>
         <div class="res-container">
@@ -96,7 +95,7 @@
             </main>
         </div>
     </div>
-    <jsp:include page="footer.jsp"/>
 </div>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
