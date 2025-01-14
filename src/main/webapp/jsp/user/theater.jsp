@@ -43,27 +43,10 @@
     text-decoration: underline; /* 호버 효과 */
   }
 
-  /* 메인 컨테이너 */
-  /*.res-container {*/
-  /*    max-width: 1200px;*/
-  /*    margin: 20px auto;*/
-  /*    !*margin-top: 100px;*!*/
-  /*    !*margin-bottom: 100px;*!*/
-  /*    height: 100%;*/
-  /*    padding: 20px;*/
-  /*    background: #fff;*/
-  /*    border-radius: 10px;*/
-  /*    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
-  /*}*/
-
+  /* 전체 컨테이너 */
   .res-main {
     width: 1000px;
     margin: 50px auto;
-  }
-  .res-title {
-    font-size: 30px;
-    left: 3px;
-    font-weight: normal;
   }
 
   .res-container {
@@ -73,47 +56,271 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  /* 메인 컨텐츠 */
-  .content {
-    display: grid;
-    grid-template-columns: 2fr 2fr 3fr;
-    gap: 20px;
+  /* 지역 메뉴 수평 배치 */
+  /* 지역 선택 메뉴 */
+  .date-navigation ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: space-around;
   }
 
-  /* 각 섹션 */
-  section {
+  .date-navigation li {
+    position: relative;
+  }
+
+  .date-navigation li button {
+    background-color: #f8f8f8;
     border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    background: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
   }
 
-  section h2 {
-    font-size: 1.2em;
-    margin-bottom: 15px;
+  .date-navigation li button:hover {
+    background-color: #e6e6e6;
   }
 
-  /* 리스트 스타일 */
-  section ul {
+  .date-navigation li .theater-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+    z-index: 1000;
+  }
+
+  .date-navigation li:hover .theater-list {
+    display: block;
+  }
+
+  .date-navigation li .theater-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  section ul li {
+  .date-navigation li .theater-list ul li {
+    padding: 10px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .date-navigation li .theater-list ul li a {
+    color: #333;
+    text-decoration: none;
+  }
+
+  .date-navigation li .theater-list ul li a:hover {
+    text-decoration: underline;
+  }
+
+
+  /* 극장 리스트 스타일 */
+  .theater-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .theater-list ul li {
     padding: 10px;
     border-bottom: 1px solid #eee;
     cursor: pointer;
   }
 
-  section ul li:hover {
+  .theater-list ul li:hover {
     background: #f5f5f5;
   }
 
-  section ul li:last-child {
+  .theater-list ul li:last-child {
     border-bottom: none;
   }
 
+  button {
+    height: 32px;
+    padding: 0 12px;
+    line-height: 30px;
+    font-size: .9333em;
+    display: inline-block;
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+    border-radius: 4px;
+    font-family: NanumBarunGothic, Dotum, '돋움', sans-serif;
+    border: 1px solid #503396;
+    vertical-align: middle;
+    background-color: #fff;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }
+
+  ul.tabs {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+  }
+
+  ul.tabs li {
+    background: none;
+    color: #222;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+
+  .tabs ul li a {
+    color: #444;
+  }
+
+  a:link {
+    color: #444;
+    text-decoration: none;
+  }
+
+  ul.tabs li.current {
+    background: #ededed;
+    color: #222;
+  }
+
+  .tab-content {
+    display: none;
+    background: #ededed;
+    padding: 15px;
+  }
+
+  .tab-content.current {
+    display: inherit;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  .wrap {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 190px;
+    border: 3px solid #686571;
+    border-radius: 10px;
+  }
+
+  .tab-content { .theater-box .theater-list { display:none;
+    position: absolute;
+    left: 0;
+    top: 48px;
+    width: 100%;
+    min-height: 85px;
+    padding: 30px 0;
+  }
+
+  }
+  .my-fav-theater {
+    position: absolute;
+    padding: 0 20px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    line-height: 54px;
+    border-radius: 0 0 10px 10px;
+    background-color: #ecf0f4;
+  }
+  button {
+    height: 32px;
+    padding: 0 12px;
+    line-height: 30px;
+    font-size: .9333em;
+    display: inline-block;
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+    border-radius: 4px;
+    font-family: NanumBarunGothic, Dotum, '돋움', sans-serif;
+    border: 1px solid #503396;
+    vertical-align: middle;
+    background-color: #fff;
+  }
+
+  ul.tabs {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+  }
+
+  ul.tabs li {
+    background: none;
+    color: #222;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+
+  .tabs ul li a {
+    color: #444;
+  }
+
+  a:link {
+    color: #444;
+    text-decoration: none;
+  }
+
+  ul.tabs li.current {
+    background: #ededed;
+    color: #222;
+  }
+
+  .tab-content {
+    display: none;
+    background: #ededed;
+    padding: 15px;
+  }
+
+  .tab-content.current {
+    display: inherit;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  .theater-box .user-theater {
+    position: absolute;
+    padding: 0 20px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    line-height: 54px;
+    border-radius: 0 0 10px 10px;
+    background-color: #ecf0f4;
+  }
+
+  .wrap {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 190px;
+    border: 3px solid #686571;
+    border-radius: 10px;
+  }
+
+
+  .my-fav-theater {
+    position: absolute;
+    padding: 0 20px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    line-height: 54px;
+    border-radius: 0 0 10px 10px;
+    background-color: #ecf0f4;
+  }
 </style>
 
 <!-- container 영역 -->
@@ -130,134 +337,84 @@
   </div>
 
   <!-- content -->
-  <div id="contents" class="no-padding">
+  <div class="mt-5">
+    <h1>전체극장</h1>
+  </div>
+  <div class="wrap">
+    <ul class="tabs">
+      <li class="tab-link current" style="width: 11.8%" data-tab="tab-1">서울</li>
+      <li class="tab-link" style="width: 11.8%" data-tab="tab-2">경기</li>
+      <li class="tab-link" style="width: 11.8%" data-tab="tab-3">인천</li>
+      <li class="tab-link" style="width: 11.8%" data-tab="tab-4">대전</li>
+      <li class="tab-link" style="width: 11.8%" data-tab="tab-5">부산</li>
+      <li class="tab-link" style="width: 11.8%" data-tab="tab-6">광주</li>
+      <li class="tab-link" style="width: 11.8%" data-tab="tab-7">강원</li>
+    </ul>
+    <div id="tab-1" class="tab-content current">
+      <ul>
+        <c:forEach var="theater" items="${theaters.seoul}">
+          <li class="theaterName" style="width: 23.6%"><a
+                  href="detail?no=${theater.no }">${theater.name}</a></li>
+        </c:forEach>
+      </ul>
+    </div>
+    <div id="tab-2" class="tab-content">
+      <ul>
+        <c:forEach var="theater" items="${theaters.kyungki}">
+          <li class="theaterName" style="width: 23.6%"><a
+                  href="detail?no=${theater.no }">${theater.name}</a></li>
+        </c:forEach>
+      </ul>
+    </div>
+    <div id="tab-3" class="tab-content">
+      <ul>
+        <c:forEach var="theater" items="${theaters.incheon}">
+          <li class="theaterName" style="width: 23.6%"><a
+                  href="detail?no=${theater.no }">${theater.name}</a></li>
+        </c:forEach>
+      </ul>
+    </div>
+    <div id="tab-4" class="tab-content">
+      <ul>
+        <c:forEach var="theater" items="${theaters.daejeon}">
+          <li class="theaterName" style="width: 23.6%"><a
+                  href="detail?no=${theater.no }">${theater.name}</a></li>
+        </c:forEach>
+      </ul>
+    </div>
+    <div id="tab-5" class="tab-content">
+      <ul>
+        <c:forEach var="theater" items="${theaters.busan}">
+          <li class="theaterName" style="width: 23.6%"><a
+                  href="detail?no=${theater.no }">${theater.name}</a></li>
+        </c:forEach>
+        <::after></::after>
+      </ul>
+    </div>
+    <div id="tab-6" class="tab-content">
+      <ul>
+        <c:forEach var="theater" items="${theaters.kwangju}">
+          <li class="theaterName" style="width: 23.6%"><a
+                  href="detail?no=${theater.no }">${theater.name}</a></li>
+        </c:forEach>
+        <::after></::after>
+      </ul>
+    </div>
+    <div id="tab-7" class="tab-content">
+      <ul>
+        <c:forEach var="theater" items="${theaters.kangwon}">
+          <li class="theaterName" style="width: 23.6%"><a
+                  href="detail?no=${theater.no }">${theater.name}</a></li>
+        </c:forEach>
+        <::after></::after>
+      </ul>
+    </div>
+    <div class="my-fav-theater">
+      나의 선호영화관 정보 <a href="/common/loginFormModal.jsp" id="moveLogin"><button class="login">로그인하기</button></a>
+    </div>
+  </div>
 
-
-    <!--// theater-main -->
-
-    <div class="res-main">
-
-      <h1 class="res-title">전체극장</h1>
-
-      <div class="res-container">
-        <div class="date-navigation">
-          <ul>
-
-            <li class="on">
-              <button type="button" class="sel-city">서울
-              </button>
-              <div class="theater-list">
-                <ul>
-                  <li data-brch-no="1372">
-                    <a href="/theater?brchNo=1372" title="강남 상세보기">강남</a>
-                  </li>
-                  <li data-brch-no="1371">
-                    <a href="/theater?brchNo=1371" title="센트럴 상세보기">센트럴</a>
-                  </li>
-                  <li data-brch-no="1351">
-                    <a href="/theater?brchNo=1351" title="코엑스 상세보기">코엑스</a>
-                  </li>
-                  <li data-brch-no="1212">
-                    <a href="/theater?brchNo=1212" title="홍대 상세보기">홍대</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li>
-              <button type="button" class="sel-city">경기
-              </button>
-              <div class="theater-list">
-                <ul>
-                  <li data-brch-no="4121">
-                    <a href="/theater?brchNo=4121" title="고양스타필드 상세보기">고양스타필드</a>
-                  </li>
-                  <li data-brch-no="0062">
-                    <a href="/theater?brchNo=0062" title="수원스타필드 상세보기">수원스타필드</a>
-                  </li>
-                  <li data-brch-no="0020">
-                    <a href="/theater?brchNo=0020" title="안성스타필드 상세보기">안성스타필드</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li>
-              <button type="button" class="sel-city">인천
-              </button>
-              <div class="theater-list">
-                <ul>
-                  <li data-brch-no="4062">
-                    <a href="/theater?brchNo=4062" title="송도 상세보기">송도</a>
-                  </li>
-                  <li data-brch-no="0027">
-                    <a href="/theater?brchNo=0027" title="청라지젤&#40;휴관&#41; 상세보기">청라지젤&#40;휴관&#41;</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li>
-              <button type="button" class="sel-city">대전/충청/세종
-              </button>
-              <div class="theater-list">
-                <ul>
-                  <li data-brch-no="0028">
-                    <a href="/theater?brchNo=0028" title="대전신세계 아트앤사이언스 상세보기">대전신세계 아트앤사이언스</a>
-                  </li>
-                  <li data-brch-no="3392">
-                    <a href="/theater?brchNo=3392" title="세종나성 상세보기">세종나성</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li>
-              <button type="button" class="sel-city">부산/대구/경상
-              </button>
-              <div class="theater-list">
-                <ul>
-                  <li data-brch-no="7011">
-                    <a href="/theater?brchNo=7011" title="대구신세계&#40;동대구&#41; 상세보기">대구신세계&#40;동대구&#41;</a>
-                  </li>
-                  <li data-brch-no="6001">
-                    <a href="/theater?brchNo=6001" title="부산극장 상세보기">부산극장</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li>
-              <button type="button" class="sel-city">광주/전라
-              </button>
-              <div class="theater-list">
-                <ul>
-                  <li data-brch-no="5021">
-                    <a href="/theater?brchNo=5021" title="광주상무 상세보기">광주상무</a>
-                  </li>
-                  <li data-brch-no="0050">
-                    <a href="/theater?brchNo=0050" title="전주객사 상세보기">전주객사</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li>
-              <button type="button" class="sel-city">강원
-              </button>
-              <div class="theater-list">
-                <ul>
-                  <li data-brch-no="2171">
-                    <a href="/theater?brchNo=2171" title="속초 상세보기">속초</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-          </ul>
-        </div>
-
-      </div>
+</div>
 
 
       <div class="tit-util mt70 mb15">
