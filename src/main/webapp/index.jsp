@@ -81,6 +81,7 @@
     <a href="jsp/user/main.jsp">Go to UserController</a>
     <a href="jsp/user/store.jsp">Go to 스토어</a>
     <a href="jsp/user/product.jsp">Go to 프로덕트</a>
+    <a href="jsp/user/register.jsp">Go to 회원가입</a>
 </main>
 
 <footer>
