@@ -1187,7 +1187,7 @@
 #main #section05 .cont-area .main-movie-list ol {
   display: flex; /* Flexbox를 사용해 정렬 */
   flex-wrap: wrap; /* 여러 줄로 감싸기 */
-  justify-content: space-between; /* 간격 조정 */
+  /*justify-content: space-between; !* 간격 조정 *!*/
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1222,6 +1222,7 @@
   display: none;
   font-size: 15px;
   transition: all 0.2s ease-in-out;
+
 }
 #main #section05 .cont-area .main-movie-list .movie-list-info .wrap .summary {
   height: 150px;
@@ -1254,6 +1255,7 @@
   display: block;
 }
 #main #section05 .cont-area .main-movie-list .btn-util {
+  width: 230px;
   margin-top: 8px;
   position: relative;
   padding: 0 0 0 85px;
@@ -1264,10 +1266,10 @@
   top: 0;
   width: 80px;
   height: 36px;
-  color: #fff;
-  border: 1px solid #555;
+  color: #503396;
+  border: 1px solid #ebebeb;
   border-radius: 5px;
-  background-color: #000;
+  background-color: #fff;
 }
 #main #section05 .cont-area .main-movie-list .btn-util .btn-like i {
   margin-right: 5px;
@@ -1284,16 +1286,16 @@
   width: 100%;
 }
 #main #section05 .cont-area .main-movie-list .btn-util .case.col2 .btn1 {
-  background-color: #037b94;
+  background-color: #503396;
   border-radius: 4px 0 0 4px;
   width: 50%;
 }
 #main #section05 .cont-area .main-movie-list .btn-util .case .btn1 {
-  background-color: #037b94;
+  background-color: #503396;
   border-radius: 4px;
 }
 #main #section05 .cont-area .main-movie-list .btn-util .case.col2 .btn2 {
-  background-color: #01586b;
+  background-color: #503396;
   border-radius: 0 4px 4px 0;
   width: 50%;
 }
@@ -1329,6 +1331,7 @@
   color: #000;
   line-height: 25px;
   font-size: 16px;
+
 }
 #main #section05 .cont-area .search-link .search .input-text:active {
   border: 1px solid #000;
@@ -1398,6 +1401,11 @@
   background-size: 23px 23px;
 }
 
+.movie-grade.age-19 {
+  background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/19_46x46.png);
+  background-size: 23px 23px;
+}
+
 .movie-list ol li .tit-area .movie-grade {
   position: absolute;
   left: 0;
@@ -1423,9 +1431,40 @@
   margin-left: -60px;
 }
 
-/*이미지정리*/
+/*더보기 버튼*/
+.btn-more.v1 .btn {
+  border: 1px solid #eaeaea;
+}
 
+.btn-more .btn {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  border: 0;
+  border-bottom: 1px solid #eaeaea;
+  background-color: transparent;
+  color: #666;
+}
 
+.ico-btn-more-arr {
+  width: 12px;
+  height: 7px;
+  background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-btn-more-arr.png);
+}
+
+.iconset {
+  overflow: hidden;
+  display: inline-block;
+  margin: -1px 0 0 0;
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: middle;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
 
 
 /* footer */
