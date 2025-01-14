@@ -24,5 +24,6 @@
 <meta property="og:image" id="fbImg" content="https://img.megabox.co.kr/SharedImg/metaTag/2020/02/04/gFfTzMwwiCxhBwcUV5TRGMFX9Cmoj64W.jpg">
 <link rel="stylesheet" href="../../css/user/reset.css">
 <link rel="stylesheet" href="../../css/user/style.css">
+<link rel="stylesheet" href="../../css/user/main.css">
 <script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
 <script src="../../js/app.js"></script>
