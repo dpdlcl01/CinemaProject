@@ -28,20 +28,44 @@
   <script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
   <script src="../../js/app.js"></script>
   <style>
+    body{
+      font: normal 15px D2Coding
+    }
+    /*.contents {
+      width: 1100px;
+      !*margin: 50px auto;*!
+    }*/
     .movie-detail-page{
-      postion: relative;
+      position: relative;
       height: 520px;
       margin: 0 0 40px 0;
       background-color: #151515;
-      color: #fff;
+      color: #ccc;
+      z-index: -1;
     }
     .movie-detail-page .bg-img{
       position: absolute;
-      /*background-image: url('https://img.megabox.co.kr/SharedImg/2025/01/10/5icStMtQmSW7nxUfWzd7AbGr9cCxS49m_570.jpg');*/
+      background-image: url('https://img.megabox.co.kr/SharedImg/2025/01/10/5icStMtQmSW7nxUfWzd7AbGr9cCxS49m_570.jpg');
+      background-position: center 0;
       background-repeat: no-repeat;
+      background-size: 100% auto;
+      left: 50%;
+      width: 1100px;
+      height: 100%;
+      margin: 0 0 0 -550px;
+      opacity: .3;
+      z-index: -1;
+    }
+    .movie-detail-page .bg-img:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
+      background-color: rgba(15, 15, 15, .5);
     }
     .movie-detail-page .movie-detail-cont {
       position: relative;
@@ -71,24 +95,40 @@
       color: #fff;
       width: 800px;
       padding: 10px 0 0 0;
-      font-size: 3.0666em;
+      font-size: 1.3333em;
       line-height: 1.1;
       overflow: hidden;
     }
     .movie-detail-page .movie-detail-cont .btn-util{
       padding: 15px 0 0 0;
     }
+    .icon-heart{
+      display: inline-block;
+      vertical-align: middle;
+      width: 17px;
+      height: 15px;
+      background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-line.png");
+      background-position: 0 0;
+      background-repeat: no-repeat;
+    }
+    .movie-detail-page .movie-detail-cont .btn-util .btn:hover .icon-heart{
+      background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-on.png");
+     }
+    .movie-detail-page .movie-detail-cont .btn-util .btn:hover{
+      color: #000;
+      background-color: #fff;
+    }
     .movie-detail-page .movie-detail-cont .btn-util .btn img{
       vertical-align: middle;
       margin-bottom: 3px;
-      margin-right: 5px;"
+      margin-right: 5px;
     }
     .movie-detail-page .movie-detail-cont .btn-util .btn{
       display: inline-block;
-      align-items: center;
       min-width: 100px;
       height: 36px;
       font-size: .9333em;
+      text-align: center;
       color: #fff;
       border: 1px solid #706f72;
       border-radius: 4px;
@@ -103,12 +143,133 @@
       width: 68px;
       height: 24px;
     }
+    .movie-detail-page .movie-detail-cont .info{
+      position: absolute;
+      bottom: 45px;
+    }
+    .movie-detail-page .movie-detail-cont .info .score{
+      float: left;
+      padding: 0;
+    }
+    .movie-detail-page .movie-detail-cont .info .tit{
+      display: block;
+      padding: 0 0 10px 0;
+      line-height: 1.1;
+      font-size: .9333em;
+    }
+    .movie-detail-page .movie-detail-cont .info .score .number{
+      display: flex;
+      align-items: center;
+    }
+    .movie-detail-page .movie-detail-cont .info .score .number img{
+      margin-right: 7px;
+    }
+    .movie-detail-page .movie-detail-cont .info .score .number .before{
+      font-size: 2.1333em;
+      color: #59bec9;
+    }
+    .ir{
+      text-indent: -9999px;
+      position: fixed;
+      opacity: 0;
+    }
+    .movie-detail-page .movie-detail-cont .info .rate{
+      float: left;
+      padding: 0 0 0 35px;
+    }
+    .movie-detail-page .movie-detail-cont .info .rate .cont img{
+      margin-right: 7px;
+    }
+    .movie-detail-page .movie-detail-cont .info .cont{
+      display: inline-block;
+    }
+    .movie-detail-page .movie-detail-cont .info .cont em{
+      margin: 0 4px 0 0;
+      color: #fff;
+      font-size: 2.1333em;
+    }
+    .movie-detail-page .movie-detail-cont .info .audience{
+      float: left;
+      padding: 0 0 0 35px;
+    }
     .movie-detail-page .movie-detail-cont .poster{
       position: absolute;
       right: 0;
       top: 45px;
+      width: 260px;
+      height: 374px;
+      border-radius: 8px;
+    }
+    .movie-detail-page .movie-detail-cont .poster .wrap{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      font-size: 0;
+    }
+    .movie-detail-page .movie-detail-cont .poster .wrap .movie-grade{
+      overflow: hidden;
+      position: absolute;
+      right: 9px;
+      bottom: 9px;
+      z-index: 1;
+    }
+    .movie-grade.big.age-all{
+      background-image: url("https://img.megabox.co.kr/static/pc/images/common/txt/ALL_56x56.png");
+      background-size: 28px 28px;
+      background-repeat: no-repeat;
+      width: 28px;
+      height: 28px;
+    }
+    .movie-detail-page .movie-detail-cont .poster .wrap img{
+      display: block;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      position: relative;
+    }
+    .movie-detail-page .movie-detail-cont .reserve-type{
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 45px;
+      width: 260px;
+    }
+    .movie-detail-page .movie-detail-cont .reserve-type .reserve-btn{
+      display: block;
+      float: left;
+      height: 46px;
+      font-size: 1.2em;
+      color: #fff;
+      background-color: #329eb1;
+      width: 100%;
+      text-align: center;
+      border-radius: 5px;
+      border: 1px solid #706f72;
+    }
+    .main-tab {
+      width: 1000px;
+      margin: 0 auto;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      border-bottom: 2px solid #ccc;
+    }
+    .tab {
+      padding: 10px 0;
+      width: 150px; /* 탭의 고정 너비 */
+      text-align: center;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-size: 16px;
+    }
+    .tab.active {
+      border-bottom: 2px solid #6a5acd;
+      color: #6a5acd;
     }
     #footer{
+      display: block;
       position: absolute;
       bottom: 0;
       width: 100%;
@@ -116,12 +277,6 @@
   </style>
 </head>
 <body>
-<!-- Skip Navigation -->
-<div class="skip" title="스킵 네비게이션">
-  <a href="#contents" title="본문 바로가기">본문 바로가기</a>
-  <a href="#footer" title="푸터 바로가기">푸터 바로가기</a>
-</div>
-<!-- //Skip Navigation -->
 <!-- header -->
 <header id="header">
   <!-- container -->
@@ -219,6 +374,8 @@
   <!-- //container -->
 </header>
 <!-- //header -->
+<!-- movie-detail -->
+<div class="contents">
   <div class="movie-detail-page">
     <div class="bg-img">영화 포스터</div>
     <div class="movie-detail-cont">
@@ -227,8 +384,9 @@
       <p class="title-eng">영화 영문 제목</p>
       <div class="btn-util">
         <button type="button" class="btn">
-          <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-line.png">
-          ???
+          <i class="icon-heart"></i>
+<%--          <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-line.png">--%>
+          <span title="보고싶어 한 명수" id="wantsee">3.2k</span>
         </button>
       </div>
       <div class="screen-type2">
@@ -239,75 +397,65 @@
       <div class="info">
         <div class="score">
           <p class="tit">실관람 평점</p>
-          <div class="number gt">
+          <div class="number" id="mainScore">
+            <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-megabox.png"/>
             <p title="실관람 평점" class="before">
-              <em>0</em>
+              <em>??</em>
               <span class="ir">점</span>
             </p>
           </div>
         </div>
-        <div class="rate"></div>
-        <div class="audience"></div>
-        <div class="poster">
-          <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/veoYkRw8THPbrE9FobWUP1BVmEbMOXnp_420.jpg" onerror="noImg(this)" alt="말할 수 없는 비밀">
+        <div class="rate">
+          <p class="tit">예매율</p>
+          <p class="cont">
+            <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-ticket-gray.png"/>
+            <em>??</em>
+            위 (?.?%)
+          </p>
         </div>
+        <div class="audience">
+          <div class="tit">누적관객수</div>
+          <p class="cont">
+            <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-person.png"/>
+            <em>???,???</em>
+            명
+          </p>
+        </div>
+      </div>
+      <div class="poster">
+        <div class="wrap">
+          <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/veoYkRw8THPbrE9FobWUP1BVmEbMOXnp_420.jpg" alt="말할 수 없는 비밀">
+          <p class="movie-grade big age-all">전체 관람가</p>
+        </div>
+      </div>
+      <div class="reserve-type">
+        <button type="button" class="reserve-btn">
+          예매
+        </button>
       </div>
     </div>
   </div>
-  <!-- footer -->
-  <footer id="footer">
-    <!-- footer-top -->
-    <div class="footer-top">
-      <div class="inner-wrap">
-        <ul class="fnb">
-          <li><a href="#" title="회사소개 페이지로 이동">회사소개</a></li>
-          <li><a href="#" title="인재채용 페이지로 이동">인재채용</a></li>
-          <li><a href="#" title="사회공헌 페이지로 이동">사회공헌</a></li>
-          <li><a href="#" title="제휴/광고/부대사업문의 페이지로 이동">제휴/광고/부대사업문의</a></li>
-          <li><a href="#" title="이용약관 페이지로 이동">이용약관</a></li>
-          <li class="privacy"><a href="#" title="개인정보처리방침 페이지로 이동">개인정보처리방침</a></li>
-          <li><a href="#" title="윤리경영 페이지로 이동">윤리경영</a></li>
-        </ul>
-        <a href="#" title="극장찾기" class="looking-theather"><i class="iconset ico-footer-search"></i>극장찾기</a>
-      </div>
+  <!--// movie-detail -->
+  <div class="main-tab">
+    <h1>공지사항</h1>
+    <div class="tabs">
+      <div class="tab active" data-target="all">전체</div>
+      <div class="tab" data-target="megaPick">메가픽</div>
+      <div class="tab" data-target="movies">영화</div>
     </div>
-    <!-- //footer-top -->
-    <!-- footer-bottom -->
-    <div class="footer-bottom">
-      <div class="inner-wrap">
-        <div class="ci">MEGABOX : Life Theater</div>
-        <div class="footer-info">
-          <div>
-            <address>서울특별시 성동구 왕십리로 50, 6층(성수동 1가, 메가박스스퀘어)</address>
-            <p>ARS 1544-0070</p>
-          </div>
-          <p>대표자명 김진선</p>
-          <p> · 개인정보보호책임자 BP본부 본부장 박영진</p>
-          <p> · 사업자등록번호 211-86-59478</p>
-          <p> · 통신판매업신고번호 제 833호</p>
-          <p class="copy">COPYRIGHT © MegaboxJoongAng, Inc. All rights reserved</p>
-        </div>
-        <div class="footer-sns">
-          <a href="https://twitter.com/megaboxon" target="_blank" title="트위터 페이지로 이동">
-            <i class="iconset ico-twitter">트위터</i>
-          </a>
-          <a href="https://www.facebook.com/megaboxon"" target="_blank" title="페이스북 페이지로 이동">
-          <i class="iconset ico-facebook">페이스북</i>
-          </a>
-          <a href="https://instagram.com/megaboxon" target="_blank" title="인스타그램 페이지로 이동">
-            <i class="iconset ico-instagram">인스타그램</i>
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.megabox.mop" target="_blank" title="구글플레이 페이지로 이동">
-            <i class="iconset ico-googleplay">구글플레이</i>
-          </a>
-          <a href="https://itunes.apple.com/kr/app/megabox/id894443858?l=ko&ls=1&mt=8" target="_blank" title="메가박스 앱스토어 페이지로 이동">
-            <i class="iconset ico-appstore">메가박스 앱스토어</i>
-          </a>
-        </div>
-      </div>
+    <div id="all" class="content active">
+      <h2>전체</h2>
+      <p>전체 내용이 표시됩니다.</p>
     </div>
-    <!-- //footer-bottom -->
-  </footer>
-  <!-- //footer -->
+    <div id="megaPick" class="content">
+      <h2>공지사항</h2>
+      <p>공지사항 내용이 표시됩니다.</p>
+    </div>
+    <div id="movies" class="content">
+      <h2>이벤트</h2>
+      <p>이벤트 내용이 표시됩니다.</p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
