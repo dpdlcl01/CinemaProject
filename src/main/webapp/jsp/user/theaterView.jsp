@@ -5,11 +5,26 @@
 <head>
     <jsp:include page="./common/head.jsp"/>
 </head>
-
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+<link rel="stylesheet" href="/resources/css/theaterDetail.css">
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <body>
 <!-- header 영역 -->
 <jsp:include page="./common/header.jsp"/>
+<style>
 
+</style>
 <!-- page-util -->
 <div class="page-util">
     <div class="inner-wrap">
