@@ -72,7 +72,7 @@
         <li><a href="#">회원정보</a></li>
     </ul>
 </div>
-<div class="content">
+<div class="content1">
     <h1>예매/구매 내역</h1>
     <div class="filter">
         <select>

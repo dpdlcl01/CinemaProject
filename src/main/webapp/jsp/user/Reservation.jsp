@@ -25,8 +25,17 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+        .clearfix {
+            display: flex; /* Flexbox 사용 */
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
         .sidebar {
             width: 250px;
+            order: 0;
             background-color: #f8f8f8;
             border-right: 1px solid #ddd;
             padding: 20px;
@@ -44,13 +53,18 @@
             color: #333;
             font-size: 14px;
         }
+        #contents {
+            width: 100%;
+        }
+
         .content {
+            width: 70%;
             flex-grow: 1;
             padding: 20px;
             box-sizing: border-box;
         }
         .content h1 {
-            font-size: 20px;
+            font-size: 24px;
             margin-bottom: 20px;
         }
         .content .filter {
@@ -79,18 +93,21 @@
 <body>
 <jsp:include page="header.jsp"/>
 <main>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <li><a href="MyInfo.jsp"><strong>나의 메가박스</strong></a></li>
-            <li><a href="Reservation.jsp">예매/구매내역</a></li>
-            <li><a href="#">영화/스토어 관람권</a></li>
-            <li><a href="Discount-Coupon.jsp">메가박스/제휴쿠폰</a></li>
-            <li><a href="#">멤버십 포인트</a></li>
-            <li><a href="#">나의 무비스토리</a></li>
-            <li><a href="#">회원정보</a></li>
-        </ul>
-    </div>
+    <div id="contents">
+        <!-- 사이드바 및 메인 콘텐츠 -->
+        <div class="clearfix">
+            <!-- 사이드바 -->
+            <div class="sidebar">
+                <ul>
+                    <li><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></li>
+                    <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
+                    <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
+                    <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
+                    <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
+                    <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
+                    <li><a href="#" title="회원정보">회원정보</a></li>
+                </ul>
+            </div>
 
     <!-- Content -->
     <div class="content">
