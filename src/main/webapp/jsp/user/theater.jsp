@@ -11,409 +11,250 @@
 <jsp:include page="./common/header.jsp"/>
 
 <style>
-  /* Page Util 스타일 */
-  .page-util {
-    background-color: #f8f8f8; /* 배경색 */
-    border-bottom: 1px solid #ddd; /* 하단 경계선 */
-    padding: 10px 0;
+  /* article 공통 스타일 */
+  article {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 각 섹션 간 간격 */
   }
 
-  .page-util .inner-wrap {
-    max-width: 1200px;
-    margin: 0 auto;
+  /* 극장 목록 영역 */
+  .theater-list {
+    position: relative;
+    width: 100%;
+    min-height: 190px;
+    border: 3px solid #686571;
+    border-radius: 10px;
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+
+  /* 탭 영역 */
+  ul.tabs {
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: center;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    font-size: 14px;
+    justify-content: space-between; /* 탭 간 균등 간격 */
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  ul.tabs li {
+    flex: 1;
+    text-align: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  ul.tabs li.current {
+    background: #ededed;
+    color: #222;
+    font-weight: bold;
+  }
+
+  /* 극장 목록 */
+  .tab-content {
+    display: none;
+    font-size: 16px;
     color: #333;
   }
 
-  .page-util .location span {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-
-  .page-util .location a {
-    color: #0078ff;
-    text-decoration: none;
-    margin-left: 10px;
-  }
-
-  .page-util .location a:hover {
-    text-decoration: underline; /* 호버 효과 */
-  }
-
-  /* 전체 컨테이너 */
-  .res-main {
-    width: 1000px;
-    margin: 50px auto;
-  }
-
-  .res-container {
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  /* 지역 메뉴 수평 배치 */
-  /* 지역 선택 메뉴 */
-  .date-navigation ul {
+  .tab-content.current {
     display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .tab-content ul {
+    display: flex;
+    flex: 1;
     list-style: none;
     padding: 0;
     margin: 0;
-    justify-content: space-around;
   }
 
-  .date-navigation li {
-    position: relative;
+  .tab-content ul li {
+    flex: 1;
+    text-align: center;
+    border-left: 1px solid #ddd;
+    padding: 10px 0;
+    box-sizing: border-box;
   }
 
-  .date-navigation li button {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+  .tab-content ul li:first-child {
+    border-left: none;
+  }
+
+  .tab-content ul li a {
+    text-decoration: none;
+    color: #444;
     font-size: 16px;
   }
 
-  .date-navigation li button:hover {
-    background-color: #e6e6e6;
+  .tab-content ul li a:hover {
+    color: #222;
   }
 
-  .date-navigation li .theater-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 200px;
-    z-index: 1000;
+  /* 극장 목록 하단 선호극장 */
+  .my-fav-theater {
+    padding: 15px;
+    background-color: #ecf0f4;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    align-items: center; /* 텍스트와 버튼 정렬 */
+    gap: 10px; /* 텍스트와 버튼 사이 간격 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
   }
 
-  .date-navigation li:hover .theater-list {
-    display: block;
+  .my-fav-theater span {
+    font-weight: bold;
   }
 
-  .date-navigation li .theater-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  /* 버튼 스타일 */
+  button.login {
+    height: 32px;
+    padding: 0 12px;
+    line-height: 30px;
+    font-size: .9333em;
+    border: 1px solid #503396;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #503396;
+    cursor: pointer;
   }
 
-  .date-navigation li .theater-list ul li {
-    padding: 10px;
-    border-bottom: 1px solid #f5f5f5;
+  button.login:hover {
+    background-color: #503396;
+    color: #fff;
   }
 
-  .date-navigation li .theater-list ul li a {
-    color: #333;
+
+  /* 극장 이벤트 섹션 */
+  .theater-event {
+    margin-top: 70px;
+  }
+
+  .theater-event .event-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .theater-event .event-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #503396; /* 타이틀 색상 */
+  }
+
+  .theater-event .more {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: darkgrey; /* "더보기" 텍스트 색상 */
     text-decoration: none;
   }
 
-  .date-navigation li .theater-list ul li a:hover {
+  .theater-event .more i {
+    margin-left: 5px;
+    font-size: 12px;
+    color: #503396;
+  }
+
+  .theater-event .more:hover {
     text-decoration: underline;
   }
 
-
-  /* 극장 리스트 스타일 */
-  .theater-list ul {
+  /* 이벤트 카드 리스트 */
+  .theater-event .event-list ul {
+    display: flex;
+    gap: 20px; /* 카드 간 간격 */
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  .theater-list ul li {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-  }
-
-  .theater-list ul li:hover {
-    background: #f5f5f5;
-  }
-
-  .theater-list ul li:last-child {
-    border-bottom: none;
-  }
-
-  button {
-    height: 32px;
-    padding: 0 12px;
-    line-height: 30px;
-    font-size: .9333em;
-    display: inline-block;
-    margin: 0;
-    text-align: center;
-    font-weight: 400;
-    border-radius: 4px;
-    font-family: NanumBarunGothic, Dotum, '돋움', sans-serif;
-    border: 1px solid #503396;
-    vertical-align: middle;
-    background-color: #fff;
-  }
-  a{
-    text-decoration: none;
-    color: black;
-  }
-
-  ul.tabs {
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-  }
-
-  ul.tabs li {
-    background: none;
-    color: #222;
-    display: inline-block;
-    padding: 10px 15px;
-    cursor: pointer;
-  }
-
-  .tabs ul li a {
-    color: #444;
-  }
-
-  a:link {
-    color: #444;
-    text-decoration: none;
-  }
-
-  ul.tabs li.current {
-    background: #ededed;
-    color: #222;
-  }
-
-  .tab-content {
-    display: none;
-    background: #ededed;
-    padding: 15px;
-  }
-
-  .tab-content.current {
-    display: inherit;
-  }
-
-  li {
-    display: inline-block;
-  }
-
-  .wrap {
-    position: relative;
-    display: block;
-    width: 100%;
-    min-height: 190px;
-    border: 3px solid #686571;
-    border-radius: 10px;
-  }
-
-  .tab-content { .theater-box .theater-list { display:none;
-    position: absolute;
-    left: 0;
-    top: 48px;
-    width: 100%;
-    min-height: 85px;
-    padding: 30px 0;
-  }
-
-  }
-  .my-fav-theater {
-    position: absolute;
-    padding: 0 20px;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    line-height: 54px;
-    border-radius: 0 0 10px 10px;
-    background-color: #ecf0f4;
-  }
-  button {
-    height: 32px;
-    padding: 0 12px;
-    line-height: 30px;
-    font-size: .9333em;
-    display: inline-block;
-    margin: 0;
-    text-align: center;
-    font-weight: 400;
-    border-radius: 4px;
-    font-family: NanumBarunGothic, Dotum, '돋움', sans-serif;
-    border: 1px solid #503396;
-    vertical-align: middle;
-    background-color: #fff;
-  }
-
-  ul.tabs {
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-  }
-
-  ul.tabs li {
-    background: none;
-    color: #222;
-    display: inline-block;
-    padding: 10px 15px;
-    cursor: pointer;
-  }
-
-  .tabs ul li a {
-    color: #444;
-  }
-
-  a:link {
-    color: #444;
-    text-decoration: none;
-  }
-
-  ul.tabs li.current {
-    background: #ededed;
-    color: #222;
-  }
-
-  .tab-content {
-    display: none;
-    background: #ededed;
-    padding: 15px;
-  }
-
-  .tab-content.current {
-    display: inherit;
-  }
-
-  li {
-    display: inline-block;
-  }
-
-  .theater-box .user-theater {
-    position: absolute;
-    padding: 0 20px;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    line-height: 54px;
-    border-radius: 0 0 10px 10px;
-    background-color: #ecf0f4;
-  }
-
-  .wrap {
-    position: relative;
-    display: block;
-    width: 100%;
-    min-height: 190px;
-    border: 3px solid #686571;
-    border-radius: 10px;
-  }
-
-
-  .my-fav-theater {
-    position: absolute;
-    padding: 0 20px;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    line-height: 54px;
-    border-radius: 0 0 10px 10px;
-    background-color: #ecf0f4;
-  }
-
-
-  /* 공지사항 테이블의 기본 스타일 */
-  .table-wrap {
-    margin: 20px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  .theater-event .event-list ul li {
+    flex: 1; /* 카드 너비를 균등 분배 */
     overflow: hidden;
-    background-color: #f9f9f9;
   }
 
-  .board-list {
+  .theater-event .event-list ul li img {
     width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 14px;
+    height: auto;
+    display: block;
+    border-radius: 5px;
   }
 
-  .board-list caption {
-    text-align: left;
+  .theater-event .event-list ul li div {
+    margin-top: 10px;
+    text-align: center;
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 10px;
     color: #333;
   }
 
-  .board-list colgroup col {
-    background-color: #f2f2f2;
+  /* 극장 공지사항 섹션 */
+  .theater-notice {
+    margin-top: 70px;
   }
 
-  .board-list thead th {
-    padding: 10px 15px;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .board-list tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  .board-list tbody tr:nth-child(odd) {
-    background-color: #fff;
-  }
-
-  .board-list tbody td,
-  .board-list tbody th {
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-  }
-
-  .board-list tbody th a {
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-
-  .board-list tbody td {
-    text-align: center;
-    color: #555;
-  }
-
-  .board-list caption {
-    text-indent: -9999px;
-    height: 0px;
-  }
-
-  /* 이벤트 박스 스타일 */
-  .event-box {
+  .theater-notice .notice-header {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
+    align-items: center;
   }
 
-  .event-box ul {
-    display: flex;
+  .theater-notice .notice-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #503396; /* 타이틀 색상 */
+  }
+
+  .theater-notice .more {
+    font-size: 14px;
+    font-weight: bold;
+    color: darkgrey;
+    text-decoration: none;
+  }
+
+  .theater-notice .more:hover {
+    text-decoration: underline;
+  }
+
+  /* 공지사항 테이블 */
+  .notic-table table {
+    width: 100%; /* 테이블 너비를 전체 컨테이너에 맞춤 */
+    border-collapse: collapse;
+    margin: 0 auto; /* 가운데 정렬 */
+    font-size: 14px;
+    color: #333;
+  }
+
+  .notic-table table th,
+  .notic-table table td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-align: center; /* 기본 가운데 정렬 */
+  }
+
+  .notic-table table th {
+    background-color: #f8f8f8; /* 테이블 헤더 배경색 */
+    font-weight: bold;
+  }
+
+  .notic-table table td:nth-child(2) {
+    text-align: left; /* 제목 열만 왼쪽 정렬 */
+  }
+
+  li{
     list-style: none;
-    padding: 0;
-    margin: 0;
   }
 
-  .event-box ul li {
-    padding-right: 50px;
-    flex: 1; /* 균등한 크기 */
-    text-align: center;
-  }
-
-  .event-box ul li a img {
-    width: 500px; /* 이미지 크기 */
-    height: 250px; /* 이미지 크기 */
-    border-radius: 2%; /* 동그랗게 만들기 */
-  }
 </style>
 
 <!-- 상단 탭 영역 -->
@@ -430,228 +271,191 @@
 <!-- contents 영역 -->
 <div class="contents">
 
-  <!-- content -->
-  <div class="mt-5">
-    <h2>전체극장</h2>
+  <!-- title -->
+  <div class="title">
+    <h1>전체극장</h1>
   </div>
-  <div class="wrap">
+
+  <!-- 극장 목록 -->
+  <article class="theater-list">
+    <!-- 탭 목록 -->
     <ul class="tabs">
-      <li class="tab-link current" style="width: 11.8%" data-tab="tab-1">서울</li>
-      <li class="tab-link" style="width: 11.8%" data-tab="tab-2">경기</li>
-      <li class="tab-link" style="width: 11.8%" data-tab="tab-3">인천</li>
-      <li class="tab-link" style="width: 11.8%" data-tab="tab-4">대전/세종</li>
-      <li class="tab-link" style="width: 11.8%" data-tab="tab-5">부산/대구</li>
-      <li class="tab-link" style="width: 11.8%" data-tab="tab-6">광주/전라</li>
-      <li class="tab-link" style="width: 11.8%" data-tab="tab-7">강원</li>
+      <li class="tab-link current" data-tab="tab-1">서울</li>
+      <li class="tab-link" data-tab="tab-2">경기</li>
+      <li class="tab-link" data-tab="tab-3">인천</li>
+      <li class="tab-link" data-tab="tab-4">대전/세종</li>
+      <li class="tab-link" data-tab="tab-5">부산/대구</li>
+      <li class="tab-link" data-tab="tab-6">광주/전라</li>
+      <li class="tab-link" data-tab="tab-7">강원</li>
     </ul>
+
+    <!-- 극장 목록 -->
     <div id="tab-1" class="tab-content current">
       <ul>
-          <li class="theaterName" style="width: 23.6%"><a
-                  href="/CinemaProject/jsp/user/theaterView.jsp">강남</a></li>
-          <li class="theaterName" style="width: 23.6%"><a
-                href="#">센트럴</a></li>
-          <li class="theaterName" style="width: 23.6%"><a
-                href="#">코엑스</a></li>
-          <li class="theaterName" style="width: 23.6%"><a
-                href="#">홍대</a></li>
+        <li><a href="/CinemaProject/jsp/user/theaterView.jsp">강남</a></li>
+        <li><a href="#">센트럴</a></li>
+        <li><a href="#">코엑스</a></li>
+        <li><a href="#">홍대</a></li>
       </ul>
     </div>
     <div id="tab-2" class="tab-content">
       <ul>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">고양스타필드</a></li>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">수원스타필드</a></li>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">안성스타필드</a></li>
+        <li><a href="#">고양스타필드</a></li>
+        <li><a href="#">수원스타필드</a></li>
+        <li><a href="#">안성스타필드</a></li>
       </ul>
     </div>
     <div id="tab-3" class="tab-content">
       <ul>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">송도</a></li>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">청라지젤</a></li>
+        <li><a href="#">송도</a></li>
+        <li><a href="#">청라지젤</a></li>
       </ul>
     </div>
     <div id="tab-4" class="tab-content">
       <ul>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">대전</a></li>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">세종나성</a></li>
+        <li><a href="#">대전</a></li>
+        <li><a href="#">세종나성</a></li>
       </ul>
     </div>
     <div id="tab-5" class="tab-content">
       <ul>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">대구신세계</a></li>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">부산극장</a></li>
+        <li><a href="#">대구신세계</a></li>
+        <li><a href="#">부산극장</a></li>
       </ul>
     </div>
     <div id="tab-6" class="tab-content">
       <ul>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">광주하남</a></li>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">전주객사</a></li>
+        <li><a href="#">광주하남</a></li>
+        <li><a href="#">전주객사</a></li>
       </ul>
     </div>
     <div id="tab-7" class="tab-content">
       <ul>
-        <li class="theaterName" style="width: 23.6%"><a
-                href="#">속초</a></li>
+        <li><a href="#">속초</a></li>
       </ul>
     </div>
+
+    <!-- 선호극장 -->
     <div class="my-fav-theater">
-      나의 선호극장 정보 <a href="#" id="moveLogin"><button class="login">로그인하기</button></a>
+      <span>나의 선호극장 정보</span>
+      <button class="login">로그인하기</button>
     </div>
-  </div>
-
-
-  <div class="tit-util mt70 mb15">
-    <h3 class="tit">극장 이벤트</h3>
-    <a href="#" class="more" title="극장 이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
-  </div>
-
-  <div class="event-box">
-    <ul>
-
-      <li>
-        <a href="#" class="eventBtn" data-no="16362" data-netfunnel="N" title="[사상] 애니메이션 영화랑 매점 콜라보! 상세보기">
-          <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/ABZW30ApzQFKUAzDUosgKxHftaQTXCGn.jpg" alt="[사상] 애니메이션 영화랑 매점 콜라보!" onerror="noImg(this)" />
-        </a>
-      </li>
-
-      <li>
-        <a href="#" class="eventBtn" data-no="16948" data-netfunnel="N" title="[수원스타필드] Happy 1st Anniversary 상세보기">
-          <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/m1htf1m846GY1LSBLyJ4hGEBUaaH1UsN.jpg" alt="[수원스타필드] Happy 1st Anniversary" onerror="noImg(this)" />
-        </a>
-      </li>
-
-    </ul>
-  </div>
-
-
-  <div class="tit-util mt70 mb15">
-    <h3 class="tit">극장 공지사항</h3>
-    <a href="#" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
-  </div>
-
-  <div class="table-wrap">
-    <table class="board-list">
-      <caption>극장, 제목, 지역, 등록일이 들어간 극장 공지사항 목록</caption>
-      <colgroup>
-        <col style="width:150px;">
-        <col>
-        <col style="width:150px;">
-        <col style="width:120px;">
-      </colgroup>
-      <thead>
-      <tr>
-        <th scope="col">극장</th>
-        <th scope="col">제목</th>
-        <th scope="col">지역</th>
-        <th scope="col">등록일</th>
-      </tr>
-      </thead>
-      <tbody>
+  </article>
 
 
 
-      <tr>
-        <td>코엑스</td>
-        <th scope="row">
-          <a href="#" title="[코엑스]시사회 진행에 따른 고객 안내 &#40;1월 14일&#41; 상세보기">
-            [코엑스]시사회 진행에 따른 고객 안내 &#40;1월 14일&#41;
+  <!-- 극장 이벤트 -->
+  <article class="theater-event">
+    <!-- 섹션 제목 -->
+    <div class="event-header">
+      <h2 class="event-title">극장 이벤트</h2>
+      <a href="#" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+    </div>
+
+    <!-- 이벤트 카드 리스트 -->
+    <div class="event-list">
+      <ul>
+        <!-- 첫 번째 이벤트 카드 -->
+        <li>
+          <a href="#" class="eventBtn" data-no="16362" data-netfunnel="N" title="[사상] 애니메이션 영화랑 매점 콜라보! 상세보기">
+            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/ABZW30ApzQFKUAzDUosgKxHftaQTXCGn.jpg" alt="[사상] 애니메이션 영화랑 매점 콜라보!" onerror="noImg(this)" />
           </a>
-        </th>
-        <td>서울</td>
-        <td>2025.01.10</td>
-      </tr>
-
-      <tr>
-        <td>미사강변</td>
-        <th scope="row">
-          <a href="#" title="[미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 &#40;25년 1월 14일&#41; 상세보기">
-            [미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 &#40;25년 1월 14일&#41;
+        </li>
+        <!-- 두 번째 이벤트 카드 -->
+        <li>
+          <a href="#" class="eventBtn" data-no="16948" data-netfunnel="N" title="[수원스타필드] Happy 1st Anniversary 상세보기">
+            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/m1htf1m846GY1LSBLyJ4hGEBUaaH1UsN.jpg" alt="[수원스타필드] Happy 1st Anniversary" onerror="noImg(this)" />
           </a>
-        </th>
-        <td>경기</td>
-        <td>2025.01.09</td>
-      </tr>
-
-      <tr>
-        <td>안성스타필드</td>
-        <th scope="row">
-          <a href="#" title="[안성스타필드]대관 행사로 인한 조조영화 상영 안내 &#40;1월 10일&#41; 상세보기">
-            [안성스타필드]대관 행사로 인한 조조영화 상영 안내 &#40;1월 10일&#41;
-          </a>
-        </th>
-        <td>경기</td>
-        <td>2025.01.06</td>
-      </tr>
-
-      <tr>
-        <td>대구신세계&#40;동대구&#41;</td>
-        <th scope="row">
-          <a href="#" title="[대구신세계]우대요금 변경안내 상세보기">
-            [대구신세계]우대요금 변경안내
-          </a>
-        </th>
-        <td>부산/대구/경상</td>
-        <td>2024.12.31</td>
-      </tr>
-
-      <tr>
-        <td>안산중앙</td>
-        <th scope="row">
-          <a href="#" title="[안산중앙] 주차공간 안내 상세보기">
-            [안산중앙] 주차공간 안내
-          </a>
-        </th>
-        <td>경기</td>
-        <td>2024.12.26</td>
-      </tr>
+        </li>
+      </ul>
+    </div>
+  </article>
 
 
+  <!-- 극장 공지사항 -->
+  <article class="theater-notice">
+    <!-- 섹션 제목 -->
+    <div class="notice-header">
+      <h2 class="notice-title">극장 공지사항</h2>
+      <a href="#" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+    </div>
 
+    <div class="notic-table">
+      <!-- 공지사항 테이블 -->
+      <table>
+        <thead>
+        <tr>
+          <th>극장</th>
+          <th>제목</th>
+          <th>지역</th>
+          <th>등록일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>코엑스</td>
+          <td>[코엑스] 시사회 진행에 따른 고객 안내 (1월 14일)</td>
+          <td>서울</td>
+          <td>2025.01.10</td>
+        </tr>
+        <tr>
+          <td>미사강변</td>
+          <td>[미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 (25년 1월 14일)</td>
+          <td>경기</td>
+          <td>2025.01.09</td>
+        </tr>
+        <tr>
+          <td>안성스타필드</td>
+          <td>[안성스타필드] 대관 행사로 인한 조조영화 상영 안내 (1월 10일)</td>
+          <td>경기</td>
+          <td>2025.01.06</td>
+        </tr>
+        <tr>
+          <td>대구신세계(동대구)</td>
+          <td>[대구신세계] 우대요금 변경안내</td>
+          <td>부산/대구/경상</td>
+          <td>2024.12.31</td>
+        </tr>
+        <tr>
+          <td>안산중앙</td>
+          <td>[안산중앙] 주차공간 안내</td>
+          <td>경기</td>
+          <td>2024.12.26</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-      </tbody>
-    </table>
-  </div>
-
+  </article>
 
 </div>
-
-
-
-    </div>
-  </div>
-</div>
-
-<!-- 		</div> -->
 
 <!-- footer 영역 -->
 <jsp:include page="./common/footer.jsp"/>
 
 <!-- script 영역 -->
 <script>
-  const tabs = document.querySelectorAll('.tab');
-  const contents = document.querySelectorAll('.content');
+  document.addEventListener("DOMContentLoaded", function () {
+    // 모든 탭과 콘텐츠 가져오기
+    const tabs = document.querySelectorAll(".tabs li");
+    const tabContents = document.querySelectorAll(".tab-content");
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+    // 탭 클릭 시 current 클래스를 변경하고 콘텐츠를 갱신
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        // 모든 탭과 콘텐츠에서 current 클래스 제거
+        tabs.forEach(t => t.classList.remove("current"));
+        tabContents.forEach(content => content.classList.remove("current"));
 
-      const target = tab.getAttribute('data-target');
-      contents.forEach(content => {
-        content.classList.remove('active');
-        if (content.id === target) {
-          content.classList.add('active');
-        }
+        // 선택된 탭과 해당 콘텐츠에 current 클래스 추가
+        tab.classList.add("current");
+        tabContents[index].classList.add("current");
+
+        // 콘텐츠 내부 li 요소의 flex 처리
+        const listItems = tabContents[index].querySelectorAll("ul li");
+        listItems.forEach(item => {
+          item.style.flex = "0 0 25%"; // 4등분
+        });
       });
     });
   });
