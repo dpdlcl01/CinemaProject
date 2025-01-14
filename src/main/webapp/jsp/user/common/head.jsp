@@ -22,8 +22,9 @@
 <meta property="og:title" id="fbTitle" content="라이프시어터, 메가박스">
 <meta property="og:description" id="fbDtls" content="삶의 의미와 즐거움을 소통하는 공간, 함께 더 행복한 가치있는 콘텐츠를 추구하는 만남과 소통의 즐거움이 가득한 공간 메가박스 입니다.">
 <meta property="og:image" id="fbImg" content="https://img.megabox.co.kr/SharedImg/metaTag/2020/02/04/gFfTzMwwiCxhBwcUV5TRGMFX9Cmoj64W.jpg">
-<link rel="stylesheet" href="../../css/user/reset.css">
-<link rel="stylesheet" href="../../css/user/style.css">
-<link rel="stylesheet" href="../../css/user/main.css">
-<script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
+
+<!-- 외부CSS 연결하기 -->
+<link rel="stylesheet" href="../../css/user/common.css">
+<link rel="stylesheet" href="../../css/user/main.css"> <!-- 추후에 해당 main 화면에 옮길 예정 -->
+
 <script src="../../js/app.js"></script>

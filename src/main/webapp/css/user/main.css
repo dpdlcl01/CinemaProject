@@ -1,3 +1,55 @@
+@charset "UTF-8";
+
+/* main 페이지 헤더 색상 : black */
+.main-page #header {
+    background-color: #000;
+}
+
+/* main 페이지 로고 이미지 */
+.main-page #header .logo a {
+    position: absolute;
+    left: 50%;
+    top: 23px;
+    transform: translateX(-50%);
+    display: block;
+    width: 140px;
+    height: 47px;
+    text-indent: -9999px;
+    background: url(images/logo-white.png);
+}
+
+/* main 페이지 menu 아이콘 색상 : white */
+.main-page #header #gnb .movie {
+    background-image: url(images/gnb-txt-movie-white.png);
+    left: 166px;
+    width: 31px;
+}
+.main-page #header #gnb .reserve {
+    background-image: url(images/gnb-txt-reserve-white.png);
+    left: 256px;
+    width: 31px;
+}
+.main-page #header #gnb .theater {
+    background-image: url(images/gnb-txt-theater-white.png);
+    left: 345px;
+    width: 31px;
+}
+.main-page #header #gnb .event {
+    background-image: url(images/gnb-txt-event-white.png);
+    right: 347px;
+    width: 45px;
+}
+.main-page #header #gnb .store {
+    background-image: url(images/gnb-txt-store-white.png);
+    right: 241px;
+    width: 45px;
+}
+.main-page #header #gnb .benefit {
+    background-image: url(images/gnb-txt-benefit-white.png);
+    right: 150px;
+    width: 31px;
+}
+
 
 /* main */
 /* section01 */

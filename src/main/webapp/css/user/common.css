@@ -1,3 +1,14 @@
+@charset "UTF-8";
+@import "reset.css";
+
+/* 모든 페이지 contents 영역 */
+.contents{
+  width: 1100px;
+  height: auto;
+  margin: auto;
+}
+
+
 /* 상단 메뉴바 Page Util */
 .page-util {
     background-color: #f8f8f8; / 배경색 /
@@ -56,17 +67,7 @@
 .content.active {
   display: block;
 }
-/*body {*/
-/*    font-family: Arial, sans-serif;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*}*/
 
-
-/* main 페이지 헤더 색상 : black */
-.main-page #header {
-  background-color: #000;
-}
 /* 상세 페이지 헤더 색상 : white */
 #header {
   background-color: #fff;
@@ -89,7 +90,7 @@
   width: 140px;
   height: 47px;
   text-indent: -9999px;
-  background: url(images/logo-white.png);
+  background: url(images/logo-purple.png);
 }
 #header .util-area {
   position: relative;
@@ -170,37 +171,7 @@
 #header #gnb > ul > li > a:hover + .gnb-depth2 {
   display: block;
 }
-/* main 페이지 menu 아이콘 색상 : white */
-.main-page #header #gnb .movie {
-  background-image: url(images/gnb-txt-movie-white.png);
-  left: 166px;
-  width: 31px;
-}
-.main-page #header #gnb .reserve {
-  background-image: url(images/gnb-txt-reserve-white.png);
-  left: 256px;
-  width: 31px;
-}
-.main-page #header #gnb .theater {
-  background-image: url(images/gnb-txt-theater-white.png);
-  left: 345px;
-  width: 31px;
-}
-.main-page #header #gnb .event {
-  background-image: url(images/gnb-txt-event-white.png);
-  right: 347px;
-  width: 45px;
-}
-.main-page #header #gnb .store {
-  background-image: url(images/gnb-txt-store-white.png);
-  right: 241px;
-  width: 45px;
-}
-.main-page #header #gnb .benefit {
-  background-image: url(images/gnb-txt-benefit-white.png);
-  right: 150px;
-  width: 31px;
-}
+
 /* 상세 페이지 menu 아이콘 색상 : black */
 #header #gnb .movie {
   background-image: url(images/gnb-txt-movie-black.png);
