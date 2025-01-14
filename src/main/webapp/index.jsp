@@ -80,7 +80,8 @@
     <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
     <a href="jsp/user/main.jsp">Go to UserController</a><br/>
     <a href="jsp/user/announcement.jsp">Go to announcement.jsp</a><br/>
-    <a href="jsp/user/event.jsp">Go to event.jsp</a>
+    <a href="jsp/user/event.jsp">Go to event.jsp</a><br/>
+    <a href="jsp/user/noticepost.jsp">Go to noticepost.jsp</a><br/>
 </main>
 
 <footer>
