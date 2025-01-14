@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!Doctype html>
 <html lang="ko">
-<!-- head -->
+
 <head>
     <jsp:include page="/jsp/user/head.jsp"/>
 </head>
 <style>
-    /* 기본 스타일 */
+
     body {
         font-family: 'Arial', sans-serif;
         margin: 0;
@@ -14,9 +14,9 @@
         background-color: #f9f9f9;
         display: block;
     }
-    /* 사이드바 스타일 */
+
     .clearfix {
-        display: flex; /* Flexbox 사용 */
+        display: flex;
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
@@ -42,7 +42,7 @@
         color: #333;
         font-size: 14px;
     }
-    /* 메인 콘텐츠 스타일 */
+
     .main-content {
         width: 75%;
         margin: auto;
@@ -52,39 +52,34 @@
         background-color: #fff;
         padding: 20px;
         margin-bottom: 20px;
-        border-radius: 5px; /* 모서리 둥글게 */
+        border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .section h2 {
-        font-size: 18px; /* 제목 크기 */
-        margin-bottom: 10px; /* 제목 아래 여백 */
+        font-size: 18px;
+        margin-bottom: 10px;
     }
 
-    /* 카드 스타일 */
+
     .card-container {
         display: flex;
         justify-content: space-between;
         padding-right: 50px;
-        gap: 10px; /* 카드 간격 */
+        gap: 10px;
     }
     .card {
-        flex-grow: 1; /* 카드 크기 균등 분배 */
+        flex-grow: 1;
         background-color: #f5f5f5;
         padding: 15px;
         text-align: center;
-        border-radius: 5px; /* 모서리 둥글게 */
+        border-radius: 5px;
     }
 
 </style>
 <body>
-<!-- header 영역 -->
 <jsp:include page="/jsp/user/header.jsp"/>
-
-<!-- contents 영역 -->
 <div id="contents">
-    <!-- 사이드바 및 메인 콘텐츠 -->
     <div class="clearfix">
-        <!-- 사이드바 -->
         <div class="sidebar">
             <ul>
                 <li><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></li>
@@ -97,17 +92,13 @@
             </ul>
         </div>
 
-        <!-- 메인 콘텐츠 -->
         <main class="main-content">
 
-            <!-- 사용자 정보 섹션 -->
             <div class="section">
                 <h2>안녕하세요! [username]님</h2>
                 <p>포인트 : 0P</p>
-                <!-- 추가 정보 -->
             </div>
 
-            <!-- 카드 섹션 -->
             <div class="card-container">
                 <div class="card">
                     <h3>나의 무비스토리</h3>
@@ -119,13 +110,11 @@
                 </div>
             </div>
 
-            <!-- 예매 내역 -->
             <div class="section">
                 <h2>나의 예매내역</h2>
                 <p>예매 내역이 없습니다.</p>
             </div>
 
-            <!-- 구매 내역 -->
             <div class="section">
                 <h2>나의 구매내역</h2>
                 <p>구매 내역이 없습니다.</p>
@@ -134,10 +123,8 @@
     </div>
 </div>
 
-<!-- footer 영역 -->
 <jsp:include page="/jsp/user/footer.jsp"/>
 
-<!-- script 영역 -->
 <script>
 
 </script>

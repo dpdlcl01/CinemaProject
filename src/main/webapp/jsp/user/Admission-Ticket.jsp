@@ -12,13 +12,6 @@
             background-color: #f9f9f9;
         }
 
-        .contents {
-            display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: #fff;
-        }
-
         .clearfix {
             display: flex; /* Flexbox 사용 */
             max-width: 1200px;
@@ -104,6 +97,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+<div class="contents">
 <div class="clearfix">
     <!-- 사이드바 -->
     <div class="sidebar">
@@ -142,9 +136,10 @@
                     <td colspan="3">조회된 관람권 내역이 없습니다.</td>
                 </tr>
                 </tbody>
-            </table>
-        </section>
-    </main>
+                </table>
+            </section>
+        </main>
+    </div>
 </div>
 
 </body>

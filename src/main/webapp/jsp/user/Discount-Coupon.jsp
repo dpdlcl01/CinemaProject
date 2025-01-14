@@ -115,7 +115,7 @@
 <body>
 <main>
     <jsp:include page="header.jsp"/>
-
+    <div class = "contents">
     <div class="clearfix">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -184,8 +184,8 @@
 
             </div>
 
+            </div>
         </div>
-
     </div>
 </main>
 <jsp:include page="footer.jsp"/>

@@ -61,7 +61,7 @@
     <h1>페이지를 찾을 수 없습니다.</h1>
     <p>방문하시려는 웹 페이지의 주소가 잘못 입력되었거나<br> 변경 또는 삭제되어 요청하신 페이지를 찾을 수 없습니다.<br> 입력하신 주소가 정확한지 다시 한 번 확인해 주시기 바랍니다.</p>
     <div class="buttons">
-        <a href="#" class="button1 secondary">이전 페이지 이동</a>
+        <a href="#" class="button1 secondary" onclick="history.back()">이전 페이지 이동</a>
         <a href="user/main.jsp" class="button1">메가박스 메인으로 이동</a>
     </div>
 </div>
