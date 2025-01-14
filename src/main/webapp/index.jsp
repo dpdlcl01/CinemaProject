@@ -79,9 +79,6 @@
 
     <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
     <a href="jsp/user/main.jsp">Go to UserController</a>
-    <a href="jsp/user/store.jsp">Go to 스토어</a>
-    <a href="jsp/user/product.jsp">Go to 프로덕트</a>
-    <a href="jsp/user/register.jsp">Go to 회원가입</a>
 </main>
 
 <footer>
