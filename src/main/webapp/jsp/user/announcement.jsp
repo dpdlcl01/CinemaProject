@@ -24,14 +24,13 @@
     <meta property="og:title" id="fbTitle" content="라이프시어터, 메가박스">
     <meta property="og:description" id="fbDtls" content="삶의 의미와 즐거움을 소통하는 공간, 함께 더 행복한 가치있는 콘텐츠를 추구하는 만남과 소통의 즐거움이 가득한 공간 메가박스 입니다.">
     <meta property="og:image" id="fbImg" content="https://img.megabox.co.kr/SharedImg/metaTag/2020/02/04/gFfTzMwwiCxhBwcUV5TRGMFX9Cmoj64W.jpg">
-    <%--    <link rel="stylesheet" href="../../css/user/reset.css">--%>
-    <%--    <link rel="stylesheet" href="../../css/user/style.css">--%>
+<%--    <link rel="stylesheet" href="../../css/user/reset.css">--%>
     <script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
     <script src="../../js/app.js"></script>
     <style>
-        .hightab {
-            width: 1000px;
+        .contents {
             margin: 50px auto;
+            width: 1000px;
         }
         .content {
             margin-top: 20px;
@@ -112,7 +111,7 @@
 <jsp:include page="header.jsp"/>
 <main>
     <section>
-        <div class="hightab">
+        <div class="contents">
             <h1>공지사항</h1>
 
             <div id="announcement" class="content">
@@ -153,72 +152,85 @@
                             <td>1</td>
                             <td>코엑스</td>
                             <td>공지</td>
-                            <td>[코엑스]시사회 진행에 따른 고객 안내 (1월 14일)</td>
+                            <td>
+                                <a href="">[코엑스]시사회 진행에 따른 고객 안내 (1월 14일)</a>
+                            </td>
                             <td>2025.01.10</td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>메가박스</td>
                             <td>공지</td>
-                            <td>[토스페이-롯데카드] 시스템 점검 안내 (1/13)</td>
+                            <td>
+                                <a href="">[토스페이-롯데카드] 시스템 점검 안내 (1/13)></a>
+                            </td>
                             <td>2025.01.10</td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>미사강변</td>
                             <td>공지</td>
-                            <td>[미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 (25년 1월 14일)</td>
+                            <td>
+                                <a href="">[미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 (25년 1월 14일)</a>
+                            </td>
                             <td>2025.01.09</td>
                         </tr>
                         <tr>
                             <td>4</td>
                             <td>메가박스</td>
                             <td>공지</td>
-                            <td>[토스페이-우리카드] 시스템 점검 안내 (1/11~12)</td>
+                            <td>
+                                <a href="">[토스페이-우리카드] 시스템 점검 안내 (1/11~12)</a>
+                            </td>
                             <td>2025.01.08</td>
                         </tr>
                         <tr>
                             <td>5</td>
                             <td>메가박스</td>
                             <td>공지</td>
-                            <td>[컬처랜드] 시스템 점검 공지 안내 (1/23)</td>
+                            <td>
+                                <a href="">[컬처랜드] 시스템 점검 공지 안내 (1/23)</a>
+                            </td>
                             <td>2025.01.08</td>
                         </tr>
                         <tr>
                             <td>6</td>
                             <td>안성스타필드</td>
                             <td>공지</td>
-                            <td>[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</td>
+                            <td>
+                                <a href="">[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</a>
+                            </td>
                             <td>2025.01.06</td>
                         </tr>
                         <tr>
                             <td>7</td>
                             <td>안성스타필드</td>
                             <td>공지</td>
-                            <td>[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</td>
+                            <td><a href="">[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</a></td>
                             <td>2025.01.06</td>
                         </tr>
                         <tr>
                             <td>8</td>
                             <td>안성스타필드</td>
                             <td>공지</td>
-                            <td>[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</td>
+                            <td><a href="">[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</a></td>
                             <td>2025.01.06</td>
                         </tr>
                         <tr>
                             <td>9</td>
                             <td>안성스타필드</td>
                             <td>공지</td>
-                            <td>[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</td>
+                            <td><a href="">[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</a></td>
                             <td>2025.01.06</td>
                         </tr>
                         <tr>
                             <td>10</td>
                             <td>안성스타필드</td>
                             <td>공지</td>
-                            <td>[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</td>
+                            <td><a href="">[안성스타필드]대관 행사로 인한 조조영화 상영 안내 (1월 10일)</a></td>
                             <td>2025.01.06</td>
                         </tr>
+
                         </tbody>
                     </table>
 
