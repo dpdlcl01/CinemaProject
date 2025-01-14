@@ -12,13 +12,13 @@
 
 
 
-    #mid {
+    #contents {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
-        margin: 0 auto;
-        padding: 0 20px;
+        width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
 
     }
 
@@ -38,12 +38,12 @@
         padding: 20px;
 
     }
-    #h2>h2{
-        width: 1000px;
+    #h2>h1{
+        width: 1100px;
         margin-left: auto;
         margin-right: auto;
-        padding-top: 20px;
         padding-bottom: 20px;
+        margin-top: 50px;
     }
 
 
@@ -131,6 +131,10 @@
     .card:hover{
         border: 1px solid #503396 ;
     }
+    #contents{
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
 
 
 
@@ -140,12 +144,19 @@
 </header>
 
 <body class="total">
-<div id="contents">
+
+    <div class="page-util">
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/booking" title="예매 페이지로 이동">스토어</a>
+            </div>
+        </div>
+    </div>
 <div id="h2">
-    <h2>스토어</h2>
+    <h1>스토어</h1>
 
-
-<div id="mid">
+<div id="contents">
 
     <article id="title">
         <a href="" class="active">전체상품</a>
@@ -213,7 +224,7 @@
 
 </div>
 </div>
-</div>
+
 <script>
     //////////////////////////////////////
     ///* card 클래스 클릭 이벤트 넣으세요 *///

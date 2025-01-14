@@ -18,17 +18,19 @@
     padding: 0;
     margin: 0;
     font-size: 14px;
+    color: #423e3e;
   }
   h2{
-    font-size: 30px;
-    padding-top: 20px;
+    margin-top: 50px;
     padding-bottom: 20px;
+    font-size: 32px;
+    color: black;
   }
   #contents{
-    width: 1200px;
+    width: 1100px;
     margin-right: auto;
     margin-left: auto;
-    padding-left: 30px;
+
 
   }
   .warning{
@@ -74,7 +76,7 @@
     margin-left: auto;
     margin-right: auto;
     width: 200px;
-    padding-bottom: 20px;
+    margin-bottom: 50px;
   }
   #cancle{
     width: 88px;
@@ -88,49 +90,83 @@
     display: flex;
 
   }
-  .sidebar {
-    width: 250px;
-    order: 0;
-    background-color: #f8f8f8;
-    border-right: 1px solid #ddd;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .sidebar ul {
-    list-style: none;
+  *{
     padding: 0;
+    margin: 0;
   }
-  .sidebar ul li {
-    margin-bottom: 10px;
+  .sidebar{
+    width: 200px;
+    border-radius: 6px;
+    height: 360px;
+    margin-top: 50px;
+    margin-right: 50px;
   }
-  .sidebar ul li a {
+  .sidebar a{
+    display: flex;
+    color: #222222;
+    padding-top: 10px;
+    padding-bottom: 10px;
     text-decoration: none;
-    color: #333;
-    font-size: 14px;
-  }
-  #main{
-    padding-left: 20px;
-  }
+    text-indent: 20px;
+    line-height: 30px;
+    font-weight: bolder;
 
+  }
+  .sidebar li>a{
+
+    font-size: 14px;
+    width: 180px;
+
+  }
+  #myMega{
+    border-bottom: 2px solid #222222;
+
+  }
+  #myMega>a:hover{
+
+    color: gray;
+  }
+  .sidebar li>a:hover{
+    color: gray;
+  }
+  .liWrap img{
+    height: 17px;
+    width: 17px;
+    padding-top: 17px;
+   /*이미지 나오게 하는 구문 다시보기*/
+  }
+  .liWrap{
+    display: flex;
+    border-bottom: 1px solid #222222;
+  }
 </style>
 <body>
 <!-- header 영역 -->
 <jsp:include page="./common/header.jsp"/>
 
 <!-- contents 영역 -->
+
+<div class="page-util">
+  <div class="inner-wrap">
+    <div class="location">
+      <span>Home</span>
+      <a href="/booking" title="예매 페이지로 이동">회원정보</a>
+      <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">회원탈퇴</a>
+    </div>
+  </div>
+</div>
 <div id="contents">
   <article id="wrap">
 
-
     <div class="sidebar">
       <ul>
-        <li><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></li>
-        <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
-        <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
-        <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
-        <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
-        <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
-        <li><a href="#" title="회원정보">회원정보</a></li>
+        <div  id="myMega"><a href="MyInfo.jsp" title="나의 메가박스">나의 메가박스</a></div>
+        <div class="liWrap"><li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li><img src="../../img/gt.png"></div>
+        <div class="liWrap"> <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li><img src="../../img/gt.png"></div>
+        <div class="liWrap">  <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li><img src="../../img/gt.png"></div>
+        <div class="liWrap"> <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li><img src="../../img/gt.png"></div>
+        <div class="liWrap"> <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li><img src="../../img/gt.png"></div>
+        <div class="liWrap"> <li><a href="#" title="회원정보">회원정보</a></li><img src="../../img/gt.png"></div>
       </ul>
     </div>
 

@@ -16,24 +16,29 @@
         padding: 0;
         font-size: 15px;
       }
-      #all>h2{
-        width: 1000px;
+
+      #contents{
+        width: 1100px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+      #contents>h1{
+        width: 1100px;
         margin-left: auto;
         margin-right: auto;
-        padding-top: 20px;
-        padding-bottom: 0px;
+        font-size: 32px;
       }
-      #all>#category{
+      #contents>#category{
         color: dimgray;
-        width: 1000px;
+        width: 1100px;
         margin-left: auto;
         margin-right: auto;
         padding-top: 20px;
         padding-bottom: 20px;
       }
-      h2{
-        font-size: 28px;
-      }
+
       #wrap {
         display: flex;
         flex-direction: column;
@@ -122,10 +127,9 @@
         width: 1000px;
         height: 39px;
         background-color: white;
-        margin-top: 20px;
+        margin-top: 50px;
         border: 1px solid lightgray;
         border-radius: 8px;
-        margin-bottom: 20px;
       }
 
     </style>
@@ -134,10 +138,20 @@
   <header>
     <jsp:include page="./common/header.jsp"></jsp:include>
   </header>
-  <div id="all">
+
+  <div class="page-util">
+    <div class="inner-wrap">
+      <div class="location">
+        <span>Home</span>
+        <a href="/booking" title="예매 페이지로 이동">스토어</a>
+        <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">상세보기</a>
+      </div>
+    </div>
+  </div>
+  <div id="contents">
 
 
-    <h2>일반관람권</h2>
+    <h1>일반관람권</h1>
     <div id="category">카테고리</div>
     <div id="wrap">
 
