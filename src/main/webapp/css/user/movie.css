@@ -70,14 +70,11 @@
 
 #main #section05 .cont-area .main-movie-list ol li { /*수정01131717*/
     flex: 0 0 calc(25% - 10px); /* 4개씩 배치: 너비 25% */
-    /*float: left;*/
+    float: left;
     width: 245px;
     margin-left: 10px;
     margin-bottom: 50px;
     box-sizing: border-box;
-}
-#main #section05 .cont-area .main-movie-list ol li:first-child {
-    margin: 0;
 }
 #main #section05 .cont-area .main-movie-list .movie-list-info {
     position: relative;
@@ -287,7 +284,6 @@
     top: 50%;
     margin-top: -10px;
 }
-
 .movie-grade {
     overflow: hidden;
     display: inline-block;

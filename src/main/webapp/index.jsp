@@ -79,6 +79,7 @@
 
     <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
     <a href="./jsp/user/main.jsp">Go to UserController</a>
+    <a href="./jsp/user/movie.jsp">Go to movie.jsp</a>
 </main>
 
 <footer>
