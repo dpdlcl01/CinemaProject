@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 14.
-  Time: 오후 3:46
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!Doctype html>
 <html lang="en">
@@ -56,8 +49,9 @@
   }
   table td{
     font-size: 15px;
-    color:  gray;
-    border: 1px solid gray;
+    color:  #222222;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
     height: 40px;
     font-weight: bold;
     padding-left: 10px;
@@ -75,8 +69,9 @@
     padding-top: 30px;
     margin-left: auto;
     margin-right: auto;
-    width: 200px;
+    width: 100%;
     margin-bottom: 50px;
+    text-align: right;
   }
   #cancle{
     width: 88px;
@@ -98,13 +93,13 @@
     width: 200px;
     border-radius: 6px;
     height: 360px;
-    margin-top: 50px;
+    margin-top: 15px;
     margin-right: 50px;
   }
   .sidebar a{
     display: flex;
     color: #222222;
-    padding-top: 10px;
+    padding-top: 15px;
     padding-bottom: 10px;
     text-decoration: none;
     text-indent: 20px;
@@ -133,11 +128,17 @@
     height: 17px;
     width: 17px;
     padding-top: 17px;
-   /*이미지 나오게 하는 구문 다시보기*/
+    /*이미지 나오게 하는 구문 다시보기*/
   }
   .liWrap{
     display: flex;
     border-bottom: 1px solid #222222;
+  }
+  .td1{
+    background-color: #F5F5F5;
+  }
+  i{
+    text-indent: -9999px;
   }
 </style>
 <body>
@@ -150,8 +151,8 @@
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <a href="/booking" title="예매 페이지로 이동">회원정보</a>
-      <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">회원탈퇴</a>
+      <span>회원정보</span>
+      <span class="pageUtila">회원탈퇴</span>
     </div>
   </div>
 </div>
@@ -194,7 +195,7 @@
       <table>
         <caption>탈퇴 테이블</caption>
         <colgroup>
-          <col width="150px">
+          <col width="150px" class="td1">
           <col width="*">
         </colgroup>
         <tbody>

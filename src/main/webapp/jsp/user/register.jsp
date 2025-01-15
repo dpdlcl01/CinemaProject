@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 14.
-  Time: 오후 2:16
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,13 +71,13 @@
     .essential{
       color: #503396;
     }
-    #check, #register, #complete{
+    #check, #register, #complete,#next{
       width: 200px;
       height: 46px;
       font-size: 20px;
 
     }
-    #checkDiv , #registerDiv, #completeDiv{
+    #checkDiv , #registerDiv, #completeDiv, #nextDiv{
       padding-top: 20px
     ;
       margin-right: auto;
@@ -168,6 +161,16 @@
       padding-bottom: 50px;
 
     }
+    .tableButton{
+      height: 28px;
+      background-color: white;
+      border-radius: 4px;
+      border: 2px solid gray;
+    }
+    #main0 table{
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
   </style>
 
 </head>
@@ -182,6 +185,38 @@
       <p class="step">STEP3.정보입력</p>
       <p class="step">STEP4.가입완료</p>
     </div>
+
+    <div id="main0">
+      <article id="main0Title">
+        <strong>회원가입을 위한 본인인증 단계입니다.</strong>
+        <p>이메일 인증을 완료해주세요</p>
+      </article>
+      <table>
+        <caption>이메일인증테이블</caption>
+        <colgroup>
+          <col width="150px">
+          <col width="350px">
+        </colgroup>
+        <tr>
+          <td><span>이름</span> </td>
+          <td><input type="text" class="inputValue"></td>
+        </tr>
+        <tr>
+          <td><span>이메일</span> </td>
+          <td><input type="text" class="inputValue"><span>@</span><input type="text" class="inputValue"></td>
+        </tr>
+        <tr>
+          <td><span>인증번호</span> </td>
+          <td><input type="text" class="inputValue"> <button type="button" class="tableButton">인증 확인</button> </td>
+        </tr>
+      </table>
+      <div id="nextDiv">
+        <button type="button" id="next" disabled>다음</button>
+      </div>
+
+    </div>
+
+
     <div id="main" class="main default">
       <div>
         <strong>약관동의 및 정보활용 동의</strong>
@@ -256,7 +291,7 @@
           <td class="bold">아이디</td>
           <td>
             <input type="text" class="inputValue">
-            <button type="button">중복확인</button>
+            <button type="button" class="tableButton">중복확인</button>
           </td>
         </tr>
 

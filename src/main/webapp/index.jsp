@@ -83,6 +83,7 @@
     <a href="jsp/user/product.jsp">Go to 프로덕트</a>
     <a href="jsp/user/register.jsp">Go to 회원가입</a>
     <a href="jsp/user/leave.jsp">Go to 회원탈퇴</a>
+    <a href="jsp/user/editMyInfo.jsp">Go to 회원정보변경</a>
 </main>
 
 <footer>

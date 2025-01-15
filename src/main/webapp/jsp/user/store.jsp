@@ -35,7 +35,10 @@
     }
     #title{
         display: flex;
-        padding: 20px;
+        justify-content: space-around;
+        margin: 20px 0;
+        border-bottom: 2px solid #ccc;
+        width: 100%;
 
     }
     #h2>h1{
@@ -50,27 +53,20 @@
 
 
     #title a{
-        text-decoration: none;
-        width: 273px;
-        height: 41px;
+        padding: 10px 0;
+        width: 150px; /* 탭의 고정 너비 */
         text-align: center;
-        border: 1px solid #D3D3D3;
-        border-bottom: 1px solid #503396;
-        color: black;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center; /* 세로 중앙 정렬 */
-        justify-content: center;
-        transition: all 0.3s ease;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        font-size: 16px;
 
     }
 
 
     /* 클릭된 상태 (active 클래스 추가 시) */
     #title a.active {
-        color: #503396;
-        border-color: #503396; /* 활성화된 테두리 색상 */
-        border-bottom: white;
+        border-bottom: 2px solid #6a5acd;
+        color: #6a5acd;
     }
 
 
@@ -149,7 +145,7 @@
         <div class="inner-wrap">
             <div class="location">
                 <span>Home</span>
-                <a href="/booking" title="예매 페이지로 이동">스토어</a>
+                <span >스토어</span>
             </div>
         </div>
     </div>
@@ -160,7 +156,6 @@
 
     <article id="title">
         <a href="" class="active">전체상품</a>
-        <a href="">메가티켓</a>
         <a href="">팝콘,음료</a>
         <a href="">굿즈</a>
     </article>
