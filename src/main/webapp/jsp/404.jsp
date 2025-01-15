@@ -3,7 +3,7 @@
 <html lang="ko">
 <!-- head -->
 <head>
-    <jsp:include page="user/head.jsp"/>
+    <jsp:include page="./user/common/head.jsp"/>
 </head>
 <style>
     body {
@@ -53,7 +53,7 @@
 </style>
 <body>
 <!-- header 영역 -->
-<jsp:include page="user/header.jsp"/>
+<jsp:include page="./user/common/header.jsp"/>
 
 <!-- contents 영역 -->
 <div class="container1">
@@ -67,7 +67,7 @@
 </div>
 
 <!-- footer 영역 -->
-<jsp:include page="user/footer.jsp"/>
+<jsp:include page="./user/common/footer.jsp"/>
 
 <!-- script 영역 -->
 <script>

@@ -24,7 +24,7 @@
 <meta property="og:image" id="fbImg" content="https://img.megabox.co.kr/SharedImg/metaTag/2020/02/04/gFfTzMwwiCxhBwcUV5TRGMFX9Cmoj64W.jpg">
 
 <!-- 외부CSS 연결하기 -->
-<link rel="stylesheet" href="../../css/user/style.css">
-<link rel="stylesheet" href="../../css/user/reset.css"> <!-- 추후에 해당 main 화면에 옮길 예정 -->
+<link rel="stylesheet" href="../../css/user/common.css">
+<link rel="stylesheet" href="../../css/user/main.css"> <!-- 추후에 해당 main 화면에 옮길 예정 -->
 
 <script src="../../js/app.js"></script>

@@ -2,93 +2,105 @@
 <!Doctype html>
 <html lang="ko">
 <head>
-<jsp:include page="head.jsp"/>
+<jsp:include page="./common/head.jsp"/>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        *{
+            padding: 0;
             margin: 0;
-            padding: 0;
-            display: block;
         }
-        main {
+        .sidebar{
+            width: 200px;
+            border-radius: 6px;
+            height: 360px;
+            margin-top: 15px;
+            margin-right: 50px;
+        }
+        .sidebar a{
             display: flex;
-            flex-direction: row;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .clearfix {
-            display: flex; /* Flexbox 사용 */
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-        }
-        .sidebar {
-            width: 250px;
-            order: 0;
-            background-color: #f8f8f8;
-            border-right: 1px solid #ddd;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            margin-bottom: 10px;
-        }
-        .sidebar ul li a {
+            color: #222222;
+            padding-top: 10px;
+            padding-bottom: 10px;
             text-decoration: none;
-            color: #333;
-            font-size: 14px;
+            text-indent: 20px;
+            line-height: 30px;
+            font-weight: bolder;
+
         }
-        #contents {
-            width: 100%;
+        .sidebar li>a{
+
+            font-size: 14px;
+            width: 180px;
+
+        }
+        .sidebar li{
+            border-bottom: 1px solid #222222;
+        }
+        #myMega a{
+            border-bottom: 2px solid #222222;
+        }
+        #myMega>a:hover{
+
+            color: gray;
+        }
+        .sidebar li>a:hover{
+            color: gray;
         }
 
-        .content {
+        #contents {
+            width: 1100px;
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: 590px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .content1 {
             width: 70%;
             flex-grow: 1;
             padding: 20px;
             box-sizing: border-box;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            margin-top: 50px;
         }
-        .content h1 {
+        .content1 h1 {
             font-size: 24px;
             margin-bottom: 20px;
         }
-        .content .filter {
+        .content1 .filter {
             margin-bottom: 20px;
         }
-        .content .filter select,
-        .content .filter button {
+        .content1 .filter select,
+        .content1 .filter button {
             padding: 5px 10px;
             margin-right: 10px;
         }
-        .content table {
+        .content1 table {
             width: 100%;
             border-collapse: collapse;
         }
-        .content table th,
-        .content table td {
+        .content1 table th,
+        .content1 table td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
         }
-        .content table th {
+        .content1 table th {
             background-color: #f4f4f4;
         }
     </style>
 </head>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="./common/header.jsp"/>
+<jsp:include page="./common/page_util.jsp"/>
 <main>
     <div id="contents">
-        <div class="clearfix">
             <div class="sidebar">
                 <ul>
-                    <li><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></li>
+                    <div id="myMega"><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
                     <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
                     <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
                     <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
@@ -99,7 +111,7 @@
             </div>
 
 
-    <div class="content">
+    <div class="content1">
         <!-- Page Title -->
         <h1>예매/구매 내역</h1>
 
@@ -139,7 +151,7 @@
 </main>
 
 <footer>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="./common/footer.jsp"/>
 </footer>
 
 </body>

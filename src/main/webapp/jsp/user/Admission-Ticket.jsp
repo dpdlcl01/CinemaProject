@@ -2,52 +2,99 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <jsp:include page="head.jsp"/>
+    <jsp:include page="./common/head.jsp"/>
     <style>
-        /* 기본 스타일 */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
+        *{
             padding: 0;
-            background-color: #f9f9f9;
+            margin: 0;
+        }
+        #s_side {
+            border: 2px solid #ccc;
+            border-radius: 8px;
+        }
+        #side{
+            border: 1px solid #;
+            overflow: hidden;
         }
 
-        .clearfix {
-            display: flex; /* Flexbox 사용 */
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
+        #bg{
+            background-color: black;
+            border-radius: 4px;
         }
-        .sidebar {
-            width: 250px;
-            order: 0;
-            background-color: #f8f8f8;
-            border-right: 1px solid #ddd;
-            padding: 20px;
-            box-sizing: border-box;
+        .sidebar{
+            width: 200px;
+            height: 360px;
+            margin-top: 50px;
+            margin-right: 50px;
         }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
+
+        .sidebar li {
+            border-bottom: 1px
         }
-        .sidebar ul li {
-            margin-bottom: 10px;
-        }
-        .sidebar ul li a {
+
+        .sidebar a{
+            display: flex;
+            color: #222222;
+            padding-top: 10px;
+            padding-bottom: 10px;
             text-decoration: none;
-            color: #333;
+            text-indent: 20px;
+            line-height: 30px;
+            font-weight: bolder;
+
+        }
+        .sidebar li>a{
             font-size: 14px;
+            width: 180px;
+
+        }
+
+        .sidebar ul {
+            margin: 0;
+            padding: 0;
+            border-top : none;
+        }
+
+        .sidebar ul li {
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        #myMega{
+            background-color: black;
+            color: white;
+            border: 1px solid black;
+            border-radius: 7px;
+
+        }
+
+        #myMega a{
+            border-bottom: 1px solid #222222;
+            line-height: 90px;
+            color: white;
+        }
+
+        #myMega>a:hover{
+
+            color: gray;
+        }
+        .sidebar li>a:hover{
+            color: gray;
         }
 
         /* 메인 콘텐츠 스타일 */
         .main-content {
+            position: relative;
             flex-grow: 1;
-            padding: 20px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-bottom: 50px;
+            margin-top: 50px;
         }
 
         .main-content header1 {
-            margin-bottom: 20px;
+            margin: 30px;
         }
 
         .main-content header h1 {
@@ -93,16 +140,25 @@
             font-size: 12px;
             color: #777;
         }
+
+        .contents {
+            display : flex;
+            min-height: 590px;
+        }
     </style>
 </head>
-<body>
-<jsp:include page="header.jsp"/>
+<div>
+<jsp:include page="./common/header.jsp"/>
+<jsp:include page="./common/page_util.jsp"/>
 <div class="contents">
-<div class="clearfix">
+
     <!-- 사이드바 -->
     <div class="sidebar">
-        <ul>
-            <li><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></li>
+        <div id="s_side">
+            <div id="bg">
+        <div id="myMega"><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
+            </div>
+        <ul id="side">
             <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
             <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
             <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
@@ -110,6 +166,7 @@
             <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
             <li><a href="#" title="회원정보">회원정보</a></li>
         </ul>
+    </div>
     </div>
 
     <!-- 메인 콘텐츠 -->
@@ -141,6 +198,6 @@
         </main>
     </div>
 </div>
-
+<jsp:include page="./common/footer.jsp"/>
 </body>
 </html>

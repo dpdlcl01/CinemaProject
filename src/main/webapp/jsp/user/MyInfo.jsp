@@ -3,44 +3,49 @@
 <html lang="ko">
 
 <head>
-    <jsp:include page="/jsp/user/head.jsp"/>
+    <jsp:include page="./common/head.jsp"/>
 </head>
 <style>
-
-    body {
-        font-family: 'Arial', sans-serif;
+    *{
+        padding: 0;
         margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-        display: block;
     }
-
-    .clearfix {
+    .sidebar{
+        width: 200px;
+        border-radius: 6px;
+        height: 360px;
+        margin-top: 15px;
+        margin-right: 50px;
+    }
+    .sidebar a{
         display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-    }
-    .sidebar {
-        width: 250px;
-        order: 0;
-        background-color: #f8f8f8;
-        border-right: 1px solid #ddd;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-    .sidebar ul li {
-        margin-bottom: 10px;
-    }
-    .sidebar ul li a {
+        color: #222222;
+        padding-top: 10px;
+        padding-bottom: 10px;
         text-decoration: none;
-        color: #333;
+        text-indent: 20px;
+        line-height: 30px;
+        font-weight: bolder;
+
+    }
+    .sidebar li>a{
+
         font-size: 14px;
+        width: 180px;
+
+    }
+    .sidebar li{
+        border-bottom: 1px solid #222222;
+    }
+    #myMega a{
+        border-bottom: 2px solid #222222;
+    }
+    #myMega>a:hover{
+
+        color: gray;
+    }
+    .sidebar li>a:hover{
+        color: gray;
     }
 
     .main-content {
@@ -75,14 +80,26 @@
         border-radius: 5px;
     }
 
+    #contents{
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
+        margin-top: 50px;
+        width: 1100px;
+        min-height: 590px;
+    }
+    /*페이지 관련 css 추후 css파일로 수정됨*/
+
+    /*페이지 관련 끝*/
 </style>
 <body>
-<jsp:include page="/jsp/user/header.jsp"/>
+<jsp:include page="./common/header.jsp"/>
+<jsp:include page="./common/page_util.jsp"/>
 <div id="contents">
-    <div class="clearfix">
         <div class="sidebar">
             <ul>
-                <li><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></li>
+                <div id="myMega"><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
                 <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
                 <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
                 <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
@@ -123,7 +140,7 @@
     </div>
 </div>
 
-<jsp:include page="/jsp/user/footer.jsp"/>
+<jsp:include page="./common/footer.jsp"/>
 
 <script>
 
