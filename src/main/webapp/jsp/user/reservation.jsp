@@ -37,7 +37,7 @@
     <title>빠른 예매</title>
     <link rel="stylesheet" href="../../css/user/reservation.css">
     <link rel="stylesheet" href="../../css/user/style.css">
-    <jsp:include page="header.jsp"/>
+    <jsp:include page="./common/header.jsp"/>
 </head>
 <body>
 <div id="content">
@@ -96,6 +96,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="./common/footer.jsp"/>
 </body>
 </html>
