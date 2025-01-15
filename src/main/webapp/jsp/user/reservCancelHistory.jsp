@@ -123,6 +123,16 @@
         height: 45px;
         text-align: center;
     }
+    #null{
+        width: 840px;
+        height: 160px;
+        box-sizing: border-box;
+        margin-top: 20px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding:65px 330px;
+        margin-bottom: 20px;
+    }
 </style>
 <body>
 <!-- header 영역 -->
@@ -158,6 +168,9 @@
     </div>
     <div id="strong">
         <strong>총<b>1</b>건</strong>
+    </div>
+    <div id="null">
+        예약내역이 없습니다.
     </div>
 
     <div id="main">
