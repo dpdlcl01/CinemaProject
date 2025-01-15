@@ -84,6 +84,7 @@
     <a href="jsp/user/register.jsp">Go to 회원가입</a>
     <a href="jsp/user/leave.jsp">Go to 회원탈퇴</a>
     <a href="jsp/user/editMyInfo.jsp">Go to 회원정보변경</a>
+    <a href="jsp/user/paymentSuccess.jsp">Go to 결제완료</a>
 </main>
 
 <footer>

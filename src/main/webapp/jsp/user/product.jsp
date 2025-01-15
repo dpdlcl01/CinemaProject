@@ -51,7 +51,7 @@
 
       img{
         width: 280px; /* 이미지의 너비 */
-        height: 330px; /* 이미지의 높이 */
+        height: 340px; /* 이미지의 높이 */
         object-fit: cover; /* 비율 유지하며 크기 맞추기 */
         border-right: 1px solid gray;
 
@@ -124,7 +124,7 @@
         margin-top: 20px;
       }
       .btn{
-        width: 1000px;
+        width: 1100px;
         height: 39px;
         background-color: white;
 

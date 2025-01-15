@@ -47,10 +47,16 @@
     height: 360px;
     margin-top: 15px;
     margin-right: 50px;
+
+  }
+  .sidebar>ul{
+    border-right:1px solid #222222;
+    border-left:1px solid #222222;
+    border-radius: 6px;
   }
   .sidebar a{
     display: flex;
-    color: #222222;
+
     padding-top: 15px;
     padding-bottom: 10px;
     text-decoration: none;
@@ -63,11 +69,13 @@
 
     font-size: 14px;
     width: 180px;
-
+    color: #222222;
   }
   #myMega{
     border-bottom: 2px solid #222222;
-
+    background-color: #222222;
+    border-radius: 4px;
+    color: #D3D3D3;
   }
   #myMega>a:hover{
 

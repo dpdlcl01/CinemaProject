@@ -101,7 +101,7 @@
         font-family: Roboto;
         font-size: 1.2em;
         height: 61px;
-        padding-top: 35px;
+        padding-top: 36px;
         padding-bottom: 0;
         margin-bottom: 0;
     }
