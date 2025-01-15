@@ -4,15 +4,12 @@
 <head>
     <jsp:include page="./common/head.jsp"/>
     <style>
+
         .noticeboard {
             margin-top: 20px;
         }
         .noticeboard.active {
             display: block;
-        }
-        h1 {
-            margin: 50px 0 20px 0; /* 위, 오른쪽, 아래, 왼쪽 */
-            text-align: left;
         }
         .search-bar-container {
             display: flex;
@@ -22,7 +19,6 @@
         }
         .search-bar-container .total-count {
             font-size: 16px;
-            font-weight: bold;
         }
         .search-bar {
             display: flex;
@@ -30,43 +26,80 @@
             align-items: center;
             gap: 10px;
         }
-        .search-bar select, .search-bar input {
-            padding: 8px;
+        .search-bar select {
+            padding: 6px;
             font-size: 14px;
         }
-        .search-bar input {
-            width: 250px; /* 입력 필드 너비 */
+        .search-bar2 {
+            border-bottom: 1px solid #423e3e;
+            display: inline-block;
+            position: relative;
+            width: 200px;
+            height: 30px;
         }
-        .search-bar button {
-            padding: 8px 15px;
-            font-size: 14px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .search-bar2 .input-text {
+            display: inline-block;
+            background-color: transparent;
+            border: 0;
+            color: #000;
+            line-height: 25px;
+            font-size: 16px;
+            outline: none;
         }
-        .search-bar button:hover {
+        .search-bar2 .input-text:active {
+            border: 0;
+            outline: none;
+        }
+        .search-bar2 .btn {
+            display: block;
+            width: 30px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0;
+            line-height: 0;
+            border: 0;
+            background-color: transparent;
+        }
+        .search-bar2 .btn:hover {
             background-color: #0056b3;
+        }
+        .search-bar2 .btn .ico-search {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+            vertical-align: middle;
         }
         table {
             width: 100%;
-            height: 100%;
+            /*height: 100%;*/
             border-collapse: collapse;
             margin-top: 20px;
         }
-        table, th, td {
-            border: 1px solid #ccc;
+        table, th {
+            border-top: 2px solid #333;
+            border-bottom: 0;
         }
         th, td {
-            padding: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        td {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+        td:nth-child(4) {
             text-align: left;
+            padding-left: 15px;
         }
         td a:hover {
             color: #666;
         }
         th {
             background-color: #f4f4f4;
+            font-weight: bold;
         }
         .pagination {
             margin-top: 20px;
@@ -123,8 +156,13 @@
                             <option>미사강변</option>
                             <option>안성스타필드</option>
                         </select>
-                        <input type="text" placeholder="검색어를 입력해주세요.">
-                        <button>검색</button>
+                        <div class="search-bar2">
+                            <input type="text" placeholder="검색어를 입력해주세요." title="공지사항 검색" class="input-text">
+                            <button class="btn">
+                                <i class="ico-search"></i>
+                                검색
+                            </button>
+                        </div>
                     </div>
                 </div>
 

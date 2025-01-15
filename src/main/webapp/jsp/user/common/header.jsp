@@ -9,7 +9,7 @@
         <!-- util-area -->
         <div class="util-area">
             <div class="right-link">
-                <a href="#" id="open-modal-btn" title="로그인">로그인</a>
+                <a href="#" id="member-login-btn" title="로그인">로그인</a>
                 <a href="#" title="회원가입">회원가입</a>
                 <a href="#" title="빠른예매">빠른예매</a>
             </div>

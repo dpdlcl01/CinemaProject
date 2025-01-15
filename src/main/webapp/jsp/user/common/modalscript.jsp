@@ -2,32 +2,54 @@
 <!-- 모달 오버레이 -->
 <div id="modal-overlay" class="modal-overlay">
     <div class="modal-container">
-        <iframe src="login.jsp" frameborder="0" style="width: 100%; height: 400px;"></iframe>
+        <iframe id="modal-iframe" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
         <span class="modal-close" id="modal-close">X</span>
     </div>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const modalOverlay = document.getElementById("modal-overlay");
+    const modalIframe = document.getElementById("modal-iframe");
     const closeModalBtn = document.getElementById("modal-close");
-    const openModalBtn = document.getElementById("open-modal-btn");
+    const openModalBtn = document.getElementById("member-login-btn");
+    const openModalBtn2 = document.getElementById("login-btn");
 
-    // 모달 열기
+
+    // 회원로그인 모달 열기
     if (openModalBtn) {
       openModalBtn.addEventListener("click", (event) => {
         event.preventDefault(); // 기본 동작 방지
         modalOverlay.style.display = "block"; // 모달 열기
+        modalIframe.src = "memberlogin.jsp";
       });
     }
+
+    // 회원, 비회원 로그인 모달열기
+    if (openModalBtn2) {
+      openModalBtn2.addEventListener("click", (event) => {
+        event.preventDefault(); // 기본 동작 방지
+        modalOverlay.style.display = "block"; // 모달 열기
+        modalIframe.src = "login.jsp"
+      });
+    }
+
 
     // X 버튼 클릭 시 모달 닫기
     if (closeModalBtn) {
       closeModalBtn.addEventListener("click", () => {
         modalOverlay.style.display = "none"; // 모달 닫기
+        modalIframe.src = "";
         // URL에서 # 제거
         history.pushState("", document.title, window.location.pathname);
+        history.back();
       });
     }
+
+    // 브라우저 뒤로가기 또는 히스토리 변경 시 모달 닫기
+    window.addEventListener("popstate", () => {
+      modalOverlay.style.display = "none";
+      modalIframe.src = "";
+    });
 
     // 모달 외부 클릭 방지
     modalOverlay.addEventListener("click", (event) => {

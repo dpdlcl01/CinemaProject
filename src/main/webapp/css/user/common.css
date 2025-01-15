@@ -33,18 +33,39 @@
     display: flex;
 }
 
+/*.modal-close {*/
+/*    position: absolute;*/
+/*    top: 10px;*/
+/*    right: 10px;*/
+/*    cursor: pointer;*/
+/*    font-size: 16px;*/
+/*    color: #333;*/
+/*}*/
 .modal-close {
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
     font-size: 16px;
-    color: #333;
+    font-weight: bold;
+    color: #fff;
+    background-color: #6a5acd;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background-color: #5a4cad;
 }
 
 /* 상단 메뉴바 Page Util */
 .page-util {
-    background-color: #f8f8f8; / 배경색 /
+    background-color: #f8f8f8; /* 배경색 */
     border-bottom: 1px solid #ddd; / 하단 경계선 /
     /*padding: 10px 0;*/
 }
@@ -54,7 +75,7 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: flex-start; / 왼쪽 정렬 /
+    justify-content: flex-start; /* 왼쪽 정렬 */
     font-size: 14px;
     color: #333;
 }
@@ -66,9 +87,11 @@
     color: #0078ff;
     text-decoration: none;
     margin-left: 10px;
+    pointer-events: none;
+    cursor: default;
 }
 .page-util .location a:hover {
-    text-decoration: underline; / 호버 효과 */
+    text-decoration: none; /* 호버 효과 */
 }
 
 /* 페이지별 탭 */

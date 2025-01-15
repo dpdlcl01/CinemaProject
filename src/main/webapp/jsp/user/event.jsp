@@ -29,10 +29,6 @@
         .content.active {
             display: block;
         }
-        h1 {
-            margin: 50px 0 20px 0; /* 위, 오른쪽, 아래, 왼쪽 */
-            text-align: left;
-        }
         .event-bar-container {
             display: flex;
             justify-content: space-between;
@@ -41,32 +37,48 @@
         }
         .event-bar-container .total-count {
             font-size: 16px;
-            font-weight: bold;
         }
         .search-bar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px;
+            border-bottom: 1px solid #423e3e;
+            display: inline-block;
+            position: relative;
+            width: 200px;
+            height: 30px;
         }
-        .search-bar select, .search-bar input {
-            padding: 8px;
-            font-size: 14px;
+        .search-bar .input-text {
+            display: inline-block;
+            background-color: transparent;
+            border: 0;
+            color: #000;
+            line-height: 25px;
+            font-size: 16px;
+            outline: none;
         }
-        .search-bar input {
-            width: 250px; /* 입력 필드 너비 */
+        .search-bar .input-text:active {
+            border: 0;
+            outline: none;
         }
-        .search-bar button {
-            padding: 8px 15px;
-            font-size: 14px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .search-bar .btn {
+            display: block;
+            width: 30px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0;
+            line-height: 0;
+            border: 0;
+            background-color: transparent;
         }
-        .search-bar button:hover {
+        .search-bar .btn:hover {
             background-color: #0056b3;
+        }
+        .search-bar .btn .ico-search {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+            vertical-align: middle;
         }
         table {
             width: 100%;
@@ -83,22 +95,6 @@
         }
         th {
             background-color: #f4f4f4;
-        }
-        .pagination {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .pagination a {
-            margin: 0 5px;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .pagination a.active {
-            color: #fff;
-            background-color: #007bff;
-            padding: 5px 10px;
-            border-radius: 5px;
         }
         .event-list {
             list-style: none;
@@ -174,6 +170,7 @@
         </div>
     </div>
 </div>
+<a href="#" id="login-btn" title="로그인">비회원로그인</a>
         <div class="contents">
             <h1>이벤트</h1>
             <div class="tabs">
@@ -186,8 +183,11 @@
                 <div class="event-bar-container">
                     <div class="total-count">전체 13,329건</div>
                     <div class="search-bar">
-                        <input type="text" placeholder="검색어를 입력해 주세요.">
-                        <button>검색</button>
+                        <input type="text" placeholder="검색어를 입력해주세요." title="이벤트 검색" class="input-text">
+                        <button class="btn">
+                            <i class="ico-search"></i>
+                            검색
+                        </button>
                     </div>
                 </div>
                 <ul class="event-list">
@@ -242,10 +242,15 @@
 
             <div id="pastevent" class="content">
                 <p>응모하신 이벤트의 당첨 여부는 <a href="#">나의 응모결과 확인</a>을 통해 확인하실 수 있습니다.</p><br/>
-                <p>전체 13,329건</p><br/>
-                <div class="search-bar">
-                    <input type="text" placeholder="검색어를 입력해 주세요.">
-                    <button>검색</button>
+                <div class="event-bar-container">
+                    <div class="total-count">전체 13,329건</div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="검색어를 입력해주세요." title="이벤트 검색" class="input-text">
+                        <button class="btn">
+                            <i class="ico-search"></i>
+                            검색
+                        </button>
+                    </div>
                 </div>
                 <ul class="event-list">
                     <li class="event-item">
