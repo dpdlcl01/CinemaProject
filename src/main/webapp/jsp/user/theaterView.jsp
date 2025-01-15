@@ -715,7 +715,7 @@
                 </div>
                 <div class="transport-details">
                     <p><strong>도로명주소:</strong> 서울특별시 서초구 서초대로 77길 3 (서초동) 아라타워 8층</p>
-                    <button class="navigate-btn">오실시간 길찾기</button>
+                    <button class="navigate-btn">실시간 길찾기</button>
                 </div>
             </section>
         </div>

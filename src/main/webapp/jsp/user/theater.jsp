@@ -283,8 +283,8 @@
       <li class="tab-link current" data-tab="tab-1">서울</li>
       <li class="tab-link" data-tab="tab-2">경기</li>
       <li class="tab-link" data-tab="tab-3">인천</li>
-      <li class="tab-link" data-tab="tab-4">대전/세종</li>
-      <li class="tab-link" data-tab="tab-5">부산/대구</li>
+      <li class="tab-link" data-tab="tab-4">대전/충청/세종</li>
+      <li class="tab-link" data-tab="tab-5">부산/대구/경상</li>
       <li class="tab-link" data-tab="tab-6">광주/전라</li>
       <li class="tab-link" data-tab="tab-7">강원</li>
     </ul>
