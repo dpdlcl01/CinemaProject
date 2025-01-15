@@ -4,33 +4,56 @@
 
 <head>
     <jsp:include page="/jsp/user/common/head.jsp"/>
+<link rel="stylesheet" href="../../css/user/common.css">
 </head>
 <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* 상단 메뉴바 Page Util */
+    .page-util {
+        background-color: #f8f8f8; /* 배경색 */
+        border-bottom: 1px solid #ddd; / 하단 경계선 /
+        /*padding: 10px 0;*/
+    }
+    .page-util .inner-wrap {
+        max-width: 1100px;
+        height: 40px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* 왼쪽 정렬 */
+        font-size: 14px;
+        color: #333;
+    }
+    .page-util .location span {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+    .page-util .location a {
+        color: #0078ff;
+        text-decoration: none;
+        margin-left: 10px;
+        pointer-events: none;
+        cursor: default;
+    }
+    .page-util .location a:hover {
+        text-decoration: none; /* 호버 효과 */
+    }
+
     h1 {
         margin-bottom: 20px;
     }
 
     #contents{
-        margin: 50px auto;
-        width: 1100px;
-        height: auto;
-    }
-
-    body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-        display: block;
-    }
-
-    .clearfix {
         display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
+        margin: 50px auto;
+        height: auto;
+        width: 1100px;
     }
+
     .sidebar {
         width: 250px;
         order: 0;
@@ -54,8 +77,8 @@
 
     .main-content {
         width: 75%;
-        margin: auto;
-        float: right;
+        /*margin: auto;*/
+        margin-left: 30px;
     }
     .section h2 {
         font-size: 18px;
@@ -79,16 +102,36 @@
         color: #fff;
         text-decoration: none;
     }
+    /*기본 탭*/
+    .tabs {
+        display: flex;
+        border: 0;
+    }
+    .tab {
+        flex: 1;
+        text-align: center;
+        padding: 10px 20px;
+        background-color: white;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
 
-    .tabs{
-       border: 1px solid #d8d9db
+    .tab:not(:last-child) {
+        border-right: none;
+    }
+
+    .tab.active {
+        background-color: gray;
+        color: white;
+        font-weight: bold;
+        border-color: gray;
     }
 
     /* 전체 컨테이너 */
     .YearTabs-container {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        /*justify-content: space-between;*/
         margin: 20px 0;
     }
 
@@ -104,9 +147,10 @@
     }
 
     .arrow img {
-        width: 20px; /* 화살표 이미지 크기 */
-        height: 20px;
+        width: 30px; /* 화살표 이미지 크기 */
+        height: 50px;
     }
+
 
     /* 탭 컨테이너 */
     .YearTabs {
@@ -162,12 +206,267 @@
         display: block; /* 활성화된 콘텐츠만 표시 */
     }
 
+
+
+    /*나의 무비스토리 */
+    .my-timeline-list ol .movie li .img img {
+        width: 100%;
+        height: auto;
+    }
+
+    .my-timeline-list ol li .date {
+        position: relative;
+    }
+    .my-timeline-list ol li .date p {
+        display: block;
+        position: relative;
+        z-index: 3;
+        width: 120px;
+        height: 32px;
+        margin: 0 auto;
+        padding: 0;
+        line-height: 32px;
+        text-align: center;
+        color: #fff;
+        border-radius: 16px;
+        background-color: #339eb2;
+    }
+
+    .my-timeline-list ol li .date:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 16px;
+        width: 100%;
+        height: 1px;
+        background-color: #339eb2;
+    }
+
+    .my-timeline-list ol .movie li {
+        position: relative;
+        min-height: 170px;
+        margin: 0;
+        padding: 10px 0 10px 120px;
+    }
+
+    .my-timeline-list ol .movie li .img {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 90px;
+        height: 130px;
+        font-size: 0;
+        line-height: 0;
+    }
+    .my-timeline-list ol .movie li .cont .label {
+        overflow: hidden;
+        display: inline-block;
+        height: 26px;
+        margin: 0;
+        padding: 0 20px;
+        line-height: 24px;
+        border-radius: 13px;
+        border: 1px solid #666;
+        text-align: center;
+    }
+    .my-timeline-list ol .movie li .cont .tit {
+        display: block;
+        padding: 5px 0 0 0;
+        font-size: 1.2em;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+    .my-timeline-list ol .movie li .cont .theater {
+        padding-top: 5px;
+    }
+    .my-timeline-list p {
+        margin: 0;
+        padding: 0;
+    }
+    .my-appraisal {
+        overflow: hidden;
+        border-top: 1px solid #555;
+    }
+
+    .my-appraisal ul li {
+        position: relative;
+        min-height: 170px;
+        padding: 20px 0 20px 120px;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .my-appraisal ul li.no-result {
+        min-height: auto;
+        padding: 50px 0;
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    /*본영화*/
+    .my-saw-movie ul {
+        overflow: hidden;
+        margin-bottom: -20px;
+    }
+
+    .my-saw-movie ul li:nth-child(2n) {
+        float: right;
+    }
+    .my-saw-movie ul li {
+        overflow: hidden;
+        float: left;
+        position: relative;
+        width: auto;
+        height: 230px;
+        margin: 0 0 20px 0;
+        padding: 0;
+        border-radius: 10px;
+        border: 1px solid #eaeaea;
+    }
+
+    .my-saw-movie ul li .img {
+        position: absolute;
+        left: 29px;
+        top: 30px;
+        width: 90px;
+        height: 130px;
+        font-size: 0;
+        line-height: 0;
+    }
+
+    .my-saw-movie ul li .img img {
+        width: 100%;
+        height: auto;
+    }
+
+    .my-saw-movie ul li .cont {
+        min-height: 189px;
+        padding: 30px 49px 0 149px;
+    }
+
+    .ico-pencil {
+        width: 18px;
+        height: 18px;
+        background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-pencil.png);
+    }
+
+    .iconset {
+        overflow: hidden;
+        display: inline-block;
+        margin: -1px 0 0 0;
+        padding: 0;
+        font-size: 0;
+        line-height: 0;
+        vertical-align: middle;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+    }
+
+    .my-saw-movie ul li .btn-group .btn {
+        display: block;
+        float: left;
+        width: 100%;
+        height: 39px;
+        line-height: 38px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-top: 1px solid #eaeaea;
+        text-decoration: none;
+        background-color: transparent;
+    }
+    a:link {
+        color: #444;
+        text-decoration: none;
+    }
+
+    .my-saw-movie ul li .btn-group {
+        overflow: hidden;
+        position: relative;
+        padding: 0 105px 0 0;
+    }
+    .button {
+        display: inline-block;
+        height: 36px;
+        margin: 0;
+        padding: 0 15px;
+        text-align: center;
+        line-height: 34px;
+        color: #503396;
+        font-weight: 400;
+        border-radius: 4px;
+        font-family: NanumBarunGothic, Dotum, '돋움', sans-serif;
+        text-decoration: none;
+        border: 1px solid #503396;
+        vertical-align: middle;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .btn-group {
+        padding: 20px 0 30px 0;
+        margin: 0;
+        text-align: center;
+    }
+
+    .my-saw-movie ul li .btn-group .btn.del {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 105px;
+        border-left: 1px solid #eaeaea;
+        font-size: 16px;
+    }
+
+    .mb20 {
+        margin-bottom: 20px !important;
+    }
+    .mypage-infomation {
+        position: relative;
+        min-height: 36px;
+        padding-bottom: 10px;
+    }
+
+    .my-saw-movie ul li .btn-group .btn:hover i.ico-pencil {
+        background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-pencil-white.png)
+    }
+
+    .my-saw-movie ul li .btn-group .btn.review:hover {
+        background-color: #01738b;
+        border-color: #01738b
+    }
+
+    .my-saw-movie ul li .btn-group .btn.del:hover {
+        background-color: #01738b;
+        border-color: #01738b
+    }
+
+
+    .mypage-infomation .btn-group {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0;
+        margin: 0;
+    }
+    .dot-list>li {
+        position: relative;
+        padding: 0 0 0 8px;
+    }
+
 </style>
 <body>
 <jsp:include page="/jsp/user/common/header.jsp"/>
+<div class="page-util">
+    <div class="inner-wrap">
+        <div class="location">
+            <span>Home</span>
+            <a href="/booking" title="나의 메가박스 페이지로 이동">나의 메가박스</a>
+            <a href="/booking" title="나의 무비스토리 페이지로 이동" class="pageUtila">나의 무비스토리</a>
+        </div>
+    </div>
+</div>
 <div id="contents">
-
-    <div class="clearfix">
         <div class="sidebar">
             <p class="tit"><a href="#" title="나의 메가박스">나의 메가박스</a></p>
             <ul>
@@ -181,20 +480,19 @@
         </div>
 
         <main class="main-content">
-           <div>
             <h2>나의 무비 스토리</h2>
+           <div>
                <div class="tabs">
                    <div class="tab active" data-target="movieTimeline">무비타임라인</div>
                    <div class="tab" data-target="review">관람평</div>
                    <div class="tab" data-target="seeMove">본영화</div>
                </div>
-               <div id="movieTimeline">
+               <div id="movieTimeline" class="content active">
                    <div class="YearTabs-container">
                        <!-- 이전 화살표 버튼 -->
                        <button class="arrow prev" aria-label="Previous tab">
                            <img src="https://img.megabox.co.kr/static/pc/images/mypage/btn-timeline-prev.png" alt="Previous">
                        </button>
-
                        <!-- 탭 버튼들 -->
                        <div class="YearTabs">
                            <div class="YearTab" data-target="2022">2022</div>
@@ -211,19 +509,144 @@
 
                    <!-- 각 탭에 연결된 콘텐츠 -->
                    <div class="YearContents">
-                       <div class="YearContent" id="2022">2022 Timeline Content</div>
-                       <div class="YearContent" id="2023">2023 Review Content</div>
-                       <div class="YearContent" id="2024">2024 Seen Movie Content</div>
-                       <div class="YearContent active" id="2025">
-                           나의 무비타임라인을 만들어보세요!
+                       <div class="YearContent" id="2022">
+                           <div class="my-timeline-list myTimeline" style="display: block;">
+                               <ol>
+                                   <li>
+                                       <div class="date">
+                                           <p>2022.08.13</p>
+                                       </div>
+                                       <ul class="movie">
+                                           <li>
+                                               <a href="#" title="헌트 상세보기" class="img">
+                                                   <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트"></a>
+                                               <div class="cont">
+                                                   <p class="label">본영화</p>
+                                                   <p class="tit"><a href="#" title="헌트 상세보기">헌트</a></p>
+                                                   <div class="theater">
+                                                       <p>수원남문</p>
+                                                       <p>컴포트 3관(리클라이너)</p>
+                                                       <p>2022.08.13(토) 13:40 (3회차)</p>
+                                                   </div>
+                                               </div>
+                                           </li>
+                                       </ul>
+                                   </li>
+                                   <li>
+                                       <div class="date">
+                                           <p>2022.05.28</p>
+                                       </div>
+                                       <ul class="movie">
+                                           <li>
+                                       <a href="#" title="범죄도시 2 상세보기" class="img">
+                                           <img src="https://img.megabox.co.kr/SharedImg/2022/05/23/oZfETtpEvKGpdY2JQo2Z6wFL0S4cpKy5_230.jpg" alt="범죄도시 2">
+                                       </a>
+                                       <div class="cont">
+                                           <p class="label">본영화</p>
+                                           <p class="tit"><a href="#" title="범죄도시 2 상세보기">범죄도시 2</a>
+                                           </p><div class="theater">
+                                           <p>수원남문</p>
+                                           <p>컴포트 4관(리클라이너)</p>
+                                           <p>2022.05.28(토) 18:30 (5회차)</p>
+                                       </div>
+                                       </div>
+                                   </li>
+                                   </ul>
+                                   </li>
+                               </ol>
+                           </div>
+                       </div>
+                       <div class="YearContent" id="2023">
+                           <div class="my-appraisal">
+                               <ul>
+                                   <li class="no-result">등록된 타임라인이 없습니다.</li>
+                               </ul>
+                           </div>
+                       </div>
+                       <div class="YearContent" id="2024">
+                           <div class="my-appraisal">
+                               <ul>
+                                   <li class="no-result">등록된 타임라인이 없습니다.</li>
+                               </ul>
+                           </div>
+                       </div>
+                       <div class="YearContent" id="2025">
+                           <div class="my-appraisal">
+                               <ul>
+                                   <li class="no-result">나의 무비타임라인을 만들어보세요!</li>
+                               </ul>
+                           </div>
                        </div>
                    </div>
-
                </div>
-           </div>
+
+               <div id="review" class="content">
+                   <div class="my-appraisal">
+                       <ul>
+                           <li class="no-result">등록된 한줄평이 없습니다.</li>
+                       </ul>
+                   </div>
+               </div>
+
+               <div id="seeMove" class="content">
+<%--                   <div class="my-appraisal">--%>
+<%--                       <ul id="">--%>
+<%--                           <li class="no-result">본영화가 표시 됩니다.</li>--%>
+<%--                       </ul>--%>
+                       <div class="mypage-infomation mt20" style="display: block;">
+                           <ul class="dot-list mb20">
+                               <li>극장에서 발권하신 티켓 바코드 하단의 거래번호를 통해 본 영화 등록을 하실 수 있습니다.</li>
+                               <li>본영화는 관람한 인원수에 한해 등록이 가능합니다.</li>
+                           </ul>
+                           <div class="btn-group right" style="display: block;">
+                               <a href="#" class="button" title="본 영화 등록">본 영화 등록</a>
+                           </div>
+                       </div>
+                       <div class="my-saw-movie" style="display: block;">
+                           <ul id="mySawMovie">
+                               <li>
+                                   <p class="img posterImg">
+                                       <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트">
+                                   </p>    <div class="cont">
+                                   <p class="tit"><a href="#" title="헌트 상세보기">헌트</a></p>
+                                   <div class="theater">
+                                       <p>수원남문</p>
+                                       <p>컴포트 3관(리클라이너)</p>
+                                       <p>2022.08.13(토) 13:40 (3회차)</p>
+                                   </div>
+                               </div>
+                                   <div class="btn-group">
+                                       <a href="#" class="btn review moveOneBtn" title="관람평쓰기">
+                                           <i class="iconset ico-pencil"></i> 관람평쓰기</a>
+                                       <button type="button" class="btn del deleteBtn">삭제</button>
+                                   </div>
+                               </li>
+                               <li>
+                                   <p class="img posterImg">
+                                       <img src="https://img.megabox.co.kr/SharedImg/2022/05/23/oZfETtpEvKGpdY2JQo2Z6wFL0S4cpKy5_230.jpg" alt="범죄도시 2"></p>
+                                   <div class="cont">
+                                       <p class="tit">
+                                           <a href="#" title="범죄도시 2 상세보기">범죄도시 2</a>
+                                       </p>
+                                       <div class="theater">
+                                           <p>수원남문</p>
+                                           <p>컴포트 4관(리클라이너)</p>
+                                           <p>2022.05.28(토) 18:30 (5회차)</p>
+                                       </div>
+                                   </div>
+                                   <div class="btn-group">
+                                   <a href="#" class="btn review moveOneBtn" title="관람평쓰기">
+                                       <i class="iconset ico-pencil"></i> 관람평쓰기</a>
+                                   <button type="button" class="btn del deleteBtn">삭제</button>
+                               </div>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+               </div>
+<%--           </div>--%>
         </main>
     </div>
-</div>
 
 <jsp:include page="/jsp/user/common/footer.jsp"/>
 

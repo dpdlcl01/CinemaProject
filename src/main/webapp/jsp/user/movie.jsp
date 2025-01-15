@@ -2,16 +2,26 @@
 <!Doctype html>
 <html lang="ko">
 <!-- head -->
+
 <head>
     <jsp:include page="./common/head.jsp"/>
-    <link rel="stylesheet" href="../../css/user/reset.css">
-    <link rel="stylesheet" href="../../css/user/movie.css">
 </head>
+<link rel="stylesheet" href="../../css/user/common.css">
+<link rel="stylesheet" href="../../css/user/movie.css">
 <script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
-
 <body>
+
 <!-- header 영역 -->
 <jsp:include page="./common/header.jsp"/>
+<div class="page-util">
+    <div class="inner-wrap">
+        <div class="location">
+            <span>Home</span>
+            <a href="/movie" title="영화 페이지로 이동">영화</a>
+            <a href="/movie" title="전체영화 페이지로 이동 이동" class="pageUtila">전체영화</a>
+        </div>
+    </div>
+</div>
 
 <!-- contents 영역 -->
 <div id="contents">

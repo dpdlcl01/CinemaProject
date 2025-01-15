@@ -1,16 +1,54 @@
-/*section05*/
-/*html, body {*/
-/*  height: 100%;*/
-/*  overflow-y: scroll; !* 수직 스크롤 활성화 *!*/
-/*}*/
 
-#main #section05 {
-    position: relative;
-    min-height: 1000px; /* 화면 높이에 따라 더 많은 공간을 확보 */
-    padding: 0 0 80px 0;
-    background-color: #000;
-    /*overflow: hidden; !* 콘텐츠가 넘치는 경우를 대비 *!*/
+h1 {
+    margin-bottom: 20px;
 }
+
+#contents{
+    margin: 50px auto;
+    height: auto;
+    width: 1100px;
+}
+
+/* 상단 메뉴바 Page Util */
+.page-util {
+    background-color: #f8f8f8; /* 배경색 */
+    border-bottom: 1px solid #ddd; / 하단 경계선 /
+    /*padding: 10px 0;*/
+}
+.page-util .inner-wrap {
+    max-width: 1100px;
+    height: 40px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    font-size: 14px;
+    color: #333;
+}
+.page-util .location span {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.page-util .location a {
+    color: #0078ff;
+    text-decoration: none;
+    margin-left: 10px;
+    pointer-events: none;
+    cursor: default;
+}
+.page-util .location a:hover {
+    text-decoration: none; /* 호버 효과 */
+}
+/*----------------------------------------*/
+
+
+
+/*#main #section05 {*/
+/*    position: relative;*/
+/*    min-height: 1000px; !* 화면 높이에 따라 더 많은 공간을 확보 *!*/
+/*    padding: 0 0 80px 0;*/
+/*    background-color: #000;*/
+/*}*/
 
 #main #section05 {
     position: relative;
@@ -20,7 +58,7 @@
 }
 #main #section05 .cont-area {
     position: relative;
-    overflow: auto; /*hidden; /*수정*/
+    overflow: auto;
     display: block;
     width: 1100px;
     margin: 0 auto;
@@ -77,10 +115,16 @@
     box-sizing: border-box;
 }
 #main #section05 .cont-area .main-movie-list .movie-list-info {
+    /*position: relative;*/
+    /*display: block;*/
+    /*width: 100%;*/
+    /*height: 352px;*/
+    border-radius: 5px;
+    background-color: black;
     position: relative;
     display: block;
-    width: 100%;
-    /*height: 352px;*/
+    width: 230px;
+    height: 331px;
 }
 #main #section05 .cont-area .main-movie-list .movie-list-info .wrap {
     position: absolute;
@@ -94,7 +138,6 @@
     display: none;
     font-size: 15px;
     transition: all 0.2s ease-in-out;
-
 }
 #main #section05 .cont-area .main-movie-list .movie-list-info .wrap .summary {
     height: 150px;
@@ -172,7 +215,6 @@
     width: 50%;
 }
 #main #section05 .cont-area .search-link {
-    /*margin: 80px 0 0 0;*/
     background-color: rgba(255, 255, 255, 0.1);
     padding: 20px 0;
 }
@@ -203,11 +245,19 @@
     color: #000;
     line-height: 25px;
     font-size: 16px;
+    outline: none;
+}
 
+#main #section05 .cont-area .search-link .search .input-text:focus {
+    outline: none; /* 포커스 상태에서 테두리 제거 */
+    box-shadow: none; /* 혹시 있을 수 있는 그림자 제거 */
 }
+
 #main #section05 .cont-area .search-link .search .input-text:active {
-    border: 1px solid #000;
+    outline: none; /* 클릭 상태에서 테두리 제거 */
+    box-shadow: none; /* 클릭 시 그림자 제거 */
 }
+
 #main #section05 .cont-area .search-link .search .btn {
     display: block;
     width: 30px;
@@ -226,30 +276,6 @@
     height: 18px;
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
     vertical-align: middle;
-}
-#main #section05 .cont-area .search-link .schedule {
-    display: inline-block;
-    width: 24px;
-    height: 26px;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-schedule-main.png);
-    vertical-align: middle;
-    margin-right: 6px;
-}
-#main #section05 .cont-area .search-link .boxoffice {
-    display: inline-block;
-    width: 26px;
-    height: 24px;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-boxoffice-main.png);
-    vertical-align: middle;
-    margin-right: 6px;
-}
-#main #section05 .cont-area .search-link .quickreserve {
-    display: inline-block;
-    width: 29px;
-    height: 25px;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-quick-reserve-main.png);
-    vertical-align: middle;
-    margin-right: 6px;
 }
 
 .tit-area {
@@ -352,10 +378,9 @@
     background-position: 0 -17px;
 }
 
-/*.mt40 {
-    margin-top: 40px;
-}*/
 .movie-list-util {
     overflow: hidden;
     margin-bottom: 15px;
 }
+
+
