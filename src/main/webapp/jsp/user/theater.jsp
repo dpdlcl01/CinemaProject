@@ -144,11 +144,11 @@
     align-items: center;
   }
 
-  .theater-event .event-title {
+/*  .theater-event .event-title {
     font-size: 24px;
     font-weight: bold;
-    color: #503396; /* 타이틀 색상 */
-  }
+    color: #503396; !* 타이틀 색상 *!
+  }*/
 
   .theater-event .more {
     display: inline-flex;
@@ -227,7 +227,7 @@
   }
 
   /* 공지사항 테이블 */
-  .notic-table table {
+  .notice-table table {
     width: 100%; /* 테이블 너비를 전체 컨테이너에 맞춤 */
     border-collapse: collapse;
     margin: 0 auto; /* 가운데 정렬 */
@@ -235,19 +235,19 @@
     color: #333;
   }
 
-  .notic-table table th,
-  .notic-table table td {
+  .notice-table table th,
+  .notice-table table td {
     padding: 10px 15px;
     border: 1px solid #ddd;
     text-align: center; /* 기본 가운데 정렬 */
   }
 
-  .notic-table table th {
+  .notice-table table th {
     background-color: #f8f8f8; /* 테이블 헤더 배경색 */
     font-weight: bold;
   }
 
-  .notic-table table td:nth-child(2) {
+  .notice-table table td:nth-child(2) {
     text-align: left; /* 제목 열만 왼쪽 정렬 */
   }
 

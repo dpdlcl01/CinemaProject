@@ -23,7 +23,7 @@
         position: relative;
         width: 100%;
         height: 300px;
-        background: url('https://via.placeholder.com/1500x300') center center/cover no-repeat;
+        background: url('../../css/user/images/theater-detail-img.jpg') center center/cover no-repeat;
         color: white;
         display: flex;
         align-items: center;
@@ -191,8 +191,8 @@
     }
 
     .facility-icons .icon img {
-        width: 60px;
-        height: 60px;
+        width: 111px;
+        height: 111px;
         margin-bottom: 10px;
     }
 
@@ -292,7 +292,6 @@
         margin-bottom: 5px;
     }
 
-    /* 상영 시간표 */
     /* 상영 시간표 */
     .showtimes {
         margin-top: 20px;
@@ -506,56 +505,82 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        overflow: hidden;
         background-color: #fff;
-        padding: 10px 0;
+        padding: 5px 0; /* 상하 패딩 축소 */
         margin: 0;
-        border-top: 1px solid #ddd; /* 위쪽 보더 추가 */
-        border-bottom: 1px solid #ddd; /* 아래쪽 보더 유지 */
+        border-top: 1px solid #ddd; /* 위쪽 테두리 */
+        border-bottom: 1px solid #ddd; /* 아래쪽 테두리 */
+        width: 100%; /* 화면 너비에 맞춤 */
+        box-sizing: border-box; /* 테두리와 패딩 포함 */
     }
 
-    /* 이전, 다음 버튼 */
-    .nav-button {
-        font-size: 18px;
-        padding: 5px 10px;
-        border: none;
-        background: none;
-        cursor: pointer;
-    }
-
-    .nav-button:hover {
-        color: #5a3dd2;
-    }
-
-    /* 날짜 리스트 */
     .date-list {
         display: flex;
-        flex: 1; /* 남은 공간 모두 사용 */
-        justify-content: space-between; /* 날짜를 전체 너비에 고르게 배치 */
+        transition: transform 0.5s ease;
+        margin: 0;
+        padding: 0 10px; /* 좌우 여백 */
         list-style: none;
-        padding: 0;
-        margin: 0; /* 좌우 여백 제거 */
+        width: 100%; /* 날짜 리스트 전체가 화면 너비를 채움 */
+        justify-content: space-around; /* 날짜를 고르게 배치 */
     }
 
-    /* 개별 날짜 항목 */
     .date-item {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        width: 50px; /* 날짜 너비 고정 */
+        padding: 5px; /* 상하 패딩 축소 */
+        cursor: pointer;
         text-align: center;
         font-size: 14px;
-        cursor: pointer;
-        flex: 1; /* 각 날짜 항목의 너비를 동일하게 */
+        color: #666;
+        transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .date-item .date {
-        font-size: 18px;
-        margin-bottom: 3px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
     }
 
     .date-item .day {
-        font-size: 14px;
+        font-size: 12px; /* 요일 크기 축소 */
         color: #666;
     }
+
+    .date-item.active {
+        color: #5a3dd2;
+        transform: scale(1.2); /* 선택된 날짜 강조 */
+        font-weight: bold;
+    }
+
+    .nav-button {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #333;
+        cursor: pointer;
+        padding: 5px;
+        margin: 0 5px;
+    }
+
+    .nav-button:disabled {
+        color: #ddd;
+        cursor: not-allowed;
+    }
+
+
+
+
+    .nav-button:disabled {
+        color: #ddd;
+        cursor: not-allowed;
+    }
+
+
+
 
 
     /* 비활성화된 날짜 */
@@ -574,11 +599,7 @@
         color: #ff4c4c; /* 빨간색 */
     }
 
-    /* 선택된 날짜 */
-    .date-item.active {
-        border-bottom: 2px solid #5a3dd2;
-        color: #5a3dd2; /* 선택된 날짜는 기본 색상으로 유지 */
-    }
+
 
     .date-item.active .day {
         font-weight: bold;
@@ -660,12 +681,10 @@
 
 <div class="contents">
     <!-- 탭 메뉴 -->
-    <div class="theater-tabs">
-        <ul>
-            <li class="tab active" data-target="info">극장정보</li>
-            <li class="tab" data-target="schedule">상영시간표</li>
-            <li class="tab" data-target="fees">관람료</li>
-        </ul>
+    <div class="tabs">
+        <div class="tab active" data-target="info">극장정보</div>
+        <div class="tab" data-target="schedule">상영시간표</div>
+        <div class="tab" data-target="fees">관람료</div>
     </div>
 
     <!-- 상세 내용 -->
@@ -684,16 +703,16 @@
                 </div>
                 <div class="facility-icons">
                     <div class="icon">
-                        <img src="comfort-icon.png" alt="컴포트">
+                        <img src="../../css/user/images/ico-facility-comfort.png" alt="컴포트">
                         <p>컴포트</p>
                     </div>
                     <div class="icon">
-                        <img src="screen-icon.png" alt="일반상영관">
+                        <img src="../../css/user/images/ico-facility-theater.png" alt="일반상영관">
                         <p>일반상영관</p>
                     </div>
                     <div class="icon">
-                        <img src="disabled-icon.png" alt="장애인석">
-                        <p>장애인석</p>
+                        <img src="../../css/user/images/ico-facility-dolby.png" alt="돌비">
+                        <p>돌비</p>
                     </div>
                 </div>
                 <div class="floor-guide">
@@ -823,7 +842,7 @@
 
     </div>
 
-    <div id="fees" class="content active">
+    <div id="fees" class="content">
         <h2 class="fees-title">영화관람료</h2>
 
         <div class="fee-table-container">
@@ -995,25 +1014,72 @@
 
 <!-- script 영역 -->
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const tabs = document.querySelectorAll('.theater-tabs .tab');
-        const contents = document.querySelectorAll('.content');
+    // 초기 설정
+    document.addEventListener("DOMContentLoaded", () => {
+        const dateItems = document.querySelectorAll('.date-item');
+        const contentContainer = document.querySelector('.schedule-container');
+        const prevButton = document.querySelector('.nav-button.prev');
+        const nextButton = document.querySelector('.nav-button.next');
+        const dateList = document.querySelector('.date-list');
+        const visibleDates = 7; // 화면에 보이는 날짜 수 (기준)
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // 모든 탭에서 active 제거
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
+        let currentIndex = 0;
 
-                // 모든 콘텐츠에서 active 제거
-                contents.forEach(content => content.classList.remove('active'));
-                // 클릭된 탭의 콘텐츠 활성화
-                const target = tab.getAttribute('data-target');
-                document.getElementById(target).classList.add('active');
+        // 날짜 클릭 이벤트
+        dateItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                // 모든 날짜에서 active 제거
+                dateItems.forEach(d => d.classList.remove('active'));
+                item.classList.add('active');
+
+                // 컨텐츠 갱신 (여기선 임시 텍스트로 대체)
+                contentContainer.innerHTML = `
+                <div class="movie-info">
+                    <div class="movie-rating"><span>${item.querySelector('.date').textContent}</span></div>
+                    <div class="movie-details">
+                        <strong>${item.querySelector('.day').textContent}의 상영 정보</strong>
+                        <span>상영 시간표를 확인하세요.</span>
+                    </div>
+                </div>
+            `;
             });
         });
+
+        // 스크롤 이동
+        const updateScroll = () => {
+            const totalDates = dateItems.length;
+            const maxIndex = totalDates - visibleDates; // 스크롤 가능한 최대 인덱스
+
+            // 이동 가능한 버튼 활성화/비활성화
+            prevButton.disabled = currentIndex === 0;
+            nextButton.disabled = currentIndex === maxIndex;
+
+            // 스크롤 이동
+            const offset = currentIndex * dateItems[0].offsetWidth;
+            dateList.style.transform = `translateX(-${offset}px)`;
+        };
+
+        // 이전 버튼 클릭
+        prevButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateScroll();
+            }
+        });
+
+        // 다음 버튼 클릭
+        nextButton.addEventListener('click', () => {
+            if (currentIndex < dateItems.length - visibleDates) {
+                currentIndex++;
+                updateScroll();
+            }
+        });
+
+        // 초기 스크롤 상태 설정
+        updateScroll();
     });
 
 </script>
+
 </body>
 </html>
