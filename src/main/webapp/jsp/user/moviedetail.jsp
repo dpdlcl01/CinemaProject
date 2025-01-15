@@ -323,8 +323,9 @@
             display: block;
         }
 
-        /* --- tab 부분 --- */
+        /* //--- tab 부분 --- */
 
+        /* movie-summary 부분 */
         .movie-summary .text {
             overflow: hidden;
             height: 140px;
@@ -358,7 +359,7 @@
             color: #666;
         }
 
-        .icon-btn {
+        .icon-down {
             background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-btn-more-arr.png");
             display: inline-block;
             width: 12px;
@@ -366,11 +367,13 @@
 
         }
 
-        .icon-btn.on {
+        .icon-down.on {
             transform: rotate(180deg);
 
         }
+        /* //movie-summary 부분 */
 
+        /* movie-info 부분 */
         .movie-info {
             padding: 30px 0;
             color: #222;
@@ -409,11 +412,124 @@
             margin: -6px 0 0 0;
             background-color: #d8d9db;
         }
+        /* //movie-info 부분 */
 
+        /* 한줄 리뷰 */
+        .reviews{
+            min-height: 400px;
+            margin-bottom: 50px;
+        }
+        .titSmall{
+            padding: 0 0 16px 0;
+            font-size: 1.4666em;
+            color: #503396;
+            margin-top: 70px;
+        }
         .oneLineReview .storyBox {
+            display: table;
             border: 1px solid #eaeaea;
+            width: 100%;
+            height: 84px;
+            vertical-align: middle;
+            padding-left: 30px;
+            color: #666;
+
+        }
+        .oneLineReview .storyBox .storyWrap{
+            display: table-cell;
+            vertical-align: middle;
+            width: 850px;
+        }
+        .fontBlue{
+            color: #01738b;
+        }
+        .oneLineReview .storyBox .storyWrite{
+            position: relative;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .tooltipClick{
+            display: inline-flex;
+            padding-left: 0;
+        }
+        .iconWrite{
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-story-write.png");
+            margin-right: 5px;
+            vertical-align: text-bottom;
+        }
+        .tooltipCont{
+            display: none;
+            position: absolute;
+            left: -50px;
+            top: -62px;
+            width: 250px;
+            height: 80px;
+            padding: 20px;
+            color: #222;
+            font-size: 0.9em;
+            text-align: center;
+            line-height: 1.5;
+            border: 1px solid #d8d9db;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .tooltipCont.on{
+            display: block;
+        }
+        .fontGreen{
+            color: #037b94;
+        }
+        .iconRight{
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-arr-right-green.png");
+            display: inline-block;
+            width: 6px;
+            height: 10px;
+            margin: -1px 0 0 0;
+            vertical-align: middle;
+            background-repeat: no-repeat;
+        }
+        /* //한줄 리뷰 */
+
+        /* 예고편 */
+        .trailer .trailerTitle{
+            margin: 0 0 30px 0;
+            padding: 20px 0;
+            /*border-top: 1px solid #555;*/
+            border-bottom: 1px solid #ebebeb;
+            font-size: 1.46666em;
+            color: #351f67;
+        }
+        .trailer .mainTrailer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .trailer .mainTrailer .mainVideo{
+            width: 800px;
+            height: 450px;
+        }
+        .trailer .thumbnails{
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin: 20px 40px 20px 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+        }
+        .trailer .thumbnails .thumbnail{
+            cursor: pointer;
+        }
+        .trailer .thumbnails .thumbnail img{
+            width: 240px;
+            height: 136px;
+            opacity: .7;
         }
 
+        /* //예고편 */
         #footer {
             display: block;
             position: absolute;
@@ -587,7 +703,7 @@
         <div class="tabs">
             <div class="tab active" data-target="all">주요정보</div>
             <div class="tab" data-target="megaPick">실관람평</div>
-            <div class="tab" data-target="movies">예고편/스틸컷</div>
+            <div class="tab" data-target="movies">예고편</div>
         </div>
         <div id="all" class="content active">
             <div class="movie-summary">
@@ -619,16 +735,8 @@
                 <div class="btn-more">
                     <button type="button" class="btn">
                         <span>닫기</span>
-                        <i class="icon-btn"></i>
+                        <i class="icon-down"></i>
                     </button>
-                </div>
-                <div id="megaPick" class="content">
-                    <h2>공지사항</h2>
-                    <p>공지사항 내용이 표시됩니다.</p>
-                </div>
-                <div id="movies" class="content">
-                    <h2>이벤트</h2>
-                    <p>이벤트 내용이 표시됩니다.</p>
                 </div>
             </div>
             <div class="movie-info">
@@ -641,7 +749,10 @@
                 </div>
                 <p>출연진 : 도경수, 원진아, 신예은</p>
             </div>
+
+            <!-- 실관람평 -->
             <!-- 한줄평 없을 때 -->
+            <div class="reviews">
             <h2 class="titSmall">아직 남겨진 한줄평이 없어요.</h2>
             <div class="oneLineReview">
                 <!-- 본 영화가 아닌경우 -->
@@ -649,14 +760,116 @@
                     <div class="storyWrap">
                         <div class="storyCont"></div>
                         첫번째
-                        <span class="fontBlue">관람평</span>
-                        의 주인공이 되어 보세요.
+                        <span class="fontBlue">관람평</span>의 주인공이 되어 보세요.
                     </div>
                     <div class="storyWrite">
                         <!-- 로그인 안되어있을때 -->
+                        <a href="#tooltip" class="tooltipClick">
+                            <i class="iconWrite"></i>
+                            관람평쓰기
+                        </a>
+                        <div id="tooltip" class="tooltipCont">
+                            <div class="loginTag">
+                                로그인이 필요한 서비스 입니다.
+                                <br>
+                                <a href="로그인화면" class="fontGreen">
+                                    로그인 바로가기
+                                    <i class="iconRight"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
+            <!-- //한줄평 없을 때 -->
+            <!-- //실관람평 -->
+
+            <!-- 예고편 -->
+                <div class="trailer">
+                    <h2 class="trailerTitle">예고편</h2>
+                    <div class="mainTrailer">
+                        <video class="mainVideo" controls poster="https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg">
+                            <source src="https://s3550.smartucc.kr/encodeFile/3550/2025/01/06/4528a56245b5eff8dd1b225e527db15b_W.mp4">
+                        </video>
+                    </div>
+                    <div class="thumbnails">
+                        <!-- 첫 번째 썸네일 -->
+                        <div class="thumbnail" onclick="changeMainVideo('https://s3550.smartucc.kr/encodeFile/3550/2025/01/06/4528a56245b5eff8dd1b225e527db15b_W.mp4'
+                                , 'https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg')">
+                            <!-- 썸네일을 클릭할 때 해당 URL로 메인 영상을 변경하는 JavaScript 함수 실행 -->
+                            <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg" alt="Video 1"> <!-- 썸네일 이미지 -->
+                        </div>
+
+                        <!-- 두 번째 썸네일 -->
+                        <div class="thumbnail" onclick="changeMainVideo('https://s3550.smartucc.kr/encodeFile/3550/2025/01/10/4766006f1373165351b9eb69e5e5f04a_W.mp4'
+                                , 'https://img.megabox.co.kr/SharedImg/2025/01/10/cJYxrKQNE9mdtVQLTNCnmmUxCqvZomlR_1100.jpg')">
+                            <img src="https://img.megabox.co.kr/SharedImg/2025/01/10/cJYxrKQNE9mdtVQLTNCnmmUxCqvZomlR_1100.jpg" alt="Video 2"> <!-- 썸네일 이미지 -->
+                    </div>
+                    </div>
+                </div>
+            <!-- //예고편 -->
+            </div>
+        <div id="megaPick" class="content">
+            <!-- 한줄평 없을 때 -->
+            <div class="reviews">
+                <h2 class="titSmall">아직 남겨진 한줄평이 없어요.</h2>
+                <div class="oneLineReview">
+                    <!-- 본 영화가 아닌경우 -->
+                    <div class="storyBox">
+                        <div class="storyWrap">
+                            <div class="storyCont"></div>
+                            첫번째
+                            <span class="fontBlue">관람평</span>의 주인공이 되어 보세요.
+                        </div>
+                        <div class="storyWrite">
+                            <!-- 로그인 안되어있을때 -->
+                            <a href="#tooltip1" class="tooltipClick">
+                                <i class="iconWrite"></i>
+                                관람평쓰기
+                            </a>
+                            <div id="tooltip1" class="tooltipCont">
+                                <div class="loginTag">
+                                    로그인이 필요한 서비스 입니다.
+                                    <br>
+                                    <a href="로그인화면" class="fontGreen">
+                                        로그인 바로가기
+                                        <i class="iconRight"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //한줄평 없을 때 -->
+        </div>
+        <div id="movies" class="content">
+            <!-- 예고편 -->
+            <div class="trailer">
+                <h2 class="trailerTitle">예고편</h2>
+                <div class="mainTrailer">
+                    <video class="mainVideo" controls poster="https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg">
+                        <source src="https://s3550.smartucc.kr/encodeFile/3550/2025/01/06/4528a56245b5eff8dd1b225e527db15b_W.mp4">
+                    </video>
+                </div>
+                <div class="thumbnails">
+                    <!-- 첫 번째 썸네일 -->
+                    <div class="thumbnail" onclick="changeMainVideo('https://s3550.smartucc.kr/encodeFile/3550/2025/01/06/4528a56245b5eff8dd1b225e527db15b_W.mp4'
+                                , 'https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg')">
+                        <!-- 썸네일을 클릭할 때 해당 URL로 메인 영상을 변경하는 JavaScript 함수 실행 -->
+                        <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg" alt="Video 1"> <!-- 썸네일 이미지 -->
+                    </div>
+
+                    <!-- 두 번째 썸네일 -->
+                    <div class="thumbnail" onclick="changeMainVideo('https://s3550.smartucc.kr/encodeFile/3550/2025/01/10/4766006f1373165351b9eb69e5e5f04a_W.mp4'
+                                , 'https://img.megabox.co.kr/SharedImg/2025/01/10/cJYxrKQNE9mdtVQLTNCnmmUxCqvZomlR_1100.jpg')">
+                        <img src="https://img.megabox.co.kr/SharedImg/2025/01/10/cJYxrKQNE9mdtVQLTNCnmmUxCqvZomlR_1100.jpg" alt="Video 2"> <!-- 썸네일 이미지 -->
+                    </div>
+                </div>
+            </div>
+            <!-- //예고편 -->
+        </div>
             <script>
                 /* tab 부분 */
                 const tabs = document.querySelectorAll('.tab');
@@ -676,12 +889,12 @@
                         });
                     });
                 });
-                /* tab 부분 */
+                /* //tab 부분 */
 
                 /* 더보기 부분 */
                 const btn = document.querySelector('.btn-more .btn');
                 const textElement = document.querySelector('.movie-summary');
-                const iconBtn = document.querySelector('.movie-summary .icon-btn');
+                const iconBtn = document.querySelector('.movie-summary .icon-down');
 
                 btn.addEventListener('click', function () {
                     if (textElement.classList.contains('expanded')) {
@@ -695,9 +908,56 @@
                     }
                     iconBtn.classList.toggle('on');
                 });
-                /* 더보기 부분 */
+                /* //더보기 부분 */
+
+                /* 관람평 로그인 부분 */
+                /* 전체 탭 */
+                const click = document.querySelector('.tooltipClick');
+                const cont = document.querySelector('.tooltipCont');
+
+                click.addEventListener('click', function (event) {
+                    event.preventDefault(); // 기본 동작(링크 이동) 방지
+
+                    if(cont.classList.contains('on')){
+                        cont.classList.remove('on');
+                    } else {
+                        cont.classList.add('on');
+                    }
+                })
+                /* //전체 탭 */
+
+                /* 실관람평 탭 */
+                const click1 = document.querySelector('.tooltipClick');
+                const cont1 = document.querySelector('.tooltipCont');
+
+                click1.addEventListener('click', function (event) {
+                    event.preventDefault(); // 기본 동작(링크 이동) 방지
+
+                    if(cont.classList.contains('on')){
+                        cont.classList.remove('on');
+                    } else {
+                        cont.classList.add('on');
+                    }
+                })
+                /* //실관람평 탭 */
+                /* //관람평 로그인 부분*/
+
+                /* 예고편 부분 */
+                function changeMainVideo(videoUrl, posterUrl) {
+
+                    const mainVideo = document.querySelector('.mainVideo');
+                    const mainVideoSource = mainVideo.querySelector('source');
+
+                    mainVideoSource.src = videoUrl;
+
+                    mainVideo.poster = posterUrl;
+
+                    mainVideo.load();
+                }
+
+                /* //예고편 부분 */
             </script>
-        </div>
+
     </div>
 </div>
 </body>
