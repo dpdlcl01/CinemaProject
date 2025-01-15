@@ -81,6 +81,7 @@
     <a href="jsp/user/main.jsp">Go to UserController</a> <br/>
     <a href="jsp/user/reservation.jsp">Go to ReservationJSP</a> <br/>
     <a href="jsp/user/seat.jsp">Go to SeatJSP</a> <br/>
+    <a href="jsp/user/payment.jsp">Go PaymentJSP</a> <br/>
 </main>
 
 <footer>
