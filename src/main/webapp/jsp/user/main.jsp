@@ -321,8 +321,8 @@
     </section>
     <!-- //section04 -->
 </main>
-
 <!-- footer 영역 -->
 <jsp:include page="./common/footer.jsp"/>
+<jsp:include page="./common/modalscript.jsp"/>
 </body>
 </html>
