@@ -2,102 +2,119 @@
 <!Doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>라이프시어터, 메가박스</title>
-    <meta property="name" id="metaTagTitle" content="라이프시어터,메가박스">
-    <meta property="description" id="metaTagDtls" content="삶의 의미와 즐거움을 소통하는 공간, 함께 더 행복한 가치있는 콘텐츠를 추구하는 만남과 소통의 즐거움이 가득한 공간 메가박스 입니다.">
-    <meta property="keywords" id="metaTagKeyword" content="메가박스,megabox,영화,영화관,극장,티켓,박스오피스,상영예정작,예매,오페라,싱어롱,큐레이션,필름소사이어티,이벤트,Movie,theater,Cinema,film,Megabox">
-    <link rel="stylesheet" href="../../css/user/reset.css">
-    <link rel="stylesheet" href="../../css/user/style.css">
-    <script src="../../js/app.js"></script>
+<jsp:include page="./common/head.jsp"/>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        *{
+            padding: 0;
             margin: 0;
-            padding: 0;
-            display: block;
         }
-        main {
+        .sidebar{
+            width: 200px;
+            border-radius: 6px;
+            height: 360px;
+            margin-top: 15px;
+            margin-right: 50px;
+        }
+        .sidebar a{
             display: flex;
-            flex-direction: row;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #f8f8f8;
-            border-right: 1px solid #ddd;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            margin-bottom: 10px;
-        }
-        .sidebar ul li a {
+            color: #222222;
+            padding-top: 10px;
+            padding-bottom: 10px;
             text-decoration: none;
-            color: #333;
-            font-size: 14px;
+            text-indent: 20px;
+            line-height: 30px;
+            font-weight: bolder;
+
         }
-        .content {
+        .sidebar li>a{
+
+            font-size: 14px;
+            width: 180px;
+
+        }
+        .sidebar li{
+            border-bottom: 1px solid #222222;
+        }
+        #myMega a{
+            border-bottom: 2px solid #222222;
+        }
+        #myMega>a:hover{
+
+            color: gray;
+        }
+        .sidebar li>a:hover{
+            color: gray;
+        }
+
+        #contents {
+            width: 1100px;
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: 590px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .content1 {
+            width: 70%;
             flex-grow: 1;
             padding: 20px;
             box-sizing: border-box;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            margin-top: 50px;
         }
-        .content h1 {
-            font-size: 20px;
+        .content1 h1 {
+            font-size: 24px;
             margin-bottom: 20px;
         }
-        .content .filter {
+        .content1 .filter {
             margin-bottom: 20px;
         }
-        .content .filter select,
-        .content .filter button {
+        .content1 .filter select,
+        .content1 .filter button {
             padding: 5px 10px;
             margin-right: 10px;
         }
-        .content table {
+        .content1 table {
             width: 100%;
             border-collapse: collapse;
         }
-        .content table th,
-        .content table td {
+        .content1 table th,
+        .content1 table td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
         }
-        .content table th {
+        .content1 table th {
             background-color: #f4f4f4;
         }
     </style>
 </head>
 <body>
-<jsp:include page="header.jsp"/>
+<jsp:include page="./common/header.jsp"/>
+<jsp:include page="./common/page_util.jsp"/>
 <main>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <li><a href="MyInfo.jsp"><strong>나의 메가박스</strong></a></li>
-            <li><a href="Reservation.jsp">예매/구매내역</a></li>
-            <li><a href="#">영화/스토어 관람권</a></li>
-            <li><a href="Discount-Coupon.jsp">메가박스/제휴쿠폰</a></li>
-            <li><a href="#">멤버십 포인트</a></li>
-            <li><a href="#">나의 무비스토리</a></li>
-            <li><a href="#">회원정보</a></li>
-        </ul>
-    </div>
+    <div id="contents">
+            <div class="sidebar">
+                <ul>
+                    <div id="myMega"><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
+                    <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
+                    <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
+                    <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
+                    <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
+                    <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
+                    <li><a href="#" title="회원정보">회원정보</a></li>
+                </ul>
+            </div>
 
-    <!-- Content -->
-    <div class="content">
+
+    <div class="content1">
         <!-- Page Title -->
         <h1>예매/구매 내역</h1>
 
-        <!-- Filter Section -->
         <div class="filter">
             <select>
                 <option>예매내역</option>
@@ -106,15 +123,12 @@
             </select>
             <select>
                 <option>2025년 1월</option>
-                <!-- Add more months dynamically if needed -->
                 <option>2024년 12월</option>
                 <option>2024년 11월</option>
-                <!-- ... -->
             </select>
             <button>조회</button>
         </div>
 
-        <!-- Table Section -->
         <table class="table">
             <thead>
             <tr>
@@ -126,30 +140,18 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Placeholder for no data -->
             <tr>
                 <td colspan="5" style="text-align:center;">취소내역이 없습니다.</td>
             </tr>
-            <!-- Example dynamic rows (to be replaced with actual data) -->
-            <!--
-            Example:
-            <tr>
-                <td>2025-01-12 오후 3시</td>
-                <td>하얼빈</td>
-                <td>메가박스 강남점</td>
-                <td>2025-01-15 오후 7시</td>
-                <td>15,000원</td>
-            </tr>
-            -->
             </tbody>
         </table>
-
     </div>
-
+    </div>
+    </div>
 </main>
 
 <footer>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="./common/footer.jsp"/>
 </footer>
 
 </body>

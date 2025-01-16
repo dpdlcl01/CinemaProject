@@ -2,54 +2,54 @@
 <!Doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>메가박스/제휴쿠폰</title>
-    <link rel="stylesheet" href="../../css/user/reset.css">
-    <link rel="stylesheet" href="../../css/user/style.css">
+    <jsp:include page="./common/head.jsp"/>
+</head>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        *{
+            padding: 0;
             margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
         }
-
-        .clearfix {
+        .sidebar{
+            width: 200px;
+            border-radius: 6px;
+            height: 360px;
+            margin-top: 15px;
+            margin-right: 50px;
+        }
+        .sidebar a{
             display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #f8f8f8;
-            border-right: 1px solid #ddd;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 10px;
-        }
-
-        .sidebar ul li a {
+            color: #222222;
+            padding-top: 10px;
+            padding-bottom: 10px;
             text-decoration: none;
-            color: #333;
+            text-indent: 20px;
+            line-height: 30px;
+            font-weight: bolder;
+
+        }
+        .sidebar li>a{
+
             font-size: 14px;
+            width: 180px;
+
+        }
+        .sidebar li{
+            border-bottom: 1px solid #222222;
+        }
+        #myMega a{
+            border-bottom: 2px solid #222222;
+        }
+        #myMega>a:hover{
+
+            color: gray;
+        }
+        .sidebar li>a:hover{
+            color: gray;
         }
 
         .main-content {
             flex-grow: 1;
-            padding: 20px;
+            padding: 40px;
         }
 
         .section {
@@ -58,11 +58,11 @@
             margin-bottom: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
         }
 
-        .section h2 {
-            font-size: 18px;
-            margin-bottom: 10px;
+        .section h1 {
+            margin-bottom: 30px; /*다시 보기.*/
         }
 
         .filters {
@@ -90,83 +90,88 @@
         table th {
             background-color: #f4f4f4;
         }
+        .contents{
+            display: flex;
+            margin-bottom: 50px;
+            margin-top: 50px;
+            min-height: 590px;
+        }
     </style>
-</head>
 <body>
-<jsp:include page="header.jsp"/>
-
-<div class="clearfix">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <li><a href="MyInfo.jsp"><strong>나의 메가박스</strong></a></li>
-            <li><a href="Reservation.jsp">예매/구매내역</a></li>
-            <li><a href="#">영화/스토어 관람권</a></li>
-            <li><a href="Discount-Coupon.jsp">메가박스/제휴쿠폰</a></li>
-            <li><a href="#">멤버십 포인트</a></li>
-            <li><a href="#">나의 무비스토리</a></li>
-            <li><a href="#">회원정보</a></li>
-        </ul>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Section Header -->
-        <div class="section">
-            <h2>메가박스/제휴쿠폰</h2>
-
-            <!-- Information -->
-            <p>• 보유하신 쿠폰 내역입니다.<br>• 각 쿠폰 별 사용 방법이 다르니 사용 전 상세 쿠폰정보를 확인바랍니다.</p>
-
-            <!-- Filters -->
-            <div class="filters">
-                <label><input type="radio" name="filter" checked> 사용가능</label>
-                <label><input type="radio" name="filter"> 사용완료</label>
-                <label><input type="radio" name="filter"> 기간만료</label>
-
-                <select>
-                    <option>전체</option>
-                    <option>매점</option>
-                    <option>포인트</option>
-                    <option>기타</option>
-                </select>
-
-                <button>조회</button>
-            </div>
-
-            <!-- Coupon Table -->
-            <table>
-                <thead>
-                <tr>
-                    <th>구분</th>
-                    <th>쿠폰명</th>
-                    <th>유효기간</th>
-                    <th>사용상태</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>매점</td>
-                    <td>[생일쿠폰] 오리지널 팝콘 L 무료<br>9218-4969-2233-4408</td>
-                    <td>2025.01.05 ~ 2025.01.23</td>
-                    <td>사용가능</td>
-                    <td><button>쿠폰정보</button></td>
-                </tr>
-                </tbody>
-            </table>
-
-            <!-- Pagination -->
-            <div style="text-align:center; margin-top:20px;">
-                [1]
-            </div>
-
+<main>
+    <jsp:include page="./common/header.jsp"/>
+    <jsp:include page="./common/page_util.jsp"/>
+    <div class = "contents">
+        <div class="sidebar">
+            <ul>
+                <div id="myMega"><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
+                <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
+                <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
+                <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
+                <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
+                <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
+                <li><a href="#" title="회원정보">회원정보</a></li>
+            </ul>
         </div>
 
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Section Header -->
+            <div class="section">
+                <h1>메가박스/제휴쿠폰</h1>
+
+                <!-- Information -->
+                <p>• 보유하신 쿠폰 내역입니다.<br>• 각 쿠폰 별 사용 방법이 다르니 사용 전 상세 쿠폰정보를 확인바랍니다.</p>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <label><input type="radio" name="filter" checked> 사용가능</label>
+                    <label><input type="radio" name="filter"> 사용완료</label>
+                    <label><input type="radio" name="filter"> 기간만료</label>
+
+                    <select>
+                        <option>전체</option>
+                        <option>매점</option>
+                        <option>포인트</option>
+                        <option>기타</option>
+                    </select>
+
+                    <button>조회</button>
+                </div>
+
+                <!-- Coupon Table -->
+                <table>
+                    <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>쿠폰명</th>
+                        <th>유효기간</th>
+                        <th>사용상태</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>매점</td>
+                        <td>[생일쿠폰] 오리지널 팝콘 L 무료<br>9218-4969-2233-4408</td>
+                        <td>2025.01.05 ~ 2025.01.23</td>
+                        <td>사용가능</td>
+                        <td><button>쿠폰정보</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <div style="text-align:center; margin-top:20px;">
+                    [1]
+                </div>
+
+            </div>
+
+            </div>
+        </div>
     </div>
-
-</div>
-
-<jsp:include page="footer.jsp"/>
+</main>
+<jsp:include page="./common/footer.jsp"/>
 </body>
 </html>
