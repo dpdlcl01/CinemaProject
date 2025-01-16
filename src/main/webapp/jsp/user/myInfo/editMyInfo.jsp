@@ -164,8 +164,8 @@
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-      <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+      <span>회원정보</span>
+      <span class="pageUtila">개인정보수정</span>
     </div>
   </div>
 </div>
@@ -183,6 +183,7 @@
         <div class="liWrap"> <li><a href="myMemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
         <div class="liWrap"> <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li></div>
         <div class="liWrap"> <li><a href="editMyInfo.jsp" title="회원정보">회원정보</a></li></div>
+
       </ul>
     </div>
 

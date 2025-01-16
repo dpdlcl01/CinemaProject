@@ -160,8 +160,8 @@
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-      <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+      <span>회원정보</span>
+      <span class="pageUtila">회원탈퇴</span>
     </div>
   </div>
 </div>
@@ -170,13 +170,13 @@
 
     <div class="sidebar">
       <ul>
-        <div  id="myMega"><a href="./MyInfo.jsp" title="나의 메가박스">나의 메가박스</a></div>
-        <div class="liWrap"><li><a href="./myReservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
-        <div class="liWrap"> <li><a href="./Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
-        <div class="liWrap">  <li><a href="./Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
-        <div class="liWrap"> <li><a href="./MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
+        <div  id="myMega"><a href="MyInfo.jsp" title="나의 메가박스">나의 메가박스</a></div>
+        <div class="liWrap"><li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
+        <div class="liWrap"> <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
+        <div class="liWrap">  <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
+        <div class="liWrap"> <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
         <div class="liWrap"> <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li></div>
-        <div class="liWrap"> <li><a href="./myInfo.jsp" title="회원정보">회원정보</a></li></div>
+        <div class="liWrap"> <li><a href="#" title="회원정보">회원정보</a></li></div>
       </ul>
     </div>
 
