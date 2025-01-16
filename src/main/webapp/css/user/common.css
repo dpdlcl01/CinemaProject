@@ -1,5 +1,6 @@
 @charset "UTF-8";
 @import "reset.css";
+@import "tab.css";
 
 /* 모든 페이지 contents 영역 */
 .contents{

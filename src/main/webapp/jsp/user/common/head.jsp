@@ -28,3 +28,6 @@
 <link rel="stylesheet" href="../../css/user/main.css"> <!-- 추후에 해당 main 화면에 옮길 예정 -->
 
 <script src="../../js/app.js"></script>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css">

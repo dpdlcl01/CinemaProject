@@ -2,7 +2,7 @@
 <!Doctype html>
 <html lang="ko">
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
 </head>
     <style>
         *{
@@ -63,6 +63,7 @@
 
         .section h1 {
             margin-bottom: 30px; /*다시 보기.*/
+            font-size: 24px;
         }
 
         .filters {
@@ -99,18 +100,26 @@
     </style>
 <body>
 <main>
-    <jsp:include page="./common/header.jsp"/>
-    <jsp:include page="./common/page_util.jsp"/>
+    <jsp:include page="../common/header.jsp"/>
+    <div class="page-util">
+        <div class="inner-wrap">
+            <div class="location">
+                <span>Home</span>
+                <a href="/booking" title="예매 페이지로 이동">이벤트</a>
+                <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+            </div>
+        </div>
+    </div>
     <div class = "contents">
         <div class="sidebar">
             <ul>
-                <div id="myMega"><a href="MyInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
-                <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
-                <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
-                <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
-                <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
+                <div id="myMega"><a href="myInfo.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
+                <li><a href="myReservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
+                <li><a href="admissionTicket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
+                <li><a href="discountCoupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
+                <li><a href="myMemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
                 <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
-                <li><a href="#" title="회원정보">회원정보</a></li>
+                <li><a href="editMyInfo.jsp" title="회원정보">회원정보</a></li>
             </ul>
         </div>
 
@@ -172,6 +181,6 @@
         </div>
     </div>
 </main>
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>
