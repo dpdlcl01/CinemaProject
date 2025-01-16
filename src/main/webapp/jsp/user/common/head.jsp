@@ -31,3 +31,5 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css">
+
+<script src="${pageContext.request.contextPath}/js/app.js"></script>
