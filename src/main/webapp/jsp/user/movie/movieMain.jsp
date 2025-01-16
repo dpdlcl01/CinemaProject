@@ -4,15 +4,15 @@
 <!-- head -->
 
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
 </head>
-<link rel="stylesheet" href="../../css/user/common.css">
-<link rel="stylesheet" href="../../css/user/movie.css">
+<link rel="stylesheet" href="../../../css/user/common.css">
+<link rel="stylesheet" href="../../../css/user/movie.css">
 <script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
 <body>
 
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="page-util">
     <div class="inner-wrap">
         <div class="location">
@@ -632,7 +632,7 @@
 </div>
 
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 
 <!-- script 영역 -->
 <script>
