@@ -21,7 +21,7 @@
             width: 700px;
             height: 400px;
             background-color: #fff;
-            border-radius: 10px;
+            border-radius: 3px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
