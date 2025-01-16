@@ -74,18 +74,48 @@
                             <span>원</span>
                         </div>
                     </div>
-                    <div class="payment-choose">
+                </div>
+                <div class="payment-choose-container">
+                    <div class="payment-check">
+                        <h2>결제수단</h2>
                         <div class="payment-btn">
-                            <h2>결제수단</h2>
-                            <div class="points-have">
-                                <span>보유</span>
-                                <span class="points">9,330원</span>
+                            <button class="btn" id="card-btn">신용/체크카드</button>
+                            <button class="btn" id="simple-btn">간편결제</button>
+                        </div>
+                        <%--  카드 결제 영역  --%>
+                        <div class="payment-card" id="payment-card">
+                            <label for="card-company">카드사 선택</label>
+                            <select id="card-company" class="card-company">
+                                <option value="현대카드">현대카드</option>
+                                <option value="삼성카드">삼성카드</option>
+                                <option value="신한카드">신한카드</option>
+                            </select>
+                        </div>
+                        <%--  간편결제 영역  --%>
+                        <div class="payment-simple" id="payment-simple" style="display: none;">
+                            <label>간편결제 선택</label>
+                            <div class="payment-simple-radio">
+                                <input type="radio" id="toss" name="simple-payment" value="toss" class="simple-payment">
+                                <label for="toss" class="simple-payment-label">토스페이</label>
+                                <input type="radio" id="naver" name="simple-payment" value="naver" class="simple-payment">
+                                <label for="naver" class="simple-payment-label">네이버페이</label>
+                                <input type="radio" id="kakao" name="simple-payment" value="kakao" class="simple-payment">
+                                <label for="kakao" class="simple-payment-label">카카오페이</label>
+                                <input type="radio" id="payco" name="simple-payment" value="payco" class="simple-payment">
+                                <label for="payco" class="simple-payment-label">페이코</label>
+                                <input type="radio" id="kbpay" name="simple-payment" value="kbpay" class="simple-payment">
+                                <label for="kbpay" class="simple-payment-label">KB PAY</label>
                             </div>
                         </div>
-                        <div class="points-input-area">
-                            <label for="points-input">사용</label>
-                            <input type="text" id="points-input" class="points-input" value="0">
-                            <span>원</span>
+                        <div class="cancel-area">
+                            <button type="button" id="cancel-btn" class="cancel-button">
+                                ✓
+                            </button>
+                            <label for="cancel-btn" class="cancel-title">취소/환불 정책에 대한 동의</label>
+                            <p class="cancel-content">
+                                - 온라인 예매는 영화 상영시간 20분 전까지 취소 가능하며, 20분 이후 현장 취소만 가능합니다.<br>
+                                - 현장 취소 시 영화 상영시간 이전까지만 가능합니다.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -95,48 +125,99 @@
                 <div class="payment-summary">
                     <h2>결제금액</h2>
                     <div class="payment-details">
-                        <p>금액: <span>15,000 원</span></p>
-                        <p>할인적용: <span>0 원</span></p>
-                        <p>추가 차액: <span>0 원</span></p>
-                        <p class="final-payment">
-                            최종결제금액: <span>15,000 원</span>
-                        </p>
+                        <div class="amount-box">
+                            <div class="payment-row">
+                                <p class="payment-label">성인 2</p>
+                                <p class="payment-label">22,000</p>
+                            </div>
+                            <div class="payment-row total-amount">
+                                <p class="payment-label">금액</p>
+                                <p class="payment-value">22,000 원</p>
+                            </div>
+                        </div>
+                        <div class="payment-divider">
+                            <div class="circle">-</div>
+                        </div>
+                        <div class="discount-box">
+                            <p class="payment-label">할인적용</p>
+                            <p class="payment-value">0 원</p>
+                        </div>
+                        <div class="payment-row final-amount">
+                            <p class="payment-label">최종결제금액</p>
+                            <p class="payment-value final">22,000 원</p>
+                        </div>
+                        <div class="payment-row payment-used">
+                            <p class="payment-label">결제수단</p>
+                            <p class="payment-label">신용/체크카드</p>
+                        </div>
                     </div>
                     <div class="btn-group">
-                        <a href="" class="button pre" id="pagePrevious" title="이전">이전</a>
-                        <a href="" class="button active" id="pageNext" title="결제">결제</a>
+                        <a href="#" class="button pre" id="pagePrevious" title="이전">이전</a>
+                        <a href="#" class="button active" id="pageNext" title="결제">결제</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 <!-- script 영역 -->
 <script>
-    // DOMContentLoaded 이벤트로 코드가 DOM 로드 후 실행되도록 보장
     document.addEventListener("DOMContentLoaded", () => {
-        // 쿠폰 데이터
+        // 카드 및 간편결제 버튼과 영역 가져오기
+        const cardBtn = document.getElementById("card-btn");
+        const simpleBtn = document.getElementById("simple-btn");
+        const paymentCard = document.getElementById("payment-card");
+        const paymentSimple = document.getElementById("payment-simple");
+
+        // 카드 버튼 클릭 이벤트
+        cardBtn.addEventListener("click", () => {
+            paymentCard.style.display = "block"; // 카드 결제 영역 표시
+            paymentSimple.style.display = "none"; // 간편결제 영역 숨김
+
+            // 버튼 활성화 스타일
+            cardBtn.classList.add("active");
+            simpleBtn.classList.remove("active");
+        });
+
+        // 간편결제 버튼 클릭 이벤트
+        simpleBtn.addEventListener("click", () => {
+            paymentCard.style.display = "none"; // 카드 결제 영역 숨김
+            paymentSimple.style.display = "block"; // 간편결제 영역 표시
+
+            // 버튼 활성화 스타일
+            simpleBtn.classList.add("active");
+            cardBtn.classList.remove("active");
+        });
+
+        // 쿠폰 데이터 추가
         const coupons = [
-            { category: "기타", name: "메가박스 쿠션", description: "메가박스 쿠션 - 기타의 인기 상품입니다.", code: 19763, discount: 100, expiration: "2024-10-21", type: 1 },
-            { category: "음료", name: "스파클링 워터", description: "스파클링 워터 - 음료의 인기 상품입니다.", code: 10918, discount: 71, expiration: "2024-02-05", type: 1 },
-            { category: "스낵", name: "팝콘+콜라 세트", description: "팝콘+콜라 세트 - 스낵의 인기 상품입니다.", code: 16920, discount: 28, expiration: "2024-06-15", type: 2 },
+            { name: "메가박스 쿠션", discount: 100, expiration: "2024-10-21" },
+            { name: "스파클링 워터", discount: 71, expiration: "2024-02-05" },
+            { name: "팝콘+콜라 세트", discount: 28, expiration: "2024-06-15" },
         ];
 
-        // 드롭다운 요소 가져오기
         const dropdown = document.getElementById("couponDropdown");
 
-        // 쿠폰 데이터를 드롭다운에 추가
-        coupons.forEach(coupon => {
+        // 쿠폰 옵션 추가
+        coupons.forEach((coupon) => {
             const option = document.createElement("option");
-            option.value = coupon.code;
-            option.textContent = "${coupon.name} (${coupon.discount}원 할인) - ${coupon.expiration}";
+            option.value = coupon.name;
+            option.textContent = `${coupon.name} (${coupon.discount}원 할인) - ${coupon.expiration}`;
             dropdown.appendChild(option);
         });
 
-        // 선택한 쿠폰 출력 (디버깅용)
+        // 선택한 쿠폰 디버깅
         dropdown.addEventListener("change", () => {
             const selectedOption = dropdown.options[dropdown.selectedIndex];
-            console.log("선택된 쿠폰: ${selectedOption.textContent}");
+            console.log(`선택된 쿠폰: ${selectedOption.textContent}`);
+        });
+
+        // 취소/환불 동의 버
+        const cancelButton = document.getElementById("cancel-btn");
+
+        cancelButton.addEventListener("click", () => {
+            cancelButton.classList.toggle("active"); // 버튼 상태 토글
         });
     });
 </script>

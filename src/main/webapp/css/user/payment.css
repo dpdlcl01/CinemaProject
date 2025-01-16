@@ -5,7 +5,7 @@
 
 .payment-main {
     width: 100%;
-    height: 1000px;
+    height: 950px;
 }
 
 .payment-container {
@@ -21,9 +21,6 @@
 }
 
 /* 예매정보 payment-check */
-.payment-check {
-    height: 800px;
-}
 .booking-info {
     border-top: 1px solid #000;
     padding: 20px 0 0 0;
@@ -118,38 +115,246 @@ h2 {
 }
 
 /* 결제 수단 */
+.btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #6437bf;
+    color: #6437bf;
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+.btn.active {
+    background-color: #6a5acd;
+    color: white;
+    border: 1px solid #6a5acd;
+}
+
+.payment-card {
+    margin: 20px 0 0 0;
+    height: 40px;
+}
+
+.card-company {
+    width: 100px;
+    height: 25px;
+    margin: 0 0 0 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+}
+
+.payment-simple {
+    margin: 20px 0 0 0;
+    height: 80px;
+}
+
+.payment-simple-radio {
+    display: flex;
+    align-items: stretch;
+}
+
+.simple-payment {
+    appearance: none; /* 기본 브라우저 스타일 제거 */
+    width: 15px; /* 버튼 크기 */
+    height: 15px;
+    border: 1px solid #666; /* 기본 테두리 색상 */
+    border-radius: 50%; /* 원 모양 */
+    outline: none; /* 포커스 테두리 제거 */
+    cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+    transition: background-color 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 */
+}
+
+.simple-payment-label {
+    margin-right: 10px;
+}
+
+
+
+.simple-payment:checked {
+    background-color: #6a5acd; /* 체크된 상태의 배경색 */
+    border: 1px solid #4b3caa; /* 체크된 상태의 테두리 색상 */
+    box-shadow: 0 0 5px rgba(106, 90, 205, 0.7); /* 외곽선 그림자 추가 */
+}
+
+.simple-payment:hover {
+    border-color: #4b3caa; /* 호버 시 테두리 색상 변경 */
+    box-shadow: 0 0 3px rgba(106, 90, 205, 0.5); /* 약간의 그림자 추가 */
+}
+
+/* 취소 cancel */
+.cancel-area {
+    margin: 20px 0 0 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 30px;
+}
+
+.cancel-button {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #6a5acd; /* 테두리 */
+    border-radius: 50%; /* 원형 버튼 */
+    font-size: 16px;
+    font-weight: bold;
+    color: transparent;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.cancel-button.active {
+    background-color: #6a5acd;
+    color: #fff;
+}
+
+.cancel-title{
+    font-size: 20px;
+    font-weight: 500;
+    margin: 10px;
+}
+
+.cancel-content {
+    height: 30px;
+    font-size: 14px;
+    padding: 1px 0 0 25px;
+    color: #999;
+}
 
 /* 결제 확인 */
 .payment {
+    background-color: #333; /* 배경 색상 */
+    padding: 20px;
     margin: 0 20px;
-    background: #333;
-    color: #fff;
-    border-radius: 10px;
-    padding: 20px 20px 15px 20px;
-    height: 400px;
+    border-radius: 10px; /* 둥근 모서리 */
+    color: #fff; /* 텍스트 색상 */
+    height: 470px;
 }
 
-.payment-summary {
+/* 결제금액 상자 */
+.amount-box {
+    background-color: #444;
+    align-content: space-between;
+    height: 95px;
+    padding: 13px;
+    border-radius: 10px;
+}
+
+/* 할인 적용 및 최종 결제금액 상자 */
+.discount-box {
+    background-color: #444;
+    height: 50px;
+    padding: 13px;
+    border-radius: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    margin-bottom: 100px;
+}
+
+.payment-summary h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .payment-details {
-    margin-bottom: 20px;
+    font-size: 16px;
 }
 
-.payment-details p {
-    margin: 5px 0;
-    font-size: 14px;
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.final-amount {
+    border-bottom: 1px solid #53565b;
+    padding-bottom: 10px;
+}
+
+.payment-label {
+    color: #ddd; /* 라벨 텍스트 색상 */
+}
+
+.payment-value {
+    font-weight: bold;
     color: #fff;
 }
 
-.final-payment {
-    font-size: 18px;
+.total-amount {
+    color: #fff;
     font-weight: bold;
-    color: #000;
+    border-top: 1px solid #53565b;
+    padding-top: 13px;
+}
+
+.discount .payment-value {
+    color: #ddd;
+}
+
+.final-amount .payment-value {
+    color: #00c8c8; /* 최종 결제금액 색상 */
+    font-size: 18px; /* 강조 */
+}
+
+
+.payment-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 10px;
+}
+
+.payment-divider .circle {
+    width: 30px;
+    height: 30px;
+    background-color: #00c8c8;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    padding-top: 6px;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button.pre {
+    background-color: #555;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.button.active {
+    background-color: #00c8c8;
+    color: #fff;
+}
+
+.button:hover {
+    opacity: 0.9;
 }
 
 /* 이전 다음 버튼 */
