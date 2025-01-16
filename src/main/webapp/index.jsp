@@ -78,6 +78,7 @@
     <p><strong>user_action.properties</strong> 파일에 다음 항목을 추가: <em>main=action.user.MainAction</em></p>
 
     <a href="UserController">Go to UserController</a>
+
 </main>
 
 <footer>
