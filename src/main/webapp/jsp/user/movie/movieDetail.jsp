@@ -397,7 +397,7 @@
             margin-top: 70px;
         }
 
-        .storyBox {
+        .oneLineReview .storyBox {
             display: table;
             border: 1px solid #eaeaea;
             width: 100%;
@@ -476,19 +476,79 @@
 
         /* 리뷰 있을때 */
         .reviewed {
-            margin-top: 50px;
+            margin-top: 20px;
         }
 
         .reviewed .storyBox {
             background-color: #f8f8fa;
         }
 
-        .iconUser {
-            background-image: url("/css/user/images/movie/usericon.png");
+        .iconUser { /* 아이콘 임시 */
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-on.png");
+            background-repeat: no-repeat;
+            width: 17px;
+            height: 15px;
             display: inline-block;
-            width: 32px;
-            height: 32px;
-            border: 1px solid #000;
+            font-size: 20px;
+        }
+
+        .userName {
+            display: inline-flex;
+            align-items: center;
+            font-size: 17px;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .writeTime {
+            text-align: right;
+            margin-left: auto;
+            font-size: 12px;
+        }
+
+        .reviewBox {
+            position: relative;
+        }
+
+        .reviewWrap {
+            display: flex;
+            border: 1px solid #eaeaea;
+        }
+
+        .storyReview {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 82px;
+            height: 100%;
+            width: 105px;
+            color: #503396;
+        }
+
+        .storyText:before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 1px;
+            height: 50px;
+            margin-top: -25px;
+            background-color: rgba(0, 0, 0, .1);
+        }
+
+        .storyText {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 82px;
+            height: 84px;
+            width: 100%;
+            padding-left: 50px;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+            flex-grow: 1
         }
 
         /* //리뷰 있을때 */
@@ -496,6 +556,7 @@
         /* //한줄 리뷰 */
 
         /* 예고편 */
+
         .trailer .trailerTitle {
             margin: 0 0 30px 0;
             padding: 20px 0;
@@ -685,13 +746,17 @@
                         </div>
                     </div>
                     <div class="reviewed">
-                        <i class="iconUser"></i>
-                        <div class="userName">???</div>
-                        <div class="storyBox">
-                            <div class="storyWrap">
-                                <div class="storyCont"></div>
-                                첫번째
-                                <span class="fontBlue">관람평</span>의 주인공이 되어 보세요.
+                        <div class="userName">
+                            <i class="iconUser"> </i>
+                            <div class="userId">이름</div>
+                            <div class="writeTime">작성시간</div>
+                        </div>
+                        <div class="reviewBox">
+                            <div class="reviewWrap">
+                                <div class="storyReview">관람평</div>
+                                <div class="storyText">
+                                    리뷰----------------리뷰----------------리뷰
+                                </div>
                             </div>
                         </div>
                     </div>
