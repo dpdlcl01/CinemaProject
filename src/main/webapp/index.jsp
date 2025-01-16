@@ -72,7 +72,6 @@
 
 <main>
     <h2>영화 예매 웹 애플리케이션</h2>
-
     <a href="UserController">Go to UserController</a><br/><br/>
     <p>메인 메뉴에 화면 연결시</p>
     <p><strong>header.jsp</strong>의 a태그에 다음 예시와 같이 추가<em>"UserController?type=movie"</em></p><br/><br/>

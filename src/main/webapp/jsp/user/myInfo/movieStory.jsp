@@ -14,8 +14,8 @@
 <head>
   <meta charset="UTF-8">
 </head>
-
-<link rel="stylesheet" href="../../css/user/movie.css">
+<%--<link rel="stylesheet" href="../../../css/user/common.css">--%>
+<link rel="stylesheet" href="../../../css/user/movie.css">
 <style>
   #main{
     position: relative;
@@ -28,40 +28,11 @@
     margin-bottom: 20px;
   }
 
-  #contents{
-    margin: 50px auto;
-    height: auto;
-    width: 1100px;
-  }
 
   li{
     padding-bottom: 5px;
   }
 
-  /*기본 탭*/
-  .tabs {
-    display: flex;
-    border: 0;
-  }
-  .tab {
-    flex: 1;
-    text-align: center;
-    padding: 10px 20px;
-    background-color: white;
-    cursor: pointer;
-    border: 1px solid #ddd;
-  }
-
-  .tab:not(:last-child) {
-    border-right: none;
-  }
-
-  .tab.active {
-    background-color: gray;
-    color: white;
-    font-weight: bold;
-    border-color: gray;
-  }
 
   /* 전체 컨테이너 */
   .YearTabs-container {
@@ -694,7 +665,7 @@
                 </div>
                 </div>
             </section>
-                <li class="no-result">보고싶은 영화를 등록 해 주세요</li>
+<%--                <li class="no-result">보고싶은 영화를 등록 해 주세요</li>--%>
             </div>
           </div>
         </div>
@@ -754,6 +725,5 @@
   // // 초기 상태
   activateTab(3);
 </script>
-<script src="../../js/app.js"></script>
 </body>
 </html>

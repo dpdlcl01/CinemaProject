@@ -1,17 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: wjddk
-  Date: 25. 1. 15.
-  Time: 오후 8:44
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>Title</title>
-  </head>
-  <body>
-  <%--
+ <%--
 Created by IntelliJ IDEA.
 User: user
 Date: 25. 1. 14.
@@ -26,7 +13,7 @@ To change this template use File | Settings | File Templates.
   <!-- head -->
   <head>
     <meta charset="UTF-8">
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
   </head>
   <style>
     *{
@@ -39,13 +26,7 @@ To change this template use File | Settings | File Templates.
       padding-top: 20px;
       padding-bottom: 20px;
     }
-    #contents{
-      width: 1100px;
-      margin-right: auto;
-      margin-left: auto;
-      padding-left: 30px;
 
-    }
 
     li{
       padding-bottom: 5px;
@@ -54,12 +35,7 @@ To change this template use File | Settings | File Templates.
       display: flex;
 
     }
-    /* 상단 메뉴바 Page Util */
-    .page-util {
-      background-color: #f8f8f8; /* 배경색 */
-      border-bottom: 1px solid #ddd; / 하단 경계선 /
-      /*padding: 10px 0;*/
-    }
+
     .page-util .inner-wrap {
       max-width: 1100px;
       height: 40px;
@@ -161,13 +137,7 @@ To change this template use File | Settings | File Templates.
       width: 88px;
       height: 46px;
     }
-    #btnDiv, #lastBtnDiv{
-      margin-right: auto ;
-      margin-left: auto;
-      width: 100%;
-      padding-bottom: 40px;
-      text-align: right;
-    }
+
     table .normalBtn{
       background-color: white;
       border: 1px solid gray;
@@ -190,7 +160,7 @@ To change this template use File | Settings | File Templates.
   </style>
   <body>
   <!-- header 영역 -->
-  <jsp:include page="./common/header.jsp"/>
+  <jsp:include page="../common/header.jsp"/>
   <div class="page-util">
     <div class="inner-wrap">
       <div class="location">
@@ -207,7 +177,7 @@ To change this template use File | Settings | File Templates.
 
       <div class="sidebar">
         <ul>
-          <div  id="myMega"><a href="MyInfo.jsp" title="나의 메가박스"><h1>나의 메가박스</h1></a></div>
+          <div  id="myMega"><a href="MyInfo.jsp" title="나의 메가박스">나의 메가박스</a></div>
           <div class="liWrap"><li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
           <div class="liWrap"> <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
           <div class="liWrap">  <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
@@ -217,29 +187,16 @@ To change this template use File | Settings | File Templates.
         </ul>
       </div>
       <!-- 사이드 바 옆 -->
-      <jsp:include page="includeMovieStory.jsp"/>
+      <jsp:include page="../myInfo/movieStory.jsp"/>
     </article>
   </div>
 
   <!-- footer 영역 -->
-  <jsp:include page="./common/footer.jsp"/>
+  <jsp:include page="../common/footer.jsp"/>
 
   <!-- script 영역 -->
   <script>
-    const hiddenDiv = document.getElementById('passwordMain');
-    const mainDiv = document.getElementById("main");
-    function passwordMain() {
-      if (hiddenDiv.style.display === 'none' || hiddenDiv.style.display === '') {
-        hiddenDiv.style.display = 'block';
-        mainDiv.style.display='none';
-      }
-    }
-    function returnMain() {
-      hiddenDiv.style.display = 'none'; // div 숨기기
-      mainDiv.style.display='block';
-    }
+
   </script>
   </body>
   </html>
-  </body>
-</html>
