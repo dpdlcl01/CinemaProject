@@ -123,7 +123,7 @@
     <!-- 이미지 영역 -->
     <div class="image-container">
 <%--        <button class="close-button" onclick="closeDialog()"></button>--%>
-        <img src="images/렛미인포스터.png" alt="이미지">
+        <img src="${pageContext.request.contextPath}/css/user/images/event/렛미인포스터.png" alt="이미지">
     </div>
 </div>
 </body>

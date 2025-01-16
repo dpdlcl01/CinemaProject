@@ -8,8 +8,6 @@ public class MainAction implements Action {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-
-
     return "/jsp/user/main.jsp";
   }
 }

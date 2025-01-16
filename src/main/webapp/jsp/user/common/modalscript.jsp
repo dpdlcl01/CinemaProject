@@ -22,7 +22,7 @@
         event.preventDefault(); // 기본 동작 방지
         modalContainer.style.height = "400px"; // 높이 설정
         modalOverlay.style.display = "block"; // 모달 열기
-        modalIframe.src = "memberlogin.jsp";
+        modalIframe.src = "${pageContext.request.contextPath}/jsp/user/login/memberLoginModal.jsp";
       });
     }
 
@@ -32,7 +32,7 @@
         event.preventDefault(); // 기본 동작 방지
         modalContainer.style.height = "480px"; // 높이 설정
         modalOverlay.style.display = "block"; // 모달 열기
-        modalIframe.src = "login.jsp"
+        modalIframe.src = "${pageContext.request.contextPath}/jsp/user/login/reservationLoginModal.jsp"
       });
     }
 

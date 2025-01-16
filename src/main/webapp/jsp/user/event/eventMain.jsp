@@ -2,7 +2,7 @@
 <!Doctype html>
 <html lang="ko">
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
     <style>
         .tabs {
             display: flex;
@@ -159,7 +159,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <!-- 추가된 page-util -->
 <div class="page-util">
     <div class="inner-wrap">
@@ -193,7 +193,7 @@
                 <ul class="event-list">
                     <li class="event-item">
                         <div class="event-thumbnail">
-                            <img src="images/관람권구매.png" alt="이벤트 이미지">
+                            <img src="${pageContext.request.contextPath}/css/user/images/event/관람권구매.png" alt="이벤트 이미지">
                         </div>
                         <div class="event-details">
                             <p class="event-title">[덕천] 관람패키지 & 문화누리 관람권 판매</p>
@@ -202,7 +202,7 @@
                     </li>
                     <li class="event-item">
                         <div class="event-thumbnail">
-                            <img src="images/붕어빵할인.png" alt="이벤트 이미지">
+                            <img src="${pageContext.request.contextPath}/css/user/images/event/붕어빵할인.png" alt="이벤트 이미지">
                         </div>
                         <div class="event-details">
                             <p class="event-title">[삼척포] 겨울 맛이 붕어빵 할인!</p>
@@ -211,7 +211,7 @@
                     </li>
                     <li class="event-item">
                         <div class="event-thumbnail">
-                            <img src="images/메리크리스마스.png" alt="이벤트 이미지">
+                            <img src="${pageContext.request.contextPath}/css/user/images/event/메리크리스마스.png" alt="이벤트 이미지">
                         </div>
                         <div class="event-details">
                             <p class="event-title">[성수] 미리 메리 크리스마스!</p>
@@ -220,7 +220,7 @@
                     </li>
                     <li class="event-item">
                         <div class="event-thumbnail">
-                            <img src="images/메리크리스마스.png" alt="이벤트 이미지">
+                            <img src="${pageContext.request.contextPath}/css/user/images/event/메리크리스마스.png" alt="이벤트 이미지">
                         </div>
                         <div class="event-details">
                             <p class="event-title">[이수] 미리 메리 크리스마스!</p>
@@ -229,7 +229,7 @@
                     </li>
                     <li class="event-item">
                         <div class="event-thumbnail">
-                            <img src="images/골드바이벤트.png" alt="이벤트 이미지">
+                            <img src="${pageContext.request.contextPath}/css/user/images/event/골드바이벤트.png" alt="이벤트 이미지">
                         </div>
                         <div class="event-details">
                             <p class="event-title">[제주지역] 골드바 매일매일 1g 증정 이벤트</p>
@@ -353,7 +353,7 @@
             pageUtilA.textContent = '진행중 이벤트'
           });
         </script>
-<jsp:include page="./common/footer.jsp"/>
-<jsp:include page="./common/modalscript.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
+<jsp:include page="../common/modalscript.jsp"/>
 </body>
 </html>

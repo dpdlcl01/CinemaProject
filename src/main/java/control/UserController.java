@@ -132,6 +132,10 @@ public class UserController extends HttpServlet {
 
         String viewPath = action.execute(request, response);
 
+      // 이동할 때마다 type, viewPath를 알기 위한 print
+      System.out.println("type: " + type);
+      System.out.println("viewPath: " + viewPath);
+
         // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
         if(viewPath == null){
             response.sendRedirect("Controller?type=main");

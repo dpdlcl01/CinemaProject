@@ -2,7 +2,7 @@
 <!Doctype html>
 <html lang="ko">
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
     <style>
 
         .noticeboard {
@@ -126,7 +126,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <!-- 추가된 page-util -->
 <div class="page-util">
     <div class="inner-wrap">
@@ -280,7 +280,7 @@
                 </div>
             </div>
         </div>
-<jsp:include page="./common/footer.jsp"/>
-<jsp:include page="./common/modalscript.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
+<jsp:include page="../common/modalscript.jsp"/>
 </body>
 </html>
