@@ -73,11 +73,18 @@
 <main>
     <h2>영화 예매 웹 애플리케이션</h2>
 
-    <h3>UserController</h3>
-    <p>type 기본값: "main"</p>
-    <p><strong>user_action.properties</strong> 파일에 다음 항목을 추가: <em>main=action.user.MainAction</em></p>
-
-    <a href="UserController">Go to UserController</a>
+    <a href="UserController">Go to UserController</a><br/><br/>
+    <p>메인 메뉴에 화면 연결시</p>
+    <p><strong>header.jsp</strong>의 a태그에 다음 예시와 같이 추가<em>"UserController?type=movie"</em></p><br/><br/>
+    <section>
+        <h3>기능별 화면 확인</h3>
+        <p>아래 버튼을 클릭하여 각각의 화면을 확인하세요:</p>
+        <div>
+            <a href="./jsp/user/event.jsp">이벤트 페이지</a>
+            <a href="./jsp/user/announcement.jsp">공지사항 페이지</a>
+            <a href="./jsp/user/noticepost.jsp">공지사항 글 확인 페이지</a>
+        </div>
+    </section>
 </main>
 
 <footer>
