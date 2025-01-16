@@ -1,4 +1,6 @@
-package action;
+package action.user;
+
+import action.Action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
