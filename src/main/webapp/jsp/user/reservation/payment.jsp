@@ -10,14 +10,14 @@
 <html lang="ko">
 <!-- head -->
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
     <title>결제하기</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../../css/user/payment.css?v=1.0" type="text/css">
+<link rel="stylesheet" href="../../../css/user/payment.css?v=1.0" type="text/css">
 <body>
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <!-- 추가된 page-util -->
 <div class="page-util">
     <div class="inner-wrap">
@@ -38,7 +38,7 @@
                 <div class="booking-info">
                     <h2>예매정보</h2>
                     <div class="movie-details">
-                        <img src="../../css/user/images/movie_poster.jpg" alt="검은 수녀들 포스터">
+                        <img src="../../../css/user/images/bg/movie_poster.jpg" alt="검은 수녀들 포스터">
                         <div class="movie-info">
                             <p class="movie-title">검은 수녀들</p>
                             <p class="movie-about">2025.01.24 (금) 11:25~13:29</p>
@@ -222,6 +222,6 @@
     });
 </script>
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

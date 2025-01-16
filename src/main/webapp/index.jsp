@@ -79,9 +79,9 @@
 
     <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
     <a href="jsp/user/main.jsp">Go to UserController</a> <br/>
-    <a href="jsp/user/reservation.jsp">Go to ReservationJSP</a> <br/>
-    <a href="jsp/user/seat.jsp">Go to SeatJSP</a> <br/>
-    <a href="jsp/user/payment.jsp">Go PaymentJSP</a> <br/>
+    <a href="jsp/user/reservation/reservationMain.jsp">Go to ReservationJSP</a> <br/>
+    <a href="jsp/user/reservation/reservationSeat.jsp">Go to SeatJSP</a> <br/>
+    <a href="jsp/user/reservation/payment.jsp">Go PaymentJSP</a> <br/>
 </main>
 
 <footer>

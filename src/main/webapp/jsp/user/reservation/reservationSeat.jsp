@@ -2,15 +2,15 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <jsp:include page="./common/head.jsp"/>
+  <jsp:include page="../common/head.jsp"/>
   <title>빠른 예매</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <%--<link rel="stylesheet" href="../../css/user/seat.css">--%>
-<link rel="stylesheet" href="../../css/user/seat.css?v=1.0">
+<link rel="stylesheet" href="../../../css/user/seat.css?v=1.0">
 <body>
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div id="contents">
   <!-- 추가된 page-util -->
   <div class="page-util">
@@ -252,7 +252,7 @@
       <!-- 영화 정보 -->
       <div class="movie-container">
         <div class="movie-info">
-          <img class="movie-grade" src="../../css/user/images/age_15.png"></img>
+          <img class="movie-grade" src="../../../css/user/images/age_15.png"></img>
           <div class="movie-text-group">
             <p class="movie-title">검은 수녀들</p>
             <p class="movie-type">2D</p>
@@ -264,7 +264,7 @@
             <p class="movie-date">2025.01.24 (금)</p>
             <p class="movie-time">13:50~15:54</p>
           </div>
-          <img src="../../css/user/images/movie_poster.jpg" alt="검은 수녀들 포스터" class="poster">
+          <img src="../../../css/user/images/bg/movie_poster.jpg" alt="검은 수녀들 포스터" class="poster">
         </div>
         <div class="choose-seat-area">
           <div class="legend">
@@ -307,6 +307,6 @@
   </div>
 </div>
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>
