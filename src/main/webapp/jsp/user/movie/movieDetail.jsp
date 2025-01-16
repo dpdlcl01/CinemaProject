@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
     <style>
         body {
             font: normal 15px D2Coding
@@ -397,7 +397,7 @@
             margin-top: 70px;
         }
 
-        .oneLineReview .storyBox {
+        .storyBox {
             display: table;
             border: 1px solid #eaeaea;
             width: 100%;
@@ -474,6 +474,25 @@
             background-repeat: no-repeat;
         }
 
+        /* 리뷰 있을때 */
+        .reviewed {
+            margin-top: 50px;
+        }
+
+        .reviewed .storyBox {
+            background-color: #f8f8fa;
+        }
+
+        .iconUser {
+            background-image: url("/css/user/images/movie/usericon.png");
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border: 1px solid #000;
+        }
+
+        /* //리뷰 있을때 */
+
         /* //한줄 리뷰 */
 
         /* 예고편 */
@@ -520,7 +539,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <!-- movie-detail -->
 <div class="movie-detail-page">
     <div class="bg-img">영화 포스터</div>
@@ -665,6 +684,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="reviewed">
+                        <i class="iconUser"></i>
+                        <div class="userName">???</div>
+                        <div class="storyBox">
+                            <div class="storyWrap">
+                                <div class="storyCont"></div>
+                                첫번째
+                                <span class="fontBlue">관람평</span>의 주인공이 되어 보세요.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- //한줄평 없을 때 -->
@@ -699,8 +729,9 @@
             <!-- //예고편 -->
         </div>
         <div id="megaPick" class="content">
-            <!-- 한줄평 없을 때 -->
+
             <div class="reviews">
+                <!-- 한줄평 없을 때 -->
                 <h2 class="titSmall">아직 남겨진 한줄평이 없어요.</h2>
                 <div class="oneLineReview">
                     <!-- 본 영화가 아닌경우 -->
@@ -840,6 +871,6 @@
 
     /* //예고편 부분 */
 </script>
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>
