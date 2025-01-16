@@ -4,7 +4,7 @@
     <!-- container -->
     <div class="container">
         <h1 class="logo">
-            <a href="/CinemaProject/jsp/user/main.jsp" title="MEGABOX 메인으로 가기">MEGABOX : Life Theater</a>
+            <a href="../main.jsp" title="MEGABOX 메인으로 가기">MEGABOX : Life Theater</a>
         </h1>
         <!-- util-area -->
         <div class="util-area">
@@ -19,7 +19,7 @@
             <a href="#" title="사이트맵" class="sitemap">사이트맵</a>
             <a href="#" title="검색" class="search">검색</a>
             <a href="#" title="상영시간표" class="timetable">상영시간표</a>
-            <a href="#" title="나의 메가박스" class="mymega">나의 메가박스</a>
+            <a href="/jsp/user/myInfo/myInfo.jsp" title="나의 메가박스" class="mymega">나의 메가박스</a>
         </div>
         <!-- //link-area -->
         <!-- gnb -->
