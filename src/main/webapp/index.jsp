@@ -83,6 +83,8 @@
             <a href="./jsp/user/event.jsp">이벤트 페이지</a>
             <a href="./jsp/user/announcement.jsp">공지사항 페이지</a>
             <a href="./jsp/user/noticepost.jsp">공지사항 글 확인 페이지</a>
+            <a href="./jsp/user/MyInfo.jsp">내 정보 페이지</a>
+            <a href="./jsp/user/product.jsp">상품 페이지</a>
         </div>
     </section>
 </main>
