@@ -11,9 +11,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <jsp:include page="./common/head.jsp"/>
+  <jsp:include page="../common/head.jsp"/>
 </head>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+
 <style>
+
     *{
         padding: 0;
         margin: 0;
@@ -134,10 +137,41 @@
         padding:65px 470px;
         margin-bottom: 20px;
     }
+    #notice {
+        display: none; /* 초기 상태에서 다이얼로그 숨김 */
+    }
+    .ui-dialog{
+        padding: 0;
+        font-weight: 600;
+    }
+    .ui-dialog #btnDiv2{
+        margin: auto;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .ui-dialog button{
+        width: 80px;
+        height: 40px;
+        border: 1px solid #503396;
+        background-color: #503396;
+        color: white;
+        border-radius: 3px;
+    }
+
+    /* 다이얼로그 타이틀 색상 변경 */
+    .ui-dialog-titlebar {
+        background-color: #503396; /* 타이틀 배경색 */
+        color: white; /* 텍스트 색상 */
+        border: 2px solid #503396;
+    }
+    .ui-dialog-content {
+        color: black; /* 텍스트 색상을 명시적으로 설정 */
+        font-size: 14px; /* 적절한 폰트 크기를 설정 */
+    }
 </style>
 <body>
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="page-util">
     <div class="inner-wrap">
         <div class="location">
@@ -162,7 +196,7 @@
                     <label for="radio1">예매내역</label>
                     <input type="radio" id="radio2" name="radioSelect" value="before">
                     <label for="radio2">지난내역</label>
-                    <button id="searchBtn"><img src="../../img/search.png">조회</button>
+                    <button id="searchBtn"><img src="../../../img/search.png">조회</button>
                 </td>
             </tr>
         </table>
@@ -175,7 +209,7 @@
     </div>
     <strong>총<b>1</b>건</strong>
     <div id="main">
-        <img src="../../img/ha.png">
+        <img src="../../../img/ha.png">
         <div id="mainInfo">
             <table id="mainTable">
                 <colgroup>
@@ -215,7 +249,7 @@
                         </td>
                         <td>
                             2025.01.15
-                            <button type="button">결제정보</button>
+                            <button type="button" id="payInfo">결제정보</button>
                         </td>
                     </tr>
                 </table>
@@ -261,10 +295,81 @@
     </article>
 </div>
 
+<article id="notice" title="다이얼로그">
+    <p>
+        취소 시 유효기간 경과된 관람권, 쿠폰, 포인트는 복구되지 않습니다. <br/>
+        예매취소 하시겠습니까?
+    </p>
+
+
+    <div id="btnDiv2">
+        <button type="button"> 취소 </button>
+        <button type="button"> 확인 </button>
+    </div>
+</article>
+<article id="paymentInfo" title="결제정보">
+    <br>
+    <table>
+        <colgroup>
+            <col width="100px">
+            <col width="*">
+        </colgroup>
+        <tr>
+            <td class="left">
+                상품금액
+            </td>
+            <td>가격</td>
+        </tr>
+        <tr>
+            <td class="left">
+                상품금액
+            </td>
+            <td>가격</td>
+        </tr>
+        <tr>
+            <td class="left">
+                할인금액
+            </td>
+            <td>할인</td>
+        </tr>
+        <tr>
+            <td class="left">
+                최종금액
+            </td>
+            <td>가격</td>
+        </tr>
+        <tr>
+            <td class="left">
+                결제일시
+            </td>
+            <td>2025-01-15 00:00:00</td>
+        </tr>
+    </table>
+
+</article>
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
+
+
 
 <!-- script 영역 -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $('#reservCancel').on('click', function () {
+            $('#notice').dialog({
+                modal: true,
+            });
+        });
 
+        $('#payInfo').on('click', function () {
+          $('#paymentInfo').dialog({
+              modal: true,
+          })
+        })
+    });
+
+</script>
 </body>
 </html>

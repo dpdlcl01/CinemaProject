@@ -67,7 +67,7 @@
     }
     #main>table span{
       display: flex;
-      background-image: url("../../img/g.png");
+      background-image: url("../../../img/g.png");
       height: 120px;
       width: 120px;
       margin: 0 30px;
@@ -121,13 +121,21 @@
 </head>
 <!-- head -->
 <head>
-  <jsp:include page="./common/head.jsp"/>
+  <jsp:include page="../common/head.jsp"/>
 </head>
 
 <body>
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
-
+<jsp:include page="../common/header.jsp"/>
+<div class="page-util">
+  <div class="inner-wrap">
+    <div class="location">
+      <span>Home</span>
+      <span>스토어</span>
+      <span>장바구니</span>
+    </div>
+  </div>
+</div>
 <!-- contents 영역 -->
 <div id="contents">
   <h1>장바구니</h1>
@@ -186,7 +194,7 @@
 </div>
 
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 
 <!-- script 영역 -->
 <script>

@@ -13,7 +13,7 @@
 <!-- head -->
 <head>
   <meta charset="UTF-8">
-  <jsp:include page="./common/head.jsp"/>
+  <jsp:include page="../common/head.jsp"/>
 </head>
 <style>
   *{
@@ -152,11 +152,14 @@
   #passwordMain{
     display: none;
   }
+  #editPassword{
+    display: none;
+  }
 
 </style>
 <body>
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <div class="page-util">
   <div class="inner-wrap">
     <div class="location">
@@ -204,7 +207,6 @@
           <td class="title">이름</td>
           <td>
             <span>강호현</span>
-            <button type="button" class="normalBtn">이름변경</button>
           </td>
         </tr>
         <tr>
@@ -215,7 +217,8 @@
           <td class="title" >휴대폰</td>
           <td>
             <span>010-4324-2421</span>
-            <button type="button" class="normalBtn">휴대폰번호변경</button>
+            <button type="button" class="normalBtn" onclick="viewP()">휴대폰번호변경</button>
+            <p id="editPassword">변경할 휴대폰 번호 <input type="text"><button type="button">변경</button> </p>
           </td>
         </tr>
         <tr>
@@ -292,10 +295,19 @@
 </div>
 
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 
 <!-- script 영역 -->
 <script>
+  function viewP(){
+    const editPassword = document.getElementById('editPassword');
+    if(editPassword.style.display==='none'|| editPassword.style.display === ''){
+      editPassword.style.display = 'block';
+    }else{
+      editPassword.style.display = 'none';
+    }
+  }
+
   const hiddenDiv = document.getElementById('passwordMain');
   const mainDiv = document.getElementById("main");
   function passwordMain() {

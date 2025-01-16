@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
     <title>Title</title>
     <style>
       *{
@@ -153,7 +153,7 @@
   </head>
   <body>
   <header>
-    <jsp:include page="./common/header.jsp"></jsp:include>
+    <jsp:include page="../common/header.jsp"></jsp:include>
   </header>
 
   <div class="page-util">
@@ -174,7 +174,7 @@
 
 
       <article id="center">
-        <img src="../../img/m3.png">
+        <img src="../../../img/m3.png">
         <article id="info">
           <div class="info">
             <p class="front">사용극장</p>
@@ -243,7 +243,7 @@
     </div>
   </div>
   <footer>
-    <jsp:include page="./common/footer.jsp"></jsp:include>
+    <jsp:include page="../common/footer.jsp"></jsp:include>
   </footer>
   <script>
     function view1() {

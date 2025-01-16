@@ -15,7 +15,7 @@
       justify-content: center;
       padding: 40px;
       text-indent: -9999px;
-      background-image: url("../../img/logo.png");
+      background-image: url("../../../img/logo.png");
       background-repeat: no-repeat;
       background-position: center; /*이미지 가운데 맞추는 구문*/
 
@@ -114,6 +114,10 @@
       width: 150px;
       height: 25px;
     }
+    .inputEmail{
+      width: 120px;
+      height: 25px;
+    }
     .bold{
       font-weight: bold;
       font-size: 16px;
@@ -171,6 +175,13 @@
       margin-top: 50px;
       margin-bottom: 50px;
     }
+    #Cnum{
+      width: 90px;
+      margin-left: 10px;
+      height: 30px;
+      background-color: white;
+      border-radius: 4px;
+    }
   </style>
 
 </head>
@@ -194,7 +205,7 @@
       <table>
         <caption>이메일인증테이블</caption>
         <colgroup>
-          <col width="150px">
+          <col width="120px">
           <col width="350px">
         </colgroup>
         <tr>
@@ -203,7 +214,7 @@
         </tr>
         <tr>
           <td><span>이메일</span> </td>
-          <td><input type="text" class="inputValue"><span>@</span><input type="text" class="inputValue"></td>
+          <td><input type="text" class="inputEmail"><span>@</span><input type="text" class="inputEmail"><button type="button" id="Cnum">인증번호받기</button> </td>
         </tr>
         <tr>
           <td><span>인증번호</span> </td>
@@ -266,7 +277,7 @@
       <table>
         <caption>회원정보입력테이블</caption>
         <colgroup>
-          <col width="150px">
+          <col width="120px">
           <col width="*">
         </colgroup>
         <tbody>
@@ -305,10 +316,6 @@
           <td><input type="text" class="inputValue"></td>
         </tr>
 
-        <tr>
-          <td class="bold">이메일주소</td>
-          <td><input type="text" class="inputValue"></td>
-        </tr>
 
 
         </tbody>
@@ -337,7 +344,7 @@
   </div>
   <div id="main3">
     <div id="mainImg">
-      <img src="../../img/complete.png">
+      <img src="../../../img/complete.png">
     </div>
     <div id="main3Title">
       <p>사용자님 메가박스 가입을 환영합니다.</p>

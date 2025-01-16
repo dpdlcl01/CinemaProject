@@ -79,14 +79,14 @@
 
     <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
     <a href="jsp/user/main.jsp">Go to UserController</a>
-    <a href="jsp/user/store.jsp">Go to 스토어</a>
-    <a href="jsp/user/product.jsp">Go to 프로덕트</a>
-    <a href="jsp/user/register.jsp">Go to 회원가입</a>
-    <a href="jsp/user/leave.jsp">Go to 회원탈퇴</a>
-    <a href="jsp/user/editMyInfo.jsp">Go to 회원정보변경</a>
-    <a href="jsp/user/paymentSuccess.jsp">Go to 결제완료</a>
-    <a href="jsp/user/reservCancelHistory.jsp">Go to 예매결제취소</a>
-    <a href="jsp/user/cart.jsp">Go to 예매결제취소</a>
+    <a href="jsp/user/store/store.jsp">Go to 스토어</a>
+    <a href="jsp/user/store/product.jsp">Go to 프로덕트</a>
+    <a href="jsp/user/register/register.jsp">Go to 회원가입</a>
+    <a href="jsp/user/myInfo/leave.jsp">Go to 회원탈퇴</a>
+    <a href="jsp/user/myInfo/editMyInfo.jsp">Go to 회원정보변경</a>
+    <a href="jsp/user/reservation/reservationSuccess.jsp">Go to 결제완료</a>
+    <a href="jsp/user/reservation/reservationCancel.jsp">Go to 예매결제취소</a>
+    <a href="jsp/user/store/cart.jsp">Go to 장바구니</a>
 </main>
 
 <footer>

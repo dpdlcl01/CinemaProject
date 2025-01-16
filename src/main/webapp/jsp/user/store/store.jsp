@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-        <jsp:include page="./common/head.jsp"/>
+        <jsp:include page="../common/head.jsp"/>
 
 </head>
 <style>
@@ -136,7 +136,7 @@
 
 </style>
 <header>
-    <jsp:include page="common/header.jsp"/>
+    <jsp:include page="../common/header.jsp"/>
 </header>
 
 <body class="total">
@@ -162,7 +162,7 @@
 
     <article id="products">
         <div class="card">
-            <img src="../../img/m1.png">
+            <img src="../../../img/m1.png">
             <hr>
             <div class="info">
                 <p class="name">스타벅스 콜라보 상품 1</p>
@@ -176,7 +176,7 @@
         </div>
 
         <div class="card">
-            <img src="../../img/m2.png">
+            <img src="../../../img/m2.png">
             <hr>
             <div class="info">
                 <p class="name">상품명1</p>
@@ -189,7 +189,7 @@
             </div>
         </div>
         <div class="card">
-            <img src="../../img/m3.png">
+            <img src="../../../img/m3.png">
             <hr>
             <div class="info">
                 <p class="name">상품명1</p>
@@ -202,7 +202,7 @@
             </div>
         </div>
         <div class="card">
-            <img src="../../img/m4.png">
+            <img src="../../../img/m4.png">
             <hr>
             <div class="info">
                 <p class="name">상품명1</p>
@@ -244,6 +244,6 @@
 </script>
 </body>
 <footer>
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="../common/footer.jsp"/>
 </footer>
 </html>
