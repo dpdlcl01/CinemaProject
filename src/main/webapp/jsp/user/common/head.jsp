@@ -24,7 +24,13 @@
 <meta property="og:image" id="fbImg" content="https://img.megabox.co.kr/SharedImg/metaTag/2020/02/04/gFfTzMwwiCxhBwcUV5TRGMFX9Cmoj64W.jpg">
 
 <!-- 외부CSS 연결하기 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css">
+
 <link rel="stylesheet" href="../../css/user/common.css">
 <link rel="stylesheet" href="../../css/user/main.css"> <!-- 추후에 해당 main 화면에 옮길 예정 -->
+
+<!-- 메인화면 하트 아이콘 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <script src="../../js/app.js"></script>
