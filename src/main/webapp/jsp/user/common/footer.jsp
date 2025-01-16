@@ -13,7 +13,6 @@
                 <li class="privacy"><a href="#" title="개인정보처리방침 페이지로 이동">개인정보처리방침</a></li>
                 <li><a href="#" title="윤리경영 페이지로 이동">윤리경영</a></li>
             </ul>
-            <a href="#" title="극장찾기" class="looking-theather"><i class="iconset ico-footer-search"></i>극장찾기</a>
         </div>
     </div>
     <!-- //footer-top -->

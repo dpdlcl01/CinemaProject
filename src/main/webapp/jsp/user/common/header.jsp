@@ -11,7 +11,6 @@
             <div class="right-link">
                 <a href="#" title="로그인">로그인</a>
                 <a href="#" title="회원가입">회원가입</a>
-                <a href="#" title="빠른예매">빠른예매</a>
             </div>
         </div>
         <!-- //util-area -->
@@ -31,21 +30,9 @@
                 </li>
                 <li title="예매">
                     <a href="#" class="reserve">예매</a>
-                    <div class="gnb-depth2 reserve-snb">
-                        <ul>
-                            <li><a href="">빠른예매</a></li>
-                            <li><a href="">상영시간표</a></li>
-                        </ul>
-                    </div>
                 </li>
                 <li title="극장">
                     <a href="/CinemaProject/jsp/user/theater.jsp" class="theater">극장</a>
-                    <div class="gnb-depth2 theater-snb">
-                        <ul>
-                            <li><a href="">전체극장</a></li>
-                            <li><a href="">특별관</a></li>
-                        </ul>
-                    </div>
                 </li>
                 <li title="이벤트">
                     <a href="#" class="event">이벤트</a>
@@ -55,12 +42,6 @@
                 </li>
                 <li title="혜택">
                     <a href="#" class="benefit">혜택</a>
-                    <div class="gnb-depth2 benefit-snb">
-                        <ul>
-                            <li><a href="">메가박스 멤버십</a></li>
-                            <li><a href="">제휴/할인</a></li>
-                        </ul>
-                    </div>
                 </li>
             </ul>
         </nav>
