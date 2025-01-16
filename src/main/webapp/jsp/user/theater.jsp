@@ -28,6 +28,7 @@
     min-height: 190px;
     border: 3px solid #686571;
     border-radius: 10px;
+    overflow: hidden; /* 모서리 경계 밖 배경색 숨김 */
     background-color: #fff;
     box-sizing: border-box;
   }
@@ -143,12 +144,6 @@
     justify-content: space-between;
     align-items: center;
   }
-
-/*  .theater-event .event-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #503396; !* 타이틀 색상 *!
-  }*/
 
   .theater-event .more {
     display: inline-flex;

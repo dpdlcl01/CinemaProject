@@ -6,6 +6,7 @@
 <head>
     <jsp:include page="./common/head.jsp"/>
 </head>
+<link rel="stylesheet" href="../../css/user/common.css">
 
 <body class="main-page">
 

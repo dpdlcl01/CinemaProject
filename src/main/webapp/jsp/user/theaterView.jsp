@@ -22,30 +22,57 @@
     .theater-header {
         position: relative;
         width: 100%;
-        height: 300px;
-        background: url('../../css/user/images/theater-detail-img.jpg') center center/cover no-repeat;
-        color: white;
+        height: 300px; /* 헤더 높이 */
+        background: url('../../css/user/images/cinema1.jpg') center center/cover no-repeat;
+
         display: flex;
+        flex-direction: column; /* 수직 정렬 */
         align-items: center;
-        justify-content: center;
+        justify-content: center; /* 수평 중앙 정렬 */
         text-align: center;
+    }
+    .theater-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://img.megabox.co.kr/static/pc/images/movie/bg-movie-detail-mask.png') center top/cover no-repeat;
+        z-index: 1;
+        opacity: 0.8; /* 필요에 따라 투명도 조정 */
     }
 
     .theater-header h1 {
-        font-size: 48px;
-        font-weight: bold;
-        margin: 0;
+        position: relative;
+        z-index: 2; /* 텍스트가 mask 위로 오도록 설정 */
+        font-size: 40px;
+/*        font-weight: bold;*/
+        margin: 0px; /* 극장 이름과 탭 사이 간격 조정 */
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
     }
 
     .theater-header .tabs {
         position: absolute;
-        bottom: 0;
-        width: 100%;
+        top: 0px; /* 상단에 배치 */
+        width: 1100px;
         display: flex;
         justify-content: space-around;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.5); /* 배경 추가 */
         padding: 10px 0;
         margin: 0;
+        z-index: 2; /* 배경 위로 배치 */
+        /*border-radius: 10px;*/ /* 테두리 둥글게 */
+    }
+    .theater-name {
+        width: 1100px;
+        overflow: hidden;
+        padding: 40px 0 0 0;
+        text-align: center;
+        color: #fff;
+        font-size: 3.0666em;
+        font-weight: 400;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, .7);
     }
 
     .theater-header .tabs li {
@@ -70,12 +97,7 @@
     }
 
 
-    /* 탭 아래 섹션 */
-    .theater-tabs {
-        display: flex;
-        justify-content: center;
-        border-bottom: 1px solid #ddd;
-    }
+
 
     /* 공통 스타일 */
     .content {
@@ -648,6 +670,37 @@
         background-color: #f7f7f7;
     }
 
+    #cinema-list-container {
+        display: none;
+        position: absolute;
+        top: 50px; /* 탭 바로 아래 위치 */
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        font-size: 14px;
+        color: black;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    #cinema-list-container.visible {
+        display: block;
+    }
+
+    #cinema-list-container span {
+        margin: 0 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    #cinema-list-container span:hover {
+        text-decoration: underline;
+    }
+
 
 
 </style>
@@ -666,16 +719,21 @@
 <!-- 극장 상단 이미지 및 메뉴 -->
 <!-- 상단 이미지 섹션 -->
 <div class="theater-header">
-    <h1>강남</h1>
     <ul class="tabs">
-        <li class="active">서울</li>
-        <li>경기</li>
-        <li>인천</li>
-        <li>대전/충청/세종</li>
-        <li>부산/대구/경상</li>
-        <li>광주/전라</li>
-        <li>강원</li>
+        <li class="tab" data-cinemas="강남, 센트럴, 코엑스, 홍대">서울</li>
+        <li class="tab" data-cinemas="고양스타필드, 수원스타필드, 안성스타필드">경기</li>
+        <li class="tab" data-cinemas="송도, 청라지젤">인천</li>
+        <li class="tab" data-cinemas="대전, 세종나성">대전/충청/세종</li>
+        <li class="tab" data-cinemas="대구신세계, 부산극장">부산/대구/경상</li>
+        <li class="tab" data-cinemas="광주하남, 전주객사">광주/전라</li>
+        <li class="tab" data-cinemas="속초">강원</li>
     </ul>
+    <div id="cinema-list-container"></div>
+
+
+    <div class="theater-name">
+        <h1>강남</h1>
+    </div>
 </div>
 
 
@@ -1078,6 +1136,34 @@
         // 초기 스크롤 상태 설정
         updateScroll();
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const tabs = document.querySelectorAll(".tabs .tab");
+        const cinemaListContainer = document.getElementById("cinema-list-container");
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("mouseover", () => {
+                const cinemas = tab.getAttribute("data-cinemas").split(", ");
+                cinemaListContainer.innerHTML = cinemas
+                    .map((cinema) => `<span>${cinema}</span>`)
+                    .join(" | ");
+                cinemaListContainer.classList.add("visible");
+            });
+
+            tab.addEventListener("mouseout", () => {
+                cinemaListContainer.classList.remove("visible");
+            });
+        });
+
+        cinemaListContainer.addEventListener("mouseover", () => {
+            cinemaListContainer.classList.add("visible");
+        });
+
+        cinemaListContainer.addEventListener("mouseout", () => {
+            cinemaListContainer.classList.remove("visible");
+        });
+    });
+
 
 </script>
 
