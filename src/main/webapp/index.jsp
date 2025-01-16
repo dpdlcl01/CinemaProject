@@ -75,18 +75,9 @@
 
     <h3>UserController</h3>
     <p>type 기본값: "main"</p>
-    <p><strong>user_action.properties</strong> 파일에 다음 항목을 추가: <em>main=user.action.MainAction</em></p>
+    <p><strong>user_action.properties</strong> 파일에 다음 항목을 추가: <em>main=action.user.MainAction</em></p>
 
-    <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
-    <a href="jsp/user/main.jsp">Go to UserController</a>
-    <a href="jsp/user/store/store.jsp">Go to 스토어</a>
-    <a href="jsp/user/store/product.jsp">Go to 프로덕트</a>
-    <a href="jsp/user/register/register.jsp">Go to 회원가입</a>
-    <a href="jsp/user/myInfo/leave.jsp">Go to 회원탈퇴</a>
-    <a href="jsp/user/myInfo/editMyInfo.jsp">Go to 회원정보변경</a>
-    <a href="jsp/user/reservation/reservationSuccess.jsp">Go to 결제완료</a>
-    <a href="jsp/user/reservation/reservationCancel.jsp">Go to 예매결제취소</a>
-    <a href="jsp/user/store/cart.jsp">Go to 장바구니</a>
+    <a href="UserController">Go to UserController</a>
 </main>
 
 <footer>
