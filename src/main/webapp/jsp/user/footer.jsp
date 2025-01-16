@@ -1,4 +1,17 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: jeong-il-u
+  Date: 2025. 1. 13.
+  Time: 오후 12:06
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <link rel="stylesheet" href="../../css/user/reset.css">
+    <link rel="stylesheet" href="../../css/user/style.css">
+</head>
+<body>
 <!-- footer -->
 <footer id="footer">
     <!-- footer-top -->
@@ -13,6 +26,7 @@
                 <li class="privacy"><a href="#" title="개인정보처리방침 페이지로 이동">개인정보처리방침</a></li>
                 <li><a href="#" title="윤리경영 페이지로 이동">윤리경영</a></li>
             </ul>
+            <a href="#" title="극장찾기" class="looking-theather"><i class="iconset ico-footer-search"></i>극장찾기</a>
         </div>
     </div>
     <!-- //footer-top -->
@@ -35,7 +49,7 @@
                 <a href="https://twitter.com/megaboxon" target="_blank" title="트위터 페이지로 이동">
                     <i class="iconset ico-twitter">트위터</i>
                 </a>
-                <a href="https://www.facebook.com/megaboxon" target="_blank" title="페이스북 페이지로 이동">
+                <a href="https://www.facebook.com/megaboxon"" target="_blank" title="페이스북 페이지로 이동">
                 <i class="iconset ico-facebook">페이스북</i>
                 </a>
                 <a href="https://instagram.com/megaboxon" target="_blank" title="인스타그램 페이지로 이동">
@@ -53,3 +67,5 @@
     <!-- //footer-bottom -->
 </footer>
 <!-- //footer -->
+</body>
+</html>

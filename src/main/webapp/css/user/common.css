@@ -1,9 +1,15 @@
 @charset "UTF-8";
 @import "reset.css";
 
+/* 모든 페이지 타이틀 영역 */
+.title h1{
+    margin-bottom: 20px;
+}
+
 /* 모든 페이지 contents 영역 */
 .contents{
   width: 1100px;
+  min-height: 550px;
   margin: 50px auto;
 }
 
@@ -446,4 +452,36 @@ h2.tit {
 }
 .button {
   cursor: pointer;
+}
+
+
+/*page util 임시추가.*/
+.page-util {
+  background-color: #f8f8f8; /* 배경색 */
+  border-bottom: 1px solid #ddd; / 하단 경계선 /
+  /*padding: 10px 0;*/
+}
+.page-util .inner-wrap {
+  max-width: 1100px;
+  height: 40px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  font-size: 14px;
+  color: #333;
+}
+.page-util .location span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+.page-util .location a {
+  color: #0078ff;
+  text-decoration: none;
+  margin-left: 10px;
+  pointer-events: none;
+  cursor: default;
+}
+.page-util .location a:hover {
+  text-decoration: none; /* 호버 효과 */
 }

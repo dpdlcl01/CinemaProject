@@ -25,6 +25,9 @@
 
 <!-- 외부CSS 연결하기 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css"> <!-- 추후에 해당 main 화면에 옮길 예정 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css">
+
+<!-- 메인화면 하트 아이콘 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <script src="${pageContext.request.contextPath}/js/app.js"></script>
