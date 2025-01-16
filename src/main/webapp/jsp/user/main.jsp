@@ -6,7 +6,6 @@
 <head>
     <jsp:include page="./common/head.jsp"/>
 </head>
-<link rel="stylesheet" href="../../css/user/common.css">
 
 <body class="main-page">
 
@@ -163,6 +162,12 @@
                     </div>
                 </div>
                 <div class="cell">
+                    <a href="#" title="상영시간표 보기">
+                        <i class="schedule"></i>
+                        상영시간표
+                    </a>
+                </div>
+                <div class="cell">
                     <a href="#" title="박스오피스 보기">
                         <i class="boxoffice"></i>
                         박스오피스
@@ -172,12 +177,6 @@
                     <a href="#" title="빠른예매 보기">
                         <i class="quickreserve"></i>
                         빠른예매
-                    </a>
-                </div>
-                <div class="cell">
-                    <a href="#" title="극장 보기">
-                        <i class="schedule"></i>
-                        극장
                     </a>
                 </div>
             </div>
@@ -292,6 +291,25 @@
                 </div>
             </div>
             <!-- brn-ad -->
+            <!-- menu-link -->
+            <div class="menu-link clearfix">
+                <div class="cell vip">
+                    <a href="" title="VIP LOUNGE 페이지로 이동">VIP LOUNGE</a>
+                </div>
+                <div class="cell membership">
+                    <a href="" title="멤버십 페이지로 이동">멤버십</a>
+                </div>
+                <div class="cell card">
+                    <a href="" title="할인카드안내 페이지로 이동">할인카드안내</a>
+                </div>
+                <div class="cell event">
+                    <a href="" title="이벤트 페이지로 이동">이벤트</a>
+                </div>
+                <div class="cell store">
+                    <a href="" title="스토어 페이지로 이동">스토어</a>
+                </div>
+            </div>
+            <!-- //menu-link -->
             <!-- grand-open -->
             <div class="grand-open">
                 <p class="tit">
@@ -321,8 +339,8 @@
     </section>
     <!-- //section04 -->
 </main>
+
 <!-- footer 영역 -->
 <jsp:include page="./common/footer.jsp"/>
-<jsp:include page="./common/modalscript.jsp"/>
 </body>
 </html>
