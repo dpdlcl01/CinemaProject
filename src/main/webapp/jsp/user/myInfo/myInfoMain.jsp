@@ -113,7 +113,7 @@
                 <div class="liWrap">  <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
                 <div class="liWrap"> <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
                 <div class="liWrap"> <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li></div>
-                <div class="liWrap"> <li><a href="myInfo.jsp" title="회원정보">회원정보</a></li></div>
+                <div class="liWrap"> <li><a href="myInfoMain.jsp" title="회원정보">회원정보</a></li></div>
             </ul>
         </div>
 

@@ -187,7 +187,7 @@ To change this template use File | Settings | File Templates.
         </ul>
       </div>
       <!-- 사이드 바 옆 -->
-      <jsp:include page="../myInfo/movieStory.jsp"/>
+      <jsp:include page="myMovieStory.jsp"/>
     </article>
   </div>
 

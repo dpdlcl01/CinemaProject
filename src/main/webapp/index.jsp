@@ -73,17 +73,18 @@
     <h2>영화 예매 웹 애플리케이션</h2>
 
     <a href="UserController">Go to UserController</a><br/><br/>
-    <p>메인 메뉴에 화면 연결시</p>
-    <p><strong>header.jsp</strong>의 a태그에 다음 예시와 같이 추가<em>"UserController?type=movie"</em></p><br/><br/>
+    <h3>메인 메뉴에 화면 연결시</h3>
+    <p><strong>user/common/header.jsp</strong>의 a태그에 다음 예시와 같이 추가<em>"UserController?type=movie"</em></p><br/><br/>
     <section>
-        <h3>기능별 화면 확인</h3>
+        <h3>기능별 화면 확인 필요시 아래에 링크 추가</h3>
         <p>아래 버튼을 클릭하여 각각의 화면을 확인하세요:</p>
         <div>
-            <a href="./jsp/user/event.jsp">이벤트 페이지</a>
-            <a href="./jsp/user/announcement.jsp">공지사항 페이지</a>
-            <a href="./jsp/user/noticepost.jsp">공지사항 글 확인 페이지</a>
-            <a href="./jsp/user/MyInfo.jsp">내 정보 페이지</a>
-            <a href="./jsp/user/product.jsp">상품 페이지</a>
+            <a href="./jsp/user/event/eventMain.jsp">이벤트 페이지</a>
+            <a href="./jsp/user/notice/noticeMain.jsp">공지사항 페이지</a>
+            <a href="jsp/user/notice/noticePost.jsp">공지사항 글 확인 페이지</a>
+            <a href="jsp/user/myInfo/myInfoMain.jsp">내 정보 페이지</a>
+            <a href="jsp/user/store/storeProduct.jsp">상품 페이지</a>
+            <a href="jsp/user/reservation/reservationSeat.jsp">좌석 선택 페이지</a>
         </div>
     </section>
 </main>
