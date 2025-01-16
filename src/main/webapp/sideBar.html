@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  *{
+   padding: 0;
+    margin: 0;
+  }
+  .sidebar{
+    border:1px solid #222222;
+    width: 200px;
+    border-radius: 6px;
+    height: 360px;
+  }
+  .sidebar a{
+    display: flex;
+    color: #222222;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    justify-content: center;
+    line-height: 30px;
+    border-top: 1px solid #222222;
+    font-weight: bolder;
+  }
+  .sidebar li>a{
+    background-color:  #f0f0f0;
+    font-size: 14px;
+  }
+  #myMega{
+   background-color: #222222;
+
+  }
+  #myMega>a{
+    color: lightgray;
+  }
+  #myMega>a:hover{
+    background-color: #f0f0f0;
+    color: #222222;
+  }
+  .sidebar li>a:hover{
+    background-color: white;
+    color: black;
+  }
+</style>
+<body>
+<div class="sidebar">
+  <ul>
+    <div  id="myMega"><a href="MyInfo.jsp" title="나의 메가박스">나의 메가박스</a></div>
+    <li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
+    <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
+    <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
+    <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
+    <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
+    <li><a href="#" title="회원정보">회원정보</a></li>
+  </ul>
+</div>
+</body>
+</html>
