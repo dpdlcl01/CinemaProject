@@ -53,7 +53,7 @@
     #main{
         display: flex;
         border: 1px solid gray;
-        width: 840px;
+        width: 1100px;
         height: 287px;
         align-items: center;
         padding: 25px 30px 20px 25px;
@@ -65,6 +65,7 @@
         width: 135px;
         height: 195px;
         margin-right: 40px;
+      margin-left: 150px;
     }
     #mainTable{
         font-size: 14px;
@@ -124,13 +125,13 @@
         text-align: center;
     }
     #null{
-        width: 840px;
+        width: 1100px;
         height: 160px;
         box-sizing: border-box;
         margin-top: 20px;
         border-top: 1px solid black;
         border-bottom: 1px solid black;
-        padding:65px 330px;
+        padding:65px 470px;
         margin-bottom: 20px;
     }
 </style>
@@ -167,12 +168,12 @@
         </table>
     </div>
     <div id="strong">
-        <strong>총<b>1</b>건</strong>
+
     </div>
     <div id="null">
         예약내역이 없습니다.
     </div>
-
+    <strong>총<b>1</b>건</strong>
     <div id="main">
         <img src="../../img/ha.png">
         <div id="mainInfo">
@@ -236,11 +237,11 @@
         <li>상영일 기준 7일간 취소내역을 확인하실 수 있습니다.</li>
         <table id="bottomTable">
             <colgroup>
-                <col width="160px">
-                <col width="257px">
-                <col width="130px">
-                <col width="188px">
-                <col width="105px">
+                <col width="210px">
+                <col width="307px">
+                <col width="180px">
+                <col width="238px">
+                <col width="165px">
             </colgroup>
             <thead>
             <th>취소일시</th>

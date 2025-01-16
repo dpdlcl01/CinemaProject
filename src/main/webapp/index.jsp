@@ -86,6 +86,7 @@
     <a href="jsp/user/editMyInfo.jsp">Go to 회원정보변경</a>
     <a href="jsp/user/paymentSuccess.jsp">Go to 결제완료</a>
     <a href="jsp/user/reservCancelHistory.jsp">Go to 예매결제취소</a>
+    <a href="jsp/user/cart.jsp">Go to 예매결제취소</a>
 </main>
 
 <footer>
