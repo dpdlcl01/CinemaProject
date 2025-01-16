@@ -14,6 +14,8 @@
 <head>
   <meta charset="UTF-8">
 </head>
+
+<link rel="stylesheet" href="../../css/user/movie.css">
 <style>
   #main{
     position: relative;
@@ -177,14 +179,16 @@
     background-color: #339eb2;
   }
 
-  .my-timeline-list ol .movie li {
+  /*.my-timeline-list ol */
+  .movie li {
     position: relative;
     min-height: 170px;
     margin: 0;
     padding: 10px 0 10px 120px;
   }
 
-  .my-timeline-list ol .movie li .img {
+  /*.my-timeline-list ol */
+  .movie li .img {
     position: absolute;
     left: 0;
     top: 10px;
@@ -319,7 +323,7 @@
     position: relative;
     padding: 0 105px 0 0;
   }
-  .button {
+  .seeMovieButton {
     display: inline-block;
     height: 36px;
     margin: 0;
@@ -388,8 +392,62 @@
     padding: 0 0 0 8px;
   }
 
+  /*관람평 스타일*/
+  .my-appraisal ul li {
+    position: relative;
+    min-height: 170px;
+    padding: 20px 0 20px 120px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  .my-appraisal ul li .img {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 90px;
+    height: 130px;
+    font-size: 0;
+    line-height: 0;
+  }
 
+  .my-appraisal ul li .img img {
+    width: 100%;
+    height: auto;
+  }
+  .my-appraisal ul li .cont .tit {
+    display: block;
+    padding: 5px 0 0 0;
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .my-appraisal ul li .cont .tit a {
+    font-size: 23px;
+  }
 
+  .my-appraisal ul li .cont .util .right {
+    float: right;
+    padding-top: 35px;
+  }
+
+  .my-appraisal ul li .cont .util .right span {
+    display: block;
+    float: left;
+    position: relative;
+  }
+
+  .my-appraisal ul li .cont .util .right .btn {
+    display: block;
+    height: 25px;
+    margin: 0 0 0 10px;
+    padding: 0 4px;
+    border: 0;
+    background-color: transparent;
+  }
+
+  .oneData{
+    margin-top: 20px;
+    font-size: 18px;
+  }
 
 </style>
 <body>
@@ -399,7 +457,7 @@
 <%--    <div class="location">--%>
 <%--      <span>Home</span>--%>
 <%--      <!--<span>회원정보</span>-->--%>
-<%--      <span class="pageUtila">나의 무비 스토리</span>--%>
+<%--      <span class="pageUtila">seeMove</span>--%>
 <%--    </div>--%>
 <%--  </div>--%>
 <%--</div>--%>
@@ -409,7 +467,8 @@
           <div class="tabs">
             <div class="tab active" data-target="movieTimeline">무비타임라인</div>
             <div class="tab" data-target="review">관람평</div>
-            <div class="tab" data-target="seeMove">본영화</div>
+            <div class="tab" data-target="seeMovie">본영화</div>
+            <div class="tab" data-target="want">보고싶어</div>
           </div>
           <div id="movieTimeline" class="content active">
             <div class="YearTabs-container">
@@ -443,7 +502,8 @@
                       <ul class="movie">
                         <li>
                           <a href="#" title="헌트 상세보기" class="img">
-                            <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트"></a>
+                            <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트">
+                          </a>
                           <div class="cont">
                             <p class="label">본영화</p>
                             <p class="tit"><a href="#" title="헌트 상세보기">헌트</a></p>
@@ -506,24 +566,39 @@
 
           <div id="review" class="content">
             <div class="my-appraisal">
-              <ul>
-                <li class="no-result">등록된 한줄평이 없습니다.</li>
+              <ul id="myAppraisal"><li>
+                <p class="img posterImg">
+                  <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트">
+                </p>
+                <div class="cont">
+                  <p class="tit">
+                    <a href="#" title="한줄평 상세보기">헌트</a>
+                  </p>
+                  <p class="oneData">재밌게 잘 봤습니다.</p>
+                  <div class="modify-area updateData" style="display: none;">
+                    <textarea rows="5" cols="30" title="한줄평 수정 내용 입력" class="input-textarea">.</textarea>
+                  </div>
+                  <div class="util">
+                    <div class="right">
+                      <span><button type="button" id="updateRealCommentBtn" class="btn modify updateBtn">수정</button></span>
+                      <span><button type="button" class="btn del deleteBtn">삭제</button></span>
+                    </div>
+                </div>
+                </div>
+              </li>
+                <li class="no-result">내용</li>
               </ul>
             </div>
           </div>
 
-          <div id="seeMove" class="content">
-            <%--                   <div class="my-appraisal">--%>
-            <%--                       <ul id="">--%>
-            <%--                           <li class="no-result">본영화가 표시 됩니다.</li>--%>
-            <%--                       </ul>--%>
+          <div id="seeMovie" class="content">
             <div class="mypage-infomation mt20" style="display: block;">
               <ul class="dot-list mb20">
                 <li>극장에서 발권하신 티켓 바코드 하단의 거래번호를 통해 본 영화 등록을 하실 수 있습니다.</li>
                 <li>본영화는 관람한 인원수에 한해 등록이 가능합니다.</li>
               </ul>
               <div class="btn-group right" style="display: block;">
-                <a href="#" class="button" title="본 영화 등록">본 영화 등록</a>
+                <a href="#" class="SeeMovieButton" title="본 영화 등록">본 영화 등록</a>
               </div>
             </div>
             <div class="my-saw-movie" style="display: block;">
@@ -567,10 +642,62 @@
               </ul>
             </div>
           </div>
+
+
+
+          <div id="want" class="content">
+<%--            <div class="my-appraisal">--%>
+              <section id="section05" class="section main-movie">
+                <!-- cont-area -->
+                <div class="cont-area">
+                <div class="main-movie-list">
+                  <ol class="list clearfix movie-list">
+                    <li data-status="open">
+                      <!-- movie-list-info -->
+                      <a href="#" class="movie-list-info" title="영화상세 보기">
+                        <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/veoYkRw8THPbrE9FobWUP1BVmEbMOXnp_420.jpg" alt="말할 수 없는 비밀" class="poster">
+                      </a>
+                      <div class="tit-area">
+                        <p class="movie-grade age-all">,</p>
+                        <p title="말할 수 없는 비밀" class="tit">말할 수 없는 비밀</p>
+                      </div>
+                      <!-- //movie-list-info -->
+                      <!-- btn-util -->
+                      <div class="btn-util">
+                        <button type="button" class="button btn-like">
+                          <i class="far fa-heart"></i>1.2k
+                        </button>
+                        <div class="case">
+                          <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                        </div>
+                      </div>
+                      <!-- //btn-util -->
+                    </li>
+                    <li>
+                      <a href="#" class="movie-list-info" title="영화상세 보기">
+                        <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/0XDjkXDLm7waDVJ9leltSNNBOrEpLGEU_420.jpg" alt="검은 수녀들" class="poster">
+                      </a>
+                      <div class="tit-area">
+                        <p class="movie-grade age-15">,</p>
+                        <p title="검은 수녀들" class="tit">검은 수녀들</p>
+                      </div>
+                      <div class="btn-util">
+                        <button type="button" class="button btn-like">
+                          <i class="far fa-heart"></i>1.1k
+                        </button>
+                        <div class="case">
+                          <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                        </div>
+                      </div>
+                    </li>
+                  </ol>
+                </div>
+                </div>
+            </section>
+                <li class="no-result">보고싶은 영화를 등록 해 주세요</li>
+            </div>
+          </div>
         </div>
-        <%--           </div>--%>
-  </article>
-</div>
 
 <!-- footer 영역 -->
 <!-- script 영역 -->
@@ -627,5 +754,6 @@
   // // 초기 상태
   activateTab(3);
 </script>
+<script src="../../js/app.js"></script>
 </body>
 </html>
