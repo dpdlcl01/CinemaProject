@@ -13,14 +13,16 @@
     const closeModalBtn = document.getElementById("modal-close");
     const openModalBtn = document.getElementById("member-login-btn");
     const openModalBtn2 = document.getElementById("login-btn");
+    const modalContainer = document.querySelector(".modal-container");
 
 
     // 회원로그인 모달 열기
     if (openModalBtn) {
       openModalBtn.addEventListener("click", (event) => {
         event.preventDefault(); // 기본 동작 방지
+        modalContainer.style.height = "400px"; // 높이 설정
         modalOverlay.style.display = "block"; // 모달 열기
-        modalIframe.src = "memberlogin.jsp";
+        modalIframe.src = "${pageContext.request.contextPath}/jsp/user/login/memberLoginModal.jsp";
       });
     }
 
@@ -28,8 +30,9 @@
     if (openModalBtn2) {
       openModalBtn2.addEventListener("click", (event) => {
         event.preventDefault(); // 기본 동작 방지
+        modalContainer.style.height = "480px"; // 높이 설정
         modalOverlay.style.display = "block"; // 모달 열기
-        modalIframe.src = "login.jsp"
+        modalIframe.src = "${pageContext.request.contextPath}/jsp/user/login/reservationLoginModal.jsp"
       });
     }
 

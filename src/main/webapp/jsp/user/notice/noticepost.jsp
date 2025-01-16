@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
     <style>
         h1 {
             margin: 50px 0 20px 0;
@@ -72,7 +72,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <!-- 추가된 page-util -->
 <div class="page-util">
     <div class="inner-wrap">
@@ -121,7 +121,7 @@
     </table>
     <a href="#" class="btn-list">목록</a>
 </div>
-<jsp:include page="./common/footer.jsp"/>
-<jsp:include page="./common/modalscript.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
+<jsp:include page="../common/modalscript.jsp"/>
 </body>
 </html>
