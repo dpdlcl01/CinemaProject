@@ -55,7 +55,7 @@
 /* section01 */
 #main #section01 {
     position: relative;
-    height: 830px;
+    height: 880px;
     padding: 0 0 80px 0;
     background-color: #000;
 }
@@ -201,7 +201,7 @@
 }
 #main #section01 .cont-area .search-link {
     margin: 80px 0 0 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 20px 0;
 }
 #main #section01 .cont-area .search-link .cell {
@@ -282,7 +282,8 @@
 #main #section02.main-benefit {
     overflow: hidden;
     position: relative;
-    min-height: 710px;
+    min-height: 1148px;
+    padding: 0 0 100px 0;
 }
 #main #section02.main-benefit:before {
     content: '';
@@ -292,7 +293,6 @@
     right: 0;
     top: 513px;
     bottom: 0;
-    height: 200px;
     background-color: #503396;
 }
 #main #section02.main-benefit .wrap {
@@ -497,6 +497,7 @@
     position: relative;
     min-width: 1100px;
     margin: 50px 0 0 0;
+    border-top: 1px solid #5c419d;
 }
 #main #section02.main-benefit .grand-open .tit {
     position: absolute;
@@ -638,7 +639,7 @@
 }
 
 #main #section04.main-info {
-    padding: 0 0 110px 0;
+    padding: 0 0 50px 0;
 }
 #main #section04.main-info h2.tit {
     width: 1100px;
