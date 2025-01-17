@@ -86,6 +86,7 @@
             <a href="jsp/user/reservation/reservationMain.jsp">빠른 예매 페이지</a>
             <a href="jsp/user/reservation/reservationSeat.jsp">좌석 선택 페이지</a>
             <a href="jsp/user/movie/movieMain.jsp">영화 메인 페이지</a>
+            <a href="jsp/user/movie/movieDetail.jsp">영화 상세 페이지</a>
             <a href="jsp/user/theater/theaterMain.jsp">극장 메인 페이지</a>
         </div>
     </section>
