@@ -69,16 +69,26 @@
 <header>
     <h1>Cinema Project</h1>
 </header>
-
 <main>
     <h2>영화 예매 웹 애플리케이션</h2>
 
-    <h3>UserController</h3>
-    <p>type 기본값: "main"</p>
-    <p><strong>user_action.properties</strong> 파일에 다음 항목을 추가: <em>main=user.action.MainAction</em></p>
-
-    <%-- 기능 구현 전이므로 일단은 main.jsp를 경로로 연결해 메인 화면으로 바로 접근. 추후 Controller 연결 예정 --%>
-    <a href="jsp/user/main.jsp">Go to UserController</a>
+    <a href="UserController">Go to UserController</a><br/><br/>
+    <h3>메인 메뉴에 화면 연결시</h3>
+    <p><strong>user/common/header.jsp</strong>의 a태그에 다음 예시와 같이 추가<em>"UserController?type=movie"</em></p><br/><br/>
+    <section>
+        <h3>기능별 화면 확인 필요시 아래에 링크 추가</h3>
+        <p>아래 버튼을 클릭하여 각각의 화면을 확인하세요:</p>
+        <div>
+            <a href="./jsp/user/event/eventMain.jsp">이벤트 페이지</a>
+            <a href="./jsp/user/notice/noticeMain.jsp">공지사항 페이지</a>
+            <a href="jsp/user/myInfo/myInfoMain.jsp">내 정보 페이지</a>
+            <a href="jsp/user/store/storeMain.jsp">스토어 메인 페이지</a>
+            <a href="jsp/user/reservation/reservationMain.jsp">빠른 예매 페이지</a>
+            <a href="jsp/user/reservation/reservationSeat.jsp">좌석 선택 페이지</a>
+            <a href="jsp/user/movie/movieMain.jsp">영화 메인 페이지</a>
+            <a href="jsp/user/theater/theaterMain.jsp">극장 메인 페이지</a>
+        </div>
+    </section>
 </main>
 
 <footer>
