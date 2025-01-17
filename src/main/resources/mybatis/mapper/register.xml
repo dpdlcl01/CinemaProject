@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="register">
+    <insert id="reg_add" parameterType="Map">
+        INSERT INTO user (userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus)
+        VALUES (${userName}, ${userId}, ${userPassword}, ${userEmail}, ${userPhone}, 0, ${userGrade}, now(), 1);
+    </insert>
+</mapper>

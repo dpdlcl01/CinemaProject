@@ -146,10 +146,32 @@ public class UserController extends HttpServlet {
         }
     }
 
+
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         doGet(request, response);
+
+        request.setCharacterEncoding("UTF-8");
+
+        String userName = request.getParameter("userName");
+        String userEmail = request.getParameter("userEmail");
+        String birthyear = request.getParameter("birthyear");
+        String birthmonth = request.getParameter("birthmonth");
+        String birthday = request.getParameter("birthday");
+        String userPhone = request.getParameter("userPhone");
+        String userId = request.getParameter("userId");
+        String userPassword = request.getParameter("userPassword");
+
+        System.out.println(userName);
+        System.out.println(userEmail);
+        System.out.println(birthyear);
+        System.out.println(birthmonth);
+        System.out.println(birthday);
+        System.out.println(userPhone);
+
+        System.out.println(userId);
+        System.out.println(userPassword);
     }
 
 }

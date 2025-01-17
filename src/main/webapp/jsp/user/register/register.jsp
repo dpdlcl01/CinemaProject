@@ -186,6 +186,7 @@
 
 </head>
 <body>
+<form action="/UserController?type=register" method="post">
 <div id="contents">
   <h1>여기에 로고</h1>
 
@@ -197,7 +198,7 @@
       <p class="step">STEP4.가입완료</p>
     </div>
 
-    <div id="main0">
+    <div id="main0" style="display: none;">
       <article id="main0Title">
         <strong>회원가입을 위한 본인인증 단계입니다.</strong>
         <p>이메일 인증을 완료해주세요</p>
@@ -208,27 +209,30 @@
           <col width="120px">
           <col width="350px">
         </colgroup>
+
         <tr>
           <td><span>이름</span> </td>
-          <td><input type="text" class="inputValue"></td>
+          <td><input type="text" id="userName" name="userName" class="inputValue"></td>
         </tr>
         <tr>
           <td><span>이메일</span> </td>
-          <td><input type="text" class="inputEmail"><span>@</span><input type="text" class="inputEmail"><button type="button" id="Cnum">인증번호받기</button> </td>
+          <td><input type="text" id="userEmail" name="userEmail" class="inputEmail"><span>@</span><input type="text" class="inputEmail"><button type="submit" id="Cnum">인증번호받기</button> </td>
         </tr>
         <tr>
           <td><span>인증번호</span> </td>
-          <td><input type="text" class="inputValue"> <button type="button" class="tableButton">인증 확인</button> </td>
+          <td><input type="text" id="authcode" name="authcode" class="inputValue"> <button type="button" class="tableButton" onclick="authcheck()">인증 확인</button> </td>
         </tr>
+
       </table>
       <div id="nextDiv">
-        <button type="button" id="next" disabled>다음</button>
+        <button type="button" id="next"  onclick="gotoMain2()">다음</button>
       </div>
 
+      <input type="hidden" id="authcheck" value=""/>
     </div>
 
 
-    <div id="main" class="main default">
+    <div id="main" class="default" style="display: block;">
       <div>
         <strong>약관동의 및 정보활용 동의</strong>
       </div>
@@ -262,14 +266,14 @@
       </div>
       <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
       <div id="checkDiv">
-        <button type="button" id="check" disabled>확인</button>
+        <button type="button" id="check" disabled onclick="gotoMain0()">확인</button>
       </div>
     </div>
   </article>
 
-  <div id="main2">
+  <div id="main2" style="display: none;">
     <div>
-      <strong>사용자님 안녕하세요</strong>
+      <strong>${userName}님 안녕하세요</strong>
       <p>회원 정보를 입력해주세요</p>
     </div>
 
@@ -284,36 +288,37 @@
         <tr>
           <td class="bold">생년월일</td>
           <td>
-            <input type="text" class="birth" value="2025">
+            <input type="text" id="birthyear" name="birthyear" class="birth" value="2025">
             <span>년</span>
-            <input type="text" class="birth" value="01">
+            <input type="text" id="birthmonth" name="birthmonth" class="birth" value="01">
             <span>월</span>
-            <input type="text" class="birth" value="01">
+            <input type="text" id="birthday" name="birthday" class="birth" value="01">
             <span>일</span>
           </td>
         </tr>
 
         <tr>
           <td class="bold"> 휴대폰번호</td>
-          <td><input type="text" class="inputValue"></td>
+          <td><input type="text" id="userPhone" name="userPhone" class="inputValue"></td>
         </tr>
 
         <tr>
           <td class="bold">아이디</td>
           <td>
-            <input type="text" class="inputValue">
+            <input type="text" id="userId" name="userId" class="inputValue">
             <button type="button" class="tableButton">중복확인</button>
           </td>
         </tr>
 
         <tr>
           <td class="bold">비밀번호</td>
-          <td><input type="text" class="inputValue"></td>
+          <td><input type="password" id="userPassword" name="userPassword" class="inputValue"></td>
         </tr>
 
         <tr>
-          <td class="bold">비밀번호확인</td>
-          <td><input type="text" class="inputValue"></td>
+          <td class="bold" >비밀번호확인</td>
+          <td><input type="password" id="auth_userPassword" name="auth_userPassword" class="inputValue"></td>
+          <td id="authpwd" style=display:none; color: red; >비밀번호가 일치하지 않습니다.</td>
         </tr>
 
 
@@ -337,17 +342,17 @@
         </div>
       </div>
       <div id="registerDiv">
-        <button type="button" id="register" disabled>회원가입</button>
+        <button type="button" id="register" onclick="gotoMain3(this.form)">회원가입</button>
       </div>
 
     </div>
   </div>
-  <div id="main3">
+  <div id="main3" style="display: none;">
     <div id="mainImg">
       <img src="../../../img/complete.png">
     </div>
     <div id="main3Title">
-      <p>사용자님 메가박스 가입을 환영합니다.</p>
+      <p>${userName}님 메가박스 가입을 환영합니다.</p>
     </div>
     <div>
       <p id="main3Content">이제부터 메가박스에서 제공하는 다양한 멤버십 혜택을 이용하실 수 있습니다.</p>
@@ -358,8 +363,9 @@
 
   </div>
 </div>
+</form>
 
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   const checkbox1 = document.getElementById('serviceAgree');
   const checkbox2 = document.getElementById('personalAgree');
@@ -390,6 +396,87 @@
       checkbox.checked=false;
       button.classList.remove("enabled");
     }
+  }
+
+  function gotoMain0(){
+    document.getElementById('main').style.display = 'none';
+    document.getElementById('main0').style.display = 'block';
+  }
+
+  function gotoMain2(){
+    let userName = $(".inputValue[name='userName']").val();
+    let userEmail = $(".inputEmail[name='userEmail']").val();
+    let authcode = $(".inputValue[name='authcode']").val();
+
+    userName = $.trim(userName);
+    userEmail = $.trim(userEmail);
+    authcode = $.trim(authcode)
+
+    if (userName.length < 1) {
+      alert("이름을 입력하세요.");
+      $(".inputValue[name='userName']").val("").focus();
+      return;
+    }
+    if (userEmail.length < 1) {
+      alert("이메일을 입력하세요.");
+      $(".inputEmail[name='userEmail']").val("").focus();
+      return;
+    }
+    if (authcode.length < 1) {
+      alert("이메일 인증번호를 입력하세요.");
+      $(".inputValue[name='authcode']").val("").focus();
+      return;
+    }
+
+      document.getElementById('main0').style.display = 'none';
+      document.getElementById('main2').style.display = 'block';
+
+  }
+
+  function gotoMain3(frm){
+    let birthyear = $.trim(".inputValue[name='birthyear']").val();
+    let birthmonth = $.trim(".inputValue[name='birthmonth']").val();
+    let birthday = $.trim(".inputValue[name='birthday']").val();
+
+    let userPhone = $.trim(".inputValue[name='userPhone']").val();
+    let userId = $.trim(".inputValue[name='userId']").val();
+    let userPassword = $.trim(".inputValue[name='userPassword']").val();
+    let auth_userPassword = $.trim(".inputValue[name='auth_userPassword']").val();
+
+    if(!birthyear || !birthmonth || !birthday){
+      alert("생일을 모두 입력해주세요.");
+      $(".inputValue[name='birthyear']").val("").focus();
+      return false;
+    }
+    if(userPhone < 10) {
+      alert("핸드폰번호를 입력해주세요.");
+      $(".inputValue[name='userPhone']").val("").focus();
+      return false;
+    }
+    if(userId < 3) {
+      alert("아이디는 4글자 이상만 입력가능합니다.");
+      $(".inputValue[name='userId']").val("").focus();
+      return false;
+    }
+    if(userPassword < 6) {
+      alert("비밀번호는 6글자 이상만 입력가능합니다.");
+      $(".inputValue[name='userPassword']").val("").focus();
+      return false;
+    }
+
+    if(userPassword !== auth_userPassword) {
+      $("authpwd").show();
+    } else {
+      $("authpwd").hide();
+    }
+
+    frm.submit();
+
+    document.getElementById('main2').style.display = 'none';
+    document.getElementById('main3').style.display = 'block';
+
+
+
   }
 </script><!--다음 화면 읽고 만들기-->
 
