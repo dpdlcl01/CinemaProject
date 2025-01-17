@@ -3,12 +3,12 @@
 <html lang="ko">
 <!-- head -->
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
 </head>
 
 <body>
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 <style>
     /* 공통 스타일 */
@@ -23,7 +23,7 @@
         position: relative;
         width: 100%;
         height: 300px; /* 헤더 높이 */
-        background: url('../../css/user/images/theater-image.jpg') center center/cover no-repeat;
+        background: url('../../../css/user/images/theater-image.jpg') center center/cover no-repeat;
 
         display: flex;
         flex-direction: column; /* 수직 정렬 */
@@ -780,15 +780,15 @@
                 </div>
                 <div class="facility-icons">
                     <div class="icon">
-                        <img src="../../css/user/images/ico-facility-comfort.png" alt="컴포트">
+                        <img src="../../../css/user/images/ico-facility-comfort.png" alt="컴포트">
                         <p>컴포트</p>
                     </div>
                     <div class="icon">
-                        <img src="../../css/user/images/ico-facility-theater.png" alt="일반상영관">
+                        <img src="../../../css/user/images/ico-facility-theater.png" alt="일반상영관">
                         <p>일반상영관</p>
                     </div>
                     <div class="icon">
-                        <img src="../../css/user/images/ico-facility-dolby.png" alt="돌비">
+                        <img src="../../../css/user/images/ico-facility-dolby.png" alt="돌비">
                         <p>돌비</p>
                     </div>
                 </div>
@@ -1088,7 +1088,7 @@
 
 
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 
 <!-- script 영역 -->
 <script>
