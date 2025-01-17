@@ -1,13 +1,12 @@
 @charset "UTF-8";
 @import "reset.css";
-@import "tab.css";
 
 /* 모든 페이지 타이틀 영역 */
 .title h1{
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
- /*모든 페이지 contents 영역*/
+/* 모든 페이지 contents 영역 */
 .contents{
   width: 1100px;
   min-height: 550px;
@@ -16,68 +15,88 @@
 
 /* 모달 오버레이 스타일 */
 .modal-overlay {
-  display: none; /* 초기에는 숨김 */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+    display: none; /* 초기에는 숨김 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
 }
+
 
 /* 모달 컨테이너 스타일 */
 .modal-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 5px;
-  overflow: hidden;
-  width: 700px;
-  height: 400px;
-  display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 700px; /* 고정된 너비 */
+    display: flex;
 }
 
+/*.modal-close {*/
+/*    position: absolute;*/
+/*    top: 10px;*/
+/*    right: 10px;*/
+/*    cursor: pointer;*/
+/*    font-size: 16px;*/
+/*    color: #333;*/
+/*}*/
 .modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #333;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 /* 상단 메뉴바 Page Util */
 .page-util {
-  background-color: #f8f8f8; / 배경색 /
-border-bottom: 1px solid #ddd; / 하단 경계선 /
-  /*padding: 10px 0;*/
+    background-color: #f8f8f8; /* 배경색 */
+    border-bottom: 1px solid #ddd; / 하단 경계선 /
+    /*padding: 10px 0;*/
 }
 .page-util .inner-wrap {
-  max-width: 1100px;
-  height: 40px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; / 왼쪽 정렬 /
-font-size: 14px;
-  color: #333;
-}
-.page-util .location span {
-  font-weight: bold;
-  margin-right: 10px;
-}
-.page-util .location a {
-  color: #0078ff;
-  text-decoration: none;
-  margin-left: 10px;
-}
-.page-util .location a:hover {
-  text-decoration: underline; / 호버 효과 */
+    max-width: 1100px;
+    height: 40px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    font-size: 14px;
+    color: #333;
 }
 
+.page-util .location span {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.page-util .location a {
+    color: #0078ff;
+    text-decoration: none;
+    margin-left: 10px;
+    pointer-events: none;
+    cursor: default;
+}
+
+.page-util .location a:hover {
+    text-decoration: none; /* 호버 효과 */
+}
 
 /* 페이지별 탭 */
 .hightab {
@@ -293,6 +312,8 @@ font-size: 14px;
   text-decoration: underline;
 }
 
+
+
 /* footer */
 #footer {
   position: relative;
@@ -350,6 +371,7 @@ font-size: 14px;
 #footer .footer-top .fnb a:hover {
   text-decoration: underline;
 }
+
 #footer .footer-bottom {
   color: #444;
 }

@@ -1,4 +1,4 @@
--- 19. 관리자(admin) 테이블 생성
+-- 20. 관리자(admin) 테이블 생성
 CREATE TABLE admin (
     adminIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '관리자 고유 ID',
     adminId VARCHAR(20) NOT NULL UNIQUE COMMENT '관리자 로그인 ID',
@@ -100,7 +100,7 @@ CREATE TABLE price (
 ) COMMENT='좌석 가격 정보를 관리하는 테이블';
 
 
--- 7. 예매(reservation) 테이블 생성
+-- 8. 예매(reservation) 테이블 생성
 CREATE TABLE reservation (
     reservationIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '예매 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 ID',
@@ -116,7 +116,7 @@ CREATE TABLE reservation (
 ) COMMENT='영화 예매 정보를 저장하는 테이블';
 
 
--- 8. 예매-좌석 매핑(reservationSeatMapping) 테이블 생성
+-- 9. 예매-좌석 매핑(reservationSeatMapping) 테이블 생성
 CREATE TABLE reservationSeatMapping (
     reservationSeatIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '매핑 고유 ID',
     reservationIdx BIGINT NOT NULL COMMENT '예매 ID',
@@ -128,7 +128,7 @@ CREATE TABLE reservationSeatMapping (
 ) COMMENT='예매-좌석 매핑 정보를 저장하는 테이블';
 
 
--- 9. 쿠폰(coupon) 테이블 생성
+-- 10. 쿠폰(coupon) 테이블 생성
 CREATE TABLE coupon (
     couponIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '쿠폰 고유 ID',
     couponName VARCHAR(50) NOT NULL COMMENT '쿠폰 이름',
@@ -141,7 +141,7 @@ CREATE TABLE coupon (
 ) COMMENT='쿠폰 정보를 저장하는 테이블';
 
 
--- 10. 쿠폰-사용자 매핑(couponUserMapping) 테이블 생성
+-- 11. 쿠폰-사용자 매핑(couponUserMapping) 테이블 생성
 CREATE TABLE couponUserMapping (
     couponUserIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '매핑 고유 ID',
     couponIdx BIGINT NOT NULL COMMENT '쿠폰 ID',
@@ -153,7 +153,7 @@ CREATE TABLE couponUserMapping (
 ) COMMENT='사용자별 쿠폰 이력을 저장하는 테이블';
 
 
--- 11. 상품(product) 테이블 생성
+-- 12. 상품(product) 테이블 생성
 CREATE TABLE product (
     productIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '상품 고유 ID',
     productCategory VARCHAR(30) NOT NULL COMMENT '상품 카테고리',
@@ -166,7 +166,7 @@ CREATE TABLE product (
 ) COMMENT='상품 정보를 저장하는 테이블';
 
 
--- 12. 결제 정보를 저장하는 테이블
+-- 13. 결제 정보를 저장하는 테이블
 CREATE TABLE payment (
      paymentIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '결제 고유 ID',
      userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
@@ -187,7 +187,7 @@ CREATE TABLE payment (
 ) COMMENT='결제 정보를 저장하는 테이블';
 
 
--- 13. 포인트(point) 테이블 생성
+-- 14. 포인트(point) 테이블 생성
 CREATE TABLE point (
     pointIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '포인트 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
@@ -200,7 +200,7 @@ CREATE TABLE point (
 ) COMMENT='사용자의 포인트 변동 내역을 저장하는 테이블';
 
 
--- 14. 관람한 영화 목록(watched) 테이블 생성
+-- 15. 관람한 영화 목록(watched) 테이블 생성
 CREATE TABLE watched (
     watchedIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '관람한 영화 목록 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 ID',
@@ -213,7 +213,7 @@ CREATE TABLE watched (
 ) COMMENT='사용자가 관람한 영화의 정보를 저장하는 테이블';
 
 
--- 15. 리뷰(review) 테이블 생성
+-- 16. 리뷰(review) 테이블 생성
 CREATE TABLE review (
     reviewIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '리뷰 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 ID',
@@ -227,7 +227,7 @@ CREATE TABLE review (
 ) COMMENT='영화에 대한 리뷰 정보를 저장하는 테이블';
 
 
--- 16. 선호 영화 목록 테이블 생성
+-- 17. 선호 영화 목록 테이블 생성
 CREATE TABLE favorite_movie (
     favoriteIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '선호 영화 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
@@ -238,7 +238,7 @@ CREATE TABLE favorite_movie (
 ) COMMENT='사용자의 선호 영화 목록을 저장하는 테이블';
 
 
--- 17. 선호 극장 목록 테이블 생성
+-- 18. 선호 극장 목록 테이블 생성
 CREATE TABLE favorite_theater (
     favoriteIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '선호 극장 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
@@ -249,7 +249,7 @@ CREATE TABLE favorite_theater (
 ) COMMENT='사용자의 선호 극장 목록을 저장하는 테이블';
 
 
--- 18. 게시판(board) 테이블 생성
+-- 19. 게시판(board) 테이블 생성
 CREATE TABLE board (
    boardIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '게시판 고유 ID',
    adminIdx BIGINT NOT NULL COMMENT '관리자 ID',
@@ -265,7 +265,7 @@ CREATE TABLE board (
 ) COMMENT='게시판 정보를 저장하는 테이블';
 
 
--- 20. 로그(log) 테이블 생성
+-- 21. 로그(log) 테이블 생성
 CREATE TABLE log (
     logIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '로그 고유 ID',
     logType TINYINT(1) NOT NULL COMMENT '로그 유형 (0: 관리자, 1: 사용자)',
