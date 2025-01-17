@@ -7,18 +7,20 @@
         <environment id="">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-<!--                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/cinema_db"/>
                 <property name="username" value="test_admin"/>
-                <property name="password" value="1111"/>-->
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="password" value="1111"/>
+
+<!--                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://180.71.29.2:3306/cinema_db"/>
                 <property name="username" value="sist_pj"/>
-                <property name="password" value="Sist_project12!"/>
+                <property name="password" value="Sist_project12!"/>-->
             </dataSource>
         </environment>
     </environments>
     <mappers>
         <mapper resource="mybatis/mapper/user.xml"/>
+        <mapper resource="mybatis/mapper/userMapper.xml"/>
     </mappers>
 </configuration>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -103,6 +104,40 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.3); /* 반투명 효과 */
         }
+
+        /*로그인 에러*/
+        .error-modal {
+            display: none; /* 기본적으로 숨김 */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .error-modal.active {
+            display: block; /* 활성화 시 표시 */
+        }
+
+        .error-modal button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #5a4cad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .error-modal button:hover {
+            background-color: #4a3cad;
+        }
+
     </style>
 </head>
 <body>
@@ -110,9 +145,20 @@
     <!-- 로그인 영역 -->
     <div class="login-container">
         <div class="login-header">로그인</div>
-        <input type="text" class="login-input" placeholder="아이디">
-        <input type="password" class="login-input" placeholder="비밀번호">
-        <button class="login-button">로그인</button>
+
+        <!-- 실패 메시지 표시 -->
+        <!-- 실패 알림 모달 -->
+        <div class="error-modal" id="errorModal">
+            <p>아이디 또는 비밀번호가 맞지 않습니다.<br>로그인 정보를 다시 확인 바랍니다.</p>
+            <button onclick="closeErrorModal()">확인</button>
+        </div>
+
+        <form action="${pageContext.request.contextPath}/UserController" method="post" id="loginForm">
+            <input type="hidden" name="type" value="action">
+            <input type="text" class="login-input" name="userId" placeholder="아이디" required>
+            <input type="password" class="login-input" name="userPassword" placeholder="비밀번호" required>
+            <button type="submit" class="login-button">로그인</button>
+        </form>
         <div class="login-footer">
             <a href="#">ID/PW 찾기</a>
             <a href="#">회원가입</a>
@@ -126,5 +172,16 @@
         <img src="${pageContext.request.contextPath}/css/user/images/event/렛미인포스터.png" alt="이미지">
     </div>
 </div>
+<script>
+    // 로그인 실패 시 모달 표시
+    <% if (request.getAttribute("message") != null) { %>
+    document.getElementById("errorModal").classList.add("active");
+    <% } %>
+
+    // 모달 닫기
+    function closeErrorModal() {
+        document.getElementById("errorModal").classList.remove("active");
+    }
+</script>
 </body>
 </html>
