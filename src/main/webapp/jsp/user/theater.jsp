@@ -11,6 +11,12 @@
 <jsp:include page="./common/header.jsp"/>
 
 <style>
+  /* h1 태그 타이틀 */
+  .title {
+/*    font-size: 30px;*/
+    left: 3px;
+    font-weight: normal;
+  }
   /* article 공통 스타일 */
   article {
     margin-top: 30px;
@@ -149,7 +155,6 @@
     display: inline-flex;
     align-items: center;
     font-size: 14px;
-    font-weight: bold;
     color: darkgrey; /* "더보기" 텍스트 색상 */
     text-decoration: none;
   }
@@ -204,6 +209,12 @@
     align-items: center;
   }
 
+  .theater-event .event-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #503396; /* 타이틀 색상 */
+  }
+
   .theater-notice .notice-title {
     font-size: 24px;
     font-weight: bold;
@@ -212,7 +223,6 @@
 
   .theater-notice .more {
     font-size: 14px;
-    font-weight: bold;
     color: darkgrey;
     text-decoration: none;
   }
@@ -221,34 +231,41 @@
     text-decoration: underline;
   }
 
-  /* 공지사항 테이블 */
-  .notice-table table {
-    width: 100%; /* 테이블 너비를 전체 컨테이너에 맞춤 */
-    border-collapse: collapse;
-    margin: 0 auto; /* 가운데 정렬 */
-    font-size: 14px;
-    color: #333;
-  }
-
-  .notice-table table th,
-  .notice-table table td {
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    text-align: center; /* 기본 가운데 정렬 */
-  }
-
-  .notice-table table th {
-    background-color: #f8f8f8; /* 테이블 헤더 배경색 */
-    font-weight: bold;
-  }
-
-  .notice-table table td:nth-child(2) {
-    text-align: left; /* 제목 열만 왼쪽 정렬 */
-  }
 
   li{
     list-style: none;
   }
+
+  /* 공지사항 테이블 */
+  table {
+    width: 100%;
+    /*height: 100%;*/
+    border-collapse: collapse;
+  }
+  table, th {
+    border-top: 2px solid #333;
+    border-bottom: 0;
+  }
+  th, td {
+    padding: 15px;
+    text-align: center;
+  }
+  td {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  td:nth-child(4) {
+    text-align: left;
+    padding-left: 15px;
+  }
+  td a:hover {
+    color: #666;
+  }
+  th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+
 
 </style>
 
@@ -389,31 +406,31 @@
         <tbody>
         <tr>
           <td>코엑스</td>
-          <td>[코엑스] 시사회 진행에 따른 고객 안내 (1월 14일)</td>
+          <td><a href="">[코엑스] 시사회 진행에 따른 고객 안내 (1월 14일)</a></td>
           <td>서울</td>
           <td>2025.01.10</td>
         </tr>
         <tr>
           <td>미사강변</td>
-          <td>[미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 (25년 1월 14일)</td>
+          <td><a href="">[미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 (25년 1월 14일)</a></td>
           <td>경기</td>
           <td>2025.01.09</td>
         </tr>
         <tr>
           <td>안성스타필드</td>
-          <td>[안성스타필드] 대관 행사로 인한 조조영화 상영 안내 (1월 10일)</td>
+          <td><a href="">[안성스타필드] 대관 행사로 인한 조조영화 상영 안내 (1월 10일)</a></td>
           <td>경기</td>
           <td>2025.01.06</td>
         </tr>
         <tr>
           <td>대구신세계(동대구)</td>
-          <td>[대구신세계] 우대요금 변경안내</td>
+          <td><a href="">[대구신세계] 우대요금 변경안내</a></td>
           <td>부산/대구/경상</td>
           <td>2024.12.31</td>
         </tr>
         <tr>
           <td>안산중앙</td>
-          <td>[안산중앙] 주차공간 안내</td>
+          <td><a href="">[안산중앙] 주차공간 안내</a></td>
           <td>경기</td>
           <td>2024.12.26</td>
         </tr>

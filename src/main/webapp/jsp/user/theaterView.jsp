@@ -23,7 +23,7 @@
         position: relative;
         width: 100%;
         height: 300px; /* 헤더 높이 */
-        background: url('../../css/user/images/cinema1.jpg') center center/cover no-repeat;
+        background: url('../../css/user/images/theater-image.jpg') center center/cover no-repeat;
 
         display: flex;
         flex-direction: column; /* 수직 정렬 */
@@ -40,7 +40,7 @@
         height: 100%;
         background: url('https://img.megabox.co.kr/static/pc/images/movie/bg-movie-detail-mask.png') center top/cover no-repeat;
         z-index: 1;
-        opacity: 0.8; /* 필요에 따라 투명도 조정 */
+        opacity: 0.9; /* 필요에 따라 투명도 조정 */
     }
 
     .theater-header h1 {
@@ -81,13 +81,14 @@
         font-size: 16px;
         padding: 10px 20px;
         cursor: pointer;
+        position: relative; /* 리스트의 위치 기준점 */
     }
 
-    .theater-header .tabs li:hover,
-    .theater-header .tabs li.active {
+    .theater-header .tabs li:hover {
         font-weight: bold;
-        border-bottom: 3px solid #fff;
+        border-bottom: 3px solid white;
     }
+
 
     .content {
         display: none;
@@ -671,35 +672,52 @@
     }
 
     #cinema-list-container {
-        display: none;
         position: absolute;
-        top: 50px; /* 탭 바로 아래 위치 */
-        left: 50%;
-        transform: translateX(-50%);
-        background: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 10;
-        font-size: 14px;
-        color: black;
+        top: 50px;
+        left: 0;
+        width: 100%;
         text-align: center;
-        white-space: nowrap;
+        background: rgba(0, 0, 0, 0.8); /* 반투명 배경 */
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        display: none; /* 초기에는 숨김 */
+        z-index: 10; /* 다른 요소보다 위에 표시 */
     }
+
+    #cinema-list-container span {
+        margin: 0 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    #cinema-list-container span:hover {
+        text-decoration: underline; /* 강조 효과 */
+    }
+
 
     #cinema-list-container.visible {
         display: block;
     }
 
-    #cinema-list-container span {
-        margin: 0 8px;
-        cursor: pointer;
-        font-weight: bold;
+    /* 부모 컨테이너 */
+    .theater-description-container {
+        text-align: center; /* 텍스트 중앙 정렬 */
+        margin: 30px 0; /* 위아래 간격 */
+        border-bottom: 1px solid #ddd; /* 하단에 얇은 선 추가 */
     }
 
-    #cinema-list-container span:hover {
-        text-decoration: underline;
+    /* 텍스트 스타일 */
+    .theater-description {
+        font-size: 26px; /* 적절한 텍스트 크기 */
+        line-height: 1.6; /* 줄 간격 */
+        color: #333; /* 텍스트 색상 */
+        font-weight: 400; /* 일반적인 가독성 있는 굵기 */
+        max-width: 1100px; /* 텍스트 최대 너비 제한 */
+        margin: 0 auto; /* 중앙 배치 */
+        padding-top: 20px;
     }
+
 
 
 
@@ -710,8 +728,8 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <a href="/CinemaProject/jsp/user/theater.jsp" title="극장 페이지로 이동">극장</a>
-            <a href="/CinemaProject/jsp/user/theater.jsp" title="전체극장 페이지로 이동">전체극장</a>
+            <a href="#" title="극장 페이지로 이동">극장</a>
+            <a href="#" title="전체극장 페이지로 이동">전체극장</a>
         </div>
     </div>
 </div>
@@ -731,6 +749,7 @@
     <div id="cinema-list-container"></div>
 
 
+
     <div class="theater-name">
         <h1>강남</h1>
     </div>
@@ -747,11 +766,11 @@
 
     <!-- 상세 내용 -->
     <div id="info" class="content active">
-        <div class="theater-details">
-            <h2>강남역 9번출구와 연결된 편리한 접근성과 위치!</h2>
-            <p>강남을 한눈에 볼 수 있는 최상의 VIEW</p>
+        <div class="theater-description-container">
+            <div class="theater-description">
+                강남역 9번출구와 연결된 편리한 접근성과 위치! 강남을 한눈에 볼 수 있는 최상의 VIEW
+            </div>
         </div>
-
         <div class="facility-transport-container">
             <!-- 시설안내 섹션 -->
             <section class="facility-guide">
@@ -793,6 +812,7 @@
                 <div class="transport-details">
                     <p><strong>도로명주소:</strong> 서울특별시 서초구 서초대로 77길 3 (서초동) 아라타워 8층</p>
                     <button class="navigate-btn">실시간 길찾기</button>
+                    <p>기능 구현시 위의 [실시간 길찾기] 버튼 대신 해당 영역에 바로 카카오맵 지도로 위치를 표시한다.</p>
                 </div>
             </section>
         </div>
@@ -1072,6 +1092,37 @@
 
 <!-- script 영역 -->
 <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 탭과 콘텐츠 가져오기
+        const tabs = document.querySelectorAll(".tabs .tab");
+        const contents = document.querySelectorAll(".contents > .content, #info"); // #info 포함
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                // 모든 탭과 콘텐츠 비활성화
+                tabs.forEach((t) => t.classList.remove("active"));
+                contents.forEach((content) => content.classList.remove("active"));
+
+                // 클릭된 탭 활성화
+                tab.classList.add("active");
+
+                // 해당 콘텐츠 활성화
+                const targetId = tab.getAttribute("data-target");
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add("active");
+                }
+            });
+        });
+
+        // 초기 상태: 첫 번째 탭과 콘텐츠 활성화
+        tabs[0]?.classList.add("active");
+        contents[0]?.classList.add("active");
+    });
+
+
+
+
     // 초기 설정
     document.addEventListener("DOMContentLoaded", () => {
         const dateItems = document.querySelectorAll('.date-item');
@@ -1137,33 +1188,38 @@
         updateScroll();
     });
 
+
     document.addEventListener("DOMContentLoaded", () => {
         const tabs = document.querySelectorAll(".tabs .tab");
         const cinemaListContainer = document.getElementById("cinema-list-container");
 
         tabs.forEach((tab) => {
             tab.addEventListener("mouseover", () => {
-                const cinemas = tab.getAttribute("data-cinemas").split(", ");
-                cinemaListContainer.innerHTML = cinemas
-                    .map((cinema) => `<span>${cinema}</span>`)
-                    .join(" | ");
-                cinemaListContainer.classList.add("visible");
+                const cinemas = tab.getAttribute("data-cinemas");
+                console.log("Hovered Tab Cinemas:", cinemas); // 디버깅: data-cinemas 값 확인
+                if (cinemas) {
+                    cinemaListContainer.innerHTML = cinemas
+                        .split(", ")
+                        .map((cinema) => `<span>${cinema}</span>`)
+                        .join(" | ");
+                    console.log("Cinema List Container Content:", cinemaListContainer.innerHTML); // 디버깅:
+                    cinemaListContainer.style.display = "block"; // 리스트 표시
+                }
             });
 
             tab.addEventListener("mouseout", () => {
-                cinemaListContainer.classList.remove("visible");
+                cinemaListContainer.style.display = "none"; // 리스트 숨김
             });
         });
 
         cinemaListContainer.addEventListener("mouseover", () => {
-            cinemaListContainer.classList.add("visible");
+            cinemaListContainer.style.display = "block"; // 리스트 유지
         });
 
         cinemaListContainer.addEventListener("mouseout", () => {
-            cinemaListContainer.classList.remove("visible");
+            cinemaListContainer.style.display = "none"; // 리스트 숨김
         });
     });
-
 
 </script>
 
