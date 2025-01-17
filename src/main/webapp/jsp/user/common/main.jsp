@@ -4,14 +4,14 @@
 
 <!-- head 영역 -->
 <head>
-    <jsp:include page="./common/head.jsp"/>
+    <jsp:include page="head.jsp"/>
 </head>
-<link rel="stylesheet" href="../../css/user/common.css">
+<link rel="stylesheet" href="../../../css/user/common.css">
 
 <body class="main-page">
 
 <!-- header 영역 -->
-<jsp:include page="./common/header.jsp"/>
+<jsp:include page="header.jsp"/>
 
 <main id="main">
     <!-- section01 -->
@@ -321,8 +321,8 @@
     </section>
     <!-- //section04 -->
 </main>
-
 <!-- footer 영역 -->
-<jsp:include page="./common/footer.jsp"/>
+<jsp:include page="footer.jsp"/>
+<jsp:include page="modalscript.jsp"/>
 </body>
 </html>
