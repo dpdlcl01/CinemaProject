@@ -38,7 +38,7 @@
                     <a href="#" class="event">이벤트</a>
                 </li>
                 <li title="스토어">
-                    <a href="#" class="store">스토어</a>
+                    <a href="${pageContext.request.contextPath}/UserController?type=store" class="store">스토어</a>
                 </li>
                 <li title="혜택">
                     <a href="#" class="benefit">혜택</a>
