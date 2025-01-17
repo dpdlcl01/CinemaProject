@@ -229,6 +229,11 @@
         </c:forEach>
     </article>
 </div>
+    <form id="productForm" action="${pageContext.request.contextPath}/UserController?type=product" method="post" accept-charset="UTF-8">
+        <input type="hidden" name="pName" id="pName">
+        <input type="hidden" name="pImg" id="pImg">
+        <input type="hidden" name="pCategory" id="pCategory">
+    </form>
 </div>
 
 <script>
@@ -236,9 +241,11 @@
         let pName = vo.getAttribute("data-productname");
         let pImg = vo.getAttribute("data-productimg");
 
-        let encodedName = encodeURIComponent(pName);
-        let encodedImg = encodeURIComponent(pImg);
-        location.href="${pageContext.request.contextPath}/UserController?type=product&pName="+encodedName+"&pImg="+encodedImg;
+        document.getElementById("pName").value=pName;
+        document.getElementById("pImg").value=pImg;
+
+        document.forms[0].submit();
+
     }
 
 

@@ -168,13 +168,13 @@
   <div id="contents">
 
 
-    <h1>일반관람권</h1>
+    <h1>${requestScope.pName}</h1>
     <div id="category">카테고리</div>
     <div id="wrap">
 
 
       <article id="center">
-        <img src="../../../img/m3.png">
+        <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${requestScope.pImg}">
         <article id="info">
           <div class="info">
             <p class="front">사용극장</p>
