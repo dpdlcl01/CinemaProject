@@ -128,7 +128,7 @@
         -webkit-line-clamp: 2;
         line-clamp: 2;
         -webkit-box-orient: vertical;
-        height: 36px;
+        height: 42px;
         padding-bottom: 3px
     }
     .card:hover{
@@ -173,7 +173,8 @@
 
     <article id="products1" class="main" >
         <c:forEach items="${requestScope.ar}" var="ar">
-                <div id="main1" class="card"     data-productname="${ar.productName}" data-productimg="${ar.productImg}"  onclick="goProduct(this)" >
+                <div id="main1" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
+                     data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)" >
                     <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
                     <hr>
                     <div class="info">
@@ -181,7 +182,7 @@
                         <p class="explanation">${ar.productInfo}</p>
                         <hr>
                         <article>
-                            <p class="price">${ar.productPrice}</p>
+                            <p class="price" id="productPrice">${ar.productPrice}</p>
                             <em>원</em>
                         </article>
                     </div>
@@ -191,8 +192,9 @@
 
     <article id="products2" class="main" >
     <c:forEach items="${requestScope.ar}" var="ar">
-        <c:if test="${ar.productCategory eq '1'}">
-            <div id="main2" class="card">
+        <c:if test="${ar.productCategory eq '2'}">
+            <div id="main2" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
+                 data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
                 <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
                 <hr>
                 <div class="info">
@@ -211,8 +213,9 @@
 
     <article id="products3" class="main" >
         <c:forEach items="${requestScope.ar}" var="ar">
-            <c:if test="${ar.productCategory eq '2'}">
-                <div id="main3" class="card">
+            <c:if test="${ar.productCategory eq '1'}">
+                <div id="main3" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
+                     data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
                     <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
                     <hr>
                     <div class="info">
@@ -233,6 +236,8 @@
         <input type="hidden" name="pName" id="pName">
         <input type="hidden" name="pImg" id="pImg">
         <input type="hidden" name="pCategory" id="pCategory">
+        <input type="hidden" name="pIdx" id="pIdx">
+        <input type="hidden" name="pPrice" id="pPrice">
     </form>
 </div>
 
@@ -240,9 +245,17 @@
     function goProduct(vo) {
         let pName = vo.getAttribute("data-productname");
         let pImg = vo.getAttribute("data-productimg");
+        let category = vo.getAttribute("data-category");
+        let idx = vo.getAttribute("data-idx");
+        let price = vo.getAttribute("data-price");
 
+
+
+        document.getElementById("pCategory").value=category;
         document.getElementById("pName").value=pName;
         document.getElementById("pImg").value=pImg;
+        document.getElementById("pIdx").value=idx;
+        document.getElementById("pPrice").value=price;
 
         document.forms[0].submit();
 

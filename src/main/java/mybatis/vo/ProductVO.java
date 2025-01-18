@@ -1,8 +1,16 @@
 package mybatis.vo;
 
 public class ProductVO {
-    String productCategory, productName, productInfo,  productRegDate, productStatus, productImg;
+    String productCategory, productName, productInfo,  productRegDate, productStatus, productImg, productIdx;
     int productPrice,productStock;
+
+    public String getProductIdx() {
+        return productIdx;
+    }
+
+    public void setProductIdx(String productIdx) {
+        this.productIdx = productIdx;
+    }
 
     public String getProductCategory() {
         return productCategory;

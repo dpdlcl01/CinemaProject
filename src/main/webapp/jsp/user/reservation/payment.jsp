@@ -14,7 +14,7 @@
     <title>결제하기</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../../../css/user/payment.css?v=1.0" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/payment.css"      type="text/css">
 <body>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>

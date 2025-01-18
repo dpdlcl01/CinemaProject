@@ -21,9 +21,23 @@ public class ProductAction implements Action {
 
             String pName = request.getParameter("pName");
             String pImg = request.getParameter("pImg");
+            String category = request.getParameter("pCategory");
+            String idx = request.getParameter("pIdx");
+            String price = request.getParameter("pPrice");
 
+            if(category.equals("1")){
+                category = "굿즈";
+            }else if(category.equals("2")){
+                category = "스낵";
+            }else if(category == null){
+                category = "";
+            }
+
+            request.setAttribute("pCategory", category);
             request.setAttribute("pName", pName);
             request.setAttribute("pImg", pImg);
+            request.setAttribute("pIdx", idx);
+            request.setAttribute("pPrice", price);
 
             return "/jsp/user/store/storeProduct.jsp";
         }

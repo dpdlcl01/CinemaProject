@@ -69,12 +69,7 @@
       #info>.info a{
         color: #01738b;
       }
-      .red{
-        color: red;
-      }
-      .gray{
-        color: gray;
-      }
+
       .front{
 
         width: 120px;
@@ -148,6 +143,14 @@
       i{
         text-indent: -9999px;
       }
+      #bt>div{
+        margin-left: 400px;
+      }
+      #bt>div>em, #bt>div>span{
+        color: #503396;
+        font-weight: 600;
+        font-size: 20px;
+      }
 
     </style>
   </head>
@@ -169,7 +172,7 @@
 
 
     <h1>${requestScope.pName}</h1>
-    <div id="category">카테고리</div>
+    <div id="category">${requestScope.pCategory}</div>
     <div id="wrap">
 
 
@@ -180,14 +183,12 @@
             <p class="front">사용극장</p>
             <article>
               <a href="#">사용가능극장</a>
-              <p class="red">※일부 특별관 및 특별석은 차액지불과 상관없이 이용 불가합니다.</p>
             </article>
           </div>
           <div class="info">
             <p class="front">유효기간</p>
             <article>
               <p>구매일로부터 24개월 이내 사용 가능</p>
-              <p class="gray">예매 가능 유효기간은 구매일로부터 2년입니다.</p>
             </article>
           </div>
           <div class="info">
@@ -198,21 +199,24 @@
             <p class="front">구매 후 취소</p>
             <p>구매일로부터 10일 이내 취소 가능하며, 부분취소는 불가능합니다.</p>
           </div>
-          <hr>
+          <hr width="820px">
           <article id="price">
             <p class="front">수량/금액</p>
             <div id="bt">
-              <button type="button" class="inputBt">-</button>
-              <input type="text" value="1" readonly/>
-              <button type="button" class="inputBt">+</button>
-              <em>13000</em>
-              <span>원</span>
+              <button type="button" class="inputBt" onclick="minusQuant('${requestScope.pPrice}')">-</button>
+              <input type="text" value="1" readonly id="quant"/>
+              <button type="button" class="inputBt" id="plus" onclick="plusQuant('${requestScope.pPrice}')">+</button>
+              <div>
+                <em id="priceEm">${requestScope.pPrice}</em>
+                <span>원</span>
+              </div>
+
             </div>
 
           </article>
           <div id="btnDiv">
-            <a href="#" id="present">선물</a>
-            <a href="#" id="buy">구매</a>
+            <a href="#" id="present" onclick="goCart()">장바구니</a>
+            <a href="#" id="buy" onclick="buy()">구매</a>
           </div>
 
         </article>
@@ -242,10 +246,62 @@
       </div>
     </div>
   </div>
+
+  <form method="post" action="">
+    <input type="hidden" name="productImg" id="productImg" value="${requestScope.pImg}">
+    <input type="hidden" name="productName" id="productName" value="${requestScope.pName}">
+    <input type="hidden" name="productCategory" id="productCategory" value="${requestScope.pCategory}">
+    <input type="hidden" name="productQuant" id="productQuant">
+    <input type="hidden" name="productPrice" id="productPrice">
+    <input type="hidden" name="productIdx" id="productIdx" value="${requestScope.pIdx}">
+  </form>
+
   <footer>
     <jsp:include page="../common/footer.jsp"></jsp:include>
   </footer>
   <script>
+
+
+    let productPrice;
+    let productQuant;
+
+    function goCart() {
+      if (typeof productQuant === "undefined") {
+        productQuant="1";
+      }
+      document.getElementById("productQuant").value=productQuant;
+
+      document.forms[0].action="${pageContext.request.contextPath}/UserController?type=cart";
+      document.forms[0].submit();
+    }
+
+    function buy() {
+
+      document.getElementById("productQuant").value=productQuant;
+      document.getElementById("productPrice").value=productPrice;
+
+      <%--${pageContext.request.contextPath}/UserController?type=payment--%>
+      document.forms[0].action="${pageContext.request.contextPath}/UserController?type=payment";
+
+      document.forms[0].submit();
+    }
+    
+    let pQuant=document.getElementById("quant");
+    let price = document.getElementById("priceEm");
+    function plusQuant(p) {
+      pQuant.value = Math.min(parseInt(pQuant.value, 10) + 1, 10);/*minus 함수 참고*/
+      price.innerHTML= pQuant.value*parseInt(p);
+
+      productQuant=pQuant.value
+      productPrice=pQuant.value*parseInt(p);
+    }
+    function minusQuant(p) {
+      pQuant.value = Math.max(parseInt(pQuant.value, 10) - 1, 1);/*10진법 숫자로 문자열 변환 이후 1이하로 내려가지 않게 하는 구문*/
+      price.innerHTML= pQuant.value*parseInt(p);
+
+      productQuant=pQuant.value
+      productPrice=pQuant.value*parseInt(p);
+    }
     function view1() {
       const button = document.getElementById('refund');
       const hiddenDiv = document.getElementById('hideDiv1');

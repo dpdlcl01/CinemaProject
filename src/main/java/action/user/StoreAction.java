@@ -5,10 +5,15 @@ import mybatis.vo.ProductVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class StoreAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response){
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute("id","아이디");
 
         ProductVO[] ar= ProductDAO.gettotal();
         request.setAttribute("ar",ar);

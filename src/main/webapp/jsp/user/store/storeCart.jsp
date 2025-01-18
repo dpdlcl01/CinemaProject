@@ -67,7 +67,6 @@
     }
     #main>table span{
       display: flex;
-      background-image: url("../../../img/g.png");
       height: 120px;
       width: 120px;
       margin: 0 30px;
@@ -84,6 +83,7 @@
       width: 40px;
       height: 30px;
       font-size: 20px;
+      text-align: center;
     }
     #changeQuantBtn, #buyBtn{
       border: 1px solid #666666;
@@ -163,7 +163,7 @@
       </thead>
       <!--여기는 장바구니에 담은 상품이 있을 때 보여주자-->
       <tr>
-        <td id="firstTd"><input type="checkbox"><span> </span>멋진 굿즈</td>
+        <td id="firstTd"><input type="checkbox"><span><img src=""> </span>멋진 굿즈</td>
         <td>11000원</td>
         <td>
           <form action="changeQuant.jsp" method="post">
@@ -185,11 +185,6 @@
 
 
   </div>
-
-
-
-
-
 
 </div>
 
