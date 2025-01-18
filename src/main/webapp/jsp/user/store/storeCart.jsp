@@ -6,7 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
 <head>
@@ -137,12 +138,19 @@
   </div>
 </div>
 <!-- contents 영역 -->
+
 <div id="contents">
   <h1>장바구니</h1>
+  <c:set var="cvo" value="${requestScope.cvo}"/>
+  <c:if test="${cvo eq null}">
   <div id="null">
     <p>장바구니에 담긴 상품이 없습니다.</p>
     <button type="button">쇼핑 계속하기</button>
   </div>
+  </c:if>
+<c:if test="${cvo ne null}">
+
+
 
   <div id="main">
     <table>
@@ -155,26 +163,29 @@
         <col width="167px">
       </colgroup>
       <thead>
-      <th><input type="checkbox"> 상품명</th>
+      <th><input type="checkbox">상품명</th>
       <th>판매금액</th>
       <th>수량</th>
       <th>구매금액</th>
       <th>선택</th>
       </thead>
       <!--여기는 장바구니에 담은 상품이 있을 때 보여주자-->
+      <c:forEach items="${requestScope.cvo}" var="ar">
       <tr>
-        <td id="firstTd"><input type="checkbox"><span><img src=""> </span>멋진 굿즈</td>
-        <td>11000원</td>
+        <td id="firstTd"><input type="checkbox"><span><img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}"> </span>${ar.productName}</td>
+        <td>${ar.productPrice}<em>원</em></td>
         <td>
           <form action="changeQuant.jsp" method="post">
             <input type="number" name="quant" id="quant"
-                   value="0" min="0"/>
+                   value="${ar.total_quant}" min="0"/>
             <button type="submit" id="changeQuantBtn">변경</button>
           </form>
         </td>
-        <td>판매금액*수량</td>
+        <c:set var="buyPrice" value="${ar.productPrice*ar.total_quant}"/>
+        <td>${buyPrice}<em>원</em></td>
         <td><button type="button" id="buyBtn">구매하기</button> </td>
       </tr>
+      </c:forEach>
     </table>
     <p id="p">장바구니에 보관된 상품은 최대 30일까지 보관됩니다.</p>
     <div id="totalPrice">
@@ -182,6 +193,8 @@
       <h2>10000원</h2>
       <button type="button">구매하기</button>
     </div>
+</c:if>
+
 
 
   </div>

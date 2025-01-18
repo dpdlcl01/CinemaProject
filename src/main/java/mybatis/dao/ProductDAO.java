@@ -16,7 +16,6 @@ public class ProductDAO {
         ProductVO[] ar = new ProductVO[list.size()];
 
         list.toArray(ar);
-         System.out.println(ar.length);
         ss.close();
 
         return ar;

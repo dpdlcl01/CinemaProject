@@ -9,6 +9,7 @@
 <html>
   <head>
     <jsp:include page="../common/head.jsp"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
     <title>Title</title>
     <style>
       *{
@@ -152,6 +153,41 @@
         font-size: 20px;
       }
 
+      #notice {
+        display: none; /* 초기 상태에서 다이얼로그 숨김 */
+      }
+      .ui-dialog{
+        padding: 0;
+        font-weight: 600;
+      }
+      .ui-dialog #btnDiv2{
+        margin: auto;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .ui-dialog button{
+        width: 80px;
+        height: 40px;
+        border: 1px solid #503396;
+        background-color: #503396;
+        color: white;
+        border-radius: 3px;
+      }
+
+      /* 다이얼로그 타이틀 색상 변경 */
+      .ui-dialog-titlebar {
+        background-color: #503396; /* 타이틀 배경색 */
+        color: white; /* 텍스트 색상 */
+        border: 2px solid #503396;
+      }
+      .ui-dialog-content {
+        color: black; /* 텍스트 색상을 명시적으로 설정 */
+        font-size: 14px; /* 적절한 폰트 크기를 설정 */
+      }
+      .ui-dialog-titlebar-close {
+        display: none; /* 닫기 버튼 숨김 */
+      }
+
     </style>
   </head>
   <body>
@@ -215,7 +251,7 @@
 
           </article>
           <div id="btnDiv">
-            <a href="#" id="present" onclick="goCart()">장바구니</a>
+            <a href="#" id="present" onclick="dialog()">장바구니</a>
             <a href="#" id="buy" onclick="buy()">구매</a>
           </div>
 
@@ -256,23 +292,46 @@
     <input type="hidden" name="productIdx" id="productIdx" value="${requestScope.pIdx}">
   </form>
 
+  <article id="notice" title="다이얼로그">
+    <p>
+     장바구니에 담았습니다.
+    </p>
+    <div id="btnDiv2">
+      <button type="button" onclick="addCart()"> 확인 </button>
+    </div>
+  </article>
+
   <footer>
     <jsp:include page="../common/footer.jsp"></jsp:include>
   </footer>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
   <script>
+
 
 
     let productPrice;
     let productQuant;
 
-    function goCart() {
+
+    function dialog() {
+      $('#notice').dialog({
+        modal: true,
+
+      });
+    }
+
+    function addCart() {
       if (typeof productQuant === "undefined") {
         productQuant="1";
       }
       document.getElementById("productQuant").value=productQuant;
 
       document.forms[0].action="${pageContext.request.contextPath}/UserController?type=cart";
+
+
       document.forms[0].submit();
+
     }
 
     function buy() {

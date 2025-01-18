@@ -7,4 +7,5 @@
         INSERT INTO user(userId, userName, userEmail, userPassword, userPhone, userPoint, userGrade, userRegDate, userStatus)
         VALUES (#{userId}, #{userName}, #{userEmail}, ${userPassword}, ${userPhone}, 0, normal, now(), 1)
     </insert>
+
 </mapper>

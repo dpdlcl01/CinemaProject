@@ -169,7 +169,7 @@
         <a href="" id="title2">팝콘,음료</a>
         <a href="" id="title3">굿즈</a>
     </article>
-
+    <button type="button" onclick="goCart()">장바구니보기</button>
 
     <article id="products1" class="main" >
         <c:forEach items="${requestScope.ar}" var="ar">
@@ -240,8 +240,14 @@
         <input type="hidden" name="pPrice" id="pPrice">
     </form>
 </div>
+    <form action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
+
+    </form>
 
 <script>
+    function goCart() {
+        document.forms[1].submit();
+    }
     function goProduct(vo) {
         let pName = vo.getAttribute("data-productname");
         let pImg = vo.getAttribute("data-productimg");
