@@ -309,7 +309,6 @@
   <script>
 
 
-
     let productPrice;
     let productQuant;
 
@@ -335,7 +334,12 @@
     }
 
     function buy() {
-
+      if (typeof productQuant === "undefined") {
+        productQuant="1";
+      }
+      if (typeof productPrice === "undefined") {
+        productPrice=document.getElementById("priceEm").innerHTML;
+      }
       document.getElementById("productQuant").value=productQuant;
       document.getElementById("productPrice").value=productPrice;
 

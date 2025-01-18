@@ -80,13 +80,13 @@
       align-items: center;
     }
 
-    #quant{
+    .quant{
       width: 40px;
       height: 30px;
       font-size: 20px;
       text-align: center;
     }
-    #changeQuantBtn, #buyBtn{
+    #changeQuantBtn, #buyBtn ,#delBtn{
       border: 1px solid #666666;
       background-color: white;
       width: 60px;
@@ -117,6 +117,9 @@
       background-color: #222222;
       border-radius: 8px;
       color: white;
+    }
+    tr{
+      border-bottom: 1px solid lightgrey;
     }
   </style>
 </head>
@@ -173,17 +176,20 @@
       <c:forEach items="${requestScope.cvo}" var="ar">
       <tr>
         <td id="firstTd"><input type="checkbox"><span><img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}"> </span>${ar.productName}</td>
-        <td>${ar.productPrice}<em>원</em></td>
+        <td><em class="productPrice">${ar.productPrice}</em><em>원</em></td>
         <td>
           <form action="changeQuant.jsp" method="post">
-            <input type="number" name="quant" id="quant"
-                   value="${ar.total_quant}" min="0"/>
+            <input type="number" name="quant" class="quant"
+                   value="${ar.total_quant}" min="1" max="10" oninput="updateQuant()"/>
             <button type="submit" id="changeQuantBtn">변경</button>
           </form>
         </td>
         <c:set var="buyPrice" value="${ar.productPrice*ar.total_quant}"/>
-        <td>${buyPrice}<em>원</em></td>
-        <td><button type="button" id="buyBtn">구매하기</button> </td>
+        <td><em class="priceEm">${buyPrice}</em><em>원</em></td>
+        <td>
+          <button type="button" id="buyBtn">구매하기</button>
+          <button type="button" id="delBtn">삭제하기</button>
+        </td>
       </tr>
       </c:forEach>
     </table>
@@ -203,10 +209,21 @@
 
 <!-- footer 영역 -->
 <jsp:include page="../common/footer.jsp"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- script 영역 -->
 <script>
+  $(document).ready(function() {
+    // 수량 변경 시 가격 자동 업데이트
+    $(".quant").on("input", function() {
+      let price = parseInt($(this).closest("tr").find(".productPrice").text(), 10);/*현재 인풋에 가장 가까운 tr 요소를 찾고 그안에서 프로덕트프라이스 클래스를 가진 요소를 찾아서 문자열을 받아서 10진수로 변환*/
+      let quantity = $(this).val(); /*현재 개수 값*/
+      let totalPrice = price * quantity;
 
+      $(this).closest("tr").find(".priceEm").text(totalPrice); // 해당 행의 가격 업데이트
+    });
+
+  });
 </script>
 </body>
 </html>

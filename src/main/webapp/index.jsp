@@ -82,7 +82,7 @@
             <a href="./jsp/user/event/eventMain.jsp">이벤트 페이지</a>
             <a href="./jsp/user/notice/noticeMain.jsp">공지사항 페이지</a>
             <a href="jsp/user/myInfo/myInfoMain.jsp">내 정보 페이지</a>
-            <a href="jsp/user/store/storeMain.jsp">스토어 메인 페이지</a>
+            <a href="${pageContext.request.contextPath}/UserController?type=store">스토어 메인 페이지</a>
             <a href="jsp/user/reservation/reservationMain.jsp">빠른 예매 페이지</a>
             <a href="jsp/user/reservation/reservationSeat.jsp">좌석 선택 페이지</a>
             <a href="jsp/user/movie/movieMain.jsp">영화 메인 페이지</a>
