@@ -5,7 +5,7 @@
     <jsp:include page="../common/head.jsp"/>
     <title>빠른 예매</title>
 </head>
-<link rel="stylesheet" href="../../../css/user/reservation.css?v=1.0">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/reservation.css?v=1.0">
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div id="contents">

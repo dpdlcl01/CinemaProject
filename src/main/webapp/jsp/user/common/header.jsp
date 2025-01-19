@@ -19,7 +19,7 @@
             <a href="#" title="사이트맵" class="sitemap">사이트맵</a>
             <a href="#" title="검색" class="search">검색</a>
             <a href="#" title="상영시간표" class="timetable">상영시간표</a>
-            <a href="#" title="나의 메가박스" class="mymega">나의 메가박스</a>
+            <a href="UserController?type=myPage" title="나의 메가박스" class="mymega">나의 메가박스</a>
         </div>
         <!-- //link-area -->
         <!-- gnb -->
@@ -29,7 +29,7 @@
                     <a href="#" class="movie">영화</a>
                 </li>
                 <li title="예매">
-                    <a href="#" class="reserve">예매</a>
+                    <a href="UserController?type=reservation" class="reserve">예매</a>
                 </li>
                 <li title="극장">
                     <a href="#" class="theater">극장</a>

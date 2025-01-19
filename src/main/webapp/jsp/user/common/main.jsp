@@ -57,7 +57,7 @@
                                 <i class="far fa-heart"></i>1.2k
                             </button>
                             <div class="case">
-                                <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                                <a href="UserController?type=reservation" class="button btn1" title="영화 예매하기">예매</a>
                             </div>
                         </div>
                         <!-- //btn-util -->
@@ -90,7 +90,7 @@
                                 <i class="far fa-heart"></i>1.1k
                             </button>
                             <div class="case">
-                                <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                                <a href="UserController?type=reservation" class="button btn1" title="영화 예매하기">예매</a>
                             </div>
                         </div>
                     </li>
@@ -117,7 +117,7 @@
                                 <i class="far fa-heart"></i>6.2k
                             </button>
                             <div class="case">
-                                <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                                <a href="UserController?type=reservation" class="button btn1" title="영화 예매하기">예매</a>
                             </div>
                         </div>
                     </li>
@@ -144,7 +144,7 @@
                                 <i class="far fa-heart"></i>424
                             </button>
                             <div class="case">
-                                <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                                <a href="UserController?type=reservation" class="button btn1" title="영화 예매하기">예매</a>
                             </div>
                         </div>
                     </li>
@@ -169,7 +169,7 @@
                     </a>
                 </div>
                 <div class="cell">
-                    <a href="#" title="빠른예매 보기">
+                    <a href="UserController?type=reservation" title="빠른예매 보기">
                         <i class="quickreserve"></i>
                         빠른예매
                     </a>

@@ -6,13 +6,11 @@
   <title>빠른 예매</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<%--<link rel="stylesheet" href="../../css/user/seat.css">--%>
 <link rel="stylesheet" href="../../../css/user/seat.css?v=1.0">
 <body>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>
 <div id="contents">
-  <!-- 추가된 page-util -->
   <div class="page-util">
     <div class="inner-wrap">
       <div class="location">
