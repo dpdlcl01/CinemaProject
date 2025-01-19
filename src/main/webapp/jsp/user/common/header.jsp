@@ -35,7 +35,7 @@
                     <a href="#" class="theater">극장</a>
                 </li>
                 <li title="이벤트">
-                    <a href="#" class="event">이벤트</a>
+                    <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" class="event">이벤트</a>
                 </li>
                 <li title="스토어">
                     <a href="#" class="store">스토어</a>

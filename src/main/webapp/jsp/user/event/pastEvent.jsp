@@ -147,17 +147,25 @@
 <div class="contents">
     <h1>이벤트</h1>
     <div class="tabs">
-        <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" class="tab active" data-target="ongoingevent">진행중 이벤트</a>
-        <a href="${pageContext.request.contextPath}/UserController?type=pastevent&offset=0&pageSize=5" class="tab" data-target="pastevent">지난 이벤트</a>
+        <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" class="tab" data-target="ongoingevent">진행중 이벤트</a>
+        <a href="${pageContext.request.contextPath}/UserController?type=pastevent&offset=0&pageSize=5" class="tab active" data-target="pastevent">지난 이벤트</a>
     </div>
 
-    <div id="ongoingevent" class="content active">
+    <div id="pastevent" class="content active">
         <p>응모하신 이벤트의 당첨 여부는 <a href="#">나의 응모결과 확인</a>을 통해 확인하실 수 있습니다.</p><br/>
         <div class="event-bar-container">
-            <div class="total-count">전체 ${requestScope.totalEventCount}건</div>
+            <div class="total-count">전체 ${requestScope.totalPastEventCount}건</div>
+            <div class="search-bar">
+                <input type="text" placeholder="검색어를 입력해주세요." title="이벤트 검색" class="input-text">
+                <button class="btn">
+                    <i class="ico-search">
+                        검색
+                    </i>
+                </button>
+            </div>
         </div>
         <ul class="event-list">
-            <c:forEach var="vo" items="${ar}">
+            <c:forEach var="vo" items="${pastar}">
                 <li class="event-item">
                     <div class="event-thumbnail">
                         <img src="/css/user/images/event/${vo.boardContent}" alt="이벤트 이미지">
@@ -169,7 +177,7 @@
                 </li>
             </c:forEach>
         </ul>
-        <button class="load-more-btn" id="load-more-btn">더보기</button>
+        <button id="load-more-btn" class="load-more-btn">더보기</button>
     </div>
 </div>
 <script>
@@ -184,7 +192,7 @@
 
     // 데이터를 가져오는 함수
     const fetchData = async () => {
-      const url = "/UserController?type=event&offset=" + offset + "&pageSize=" + pageSize;
+      const url = "/UserController?type=pastevent&offset=" + offset + "&pageSize=" + pageSize;
       console.log("Fetching data from URL: " + url);
 
       try {
