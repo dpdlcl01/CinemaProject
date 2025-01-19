@@ -2,9 +2,9 @@ package mybatis.vo;
 
 public class MovieVO {
 
-    private String movieIdx, movieCd, tmdbId,
+    private String movieIdx, movieCd,
             movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
-            movieDirector, movieActors, movieInfo, moviePosterUrl,
+            movieNation, movieDirector, movieActors, movieInfo, moviePosterUrl,
             movieRank, movieReservationRate, movieTotalAudience, movieStatus;
 
     public String getMovieIdx() {
@@ -21,14 +21,6 @@ public class MovieVO {
 
     public void setMovieCd(String movieCd) {
         this.movieCd = movieCd;
-    }
-
-    public String getTmdbId() {
-        return tmdbId;
-    }
-
-    public void setTmdbId(String tmdbId) {
-        this.tmdbId = tmdbId;
     }
 
     public String getMovieTitle() {
@@ -77,6 +69,14 @@ public class MovieVO {
 
     public void setMovieDate(String movieDate) {
         this.movieDate = movieDate;
+    }
+
+    public String getMovieNation() {
+        return movieNation;
+    }
+
+    public void setMovieNation(String movieNation) {
+        this.movieNation = movieNation;
     }
 
     public String getMovieDirector() {
