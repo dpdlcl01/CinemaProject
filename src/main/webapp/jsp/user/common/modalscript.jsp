@@ -61,5 +61,14 @@
         event.stopPropagation();
       }
     });
+
+      // // 페이지가 로드될 때 로그인 성공 시 모달을 자동으로 닫도록 처리
+      // if (window.opener && window.opener.document.getElementById('modal-overlay')) {
+      //     window.opener.document.getElementById('modal-overlay').style.display = 'none';
+      //     window.opener.document.getElementById('modal-iframe').src = ''; // iframe 초기화
+      //     window.opener.location.reload(); // 부모 페이지 새로 고침
+      // }
+
+
   });
 </script>
