@@ -24,6 +24,8 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
+
+
 /* 모달 컨테이너 스타일 */
 .modal-container {
     position: absolute;
@@ -78,10 +80,12 @@
     font-size: 14px;
     color: #333;
 }
+
 .page-util .location span {
     font-weight: bold;
     margin-right: 10px;
 }
+
 .page-util .location a {
     color: #0078ff;
     text-decoration: none;
@@ -89,6 +93,7 @@
     pointer-events: none;
     cursor: default;
 }
+
 .page-util .location a:hover {
     text-decoration: none; /* 호버 효과 */
 }

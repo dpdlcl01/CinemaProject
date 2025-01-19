@@ -81,10 +81,13 @@
         <div>
             <a href="./jsp/user/event/eventMain.jsp">이벤트 페이지</a>
             <a href="./jsp/user/notice/noticeMain.jsp">공지사항 페이지</a>
-            <a href="jsp/user/notice/noticePost.jsp">공지사항 글 확인 페이지</a>
             <a href="jsp/user/myInfo/myInfoMain.jsp">내 정보 페이지</a>
-            <a href="jsp/user/store/storeProduct.jsp">상품 페이지</a>
+            <a href="jsp/user/store/storeMain.jsp">스토어 메인 페이지</a>
+            <a href="jsp/user/reservation/reservationMain.jsp">빠른 예매 페이지</a>
             <a href="jsp/user/reservation/reservationSeat.jsp">좌석 선택 페이지</a>
+            <a href="jsp/user/movie/movieMain.jsp">영화 메인 페이지</a>
+            <a href="jsp/user/movie/movieDetail.jsp">영화 상세 페이지</a>
+            <a href="jsp/user/theater/theaterMain.jsp">극장 메인 페이지</a>
         </div>
     </section>
 </main>

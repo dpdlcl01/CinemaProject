@@ -1,4 +1,4 @@
--- 19. 관리자(admin) 테이블 생성
+-- 17. 관리자(admin) 테이블 생성
 CREATE TABLE admin (
     adminIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '관리자 고유 ID',
     adminId VARCHAR(20) NOT NULL UNIQUE COMMENT '관리자 로그인 ID',
@@ -45,8 +45,7 @@ CREATE TABLE theater (
     theaterName VARCHAR(30) NOT NULL COMMENT '극장 이름',
     theaterRegion VARCHAR(20) NOT NULL COMMENT '극장 지역',
     theaterAddress VARCHAR(100) NOT NULL COMMENT '극장 주소',
-    theaterInfo VARCHAR(255) COMMENT '극장 설명 (간단한 소개 문구)',
-    theaterImageUrl VARCHAR(255) COMMENT '극장 설명 이미지 URL (보유 시설, 층별 안내 등의 시설안내 이미지)',
+    theaterInfo TEXT COMMENT '극장 설명',
     theaterScreenCount INT(2) NOT NULL COMMENT '총 상영관 수',
     theaterRegDate DATETIME NOT NULL COMMENT '극장 등록일 (관리자 입력)',
     theaterStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '극장 상태 (0: 운영 중, 1: 점검, 2: 폐쇄)'
@@ -58,7 +57,7 @@ CREATE TABLE screen (
     screenIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '상영관 고유 ID',
     theaterIdx BIGINT NOT NULL COMMENT '극장 ID',
     screenName VARCHAR(20) NOT NULL COMMENT '상영관 이름',
-   screenType VARCHAR(20) NOT NULL COMMENT '상영관 유형 (COMFORT, VIP, DOLBY, 4DX, IMAX)',
+   screenType VARCHAR(20) NOT NULL COMMENT '상영관 유형 (Dolby, VIP, Recliner, IMAX, 4DX)',
     screenSeatCount INT(5) NOT NULL COMMENT '좌석 수',
     screenStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '상영관 상태 (0: 운영 중, 1: 점검, 2: 폐쇄)',
     FOREIGN KEY (theaterIdx) REFERENCES theater(theaterIdx) ON DELETE CASCADE
@@ -92,7 +91,7 @@ CREATE TABLE seat (
 -- 7. 좌석 가격(price) 테이블 생성
 CREATE TABLE price (
     priceIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '가격 설정 고유 ID',
-    screenType TINYINT(1) NOT NULL COMMENT '상영관 유형 (1: COMFORT, 2: VIP, 3: DOLBY, 4: 4DX, 5: IMAX)',
+    screenType TINYINT(1) NOT NULL COMMENT '상영관 유형 (1: Recliner, 2: VIP, 3: Dolby, 4: 4DX, 5: IMAX)',
     ageGroup TINYINT(1) NOT NULL COMMENT '연령대 (1: 성인, 2: 청소년)',
     dayOfWeek TINYINT(1) NOT NULL COMMENT '요일 (1: 주중, 2: 주말)',
     timeOfDay TINYINT(1) NOT NULL COMMENT '시간대 (1: 조조 및 심야, 2: 일반)',
@@ -166,25 +165,23 @@ CREATE TABLE product (
 ) COMMENT='상품 정보를 저장하는 테이블';
 
 
--- 12. 결제 정보를 저장하는 테이블
+-- 12. 결제(payment) 테이블 생성
 CREATE TABLE payment (
-     paymentIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '결제 고유 ID',
-     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
-     paymentType TINYINT(1) NOT NULL COMMENT '결제 종류 (1: 영화 예매, 2: 상품 구매)',
-     reservationIdx BIGINT COMMENT '예매 고유 ID (영화 결제인 경우에만 사용)',
-     productIdx BIGINT COMMENT '상품 고유 ID (상품 결제인 경우에만 사용)',
-     paymentMethod VARCHAR(10) NOT NULL COMMENT '결제 방식 (CARD, NAVER, KAKAO, TOSS 등)',
-     paymentTotal INT(7) NOT NULL COMMENT '결제 금액 (할인 전 금액)',
-     paymentDiscount INT(7) COMMENT '포인트, 쿠폰 등 할인 금액',
-     paymentFinal INT(7) NOT NULL COMMENT '실제 결제 금액',
-     paymentTransactionId VARCHAR(50) COMMENT '결제 API에서 제공하는 고유 거래 ID',
-     paymentApprovalNumber VARCHAR(30) COMMENT '결제 승인 번호 (결제 성공 시 API가 반환하는 승인 번호)',
-     paymentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '결제일',
-     paymentStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '결제 상태 (0: 완료, 1: 대기, 2: 취소)',
-     FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
-     FOREIGN KEY (reservationIdx) REFERENCES reservation(reservationIdx) ON DELETE CASCADE,
-     FOREIGN KEY (productIdx) REFERENCES product(productIdx) ON DELETE CASCADE
-) COMMENT='결제 정보를 저장하는 테이블';
+    paymentIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '결제 고유 ID',
+    userIdx BIGINT NOT NULL COMMENT '사용자 ID',
+   paymentType TINYINT(1) NOT NULL COMMENT '결제 종류 (1: 영화 예매, 2: 상품 구매)',
+    reservationIdx BIGINT COMMENT '예매 ID (Movie Payment Only)',
+    productIdx BIGINT COMMENT '상품 ID (Product Payment Only)',
+    paymentMethod VARCHAR(10) NOT NULL COMMENT '결제 방식 (카드, 현금 등)',
+    paymentTotal INT(7) NOT NULL COMMENT '결제 금액 (할인 전)',
+    paymentDiscount INT(7) COMMENT '포인트, 쿠폰 등 할인 금액',
+    paymentFinal INT(7) NOT NULL COMMENT '실제 결제 금액',
+    paymentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '결제일',
+    paymentStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '결제 상태 (0: 완료, 1: 대기, 2: 취소)',
+    FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
+	FOREIGN KEY (reservationIdx) REFERENCES reservation(reservationIdx) ON DELETE CASCADE,
+    FOREIGN KEY (productIdx) REFERENCES product(productIdx) ON DELETE CASCADE
+) COMMENT='영화 예매 또는 상품 구매에 대한 결제 정보를 저장하는 테이블';
 
 
 -- 13. 포인트(point) 테이블 생성
@@ -227,45 +224,20 @@ CREATE TABLE review (
 ) COMMENT='영화에 대한 리뷰 정보를 저장하는 테이블';
 
 
--- 16. 선호 영화 목록 테이블 생성
-CREATE TABLE favorite_movie (
-    favoriteIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '선호 영화 고유 ID',
-    userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
-    movieIdx BIGINT NOT NULL COMMENT '영화 고유 ID',
-    addedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '선호 영화 추가 날짜',
-    FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
-    FOREIGN KEY (movieIdx) REFERENCES movie(movieIdx) ON DELETE CASCADE
-) COMMENT='사용자의 선호 영화 목록을 저장하는 테이블';
+-- 16. 공지사항(notice) 테이블 생성
+CREATE TABLE notice (
+    noticeIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '공지사항 고유 ID',
+    adminIdx BIGINT NOT NULL COMMENT '관리자 ID',
+    noticeTitle VARCHAR(70) NOT NULL COMMENT '공지사항 제목',
+    noticeContent TEXT NOT NULL COMMENT '공지사항 내용',
+    noticeRegDate DATETIME NOT NULL COMMENT '공지 게시 시작일',
+    noticeExpDate DATETIME COMMENT '공지 게시 종료일 (NULL 가능)',
+    noticeStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '공지 상태 (0: 게시 중, 1: 게시 예정, 2: 게시 종료)',
+    FOREIGN KEY (adminIdx) REFERENCES admin(adminIdx) ON DELETE CASCADE
+) COMMENT='공지사항 정보를 저장하는 테이블';
 
 
--- 17. 선호 극장 목록 테이블 생성
-CREATE TABLE favorite_theater (
-    favoriteIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '선호 극장 고유 ID',
-    userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
-    theaterIdx BIGINT NOT NULL COMMENT '극장 고유 ID',
-    addedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '선호 극장 추가 날짜',
-    FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
-    FOREIGN KEY (theaterIdx) REFERENCES theater(theaterIdx) ON DELETE CASCADE
-) COMMENT='사용자의 선호 극장 목록을 저장하는 테이블';
-
-
--- 18. 게시판(board) 테이블 생성
-CREATE TABLE board (
-   boardIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '게시판 고유 ID',
-   adminIdx BIGINT NOT NULL COMMENT '관리자 ID',
-   theaterIdx BIGINT NOT NULL COMMENT '극장 고유 ID (전체 극장 대상인 경우 NULL)',
-   boardType VARCHAR(30) NOT NULL COMMENT '게시판 종류 (NOTICE: 공지사항, EVENT: 이벤트)',
-   boardTitle VARCHAR(70) NOT NULL COMMENT '게시판 제목',
-   boardContent TEXT NOT NULL COMMENT '게시판 내용 (이벤트 내용은 이미지 태그로 입력)',
-   boardRegDate DATETIME NOT NULL COMMENT '게시 시작일',
-   boardExpDate DATETIME COMMENT '게시 종료일 (NULL 가능)',
-   boardStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '게시 상태 (0: 게시 중, 1: 게시 예정, 2: 게시 종료)',
-   FOREIGN KEY (adminIdx) REFERENCES admin(adminIdx) ON DELETE CASCADE,
-   FOREIGN KEY (theaterIdx) REFERENCES theater(theaterIdx) ON DELETE CASCADE
-) COMMENT='게시판 정보를 저장하는 테이블';
-
-
--- 20. 로그(log) 테이블 생성
+-- 18. 로그(log) 테이블 생성
 CREATE TABLE log (
     logIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '로그 고유 ID',
     logType TINYINT(1) NOT NULL COMMENT '로그 유형 (0: 관리자, 1: 사용자)',
