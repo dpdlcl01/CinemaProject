@@ -3,7 +3,7 @@ CREATE TABLE admin (
     adminIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '관리자 고유 ID',
     adminId VARCHAR(20) NOT NULL UNIQUE COMMENT '관리자 로그인 ID',
     adminPassword VARCHAR(50) NOT NULL COMMENT '관리자 비밀번호',
-    adminLevel VARCHAR(20) NOT NULL COMMENT '관리자 등급 (Super, Manager)',
+    adminLevel VARCHAR(20) NOT NULL COMMENT '관리자 등급 (SUPER, MANAGER)',
     adminStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '관리자 상태 (0: 활성, 1: 삭제)'
 ) COMMENT='관리자 정보를 저장하는 테이블';
 
@@ -64,7 +64,7 @@ CREATE TABLE screen (
     screenIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '상영관 고유 ID',
     theaterIdx BIGINT NOT NULL COMMENT '극장 ID',
     screenName VARCHAR(20) NOT NULL COMMENT '상영관 이름',
-   screenType VARCHAR(20) NOT NULL COMMENT '상영관 유형 (COMFORT, VIP, DOLBY, 4DX, IMAX)',
+    screenType TINYINT(1) NOT NULL COMMENT '상영관 유형 (1: COMFORT, 2: VIP, 3: DOLBY, 4: 4DX, 5: IMAX)',
     screenSeatCount INT(5) NOT NULL COMMENT '좌석 수',
     screenStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '상영관 상태 (0: 운영 중, 1: 점검, 2: 폐쇄)',
     FOREIGN KEY (theaterIdx) REFERENCES theater(theaterIdx) ON DELETE CASCADE
@@ -110,7 +110,7 @@ CREATE TABLE price (
 CREATE TABLE reservation (
     reservationIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '예매 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 ID',
-    theaterIdx BIGINT NOT NULL COMMENT '극장 ID',
+    theaterIdx BIGINT COMMENT '극장 ID',
     screenIdx BIGINT NOT NULL COMMENT '상영관 ID',
     timetableIdx BIGINT NOT NULL COMMENT '상영 시간표 ID',
     reservationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '예매일',
