@@ -30,6 +30,7 @@
         .content.active {
             display: block;
         }
+
         .event-bar-container {
             display: flex;
             justify-content: space-between;
@@ -140,7 +141,7 @@
         <div class="location">
             <span>Home</span>
             <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-            <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">지난 이벤트</a>
+            <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">검색 이벤트</a>
         </div>
     </div>
 </div>
@@ -154,7 +155,7 @@
     <div id="pastevent" class="content active">
         <p>응모하신 이벤트의 당첨 여부는 <a href="#">나의 응모결과 확인</a>을 통해 확인하실 수 있습니다.</p><br/>
         <div class="event-bar-container">
-            <div class="total-count">전체 ${requestScope.totalPastEventCount}건</div>
+            <div class="total-count">전체 ${requestScope.totalSearchPastEventCount}건</div>
             <div class="search-bar">
                 <form id="searchForm" action="${pageContext.request.contextPath}/UserController" method="get" onsubmit="return validateSearch()">
                     <input type="hidden" name="type" value="searchpastevent">
@@ -168,7 +169,7 @@
             </div>
         </div>
         <ul class="event-list">
-            <c:forEach var="vo" items="${pastar}">
+            <c:forEach var="vo" items="${ar}">
                 <li class="event-item">
                     <div class="event-thumbnail">
                         <img src="/css/user/images/event/${vo.boardContent}" alt="이벤트 이미지">
@@ -180,7 +181,10 @@
                 </li>
             </c:forEach>
         </ul>
-        <button id="load-more-btn" class="load-more-btn">더보기</button>
+        <!-- 더보기 버튼: 데이터가 5개 이상인 경우에만 표시 -->
+        <c:if test="${requestScope.totalSearchPastEventCount > 5}">
+            <button id="load-more-btn" class="load-more-btn">더보기</button>
+        </c:if>
     </div>
 </div>
 <script>
@@ -218,7 +222,7 @@
 
     // 데이터를 가져오는 함수
     const fetchData = async () => {
-      const url = "/UserController?type=pastevent&offset=" + offset + "&pageSize=" + pageSize;
+      const url = "/UserController?type=searchpastevent&offset=" + offset + "&pageSize=" + pageSize;
       console.log("Fetching data from URL: " + url);
 
       try {
@@ -269,7 +273,6 @@
       console.error("더보기 버튼을 찾을 수 없습니다.");
     }
   });
-
 </script>
 <jsp:include page="../common/footer.jsp"/>
 </body>

@@ -37,6 +37,7 @@ public class EventAction implements Action {
         request.setAttribute("totalEventCount", totalEventCount);
         request.setAttribute("ar", ar);
         return "./jsp/user/event/eventMain.jsp"; // event 화면 경로 반환
+
       } else {
         // 비동기 요청: JSON 데이터 반환
         response.setContentType("application/json;charset=utf-8");
@@ -60,13 +61,37 @@ public class EventAction implements Action {
 
       if (offset == 0) {
         // 첫 요청: 화면 경로 반환 및 데이터 설정
-        response.setContentType("text/html;charset=utf-8"); // JSP 렌더링 시 Content-Type 설정
         request.setAttribute("totalPastEventCount", totalPastEventCount);
         request.setAttribute("pastar", ar);
 
         System.out.println(ar);
         System.out.println(totalPastEventCount);
         return "./jsp/user/event/pastEvent.jsp";
+
+      } else {
+        // 비동기 요청: JSON 데이터 반환
+        response.setContentType("application/json;charset=utf-8");
+        try {
+          PrintWriter out = response.getWriter();
+
+          ObjectMapper mapper = new ObjectMapper();
+          mapper.writeValue(out, ar); // JSON으로 변환하여 응답
+          return null;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    } else if (type.equals("searchpastevent")) {
+      String keyword = request.getParameter("keyword");
+
+      int totalSearchPastEventCount = EventDAO.getSearchTotalPastEventCount(keyword);
+      EventVO[] ar = EventDAO.searchPastEvent(offset, pageSize, keyword);
+
+      if (offset == 0) {
+        request.setAttribute("totalSearchPastEventCount", totalSearchPastEventCount);
+        request.setAttribute("ar", ar);
+
+        return "./jsp/user/event/searchPastEvent.jsp";
 
       } else {
         // 비동기 요청: JSON 데이터 반환

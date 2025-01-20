@@ -24,8 +24,10 @@
 <meta property="og:image" id="fbImg" content="https://img.megabox.co.kr/SharedImg/metaTag/2020/02/04/gFfTzMwwiCxhBwcUV5TRGMFX9Cmoj64W.jpg">
 
 <!-- 외부CSS 연결하기 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/memberLogin.css">
 
 <!-- 메인화면 하트 아이콘 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">

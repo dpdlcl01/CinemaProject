@@ -23,6 +23,7 @@
             border-bottom: 2px solid #6a5acd;
             color: #6a5acd;
         }
+
         .content {
             display: none;
             margin-top: 20px;
@@ -38,44 +39,6 @@
         }
         .event-bar-container .total-count {
             font-size: 16px;
-        }
-        .search-bar {
-            border-bottom: 1px solid #423e3e;
-            display: inline-block;
-            position: relative;
-            width: 200px;
-            height: 30px;
-        }
-        .search-bar .input-text {
-            display: inline-block;
-            background-color: transparent;
-            border: 0;
-            color: #000;
-            line-height: 25px;
-            font-size: 16px;
-            outline: none;
-        }
-        .search-bar .btn {
-            display: block;
-            width: 30px;
-            height: 100%;
-            position: absolute;
-            right: 0;
-            top: 0;
-            font-size: 0;
-            line-height: 0;
-            border: 0;
-            background-color: transparent;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .ico-search {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
-            vertical-align: middle;
         }
         .event-list {
             list-style: none;
@@ -163,7 +126,7 @@
                         <img src="/css/user/images/event/${vo.boardContent}" alt="이벤트 이미지">
                     </div>
                     <div class="event-details">
-                        <a href="UserController" class="event-title">${vo.boardTitle}</a>
+                        <a href="UserController?type=eventdetail&boardIdx=${vo.boardIdx}" class="event-title">${vo.boardTitle}</a>
                         <p class="event-meta">${vo.boardRegDate} ~ ${vo.boardExpDate}</p>
                     </div>
                 </li>
@@ -201,14 +164,15 @@
             const li = document.createElement("li");
             li.classList.add("event-item");
 
-            let html = "";
-            html += '<div class="event-thumbnail">';
-            html += '<img src="/css/user/images/event/' + event.boardContent + '" alt="이벤트 이미지">';
-            html += '</div>';
-            html += '<div class="event-details">';
-            html += '<a href="/UserController" class="event-title">' + event.boardTitle + '</a>';
-            html += '<p class="event-meta">' + event.boardRegDate + ' ~ ' + event.boardExpDate + '</p>';
-            html += '</div>';
+            let html = `
+                <div class="event-thumbnail">
+                    <img src="/css/user/images/event/` + event.boardContent + `" alt="이벤트 이미지">
+                </div>
+                <div class="event-details">
+                    <a href="/UserController?type=eventdetail&boardIdx=` + event.boardIdx + `" class="event-title">` + event.boardTitle + `</a>
+                    <p class="event-meta">` + event.boardRegDate + ` ~ ` + event.boardExpDate + `</p>
+                </div>
+            `;
 
             li.innerHTML = html;
             eventList.appendChild(li);

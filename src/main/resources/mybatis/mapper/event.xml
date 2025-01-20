@@ -45,4 +45,36 @@
     ORDER BY boardIdx DESC
     LIMIT ${offset}, ${pageSize}
   </select>
+
+  <!-- 지난 이벤트 이름 검색 결과 수 -->
+  <select id="SearchPastEventCount" resultType="int" parameterType="String">
+    SELECT COUNT(*)
+    FROM board
+    WHERE boardStatus = 0
+    AND boardType = 'EVENT'
+    AND boardExpDate &lt; NOW()
+    AND boardTitle LIKE CONCAT('%', #{keyword}, '%')
+  </select>
+
+
+  <!-- 지난 이벤트 이름 검색 -->
+  <select id="searchPastEvent" resultType="mybatis.vo.EventVO" parameterType="java.util.Map">
+    SELECT *
+    FROM board
+    WHERE boardStatus = 0
+    AND boardType = 'EVENT'
+    AND boardExpDate &lt; NOW()
+    AND boardTitle LIKE CONCAT('%', #{keyword}, '%')
+    ORDER BY boardIdx DESC
+    LIMIT ${offset}, ${pageSize}
+  </select>
+
+  <!-- boardIdx 값으로 이벤트 검색 -->
+  <select id="searchBoardIdxEvent" resultType="mybatis.vo.EventVO" parameterType="int">
+    SELECT *
+    FROM board
+    WHERE boardIdx = #{boardIdx}
+    AND boardType = 'EVENT'
+    AND boardStatus = 0
+  </select>
 </mapper>
