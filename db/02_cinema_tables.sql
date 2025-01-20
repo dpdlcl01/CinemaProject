@@ -253,7 +253,7 @@ CREATE TABLE favorite_theater (
 CREATE TABLE board (
    boardIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '게시판 고유 ID',
    adminIdx BIGINT NOT NULL COMMENT '관리자 ID',
-   theaterIdx BIGINT NOT NULL COMMENT '극장 고유 ID (전체 극장 대상인 경우 NULL)',
+   theaterIdx BIGINT COMMENT '극장 고유 ID (전체 극장 대상인 경우 NULL)',
    boardType VARCHAR(30) NOT NULL COMMENT '게시판 종류 (NOTICE: 공지사항, EVENT: 이벤트)',
    boardTitle VARCHAR(70) NOT NULL COMMENT '게시판 제목',
    boardContent TEXT NOT NULL COMMENT '게시판 내용 (이벤트 내용은 이미지 태그로 입력)',
