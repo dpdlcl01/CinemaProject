@@ -210,7 +210,7 @@ public class DbMovieAction implements Action {
                     movieList.add(mvo);
 
                     // DB 저장 메서드 호출 ------------------------------------------ 최초 1번 수행하는 로직 (API 호출 확인시에는 주석처리)
-//                    int cnt = MovieDAO.addNewMovie(mvo);
+                    int cnt = MovieDAO.addNewMovie(mvo);
 
                     count++;
                 }

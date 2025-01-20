@@ -6,8 +6,8 @@
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
         INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
         movieDirector, movieActors, movieInfo, moviePosterUrl,
-        movieRank, movieReservationRate, movieTotalAudience, movieStatus)
+        movieReservationRate, movieTotalAudience, movieStatus)
         VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
-        #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl}, #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieStatus})
+        #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl}, #{movieReservationRate}, #{movieTotalAudience}, #{movieStatus})
     </insert>
 </mapper>

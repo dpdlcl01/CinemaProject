@@ -138,7 +138,7 @@ public class UserController extends HttpServlet {
 
         // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
         if(viewPath == null){
-            response.sendRedirect("Controller?type=main");
+            response.sendRedirect("UserController?type=main");
         } else {
             //forward 준비
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);

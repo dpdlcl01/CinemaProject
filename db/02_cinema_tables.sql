@@ -14,10 +14,11 @@ CREATE TABLE user (
     userName VARCHAR(20) NOT NULL COMMENT '사용자 이름',
     userId VARCHAR(20) NOT NULL UNIQUE COMMENT '사용자 ID',
     userPassword VARCHAR(255) NOT NULL COMMENT '사용자 비밀번호 (bcrypt 해시 값 저장)',
+    userBirth DATE NOT NULL COMMENT '사용자 생년월일',
     userEmail VARCHAR(50) NOT NULL UNIQUE COMMENT '사용자 이메일',
     userPhone VARCHAR(20) NOT NULL COMMENT '사용자 연락처',
     userPoint INT COMMENT '사용자 보유 포인트',
-    userGrade VARCHAR(5) COMMENT '사용자 등급 (Basic, VIP, VVIP)',
+    userGrade VARCHAR(5) COMMENT '사용자 등급 (BASIC, VIP, VVIP)',
     userRegDate DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '사용자 가입일',
     userStatus TINYINT(1) DEFAULT 0 COMMENT '사용자 상태 (0: 활성, 1: 탈퇴)'
 ) COMMENT='사용자 정보를 저장하는 테이블';
@@ -166,7 +167,7 @@ CREATE TABLE product (
     productInfo TEXT COMMENT '상품 설명',
     productPrice INT(7) NOT NULL COMMENT '상품 가격',
     productStock INT(5) COMMENT '상품 재고 수량',
-    productImg VARCHAR(500) COMMENT '상품 이미지 URL',
+    productImg VARCHAR(255) COMMENT '상품 이미지 파일명',
     productRegDate DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '상품 등록일',
     productStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '상품 상태 (0: 판매 중, 1: 품절, 2: 종료)'
 ) COMMENT='상품 정보를 저장하는 테이블';
@@ -272,7 +273,7 @@ CREATE TABLE favoriteTheater (
 CREATE TABLE board (
    boardIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '게시판 고유 ID',
    adminIdx BIGINT NOT NULL COMMENT '관리자 ID',
-   theaterIdx BIGINT NOT NULL COMMENT '극장 고유 ID (전체 극장 대상인 경우 NULL)',
+   theaterIdx BIGINT COMMENT '극장 고유 ID (전체 극장 대상인 경우 NULL)',
    boardType VARCHAR(30) NOT NULL COMMENT '게시판 종류 (NOTICE: 공지사항, EVENT: 이벤트)',
    boardTitle VARCHAR(70) NOT NULL COMMENT '게시판 제목',
    boardContent TEXT NOT NULL COMMENT '게시판 내용 (이벤트 내용은 이미지 태그로 입력)',
