@@ -38,7 +38,6 @@
         <table>
             <caption>영화 상세 정보 테이블</caption>
             <colgroup>
-                <col width="50px"/>
                 <col width="100px"/>
                 <col width="100px"/>
                 <col width="100px"/>
@@ -57,7 +56,6 @@
             </colgroup>
             <thead>
             <tr>
-                <th>순위</th>
                 <th>영화코드</th>
                 <th>제목</th>
                 <th>영문 제목</th>
@@ -78,7 +76,6 @@
             <tbody>
             <c:forEach var="mvo" items="${requestScope.movieList}">
                 <tr>
-                    <td>${mvo.movieRank}</td>
                     <td>${mvo.movieCd}</td>
                     <td>${mvo.movieTitle}</td>
                     <td>${mvo.movieTitleEn}</td>
