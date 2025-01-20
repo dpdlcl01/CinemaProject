@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="movie">
+    <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
+        INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
+        movieDirector, movieActors, movieInfo, moviePosterUrl,
+        movieReservationRate, movieTotalAudience, movieStatus)
+        VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
+        #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl}, #{movieReservationRate}, #{movieTotalAudience}, #{movieStatus})
+    </insert>
+</mapper>
