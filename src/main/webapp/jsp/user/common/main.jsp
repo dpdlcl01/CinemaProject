@@ -6,7 +6,7 @@
 <head>
     <jsp:include page="head.jsp"/>
 </head>
-<link rel="stylesheet" href="../../../css/user/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <body class="main-page">
 

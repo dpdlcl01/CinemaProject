@@ -43,75 +43,75 @@
         <div class="seat-container">
           <div class="screen">SCREEN</div>
           <%-- A set --%>
-<%--          <div class="rows">--%>
-<%--            <div class="rows">--%>
-<%--              <div class="row" data-row="front">--%>
-<%--                <button class="empty"></button>--%>
-<%--                <button class="door-left"></button>--%>
-<%--                <button class="empty"></button>--%>
-<%--                <button class="empty"></button>--%>
-<%--                <button class="empty"></button>--%>
-<%--                <button class="empty"></button>--%>
-<%--                <button class="empty"></button>--%>
-<%--                <button class="empty"></button>--%>
-<%--                <button class="empty"></button>--%>
-<%--              </div>--%>
-<%--            <div class="row" data-row="A">--%>
-<%--              <button class="row-label">A</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>1</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>2</button>--%>
-<%--              <button>3</button>--%>
-<%--              <button>4</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>5</button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="B">--%>
-<%--              <button class="row-label">B</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>1</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>2</button>--%>
-<%--              <button>3</button>--%>
-<%--              <button>4</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>5</button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="C">--%>
-<%--              <button class="row-label">C</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>1</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>2</button>--%>
-<%--              <button>3</button>--%>
-<%--              <button>4</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>5</button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="D">--%>
-<%--              <button class="row-label">D</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>1</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>2</button>--%>
-<%--              <button>3</button>--%>
-<%--              <button>4</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>5</button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="back">--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="door-top"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--            </div>--%>
-<%--          </div>--%>
+          <%--          <div class="rows">--%>
+          <%--            <div class="rows">--%>
+          <%--              <div class="row" data-row="front">--%>
+          <%--                <button class="empty"></button>--%>
+          <%--                <button class="door-left"></button>--%>
+          <%--                <button class="empty"></button>--%>
+          <%--                <button class="empty"></button>--%>
+          <%--                <button class="empty"></button>--%>
+          <%--                <button class="empty"></button>--%>
+          <%--                <button class="empty"></button>--%>
+          <%--                <button class="empty"></button>--%>
+          <%--                <button class="empty"></button>--%>
+          <%--              </div>--%>
+          <%--            <div class="row" data-row="A">--%>
+          <%--              <button class="row-label">A</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>1</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>2</button>--%>
+          <%--              <button>3</button>--%>
+          <%--              <button>4</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>5</button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="B">--%>
+          <%--              <button class="row-label">B</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>1</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>2</button>--%>
+          <%--              <button>3</button>--%>
+          <%--              <button>4</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>5</button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="C">--%>
+          <%--              <button class="row-label">C</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>1</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>2</button>--%>
+          <%--              <button>3</button>--%>
+          <%--              <button>4</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>5</button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="D">--%>
+          <%--              <button class="row-label">D</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>1</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>2</button>--%>
+          <%--              <button>3</button>--%>
+          <%--              <button>4</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>5</button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="back">--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="door-top"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--            </div>--%>
+          <%--          </div>--%>
           <%-- B set --%>
           <div class="rows">
             <div class="row" data-row="front">
@@ -127,47 +127,63 @@
             </div>
             <div class="row" data-row="A">
               <button class="row-label">A</button>
-              <button class="empty"></button>
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>4</button>
-              <button class="empty"></button>
-              <button>5</button>
-              <button>6</button>
+              <div class="seats">
+                <div class="seat-group">
+                  <% for (int i = 1; i <= 4; i++) { %>
+                  <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+                <div class="seat-group-left">
+                  <% for (int i = 5; i <= 6; i++) { %>
+                  <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+              </div>
             </div>
             <div class="row" data-row="B">
               <button class="row-label">B</button>
-              <button class="empty"></button>
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>4</button>
-              <button class="empty"></button>
-              <button>5</button>
-              <button>6</button>
+              <div class="seats">
+                <div class="seat-group">
+                  <% for (int i = 1; i <= 4; i++) { %>
+                  <button class="available-seat" data-seat="B<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+                <div class="seat-group-left">
+                  <% for (int i = 5; i <= 6; i++) { %>
+                  <button class="available-seat" data-seat="B<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+              </div>
             </div>
             <div class="row" data-row="C">
               <button class="row-label">C</button>
-              <button class="empty"></button>
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>4</button>
-              <button class="empty"></button>
-              <button>5</button>
-              <button>6</button>
+              <div class="seats">
+                <div class="seat-group">
+                  <% for (int i = 1; i <= 4; i++) { %>
+                  <button class="available-seat" data-seat="C<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+                <div class="seat-group-left">
+                  <% for (int i = 5; i <= 6; i++) { %>
+                  <button class="available-seat" data-seat="C<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+              </div>
             </div>
             <div class="row" data-row="D">
               <button class="row-label">D</button>
-              <button class="empty"></button>
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>4</button>
-              <button class="empty"></button>
-              <button>5</button>
-              <button>6</button>
+              <div class="seats">
+                <div class="seat-group">
+                  <% for (int i = 1; i <= 4; i++) { %>
+                  <button class="available-seat" data-seat="D<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+                <div class="seat-group-left">
+                  <% for (int i = 5; i <= 6; i++) { %>
+                  <button class="available-seat" data-seat="D<%=i%>"><%=i%></button>
+                  <% } %>
+                </div>
+              </div>
             </div>
             <div class="row" data-row="back">
               <button class="empty"></button>
@@ -182,69 +198,69 @@
             </div>
           </div>
           <%-- C set --%>
-<%--          <div class="rows">--%>
-<%--            <div class="row" data-row="front">--%>
-<%--              <button class="door-left"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="A">--%>
-<%--              <button class="row-label">A</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>1</button>--%>
-<%--              <button>2</button>--%>
-<%--              <button>3</button>--%>
-<%--              <button>4</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>5</button>--%>
-<%--              <button>6</button>--%>
-<%--              <button>7</button>--%>
-<%--              <button>8</button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="B">--%>
-<%--              <button class="row-label">B</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>1</button>--%>
-<%--              <button>2</button>--%>
-<%--              <button>3</button>--%>
-<%--              <button>4</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>5</button>--%>
-<%--              <button>6</button>--%>
-<%--              <button>7</button>--%>
-<%--              <button>8</button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="C">--%>
-<%--              <button class="row-label">C</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>1</button>--%>
-<%--              <button>2</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button>3</button>--%>
-<%--              <button>4</button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--            </div>--%>
-<%--            <div class="row" data-row="back">--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="door-top"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--              <button class="empty"></button>--%>
-<%--            </div>--%>
-<%--          </div>--%>
+          <%--          <div class="rows">--%>
+          <%--            <div class="row" data-row="front">--%>
+          <%--              <button class="door-left"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="A">--%>
+          <%--              <button class="row-label">A</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>1</button>--%>
+          <%--              <button>2</button>--%>
+          <%--              <button>3</button>--%>
+          <%--              <button>4</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>5</button>--%>
+          <%--              <button>6</button>--%>
+          <%--              <button>7</button>--%>
+          <%--              <button>8</button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="B">--%>
+          <%--              <button class="row-label">B</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>1</button>--%>
+          <%--              <button>2</button>--%>
+          <%--              <button>3</button>--%>
+          <%--              <button>4</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>5</button>--%>
+          <%--              <button>6</button>--%>
+          <%--              <button>7</button>--%>
+          <%--              <button>8</button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="C">--%>
+          <%--              <button class="row-label">C</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>1</button>--%>
+          <%--              <button>2</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button>3</button>--%>
+          <%--              <button>4</button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--            </div>--%>
+          <%--            <div class="row" data-row="back">--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="door-top"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--              <button class="empty"></button>--%>
+          <%--            </div>--%>
+          <%--          </div>--%>
         </div>
       </div>
       <!-- 영화 정보 -->
@@ -276,8 +292,8 @@
           <div class="seat-num">
             <p class="tit">선택좌석</p>
             <div class="my-seat">
-              <div class="seat choice" title="선택한 좌석">E11</div>
-              <div class="seat choice" title="선택한 좌석">E12</div>
+              <div class="seat all" title="구매가능 좌석">-</div>
+              <div class="seat all" title="구매가능 좌석">-</div>
               <div class="seat all" title="구매가능 좌석">-</div>
               <div class="seat all" title="구매가능 좌석">-</div>
               <div class="seat all" title="구매가능 좌석">-</div>
@@ -292,7 +308,7 @@
             <p class="details">성인 2</p>
             <p class="final-payment">
               <span class="label">최종결제금액</span>
-              <span class="amount">30,000 원</span>
+              <span id="totalAmount" class="amount">0 원</span>
             </p>
           </div>
         </div>
@@ -306,5 +322,107 @@
 </div>
 <!-- footer 영역 -->
 <jsp:include page="../common/footer.jsp"/>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const maxSeats = 8; // 최대 선택 가능 인원
+    const selectedSeats = new Set(); // 선택된 좌석 저장
+    let adultCount = 0; // 성인 인원
+    let studentCount = 0; // 청소년 인원
+    const totalAmountElement = document.getElementById('totalAmount');
+
+    // 좌석 선택
+    document.querySelectorAll('.available-seat').forEach((seat) => {
+      seat.addEventListener('click', () => {
+        const totalCount = adultCount + studentCount;
+        if (seat.classList.contains('selected')) {
+          // 이미 선택된 좌석은 선택 해제
+          seat.classList.remove('selected');
+          selectedSeats.delete(seat.dataset.seat);
+        } else if (selectedSeats.size < totalCount) {
+          // 새로운 좌석 선택
+          seat.classList.add('selected');
+          selectedSeats.add(seat.dataset.seat);
+        } else {
+          alert('선택 가능한 좌석 수를 초과했습니다.');
+        }
+        updateSelectedSeats();
+      });
+    });
+
+    // 성인 및 청소년 인원 조정
+    document.querySelectorAll('.increase').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        const totalCount = adultCount + studentCount;
+
+        if (totalCount < maxSeats) {
+          if (target === 'adult') {
+            adultCount++;
+          } else if (target === 'student') {
+            studentCount++;
+          }
+          updateTotalCount();
+        } else {
+          alert('최대 8명까지만 선택 가능합니다.');
+        }
+      });
+    });
+
+    document.querySelectorAll('.decrease').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+
+        if (target === 'adult' && adultCount > 0) {
+          adultCount--;
+        } else if (target === 'student' && studentCount > 0) {
+          studentCount--;
+        }
+        updateTotalCount();
+      });
+    });
+
+    // 초기화 버튼
+    document.querySelector('.reset').addEventListener('click', () => {
+      adultCount = 0;
+      studentCount = 0;
+      selectedSeats.clear();
+      updateTotalCount();
+      document.querySelectorAll('.available-seat').forEach((seat) => seat.classList.remove('selected'));
+    });
+
+    // 선택된 좌석 및 금액 업데이트
+    const updateSelectedSeats = () => {
+      const seatsArray = Array.from(selectedSeats);
+      const seatElements = document.querySelectorAll('.my-seat .seat');
+
+      // 최대 8칸 유지하며 선택된 좌석 번호 채우기
+      seatElements.forEach((seatElement, index) => {
+        if (index < seatsArray.length) {
+          // 선택된 좌석 번호 채우기
+          seatElement.textContent = seatsArray[index];
+          seatElement.classList.add('filled'); // 선택된 좌석 스타일 적용
+        } else {
+          // 선택되지 않은 칸은 "-"로 표시
+          seatElement.textContent = '-';
+          seatElement.classList.remove('filled'); // 선택되지 않은 좌석 스타일 제거
+        }
+      });
+
+      // 총 금액 업데이트
+      document.getElementById('totalAmount').textContent = (seatsArray.length * 15000).toLocaleString() + ' 원';
+    };
+
+    // 총 인원 업데이트 (화면에 표시하지 않음)
+    const updateTotalCount = () => {
+      const totalCount = adultCount + studentCount;
+      document.getElementById('adult').textContent = adultCount;
+      document.getElementById('student').textContent = studentCount;
+      updateSelectedSeats();
+    };
+
+    // 초기 업데이트
+    updateTotalCount();
+  });
+</script>
 </body>
 </html>

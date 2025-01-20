@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seat">
+    <!-- 사용 가능한 좌석 조회 -->
+    <select id="getAvailableSeats" resultType="mybatis.vo.SeatVO">
+        SELECT s.*
+        FROM seat s
+        INNER JOIN timetable t ON s.screenIdx = t.screenIdx
+        WHERE s.screenIdx = #{screenIdx}
+        AND t.timetableIdx = #{timetableIdx}
+        AND s.seatStatus = '0'
+    </select>
+
+    <!-- 좌석 상태 업데이트 -->
+    <update id="updateSeatStatus">
+        UPDATE seat
+        SET seatStatus = #{seatStatus}
+        WHERE seatIdx = #{seatIdx}
+    </update>
+
+    <!-- 예매-좌석 매핑 저장 -->
+    <insert id="saveReservationSeatMapping">
+        INSERT INTO reservationSeatMapping (reservationIdx, seatIdx, priceIdx)
+        VALUES (#{reservationIdx}, #{seatIdx}, #{priceIdx})
+    </insert>
+
+    <!-- 좌석 가격 조회 -->
+    <select id="getSeatPrice" resultType="int">
+        SELECT seatPrice
+        FROM price
+        WHERE screenType = #{screenType}
+        AND ageGroup = #{ageGroup}
+        AND dayOfWeek = #{dayOfWeek}
+        AND timeOfDay = #{timeOfDay}
+    </select>
+</mapper>
