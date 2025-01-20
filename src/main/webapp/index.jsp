@@ -72,9 +72,12 @@
 <main>
     <h2>영화 예매 웹 애플리케이션</h2>
 
-    <a href="UserController">Go to UserController</a><br/><br/>
+    <a href="UserController">Go to UserController</a>
+<%--    <a href="AdminController">Go to AdminController</a>--%>
+    <a href="${pageContext.request.contextPath}/AdminController?type=dbMovie">DB Movie</a>
+    <br/><br/>
     <h3>메인 메뉴에 화면 연결시</h3>
-    <p><strong>user/common/header.jsp</strong>의 a태그에 다음 예시와 같이 추가<em>"UserController?type=movie"</em></p><br/><br/>
+    <p><strong>user/common/header.jsp</strong>의 a태그에 다음 예시와 같이 추가<em>"${pageContext.request.contextPath}/UserController?type=movie"</em></p><br/><br/>
     <section>
         <h3>기능별 화면 확인 필요시 아래에 링크 추가</h3>
         <p>아래 버튼을 클릭하여 각각의 화면을 확인하세요:</p>
