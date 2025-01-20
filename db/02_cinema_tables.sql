@@ -11,16 +11,17 @@ CREATE TABLE admin (
 -- 1. 사용자(user) 테이블 생성
 CREATE TABLE user (
     userIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '사용자 고유 ID',
-    userName VARCHAR(20) NOT NULL COMMENT '사용자 이름',
-    userId VARCHAR(20) NOT NULL UNIQUE COMMENT '사용자 ID',
-    userPassword VARCHAR(255) NOT NULL COMMENT '사용자 비밀번호 (bcrypt 해시 값 저장)',
-    userBirth DATE NOT NULL COMMENT '사용자 생년월일',
-    userEmail VARCHAR(50) NOT NULL UNIQUE COMMENT '사용자 이메일',
-    userPhone VARCHAR(20) NOT NULL COMMENT '사용자 연락처',
-    userPoint INT COMMENT '사용자 보유 포인트',
+    userName VARCHAR(20) NOT NULL COMMENT '사용자 이름 (비회원 포함)',
+    userId VARCHAR(20) UNISQUE COMMENT '사용자 로그인 ID (회원 전용)',
+    userPassword VARCHAR(255) COMMENT '사용자 비밀번호 (bcrypt 해시 값 저장, 회원 전용)',
+    userAuthPassword VARCHAR(255) COMMENT '비회원 인증용 4자리 비밀번호 (bcrypt 해시 값 저장)',
+    userBirth DATE NOT NULL COMMENT '사용자 생년월일 (비회원 포함)',
+    userEmail VARCHAR(50) NOT NULL UNIQUE COMMENT '사용자 이메일 (회원 및 비회원)',
+    userPhone VARCHAR(20) COMMENT '사용자 연락처 (회원 전용)',
+    userPoint INT COMMENT '사용자 보유 포인트 (회원 전용)',
     userGrade VARCHAR(5) COMMENT '사용자 등급 (BASIC, VIP, VVIP)',
     userRegDate DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '사용자 가입일',
-    userStatus TINYINT(1) DEFAULT 0 COMMENT '사용자 상태 (0: 활성, 1: 탈퇴)'
+    userStatus TINYINT(1) DEFAULT 0 COMMENT '사용자 상태 (0: 활성, 1: 탈퇴, NULL: 비회원)'
 ) COMMENT='사용자 정보를 저장하는 테이블';
 
 
@@ -40,7 +41,8 @@ CREATE TABLE movie (
     moviePosterUrl VARCHAR(500) NOT NULL COMMENT '포스터 이미지 경로',
     movieReservationRate FLOAT COMMENT '영화 예매율 (%)',
     movieTotalAudience BIGINT COMMENT '누적 관객수',
-    movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)'
+    movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)',
+    movieActive TINYINT(1) COMMENT '활성 상태 (0: 상위 80개 포함, 1: 제외)'
 ) COMMENT='영화 정보를 저장하는 테이블';
 
 

@@ -7,15 +7,16 @@ import mybatis.vo.MovieVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MainAction implements Action {
+public class MovieMainAction implements Action {
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        // 메인 화면 들어오면서 예매율 상위 4개 영화 가져오기
-        MovieVO[] movieArray = MovieDAO.getTopMovie();
+        // 전체 영화 리스트 가져오기
+        MovieVO[] movieArray = MovieDAO.getTotalMovie();
+
         request.setAttribute("movieArray", movieArray);
 
-        // main 화면 경로 반환
-        return "./jsp/user/common/main.jsp";
+        return "/jsp/user/movie/movieMain.jsp";
     }
 }

@@ -4,7 +4,7 @@
     <!-- container -->
     <div class="container">
         <h1 class="logo">
-            <a href="UserController" title="MEGABOX 메인으로 가기">MEGABOX : Life Theater</a>
+            <a href="${pageContext.request.contextPath}/UserController" title="MEGABOX 메인으로 가기">MEGABOX : Life Theater</a>
         </h1>
         <!-- util-area -->
         <div class="util-area">
@@ -26,7 +26,7 @@
         <nav id="gnb">
             <ul class="gnb-depth1">
                 <li title="영화">
-                    <a href="#" class="movie">영화</a>
+                    <a href="${pageContext.request.contextPath}/UserController?type=movieMain" class="movie">영화</a>
                 </li>
                 <li title="예매">
                     <a href="#" class="reserve">예매</a>

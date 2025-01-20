@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -6,7 +8,7 @@
 <head>
     <jsp:include page="head.jsp"/>
 </head>
-<link rel="stylesheet" href="../../../css/user/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <body class="main-page">
 
@@ -30,23 +32,17 @@
             <!-- main-movie-list boxRankList -->
             <div class="main-movie-list">
                 <ol class="list clearfix">
+
+                    <!-- movie-list-info -->
+                    <c:if test="${requestScope.movieArray ne null }">
+                    <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
                     <li>
-                        <!-- movie-list-info -->
-                        <a href="#" class="movie-list-info" title="영화상세 보기">
-                            <p class="rank">1</p>
-                            <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/veoYkRw8THPbrE9FobWUP1BVmEbMOXnp_420.jpg" alt="말할 수 없는 비밀" class="poster">
+                        <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
+                            <p class="rank">${st.index+1 }</p>
+                            <img src="${mvo.moviePosterUrl }" alt="${mvo.movieTitle }" class="poster">
                             <div class="wrap">
                                 <div class="summary">
-                                    “연주할 때만 느껴지는 감정이 있거든. 그게 널 만나면 느껴져”
-                                    유학 중이던 피아니스트 유준은 팔목 치료를 위해 한국에 교환 학생으로 오게 된다.
-                                    학교에 처음 간 그날, 신비로운 피아노 선율에 이끌려 도착한 연습실에서
-                                    유준은 정아와 마주치고, 운명처럼 끌린 두 사람은 시간을 보내며 가까워진다.
-                                    하지만, 연락처조차 알려주지 않는 정아와의 만남은 계속 엇갈리고,
-                                    유준의 시선이 늘 자신을 향해 있다고 생각한
-                                    인희의 갑작스러운 고백은 정아에게 큰 상처를 입힌다.
-                                    그날 이후 사라진 정아의 행방을 찾던 유준은 정아의 비밀을 마주하게 되는데…
-                                    “너와 나의 시간을 이어 준 연주곡 ‘시크릿’
-                                    그렇게 마법 같은 사랑은 시작된 거야”
+                                    ${mvo.movieInfo }
                                 </div>
                             </div>
                         </a>
@@ -57,12 +53,15 @@
                                 <i class="far fa-heart"></i>1.2k
                             </button>
                             <div class="case">
-                                <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                                <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="button btn1" title="영화 예매하기">예매</a>
                             </div>
                         </div>
                         <!-- //btn-util -->
                     </li>
-                    <li>
+                    </c:forEach>
+                    </c:if>
+
+                   <%-- <li>
                         <a href="#" class="movie-list-info" title="영화상세 보기">
                             <p class="rank">2</p>
                             <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/0XDjkXDLm7waDVJ9leltSNNBOrEpLGEU_420.jpg" alt="검은 수녀들" class="poster">
@@ -147,7 +146,7 @@
                                 <a href="" class="button btn1" title="영화 예매하기">예매</a>
                             </div>
                         </div>
-                    </li>
+                    </li>--%>
                 </ol>
             </div>
             <!-- //main-movie-list boxRankList -->

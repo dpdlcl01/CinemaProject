@@ -30,8 +30,10 @@ public class DbMovieAction implements Action {
 
         // 1. 실시간 예매율 순위를 제공하는 KOBIS에서 크롤링하여 영화 예매율 순위와 예매율, 영화코드를 가져오기 위해
         // WebDriver 설정
+/*        System.setProperty("webdriver.chrome.driver",
+                "C:/Users/user/Documents/GitHub/CinemaProject/src/main/java/util/chromedriver.exe");*/ // ChromeDriver 경로 설정
         System.setProperty("webdriver.chrome.driver",
-                "C:/Users/user/Documents/GitHub/CinemaProject/src/main/java/util/chromedriver.exe"); // ChromeDriver 경로 설정
+                "C:/My_Study/CinemaProject/src/main/java/util/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
 
 
@@ -180,7 +182,7 @@ public class DbMovieAction implements Action {
                     }
 
                     // 필수 값 검증: 개봉일, 관람 등급 정보가 없는 경우 제외
-                    if (openDt == null || watchGradeNm == null) {
+                    if (movieDate == null || watchGradeNm == null) {
                         System.out.println("필수 데이터 누락: "+ movieNm + " 영화 제외");
                         continue;
                     }
@@ -202,6 +204,8 @@ public class DbMovieAction implements Action {
                     mvo.setMovieGrade(movieGrade);        // 관람 등급 (ALL: 전체관람가, 12: 12세 이상, 15: 15세 이상, 19: 청소년 관람불가)
                     mvo.setMovieDirector(movieDirector);   // 감독 정보
                     mvo.setMovieActors(movieActors);       // 배우 목록 (쉼표로 구분된 문자열)
+
+                    mvo.setMovieActive("0"); // 최초 저장하는 영화 데이터의 경우 모두 목록 활성화
 
                     // TMDB API 호출로 추가 데이터 설정
                     fetchTmdbData(mvo);

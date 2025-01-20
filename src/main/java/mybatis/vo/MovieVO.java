@@ -5,7 +5,7 @@ public class MovieVO {
     private String movieIdx, movieCd,
             movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
             movieNation, movieDirector, movieActors, movieInfo, moviePosterUrl,
-            movieReservationRate, movieTotalAudience, movieStatus;
+            movieReservationRate, movieTotalAudience, movieStatus, movieActive;
 
     public String getMovieIdx() {
         return movieIdx;
@@ -133,5 +133,13 @@ public class MovieVO {
 
     public void setMovieStatus(String movieStatus) {
         this.movieStatus = movieStatus;
+    }
+
+    public String getMovieActive() {
+        return movieActive;
+    }
+
+    public void setMovieActive(String movieActive) {
+        this.movieActive = movieActive;
     }
 }
