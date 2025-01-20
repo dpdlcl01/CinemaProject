@@ -24,5 +24,9 @@
         GROUP BY p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg
         ORDER BY p.productIdx;
     </select>
-
+    <delete id="delCart" parameterType="Map">
+        DELETE
+        FROM cart
+        WHERE userId=#{userId} and productIdx=#{productIdx}
+    </delete>
 </mapper>

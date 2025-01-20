@@ -178,10 +178,12 @@
         <td id="firstTd"><input type="checkbox"><span><img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}"> </span>${ar.productName}</td>
         <td><em class="productPrice">${ar.productPrice}</em><em>원</em></td>
         <td>
-          <form action="changeQuant.jsp" method="post">
+          <form action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
             <input type="number" name="quant" class="quant"
                    value="${ar.total_quant}" min="1" max="10" oninput="updateQuant()"/>
-            <button type="submit" id="changeQuantBtn">변경</button>
+            <input type="hidden" id="pIdx" name="pIdx" value="${ar.productIdx}">
+            <input type="hidden" id="path" name="path" value="1">
+            <button type="submit" id="changeQuantBtn" >변경</button>
           </form>
         </td>
         <c:set var="buyPrice" value="${ar.productPrice*ar.total_quant}"/>

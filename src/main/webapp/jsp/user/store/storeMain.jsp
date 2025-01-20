@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-        <jsp:include page="../common/head.jsp"/>
+    <jsp:include page="../common/head.jsp"/>
 
 </head>
 <style>
@@ -141,7 +141,20 @@
     #products2 , #products3{
         display: none;
     }
+    #cartBtn{
+        width: 200px;
+        height: 50px;
+        background-color: #eeeeee;
+        color: #503396;
+        font-size: 15px;
+        border: 1px solid #eeeeee;
+        border-radius: 4px;
+        margin-left: 900px;
+    }
+    #cartDiv{
+        width: 1100px;
 
+    }
 
 
 </style>
@@ -151,28 +164,31 @@
 
 <body class="total">
 
-    <div class="page-util">
-        <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <span >스토어</span>
-            </div>
+<div class="page-util">
+    <div class="inner-wrap">
+        <div class="location">
+            <span>Home</span>
+            <span >스토어</span>
         </div>
     </div>
+</div>
 <div id="h2">
     <h1>스토어</h1>
 
-<div id="contents">
+    <div id="contents">
+        <div id="cartDiv">
+            <button type="button" onclick="goCart()" id="cartBtn">장바구니</button>
+        </div>
 
-    <article id="title">
-        <a href="" class="active" id="title1">전체상품</a>
-        <a href="" id="title2">팝콘,음료</a>
-        <a href="" id="title3">굿즈</a>
-    </article>
-    <button type="button" onclick="goCart()">장바구니보기</button>
+        <article id="title">
+            <a href="" class="active" id="title1">전체상품</a>
+            <a href="" id="title2">팝콘,음료</a>
+            <a href="" id="title3">굿즈</a>
+        </article>
 
-    <article id="products1" class="main" >
-        <c:forEach items="${requestScope.ar}" var="ar">
+
+        <article id="products1" class="main" >
+            <c:forEach items="${requestScope.ar}" var="ar">
                 <div id="main1" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
                      data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)" >
                     <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
@@ -187,51 +203,51 @@
                         </article>
                     </div>
                 </div>
-        </c:forEach>
-    </article>
+            </c:forEach>
+        </article>
 
-    <article id="products2" class="main" >
-    <c:forEach items="${requestScope.ar}" var="ar">
-        <c:if test="${ar.productCategory eq '2'}">
-            <div id="main2" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
-                 data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
-                <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
-                <hr>
-                <div class="info">
-                    <p class="name">${ar.productName}</p>
-                    <p class="explanation">${ar.productInfo}</p>
-                    <hr>
-                    <article>
-                        <p class="price">${ar.productPrice}</p>
-                        <em>원</em>
-                    </article>
-                </div>
-            </div>
-        </c:if>
-    </c:forEach>
-    </article>
-
-    <article id="products3" class="main" >
-        <c:forEach items="${requestScope.ar}" var="ar">
-            <c:if test="${ar.productCategory eq '1'}">
-                <div id="main3" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
-                     data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
-                    <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
-                    <hr>
-                    <div class="info">
-                        <p class="name">${ar.productName}</p>
-                        <p class="explanation">${ar.productInfo}</p>
+        <article id="products2" class="main" >
+            <c:forEach items="${requestScope.ar}" var="ar">
+                <c:if test="${ar.productCategory eq '2'}">
+                    <div id="main2" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
+                         data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
+                        <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
                         <hr>
-                        <article>
-                            <p class="price">${ar.productPrice}</p>
-                            <em>원</em>
-                        </article>
+                        <div class="info">
+                            <p class="name">${ar.productName}</p>
+                            <p class="explanation">${ar.productInfo}</p>
+                            <hr>
+                            <article>
+                                <p class="price">${ar.productPrice}</p>
+                                <em>원</em>
+                            </article>
+                        </div>
                     </div>
-                </div>
-            </c:if>
-        </c:forEach>
-    </article>
-</div>
+                </c:if>
+            </c:forEach>
+        </article>
+
+        <article id="products3" class="main" >
+            <c:forEach items="${requestScope.ar}" var="ar">
+                <c:if test="${ar.productCategory eq '1'}">
+                    <div id="main3" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
+                         data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
+                        <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
+                        <hr>
+                        <div class="info">
+                            <p class="name">${ar.productName}</p>
+                            <p class="explanation">${ar.productInfo}</p>
+                            <hr>
+                            <article>
+                                <p class="price">${ar.productPrice}</p>
+                                <em>원</em>
+                            </article>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </article>
+    </div>
     <form id="productForm" action="${pageContext.request.contextPath}/UserController?type=product" method="post" accept-charset="UTF-8">
         <input type="hidden" name="pName" id="pName">
         <input type="hidden" name="pImg" id="pImg">
@@ -240,9 +256,9 @@
         <input type="hidden" name="pPrice" id="pPrice">
     </form>
 </div>
-    <form action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
+<form action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
 
-    </form>
+</form>
 
 <script>
     function goCart() {
@@ -268,7 +284,7 @@
     }
 
 
-        /*타이틀을 누를 때 이벤트 발생시키자!*/
+    /*타이틀을 누를 때 이벤트 발생시키자!*/
 
     const total = document.getElementById("title1");
     const merch = document.getElementById("title2");
@@ -280,61 +296,61 @@
     const main2=document.getElementById("products2");
     const main3=document.getElementById("products3");
 
-        tabs.forEach((tab) => {
-            tab.addEventListener("click", (event) => {
-                event.preventDefault(); // 기본 동작 방지 (필요에 따라 사용)
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", (event) => {
+            event.preventDefault(); // 기본 동작 방지 (필요에 따라 사용)
 
-                // 모든 a 태그에서 active 클래스 제거
-                tabs.forEach((t) => t.classList.remove("active"));
+            // 모든 a 태그에서 active 클래스 제거
+            tabs.forEach((t) => t.classList.remove("active"));
 
-                // 클릭된 a 태그에 active 클래스 추가
-                tab.classList.add("active");
+            // 클릭된 a 태그에 active 클래스 추가
+            tab.classList.add("active");
 
-                // 각각의 탭 클릭 시 개별 동작 추가
-                switch (tab.id) {
-                    case "title1":
-                        console.log("전체 탭 클릭됨! 데이터를 로드합니다.");
-                        // total 클릭 시 실행할 코드
-                        loadTotalData();
-                        break;
-                    case "title2":
-                        console.log("굿즈 탭 클릭됨! 상품 정보를 가져옵니다.");
-                        // merch 클릭 시 실행할 코드
-                        loadMerchData();
-                        break;
-                    case "title3":
-                        console.log("스낵 탭 클릭됨! 간식 목록을 표시합니다.");
-                        // snack 클릭 시 실행할 코드
-                        loadSnackData();
-                        break;
-                    default:
-                        console.log("알 수 없는 탭 클릭됨!");
-                }
-            });
+            // 각각의 탭 클릭 시 개별 동작 추가
+            switch (tab.id) {
+                case "title1":
+                    console.log("전체 탭 클릭됨! 데이터를 로드합니다.");
+                    // total 클릭 시 실행할 코드
+                    loadTotalData();
+                    break;
+                case "title2":
+                    console.log("굿즈 탭 클릭됨! 상품 정보를 가져옵니다.");
+                    // merch 클릭 시 실행할 코드
+                    loadMerchData();
+                    break;
+                case "title3":
+                    console.log("스낵 탭 클릭됨! 간식 목록을 표시합니다.");
+                    // snack 클릭 시 실행할 코드
+                    loadSnackData();
+                    break;
+                default:
+                    console.log("알 수 없는 탭 클릭됨!");
+            }
         });
+    });
 
-        function loadTotalData() {
-            main1.style.display="grid";
-            main2.style.display="none";
-            main3.style.display="none";
+    function loadTotalData() {
+        main1.style.display="grid";
+        main2.style.display="none";
+        main3.style.display="none";
 
 
-            // 여기에 전체 상품 관련 로직 추가
-        }
+        // 여기에 전체 상품 관련 로직 추가
+    }
 
-        function loadMerchData() {
-            main1.style.display="none";
-            main2.style.display="grid";
-            main3.style.display="none";
-            // 여기에 굿즈 상품 관련 로직 추가
-        }
+    function loadMerchData() {
+        main1.style.display="none";
+        main2.style.display="grid";
+        main3.style.display="none";
+        // 여기에 굿즈 상품 관련 로직 추가
+    }
 
-        function loadSnackData() {
-            main1.style.display="none";
-            main2.style.display="none";
-            main3.style.display="grid";
-            // 여기에 간식 관련 로직 추가
-        }
+    function loadSnackData() {
+        main1.style.display="none";
+        main2.style.display="none";
+        main3.style.display="grid";
+        // 여기에 간식 관련 로직 추가
+    }
 
 </script>
 </body>
