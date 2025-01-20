@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="theater">
+    <!-- 전체 극장 조회 -->
+    <select id="getTheaterRegion" resultType="map">
+        SELECT t.theaterRegion AS region, COUNT(*) AS count
+        FROM theater t
+        WHERE t.theaterStatus = 0
+        GROUP BY t.theaterRegion
+    </select>
+
+    <!-- 지역별 극장 리스트 -->
+    <select id="getTheaterName" parameterType="String" resultType="mybatis.vo.TheaterVO">
+        SELECT *
+        FROM theater
+        WHERE region = #{region}
+    </select>
+</mapper>

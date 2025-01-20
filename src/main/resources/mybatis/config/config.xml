@@ -18,5 +18,9 @@
         <mapper resource="mybatis/mapper/user.xml"/>
         <mapper resource="mybatis/mapper/coupon.xml"/>
         <mapper resource="mybatis/mapper/point.xml"/>
+        <mapper resource="mybatis/mapper/seat.xml"/>
+        <mapper resource="mybatis/mapper/reservation.xml"/>
+        <mapper resource="mybatis/mapper/movie.xml"/>
+        <mapper resource="mybatis/mapper/theater.xml"/>
     </mappers>
 </configuration>
