@@ -21,5 +21,6 @@
     <mappers>
         <mapper resource="mybatis/mapper/user.xml"/>
         <mapper resource="mybatis/mapper/product.xml"/>
+        <mapper resource="mybatis/mapper/movieStory.xml"/>
     </mappers>
 </configuration>

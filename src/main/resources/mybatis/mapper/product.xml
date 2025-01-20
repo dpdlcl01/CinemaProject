@@ -14,6 +14,7 @@
         insert into cart (userId,productIdx,quantity)
         values(#{userId}, #{productIdx}, #{quantity});
     </insert>
+
     <select id="selectCart" parameterType="String" resultType="mybatis.vo.CartVO">
         SELECT
         p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,
