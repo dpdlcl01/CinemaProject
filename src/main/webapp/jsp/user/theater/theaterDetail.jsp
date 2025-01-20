@@ -274,6 +274,7 @@
 
 
 
+
     /* 컨테이너 */
     .schedule-container {
         width: 100%; /* 양쪽 테두리를 없애고 전체 너비로 확장 */
@@ -717,10 +718,14 @@
         max-width: 1100px; /* 텍스트 최대 너비 제한 */
         margin: 0 auto; /* 중앙 배치 */
         padding-top: 20px;
+        padding-bottom: 20px
     }
-
-
-
+/*영화관 이미지*/
+    .theaterImage {
+        width: 1100px;
+        height: 420px;
+        /*margin-right: 100px;*/
+    }
 
 </style>
 
@@ -776,33 +781,37 @@
         <div class="facility-transport-container">
             <!-- 시설안내 섹션 -->
             <section class="facility-guide">
+                <div class="theaterImage">
+                <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="컴포트">
+                </div>
                 <!-- 섹션 제목 -->
-                <div class="facility-header">
-                    <h2 class="facility-title">시설안내</h2>
-                </div>
-                <div class="facility-icons">
-                    <div class="icon">
-                        <img src="${pageContext.request.contextPath}/css/user/images/ico-facility-comfort.png" alt="컴포트">
-                        <p>컴포트</p>
-                    </div>
-                    <div class="icon">
-                        <img src="../../../css/user/images/ico-facility-theater.png" alt="일반상영관">
-                        <p>일반상영관</p>
-                    </div>
-                    <div class="icon">
-                        <img src="../../../css/user/images/ico-facility-dolby.png" alt="돌비">
-                        <p>돌비</p>
-                    </div>
-                </div>
-                <div class="floor-guide">
-                    <h4>층별안내</h4> <%--이미지--%>
-                    <ul>
-                        <li><strong>8층</strong>: 매표소, 매점, 에스컬레이터, 엘리베이터, 남자·여자 화장실, 비상계단 3</li>
-                        <li><strong>9층</strong>: 1관, 2관, 남자·여자 화장실, 엘리베이터, 비상계단 3</li>
-                        <li><strong>10층</strong>: 3관, 4관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>
-                        <li><strong>11층</strong>: 5관, 6관, 7관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>
-                    </ul>
-                </div>
+<%--                <div class="facility-header">--%>
+<%--                    <h2 class="facility-title">시설안내</h2>--%>
+<%--                </div>--%>
+<%--                <div class="facility-icons">--%>
+<%--                    <div class="icon">--%>
+<%--                        <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="컴포트">--%>
+<%--                        <p>컴포트</p>--%>
+<%--                    </div>--%>
+<%--                    <div class="icon">--%>
+<%--                        <img src="../../../css/user/images/ico-facility-theater.png" alt="일반상영관">--%>
+<%--                        <p>일반상영관</p>--%>
+<%--                    </div>--%>
+<%--                    <div class="icon">--%>
+<%--                        <img src="../../../css/user/images/ico-facility-dolby.png" alt="돌비">--%>
+<%--                        <p>돌비</p>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <div class="floor-guide">--%>
+
+<%--                    <h4>층별안내</h4> &lt;%&ndash;이미지&ndash;%&gt;--%>
+<%--                    <ul>--%>
+<%--                        <li><strong>8층</strong>: 매표소, 매점, 에스컬레이터, 엘리베이터, 남자·여자 화장실, 비상계단 3</li>--%>
+<%--                        <li><strong>9층</strong>: 1관, 2관, 남자·여자 화장실, 엘리베이터, 비상계단 3</li>--%>
+<%--                        <li><strong>10층</strong>: 3관, 4관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
+<%--                        <li><strong>11층</strong>: 5관, 6관, 7관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
+<%--                    </ul>--%>
+<%--                </div>--%>
             </section>
 
             <!-- 교통안내 섹션 -->
