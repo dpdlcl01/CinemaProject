@@ -821,7 +821,7 @@
                     <h2 class="transport-title">교통안내</h2>
                 </div>
                 <div class="transport-details">
-                    <p><strong>도로명주소:</strong> 서울특별시 서초구 서초대로 77길 3 (서초동) 아라타워 8층</p>
+                    <p><strong>도로명주소:</strong>${theater.theaterAddress}</p>
                     <button class="navigate-btn">실시간 길찾기</button>
                     <p>기능 구현시 위의 [실시간 길찾기] 버튼 대신 해당 영역에 바로 카카오맵 지도로 위치를 표시한다.</p>
                 </div>
