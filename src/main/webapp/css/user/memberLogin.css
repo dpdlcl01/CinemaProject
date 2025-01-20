@@ -24,7 +24,9 @@
     display: flex;
     flex-direction: row;
     width: 698px;
+    max-width: 698px;
     height: 400px;
+    max-height: 400px;
     background-color: #fff;
     border-radius: 3px;
     overflow: hidden;
