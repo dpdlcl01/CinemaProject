@@ -86,7 +86,7 @@
       font-size: 20px;
       text-align: center;
     }
-    #changeQuantBtn, #buyBtn ,#delBtn{
+    #changeQuantBtn, .buyBtn ,#delBtn{
       border: 1px solid #666666;
       background-color: white;
       width: 60px;
@@ -179,17 +179,20 @@
         <td><em class="productPrice">${ar.productPrice}</em><em>원</em></td>
         <td>
           <form action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
-            <input type="number" name="quant" class="quant"
+            <input type="number" name="productQuant" class="quant"
                    value="${ar.total_quant}" min="1" max="10" oninput="updateQuant()"/>
             <input type="hidden" id="pIdx" name="pIdx" value="${ar.productIdx}">
             <input type="hidden" id="path" name="path" value="1">
+            <input type="hidden" name="productImg" id="productImg" value="${ar.productImg}" >
+            <input type="hidden" name="productName" id="productName" value="${ar.productName}">
+            <input type="hidden" name="productPrice" id="productPrice" value="${ar.productPrice*ar.total_quant}">
             <button type="submit" id="changeQuantBtn" >변경</button>
           </form>
         </td>
         <c:set var="buyPrice" value="${ar.productPrice*ar.total_quant}"/>
         <td><em class="priceEm">${buyPrice}</em><em>원</em></td>
         <td>
-          <button type="button" id="buyBtn">구매하기</button>
+          <button type="button"  class="buyBtn" >구매하기</button>
           <button type="button" id="delBtn">삭제하기</button>
         </td>
       </tr>
@@ -208,6 +211,8 @@
   </div>
 
 </div>
+<%--del 버튼 누르면 idx값만 가져가서 delete문 부르면 끝--%>
+<%--체크박스 누르면 아래 가격 값 바꾸고 구매하기로 넘기자 여러 값 넘겨야함 (구현할지 물어보기)--%>
 
 <!-- footer 영역 -->
 <jsp:include page="../common/footer.jsp"/>
@@ -216,6 +221,17 @@
 <!-- script 영역 -->
 <script>
   $(document).ready(function() {
+
+    $(document).on("click", ".buyBtn", function() {
+      let row = $(this).closest("tr"); // 현재 버튼이 속한 tr 찾기
+      let form = row.find("form"); // 해당 tr 내부의 form 가져오기
+      let price = row.find(".priceEm").text();
+      row.find("#productPrice").val(price);
+
+      form.attr("action", "${pageContext.request.contextPath}/UserController?type=payment");
+      form.submit(); // 해당 form만 제출
+    });
+
     // 수량 변경 시 가격 자동 업데이트
     $(".quant").on("input", function() {
       let price = parseInt($(this).closest("tr").find(".productPrice").text(), 10);/*현재 인풋에 가장 가까운 tr 요소를 찾고 그안에서 프로덕트프라이스 클래스를 가진 요소를 찾아서 문자열을 받아서 10진수로 변환*/
@@ -224,6 +240,7 @@
 
       $(this).closest("tr").find(".priceEm").text(totalPrice); // 해당 행의 가격 업데이트
     });
+
 
   });
 </script>

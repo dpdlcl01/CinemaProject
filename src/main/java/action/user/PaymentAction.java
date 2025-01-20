@@ -20,8 +20,6 @@ public class PaymentAction implements Action {
         request.setAttribute("name", name);
         request.setAttribute("category", category);
         request.setAttribute("img", img);
-
-
         return "/jsp/user/store/storePayment.jsp";
     }
 

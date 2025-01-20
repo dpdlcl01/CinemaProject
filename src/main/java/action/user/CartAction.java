@@ -18,7 +18,7 @@ public class CartAction implements Action {
 
         if(path != null) {
             String idx = request.getParameter("pIdx");
-            String quant =request.getParameter("quant");
+            String quant =request.getParameter("productQuant");
 
             int cnt = CartDAO.delCart(id,idx);
 
