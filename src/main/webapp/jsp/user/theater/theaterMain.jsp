@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!Doctype html>
 <html lang="ko">
@@ -291,61 +292,94 @@
   <!-- 극장 목록 -->
   <article class="theater-list">
     <!-- 탭 목록 -->
-    <ul class="tabs">
-      <li class="tab-link current" data-tab="tab-1">서울</li>
-      <li class="tab-link" data-tab="tab-2">경기</li>
-      <li class="tab-link" data-tab="tab-3">인천</li>
-      <li class="tab-link" data-tab="tab-4">대전/충청/세종</li>
-      <li class="tab-link" data-tab="tab-5">부산/대구/경상</li>
-      <li class="tab-link" data-tab="tab-6">광주/전라</li>
-      <li class="tab-link" data-tab="tab-7">강원</li>
-    </ul>
+<%--    <ul class="tabs">--%>
+<%--      <li class="tab-link current" data-tab="tab-1">서울</li>--%>
+<%--      <li class="tab-link" data-tab="tab-2">경기</li>--%>
+<%--      <li class="tab-link" data-tab="tab-3">인천</li>--%>
+<%--      <li class="tab-link" data-tab="tab-4">대전/충청/세종</li>--%>
+<%--      <li class="tab-link" data-tab="tab-5">부산/대구/경상</li>--%>
+<%--      <li class="tab-link" data-tab="tab-6">광주/전라</li>--%>
+<%--      <li class="tab-link" data-tab="tab-7">강원</li>--%>
+<%--    </ul>--%>
 
-    <!-- 극장 목록 -->
-    <div id="tab-1" class="tab-content current">
-      <ul>
-        <li><a href="/CinemaProject/jsp/user/theaterView.jsp">강남</a></li>
-        <li><a href="#">센트럴</a></li>
-        <li><a href="#">코엑스</a></li>
-        <li><a href="#">홍대</a></li>
+<%--    <!-- 극장 목록 -->--%>
+<%--    <div id="tab-1" class="tab-content current">--%>
+<%--      <ul>--%>
+<%--        <li><a href="#">강남<a/></li>--%>
+<%--        <li><a href="#">센트럴</a></li>--%>
+<%--        <li><a href="#">코엑스</a></li>--%>
+<%--        <li><a href="#">홍대</a></li>--%>
+<%--      </ul>--%>
+<%--    </div>--%>
+<%--    <div id="tab-2" class="tab-content">--%>
+<%--      <ul>--%>
+<%--        <li><a href="#">고양스타필드</a></li>--%>
+<%--        <li><a href="#">수원스타필드</a></li>--%>
+<%--        <li><a href="#">안성스타필드</a></li>--%>
+<%--      </ul>--%>
+<%--    </div>--%>
+<%--    <div id="tab-3" class="tab-content">--%>
+<%--      <ul>--%>
+<%--        <li><a href="#">송도</a></li>--%>
+<%--        <li><a href="#">청라지젤</a></li>--%>
+<%--      </ul>--%>
+<%--    </div>--%>
+<%--    <div id="tab-4" class="tab-content">--%>
+<%--      <ul>--%>
+<%--        <li><a href="#">대전</a></li>--%>
+<%--        <li><a href="#">세종나성</a></li>--%>
+<%--      </ul>--%>
+<%--    </div>--%>
+<%--    <div id="tab-5" class="tab-content">--%>
+<%--      <ul>--%>
+<%--        <li><a href="#">대구신세계</a></li>--%>
+<%--        <li><a href="#">부산극장</a></li>--%>
+<%--      </ul>--%>
+<%--    </div>--%>
+<%--    <div id="tab-6" class="tab-content">--%>
+<%--      <ul>--%>
+<%--        <li><a href="#">광주하남</a></li>--%>
+<%--        <li><a href="#">전주객사</a></li>--%>
+<%--      </ul>--%>
+<%--    </div>--%>
+<%--    <div id="tab-7" class="tab-content">--%>
+<%--      <ul>--%>
+<%--        <li><a href="#">속초</a></li>--%>
+<%--      </ul>--%>
+<%--    </div>--%>
+
+      <!-- 극장지역 탭 목록 -->
+      <ul class="tabs">
+        <c:forEach var="theater" items="${requestScope.theater}" varStatus="status">
+          <c:if test="${status.first}">
+            <!-- 중복되지 않는 지역만 추출 -->
+            <c:set var="regions" value="${theater.theaterRegion}" />
+          </c:if>
+          <c:if test="${regions.indexOf(theater.theaterRegion) == -1}">
+            <c:set var="regions" value="${regions} ${theater.theaterRegion}" />
+          </c:if>
+        </c:forEach>
+
+        <!-- 지역별로 탭을 생성 -->
+        <c:forEach var="region" items="${regions.split(' ')}">
+          <li class="tab-link" ${status.first ? 'current' : ''} data-tab="tab-${region}"><c:out value="${region}" /></li>
+        </c:forEach>
       </ul>
-    </div>
-    <div id="tab-2" class="tab-content">
-      <ul>
-        <li><a href="#">고양스타필드</a></li>
-        <li><a href="#">수원스타필드</a></li>
-        <li><a href="#">안성스타필드</a></li>
-      </ul>
-    </div>
-    <div id="tab-3" class="tab-content">
-      <ul>
-        <li><a href="#">송도</a></li>
-        <li><a href="#">청라지젤</a></li>
-      </ul>
-    </div>
-    <div id="tab-4" class="tab-content">
-      <ul>
-        <li><a href="#">대전</a></li>
-        <li><a href="#">세종나성</a></li>
-      </ul>
-    </div>
-    <div id="tab-5" class="tab-content">
-      <ul>
-        <li><a href="#">대구신세계</a></li>
-        <li><a href="#">부산극장</a></li>
-      </ul>
-    </div>
-    <div id="tab-6" class="tab-content">
-      <ul>
-        <li><a href="#">광주하남</a></li>
-        <li><a href="#">전주객사</a></li>
-      </ul>
-    </div>
-    <div id="tab-7" class="tab-content">
-      <ul>
-        <li><a href="#">속초</a></li>
-      </ul>
-    </div>
+
+      <!-- 극장 목록 -->
+      <c:forEach var="region" items="${regions.split(' ')}">
+        <div id="tab-${region}" class="tab-content ${region eq regions.split(' ')[0] ? 'current' : ''}">
+          <ul>
+            <c:forEach var="theater" items="${requestScope.theater}">
+              <c:if test="${theater.theaterRegion == region}">
+                <!-- theaterIdx를 URL 파라미터로 전달 -->
+                <li><a href="UserController?type=theaterDetail&theaterIdx=${theater.theaterIdx}"><c:out value="${theater.theaterName}" /></a></li>
+<%--                <li><a href="#"><c:out value="${theater.theaterName}" /></a></li>--%>
+              </c:if>
+            </c:forEach>
+          </ul>
+        </div>
+      </c:forEach>
 
     <!-- 선호극장 -->
     <div class="my-fav-theater">

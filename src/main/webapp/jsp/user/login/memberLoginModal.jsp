@@ -1,5 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    // 세션에서 user 값을 가져옴
+    vo.userVO user = (vo.userVO) session.getAttribute("user");
+    boolean isLoggedIn = (user != null); // userVO 객체가 존재하면 로그인 상태
+
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -152,6 +160,8 @@
             <p>아이디 또는 비밀번호가 맞지 않습니다.<br>로그인 정보를 다시 확인 바랍니다.</p>
             <button onclick="closeErrorModal()">확인</button>
         </div>
+
+        <%-- 로그인 성공 알림 모달 --%>
         <div class="error-modal" id="okModal">
             <p>로그인성공!<br><c:out value="${sessionScope.user.userName}"/>반갑습니다.</p>
             <button onclick="closeErrorModal()">확인</button>
@@ -188,17 +198,15 @@
     document.getElementById("okModal").classList.add("active");
     <% } %>
 
+    <% if (request.getAttribute("success") == "1") { %>
+    document.getElementById("okModal").classList.add("active");
+    <% } %>
+
     // 모달 닫기
     function closeErrorModal() {
         document.getElementById("okModal").classList.remove("active");
+        document.getElementById("errorModal").classList.remove("active");
     }
-
-    <% if(request.getParameter("success") != null) { %>
-        // 로그인 성공 시 모달을 닫고 페이지를 새로 고침
-        window.location.reload();  // 부모 페이지 새로 고침
-        window.close();  // 현재 모달 창 닫기
-    <% } %>
-
 
 </script>
 </body>

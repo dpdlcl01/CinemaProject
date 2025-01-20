@@ -1,17 +1,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    // 세션에서 user 값을 가져옴
+    vo.userVO user = (vo.userVO) session.getAttribute("user");
+    boolean isLoggedIn = (user != null); // userVO 객체가 존재하면 로그인 상태
+
+%>
 <!-- header -->
 <header id="header">
     <!-- container -->
     <div class="container">
         <h1 class="logo">
-            <a href="/CinemaProject/jsp/user/main.jsp" title="MEGABOX 메인으로 가기">MEGABOX : Life Theater</a>
+            <a href="${pageContext.request.contextPath}/UserController" title="MEGABOX 메인으로 가기">MEGABOX : Life Theater</a>
         </h1>
         <!-- util-area -->
         <div class="util-area">
             <div class="right-link">
-                <a href="#" title="로그인">로그인</a>
-                <a href="#" title="회원가입">회원가입</a>
-                <a href="#" title="빠른예매">빠른예매</a>
+                <% if (isLoggedIn) { %>
+                <!-- 로그인 상태: 로그아웃 버튼 표시 -->
+                <a href="${pageContext.request.contextPath}/UserController?type=action&action=logout" id="logout-btn" title="로그아웃">로그아웃</a>
+                <% } else { %>
+                <!-- 비로그인 상태: 로그인 및 회원가입 버튼 표시 -->
+                <a href="${pageContext.request.contextPath}/UserController" id="member-login-btn" title="로그인">로그인</a>
+                <a href="#" id="member-signup-btn" title="회원가입">회원가입</a>
+                <% } %>
             </div>
         </div>
         <!-- //util-area -->
@@ -31,36 +42,18 @@
                 </li>
                 <li title="예매">
                     <a href="#" class="reserve">예매</a>
-                    <div class="gnb-depth2 reserve-snb">
-                        <ul>
-                            <li><a href="">빠른예매</a></li>
-                            <li><a href="">상영시간표</a></li>
-                        </ul>
-                    </div>
                 </li>
                 <li title="극장">
-                    <a href="/CinemaProject/jsp/user/theater.jsp" class="theater">극장</a>
-                    <div class="gnb-depth2 theater-snb">
-                        <ul>
-                            <li><a href="">전체극장</a></li>
-                            <li><a href="">특별관</a></li>
-                        </ul>
-                    </div>
+                    <a href="${pageContext.request.contextPath}/UserController?type=theater" class="theater">극장</a>
                 </li>
                 <li title="이벤트">
                     <a href="#" class="event">이벤트</a>
                 </li>
                 <li title="스토어">
-                    <a href="/CinemaProject/jsp/user/store.jsp" class="store">스토어</a>
+                    <a href="#" class="store">스토어</a>
                 </li>
                 <li title="혜택">
                     <a href="#" class="benefit">혜택</a>
-                    <div class="gnb-depth2 benefit-snb">
-                        <ul>
-                            <li><a href="">메가박스 멤버십</a></li>
-                            <li><a href="">제휴/할인</a></li>
-                        </ul>
-                    </div>
                 </li>
             </ul>
         </nav>
@@ -73,4 +66,6 @@
         <!-- //레이어 : 마이페이지 -->
     </div>
     <!-- //container -->
+    <script>
+    </script>
 </header>

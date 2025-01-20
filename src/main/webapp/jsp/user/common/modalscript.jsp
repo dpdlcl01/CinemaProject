@@ -1,5 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- 모달 오버레이 -->
+<%
+
+    // 세션에서 user 값을 가져옴
+    vo.userVO user = (vo.userVO) session.getAttribute("user");
+    boolean isLoggedIn = (user != null); // userVO 객체가 존재하면 로그인 상태
+%>
+%>
 <div id="modal-overlay" class="modal-overlay">
     <div class="modal-container">
         <iframe id="modal-iframe" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
@@ -14,6 +21,7 @@
     const openModalBtn = document.getElementById("member-login-btn");
     const openModalBtn2 = document.getElementById("login-btn");
     const modalContainer = document.querySelector(".modal-container");
+    const isLoggedIn = <%= isLoggedIn %>; // 서버에서 로그인 상태 전달
 
 
     // 회원로그인 모달 열기
@@ -62,13 +70,17 @@
       }
     });
 
-      // // 페이지가 로드될 때 로그인 성공 시 모달을 자동으로 닫도록 처리
-      // if (window.opener && window.opener.document.getElementById('modal-overlay')) {
-      //     window.opener.document.getElementById('modal-overlay').style.display = 'none';
-      //     window.opener.document.getElementById('modal-iframe').src = ''; // iframe 초기화
-      //     window.opener.location.reload(); // 부모 페이지 새로 고침
-      // }
+      <!-- 로그인 상태 전달 -->
 
+
+      document.addEventListener('DOMContentLoaded', () => {
+          if (isLoggedIn) { // 로그인 상태라면
+              modalOverlay.style.display = 'none'; // 모달 숨기기
+              modalIframe.src = "";
+              history.pushState("", document.title, window.location.pathname);
+              history.back();
+          }
+      });
 
   });
 </script>

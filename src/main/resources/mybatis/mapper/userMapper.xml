@@ -15,4 +15,16 @@
         FROM user
         WHERE userID = #{userId}
     </select>
+
+    <select id="getTheaterInfo" resultType="vo.theaterVO">
+        SELECT * FROM theater
+    </select>
+
+    <select id="getTheaterById" parameterType="map" resultType="vo.theaterVO">
+        SELECT theaterIdx, theaterName, theaterRegion, theaterAddress, theaterInfo, theaterImageUrl, theaterScreenCount, theaterRegDate, theaterStatus
+        FROM theater
+        WHERE theaterIdx = #{theaterIdx}
+    </select>
 </mapper>
+
+        <!--        WHERE theaterName = #{theaterName}-->

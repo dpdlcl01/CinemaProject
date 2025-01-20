@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!Doctype html>
 <html lang="ko">
 <!-- head -->
@@ -23,7 +24,7 @@
         position: relative;
         width: 100%;
         height: 300px; /* 헤더 높이 */
-        background: url('../../../css/user/images/theater-image.jpg') center center/cover no-repeat;
+        background: url('${pageContext.request.contextPath}/css/user/images/theater-image.jpg') center center/cover no-repeat;
 
         display: flex;
         flex-direction: column; /* 수직 정렬 */
@@ -751,7 +752,8 @@
 
 
     <div class="theater-name">
-        <h1>강남</h1>
+<%--        <h1>강남</h1>--%>
+        <h1>${theater.theaterName}</h1>
     </div>
 </div>
 
@@ -768,7 +770,7 @@
     <div id="info" class="content active">
         <div class="theater-description-container">
             <div class="theater-description">
-                강남역 9번출구와 연결된 편리한 접근성과 위치! 강남을 한눈에 볼 수 있는 최상의 VIEW
+                ${theater.theaterInfo}
             </div>
         </div>
         <div class="facility-transport-container">
@@ -780,7 +782,7 @@
                 </div>
                 <div class="facility-icons">
                     <div class="icon">
-                        <img src="../../../css/user/images/ico-facility-comfort.png" alt="컴포트">
+                        <img src="${pageContext.request.contextPath}/css/user/images/ico-facility-comfort.png" alt="컴포트">
                         <p>컴포트</p>
                     </div>
                     <div class="icon">
@@ -793,7 +795,7 @@
                     </div>
                 </div>
                 <div class="floor-guide">
-                    <h4>층별안내</h4>
+                    <h4>층별안내</h4> <%--이미지--%>
                     <ul>
                         <li><strong>8층</strong>: 매표소, 매점, 에스컬레이터, 엘리베이터, 남자·여자 화장실, 비상계단 3</li>
                         <li><strong>9층</strong>: 1관, 2관, 남자·여자 화장실, 엘리베이터, 비상계단 3</li>
