@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <jsp:include page="../common/head.jsp"/>
   <style>
     *{
       padding: 0;
@@ -186,7 +186,8 @@
 
 </head>
 <body>
-<form action="/UserController?type=register" method="post">
+<jsp:include page="../common/header.jsp"/>
+<form action="${pageContext.request.contextPath}/UserController" method="post">
 <div id="contents">
   <h1>여기에 로고</h1>
 
@@ -197,6 +198,8 @@
       <p class="step">STEP3.정보입력</p>
       <p class="step">STEP4.가입완료</p>
     </div>
+
+    <input type="hidden" id="type" name="type"/>
 
     <div id="main0" style="display: none;">
       <article id="main0Title">
@@ -216,18 +219,73 @@
         </tr>
         <tr>
           <td><span>이메일</span> </td>
-          <td><input type="text" id="userEmail" name="userEmail" class="inputEmail"><span>@</span><input type="text" class="inputEmail"><button type="submit" id="Cnum">인증번호받기</button> </td>
+          <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail"><span>@</span><input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+            <button type="button" id="Cnum" onclick="sendAuthCode(this.form)">인증번호받기</button> </td>
         </tr>
         <tr>
           <td><span>인증번호</span> </td>
-          <td><input type="text" id="authcode" name="authcode" class="inputValue"> <button type="button" class="tableButton" onclick="authcheck()">인증 확인</button> </td>
+          <td><input type="text" id="authcode" name="authcode" class="inputValue">
+            <button type="button" class="tableButton" onclick="authcheck()">인증 확인</button> </td>
+          <script>
+            // 인증번호 확인 AJAX 요청
+            function sendAuthCode(frm) {
+              const emailPart1 = document.getElementById("emailpart1").value;
+              console.log(emailPart1);
+              const emailPart2 = document.getElementById("emailpart2").value;
+              console.log(emailPart2);
+              const email = emailPart1 + "@" + emailPart2;
+
+              if (!emailPart1 || !emailPart2) {
+                alert("이메일을 입력해주세요.");
+                return;
+              }
+
+              const xhr = new XMLHttpRequest();
+              xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
+              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  alert(xhr.responseText.trim());
+                }
+              };
+              xhr.send("email=" + encodeURIComponent(email));
+              frm.submit();
+            }
+
+            // 인증번호 확인 AJAX 요청
+            function authcheck() {
+              const authCode = document.getElementById("authcode").value;
+
+              if (!authCode) {
+                alert("인증번호를 입력해주세요.");
+                return;
+              }
+
+              const xhr = new XMLHttpRequest();
+              xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
+              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  const response = xhr.responseText.trim();
+                  if (response === "인증 성공!") {
+                    alert("인증에 성공했습니다!");
+                    document.getElementById("authcheck").value = "success"; // 인증 성공 상태 저장
+                  } else {
+                    alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+                    document.getElementById("authcheck").value = ""; // 인증 실패 상태 초기화
+                  }
+                }
+              };
+              xhr.send("authCode=" + encodeURIComponent(authCode));
+            }
+          </script>
         </tr>
 
       </table>
       <div id="nextDiv">
         <button type="button" id="next"  onclick="gotoMain2()">다음</button>
       </div>
-
+      <input type="hidden" id="userEmail" name="userEmail"/>
       <input type="hidden" id="authcheck" value=""/>
     </div>
 
@@ -298,7 +356,7 @@
         </tr>
 
         <tr>
-          <td class="bold"> 휴대폰번호</td>
+          <td class="bold">휴대폰번호</td>
           <td><input type="text" id="userPhone" name="userPhone" class="inputValue"></td>
         </tr>
 
@@ -312,13 +370,13 @@
 
         <tr>
           <td class="bold">비밀번호</td>
-          <td><input type="password" id="userPassword" name="userPassword" class="inputValue"></td>
+          <td><input type="password" id="userPassword" name="userPassword" oninput="pwCheck()" class="inputValue"></td>
         </tr>
 
         <tr>
           <td class="bold" >비밀번호확인</td>
-          <td><input type="password" id="auth_userPassword" name="auth_userPassword" class="inputValue"></td>
-          <td id="authpwd" style=display:none; color: red; >비밀번호가 일치하지 않습니다.</td>
+          <td><input type="password" id="auth_userPassword" name="auth_userPassword" oninput="pwCheck()" class="inputValue"></td>
+          <td id="authpwd">비밀번호를 입력하여 주세요.</td>
         </tr>
 
 
@@ -347,24 +405,11 @@
 
     </div>
   </div>
-  <div id="main3" style="display: none;">
-    <div id="mainImg">
-      <img src="../../../img/complete.png">
-    </div>
-    <div id="main3Title">
-      <p>${userName}님 메가박스 가입을 환영합니다.</p>
-    </div>
-    <div>
-      <p id="main3Content">이제부터 메가박스에서 제공하는 다양한 멤버십 혜택을 이용하실 수 있습니다.</p>
-    </div>
-    <div id="completeDiv">
-      <button type="button" id="complete">신규회원 혜택 확인</button>
-    </div>
 
   </div>
 </div>
 </form>
-
+<jsp:include page="../common/footer.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   const checkbox1 = document.getElementById('serviceAgree');
@@ -417,7 +462,7 @@
       $(".inputValue[name='userName']").val("").focus();
       return;
     }
-    if (userEmail.length < 1) {
+    if (emailpart1.length < 1 || emailpart2.length < 1) {
       alert("이메일을 입력하세요.");
       $(".inputEmail[name='userEmail']").val("").focus();
       return;
@@ -433,52 +478,51 @@
 
   }
 
-  function gotoMain3(frm){
-    let birthyear = $.trim(".inputValue[name='birthyear']").val();
-    let birthmonth = $.trim(".inputValue[name='birthmonth']").val();
-    let birthday = $.trim(".inputValue[name='birthday']").val();
-
-    let userPhone = $.trim(".inputValue[name='userPhone']").val();
-    let userId = $.trim(".inputValue[name='userId']").val();
-    let userPassword = $.trim(".inputValue[name='userPassword']").val();
-    let auth_userPassword = $.trim(".inputValue[name='auth_userPassword']").val();
-
-    if(!birthyear || !birthmonth || !birthday){
-      alert("생일을 모두 입력해주세요.");
-      $(".inputValue[name='birthyear']").val("").focus();
-      return false;
+  function pwCheck(){
+    const authPwd = document.getElementById('authpwd');
+    if (document.getElementById('userPassword').value === document.getElementById('auth_userPassword').value) {
+      authPwd.innerText = '비밀번호가 일치합니다.';
+      authPwd.style.color = 'green';
+    } else {
+      authPwd.innerText = '비밀번호가 불일치합니다.';
+      authPwd.style.color = 'red';
     }
-    if(userPhone < 10) {
+  }
+
+  function gotoMain3(frm){
+    let userPhone = $.trim($(".inputValue[name='userPhone']").val());
+    let userId = $.trim($(".inputValue[name='userId']").val());
+
+    if(userPhone.length < 10) {
       alert("핸드폰번호를 입력해주세요.");
       $(".inputValue[name='userPhone']").val("").focus();
       return false;
     }
-    if(userId < 3) {
+    if(userId.length < 3) {
       alert("아이디는 4글자 이상만 입력가능합니다.");
       $(".inputValue[name='userId']").val("").focus();
       return false;
     }
-    if(userPassword < 6) {
+    if(userPassword.length < 6) {
       alert("비밀번호는 6글자 이상만 입력가능합니다.");
       $(".inputValue[name='userPassword']").val("").focus();
       return false;
     }
 
-    if(userPassword !== auth_userPassword) {
-      $("authpwd").show();
-    } else {
-      $("authpwd").hide();
-    }
+    const emailPart1 = document.getElementById("emailpart1").value;
+    const emailPart2 = document.getElementById("emailpart2").value;
+
+    document.getElementById("userEmail").value = emailPart1 + "@" + emailPart2;
+
+    ${"#type"}.value("register");
 
     frm.submit();
 
     document.getElementById('main2').style.display = 'none';
     document.getElementById('main3').style.display = 'block';
 
-
-
   }
-</script><!--다음 화면 읽고 만들기-->
+</script>
 
 </body>
 </html>

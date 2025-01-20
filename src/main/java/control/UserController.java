@@ -138,7 +138,7 @@ public class UserController extends HttpServlet {
 
         // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
         if(viewPath == null){
-            response.sendRedirect("Controller?type=main");
+            response.sendRedirect("UserController?type=main");
         } else {
             //forward 준비
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);
@@ -153,7 +153,9 @@ public class UserController extends HttpServlet {
         doGet(request, response);
 
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
 
+        //컨트롤러로 파라미터가 잘 넘어오는지 확인하는 용도.
         String userName = request.getParameter("userName");
         String userEmail = request.getParameter("userEmail");
         String birthyear = request.getParameter("birthyear");
@@ -163,15 +165,15 @@ public class UserController extends HttpServlet {
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
 
-        System.out.println(userName);
-        System.out.println(userEmail);
-        System.out.println(birthyear);
-        System.out.println(birthmonth);
-        System.out.println(birthday);
-        System.out.println(userPhone);
-
-        System.out.println(userId);
-        System.out.println(userPassword);
+//        System.out.println(userName);
+//        System.out.println(userEmail);
+//        System.out.println(birthyear);
+//        System.out.println(birthmonth);
+//        System.out.println(birthday);
+//        System.out.println(userPhone);
+//
+//        System.out.println(userId);
+//        System.out.println(userPassword);
     }
 
 }

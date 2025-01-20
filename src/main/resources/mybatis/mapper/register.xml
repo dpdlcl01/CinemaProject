@@ -5,6 +5,6 @@
 <mapper namespace="register">
     <insert id="reg_add" parameterType="Map">
         INSERT INTO user (userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus)
-        VALUES (${userName}, ${userId}, ${userPassword}, ${userEmail}, ${userPhone}, 0, ${userGrade}, now(), 1);
+        VALUES (#{userName}, #{userId}, #{userPassword}, #{userEmail}, #{userPhone}, #{userPoint}, #{userGrade}, now(), #{userStatus});
     </insert>
 </mapper>

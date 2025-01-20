@@ -3,27 +3,27 @@ package dao;
 import mybatis.service.FactoryService;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class registerDAO {
-    public static int register(String userName, String userId, String userPassword, String userEmail,
-                               String userPhone) {
-        HashMap<String,String> map = new HashMap<>();
-        map.put("userName", userName);
-        map.put("userId", userId);
-        map.put("userPassword", userPassword);
-        map.put("userEmail", userEmail);
-        map.put("userPhone", userPhone);
-
+    public static int userInsert(Map<String, Object> map) {
         SqlSession ss = FactoryService.getFactory().openSession();
 
-        int cnt = ss.insert("register.reg_add", map);
+        int cnt = 0;
+        try {
+            cnt = ss.insert("register.reg_add", map);
 
-        if(cnt > 0)
-            ss.commit();
-        else
+            if (cnt > 0) {
+                ss.commit();
+            } else {
+                ss.rollback();
+            }
+        } catch (Exception e) {
             ss.rollback();
+            throw e;
+        } finally{
         ss.close();
+        }
         return cnt;
     }
 }
