@@ -31,13 +31,12 @@ CREATE TABLE movie (
     movieTitleEn VARCHAR(200) COMMENT '영화 제목 (영문)',
     movieGenre VARCHAR(50) COMMENT '영화 장르',
     movieTime INT NOT NULL COMMENT '상영 시간 (분 단위)',
-    movieGrade INT NOT NULL COMMENT '관람 등급 (0: 전체, 12: 12세 이상, 15: 15세 이상, 19: 청소년 불가)',
+    movieGrade VARCHAR(10) NOT NULL COMMENT '관람 등급 (ALL: 전체, 12: 12세 이상, 15: 15세 이상, 19: 청소년 불가)',
     movieDate DATE NOT NULL COMMENT '개봉일',
     movieDirector VARCHAR(50) COMMENT '감독',
     movieActors TEXT COMMENT '주요 배우 리스트 (쉼표로 구분된 문자열 형태)',
     movieInfo TEXT COMMENT '영화 상세 설명',
     moviePosterUrl VARCHAR(500) NOT NULL COMMENT '포스터 이미지 경로',
-    movieRank INT NOT NULL COMMENT '영화 예매 순위',
     movieReservationRate FLOAT COMMENT '영화 예매율 (%)',
     movieTotalAudience BIGINT COMMENT '누적 관객수',
     movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)'
@@ -224,10 +223,12 @@ CREATE TABLE watchedMovie (
     userIdx BIGINT NOT NULL COMMENT '사용자 ID',
     movieIdx BIGINT NOT NULL COMMENT '영화 ID',
     reservationIdx BIGINT NOT NULL COMMENT '예매 ID',
+    screenIdx BIGINT NOT NULL COMMENT '상영관 ID',
     watchedDate DATETIME NOT NULL COMMENT '영화 시청 날짜',
     FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
     FOREIGN KEY (movieIdx) REFERENCES movie(movieIdx) ON DELETE CASCADE,
-    FOREIGN KEY (reservationIdx) REFERENCES reservation(reservationIdx) ON DELETE CASCADE
+    FOREIGN KEY (reservationIdx) REFERENCES reservation(reservationIdx) ON DELETE CASCADE,
+    FOREIGN KEY (screenIdx) REFERENCES screen(screenIdx) ON DELETE CASCADE
 ) COMMENT='사용자가 관람한 영화의 정보를 저장하는 테이블';
 
 

@@ -31,7 +31,7 @@ public class DbMovieAction implements Action {
         // 1. 실시간 예매율 순위를 제공하는 KOBIS에서 크롤링하여 영화 예매율 순위와 예매율, 영화코드를 가져오기 위해
         // WebDriver 설정
         System.setProperty("webdriver.chrome.driver",
-                "C:/My_Study/CinemaProject/src/main/java/util/chromedriver.exe"); // ChromeDriver 경로 설정
+                "C:/Users/user/Documents/GitHub/CinemaProject/src/main/java/util/chromedriver.exe"); // ChromeDriver 경로 설정
         WebDriver driver = new ChromeDriver();
 
 
@@ -78,7 +78,6 @@ public class DbMovieAction implements Action {
                     // 영화 데이터 추출
                     String movieCd = tdList.get(1).findElement(By.tagName("a"))
                             .getAttribute("onclick").split("'")[3]; // 영화코드 --> 오픈 API에 영화 검색시 사용
-                    String movieRank = tdList.get(0).getText(); // 예매율 순위
                     String reservationRate = tdList.get(3).getText().replace("%", "").trim(); // 예매율: % 기호 제거
                     String movieTotalAudience = tdList.get(7).getText().replace(",", "").trim(); // 누적 관객수: , 제거
 
@@ -143,10 +142,10 @@ public class DbMovieAction implements Action {
                     // (값이 없는 경우는 null 처리)
                     String watchGradeNm = movieInfo.get("audits").isEmpty() ? null
                             : movieInfo.get("audits").get(0).get("watchGradeNm").asText();
-                    String movieGrade = "0"; // 기본값: 전체관람가
+                    String movieGrade = "ALL"; // 기본값: 전체관람가
                     if (watchGradeNm != null) {
                         if (watchGradeNm.contains("전체")) {
-                            movieGrade = "0"; // 전체관람가
+                            movieGrade = "ALL"; // 전체관람가
                         } else if (watchGradeNm.contains("12")) {
                             movieGrade = "12"; // 12세 이상
                         } else if (watchGradeNm.contains("15")) {
@@ -191,7 +190,6 @@ public class DbMovieAction implements Action {
 
                     // KOFIC API에서 가져온 데이터를 VO에 저장
                     mvo.setMovieCd(movieCd);               // 영화 코드 (KOFIC 고유 식별자)
-                    mvo.setMovieRank(movieRank);           // 예매율 순위
                     mvo.setMovieTotalAudience(movieTotalAudience); // 누적 관객 수
                     mvo.setMovieReservationRate(reservationRate); // 예매율
                     mvo.setMovieTitle(movieNm);            // 영화 제목 (국문)
@@ -201,7 +199,7 @@ public class DbMovieAction implements Action {
                     mvo.setMovieGenre(genreNm);            // 영화 장르
                     mvo.setMovieStatus(movieStatus);       // 제작 상태 (0: 개봉, 1: 개봉예정, 2: 기타)
                     mvo.setMovieDate(movieDate);           // 개봉일 (YYYY-MM-DD 형식)
-                    mvo.setMovieGrade(movieGrade);        // 관람 등급 (0: 전체관람가, 12: 12세 이상, 15: 15세 이상, 19: 청소년 관람불가)
+                    mvo.setMovieGrade(movieGrade);        // 관람 등급 (ALL: 전체관람가, 12: 12세 이상, 15: 15세 이상, 19: 청소년 관람불가)
                     mvo.setMovieDirector(movieDirector);   // 감독 정보
                     mvo.setMovieActors(movieActors);       // 배우 목록 (쉼표로 구분된 문자열)
 
@@ -212,7 +210,7 @@ public class DbMovieAction implements Action {
                     movieList.add(mvo);
 
                     // DB 저장 메서드 호출 ------------------------------------------ 최초 1번 수행하는 로직 (API 호출 확인시에는 주석처리)
-                    int cnt = MovieDAO.addNewMovie(mvo);
+//                    int cnt = MovieDAO.addNewMovie(mvo);
 
                     count++;
                 }
