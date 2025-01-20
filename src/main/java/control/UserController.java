@@ -19,9 +19,9 @@ import java.util.Properties;
 
 
 @WebServlet(
-        urlPatterns = { "/UserController" },
+        urlPatterns = {"/UserController"},
         initParams = {
-                @WebInitParam(name ="myParam", value ="/WEB-INF/user_action.properties")
+                @WebInitParam(name = "myParam", value = "/WEB-INF/user_action.properties")
         })
 public class UserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class UserController extends HttpServlet {
         actionMap = new HashMap<>();
     }
 
-   
+
     public void init() throws ServletException {
         // 생성자 다음에 수행하는 함수
         // 첫 요청자에 의해 단! 한번만 수행하는 곳!
@@ -69,7 +69,7 @@ public class UserController extends HttpServlet {
             e.printStackTrace();
         } finally {
             try {
-                if(fis != null)
+                if (fis != null)
                     fis.close();
             } catch (Exception e2) {
                 // TODO: handle exception
@@ -89,9 +89,9 @@ public class UserController extends HttpServlet {
 
         //키들을 모두 얻었으니 키에 연결된 클래스 경로 값들을 하나씩
         // 얻어내어 객체를 생성한 후 actionMap에 저장한다.
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             //먼저 키를 하나 가져와서 문자열로 변환!
-            String key = (String)it.next();
+            String key = (String) it.next();
 
             // 위에서 얻어낸 키와 연결된 클래스경로 값을 얻자!
             String value = props.getProperty(key);// "ex3.DateAction"
@@ -101,7 +101,7 @@ public class UserController extends HttpServlet {
                 // 쉽게 말해서 Class를 통해 정확한 클래스의 경로가 있다면
                 // 위와 같이 객체를 생성할 수 있다.
 
-                Action action = (Action)obj;// 사용범위를 Object에서 Action이라는
+                Action action = (Action) obj;// 사용범위를 Object에서 Action이라는
                 // 인터페이스까지 확장한다.
 
                 //멤버변수인 actionMap에 저장
@@ -113,7 +113,7 @@ public class UserController extends HttpServlet {
         }//while의 끝
     }
 
-    
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("utf-8");
@@ -123,7 +123,7 @@ public class UserController extends HttpServlet {
         String type = request.getParameter("type");
 
         // 만약! type이 null이면 기본객체(DateAction)을 지정한다.
-        if(type == null)
+        if (type == null)
             type = "main";
 
         // type으로 받은 값이 actionMap의 key로 사용되고 있으며
@@ -132,13 +132,13 @@ public class UserController extends HttpServlet {
 
         String viewPath = action.execute(request, response);
 
-      // 이동할 때마다 type, viewPath를 알기 위한 print
-      System.out.println("type: " + type);
-      System.out.println("viewPath: " + viewPath);
+        // 이동할 때마다 type, viewPath를 알기 위한 print
+        System.out.println("type: " + type);
+        System.out.println("viewPath: " + viewPath);
 
         // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
-        if(viewPath == null){
-            response.sendRedirect("Controller?type=main");
+        if (viewPath == null) {
+            response.sendRedirect("UserController?type=main");
         } else {
             //forward 준비
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);
@@ -146,7 +146,7 @@ public class UserController extends HttpServlet {
         }
     }
 
-    
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         doGet(request, response);

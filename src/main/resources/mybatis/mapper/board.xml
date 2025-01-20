@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+    <!-- 총 게시물 수를 반환하는 기능 -->
+    <select id="totalCount" resultType="int" parameterType="String">
+        SELECT COUNT(*) FROM board
+        WHERE boardStatus = 0 AND boardType = #{bType}
+    </select>
+
+    <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
+        정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
+    <select id="list" resultType="mybatis.vo.BoardVO" parameterType="Map">
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM board
+        WHERE boardStatus = 0 AND boardType = #{bType}
+        ORDER BY boardIdx DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!-- 저장 -->
+    <insert id="add" parameterType="Map">
+        INSERT INTO board(adminIdx, theatherIdx, boardType,
+        boardTitle, boardContent, boardRegDate, boardExpDate)
+        VALUES(#{adminIdx}, #{theatherIdx}, #{boardType},
+        #{boardTitle}, #{boardContent}, NOW(), #{boardExpDate})
+    </insert>
+
+
+</mapper>
+
+
+
+
+
+
