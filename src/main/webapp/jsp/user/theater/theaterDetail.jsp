@@ -821,9 +821,11 @@
                     <h2 class="transport-title">교통안내</h2>
                 </div>
                 <div class="transport-details">
-                    <p><strong>도로명주소:</strong> 서울특별시 서초구 서초대로 77길 3 (서초동) 아라타워 8층</p>
-                    <button class="navigate-btn">실시간 길찾기</button>
-                    <p>기능 구현시 위의 [실시간 길찾기] 버튼 대신 해당 영역에 바로 카카오맵 지도로 위치를 표시한다.</p>
+                    <p><strong>도로명주소:</strong> ${theater.theaterAddress}</p>
+<%--                    <button class="navigate-btn">실시간 길찾기</button>--%>
+                    <div id="map" style="width:auto;height:400px;"></div>
+
+<%--                    <p>기능 구현시 위의 [실시간 길찾기] 버튼 대신 해당 영역에 바로 카카오맵 지도로 위치를 표시한다.</p>--%>
                 </div>
             </section>
         </div>
@@ -1102,8 +1104,48 @@
 <jsp:include page="../common/footer.jsp"/>
 
 <!-- script 영역 -->
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=dc04bf5e499b3bbf3bd615ac599cba19&libraries=services"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    var container = document.getElementById('map');
+
+    // 극장의 주소 또는 이름 (예: request에서 가져온 값)
+    var theaterAddress = "${theater.theaterAddress}"; // JSP에서 VO의 주소를 가져오는 방식
+
+    var options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 기본 좌표
+        level: 3
+    };
+
+    var map = new kakao.maps.Map(container, options);
+
+    // Geocoder 객체 생성
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 주소를 좌표로 변환
+    geocoder.addressSearch(theaterAddress, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 지도 중심을 결과값으로 이동
+            map.setCenter(coords);
+
+            // 마커 추가
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 주소값 창
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="padding:5px;">' + theaterAddress + '</div>'
+            });
+            infowindow.open(map, marker);
+        } else {
+            console.error('주소 검색 실패: ' + status);
+        }
+    });
+
+            document.addEventListener("DOMContentLoaded", () => {
         // 탭과 콘텐츠 가져오기
         const tabs = document.querySelectorAll(".tabs .tab");
         const contents = document.querySelectorAll(".contents > .content, #info"); // #info 포함
