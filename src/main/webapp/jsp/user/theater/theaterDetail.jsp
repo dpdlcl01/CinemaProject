@@ -1135,7 +1135,7 @@
                 position: coords
             });
 
-            // 주소값 창
+            // 주소값 나오는 창
             var infowindow = new kakao.maps.InfoWindow({
                 content: '<div style="padding:5px;">' + theaterAddress + '</div>'
             });
