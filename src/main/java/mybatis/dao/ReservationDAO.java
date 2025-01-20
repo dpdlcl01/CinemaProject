@@ -3,6 +3,7 @@ package mybatis.dao;
 import mybatis.service.FactoryService;
 import mybatis.vo.MovieVO;
 import mybatis.vo.TheaterVO;
+import mybatis.vo.TimetableVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -59,4 +60,31 @@ public class ReservationDAO {
         return ar;
     }
 
+    // 특정 극장 및 날짜의 상영 시간표 조회
+    public static TimetableVO[] allTimetable(String theaterIdx, String movieIdx) {
+        TimetableVO[] ar = null;
+
+        // MyBatis 파라미터 전달용 HashMap 생성
+        HashMap<String, String> map = new HashMap<>();
+        map.put("theaterIdx", theaterIdx);
+        map.put("movieIdx", movieIdx);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            List<TimetableVO> list = ss.selectList("timetable.allTimetable", map);
+            System.out.println("입력된 theaterIdx: " + theaterIdx);
+            System.out.println("입력된 movieIdx: " + movieIdx);
+            System.out.println("DB에서 반환된 데이터: " + list);
+
+            if (list != null && !list.isEmpty()) {
+                ar = new TimetableVO[list.size()];
+                list.toArray(ar);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ss.close();
+        }
+        return ar;
+    }
 }

@@ -126,3 +126,8 @@
     color: #666;
     font-size: 0.9em;
 }
+.selected {
+    background-color: #f0f8ff; /* 선택된 항목의 배경색 */
+    font-weight: bold; /* 글자 굵게 */
+    border: 1px solid #00f; /* 선택된 항목 테두리 */
+}

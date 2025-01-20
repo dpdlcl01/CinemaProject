@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="timetable">
+    <!-- 특정 영화 및 극장의 모든 상영 시간표 조회 -->
+    <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">
+        SELECT *
+        FROM timetable
+        WHERE theaterIdx = #{theaterIdx} AND movieIdx = #{movieIdx}
+        ORDER BY timetableStartTime ASC
+    </select>
+</mapper>

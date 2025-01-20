@@ -15,6 +15,6 @@
     <select id="getTheaterName" parameterType="String" resultType="mybatis.vo.TheaterVO">
         SELECT *
         FROM theater
-        WHERE region = #{region}
+        WHERE theaterRegion = #{region}
     </select>
 </mapper>
