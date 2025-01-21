@@ -196,14 +196,12 @@
 
                     showtimes.forEach((time) => {
                         const li = document.createElement("li");
-                        const button = document.createElement("button");
+                        li.classList.add("time-list-item");
+                        li.setAttribute("data-time", time.timetableIdx); // 데이터 속성에 시간표 ID 저장
 
-                        // 시간표 시작/종료 시간 설정
-                        button.textContent = time.timetableStartTime + " ~ " + time.timetableEndTime;
-                        button.setAttribute("data-time", time.timetableIdx);
+                        // 시간표 내용 설정
+                        li.textContent = ime.timetableStartTime + " ~ " + time.timetableEndTime;
 
-                        // li에 버튼 추가
-                        li.appendChild(button);
                         ul.appendChild(li);
                     });
 
@@ -221,6 +219,19 @@
 
         // 초기 기본 문구 유지
         timeSelectionContainer.innerHTML = "<p>영화와 극장을 선택하시면 상영 시간표를 비교하여 볼 수 있습니다.</p>";
+
+        // 시간표 클릭 시 좌석 페이지로 이동
+        timeSelectionContainer.addEventListener("click", (event) => {
+            const listItem = event.target.closest(".time-list-item");
+            if (listItem) {
+                // 시간표 ID 가져오기
+                const timetableIdx = listItem.getAttribute("data-time");
+                console.log("받은 상영 시간표 Idx:", timetableIdx);
+
+                const url = "${pageContext.request.contextPath}/UserController?type=seat&movieIdx=" + selectedMovieIdx + "&theaterIdx=" + selectedTheaterIdx + "&timetableIdx=" + timetableIdx;
+                window.location.href = url; // 페이지 리다이렉트
+            }
+        });
     });
 </script>
 </body>
