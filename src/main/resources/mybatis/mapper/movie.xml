@@ -18,14 +18,19 @@
         ORDER BY movieReservationRate DESC
     </select>
 
+    <!-- 영화 idx를 받아서 사용자 영화 상세 화면으로 해당 영화 정보 반환 -->
+    <select id="getMovieByIdx" parameterType="String" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie
+        WHERE movieIdx = #{movieIdx}
+    </select>
 
     <!-- 관리자 모드에서 OPEN API를 이용하여 영화 정보를 DB에 저장 -->
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
         INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
         movieDirector, movieActors, movieInfo, moviePosterUrl,
-        movieReservationRate, movieTotalAudience, movieStatus, movieActive)
+        movieReservationRate, movieTotalAudience, movieLikes, movieStatus, movieActive)
         VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
         #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl},
-        #{movieReservationRate}, #{movieTotalAudience}, #{movieStatus}, #{movieActive})
+        #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus}, #{movieActive})
     </insert>
 </mapper>

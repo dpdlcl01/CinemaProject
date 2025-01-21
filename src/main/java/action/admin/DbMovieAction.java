@@ -205,6 +205,7 @@ public class DbMovieAction implements Action {
                     mvo.setMovieDirector(movieDirector);   // 감독 정보
                     mvo.setMovieActors(movieActors);       // 배우 목록 (쉼표로 구분된 문자열)
 
+                    mvo.setMovieLikes("0"); // 최초 저장하는 영화 데이터의 경우 좋아요 수 0개로 설정
                     mvo.setMovieActive("0"); // 최초 저장하는 영화 데이터의 경우 모두 목록 활성화
 
                     // TMDB API 호출로 추가 데이터 설정

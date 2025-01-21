@@ -41,6 +41,7 @@ CREATE TABLE movie (
     moviePosterUrl VARCHAR(500) NOT NULL COMMENT '포스터 이미지 경로',
     movieReservationRate FLOAT COMMENT '영화 예매율 (%)',
     movieTotalAudience BIGINT COMMENT '누적 관객수',
+    movieLikes INT COMMENT '좋아요 수 (찜하기 기능에 사용)',
     movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)',
     movieActive TINYINT(1) COMMENT '활성 상태 (0: 상위 80개 포함, 1: 제외)'
 ) COMMENT='영화 정보를 저장하는 테이블';

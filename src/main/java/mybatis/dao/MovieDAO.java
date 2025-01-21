@@ -30,6 +30,15 @@ public class MovieDAO {
         return movieArray;
     }
 
+    // 영화 idx를 받아서 해당 영화 상세 정보 가져오기 (사용자 영화 상세)
+    public static MovieVO getMovieByIdx(String movidIdx){
+        MovieVO mvo = null;
+        SqlSession ss = FactoryService.getFactory().openSession();
+        mvo = ss.selectOne("movie.getMovieByIdx", movidIdx);
+        ss.close();
+        return mvo;
+    }
+
 
     // 새로운 영화 정보를 API로 받아와서 DB에 저장하는 함수 (관리자)
     public static int addNewMovie(MovieVO mvo){

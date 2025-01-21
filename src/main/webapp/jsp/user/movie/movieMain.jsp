@@ -63,7 +63,7 @@
 
                             <!-- movie-list-info -->
                             <c:if test="${requestScope.movieArray ne null }">
-                                <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
+                            <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
                                 <li data-status="open">
 
                                     <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
@@ -92,7 +92,7 @@
                                     </div>
                                     <!-- //btn-util -->
                                 </li>
-                                </c:forEach>
+                            </c:forEach>
                             </c:if>
                                 <%------------------------------여기부터 더보기라인----------------------------%>
                                 <li class="movie-item" style="display: none;">

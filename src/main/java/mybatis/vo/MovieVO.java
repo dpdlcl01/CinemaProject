@@ -5,7 +5,7 @@ public class MovieVO {
     private String movieIdx, movieCd,
             movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
             movieNation, movieDirector, movieActors, movieInfo, moviePosterUrl,
-            movieReservationRate, movieTotalAudience, movieStatus, movieActive;
+            movieReservationRate, movieTotalAudience, movieLikes, movieStatus, movieActive;
 
     public String getMovieIdx() {
         return movieIdx;
@@ -125,6 +125,14 @@ public class MovieVO {
 
     public void setMovieTotalAudience(String movieTotalAudience) {
         this.movieTotalAudience = movieTotalAudience;
+    }
+
+    public String getMovieLikes() {
+        return movieLikes;
+    }
+
+    public void setMovieLikes(String movieLikes) {
+        this.movieLikes = movieLikes;
     }
 
     public String getMovieStatus() {
