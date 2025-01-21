@@ -8,6 +8,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/Reservation.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/footer.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/myinfo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/notice/noticeMain.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/notice" />
       </map>
     </option>
   </component>

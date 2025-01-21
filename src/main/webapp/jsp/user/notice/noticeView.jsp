@@ -202,20 +202,11 @@
             </tr>
             </thead>
             <tbody>
-            <c:set var="pvo" value="${requestScope.page}"/>
-            <c:forEach var="vo" items="${ar }" varStatus="vs">
-                <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
-                <tr>
-                    <td>${pvo.totalRecord - ((pvo.nowPage - 1) * pvo.numPerPage + vs.index) }</td>
-                    <td></td>
-                    <td>공지</td>
-                    <td>
-                        <a href="UserController?type=view&boardIdx=${vo.boardIdx}">${vo.boardTitle}</a>
-                    </td>
-                    <td>${vo.boardRegDate.substring(0,10)}</td>
-                </tr>
-            </c:forEach>
-            <c:if test="${ar eq null or fn:length(ar) eq 0 }">
+            <tr>
+                <td colspan="5">${board.boardTitle}</td>
+
+            </tr>
+            <c:if test="${board eq null}">
                 <tr>
                     <td colspan="5">현재 등록된 데이터가 없습니다.</td>
                 </tr>
@@ -224,19 +215,7 @@
             </tbody>
         </table>
 
-        <!-- 페이지네이션 -->
-        <div class="pagination">
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#" class="active">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">7</a>
-            <a href="#">8</a>
-            <a href="#">9</a>
-            <a href="#">10</a>
-        </div>
+
     </div>
 </div>
 </div>

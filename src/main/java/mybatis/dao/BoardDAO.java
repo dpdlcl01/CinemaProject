@@ -58,7 +58,13 @@ public class BoardDAO {
         return cnt;
     }
 
-
+    //원하는 게시물 검색
+    public static BoardVO getBoard(String boardId) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        BoardVO board = ss.selectOne("board.getBoard", boardId);
+        ss.close();
+        return board;
+    }
 }
 
 

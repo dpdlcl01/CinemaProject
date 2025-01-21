@@ -15,6 +15,9 @@ public class ListAction implements Action {
         // 페이징 처리를 위한 객체생성
         Paging page = new Paging(10, 10);
 
+        //bType을 인자로 받는다.
+        String bType = request.getParameter("bType");
+
         // 총 게시물의 수를 구한다.
         int totalCount = BoardDAO.getTotalCount("notice");
         // 페이징 객체안에 총 게시물의 수를 저장하면서 전체페이지 수를 구한다.
