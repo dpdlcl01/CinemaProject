@@ -21,9 +21,17 @@ public class registerDAO {
         } catch (Exception e) {
             ss.rollback();
             throw e;
-        } finally{
-        ss.close();
+        } finally {
+            ss.close();
         }
         return cnt;
+    }
+
+    public boolean UserIdCheck(String userId) {
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            int cnt = ss.selectOne("register.useridcheck_search", userId);
+            System.out.println("검색결과 : " + cnt);
+            return cnt > 0;
+        }
     }
 }

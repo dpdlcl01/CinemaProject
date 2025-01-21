@@ -157,23 +157,18 @@ public class UserController extends HttpServlet {
 
         //컨트롤러로 파라미터가 잘 넘어오는지 확인하는 용도.
         String userName = request.getParameter("userName");
-        String userEmail = request.getParameter("userEmail");
-        String birthyear = request.getParameter("birthyear");
-        String birthmonth = request.getParameter("birthmonth");
-        String birthday = request.getParameter("birthday");
+        String userEmail = request.getParameter("user_Email");
         String userPhone = request.getParameter("userPhone");
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
 
         System.out.println(userName);
         System.out.println(userEmail);
-        System.out.println(birthyear);
-        System.out.println(birthmonth);
-        System.out.println(birthday);
         System.out.println(userPhone);
-
         System.out.println(userId);
         System.out.println(userPassword);
+
+
     }
 
 }

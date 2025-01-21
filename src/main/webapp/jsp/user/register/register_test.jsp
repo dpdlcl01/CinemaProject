@@ -149,6 +149,22 @@
     .radioContainer>label{
       padding-right: 15px;
     }
+    #main3{
+
+      text-align: center;
+    }
+    #main3Title{
+      font-size: 20px;
+      font-weight: bold;
+      color: #503396;
+      padding-bottom: 20px;
+    }
+    #main3Content{
+
+      font-size: 13px;
+      padding-bottom: 50px;
+
+    }
     .tableButton{
       height: 28px;
       background-color: white;
@@ -325,7 +341,7 @@
           <td class="bold">아이디</td>
           <td>
             <input type="text" id="userId" name="userId" class="inputValue">
-            <button type="button" class="tableButton" onclick="checkUserId()">중복확인</button>
+            <button type="button" class="tableButton">중복확인</button>
           </td>
         </tr>
 
@@ -503,33 +519,6 @@
       }
     };
     xhr.send("authCode=" + encodeURIComponent(authCode));
-  }
-
-  function checkUserId() {
-    let userId = $('#userId').val();
-
-    if(!/^[a-zA-Z0-9]+$/.test(userId)) {
-      alert("아이디는 영문과 숫자만 사용 가능합니다.");
-      return;
-    }
-
-    $.ajax({
-      url: '/jsp/user/register/ajax/checkUserId.jsp',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({userId: userId}),
-      success: function(res) {
-        console.log("서버응답 : ", res);
-        if (res.isDuplicate) {
-        alert("중복된 아이디입니다.");
-        } else {
-          alert("사용 가능한 아이디입니다.");
-        }
-      },
-      error: function() {
-        alert("서버 요청 중 오류가 발생하였습니다.");
-      }
-    });
   }
 </script>
 

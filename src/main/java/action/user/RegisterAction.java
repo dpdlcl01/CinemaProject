@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 public class RegisterAction implements Action {
-    private static final String register_form = "./jsp/user/register/register.jsp";
-    private static final String register_suc = "./jsp/user/register/reg_Result/registerSuccess.jsp";
-    private static final String register_fail = "./jsp/user/register/reg_Result/registerFail.jsp";
-    private static final String register_error = "./jsp/user/register/reg_Result/registerError.jsp";
+    private static final String register_form = "/jsp/user/register/register.jsp";
+    private static final String register_suc = "/jsp/user/register/reg_Result/registerSuccess.jsp";
+    private static final String register_fail = "/jsp/user/register/reg_Result/registerFail.jsp";
+    private static final String register_error = "/jsp/user/register/reg_Result/registerError.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+        System.out.println("inexecute1");
         if (!"POST".equalsIgnoreCase(request.getMethod())) {
             return register_form; // GET 요청일 경우 폼 페이지 반환
         }
@@ -24,7 +24,7 @@ public class RegisterAction implements Action {
         String userName = request.getParameter("userName");
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
-        String userEmail = request.getParameter("userEmail");
+        String userEmail = request.getParameter("user_Email");
         String userPhone = request.getParameter("userPhone");
 
         // 필수 입력값 검증
@@ -33,6 +33,7 @@ public class RegisterAction implements Action {
             return register_fail; // 실패 페이지 반환
         }
 
+        System.out.println("inexecute2");
         // 기본값 설정
         String userPoint = "0";
         String userGrade = "Basic";
@@ -50,11 +51,13 @@ public class RegisterAction implements Action {
 
         try {
             int result = registerDAO.userInsert(map);
-
+            System.out.println(result);
             if (result > 0) {
                 request.setAttribute("userName", userName);
+                System.out.println("s");
                 return register_suc; // 성공 페이지 반환
             } else {
+                System.out.println("f");
                 return register_fail; // 실패 페이지 반환
             }
         } catch (Exception e) {
