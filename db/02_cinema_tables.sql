@@ -211,8 +211,10 @@ CREATE TABLE payment (
 CREATE TABLE point (
     pointIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '포인트 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
+    paymentIdx BIGINT COMMENT '결제 고유 ID (결제 관련 포인트인 경우에만 사용)',
+    reviewIdx BIGINT COMMENT '리뷰 고유 ID (리뷰 관련 포인트인 경우에만 사용)',
     pointType TINYINT NOT NULL COMMENT '포인트 종류 (0: 적립, 1: 사용, 만료)',
-    pointSource VARCHAR(255) COMMENT '포인트 출처',
+    pointSource VARCHAR(10) COMMENT '포인트 출처 (예: "PAYMENT", "REVIEW", "EVENT")',
     pointValue INT NOT NULL COMMENT '변동된 포인트 값',
     pointDate DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '포인트 변동 일시',
     pointStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '포인트 상태 (0: 정상, 1: 취소)',
