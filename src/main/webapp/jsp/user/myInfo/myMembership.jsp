@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myInfo.css"/>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
   *{
     padding: 0;
@@ -262,7 +263,11 @@
 .li{
   font-size: 13px;
 }
-
+#datepicker,#datepicker1{
+  width: 100px;
+  height: 30px;
+  text-align: center;
+}
 </style>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -344,9 +349,9 @@
                     <div class="vertical"></div>
                     <button type="button" class="selectBtn">6개월</button>
                   </div>
-                  <input type="date" id="start-date" value="2025-01-01">
-                  ~
-                  <input type="date" id="end-date" value="2025-12-31">
+                  <input type="text" id="datepicker" value="2025-01-01">~
+                  <input type="text" id="datepicker1" value="2025-12-31">
+
                   <button type="button" class="searchBtn"><img src="${pageContext.request.contextPath}/css/user/images/KangImg/search.png">조회</button>
                 </div>
 
@@ -391,9 +396,13 @@
 </div>
 
 <jsp:include page="../common/footer.jsp"/>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-
+  $(document).ready(function () {
+    $("#datepicker").datepicker();  // 데이트피커 활성화
+    $("#datepicker1").datepicker();  // 데이트피커 활성화
+  });
 </script>
 </body>
 </html>
