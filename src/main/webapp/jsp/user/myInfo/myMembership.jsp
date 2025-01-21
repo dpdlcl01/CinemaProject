@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myInfo.css"/>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <style>
   *{
     padding: 0;
@@ -264,10 +265,23 @@
   font-size: 13px;
 }
 #datepicker,#datepicker1{
-  width: 100px;
+  width: 120px;
   height: 30px;
   text-align: center;
 }
+  .ui-datepicker-title {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 60px;
+  }
+  .datepicker {
+    width: 150px;
+    padding: 8px 30px 8px 10px; /* 아이콘 위치를 위한 패딩 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: url('${pageContext.request.contextPath}/css/user/images/KangImg/datepicker_16x16.png') no-repeat right 8px center;
+    background-size: 20px 20px; /* 아이콘 크기 조절 */
+  }
 </style>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -349,8 +363,8 @@
                     <div class="vertical"></div>
                     <button type="button" class="selectBtn">6개월</button>
                   </div>
-                  <input type="text" id="datepicker" value="2025-01-01">~
-                  <input type="text" id="datepicker1" value="2025-12-31">
+                  <input type="text" id="datepicker"  class="datepicker" value="2025-01-01">~
+                  <input type="text" id="datepicker1" class="datepicker" value="2025-12-31">
 
                   <button type="button" class="searchBtn"><img src="${pageContext.request.contextPath}/css/user/images/KangImg/search.png">조회</button>
                 </div>
@@ -398,11 +412,20 @@
 <jsp:include page="../common/footer.jsp"/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-datepicker/1.12.1/i18n/datepicker-ko.js"></script>
 <script>
   $(document).ready(function () {
-    $("#datepicker").datepicker();  // 데이트피커 활성화
-    $("#datepicker1").datepicker();  // 데이트피커 활성화
-  });
+    $.datepicker.setDefaults($.datepicker.regional["ko"]);
+    $(".datepicker").datepicker({
+      dateFormat:"yy-mm-dd",
+      dayNames: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+      dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+      monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+      monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+
+      });
+    });  // 데이트피커 활성화
+
 </script>
 </body>
 </html>
