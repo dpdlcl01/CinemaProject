@@ -12,10 +12,9 @@ CREATE TABLE admin (
 CREATE TABLE user (
     userIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '사용자 고유 ID',
     userName VARCHAR(20) NOT NULL COMMENT '사용자 이름 (비회원 포함)',
-    userId VARCHAR(20) UNISQUE COMMENT '사용자 로그인 ID (회원 전용)',
+    userId VARCHAR(20) COMMENT '사용자 로그인 ID (회원 전용)',
     userPassword VARCHAR(255) COMMENT '사용자 비밀번호 (bcrypt 해시 값 저장, 회원 전용)',
     userAuthPassword VARCHAR(255) COMMENT '비회원 인증용 4자리 비밀번호 (bcrypt 해시 값 저장)',
-    userBirth DATE NOT NULL COMMENT '사용자 생년월일 (비회원 포함)',
     userEmail VARCHAR(50) NOT NULL UNIQUE COMMENT '사용자 이메일 (회원 및 비회원)',
     userPhone VARCHAR(20) COMMENT '사용자 연락처 (회원 전용)',
     userPoint INT COMMENT '사용자 보유 포인트 (회원 전용)',
@@ -40,10 +39,10 @@ CREATE TABLE movie (
     movieInfo TEXT COMMENT '영화 상세 설명',
     moviePosterUrl VARCHAR(500) NOT NULL COMMENT '포스터 이미지 경로',
     movieReservationRate FLOAT COMMENT '영화 예매율 (%)',
+    movieRank INT COMMENT '영화 예매 순위 (NULL: 상위 80개에 포함되지 않음)',
     movieTotalAudience BIGINT COMMENT '누적 관객수',
     movieLikes INT COMMENT '좋아요 수 (찜하기 기능에 사용)',
-    movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)',
-    movieActive TINYINT(1) COMMENT '활성 상태 (0: 상위 80개 포함, 1: 제외)'
+    movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)'
 ) COMMENT='영화 정보를 저장하는 테이블';
 
 
@@ -212,8 +211,10 @@ CREATE TABLE payment (
 CREATE TABLE point (
     pointIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '포인트 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
+    paymentIdx BIGINT COMMENT '결제 고유 ID (결제 관련 포인트인 경우에만 사용)',
+    reviewIdx BIGINT COMMENT '리뷰 고유 ID (리뷰 관련 포인트인 경우에만 사용)',
     pointType TINYINT NOT NULL COMMENT '포인트 종류 (0: 적립, 1: 사용, 만료)',
-    pointSource VARCHAR(255) COMMENT '포인트 출처',
+    pointSource VARCHAR(10) COMMENT '포인트 출처 (예: "PAYMENT", "REVIEW", "EVENT")',
     pointValue INT NOT NULL COMMENT '변동된 포인트 값',
     pointDate DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '포인트 변동 일시',
     pointStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '포인트 상태 (0: 정상, 1: 취소)',
@@ -255,7 +256,6 @@ CREATE TABLE favoriteMovie (
     favoriteIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '선호 영화 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
     movieIdx BIGINT NOT NULL COMMENT '영화 고유 ID',
-    addedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '선호 영화 추가 날짜',
     FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
     FOREIGN KEY (movieIdx) REFERENCES movie(movieIdx) ON DELETE CASCADE
 ) COMMENT='사용자의 선호 영화 목록을 저장하는 테이블';
@@ -266,7 +266,6 @@ CREATE TABLE favoriteTheater (
     favoriteIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '선호 극장 고유 ID',
     userIdx BIGINT NOT NULL COMMENT '사용자 고유 ID',
     theaterIdx BIGINT NOT NULL COMMENT '극장 고유 ID',
-    addedDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '선호 극장 추가 날짜',
     FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
     FOREIGN KEY (theaterIdx) REFERENCES theater(theaterIdx) ON DELETE CASCADE
 ) COMMENT='사용자의 선호 극장 목록을 저장하는 테이블';

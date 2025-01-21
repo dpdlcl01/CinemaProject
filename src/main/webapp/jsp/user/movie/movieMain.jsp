@@ -66,7 +66,7 @@
                             <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
                                 <li data-status="open">
 
-                                    <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
+                                    <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
                                     <p class="rank">${st.index+1 }</p>
                                     <img src="${mvo.moviePosterUrl }" alt="${mvo.movieTitle }" class="poster">
                                     <div class="wrap">

@@ -31,12 +31,20 @@ public class MovieDAO {
     }
 
     // 영화 idx를 받아서 해당 영화 상세 정보 가져오기 (사용자 영화 상세)
-    public static MovieVO getMovieByIdx(String movidIdx){
+    public static MovieVO getMovieByIdx(String movieIdx){
         MovieVO mvo = null;
         SqlSession ss = FactoryService.getFactory().openSession();
-        mvo = ss.selectOne("movie.getMovieByIdx", movidIdx);
+        mvo = ss.selectOne("movie.getMovieByIdx", movieIdx);
         ss.close();
         return mvo;
+    }
+
+    // 영화별 예매율 순위를 계산하는 함수
+    public static int calculateRank(String movieIdx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int rank = ss.selectOne("movie.calculateRank", movieIdx);
+        ss.close();
+        return rank;
     }
 
 

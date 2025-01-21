@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,7 +17,14 @@
 <div class="movie-detail-page">
     <div class="bg-img">영화 포스터</div>
     <div class="movie-detail-cont">
-        <p class="d-day">개봉 D-?</p>
+        <c:if test="${requestScope.dDay ne null }">
+            <p class="d-day">
+            <c:choose>
+                <c:when test="${requestScope.dDay == 0}">D-Day</c:when>
+                <c:when test="${requestScope.dDay > 0}">D-${requestScope.dDay}</c:when>
+            </c:choose>
+            </p>
+        </c:if>
         <p class="title">${mvo.movieTitle }</p>
         <p class="title-eng">${mvo.movieTitleEn }</p>
         <div class="btn-util">
@@ -32,6 +40,7 @@
             </p>
         </div>
         <div class="info">
+            <c:if test="${requestScope.dDay ne null }">
             <div class="score">
                 <p class="tit">실관람 평점</p>
                 <div class="number" id="mainScore">
@@ -42,11 +51,12 @@
                     </p>
                 </div>
             </div>
+            </c:if>
             <div class="rate">
                 <p class="tit">예매율</p>
                 <p class="cont">
                     <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-ticket-gray.png"/>
-                    <em>??</em>
+                    <em>${requestScope.rank }</em>
                     위 (${mvo.movieReservationRate }%)
                 </p>
             </div>
@@ -54,7 +64,7 @@
                 <div class="tit">누적관객수</div>
                 <p class="cont">
                     <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-person.png"/>
-                    <em>${mvo.movieTotalAudience }</em>
+                    <em><fmt:formatNumber value="${mvo.movieTotalAudience }"/></em>
                     명
                 </p>
             </div>
@@ -95,12 +105,12 @@
                 </div>
             </div>
             <div class="movie-info">
-                <p>상영타입 : 2D</p>
+                <p>${mvo.movieNation }</p>
                 <div class="line">
                     <p>감독 : ${mvo.movieDirector }</p>
                     <p>장르 : ${mvo.movieGenre } / 103 분</p>
                     <p>등급 : ${mvo.movieGrade }</p>
-                    <p>개봉일 : ${mvo.movieDate }</p>
+                    <p>개봉일 : ${openDate }</p>
                 </div>
                 <p>출연진 : ${mvo.movieActors }</p>
             </div>

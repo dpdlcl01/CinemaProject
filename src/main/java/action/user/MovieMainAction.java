@@ -15,6 +15,11 @@ public class MovieMainAction implements Action {
         // 전체 영화 리스트 가져오기
         MovieVO[] movieArray = MovieDAO.getTotalMovie();
 
+        // 리뷰 관람평점 평균 계산
+        for (MovieVO mvo : movieArray) {
+        }
+
+
         request.setAttribute("movieArray", movieArray);
 
         return "/jsp/user/movie/movieMain.jsp";

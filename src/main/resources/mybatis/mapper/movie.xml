@@ -6,7 +6,6 @@
     <!-- 사용자 메인 화면에서 예매율 상위 4개 영화 정보를 반환 -->
     <select id="getTopMovie" resultType="mybatis.vo.MovieVO">
         SELECT * FROM movie
-        WHERE movieActive = 0
         ORDER BY movieReservationRate DESC
         LIMIT 4
     </select>
@@ -14,7 +13,6 @@
     <!-- 사용자 영화 메인 화면에서 전체 영화 리스트를 반환 -->
     <select id="getTotalMovie" resultType="mybatis.vo.MovieVO">
         SELECT * FROM movie
-        WHERE movieActive = 0
         ORDER BY movieReservationRate DESC
     </select>
 
@@ -24,13 +22,23 @@
         WHERE movieIdx = #{movieIdx}
     </select>
 
+    <!-- 영화 idx를 받아서 예매율 순위를 반환 -->
+    <select id="calculateRank" parameterType="String" resultType="int">
+        SELECT reservationRank
+            FROM (
+                SELECT movieIdx, movieRank, RANK() OVER (ORDER BY movieRank ASC) AS reservationRank
+                FROM movie
+            ) AS Movies
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
     <!-- 관리자 모드에서 OPEN API를 이용하여 영화 정보를 DB에 저장 -->
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
         INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
         movieDirector, movieActors, movieInfo, moviePosterUrl,
-        movieReservationRate, movieTotalAudience, movieLikes, movieStatus, movieActive)
+        movieRank, movieReservationRate, movieTotalAudience, movieLikes, movieStatus)
         VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
         #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl},
-        #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus}, #{movieActive})
+        #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus})
     </insert>
 </mapper>

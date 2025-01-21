@@ -30,10 +30,10 @@ public class DbMovieAction implements Action {
 
         // 1. 실시간 예매율 순위를 제공하는 KOBIS에서 크롤링하여 영화 예매율 순위와 예매율, 영화코드를 가져오기 위해
         // WebDriver 설정
-/*        System.setProperty("webdriver.chrome.driver",
-                "C:/Users/user/Documents/GitHub/CinemaProject/src/main/java/util/chromedriver.exe");*/ // ChromeDriver 경로 설정
         System.setProperty("webdriver.chrome.driver",
-                "C:/My_Study/CinemaProject/src/main/java/util/chromedriver.exe");
+                "C:/Users/user/Documents/GitHub/CinemaProject/src/main/java/util/chromedriver.exe"); // ChromeDriver 경로 설정
+/*        System.setProperty("webdriver.chrome.driver",
+                "C:/My_Study/CinemaProject/src/main/java/util/chromedriver.exe");*/
         WebDriver driver = new ChromeDriver();
 
 
@@ -80,6 +80,7 @@ public class DbMovieAction implements Action {
                     // 영화 데이터 추출
                     String movieCd = tdList.get(1).findElement(By.tagName("a"))
                             .getAttribute("onclick").split("'")[3]; // 영화코드 --> 오픈 API에 영화 검색시 사용
+                    String movieRank = tdList.get(0).getText(); // 예매 순위
                     String reservationRate = tdList.get(3).getText().replace("%", "").trim(); // 예매율: % 기호 제거
                     String movieTotalAudience = tdList.get(7).getText().replace(",", "").trim(); // 누적 관객수: , 제거
 
@@ -193,6 +194,7 @@ public class DbMovieAction implements Action {
                     // KOFIC API에서 가져온 데이터를 VO에 저장
                     mvo.setMovieCd(movieCd);               // 영화 코드 (KOFIC 고유 식별자)
                     mvo.setMovieTotalAudience(movieTotalAudience); // 누적 관객 수
+                    mvo.setMovieRank(movieRank);            // 예매 순위
                     mvo.setMovieReservationRate(reservationRate); // 예매율
                     mvo.setMovieTitle(movieNm);            // 영화 제목 (국문)
                     mvo.setMovieTitleEn(movieNmEn);        // 영화 제목 (영문)
@@ -206,7 +208,6 @@ public class DbMovieAction implements Action {
                     mvo.setMovieActors(movieActors);       // 배우 목록 (쉼표로 구분된 문자열)
 
                     mvo.setMovieLikes("0"); // 최초 저장하는 영화 데이터의 경우 좋아요 수 0개로 설정
-                    mvo.setMovieActive("0"); // 최초 저장하는 영화 데이터의 경우 모두 목록 활성화
 
                     // TMDB API 호출로 추가 데이터 설정
                     fetchTmdbData(mvo);
@@ -235,6 +236,7 @@ public class DbMovieAction implements Action {
 
 
 
+
     private void fetchTmdbData(MovieVO mvo) {
         try {
             String apiKey = "8b259fc8ed83e644b26793b12795b088";
@@ -250,8 +252,12 @@ public class DbMovieAction implements Action {
 
                 JsonNode movieData = searchTmdb(tmdbUrl, mapper);
                 if (movieData != null) {
+                    int movieId = movieData.get("id").asInt(); // ID 추출
+                    JsonNode detailedData = fetchMovieDetails(movieId, mapper); // 상세 호출
+                    if (detailedData != null) {
+                        setTmdbDataToVO(mvo, detailedData); // 상세 데이터 설정
+                    }
                     isFound = true;
-                    setTmdbDataToVO(mvo, movieData);
                 }
             }
 
@@ -262,15 +268,32 @@ public class DbMovieAction implements Action {
 
                 JsonNode movieData = searchTmdb(tmdbUrl, mapper);
                 if (movieData != null) {
-                    setTmdbDataToVO(mvo, movieData);
-                } else {
-                    System.out.println("TMDB 검색 결과 없음 (한국어/영어 모두 실패): " + mvo.getMovieTitle());
+                    int movieId = movieData.get("id").asInt(); // ID 추출
+                    JsonNode detailedData = fetchMovieDetails(movieId, mapper); // 상세 호출
+                    if (detailedData != null) {
+                        setTmdbDataToVO(mvo, detailedData); // 상세 데이터 설정
+                    }
                 }
             }
 
         } catch (Exception e) {
             System.out.println("TMDB API 호출 실패: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    // TMDB 데이터 상세 호출
+    private JsonNode fetchMovieDetails(int movieId, ObjectMapper mapper) {
+        try {
+            String detailUrl = "https://api.themoviedb.org/3/movie/" + movieId
+                    + "?api_key=8b259fc8ed83e644b26793b12795b088&language=ko-KR";
+            HttpURLConnection conn = (HttpURLConnection) new URL(detailUrl).openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            return mapper.readTree(conn.getInputStream());
+        } catch (Exception e) {
+            System.out.println("TMDB 상세 호출 실패: " + e.getMessage());
+            return null;
         }
     }
 
@@ -295,9 +318,20 @@ public class DbMovieAction implements Action {
     private void setTmdbDataToVO(MovieVO mvo, JsonNode movieData) {
         try {
             String posterPath = movieData.get("poster_path").asText();
+            String tagline = movieData.has("tagline") ? movieData.get("tagline").asText() : null;
             String overview = movieData.get("overview").asText();
+
+            String movieInfo = null;
+            if (tagline != null && !tagline.isEmpty()) {
+                movieInfo = tagline + "\n\n" + overview; // 두 내용을 줄바꿈으로 구분
+            } else {
+                movieInfo = overview; // tagline이 없을 경우 overview만 사용
+            }
+
+            movieInfo = movieInfo.replace("\n", "<br>");
+
             mvo.setMoviePosterUrl("https://image.tmdb.org/t/p/w500" + posterPath); // 포스터 URL 설정
-            mvo.setMovieInfo(overview); // 줄거리 설정
+            mvo.setMovieInfo(movieInfo); // 줄거리 설정
         } catch (Exception e) {
             System.out.println("TMDB 데이터 설정 실패: " + e.getMessage());
         }
