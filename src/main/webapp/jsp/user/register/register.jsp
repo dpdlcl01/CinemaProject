@@ -199,7 +199,7 @@
       <p class="step">STEP4.가입완료</p>
     </div>
 
-    <input type="hidden" id="type" name="type"/>
+
 
     <div id="main0" style="display: none;">
       <article id="main0Title">
@@ -219,26 +219,30 @@
         </tr>
         <tr>
           <td><span>이메일</span> </td>
-          <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail"><span>@</span><input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
-            <button type="button" id="Cnum" onclick="sendAuthCode(this.form)">인증번호받기</button> </td>
+          <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
+            <span>@</span>
+            <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+            <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
         </tr>
         <tr>
           <td><span>인증번호</span> </td>
           <td><input type="text" id="authcode" name="authcode" class="inputValue">
-            <button type="button" class="tableButton" onclick="authcheck()">인증 확인</button> </td>
+            <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
           <script>
             // 인증번호 확인 AJAX 요청
-            function sendAuthCode(frm) {
+            function sendAuthCode() {
               const emailPart1 = document.getElementById("emailpart1").value;
               console.log(emailPart1);
               const emailPart2 = document.getElementById("emailpart2").value;
               console.log(emailPart2);
-              const email = emailPart1 + "@" + emailPart2;
+
 
               if (!emailPart1 || !emailPart2) {
                 alert("이메일을 입력해주세요.");
                 return;
               }
+
+              const email = emailPart1 + "@" + emailPart2;
 
               const xhr = new XMLHttpRequest();
               xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
@@ -249,44 +253,16 @@
                 }
               };
               xhr.send("email=" + encodeURIComponent(email));
-              frm.submit();
-            }
-
-            // 인증번호 확인 AJAX 요청
-            function authcheck() {
-              const authCode = document.getElementById("authcode").value;
-
-              if (!authCode) {
-                alert("인증번호를 입력해주세요.");
-                return;
-              }
-
-              const xhr = new XMLHttpRequest();
-              xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
-              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-              xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                  const response = xhr.responseText.trim();
-                  if (response === "인증 성공!") {
-                    alert("인증에 성공했습니다!");
-                    document.getElementById("authcheck").value = "success"; // 인증 성공 상태 저장
-                  } else {
-                    alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
-                    document.getElementById("authcheck").value = ""; // 인증 실패 상태 초기화
-                  }
-                }
-              };
-              xhr.send("authCode=" + encodeURIComponent(authCode));
             }
           </script>
         </tr>
 
       </table>
       <div id="nextDiv">
-        <button type="button" id="next"  onclick="gotoMain2()">다음</button>
+        <button type="button" id="next" disabled  onclick="gotoMain2()">다음</button>
       </div>
       <input type="hidden" id="userEmail" name="userEmail"/>
-      <input type="hidden" id="authcheck" value=""/>
+      <input type="hidden" id="authcodecheck" value=""/>
     </div>
 
 
@@ -415,6 +391,7 @@
   const checkbox1 = document.getElementById('serviceAgree');
   const checkbox2 = document.getElementById('personalAgree');
   const checkbox = document.getElementById('allAgree');
+
   function essential() {
 
     if(checkbox.checked){
@@ -509,18 +486,42 @@
       return false;
     }
 
-    const emailPart1 = document.getElementById("emailpart1").value;
-    const emailPart2 = document.getElementById("emailpart2").value;
-
-    document.getElementById("userEmail").value = emailPart1 + "@" + emailPart2;
-
-    ${"#type"}.value("register");
-
     frm.submit();
 
     document.getElementById('main2').style.display = 'none';
     document.getElementById('main3').style.display = 'block';
 
+  }
+
+  // 인증번호 확인 AJAX 요청
+  function verifyAuthCode() {
+    console.log("verifyAuthCode 호출.");
+    const authCode = document.getElementById("authcode").value;
+
+    if (!authCode) {
+      alert("인증번호를 입력해주세요.");
+      return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const response = xhr.responseText.trim();
+
+        if (response === "인증 성공!") {
+          alert("인증에 성공했습니다!");
+          document.getElementById("authcodecheck").value = "success"; // 인증 성공 상태 저장
+          document.getElementById("next").disabled = false;
+        } else {
+          alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+          document.getElementById("authcodecheck").value = ""; // 인증 실패 상태 초기화
+        }
+      }
+    };
+    xhr.send("authCode=" + encodeURIComponent(authCode));
   }
 </script>
 

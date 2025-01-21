@@ -165,15 +165,15 @@ public class UserController extends HttpServlet {
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
 
-//        System.out.println(userName);
-//        System.out.println(userEmail);
-//        System.out.println(birthyear);
-//        System.out.println(birthmonth);
-//        System.out.println(birthday);
-//        System.out.println(userPhone);
-//
-//        System.out.println(userId);
-//        System.out.println(userPassword);
+        System.out.println(userName);
+        System.out.println(userEmail);
+        System.out.println(birthyear);
+        System.out.println(birthmonth);
+        System.out.println(birthday);
+        System.out.println(userPhone);
+
+        System.out.println(userId);
+        System.out.println(userPassword);
     }
 
 }

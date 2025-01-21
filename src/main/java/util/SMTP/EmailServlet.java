@@ -19,15 +19,16 @@ public class EmailServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=utf-8");
 
-        String emailpart1 = request.getParameter("emailpart1");
-        String emailpart2 = request.getParameter("emailpart2");
-        String email = emailpart1 + "@" + emailpart2;
+        String email = request.getParameter("email");
+
+        if(email == null || email.isEmpty()) {
+            response.getWriter().write("이메일 값이 비어있습니다.");
+            return;
+        }
 
         String authCode = generateAuthCode();
 
-        System.out.println(emailpart1);
-        System.out.println(emailpart2);
-        System.out.println(email);
+        System.out.println("인증번호가 전송 될 이메일 :  " + email);
 
         try{
             MailSender.sendEmail(email, "이메일 인증 테스트입니다.",
