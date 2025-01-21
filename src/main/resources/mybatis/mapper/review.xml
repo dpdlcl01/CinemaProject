@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+    <!-- 영화 idx를 받아서 해당하는 리뷰 정보 내림차순 반환 -->
+    <select id="getReviewByMovieIdx" parameterType="String" resultType="mybatis.vo.ReviewVO">
+        SELECT r.*, u.userId FROM review r INNER JOIN user u
+        ON r.userIdx = u.userIdx
+        WHERE movieIdx = #{movieIdx}
+        AND reviewStatus = 0
+        ORDER BY reviewDate DESC
+    </select>
+
+    <!-- 리뷰 작성 -->
+    <insert id="writeReview" parameterType="mybatis.vo.ReviewVO">
+        INSERT INTO review(userIdx, movieIdx, reviewRating, reviewContent, reviewDate, reviewStatus)
+        VALUES (#{userIdx}, #{movieIdx}, #{reviewRating}, #{reviewContent}, NOW(), 0)
+    </insert>
+
+
+</mapper>

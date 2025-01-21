@@ -2,7 +2,9 @@ package action.user;
 
 import action.Action;
 import mybatis.dao.MovieDAO;
+import mybatis.dao.ReviewDAO;
 import mybatis.vo.MovieVO;
+import mybatis.vo.ReviewVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,11 +37,40 @@ public class MovieDetailAction implements Action {
             request.setAttribute("dDay", dDay);
         }
 
-
+        // 관람 등급 문자열로 변환
+        String movieGradeText = null;
+        if ("ALL".equals(mvo.getMovieGrade())) {
+            movieGradeText = "전체 관람가";
+        } else if ("12".equals(mvo.getMovieGrade())) {
+            movieGradeText = "12세 이상 관람가";
+        } else if ("15".equals(mvo.getMovieGrade())) {
+            movieGradeText = "15세 이상 관람가";
+        } else if ("19".equals(mvo.getMovieGrade())) {
+            movieGradeText = "청소년 관람 불가";
+        }
 
         request.setAttribute("mvo", mvo);
         request.setAttribute("rank", rank);
         request.setAttribute("openDate", openDate);
+        request.setAttribute("movieGradeText", movieGradeText);
+        
+        
+        // 추후에 ReviewAction으로 빼거나 탭에서 따로 호출하는 코드로 변경
+        ReviewVO[] reviewArray = ReviewDAO.getReviewByMovieIdx(movieIdx);
+        if (reviewArray == null) {
+            reviewArray = new ReviewVO[0]; // 빈 배열로 초기화
+        }
+        request.setAttribute("reviewArray", reviewArray);
+
+        // 리뷰 평점 평균 계산
+        float totalRating = 0;
+        float averageRating = 0;
+        for(ReviewVO rvo : reviewArray) {
+            float rating = Float.parseFloat(rvo.getReviewRating()); // 형변환
+            totalRating += rating;
+        }
+        averageRating = totalRating / reviewArray.length;
+        request.setAttribute("averageRating", averageRating);
 
         return "/jsp/user/movie/movieDetail.jsp";
     }

@@ -17,7 +17,7 @@ body {
 .movie-detail-page .bg-img {
     text-indent: -9999px;
     position: absolute;
-    background-image: url('https://img.megabox.co.kr/SharedImg/2025/01/10/5icStMtQmSW7nxUfWzd7AbGr9cCxS49m_570.jpg');
+    /*background-image: url('${mvo.moviePosterUrl }');*/
     background-position: center 0;
     background-repeat: no-repeat;
     background-size: 100% auto;
@@ -216,6 +216,30 @@ body {
 
 .movie-grade.big.age-all {
     background-image: url("https://img.megabox.co.kr/static/pc/images/common/txt/ALL_56x56.png");
+    background-size: 28px 28px;
+    background-repeat: no-repeat;
+    width: 28px;
+    height: 28px;
+}
+
+.movie-grade.big.age-12 {
+    background-image: url("https://img.megabox.co.kr/static/pc/images/common/txt/12_46x46.png");
+    background-size: 28px 28px;
+    background-repeat: no-repeat;
+    width: 28px;
+    height: 28px;
+}
+
+.movie-grade.big.age-15 {
+    background-image: url("https://img.megabox.co.kr/static/pc/images/common/txt/15_56x56.png");
+    background-size: 28px 28px;
+    background-repeat: no-repeat;
+    width: 28px;
+    height: 28px;
+}
+
+.movie-grade.big.age-19 {
+    background-image: url("https://img.megabox.co.kr/static/pc/images/common/txt/19_112x112.png");
     background-size: 28px 28px;
     background-repeat: no-repeat;
     width: 28px;

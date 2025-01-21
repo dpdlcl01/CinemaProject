@@ -24,8 +24,10 @@ public class MovieDAO {
         MovieVO[] movieArray = null;
         SqlSession ss = FactoryService.getFactory().openSession();
         List<MovieVO> mList = ss.selectList("movie.getTotalMovie");
-        movieArray = new MovieVO[mList.size()];
-        mList.toArray(movieArray);
+        if(mList != null && mList.size() > 0){
+            movieArray = new MovieVO[mList.size()];
+            mList.toArray(movieArray);
+        }
         ss.close();
         return movieArray;
     }

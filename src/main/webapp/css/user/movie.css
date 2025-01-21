@@ -294,6 +294,11 @@ h1 {
     background-size: 23px 23px;
 }
 
+.movie-grade.age-12 {
+    background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/12_46x46.png);
+    background-size: 23px 23px;
+}
+
 .movie-grade.age-15 {
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/15_46x46.png);
     background-size: 23px 23px;

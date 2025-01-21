@@ -31,6 +31,7 @@ CREATE TABLE movie (
     movieTitle VARCHAR(100) NOT NULL COMMENT '영화 제목',
     movieTitleEn VARCHAR(200) COMMENT '영화 제목 (영문)',
     movieGenre VARCHAR(50) COMMENT '영화 장르',
+    movieNation VARCHAR(50) COMMENT '제작 국가',
     movieTime INT NOT NULL COMMENT '상영 시간 (분 단위)',
     movieGrade VARCHAR(10) NOT NULL COMMENT '관람 등급 (ALL: 전체, 12: 12세 이상, 15: 15세 이상, 19: 청소년 불가)',
     movieDate DATE NOT NULL COMMENT '개봉일',
