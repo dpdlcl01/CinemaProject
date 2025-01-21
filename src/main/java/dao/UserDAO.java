@@ -22,7 +22,7 @@ public class UserDAO {
 
 
         int cnt = ss.selectOne("UserMapper.usercheck", map);
-        System.out.println("count"+cnt);
+        System.out.println("count" + cnt);
         ss.close();
 
         return cnt > 0;
@@ -67,5 +67,18 @@ public class UserDAO {
         ss.close();
 
         return theaterVO;
+    }
+
+    /* 선호하는 극장 */
+    public static List<Map<String, Object>> getFavorite(String userIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("userIdx", userIdx);
+
+        List<Map<String, Object>> favoriteTheaters = ss.selectList("UserMapper.getFavorite", map);
+        ss.close();
+
+        return favoriteTheaters;
     }
 }

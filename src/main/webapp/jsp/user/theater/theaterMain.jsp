@@ -267,6 +267,19 @@
     font-weight: bold;
   }
 
+  /* 선호극장 */
+ .my-fav-theater a{
+   display: flex;
+   align-items: center;
+   padding: 0 15px;
+   margin: 0 2px;
+   height: 25px;
+   line-height: 24px;
+   border-radius: 25px;
+   background-color: #fff;
+ }
+
+
 
 </style>
 
@@ -287,67 +300,11 @@
   <!-- title -->
   <div class="title">
     <h1>전체극장</h1>
+<%--    <h1>${sessionScope.user.userName}</h1>--%>
   </div>
 
   <!-- 극장 목록 -->
   <article class="theater-list">
-    <!-- 탭 목록 -->
-<%--    <ul class="tabs">--%>
-<%--      <li class="tab-link current" data-tab="tab-1">서울</li>--%>
-<%--      <li class="tab-link" data-tab="tab-2">경기</li>--%>
-<%--      <li class="tab-link" data-tab="tab-3">인천</li>--%>
-<%--      <li class="tab-link" data-tab="tab-4">대전/충청/세종</li>--%>
-<%--      <li class="tab-link" data-tab="tab-5">부산/대구/경상</li>--%>
-<%--      <li class="tab-link" data-tab="tab-6">광주/전라</li>--%>
-<%--      <li class="tab-link" data-tab="tab-7">강원</li>--%>
-<%--    </ul>--%>
-
-<%--    <!-- 극장 목록 -->--%>
-<%--    <div id="tab-1" class="tab-content current">--%>
-<%--      <ul>--%>
-<%--        <li><a href="#">강남<a/></li>--%>
-<%--        <li><a href="#">센트럴</a></li>--%>
-<%--        <li><a href="#">코엑스</a></li>--%>
-<%--        <li><a href="#">홍대</a></li>--%>
-<%--      </ul>--%>
-<%--    </div>--%>
-<%--    <div id="tab-2" class="tab-content">--%>
-<%--      <ul>--%>
-<%--        <li><a href="#">고양스타필드</a></li>--%>
-<%--        <li><a href="#">수원스타필드</a></li>--%>
-<%--        <li><a href="#">안성스타필드</a></li>--%>
-<%--      </ul>--%>
-<%--    </div>--%>
-<%--    <div id="tab-3" class="tab-content">--%>
-<%--      <ul>--%>
-<%--        <li><a href="#">송도</a></li>--%>
-<%--        <li><a href="#">청라지젤</a></li>--%>
-<%--      </ul>--%>
-<%--    </div>--%>
-<%--    <div id="tab-4" class="tab-content">--%>
-<%--      <ul>--%>
-<%--        <li><a href="#">대전</a></li>--%>
-<%--        <li><a href="#">세종나성</a></li>--%>
-<%--      </ul>--%>
-<%--    </div>--%>
-<%--    <div id="tab-5" class="tab-content">--%>
-<%--      <ul>--%>
-<%--        <li><a href="#">대구신세계</a></li>--%>
-<%--        <li><a href="#">부산극장</a></li>--%>
-<%--      </ul>--%>
-<%--    </div>--%>
-<%--    <div id="tab-6" class="tab-content">--%>
-<%--      <ul>--%>
-<%--        <li><a href="#">광주하남</a></li>--%>
-<%--        <li><a href="#">전주객사</a></li>--%>
-<%--      </ul>--%>
-<%--    </div>--%>
-<%--    <div id="tab-7" class="tab-content">--%>
-<%--      <ul>--%>
-<%--        <li><a href="#">속초</a></li>--%>
-<%--      </ul>--%>
-<%--    </div>--%>
-
       <!-- 극장지역 탭 목록 -->
       <ul class="tabs">
         <c:forEach var="theater" items="${requestScope.theater}" varStatus="status">
@@ -373,8 +330,7 @@
             <c:forEach var="theater" items="${requestScope.theater}">
               <c:if test="${theater.theaterRegion == region}">
                 <!-- theaterIdx를 URL 파라미터로 전달 -->
-                <li><a href="UserController?type=theaterDetail&theaterIdx=${theater.theaterIdx}"><c:out value="${theater.theaterName}" /></a></li>
-<%--                <li><a href="#"><c:out value="${theater.theaterName}" /></a></li>--%>
+                <li><a href="UserController?type=theaterDetail&theaterIdx=${theater.theaterIdx}"><c:out value="${theater.theaterName}"/></a></li>
               </c:if>
             </c:forEach>
           </ul>
@@ -383,9 +339,21 @@
 
     <!-- 선호극장 -->
     <div class="my-fav-theater">
-      <span>나의 선호극장 정보</span>
-      <button class="login">로그인하기</button>
-    </div>
+      <c:choose>
+        <c:when test="${not empty sessionScope.user}">
+          <%--세션에 user가 있으면--%>
+          <span>${sessionScope.user.userName}님의 선호극장</span>
+          <c:forEach var="theater" items="${favoriteTheater}">
+            <a href="UserController?type=theaterDetail&theaterIdx=${theater['theaterIdx']}">
+                ${theater['theaterName']}  <!-- 극장 이름 출력 -->
+            </a>
+          </c:forEach>
+        </c:when>
+        <c:otherwise>
+          <span>나의 선호극장 정보</span>
+        </c:otherwise>
+      </c:choose>
+      </div>
   </article>
 
 

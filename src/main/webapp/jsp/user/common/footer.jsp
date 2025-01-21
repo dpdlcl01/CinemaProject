@@ -13,7 +13,6 @@
                 <li class="privacy"><a href="#" title="개인정보처리방침 페이지로 이동">개인정보처리방침</a></li>
                 <li><a href="#" title="윤리경영 페이지로 이동">윤리경영</a></li>
             </ul>
-            <a href="#" title="극장찾기" class="looking-theather"><i class="iconset ico-footer-search"></i>극장찾기</a>
         </div>
     </div>
     <!-- //footer-top -->
@@ -37,7 +36,7 @@
                     <i class="iconset ico-twitter">트위터</i>
                 </a>
                 <a href="https://www.facebook.com/megaboxon" target="_blank" title="페이스북 페이지로 이동">
-                <i class="iconset ico-facebook">페이스북</i>
+                    <i class="iconset ico-facebook">페이스북</i>
                 </a>
                 <a href="https://instagram.com/megaboxon" target="_blank" title="인스타그램 페이지로 이동">
                     <i class="iconset ico-instagram">인스타그램</i>
@@ -54,3 +53,4 @@
     <!-- //footer-bottom -->
 </footer>
 <!-- //footer -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

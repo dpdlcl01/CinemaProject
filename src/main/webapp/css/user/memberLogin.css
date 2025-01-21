@@ -1,0 +1,109 @@
+/* 멤버로그인 다이얼로그 css */
+.dialog-area {
+
+}
+.dialog-content {
+    padding-top: 0;
+}
+.modal-header {
+    background-color: #6a5acd;
+}
+.img-fluid {
+    width: auto;
+    height: auto;
+}
+.modal-body {
+    width: 50%;
+}
+.modal-content{
+    width: 700px;
+    height: 434px;
+}
+
+.dialog-container {
+    display: flex;
+    flex-direction: row;
+    width: 698px;
+    max-width: 698px;
+    height: 400px;
+    max-height: 400px;
+    background-color: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+    padding: 0 10px 0 10px;
+}
+
+.login-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 45px;
+}
+
+.login-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6a5acd;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-input, .login-button {
+    width: 100%; /* 너비 동일 */
+    padding: 12px; /* 패딩 동일 */
+    font-size: 14px; /* 폰트 크기도 동일하게 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+
+.login-button {
+    background-color: #6a5acd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #5a4cad;
+}
+
+
+.login-footer {
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-footer a {
+    margin: 0 5px;
+    color: #6a5acd;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+div.image-container.text-center{
+    height: 350px;
+    width: 320px;
+}
+.img-fluid {
+    width: auto;
+    height: auto;
+}
+
+.image-container img {
+    width: 100%; /* 이미지의 너비를 컨테이너에 맞춤 */
+    height: 100%; /* 비율 유지 */
+    object-fit: cover; /* 이미지를 비율 유지하며 고정 크기에 맞게 채우기 */
+}
+
+.image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/* ----------*/

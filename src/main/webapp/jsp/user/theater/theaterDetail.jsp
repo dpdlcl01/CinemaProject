@@ -782,7 +782,7 @@
             <!-- 시설안내 섹션 -->
             <section class="facility-guide">
                 <div class="theaterImage">
-                <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="컴포트">
+                <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="극장설명">
                 </div>
                 <!-- 섹션 제목 -->
 <%--                <div class="facility-header">--%>
@@ -1106,6 +1106,7 @@
 <!-- script 영역 -->
 <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=dc04bf5e499b3bbf3bd615ac599cba19&libraries=services"></script>
 <script>
+    /* 카카오지도 API */
     var container = document.getElementById('map');
 
     // 극장의 주소 또는 이름 (예: request에서 가져온 값)
