@@ -36,6 +36,22 @@
         WHERE boardIdx = #{idx} and boardStatus = 0
     </select>
 
+    <!-- 이전글(현재 boardIdx보다 큰 값중에서 가장 작은 값)-->
+    <select id="getPreviousBoard" parameterType="int" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board
+        WHERE boardIdx > #{boardIdx}
+        ORDER BY boardIdx ASC
+        LIMIT 1;
+    </select>
+
+    <!-- 다음글(현재 boardIdx보다 작은 값중에서 가장 큰 값)-->
+    <select id="getNextBoard" parameterType="int" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board
+        WHERE boardIdx < #{boardIdx}
+        ORDER BY boardIdx DESC
+        LIMIT 1;
+    </select>
+
 
 </mapper>
 

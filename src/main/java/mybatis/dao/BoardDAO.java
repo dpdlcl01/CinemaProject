@@ -65,6 +65,22 @@ public class BoardDAO {
         ss.close();
         return board;
     }
+
+    //이전 게시물
+    public static BoardVO getPreviousBoard(int boardId) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        BoardVO pboard = ss.selectOne("board.getPreviousBoard", boardId);
+        ss.close();
+        return pboard;
+    }
+
+    //다음 게시물
+    public static BoardVO getNextBoard(int boardId) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        BoardVO nboard = ss.selectOne("board.getNextBoard", boardId);
+        ss.close();
+        return nboard;
+    }
 }
 
 
