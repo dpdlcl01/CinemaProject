@@ -32,7 +32,7 @@
                     <a href="#" class="reserve">예매</a>
                 </li>
                 <li title="극장">
-                    <a href="#" class="theater">극장</a>
+                    <a href="${pageContext.request.contextPath}/UserController?type=myInfo" class="theater">극장</a>
                 </li>
                 <li title="이벤트">
                     <a href="${pageContext.request.contextPath}/UserController?type=story" class="event">이벤트</a>

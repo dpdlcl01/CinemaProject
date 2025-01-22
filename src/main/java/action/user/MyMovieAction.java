@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class myMovieAction implements Action {
+public class MyMovieAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String id = (String) session.getAttribute("idx");

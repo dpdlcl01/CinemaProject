@@ -166,7 +166,7 @@
         <col width="167px">
       </colgroup>
       <thead>
-      <th><input type="checkbox">상품명</th>
+      <th>상품명</th>
       <th>판매금액</th>
       <th>수량</th>
       <th>구매금액</th>
@@ -175,14 +175,14 @@
       <!--여기는 장바구니에 담은 상품이 있을 때 보여주자-->
       <c:forEach items="${requestScope.cvo}" var="ar">
       <tr>
-        <td id="firstTd"><input type="checkbox"><span><img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}"> </span>${ar.productName}</td>
+        <td id="firstTd"><span><img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}"> </span>${ar.productName}</td>
         <td><em class="productPrice">${ar.productPrice}</em><em>원</em></td>
         <td>
           <form action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
             <input type="number" name="productQuant" class="quant"
                    value="${ar.total_quant}" min="1" max="10" oninput="updateQuant()"/>
             <input type="hidden" id="pIdx" name="pIdx" value="${ar.productIdx}">
-            <input type="hidden" id="path" name="path" value="1">
+            <input type="hidden" id="path"  class=path name="path" value="1">
             <input type="hidden" name="productImg" id="productImg" value="${ar.productImg}" >
             <input type="hidden" name="productName" id="productName" value="${ar.productName}">
             <input type="hidden" name="productPrice" id="productPrice" value="${ar.productPrice*ar.total_quant}">
@@ -193,17 +193,17 @@
         <td><em class="priceEm">${buyPrice}</em><em>원</em></td>
         <td>
           <button type="button"  class="buyBtn" >구매하기</button>
-          <button type="button" id="delBtn">삭제하기</button>
+          <button type="button" id="delBtn" class="delBtn">삭제하기</button>
         </td>
       </tr>
       </c:forEach>
     </table>
     <p id="p">장바구니에 보관된 상품은 최대 30일까지 보관됩니다.</p>
-    <div id="totalPrice">
+    <%--<div id="totalPrice">
       <h1>총 결제금액</h1>
       <h2>10000원</h2>
       <button type="button">구매하기</button>
-    </div>
+    </div>--%>
 </c:if>
 
 
@@ -221,6 +221,17 @@
 <!-- script 영역 -->
 <script>
   $(document).ready(function() {
+    $(".delBtn").on("click", function () {
+      /*여기에서 할 일 해당 idx값으로 검색해서 delete문을 호출해서 수행하고 다시 돌아오자*/
+      /*0번째 폼의 액션이 해당 jsp로 다시 돌아오니까 재활용하자*/
+      /*패스의 밸류를 바꿔서 던지자*/
+      let row = $(this).closest("tr");
+      let form = row.find("form");
+
+      row.find(".path").val(2);
+
+      form.submit();
+    });
 
     $(document).on("click", ".buyBtn", function() {
       let row = $(this).closest("tr"); // 현재 버튼이 속한 tr 찾기

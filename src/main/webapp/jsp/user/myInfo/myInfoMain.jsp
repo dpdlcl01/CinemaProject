@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
 <head>
     <jsp:include page="../common/head.jsp"/>
+
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
@@ -223,7 +226,9 @@
         border: none;
         background-color: white;
     }
-
+    .top2 span{
+        font-size: 14px;
+    }
 </style>
 
 <body>
@@ -262,19 +267,19 @@
                                 <img src="${pageContext.request.contextPath}/css/user/images/KangImg/member_WELCOME_2.png">
                                 <div>
                                     <p>안녕하세요!</p>
-                                    <p>이름님</p>
+                                    <p>${requestScope.uvo.userName}님</p>
                                 </div>
                             </div>
                             <div id="pointDiv">
                                 <div id="point">
                                     <div id="totalPoint">
-                                        0P
+                                        ${requestScope.uvo.userPoint}
                                     </div>
                                     <span>
               현재등급
             </span>
                                     <em>
-                                        BASIC
+                                        ${requestScope.uvo.userGrade}
                                     </em>
                                 </div>
                                 <div id="grade">
@@ -285,10 +290,10 @@
                                 </div>
                                 <ul class="level-list">
                                     <li class="level-item active">
-                                        <div class="tooltip">다음 VIP 등급까지 6,000 P 남았어요!</div>
-                                        <span>Welcome</span>
+                                        <div class="tooltip">다음 VIP 등급까지 N P 남았어요!</div>
+                                        <span>BASIC</span>
                                     </li>
-                                    <li class="level-item active"><span>VIP</span></li>
+                                    <li class="level-item"><span>VIP</span></li>
                                     <li class="level-item"><span>VVIP</span></li>
                                 </ul>
 
@@ -296,7 +301,7 @@
                         </div>
                         <div id="top2">
                             <div id="1" class="top2">
-                                <a href="#">나의 무비스토리</a>
+                                <a href="#">나의 무비스토리</a><%--페이보릿시어터랑 이너조인--%>
                                 <div>
                                     <span>본 영화</span>
                                     <em>0개</em>
@@ -313,18 +318,19 @@
                             <div id="2" class="top2">
                                 <a href="#">선호하는 극장</a>
                                 <div>
-                                    <span>강남</span>
-
+                                    <c:forEach var="fvo" items="${requestScope.far}">
+                                    <span>${fvo}</span>
+                                    </c:forEach>
                                 </div>
 
                             </div>
                             <div id="3" class="top2">
-                                <a href="#">구매내역 바로가기</a>
-                                <span>구매내역 확인해보세요</span>
+                                <a href="#">구매내역 바로가기</a><%--구매내역 테이블과 이너조인--%>
+                                <span>구매내역을 확인해보세요</span>
                             </div>
                             <div id="4" class="top2">
                                 <a href="#">문의내역 바로가기</a>
-                                <span>문의내역 확인해보세요</span>
+                                <span>문의내역을 확인해보세요</span>
                             </div>
                         </div>
                         <div>
@@ -334,7 +340,7 @@
                             </div>
 
 
-                            <div id="myReserv">
+                            <div id="myReserv"><%--예매내역 테이블과 이너조인--%>
                                 <img src="${pageContext.request.contextPath}/css/user/images/KangImg/EYpFsiHJszKXH8dmVKsH1xsQh1TjggZZ_316.jpg">
                                 <div id="reservInfo">
                                     <p>결제일시: 디비에서</p>

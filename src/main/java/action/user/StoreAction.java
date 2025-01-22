@@ -14,8 +14,7 @@ public class StoreAction implements Action {
         HttpSession session = request.getSession();
 
         /*아래 두 구문은 확인용*/
-        session.setAttribute("id","아이디");
-        session.setAttribute("idx","1");
+
 
 
         ProductVO[] ar= ProductDAO.gettotal();
