@@ -325,7 +325,47 @@
           <td class="bold">아이디</td>
           <td>
             <input type="text" id="userId" name="userId" class="inputValue">
-            <button type="button" class="tableButton" onclick="checkUserId()">중복확인</button>
+            <span id="idMessage" class="message"></span>
+            <script>
+            $(document).ready(function () {
+            $('#userId').on('input', function () { // input 이벤트: 값이 변경될 때마다 실행
+            let userId = $(this).val().trim(); // 입력값 가져오기
+
+            if (!userId) { // 입력값이 비어 있는 경우
+            $('#idMessage').text('').removeClass('error success');
+            return;
+            }
+
+            if (!/^[a-zA-Z0-9]+$/.test(userId)) { // 유효성 검사: 영문자와 숫자만 허용
+            $('#idMessage').text('아이디는 영문과 숫자만 사용 가능합니다.')
+            .removeClass('success').addClass('error');
+            return;
+            }
+
+            // AJAX 요청
+            $.ajax({
+            url: '/UserController?type=checkUserId', // 서버 컨트롤러 URL
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ userId: userId }), // JSON 데이터 전송
+            success: function (res) {
+            if (res.isDuplicate) { // 중복된 아이디 (true)
+            $('#idMessage').text('사용할 수 없는 아이디입니다.')
+            .removeClass('success').addClass('error');
+            } else { // 사용 가능한 아이디 (false)
+            $('#idMessage').text('사용 가능한 아이디입니다.')
+            .removeClass('error').addClass('success');
+            }
+            },
+            error: function (xhr, status, error) {
+            console.error("AJAX 요청 실패:", error);
+            $('#idMessage').text('오류가 발생했습니다.')
+            .removeClass('success').addClass('error');
+            }
+        });
+        });
+        });
+      </script>
           </td>
         </tr>
 
@@ -337,7 +377,7 @@
         <tr>
           <td class="bold" >비밀번호확인</td>
           <td><input type="password" id="auth_userPassword" name="auth_userPassword" oninput="pwCheck()" class="inputValue"></td>
-          <td id="authpwd">비밀번호를 입력하여 주세요.</td>
+          <span id="authpwd">비밀번호를 입력하여 주세요.</span>
         </tr>
 
 
@@ -505,32 +545,6 @@
     xhr.send("authCode=" + encodeURIComponent(authCode));
   }
 
-  function checkUserId() {
-    let userId = $('#userId').val();
-
-    if(!/^[a-zA-Z0-9]+$/.test(userId)) {
-      alert("아이디는 영문과 숫자만 사용 가능합니다.");
-      return;
-    }
-
-    $.ajax({
-      url: '/jsp/user/register/ajax/checkUserId.jsp',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({userId: userId}),
-      success: function(res) {
-        console.log("서버응답 : ", res);
-        if (res.isDuplicate) {
-        alert("중복된 아이디입니다.");
-        } else {
-          alert("사용 가능한 아이디입니다.");
-        }
-      },
-      error: function() {
-        alert("서버 요청 중 오류가 발생하였습니다.");
-      }
-    });
-  }
 </script>
 
 </body>

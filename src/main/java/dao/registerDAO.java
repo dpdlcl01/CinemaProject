@@ -27,11 +27,11 @@ public class registerDAO {
         return cnt;
     }
 
-    public boolean UserIdCheck(String userId) {
+    public int UserIdCheck(String userId) {
         try (SqlSession ss = FactoryService.getFactory().openSession()) {
             int cnt = ss.selectOne("register.useridcheck_search", userId);
             System.out.println("검색결과 : " + cnt);
-            return cnt > 0;
+            return cnt;
         }
     }
 }

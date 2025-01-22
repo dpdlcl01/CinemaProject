@@ -1,4 +1,4 @@
-package action.user;
+package action.user.register;
 
 import action.Action;
 import dao.registerDAO;
