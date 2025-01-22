@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: user
@@ -132,6 +133,10 @@
 <div id="contents">
   <h1>예매완료</h1>
   <div id="main">
+    <c:forEach var="vo" items="${guestReservationList}"  >
+        <p>${vo.userName}</p>
+        <p>${vo.seatNumber}</p>
+    </c:forEach>
     <div id="imgDiv">
       <div id="ticket">
         <p>티켓 예매번호</p>

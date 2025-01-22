@@ -21,5 +21,6 @@
     <mappers>
         <mapper resource="mybatis/mapper/user.xml"/>
         <mapper resource="mybatis/mapper/event.xml"/>
+        <mapper resource="mybatis/mapper/guest.xml"/>
     </mappers>
 </configuration>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,11 +18,11 @@
             min-height: 100vh;
         }
         .container {
-            width: 500px;
+            width: 600px;
             min-height: 100vh; /* 화면 꽉 차게 */
             background: white;
             margin: auto; /* 좌우 중앙 정렬 */
-            padding: 100px 40px; /* 좌우 여백 추가 */
+            padding: 100px 100px; /* 좌우 여백 추가 */
             box-sizing: border-box;
         }
         .logo img {
@@ -75,7 +76,7 @@
             background-color: #e0e0e0;
             color: #4a4a4a;
             border: none;
-            cursor: not-allowed; /* 비활성화 효과 */
+            /*cursor: not-allowed; !* 비활성화 효과 *!*/
             margin-bottom: 10px; /* 버튼 아래 여백 */
         }
         .note {
@@ -94,27 +95,36 @@
         <img src="https://via.placeholder.com/150x50?text=MEGABOX" alt="MEGABOX 로고">
     </div>
     <h1>비회원 예매 확인</h1>
-    <form>
+
+    <!-- 에러 메시지 표시 -->
+    <c:if test="${not empty error}">
+        <div class="error-message" style="color: red; text-align: center; margin-top: 10px;">
+            <p>${error}</p>
+        </div>
+    </c:if>
+
+    <form action="/UserController?type=NonmemberReservationCheck" method="POST">
         <table>
             <tr>
                 <td>이름</td>
-                <td><input type="text" placeholder="이름" required></td>
+                <td><input type="text" name="userName" placeholder="이름" required></td>
             </tr>
             <tr>
                 <td>생년월일</td>
-                <td><input type="text" placeholder="생년월일 앞 6자리" required></td>
+                <td><input type="text" name="userBirth" placeholder="생년월일 앞 6자리" required></td>
             </tr>
             <tr>
-                <td>휴대폰 번호</td>
-                <td><input type="text" placeholder="'-' 없이 입력" required></td>
+                <td>이메일</td>
+                <td><input type="text" name="userEmail" placeholder="'-' 없이 입력" required></td>
             </tr>
             <tr>
                 <td>비밀번호</td>
-                <td><input type="password" placeholder="숫자 4자리" required></td>
+                <td><input type="password" name="userAuthPassword" placeholder="숫자 4자리" required></td>
             </tr>
         </table>
-        <button type="button" disabled>비회원 예매 확인</button>
+        <button type="submit">비회원 예매 확인</button>
     </form>
+
     <div class="note">
         * 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.
     </div>

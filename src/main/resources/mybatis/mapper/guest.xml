@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="guest">
+
+  <!-- 비회원 정보 조회 -->
+  <select id="selectGuestIdx" resultType="int" parameterType="java.util.Map">
+    SELECT userIdx
+    FROM user
+    WHERE userName = #{userName}
+    AND userBirth = #{userBirth}
+    AND userEmail = #{userEmail}
+    AND userAuthPassword = #{userAuthPassword}
+  </select>
+
+  <!-- 예매 내역 조회 -->
+  <select id="getReservationsByUserIdx" parameterType="int" resultMap="reservationResultMap">
+    SELECT
+    r.reservationIdx AS 예매번호,
+    u.userName AS 사용자이름,
+    t.timetableStartTime AS 영화시작시간,
+    t.timetableEndTime AS 영화종료시간,
+    m.movieTitle AS 영화이름,
+    s.seatNumber AS 좌석번호,
+    th.theaterName AS 영화관이름,
+    sc.screenName AS 스크린이름
+    FROM
+    reservation r
+    JOIN
+    `user` u ON r.userIdx = u.userIdx
+    JOIN
+    timetable t ON r.timetableIdx = t.timetableIdx
+    JOIN
+    movie m ON t.movieIdx = m.movieIdx
+    JOIN
+    theater th ON r.theaterIdx = th.theaterIdx
+    JOIN
+    screen sc ON r.screenIdx = sc.screenIdx
+    JOIN
+    reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
+    JOIN
+    seat s ON rsm.seatIdx = s.seatIdx
+    WHERE
+    r.userIdx = #{userIdx}
+  </select>
+
+  <!-- 결과 매핑 -->
+  <resultMap id="reservationResultMap" type="mybatis.vo.ReservationDetailVO">
+    <id property="reservationIdx" column="예매번호"/>
+    <result property="userName" column="사용자이름"/>
+    <result property="timetableStartTime" column="영화시작시간"/>
+    <result property="timetableEndTime" column="영화종료시간"/>
+    <result property="movieTitle" column="영화이름"/>
+    <result property="theaterName" column="영화관이름"/>
+    <result property="screenName" column="스크린이름"/>
+    <collection property="seatNumber" ofType="string">
+      <result column="좌석번호"/>
+    </collection>
+  </resultMap>
+
+</mapper>
