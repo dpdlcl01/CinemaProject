@@ -20,8 +20,8 @@
         <c:if test="${requestScope.dDay ne null }">
             <p class="d-day">
             <c:choose>
-                <c:when test="${requestScope.dDay == 0}">예매 D-Day</c:when>
-                <c:when test="${requestScope.dDay > 0}">예매 D-${requestScope.dDay}</c:when>
+                <c:when test="${requestScope.dDay == 0}">개봉 D-Day</c:when>
+                <c:when test="${requestScope.dDay > 0}">개봉 D-${requestScope.dDay}</c:when>
             </c:choose>
             </p>
         </c:if>
@@ -120,7 +120,7 @@
                     <c:if test="${mvo.movieDirector ne null}">
                     <p>감독 : ${mvo.movieDirector }</p>
                     </c:if>
-                    <p>장르 : ${mvo.movieGenre } / 103 분</p>
+                    <p>장르 : ${mvo.movieGenre } / ${mvo.movieTime }분</p>
                     <p>등급 : ${movieGradeText }</p>
                     <p>개봉일 : ${openDate }</p>
                 </div>
