@@ -2,6 +2,7 @@ package action.user;
 
 import action.Action;
 import dao.UserDAO;
+import vo.PriceVO;
 import vo.theaterVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,13 @@ public class theaterDetailAction implements Action {
 
         if (theater != null) {
             request.setAttribute("theater", theater);
+        }
+
+        /*극장가격*/
+        PriceVO[] price = UserDAO.getPrice();
+
+        if (price.length > 0) {
+            request.setAttribute("price", price);
         }
 
         return "/jsp/user/theater/theaterDetail.jsp";

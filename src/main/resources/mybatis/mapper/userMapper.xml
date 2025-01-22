@@ -32,4 +32,11 @@
         JOIN theater t ON f.theaterIdx = t.theaterIdx
         WHERE f.userIdx = #{userIdx}
     </select>
+
+    <select id="getPrice" parameterType="map" resultType="vo.PriceVO">
+        SELECT screenType, dayOfWeek, timeOfDay,
+        MAX(CASE WHEN ageGroup = 1 THEN seatPrice END) AS generalPrice,
+        MAX(CASE WHEN ageGroup = 2 THEN seatPrice END) AS teenPrice
+        FROM price GROUP BY screenType, dayOfWeek, timeOfDay
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!Doctype html>
 <html lang="ko">
 <!-- head -->
@@ -48,7 +49,7 @@
         position: relative;
         z-index: 2; /* 텍스트가 mask 위로 오도록 설정 */
         font-size: 40px;
-/*        font-weight: bold;*/
+        /*        font-weight: bold;*/
         margin: 0px; /* 극장 이름과 탭 사이 간격 조정 */
         text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
     }
@@ -187,9 +188,7 @@
     /* 컨테이너 */
     .facility-title, .transport-title, .schedule-title, .fees-title {
         font-size: 24px;
-
         color: #503396; /* 타이틀 색상 */
-        margin-bottom: 30px;
     }
 
     .facility-transport-container {
@@ -375,9 +374,6 @@
         border-radius: 5px;
         margin-right: 10px;
     }
-
-
-
 
     /* 전체 컨테이너 */
     .schedule-container {
@@ -630,12 +626,11 @@
         font-weight: bold;
     }
 
-
-
     .fee-table-container {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
+        margin-bottom: 100px;
         justify-content: space-between;
     }
 
@@ -650,9 +645,10 @@
         font-size: 18px;
         font-weight: bold;
         color: #503396;
-        margin-bottom: 10px;
+        /*margin-bottom: 10px;*/
         text-align: left;
-        padding: 10px;
+        padding-top: 30px;
+        caption-side: top;
     }
 
     .fee-table th,
@@ -720,13 +716,14 @@
         padding-top: 20px;
         padding-bottom: 20px
     }
-/*영화관 이미지*/
+
+
+    /*영화관 이미지*/
     .theaterImage {
         width: 1100px;
         height: 420px;
         /*margin-right: 100px;*/
     }
-
 </style>
 
 <!-- page-util -->
@@ -757,7 +754,6 @@
 
 
     <div class="theater-name">
-<%--        <h1>강남</h1>--%>
         <h1>${theater.theaterName}</h1>
     </div>
 </div>
@@ -782,36 +778,36 @@
             <!-- 시설안내 섹션 -->
             <section class="facility-guide">
                 <div class="theaterImage">
-                <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="극장설명">
+                    <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="극장설명">
                 </div>
                 <!-- 섹션 제목 -->
-<%--                <div class="facility-header">--%>
-<%--                    <h2 class="facility-title">시설안내</h2>--%>
-<%--                </div>--%>
-<%--                <div class="facility-icons">--%>
-<%--                    <div class="icon">--%>
-<%--                        <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="컴포트">--%>
-<%--                        <p>컴포트</p>--%>
-<%--                    </div>--%>
-<%--                    <div class="icon">--%>
-<%--                        <img src="../../../css/user/images/ico-facility-theater.png" alt="일반상영관">--%>
-<%--                        <p>일반상영관</p>--%>
-<%--                    </div>--%>
-<%--                    <div class="icon">--%>
-<%--                        <img src="../../../css/user/images/ico-facility-dolby.png" alt="돌비">--%>
-<%--                        <p>돌비</p>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <div class="floor-guide">--%>
+                <%--                <div class="facility-header">--%>
+                <%--                    <h2 class="facility-title">시설안내</h2>--%>
+                <%--                </div>--%>
+                <%--                <div class="facility-icons">--%>
+                <%--                    <div class="icon">--%>
+                <%--                        <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="컴포트">--%>
+                <%--                        <p>컴포트</p>--%>
+                <%--                    </div>--%>
+                <%--                    <div class="icon">--%>
+                <%--                        <img src="../../../css/user/images/ico-facility-theater.png" alt="일반상영관">--%>
+                <%--                        <p>일반상영관</p>--%>
+                <%--                    </div>--%>
+                <%--                    <div class="icon">--%>
+                <%--                        <img src="../../../css/user/images/ico-facility-dolby.png" alt="돌비">--%>
+                <%--                        <p>돌비</p>--%>
+                <%--                    </div>--%>
+                <%--                </div>--%>
+                <%--                <div class="floor-guide">--%>
 
-<%--                    <h4>층별안내</h4> &lt;%&ndash;이미지&ndash;%&gt;--%>
-<%--                    <ul>--%>
-<%--                        <li><strong>8층</strong>: 매표소, 매점, 에스컬레이터, 엘리베이터, 남자·여자 화장실, 비상계단 3</li>--%>
-<%--                        <li><strong>9층</strong>: 1관, 2관, 남자·여자 화장실, 엘리베이터, 비상계단 3</li>--%>
-<%--                        <li><strong>10층</strong>: 3관, 4관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
-<%--                        <li><strong>11층</strong>: 5관, 6관, 7관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
-<%--                    </ul>--%>
-<%--                </div>--%>
+                <%--                    <h4>층별안내</h4> &lt;%&ndash;이미지&ndash;%&gt;--%>
+                <%--                    <ul>--%>
+                <%--                        <li><strong>8층</strong>: 매표소, 매점, 에스컬레이터, 엘리베이터, 남자·여자 화장실, 비상계단 3</li>--%>
+                <%--                        <li><strong>9층</strong>: 1관, 2관, 남자·여자 화장실, 엘리베이터, 비상계단 3</li>--%>
+                <%--                        <li><strong>10층</strong>: 3관, 4관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
+                <%--                        <li><strong>11층</strong>: 5관, 6관, 7관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
+                <%--                    </ul>--%>
+                <%--                </div>--%>
             </section>
 
             <!-- 교통안내 섹션 -->
@@ -822,10 +818,7 @@
                 </div>
                 <div class="transport-details">
                     <p><strong>도로명주소:</strong> ${theater.theaterAddress}</p>
-<%--                    <button class="navigate-btn">실시간 길찾기</button>--%>
                     <div id="map" style="width:auto;height:400px;"></div>
-
-<%--                    <p>기능 구현시 위의 [실시간 길찾기] 버튼 대신 해당 영역에 바로 카카오맵 지도로 위치를 표시한다.</p>--%>
                 </div>
             </section>
         </div>
@@ -929,274 +922,155 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-
+    <!-- 영화관람료 -->
     <div id="fees" class="content">
         <h2 class="fees-title">영화관람료</h2>
-
         <div class="fee-table-container">
-            <!-- 첫 번째 표 -->
-            <table class="fee-table">
-                <caption>2D</caption>
-                <thead>
-                <tr>
-                    <th>요일</th>
-                    <th>상영시간</th>
-                    <th>일반</th>
-                    <th>청소년</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>월~목</td>
-                    <td>조조 (06:00~)</td>
-                    <td>10,000</td>
-                    <td>8,000</td>
-                </tr>
-                <tr>
-                    <td>월~목</td>
-                    <td>일반 (10:01~)</td>
-                    <td>14,000</td>
-                    <td>12,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>조조 (06:00~)</td>
-                    <td>11,000</td>
-                    <td>9,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>일반 (10:01~)</td>
-                    <td>15,000</td>
-                    <td>13,000</td>
-                </tr>
-                </tbody>
-            </table>
-
-            <!-- 두 번째 표 -->
-            <table class="fee-table">
-                <caption>3D</caption>
-                <thead>
-                <tr>
-                    <th>요일</th>
-                    <th>상영시간</th>
-                    <th>일반</th>
-                    <th>청소년</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>월~목</td>
-                    <td>조조 (06:00~)</td>
-                    <td>12,000</td>
-                    <td>10,000</td>
-                </tr>
-                <tr>
-                    <td>월~목</td>
-                    <td>일반 (10:01~)</td>
-                    <td>16,000</td>
-                    <td>14,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>조조 (06:00~)</td>
-                    <td>13,000</td>
-                    <td>11,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>일반 (10:01~)</td>
-                    <td>17,000</td>
-                    <td>15,000</td>
-                </tr>
-                </tbody>
-            </table>
+            <%--상영관이 늘어나면 end를 늘려주면 됨--%>
+            <c:forEach var="screenType" begin="1" end="5">
+                <table class="fee-table">
+                    <caption>
+                        <c:choose>
+                            <c:when test="${screenType == 1}">COMFORT</c:when>
+                            <c:when test="${screenType == 2}">VIP</c:when>
+                            <c:when test="${screenType == 3}">DOLBY</c:when>
+                            <c:when test="${screenType == 4}">4DX</c:when>
+                            <c:when test="${screenType == 5}">IMAX</c:when>
+                        </c:choose>
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th>요일</th>
+                        <th>상영시간</th>
+                        <th>일반</th>
+                        <th>청소년</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="price" items="${price}">
+                        <c:if test="${price.screenType == screenType}">
+                            <tr>
+                                <!-- 요일 구분 -->
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${price.dayOfWeek == 1}">월~목</c:when>
+                                        <c:when test="${price.dayOfWeek == 2}">금~일<br>공휴일</c:when>
+                                    </c:choose>
+                                </td>
+                                <!-- 상영 시간 -->
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${price.timeOfDay == 1}">조조 (06:00~)</c:when>
+                                        <c:when test="${price.timeOfDay == 2}">일반 (10:01~)</c:when>
+                                    </c:choose>
+                                </td>
+                                <!-- 좌석 가격 -->
+                                <td><fmt:formatNumber value="${price.generalPrice}" type="number"/></td>
+                                <td><fmt:formatNumber value="${price.teenPrice}" type="number"/></td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:forEach>
         </div>
 
-        <div class="fee-table-container">
-            <!-- 세 번째 표 -->
-            <table class="fee-table">
-                <caption>COMFORT by MEGA 2D</caption>
-                <thead>
-                <tr>
-                    <th>요일</th>
-                    <th>상영시간</th>
-                    <th>일반</th>
-                    <th>청소년</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>월~목</td>
-                    <td>조조 (06:00~)</td>
-                    <td>11,000</td>
-                    <td>9,000</td>
-                </tr>
-                <tr>
-                    <td>월~목</td>
-                    <td>일반 (10:01~)</td>
-                    <td>15,000</td>
-                    <td>13,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>조조 (06:00~)</td>
-                    <td>12,000</td>
-                    <td>10,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>일반 (10:01~)</td>
-                    <td>16,000</td>
-                    <td>14,000</td>
-                </tr>
-                </tbody>
-            </table>
+        <!-- footer 영역 -->
+        <jsp:include page="../common/footer.jsp"/>
 
-            <!-- 네 번째 표 -->
-            <table class="fee-table">
-                <caption>COMFORT by MEGA 3D</caption>
-                <thead>
-                <tr>
-                    <th>요일</th>
-                    <th>상영시간</th>
-                    <th>일반</th>
-                    <th>청소년</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>월~목</td>
-                    <td>조조 (06:00~)</td>
-                    <td>13,000</td>
-                    <td>11,000</td>
-                </tr>
-                <tr>
-                    <td>월~목</td>
-                    <td>일반 (10:01~)</td>
-                    <td>17,000</td>
-                    <td>15,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>조조 (06:00~)</td>
-                    <td>14,000</td>
-                    <td>12,000</td>
-                </tr>
-                <tr>
-                    <td>금~일<br>공휴일</td>
-                    <td>일반 (10:01~)</td>
-                    <td>18,000</td>
-                    <td>16,000</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <!-- script 영역 -->
+        <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=dc04bf5e499b3bbf3bd615ac599cba19&libraries=services"></script>
+        <script>
+            /* 카카오지도 API */
+            var container = document.getElementById('map');
 
-</div>
+            // 극장의 주소 또는 이름 (예: request에서 가져온 값)
+            var theaterAddress = "${theater.theaterAddress}"; // JSP에서 VO의 주소를 가져오는 방식
 
+            var options = {
+                center: new kakao.maps.LatLng(33.450701, 126.570667), // 기본 좌표
+                level: 3
+            };
 
-<!-- footer 영역 -->
-<jsp:include page="../common/footer.jsp"/>
+            var map = new kakao.maps.Map(container, options);
 
-<!-- script 영역 -->
-<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=dc04bf5e499b3bbf3bd615ac599cba19&libraries=services"></script>
-<script>
-    /* 카카오지도 API */
-    var container = document.getElementById('map');
+            // Geocoder 객체 생성
+            var geocoder = new kakao.maps.services.Geocoder();
 
-    // 극장의 주소 또는 이름 (예: request에서 가져온 값)
-    var theaterAddress = "${theater.theaterAddress}"; // JSP에서 VO의 주소를 가져오는 방식
+            // 주소를 좌표로 변환
+            geocoder.addressSearch(theaterAddress, function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-    var options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 기본 좌표
-        level: 3
-    };
+                    // 지도 중심을 결과값으로 이동
+                    map.setCenter(coords);
 
-    var map = new kakao.maps.Map(container, options);
+                    // 마커 추가
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
 
-    // Geocoder 객체 생성
-    var geocoder = new kakao.maps.services.Geocoder();
-
-    // 주소를 좌표로 변환
-    geocoder.addressSearch(theaterAddress, function(result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            // 지도 중심을 결과값으로 이동
-            map.setCenter(coords);
-
-            // 마커 추가
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords
-            });
-
-            // 주소값 나오는 창
-            var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="padding:5px;">' + theaterAddress + '</div>'
-            });
-            infowindow.open(map, marker);
-        } else {
-            console.error('주소 검색 실패: ' + status);
-        }
-    });
-
-            document.addEventListener("DOMContentLoaded", () => {
-        // 탭과 콘텐츠 가져오기
-        const tabs = document.querySelectorAll(".tabs .tab");
-        const contents = document.querySelectorAll(".contents > .content, #info"); // #info 포함
-
-        tabs.forEach((tab) => {
-            tab.addEventListener("click", () => {
-                // 모든 탭과 콘텐츠 비활성화
-                tabs.forEach((t) => t.classList.remove("active"));
-                contents.forEach((content) => content.classList.remove("active"));
-
-                // 클릭된 탭 활성화
-                tab.classList.add("active");
-
-                // 해당 콘텐츠 활성화
-                const targetId = tab.getAttribute("data-target");
-                const targetContent = document.getElementById(targetId);
-                if (targetContent) {
-                    targetContent.classList.add("active");
+                    // 주소값 나오는 창
+                    var infowindow = new kakao.maps.InfoWindow({
+                        content: '<div style="padding:5px;">' + theaterAddress + '</div>'
+                    });
+                    infowindow.open(map, marker);
+                } else {
+                    console.error('주소 검색 실패: ' + status);
                 }
             });
-        });
 
-        // 초기 상태: 첫 번째 탭과 콘텐츠 활성화
-        tabs[0]?.classList.add("active");
-        contents[0]?.classList.add("active");
-    });
+            document.addEventListener("DOMContentLoaded", () => {
+                // 탭과 콘텐츠 가져오기
+                const tabs = document.querySelectorAll(".tabs .tab");
+                const contents = document.querySelectorAll(".contents > .content, #info"); // #info 포함
+
+                tabs.forEach((tab) => {
+                    tab.addEventListener("click", () => {
+                        // 모든 탭과 콘텐츠 비활성화
+                        tabs.forEach((t) => t.classList.remove("active"));
+                        contents.forEach((content) => content.classList.remove("active"));
+
+                        // 클릭된 탭 활성화
+                        tab.classList.add("active");
+
+                        // 해당 콘텐츠 활성화
+                        const targetId = tab.getAttribute("data-target");
+                        const targetContent = document.getElementById(targetId);
+                        if (targetContent) {
+                            targetContent.classList.add("active");
+                        }
+                    });
+                });
+
+                // 초기 상태: 첫 번째 탭과 콘텐츠 활성화
+                tabs[0]?.classList.add("active");
+                contents[0]?.classList.add("active");
+            });
 
 
+            // 초기 설정
+            document.addEventListener("DOMContentLoaded", () => {
+                const dateItems = document.querySelectorAll('.date-item');
+                const contentContainer = document.querySelector('.schedule-container');
+                const prevButton = document.querySelector('.nav-button.prev');
+                const nextButton = document.querySelector('.nav-button.next');
+                const dateList = document.querySelector('.date-list');
+                const visibleDates = 7; // 화면에 보이는 날짜 수 (기준)
 
+                let currentIndex = 0;
 
-    // 초기 설정
-    document.addEventListener("DOMContentLoaded", () => {
-        const dateItems = document.querySelectorAll('.date-item');
-        const contentContainer = document.querySelector('.schedule-container');
-        const prevButton = document.querySelector('.nav-button.prev');
-        const nextButton = document.querySelector('.nav-button.next');
-        const dateList = document.querySelector('.date-list');
-        const visibleDates = 7; // 화면에 보이는 날짜 수 (기준)
+                // 날짜 클릭 이벤트
+                dateItems.forEach((item, index) => {
+                    item.addEventListener('click', () => {
+                        // 모든 날짜에서 active 제거
+                        dateItems.forEach(d => d.classList.remove('active'));
+                        item.classList.add('active');
 
-        let currentIndex = 0;
-
-        // 날짜 클릭 이벤트
-        dateItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                // 모든 날짜에서 active 제거
-                dateItems.forEach(d => d.classList.remove('active'));
-                item.classList.add('active');
-
-                // 컨텐츠 갱신 (여기선 임시 텍스트로 대체)
-                contentContainer.innerHTML = `
+                        // 컨텐츠 갱신 (여기선 임시 텍스트로 대체)
+                        contentContainer.innerHTML = `
                 <div class="movie-info">
                     <div class="movie-rating"><span>${item.querySelector('.date').textContent}</span></div>
                     <div class="movie-details">
@@ -1205,77 +1079,77 @@
                     </div>
                 </div>
             `;
-            });
-        });
+                    });
+                });
 
-        // 스크롤 이동
-        const updateScroll = () => {
-            const totalDates = dateItems.length;
-            const maxIndex = totalDates - visibleDates; // 스크롤 가능한 최대 인덱스
+                // 스크롤 이동
+                const updateScroll = () => {
+                    const totalDates = dateItems.length;
+                    const maxIndex = totalDates - visibleDates; // 스크롤 가능한 최대 인덱스
 
-            // 이동 가능한 버튼 활성화/비활성화
-            prevButton.disabled = currentIndex === 0;
-            nextButton.disabled = currentIndex === maxIndex;
+                    // 이동 가능한 버튼 활성화/비활성화
+                    prevButton.disabled = currentIndex === 0;
+                    nextButton.disabled = currentIndex === maxIndex;
 
-            // 스크롤 이동
-            const offset = currentIndex * dateItems[0].offsetWidth;
-            dateList.style.transform = `translateX(-${offset}px)`;
-        };
+                    // 스크롤 이동
+                    const offset = currentIndex * dateItems[0].offsetWidth;
+                    dateList.style.transform = `translateX(-${offset}px)`;
+                };
 
-        // 이전 버튼 클릭
-        prevButton.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
+                // 이전 버튼 클릭
+                prevButton.addEventListener('click', () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateScroll();
+                    }
+                });
+
+                // 다음 버튼 클릭
+                nextButton.addEventListener('click', () => {
+                    if (currentIndex < dateItems.length - visibleDates) {
+                        currentIndex++;
+                        updateScroll();
+                    }
+                });
+
+                // 초기 스크롤 상태 설정
                 updateScroll();
-            }
-        });
-
-        // 다음 버튼 클릭
-        nextButton.addEventListener('click', () => {
-            if (currentIndex < dateItems.length - visibleDates) {
-                currentIndex++;
-                updateScroll();
-            }
-        });
-
-        // 초기 스크롤 상태 설정
-        updateScroll();
-    });
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const tabs = document.querySelectorAll(".tabs .tab");
-        const cinemaListContainer = document.getElementById("cinema-list-container");
-
-        tabs.forEach((tab) => {
-            tab.addEventListener("mouseover", () => {
-                const cinemas = tab.getAttribute("data-cinemas");
-                console.log("Hovered Tab Cinemas:", cinemas); // 디버깅: data-cinemas 값 확인
-                if (cinemas) {
-                    cinemaListContainer.innerHTML = cinemas
-                        .split(", ")
-                        .map((cinema) => `<span>${cinema}</span>`)
-                        .join(" | ");
-                    console.log("Cinema List Container Content:", cinemaListContainer.innerHTML); // 디버깅:
-                    cinemaListContainer.style.display = "block"; // 리스트 표시
-                }
             });
 
-            tab.addEventListener("mouseout", () => {
-                cinemaListContainer.style.display = "none"; // 리스트 숨김
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const tabs = document.querySelectorAll(".tabs .tab");
+                const cinemaListContainer = document.getElementById("cinema-list-container");
+
+                tabs.forEach((tab) => {
+                    tab.addEventListener("mouseover", () => {
+                        const cinemas = tab.getAttribute("data-cinemas");
+                        console.log("Hovered Tab Cinemas:", cinemas); // 디버깅: data-cinemas 값 확인
+                        if (cinemas) {
+                            cinemaListContainer.innerHTML = cinemas
+                                .split(", ")
+                                .map((cinema) => ("<span>" + cinema + "</span>"))
+                                .join(" | ");
+                            console.log("Cinema List Container Content:", cinemaListContainer.innerHTML); // 디버깅:
+                            cinemaListContainer.style.display = "block"; // 리스트 표시
+                        }
+                    });
+
+                    tab.addEventListener("mouseout", () => {
+                        cinemaListContainer.style.display = "none"; // 리스트 숨김
+                    });
+                });
+
+                cinemaListContainer.addEventListener("mouseover", () => {
+                    cinemaListContainer.style.display = "block"; // 리스트 유지
+                });
+
+                cinemaListContainer.addEventListener("mouseout", () => {
+                    cinemaListContainer.style.display = "none"; // 리스트 숨김
+                });
             });
-        });
 
-        cinemaListContainer.addEventListener("mouseover", () => {
-            cinemaListContainer.style.display = "block"; // 리스트 유지
-        });
-
-        cinemaListContainer.addEventListener("mouseout", () => {
-            cinemaListContainer.style.display = "none"; // 리스트 숨김
-        });
-    });
-
-</script>
+        </script>
 
 </body>
 </html>

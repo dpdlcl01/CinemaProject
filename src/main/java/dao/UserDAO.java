@@ -2,6 +2,7 @@ package dao;
 
 import mybatis.service.FactoryService;
 import org.apache.ibatis.session.SqlSession;
+import vo.PriceVO;
 import vo.theaterVO;
 import vo.userVO;
 
@@ -81,4 +82,20 @@ public class UserDAO {
 
         return favoriteTheaters;
     }
+
+    public static PriceVO[] getPrice() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        List<PriceVO> list = ss.selectList("UserMapper.getPrice");
+
+
+        PriceVO[] priceVO = new PriceVO[list.size()];
+        list.toArray(priceVO);
+
+        ss.close();
+
+        return priceVO;
+    }
+
+
 }
