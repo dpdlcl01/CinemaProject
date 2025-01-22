@@ -58,6 +58,13 @@
     background: #eee;
 }
 
+.date-navigation ul li.selected {
+    font-weight: bold;
+    text-decoration: underline;
+    color: blue; /* 선택된 날짜 강조 색상 */
+}
+
+
 /* 메인 컨텐츠 */
 .content {
     display: grid;

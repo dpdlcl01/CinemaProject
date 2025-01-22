@@ -61,19 +61,21 @@ public class ReservationDAO {
     }
 
     // 특정 극장 및 날짜의 상영 시간표 조회
-    public static TimetableVO[] allTimetable(String theaterIdx, String movieIdx) {
+    public static TimetableVO[] allTimetable(String theaterIdx, String movieIdx, String targetDate) {
         TimetableVO[] ar = null;
 
         // MyBatis 파라미터 전달용 HashMap 생성
         HashMap<String, String> map = new HashMap<>();
         map.put("theaterIdx", theaterIdx);
         map.put("movieIdx", movieIdx);
+        map.put("targetDate", targetDate);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         try {
             List<TimetableVO> list = ss.selectList("timetable.allTimetable", map);
             System.out.println("입력된 theaterIdx: " + theaterIdx);
             System.out.println("입력된 movieIdx: " + movieIdx);
+            System.out.println("입력된 targetDate: " + targetDate);
             System.out.println("DB에서 반환된 데이터: " + list);
 
             if (list != null && !list.isEmpty()) {

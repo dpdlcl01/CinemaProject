@@ -20,32 +20,24 @@ public class SeatAction implements Action {
         user.setUserIdx("1");
         user.setUserName("김철수");
         user.setUserId("1111");
-        user.setUserEmail("kimcs@example.com");
-        user.setUserGrade("Basic");
 
         // 세션에 저장
         session.setAttribute("loggedInUser", user);
 
-        // 임시 데이터 설정
-        String screenIdx = "1"; // 임시로 설정된 상영관 ID
-        String timetableIdx = "101"; // 임시로 설정된 상영 시간표 ID
-        String screenType = "1"; // COMFORT 상영관 유형
-        String ageGroup = "1"; // 성인
-        String dayOfWeek = "1"; // 주중
-        String timeOfDay = "2"; // 조조 및 심야
+        // 영화, 극장, 시간표 정보를 가져오기
+        String movieIdx = request.getParameter("movieIdx");
+        String screenIdx = request.getParameter("screenIdx");
+        String timetableIdx = request.getParameter("timetableIdx");
+        String isMorning = request.getParameter("isMorning");
+        String isWeekend = request.getParameter("isWeekend");
 
-        // 입력값 검증
-        if (screenIdx == null || timetableIdx == null) {
-            return "/error/missingParams.jsp";
-        }
-
-        // 사용 가능한 좌석 조회
-        SeatVO[] availableSeats = SeatDAO.getAvailableSeats(screenIdx, timetableIdx, screenType, ageGroup, dayOfWeek, timeOfDay);
-
-        // request에 데이터 저장
-        request.setAttribute("availableSeats", availableSeats);
+        System.out.println("SeatAction 에서의 결과: movieIdx: " + movieIdx +
+                ", screenIdx: " + screenIdx +
+                ", timetableIdx: " + timetableIdx +
+                ", isMorning: " + isMorning +
+                ", isWeekend: " + isWeekend );
 
         // 좌석 선택 화면으로 이동
-        return "/user/seatSelection.jsp";
+        return "./jsp/user/reservation/reservationSeat.jsp";
     }
 }

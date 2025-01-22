@@ -2,10 +2,17 @@ package mybatis.vo;
 
 public class TimetableVO {
     private String timetableIdx, movieIdx, theaterIdx, screenIdx, timetableStartTime, timetableEndTime;
+    private String screenName, screenType;
 
-    public String getTimetableIdx() {
-        return timetableIdx;
-    }
+    public String getScreenName() { return screenName; }
+
+    public void setScreenName(String screenName) { this.screenName = screenName; }
+
+    public String getScreenType() { return screenType; }
+
+    public void setScreenType(String screenType) { this.screenType = screenType; }
+
+    public String getTimetableIdx() { return timetableIdx; }
 
     public void setTimetableIdx(String timetableIdx) {
         this.timetableIdx = timetableIdx;

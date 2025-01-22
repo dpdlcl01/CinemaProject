@@ -57,9 +57,10 @@ public class ReservationAction implements Action {
         }else if ("timetable".equals(type)) {
             String theaterIdx = request.getParameter("theaterIdx");
             String movieIdx = request.getParameter("movieIdx");
+            String targetDate = request.getParameter("targetDate");
 
             // DAO 호출
-            TimetableVO[] timetables = ReservationDAO.allTimetable(theaterIdx, movieIdx);
+            TimetableVO[] timetables = ReservationDAO.allTimetable(theaterIdx, movieIdx, targetDate);
             System.out.println("DAO에서 반환된 timetables: " + timetables);
 
             // JSON 형식으로 응답 반환
@@ -67,6 +68,7 @@ public class ReservationAction implements Action {
             try {
                 PrintWriter out = response.getWriter();
                 ObjectMapper mapper = new ObjectMapper();
+                System.out.println(new ObjectMapper().writeValueAsString(timetables));
                 mapper.writeValue(out, timetables); // JSON으로 응답
                 return null;
             } catch (Exception e) {
