@@ -182,7 +182,7 @@
           </div>
           <div class="btn-group">
             <a href="#" class="button pre" id="pagePrevious" title="이전">이전</a>
-            <a href="#" class="button active" id="pageNext" title="결제">결제</a>
+            <a href="${pageContext.request.contextPath}/UserController?type=paymentAPI" class="button active" id="pageNext" title="결제">결제</a>
           </div>
         </div>
       </div>

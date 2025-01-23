@@ -29,7 +29,7 @@
                     <a href="#" class="movie">영화</a>
                 </li>
                 <li title="예매">
-                    <a href="#" class="reserve">예매</a>
+                    <a href="${pageContext.request.contextPath}/UserController?type=paymentAPI" class="reserve">예매</a>
                 </li>
                 <li title="극장">
                     <a href="${pageContext.request.contextPath}/UserController?type=myInfo" class="theater">극장</a>
