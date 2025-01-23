@@ -1,6 +1,6 @@
 package vo;
 
-public class userVO {
+public class UserVO {
     private String userIdx, userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus;
 
     public String getUserIdx() {

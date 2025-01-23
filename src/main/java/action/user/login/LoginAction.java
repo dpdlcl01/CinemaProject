@@ -1,8 +1,8 @@
-package action.user;
+package action.user.login;
 
 import action.Action;
-import dao.UserDAO;
-import vo.userVO;
+import dao.LoginDAO;
+import vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +19,14 @@ public class LoginAction implements Action {
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
 
-        UserDAO userDAO = new UserDAO();
-        boolean usercheck = userDAO.usercheck(userId, userPassword);
+        LoginDAO loginDAO = new LoginDAO();
+        boolean usercheck = loginDAO.usercheck(userId, userPassword);
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
         if (usercheck) {
-            userVO userVO = userDAO.getUserInfo(userId);
+            UserVO userVO = loginDAO.getUserInfo(userId);
             HttpSession session = request.getSession();
             session.setAttribute("user", userVO);  // 세션에 사용자 정보 저장
 

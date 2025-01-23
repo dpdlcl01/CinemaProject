@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="theater">
+
+    <select id="getTheaterInfo" resultType="vo.TheaterVO">
+        SELECT * FROM theater
+    </select>
+
+    <select id="getTheaterById" parameterType="map" resultType="vo.TheaterVO">
+        SELECT theaterIdx, theaterName, theaterRegion, theaterAddress, theaterInfo, theaterImageUrl, theaterScreenCount, theaterRegDate, theaterStatus
+        FROM theater
+        WHERE theaterIdx = #{theaterIdx}
+    </select>
+
+    <select id="getFavorite" parameterType="map" resultType="map">
+        SELECT t.theaterName, t.theaterIdx
+        FROM favoritetheater f
+        JOIN theater t ON f.theaterIdx = t.theaterIdx
+        WHERE f.userIdx = #{userIdx}
+    </select>
+
+    <select id="getPrice" parameterType="map" resultType="vo.PriceVO">
+        SELECT screenType, dayOfWeek, timeOfDay,
+        MAX(CASE WHEN ageGroup = 1 THEN seatPrice END) AS generalPrice,
+        MAX(CASE WHEN ageGroup = 2 THEN seatPrice END) AS teenPrice
+        FROM price GROUP BY screenType, dayOfWeek, timeOfDay
+    </select>
+</mapper>

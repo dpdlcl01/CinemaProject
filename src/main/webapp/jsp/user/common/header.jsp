@@ -146,7 +146,7 @@
                 .then(data => {
                     if (data.success) {
                         // 로그아웃 후 버튼 상태 변경
-                        alert(data.message);  // 로그아웃 메시지
+                        // alert(data.message);  // 로그아웃 메시지
                         window.location.reload();  // 페이지 새로고침
                     } else {
                         alert("로그아웃 실패");

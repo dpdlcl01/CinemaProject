@@ -1,28 +1,28 @@
-package action.user;
+package action.user.theater;
 
 import action.Action;
-import dao.UserDAO;
+import dao.TheaterDAO;
 import vo.PriceVO;
-import vo.theaterVO;
+import vo.TheaterVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class theaterDetailAction implements Action {
+public class TheaterDetailAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String theaterIdx = request.getParameter("theaterIdx");
 
-        theaterVO theater = UserDAO.getTheaterById(theaterIdx);
+        TheaterVO theater = TheaterDAO.getTheaterById(theaterIdx);
 
         if (theater != null) {
             request.setAttribute("theater", theater);
         }
 
         /*극장가격*/
-        PriceVO[] price = UserDAO.getPrice();
+        PriceVO[] price = TheaterDAO.getPrice();
 
         if (price.length > 0) {
             request.setAttribute("price", price);
