@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="timetable">
+    <!-- 특정 영화 및 극장의 모든 상영 시간표 조회 -->
+    <select id="allTimetable" parameterType="Map" resultType="vo.TimetableVO">
+        SELECT t.timetableIdx, t.timetableStartTime, t.timetableEndTime, t.movieIdx, t.theaterIdx, t.screenIdx,
+        s.screenName AS screenName, s.screenType AS screenType
+        FROM timetable t
+        JOIN screen s ON t.screenIdx = s.screenIdx
+        WHERE t.theaterIdx = #{theaterIdx}
+        AND t.movieIdx = #{movieIdx} AND DATE(t.timetableStartTime) = #{targetDate}
+        ORDER BY t.timetableStartTime ASC
+    </select>
+</mapper>

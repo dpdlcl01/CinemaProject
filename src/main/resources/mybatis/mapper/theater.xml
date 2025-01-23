@@ -27,4 +27,20 @@
         MAX(CASE WHEN ageGroup = 2 THEN seatPrice END) AS teenPrice
         FROM price GROUP BY screenType, dayOfWeek, timeOfDay
     </select>
+
+    <!-- 전체 극장 조회 -->
+    <select id="getTheaterRegion" resultType="map">
+        SELECT t.theaterRegion AS region, COUNT(*) AS count
+        FROM theater t
+        WHERE t.theaterStatus = 0
+        GROUP BY t.theaterRegion
+    </select>
+
+    <!-- 지역별 극장 리스트 -->
+    <select id="getTheaterName" parameterType="String" resultType="vo.TheaterVO">
+        SELECT *
+        FROM theater
+        WHERE theaterRegion = #{region}
+    </select>
+
 </mapper>

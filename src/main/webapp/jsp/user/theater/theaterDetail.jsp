@@ -202,13 +202,6 @@
         margin-bottom: 70px;
     }
 
-    .facility-icons {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
     .facility-icons .icon {
         flex: 1;
     }
@@ -254,25 +247,6 @@
     .transport-details p {
         margin: 0 0 10px;
     }
-
-    .navigate-btn {
-        display: inline-block;
-        background-color: #5a3dd2;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .navigate-btn:hover {
-        background-color: #4730a6;
-    }
-
-
-
 
     /* 컨테이너 */
     .schedule-container {
@@ -743,11 +717,11 @@
     <ul class="tabs">
         <li class="tab" data-cinemas="강남, 센트럴, 코엑스, 홍대">서울</li>
         <li class="tab" data-cinemas="고양스타필드, 수원스타필드, 안성스타필드">경기</li>
-        <li class="tab" data-cinemas="송도, 청라지젤">인천</li>
-        <li class="tab" data-cinemas="대전, 세종나성">대전/충청/세종</li>
-        <li class="tab" data-cinemas="대구신세계, 부산극장">부산/대구/경상</li>
-        <li class="tab" data-cinemas="광주하남, 전주객사">광주/전라</li>
-        <li class="tab" data-cinemas="속초">강원</li>
+        <li class="tab" data-cinemas="송도, 인천논현">인천</li>
+        <li class="tab" data-cinemas="대전중앙로, 세종나성">대전/충청/세종</li>
+        <li class="tab" data-cinemas="대구신세계, 해운대">부산/대구/경상</li>
+        <li class="tab" data-cinemas="광주하남, 전주혁신">광주/전라</li>
+        <li class="tab" data-cinemas="원주혁신">강원</li>
     </ul>
     <div id="cinema-list-container"></div>
 
@@ -780,34 +754,6 @@
                 <div class="theaterImage">
                     <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="극장설명">
                 </div>
-                <!-- 섹션 제목 -->
-                <%--                <div class="facility-header">--%>
-                <%--                    <h2 class="facility-title">시설안내</h2>--%>
-                <%--                </div>--%>
-                <%--                <div class="facility-icons">--%>
-                <%--                    <div class="icon">--%>
-                <%--                        <img src="${pageContext.request.contextPath}/css/user/images/theater/${theater.theaterImageUrl}" alt="컴포트">--%>
-                <%--                        <p>컴포트</p>--%>
-                <%--                    </div>--%>
-                <%--                    <div class="icon">--%>
-                <%--                        <img src="../../../css/user/images/ico-facility-theater.png" alt="일반상영관">--%>
-                <%--                        <p>일반상영관</p>--%>
-                <%--                    </div>--%>
-                <%--                    <div class="icon">--%>
-                <%--                        <img src="../../../css/user/images/ico-facility-dolby.png" alt="돌비">--%>
-                <%--                        <p>돌비</p>--%>
-                <%--                    </div>--%>
-                <%--                </div>--%>
-                <%--                <div class="floor-guide">--%>
-
-                <%--                    <h4>층별안내</h4> &lt;%&ndash;이미지&ndash;%&gt;--%>
-                <%--                    <ul>--%>
-                <%--                        <li><strong>8층</strong>: 매표소, 매점, 에스컬레이터, 엘리베이터, 남자·여자 화장실, 비상계단 3</li>--%>
-                <%--                        <li><strong>9층</strong>: 1관, 2관, 남자·여자 화장실, 엘리베이터, 비상계단 3</li>--%>
-                <%--                        <li><strong>10층</strong>: 3관, 4관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
-                <%--                        <li><strong>11층</strong>: 5관, 6관, 7관, 엘리베이터2, 남자·여자 화장실, 비상계단 3</li>--%>
-                <%--                    </ul>--%>
-                <%--                </div>--%>
             </section>
 
             <!-- 교통안내 섹션 -->
@@ -975,6 +921,8 @@
                 </table>
             </c:forEach>
         </div>
+    </div>
+</div>
 
         <!-- footer 영역 -->
         <jsp:include page="../common/footer.jsp"/>
@@ -1121,6 +1069,25 @@
                 const tabs = document.querySelectorAll(".tabs .tab");
                 const cinemaListContainer = document.getElementById("cinema-list-container");
 
+                const theaterMap = {
+                    "강남": 1,
+                    "센트럴": 2,
+                    "코엑스": 3,
+                    "홍대": 4,
+                    "고양스타필드": 5,
+                    "수원스타필드": 6,
+                    "안성스타필드": 7,
+                    "송도": 8,
+                    "인천논현": 9,
+                    "대전중앙로": 10,
+                    "세종나성": 11,
+                    "대구신세계": 12,
+                    "해운대": 13,
+                    "광주하남": 14,
+                    "전주혁신": 15,
+                    "원주혁신": 16
+                }
+
                 tabs.forEach((tab) => {
                     tab.addEventListener("mouseover", () => {
                         const cinemas = tab.getAttribute("data-cinemas");
@@ -1128,7 +1095,16 @@
                         if (cinemas) {
                             cinemaListContainer.innerHTML = cinemas
                                 .split(", ")
-                                .map((cinema) => ("<span>" + cinema + "</span>"))
+                                .map(function (cinema) {
+                                const theaterIdx = theaterMap[cinema];
+                                if(theaterIdx) {
+                                    return "<a href='UserController?type=theaterDetail&theaterIdx=" + theaterIdx +"'><span>"+ cinema +"</span></a>";
+                                }else {
+                                    return "<span>" + cinema + " (경로 없음)</span>"; // 매핑되지 않은 경우 처리
+                                }
+                             // .map((cinema) => ("<span>" + cinema + "</span>"))
+                            })
+
                                 .join(" | ");
                             console.log("Cinema List Container Content:", cinemaListContainer.innerHTML); // 디버깅:
                             cinemaListContainer.style.display = "block"; // 리스트 표시
