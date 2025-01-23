@@ -1,4 +1,4 @@
-package action.user;
+package action.user.store;
 
 import action.Action;
 

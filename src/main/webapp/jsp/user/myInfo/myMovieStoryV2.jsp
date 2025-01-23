@@ -660,7 +660,7 @@ To change this template use File | Settings | File Templates.
                         </li>
                       </ul>
                     </li>
-                    <li>
+                   <li>
                       <div class="date">
                         <p>2022.05.28</p>
                       </div>
@@ -757,15 +757,16 @@ To change this template use File | Settings | File Templates.
             </div>
             <div class="my-saw-movie" style="display: block;">
               <ul id="mySawMovie">
+                <c:forEach items="${requestScope.reservVO}" var="res">
                 <li>
                   <p class="img posterImg">
-                    <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트">
+                    <img src="${res.moviePosterUrl}" alt="헌트">
                   </p>    <div class="cont">
-                  <p class="tit"><a href="#" title="헌트 상세보기">헌트</a></p>
+                  <p class="tit"><a href="#" title="헌트 상세보기">${res.movieTitle}</a></p>
                   <div class="theater">
-                    <p>수원남문</p>
-                    <p>컴포트 3관(리클라이너)</p>
-                    <p>2022.08.13(토) 13:40 (3회차)</p>
+                    <p>${res.theaterName}</p>
+                    <p>${res.screenName}</p>
+                    <p>${res.timetableStartTime}</p>
                   </div>
                 </div>
                   <div class="btn-group">
@@ -774,7 +775,8 @@ To change this template use File | Settings | File Templates.
                     <button type="button" class="btn del deleteBtn">삭제</button>
                   </div>
                 </li>
-                <li>
+                </c:forEach>
+              <%--  <li>
                   <p class="img posterImg">
                     <img src="https://img.megabox.co.kr/SharedImg/2022/05/23/oZfETtpEvKGpdY2JQo2Z6wFL0S4cpKy5_230.jpg" alt="범죄도시 2"></p>
                   <div class="cont">
@@ -792,7 +794,7 @@ To change this template use File | Settings | File Templates.
                       <i class="iconset ico-pencil"></i> 관람평쓰기</a>
                     <button type="button" class="btn del deleteBtn">삭제</button>
                   </div>
-                </li>
+                </li>--%>
               </ul>
             </div>
           </div>

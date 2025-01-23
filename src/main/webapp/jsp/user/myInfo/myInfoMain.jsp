@@ -290,7 +290,7 @@
                                 </div>
                                 <ul class="level-list">
                                     <li class="level-item active">
-                                        <div class="tooltip">다음 VIP 등급까지 N P 남았어요!</div>
+                                        <div class="tooltip">다음 VIP 등급까지 ${requestScope.calculation} P 남았어요!</div>
                                         <span>BASIC</span>
                                     </li>
                                     <li class="level-item"><span>VIP</span></li>
@@ -304,15 +304,15 @@
                                 <a href="#">나의 무비스토리</a><%--페이보릿시어터랑 이너조인--%>
                                 <div>
                                     <span>본 영화</span>
-                                    <em>0개</em>
+                                    <em>${requestScope.wNum}</em>
                                 </div>
                                 <div>
                                     <span>관람평</span>
-                                    <em>0개</em>
+                                    <em>${requestScope.rNum}</em>
                                 </div>
                                 <div>
                                     <span>보고싶어</span>
-                                    <em>0개</em>
+                                    <em>${requestScope.fNum}</em>
                                 </div>
                             </div>
                             <div id="2" class="top2">
@@ -339,20 +339,26 @@
                                 <button type="button">더보기&gt;</button>
                             </div>
 
-
-                            <div id="myReserv"><%--예매내역 테이블과 이너조인--%>
-                                <img src="${pageContext.request.contextPath}/css/user/images/KangImg/EYpFsiHJszKXH8dmVKsH1xsQh1TjggZZ_316.jpg">
+                            <c:if test="${requestScope.rvo ne null}">
+                            <c:forEach items="${requestScope.rvo}" var="rvo">
+                            <div id="myReserv">
+                                <img src="${rvo.moviePosterUrl}">
                                 <div id="reservInfo">
-                                    <p>결제일시: 디비에서</p>
-                                    <p><em>0000-0000-예매번호</em><span>|영화명/2D</span></p>
-                                    <p>상영관</p>
-                                    <p>날짜 시간</p>
+                                    <p>결제일시: ${rvo.reservationDate}</p>
+                                    <p><em>0000-0000-예매번호</em><span>|${rvo.movieTitle}</span></p>
+                                    <p>${rvo.theaterName} ${rvo.screenName}</p>
+                                    <p>${rvo.timetableStartTime}</p>
                                 </div>
                                 <button type="button">예매취소</button>
                             </div>
-                            <div id="noResult">
-                                예매 내역이 없습니다
-                            </div>
+                            </c:forEach>
+                            </c:if>
+                            <c:if test="${requestScope.rvo eq null}">
+                                <div id="noResult">
+                                    예매 내역이 없습니다
+                                </div>
+                            </c:if>
+
                         </div>
                     </div>
 

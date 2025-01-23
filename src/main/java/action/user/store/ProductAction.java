@@ -1,12 +1,9 @@
-package action.user;
+package action.user.store;
 
 import action.Action;
-import mybatis.vo.ProductVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 
 public class ProductAction implements Action {
 

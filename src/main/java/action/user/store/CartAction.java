@@ -1,4 +1,4 @@
-package action.user;
+package action.user.store;
 
 import action.Action;
 import mybatis.dao.CartDAO;
@@ -7,7 +7,6 @@ import mybatis.vo.CartVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 
 public class CartAction implements Action {
 

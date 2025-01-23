@@ -11,7 +11,7 @@ public class MainAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession();
-        session.setAttribute("id","아이디");
+        session.setAttribute("id","user001");
         session.setAttribute("idx","1");
         // main 화면 경로 반환
         return "./jsp/user/common/main.jsp";

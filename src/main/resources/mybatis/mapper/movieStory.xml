@@ -8,13 +8,20 @@
         SELECT r.*, m.movieTitle, m.movieGenre, m.movieTime, m.moviePosterUrl
         FROM review r
         INNER JOIN movie m ON r.movieIdx = m.movieIdx
-        WHERE r.userIdx = #{id} AND r.reviewStatus = 0;
+        WHERE r.userIdx = #{id} AND r.reviewStatus = 0
     </select>
 
     <select id="favoritemovie" parameterType="String" resultType="mybatis.vo.FavoritemovieVO">
         SELECT f.movieIdx, m.movieTitle, m.movieGenre, m.movieTime, m.moviePosterUrl
         FROM favoritemovie f
         INNER JOIN movie m ON f.movieIdx = m.movieIdx
-        WHERE f.userIdx =  #{id} ;
+        WHERE f.userIdx =  #{id}
+    </select>
+
+    <!-- 본 영화 db 들어오면 쿼리문 하나 추가해서 마이스토리에 추가해야한다. 그 받은 list.size 반환해서 나의 영화정보에 찍자 -->
+    <select id="watchMovie" parameterType="String" resultType="mybatis.vo.WatchMovieVO">
+        select *
+        from  watchedmovie
+        where userIdx = #{id}
     </select>
 </mapper>

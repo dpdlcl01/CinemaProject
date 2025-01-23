@@ -1,9 +1,8 @@
-package action.user;
+package action.user.store;
 
 import action.Action;
 import mybatis.dao.CartDAO;
 import mybatis.dao.ProductDAO;
-import mybatis.vo.CartVO;
 import mybatis.vo.ProductVO;
 
 import javax.servlet.http.HttpServletRequest;
