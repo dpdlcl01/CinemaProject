@@ -1,4 +1,4 @@
-package action.user;
+package action.user.common;
 
 import action.Action;
 import mybatis.dao.MovieDAO;

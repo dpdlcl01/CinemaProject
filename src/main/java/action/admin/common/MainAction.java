@@ -1,4 +1,4 @@
-package action.admin;
+package action.admin.common;
 
 import action.Action;
 

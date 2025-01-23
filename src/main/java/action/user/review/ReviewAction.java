@@ -1,8 +1,7 @@
-package action.user;
+package action.user.review;
 
 import action.Action;
 import mybatis.dao.ReviewDAO;
-import mybatis.vo.ReviewVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
