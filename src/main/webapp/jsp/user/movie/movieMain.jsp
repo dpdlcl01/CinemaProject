@@ -63,41 +63,40 @@
 
                             <!-- movie-list-info -->
                             <c:if test="${requestScope.movieArray ne null }">
-                            <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
-                                <li data-status="open">
-
-                                    <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
-                                    <p class="rank">${st.index+1 }</p>
-                                    <img src="${mvo.moviePosterUrl }" alt="${mvo.movieTitle }" class="poster">
-                                    <div class="wrap">
-                                    <div class="summary">
-                                    ${mvo.movieInfo }
-                                    </div>
-                                    </div>
-                                    </a>
-                                    <div class="tit-area">
-                                        <c:choose>
-                                            <c:when test="${mvo.movieGrade == 'ALL' }"><p class="movie-grade age-all">전체 관람가</p></c:when>
-                                            <c:when test="${mvo.movieGrade == '12' }"><p class="movie-grade age-12">12세 관람가</p></c:when>
-                                            <c:when test="${mvo.movieGrade == '15' }"><p class="movie-grade age-15">15세 관람가</p></c:when>
-                                            <c:when test="${mvo.movieGrade == '19' }"><p class="movie-grade age-19">청소년 관람 불가</p></c:when>
-                                        </c:choose>
-                                        <p title="${mvo.movieTitle }" class="tit">${mvo.movieTitle }</p>
-                                    </div>
-                                    <div class="rate-date">    <span class="rate">예매율 ${mvo.movieReservationRate }%</span>    <span class="date">개봉일 ${mvo.movieDate }</span></div>
-                                    <!-- //movie-list-info -->
-                                    <!-- btn-util -->
-                                    <div class="btn-util">
-                                        <button type="button" class="button btn-like">
-                                            <i class="far fa-heart"></i>${mvo.movieLikes }
-                                        </button>
-                                        <div class="case">
-                                            <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="button btn1" title="영화 예매하기">예매</a>
+                                <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
+                                    <li data-status="open">
+                                        <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
+                                        <p class="rank">${st.index+1 }</p>
+                                        <img src="${mvo.moviePosterUrl }" alt="${mvo.movieTitle }" class="poster">
+                                        <div class="wrap">
+                                            <div class="summary">
+                                                ${mvo.movieInfo }
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- //btn-util -->
-                                </li>
-                            </c:forEach>
+                                        </a>
+                                        <div class="tit-area">
+                                            <c:choose>
+                                                <c:when test="${mvo.movieGrade == 'ALL' }"><p class="movie-grade age-all">전체 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '12' }"><p class="movie-grade age-12">12세 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '15' }"><p class="movie-grade age-15">15세 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '19' }"><p class="movie-grade age-19">청소년 관람 불가</p></c:when>
+                                            </c:choose>
+                                            <p title="${mvo.movieTitle }" class="tit">${mvo.movieTitle }</p>
+                                        </div>
+                                        <div class="rate-date">    <span class="rate">예매율 ${mvo.movieReservationRate }%</span>    <span class="date">개봉일 ${mvo.movieDate }</span></div>
+                                        <!-- //movie-list-info -->
+                                        <!-- btn-util -->
+                                        <div class="btn-util">
+                                            <button type="button" class="button btn-like">
+                                                <i class="far fa-heart"></i>${mvo.movieLikes }
+                                            </button>
+                                            <div class="case">
+                                                <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="button btn1" title="영화 예매하기">예매</a>
+                                            </div>
+                                        </div>
+                                        <!-- //btn-util -->
+                                    </li>
+                                </c:forEach>
                             </c:if>
                                 <%------------------------------여기부터 더보기라인----------------------------%>
                                 <li class="movie-item" style="display: none;">
@@ -108,19 +107,121 @@
                     </div>
                 </div>
                 <div id="nowShowing" class="content">
-                    <h2>상영작</h2>
-                    <p>상영작 내용이 표시됩니다..</p>
+                    <%--<h2>상영작</h2>--%>
+                    <div class="movie-list-util mt40">
+                        <div class="onair-condition">
+                            <button type="button" title="전체 영화 보기" class="btn-onair btnOnAir">개봉작만</button>
+                        </div>
+                    </div>
+                    <!-- main-movie-list boxRankList -->
+                    <div class="main-movie-list">
+                        <ol class="list clearfix movie-list">
+
+                            <!-- movie-list-info -->
+                            <c:if test="${requestScope.movieArray ne null }">
+                                <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
+                                    <li data-status="open">
+                                        <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
+                                            <p class="rank">${st.index+1 }</p>
+                                            <img src="${mvo.moviePosterUrl }" alt="${mvo.movieTitle }" class="poster">
+                                            <div class="wrap">
+                                                <div class="summary">
+                                                        ${mvo.movieInfo }
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="tit-area">
+                                            <c:choose>
+                                                <c:when test="${mvo.movieGrade == 'ALL' }"><p class="movie-grade age-all">전체 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '12' }"><p class="movie-grade age-12">12세 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '15' }"><p class="movie-grade age-15">15세 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '19' }"><p class="movie-grade age-19">청소년 관람 불가</p></c:when>
+                                            </c:choose>
+                                            <p title="${mvo.movieTitle }" class="tit">${mvo.movieTitle }</p>
+                                        </div>
+                                        <div class="rate-date">    <span class="rate">예매율 ${mvo.movieReservationRate }%</span>    <span class="date">개봉일 ${mvo.movieDate }</span></div>
+                                        <!-- //movie-list-info -->
+                                        <!-- btn-util -->
+                                        <div class="btn-util">
+                                            <button type="button" class="button btn-like">
+                                                <i class="far fa-heart"></i>${mvo.movieLikes }
+                                            </button>
+                                            <div class="case">
+                                                <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="button btn1" title="영화 예매하기">예매</a>
+                                            </div>
+                                        </div>
+                                        <!-- //btn-util -->
+                                    </li>
+                                </c:forEach>
+                            </c:if>
+                            <%------------------------------여기부터 더보기라인----------------------------%>
+                            <li class="movie-item" style="display: none;">
+
+                            </li>
+                        </ol>
+                    </div>
                 </div>
                 <div id="comingSoon" class="content">
-                    <h2>상영예정작</h2>
-                    <p>상영예정작 내용이 표시됩니다.</p>
+<%--                    <h2>상영예정작</h2>--%>
+
+                    <div class="movie-list-util mt40">
+                        <div class="onair-condition">
+                            <button type="button" title="전체 영화 보기" class="btn-onair btnOnAir">개봉작만</button>
+                        </div>
+                    </div>
+                    <!-- main-movie-list boxRankList -->
+                    <div class="main-movie-list">
+                        <ol class="list clearfix movie-list">
+
+                            <!-- movie-list-info -->
+                            <c:if test="${requestScope.movieArray ne null }">
+                                <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
+                                    <li data-status="open">
+                                        <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
+                                            <p class="rank">${st.index+1 }</p>
+                                            <img src="${mvo.moviePosterUrl }" alt="${mvo.movieTitle }" class="poster">
+                                            <div class="wrap">
+                                                <div class="summary">
+                                                        ${mvo.movieInfo }
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="tit-area">
+                                            <c:choose>
+                                                <c:when test="${mvo.movieGrade == 'ALL' }"><p class="movie-grade age-all">전체 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '12' }"><p class="movie-grade age-12">12세 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '15' }"><p class="movie-grade age-15">15세 관람가</p></c:when>
+                                                <c:when test="${mvo.movieGrade == '19' }"><p class="movie-grade age-19">청소년 관람 불가</p></c:when>
+                                            </c:choose>
+                                            <p title="${mvo.movieTitle }" class="tit">${mvo.movieTitle }</p>
+                                        </div>
+                                        <div class="rate-date">    <span class="rate">예매율 ${mvo.movieReservationRate }%</span>    <span class="date">개봉일 ${mvo.movieDate }</span></div>
+                                        <!-- //movie-list-info -->
+                                        <!-- btn-util -->
+                                        <div class="btn-util">
+                                            <button type="button" class="button btn-like">
+                                                <i class="far fa-heart"></i>${mvo.movieLikes }
+                                            </button>
+                                            <div class="case">
+                                                <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="button btn1" title="영화 예매하기">예매</a>
+                                            </div>
+                                        </div>
+                                        <!-- //btn-util -->
+                                    </li>
+                                </c:forEach>
+                            </c:if>
+                            <%------------------------------여기부터 더보기라인----------------------------%>
+                            <li class="movie-item" style="display: none;">
+
+                            </li>
+                        </ol>
+                    </div>
+
                 </div>
                 <div class="btn-more v1" id="addMovieDiv" style="">
                     <button type="button" class="btn" id="btnAddMovie">더보기 <i class="iconset ico-btn-more-arr"></i></button>
                 </div>
             </div>
-
-
         </section>
     </main>
 </div>
@@ -175,8 +276,6 @@
         const button = document.querySelector('.btnOnAir');
         const movieListItems = document.querySelectorAll('.movie-list li');
 
-
-
         button.addEventListener('click', function () {
             if (hiddenInput.value === 'N') {
                 hiddenInput.value = 'Y';
@@ -192,8 +291,6 @@
                         li.style.display = 'none'; // 전체 영화 숨기기
                     }
                 });
-
-
             } else {
                 hiddenInput.value = 'N';
                 button.textContent = '개봉작만';
@@ -207,8 +304,6 @@
             }
         });
     });
-
-
 </script>
 </body>
 </html>

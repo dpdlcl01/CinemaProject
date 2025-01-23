@@ -152,7 +152,7 @@ public class DbMovieAction implements Action {
                             movieGrade = "ALL"; // 전체관람가
                         } else if (watchGradeNm.contains("12")) {
                             movieGrade = "12"; // 12세 이상
-                        } else if (watchGradeNm.contains("15")) {
+                        } else if (watchGradeNm.contains("15") || watchGradeNm.contains("고등학생")) {
                             movieGrade = "15"; // 15세 이상
                         } else if (watchGradeNm.contains("18") || watchGradeNm.contains("청소년") || watchGradeNm.contains("연소자")) {
                             movieGrade = "19"; // 청소년 관람 불가
@@ -219,7 +219,7 @@ public class DbMovieAction implements Action {
                     movieList.add(mvo);
 
                     // DB 저장 메서드 호출 ------------------------------------------ 최초 1번 수행하는 로직 (API 호출 확인시에는 주석처리)
-                    int cnt = MovieDAO.addNewMovie(mvo);
+                    //int cnt = MovieDAO.addNewMovie(mvo);
 
                     count++;
                 }

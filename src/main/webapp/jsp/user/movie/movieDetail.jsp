@@ -6,6 +6,210 @@
 <html lang="ko">
 <head>
     <jsp:include page="../common/head.jsp"/>
+    <style>
+    .pagination {
+        clear: both;
+        position: relative;
+        margin: 0 auto;
+        padding: 30px 0 0 0;
+        text-align: center;
+    }
+
+    .pagination .active {
+        color: #fff;
+        background-color: #01738b;
+        border-color: #01738b;
+    }
+
+    .pagination .control, .pagination a, .pagination strong {
+        display: inline-block;
+        position: relative;
+        min-width: 32px;
+        height: 32px;
+        margin: 0;
+        padding: 0 8px;
+        border: 1px solid #ebebeb;
+        text-decoration: none;
+        line-height: 30px;
+        color: #333;
+        font-weight: 400;
+        vertical-align: middle;
+        border-radius: 4px;
+    }
+
+    .pagination .control.next {
+        margin-left: 5px;
+        background-position: -64px 0;
+    }
+
+    .pagination .control {
+        overflow: hidden;
+        width: 32px;
+        height: 32px;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        font-size: 0;
+        line-height: 0;
+        text-indent: -9999px;
+        background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
+    }
+
+    .pagination .control, .pagination a, .pagination strong {
+        display: inline-block;
+        position: relative;
+        min-width: 32px;
+        height: 32px;
+        margin: 0;
+        padding: 0 8px;
+        border: 1px solid #ebebeb;
+        text-decoration: none;
+        line-height: 30px;
+        color: #333;
+        font-weight: 400;
+        vertical-align: middle;
+        border-radius: 4px;
+    }
+
+    </style>
+<%--    <style>
+        /* 배경 어둡게 처리 */
+        .layer-con {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* 모달 레이어 */
+        .regi-reply-score {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        /* 제목 스타일 */
+        .regi-reply-score .tit {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* 별점 버튼 그룹 */
+        .star {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .star .btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background-color: #ddd;
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .star .btn:hover,
+        .star .btn.active {
+            background-color: #ffd700;
+            color: white;
+        }
+
+        /* 평점 점수 */
+        .num {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* 텍스트 입력 */
+        .textarea {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .textarea textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none;
+        }
+
+        .textarea .count {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* 관람 포인트 버튼 */
+        .util {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .util button {
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 5px 15px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+
+        .util button:hover,
+        .util button.active {
+            background-color: #ffd700;
+            color: white;
+        }
+
+        /* 등록/취소 버튼 */
+        .btn-submit {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-submit button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-submit .btn-cancel {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .btn-submit .btn-register {
+            background-color: #5cb85c;
+            color: white;
+        }
+
+    </style>--%>
 </head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieDetail.css">
 
@@ -137,7 +341,7 @@
                     <h2 class="titSmall">아직 남겨진 한줄평이 없어요.</h2>
                 </c:if>
                 <c:if test="${fn:length(requestScope.reviewArray) ne 0 }">
-                    <h2 class="titSmall">${mvo.movieTitle }에 대한 ${fn:length(requestScope.reviewArray)}개의 이야기가 있어요!</h2>
+                    <h2 class="titSmall">${mvo.movieTitle }에 대한 ${pvo.totalRecord }개의 이야기가 있어요!</h2>
                 </c:if>
                 <div class="oneLineReview">
                     <!-- 본 영화가 아닌경우 -->
@@ -162,28 +366,153 @@
                         </div>
                     </div>
 
-                    <c:if test="${requestScope.reviewArray ne null }">
-                        <c:forEach var="rvo" items="${requestScope.reviewArray }">
-                            <div class="reviewed">
-                                <div class="userName">
-                                    <i class="iconUser"> </i>
-                                    <div class="userId">${rvo.userId }</div>
-                                    <div class="writeTime">${rvo.reviewDate }</div>
+                    <c:forEach var="rvo" items="${requestScope.reviewArray }">
+                    <div class="reviewed">
+                        <div class="userName">
+                            <i class="iconUser"> </i>
+                            <div class="userId">${rvo.userId }</div>
+                            <div class="writeTime">${rvo.reviewDate }</div>
+                        </div>
+                        <div class="reviewBox">
+                            <div class="reviewWrap">
+                                <div class="storyReview">관람평 <em>${rvo.reviewRating }</em></div>
+                                <div class="storyText">
+                                        ${rvo.reviewContent }
                                 </div>
-                                <div class="reviewBox">
-                                    <div class="reviewWrap">
-                                        <div class="storyReview">관람평 <em>${rvo.reviewRating }</em></div>
-                                        <div class="storyText">
-                                                ${rvo.reviewContent }
+                            </div>
+                        </div>
+                    </div>
+                    </c:forEach>
+                </div>
+
+                <nav class="pagination">
+                    <c:if test="${requestScope.page ne null}">
+                        <c:set var="pvo" value="${requestScope.page}" />
+
+                        <!-- << (맨 처음으로) -->
+                        <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=1" class="control first" title="처음 페이지">&laquo;</a>
+                        </c:if>
+
+                        <!-- < (이전 페이지 블록) -->
+                        <c:if test="${pvo.startPage > 1}">
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록">&lt;</a>
+                        </c:if>
+
+                        <!-- 페이지 번호 -->
+                        <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="st">
+                            <c:if test="${st.index eq pvo.nowPage}">
+                                <strong class="active">${st.index}</strong>
+                            </c:if>
+                            <c:if test="${st.index ne pvo.nowPage}">
+                                <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${st.index}" title="${st.index}페이지 보기">${st.index}</a>
+                            </c:if>
+                        </c:forEach>
+
+                        <!-- > (다음 페이지 블록) -->
+                        <c:if test="${pvo.endPage < pvo.totalPage}">
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록">&gt;</a>
+                        </c:if>
+
+                        <!-- >> (맨 마지막으로) -->
+                        <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지">&raquo;</a>
+                        </c:if>
+                    </c:if>
+                </nav>
+
+
+            </div>
+
+<%--
+            <nav class="pagination">
+                <strong class="active">1</strong>
+                <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a>
+                <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a>
+                <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a>
+                <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a>
+                <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a>
+                <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a>
+                <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a>
+                <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a>
+                <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a>
+                <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a>
+                <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="1271">last</a>
+            </nav>
+--%>
+
+
+
+            <!-- //한줄평 없을 때 -->
+<%--            <!-- 관람평 창 -->
+            <section id="layer_regi_reply_review" class="modal-layer on" style="z-index: 502;">
+                <div class="wrap" style="width: 500px; height: 680px; margin-left: -250px; margin-top: -340px;">
+                    <header class="layer-header">
+                        <h3 class="tit"><span class="oneTitle">관람평</span> 작성하기</h3>
+                    </header>
+
+                    <div class="layer-con" style="height: 568px;">
+                        <!-- regi-reply-score review -->
+                        <div class="regi-reply-score review">
+                            <!-- score -->
+                            <div class="score">
+                                <p class="tit">"${mvo.movieTitle }"<br>영화 어떠셨나요?</p>
+                                <div class="box">
+                                    <div class="box-star-score">
+                                        <div class="star">
+                                            <div class="group">
+                                                <button type="button" class="btn left score-1">1</button>
+                                                <button type="button" class="btn right score-2">2</button>
+                                            </div>
+                                            <div class="group">
+                                                <button type="button" class="btn left score-3">3</button>
+                                                <button type="button" class="btn right score-4">4</button>
+                                            </div>
+                                            <div class="group">
+                                                <button type="button" class="btn left score-5">5</button>
+                                                <button type="button" class="btn right score-6">6</button>
+                                            </div>
+                                            <div class="group">
+                                                <button type="button" class="btn left score-7">7</button>
+                                                <button type="button" class="btn right score-8">8</button>
+                                            </div>
+                                            <div class="group">
+                                                <button type="button" class="btn left score-9">9</button>
+                                                <button type="button" class="btn right score-10">10</button>
+                                            </div>
+                                        </div>
+                                        <div class="num">
+                                            <em>0</em>
+                                            <span>점</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="textarea">
+                                        <textarea id="textarea" rows="5" cols="30" title="한줄평 입력" placeholder="실관람평을 남겨주세요." class="input-textarea"></textarea>
+                                        <div class="util">
+                                            <p class="count"><span>0</span> / 100</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </c:forEach>
-                    </c:if>
+                            <!--// score -->
+                            <div class="txt-alert errText" style="display: none;">한줄평 내용을 입력해 주세요.</div>
+                        </div>
+                        <!--// regi-reply-score preview -->
+                    </div>
+
+                    <div class="btn-group-fixed">
+                        <button type="button" class="button close-layer">취소</button>
+                        <button type="button" class="button purple" id="regOneBtn" data-no="" data-cd="PREV" data-mno="24036700">등록</button>
+                    </div>
+
+                    <button type="button" class="btn-modal-close">레이어 닫기</button>
                 </div>
-            </div>
-            <!-- //한줄평 없을 때 -->
+            </section>--%>
+
+
+
+
             <!-- //실관람평 -->
         </div>
         <div id="movies" class="content">
