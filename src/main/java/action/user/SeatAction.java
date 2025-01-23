@@ -28,12 +28,30 @@ public class SeatAction implements Action {
         String movieIdx = request.getParameter("movieIdx");
         String screenIdx = request.getParameter("screenIdx");
         String timetableIdx = request.getParameter("timetableIdx");
+        String screenTypeParam = request.getParameter("screenType");
         String isMorning = request.getParameter("isMorning");
         String isWeekend = request.getParameter("isWeekend");
+
+        Integer screenType = null;
+        if (screenTypeParam != null) {
+            try {
+                screenType = Integer.parseInt(screenTypeParam);
+            } catch (NumberFormatException e) {
+                screenType = 1; // 기본값
+            }
+        }
+
+        request.setAttribute("movieIdx", movieIdx);
+        request.setAttribute("screenIdx", screenIdx);
+        request.setAttribute("timetableIdx", timetableIdx);
+        request.setAttribute("screenType", screenType); // screenType 값 설정
+        request.setAttribute("isMorning", isMorning);
+        request.setAttribute("isWeekend", isWeekend);
 
         System.out.println("SeatAction 에서의 결과: movieIdx: " + movieIdx +
                 ", screenIdx: " + screenIdx +
                 ", timetableIdx: " + timetableIdx +
+                ", screenType: " + screenType +
                 ", isMorning: " + isMorning +
                 ", isWeekend: " + isWeekend );
 

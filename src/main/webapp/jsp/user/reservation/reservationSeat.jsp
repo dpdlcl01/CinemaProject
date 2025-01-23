@@ -41,279 +41,290 @@
                     </div>
                     <button class="reset">초기화</button>
                 </div>
+                <%-- screenType에 따라 다른 레이아웃 출력 --%>
+
+                <%
+                    Integer screenType = (Integer) request.getAttribute("screenType"); // 전달받은 screenType 값
+                    System.out.println(screenType);
+                    if (screenType == null) {
+                        screenType = 1; // 기본값 설정
+                    }
+                %>
                 <div class="seat-container">
                     <div class="screen">SCREEN</div>
-                    <%-- A set --%>
-                    <div class="rows">
-                        <div class="row" data-row="front">
-                            <button class="empty"></button>
-                            <button class="door-left"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
+                    <% if (screenType == 1 || screenType == 2) { %>
+                        <%-- A set --%>
+                        <div class="rows">
+                            <div class="row" data-row="front">
+                                <button class="empty"></button>
+                                <button class="door-left"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                            </div>
+                            <div class="row" data-row="A">
+                                <button class="row-label">A</button>
+                                <div class="seat-group">
+                                    <% for (int i = 1; i <= 1; i++) { %>
+                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-center">
+                                    <% for (int i = 2; i <= 4; i++) { %>
+                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-right">
+                                    <% for (int i = 5; i <= 5; i++) { %>
+                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="row" data-row="B">
+                                <button class="row-label">B</button>
+                                <div class="seat-group">
+                                    <% for (int i = 1; i <= 1; i++) { %>
+                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-center">
+                                    <% for (int i = 2; i <= 4; i++) { %>
+                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-right">
+                                    <% for (int i = 5; i <= 5; i++) { %>
+                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="row" data-row="C">
+                                <button class="row-label">C</button>
+                                <div class="seat-group">
+                                    <% for (int i = 1; i <= 1; i++) { %>
+                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-center">
+                                    <% for (int i = 2; i <= 4; i++) { %>
+                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-right">
+                                    <% for (int i = 5; i <= 5; i++) { %>
+                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="row" data-row="D">
+                                <button class="row-label">D</button>
+                                <div class="seat-group">
+                                    <% for (int i = 1; i <= 1; i++) { %>
+                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-center">
+                                    <% for (int i = 2; i <= 4; i++) { %>
+                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                                <div class="seat-group-right">
+                                    <% for (int i = 5; i <= 5; i++) { %>
+                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
+                                    </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="row" data-row="back">
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="door-top"></button>
+                                <button class="empty"></button>
+                            </div>
                         </div>
-                        <div class="row" data-row="A">
-                            <button class="row-label">A</button>
-                            <div class="seat-group">
-                                <% for (int i = 1; i <= 1; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
+                    <% } else if (screenType == 3) { %>
+                        <%-- B set --%>
+                        <div class="rows">
+                            <div class="row" data-row="front">
+                                <button class="empty"></button>
+                                <button class="door-left"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
                             </div>
-                            <div class="seat-group-center">
-                                <% for (int i = 2; i <= 4; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
+                            <div class="row" data-row="A">
+                                <button class="row-label">A</button>
+                                <div class="seats">
+                                    <div class="seat-group">
+                                        <% for (int i = 1; i <= 4; i++) { %>
+                                        <button class="available-seat" data-seat="A<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <% for (int i = 5; i <= 6; i++) { %>
+                                        <button class="available-seat" data-seat="A<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="seat-group-right">
-                                <% for (int i = 5; i <= 5; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
+                            <div class="row" data-row="B">
+                                <button class="row-label">B</button>
+                                <div class="seats">
+                                    <div class="seat-group">
+                                        <% for (int i = 1; i <= 4; i++) { %>
+                                        <button class="available-seat" data-seat="B<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <% for (int i = 5; i <= 6; i++) { %>
+                                        <button class="available-seat" data-seat="B<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" data-row="C">
+                                <button class="row-label">C</button>
+                                <div class="seats">
+                                    <div class="seat-group">
+                                        <% for (int i = 1; i <= 4; i++) { %>
+                                        <button class="available-seat" data-seat="C<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <% for (int i = 5; i <= 6; i++) { %>
+                                        <button class="available-seat" data-seat="C<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" data-row="D">
+                                <button class="row-label">D</button>
+                                <div class="seats">
+                                    <div class="seat-group">
+                                        <% for (int i = 1; i <= 4; i++) { %>
+                                        <button class="available-seat" data-seat="D<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <% for (int i = 5; i <= 6; i++) { %>
+                                        <button class="available-seat" data-seat="D<%=i%>"><%=i%>
+                                        </button>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" data-row="back">
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="door-top"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
                             </div>
                         </div>
-                        <div class="row" data-row="B">
-                            <button class="row-label">B</button>
-                            <div class="seat-group">
-                                <% for (int i = 1; i <= 1; i++) { %>
-                                <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
+                    <% } else if (screenType == 4 || screenType == 5) { %>
+                        <%-- C set--%>
+                        <div class="rows">
+                            <div class="row" data-row="front">
+                                <button class="door-left"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
                             </div>
-                            <div class="seat-group-center">
-                                <% for (int i = 2; i <= 4; i++) { %>
-                                <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-left">
-                                <% for (int i = 5; i <= 5; i++) { %>
-                                <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                        </div>
-                        <div class="row" data-row="C">
-                            <button class="row-label">C</button>
-                            <div class="seat-group">
-                                <% for (int i = 1; i <= 1; i++) { %>
-                                <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-center">
-                                <% for (int i = 2; i <= 4; i++) { %>
-                                <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-right">
-                                <% for (int i = 5; i <= 5; i++) { %>
-                                <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                        </div>
-                        <div class="row" data-row="D">
-                            <button class="row-label">D</button>
-                            <div class="seat-group">
-                                <% for (int i = 1; i <= 1; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-center">
-                                <% for (int i = 2; i <= 4; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-right">
-                                <% for (int i = 5; i <= 5; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                        </div>
-                        <div class="row" data-row="back">
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="door-top"></button>
-                            <button class="empty"></button>
-                        </div>
-                    </div>
-                    <%-- B set --%>
-                    <div class="rows">
-                        <div class="row" data-row="front">
-                            <button class="empty"></button>
-                            <button class="door-left"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                        </div>
-                        <div class="row" data-row="A">
-                            <button class="row-label">A</button>
-                            <div class="seats">
+                            <div class="row" data-row="A">
+                                <button class="row-label">A</button>
                                 <div class="seat-group">
                                     <% for (int i = 1; i <= 4; i++) { %>
                                     <button class="available-seat" data-seat="A<%=i%>"><%=i%>
                                     </button>
                                     <% } %>
                                 </div>
-                                <div class="seat-group-left">
-                                    <% for (int i = 5; i <= 6; i++) { %>
+                                <div class="seat-group-right">
+                                    <% for (int i = 5; i <= 8; i++) { %>
                                     <button class="available-seat" data-seat="A<%=i%>"><%=i%>
                                     </button>
                                     <% } %>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" data-row="B">
-                            <button class="row-label">B</button>
-                            <div class="seats">
+                            <div class="row" data-row="B">
+                                <button class="row-label">B</button>
                                 <div class="seat-group">
                                     <% for (int i = 1; i <= 4; i++) { %>
                                     <button class="available-seat" data-seat="B<%=i%>"><%=i%>
                                     </button>
                                     <% } %>
                                 </div>
-                                <div class="seat-group-left">
-                                    <% for (int i = 5; i <= 6; i++) { %>
+                                <div class="seat-group-right">
+                                    <% for (int i = 5; i <= 8; i++) { %>
                                     <button class="available-seat" data-seat="B<%=i%>"><%=i%>
                                     </button>
                                     <% } %>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" data-row="C">
-                            <button class="row-label">C</button>
-                            <div class="seats">
+                            <div class="row" data-row="C">
+                                <button class="row-label">C</button>
                                 <div class="seat-group">
                                     <% for (int i = 1; i <= 4; i++) { %>
                                     <button class="available-seat" data-seat="C<%=i%>"><%=i%>
                                     </button>
                                     <% } %>
                                 </div>
-                                <div class="seat-group-left">
-                                    <% for (int i = 5; i <= 6; i++) { %>
+                                <div class="seat-group-right">
+                                    <% for (int i = 5; i <= 8; i++) { %>
                                     <button class="available-seat" data-seat="C<%=i%>"><%=i%>
                                     </button>
                                     <% } %>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row" data-row="D">
-                            <button class="row-label">D</button>
-                            <div class="seats">
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="D<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-left">
-                                    <% for (int i = 5; i <= 6; i++) { %>
-                                    <button class="available-seat" data-seat="D<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
+                            <div class="row" data-row="back">
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="door-top"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
+                                <button class="empty"></button>
                             </div>
                         </div>
-                        <div class="row" data-row="back">
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="door-top"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                        </div>
-                    </div>
-                    <%-- C set--%>
-                    <div class="rows">
-                        <div class="row" data-row="front">
-                            <button class="door-left"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                        </div>
-                        <div class="row" data-row="A">
-                            <button class="row-label">A</button>
-                            <div class="seat-group">
-                                <% for (int i = 1; i <= 4; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-right">
-                                <% for (int i = 4; i <= 8; i++) { %>
-                                <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                        </div>
-                        <div class="row" data-row="B">
-                            <button class="row-label">B</button>
-                            <div class="seat-group">
-                                <% for (int i = 1; i <= 4; i++) { %>
-                                <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-right">
-                                <% for (int i = 4; i <= 8; i++) { %>
-                                <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                        </div>
-                        <div class="row" data-row="C">
-                            <div class="seat-group">
-                                <% for (int i = 1; i <= 4; i++) { %>
-                                <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                            <div class="seat-group-right">
-                                <% for (int i = 4; i <= 8; i++) { %>
-                                <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                </button>
-                                <% } %>
-                            </div>
-                        </div>
-                        <div class="row" data-row="back">
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="door-top"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                            <button class="empty"></button>
-                        </div>
-                    </div>
+                    <% } %>
                 </div>
             </div>
             <!-- 영화 정보 -->
