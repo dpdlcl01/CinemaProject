@@ -20,8 +20,9 @@ public class AddCartAction implements Action {
         String idx=request.getParameter("productIdx");
         HttpSession session = request.getSession();
         String id = session.getAttribute("id").toString();
+        String userIdx = session.getAttribute("idx").toString();
         /*여기서 아이디 퀀트 아이디액스로 장바구니에 저장하자*/
-        CartDAO.addCart(id,idx,quant);
+        CartDAO.addCart(id,idx,quant,userIdx);
 
         return "/jsp/user/store/storeMain.jsp";
 

@@ -9,11 +9,11 @@ import java.util.List;
 
 public class CartDAO {
 
-    public static int delCart(String id,String idx){
+    public static int delCart(String userIdx,String idx){
         int cnt=0;
         SqlSession ss = FactoryService.getFactory().openSession();
         HashMap<String,String> map = new HashMap<>();
-        map.put("userId",id);
+        map.put("userIdx",userIdx);
         map.put("productIdx",idx);
 
         cnt = ss.delete("product.delCart",map);
@@ -24,11 +24,11 @@ public class CartDAO {
 
         return cnt;
     }
-    public static int addCart(String id,String idx,String quant){
+    public static int addCart(String id,String idx,String quant, String userIdx){
         SqlSession ss = FactoryService.getFactory().openSession();
 
         HashMap<String,String> map = new HashMap<>();
-        map.put("userId",id);
+        map.put("userIdx",userIdx);
         map.put("productIdx",idx);
         map.put("quantity",quant);
 
@@ -38,9 +38,9 @@ public class CartDAO {
         return cnt;
 
     }
-    public static CartVO[] getCart(String id){
+    public static CartVO[] getCart(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<CartVO> list = ss.selectList("product.selectCart",id);
+        List<CartVO> list = ss.selectList("product.selectCart",idx);
         ss.close();
         CartVO[] cvo = new CartVO[list.size()];
         list.toArray(cvo);

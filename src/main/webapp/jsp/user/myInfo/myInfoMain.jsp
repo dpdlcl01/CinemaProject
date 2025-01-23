@@ -229,6 +229,9 @@
     .top2 span{
         font-size: 14px;
     }
+    #total{
+        display: none;
+    }
 </style>
 
 <body>
@@ -273,7 +276,7 @@
                             <div id="pointDiv">
                                 <div id="point">
                                     <div id="totalPoint">
-                                        ${requestScope.uvo.userPoint}
+                                        ${requestScope.uvo.userPoint}P
                                     </div>
                                     <span>
               현재등급
@@ -290,9 +293,18 @@
                                 </div>
                                 <ul class="level-list">
                                     <li class="level-item active">
-                                        <div class="tooltip">다음 VIP 등급까지 ${requestScope.calculation} P 남았어요!</div>
+                                        <c:if test="${requestScope.total < 13000}">
+                                        <div class="tooltip">다음 VIP 등급까지 ${requestScope.reach} P 남았어요!</div>
+                                        </c:if>
+                                        <c:if test="${requestScope.total > 13000 and requestScope.total<20000}">
+                                            <div class="tooltip">다음 VVIP 등급까지 ${requestScope.reach} P 남았어요!</div>
+                                        </c:if>
+                                        <c:if test="${requestScope.total>20000}">
+                                            <div class="tooltip">최고 등급입니다!</div>
+                                        </c:if>
                                         <span>BASIC</span>
                                     </li>
+                                    <p id="total">${requestScope.total}</p>
                                     <li class="level-item"><span>VIP</span></li>
                                     <li class="level-item"><span>VVIP</span></li>
                                 </ul>
@@ -376,6 +388,7 @@
 <jsp:include page="../common/footer.jsp"/>
 
 <script>
+
 
 </script>
 </body>

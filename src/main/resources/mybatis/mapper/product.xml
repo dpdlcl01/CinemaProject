@@ -11,8 +11,8 @@
     </select>
 
     <insert id="addCart" parameterType="Map">
-        insert into cart (userId,productIdx,quantity)
-        values(#{userId}, #{productIdx}, #{quantity});
+        insert into cart (userIdx,productIdx,quantity)
+        values(#{userIdx}, #{productIdx}, #{quantity});
     </insert>
 
     <select id="selectCart" parameterType="String" resultType="mybatis.vo.CartVO">
@@ -20,13 +20,13 @@
         p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,
         SUM(c.quantity) AS total_quant
         FROM cart c INNER JOIN product p ON c.productIdx = p.productIdx
-        WHERE c.userId = #{s}
+        WHERE c.userIdx = #{idx}
         GROUP BY p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg
-        ORDER BY p.productIdx;
+        ORDER BY p.productIdx
     </select>
     <delete id="delCart" parameterType="Map">
         DELETE
         FROM cart
-        WHERE userId=#{userId} and productIdx=#{productIdx}
+        WHERE userIdx=#{userIdx} and productIdx=#{productIdx}
     </delete>
 </mapper>

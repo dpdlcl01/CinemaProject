@@ -24,16 +24,16 @@ public class MyInfoAction implements Action {
         int wNum = MyInfoDAO.watchMovieNum(idx);
         ReservationVO[] rvo = MyInfoDAO.getReservation(idx);
         int total = MyInfoDAO.getTotalPoint(idx);
-        int reachVIP = 0;
-        int reachVVIP = 0;
+        int reach = 0;
         if(total<13000){
-            reachVIP= 13000-total;
+            reach= 13000-total;
         }else if(total<20000){
-            reachVVIP= 20000-total;
+            reach= 20000-total;
         }
         /*현재 여기까지 진행한 상태임 */
 
-        /*이제 인트형 변수 세개 넘기자*/
+        request.setAttribute("total",total);
+        request.setAttribute("reach",reach);
 
 
         request.setAttribute("total", total);
