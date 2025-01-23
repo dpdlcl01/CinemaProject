@@ -1,10 +1,8 @@
-package dao;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import org.apache.ibatis.session.SqlSession;
-import vo.PriceVO;
-import vo.TheaterVO;
-import vo.UserVO;
+import mybatis.vo.UserVO;
 
 import java.util.HashMap;
 import java.util.Map;

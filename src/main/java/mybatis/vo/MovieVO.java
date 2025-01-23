@@ -1,4 +1,4 @@
-package vo;
+package mybatis.vo;
 
 public class MovieVO {
     private String movieIdx;

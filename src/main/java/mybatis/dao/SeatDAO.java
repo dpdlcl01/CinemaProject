@@ -1,7 +1,7 @@
-package dao;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
-import vo.SeatVO;
+import mybatis.vo.SeatVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;

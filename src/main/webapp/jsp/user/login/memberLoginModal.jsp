@@ -3,7 +3,7 @@
 
 <%--<%--%>
 <%--    // 세션에서 user 값을 가져옴--%>
-<%--    vo.UserVO user = (vo.UserVO) session.getAttribute("user");--%>
+<%--    mybatis.vo.UserVO user = (mybatis.vo.UserVO) session.getAttribute("user");--%>
 <%--    boolean isLoggedIn = (user != null); // userVO 객체가 존재하면 로그인 상태--%>
 
 <%--%>--%>

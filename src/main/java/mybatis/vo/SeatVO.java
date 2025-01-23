@@ -1,4 +1,4 @@
-package vo;
+package mybatis.vo;
 
 public class SeatVO {
     private String seatIdx, screenIdx, seatNumber, seatStatus, priceIdx, screenType, ageGroup, dayOfWeek, timeOfDay, seatPrice;

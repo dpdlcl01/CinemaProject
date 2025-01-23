@@ -1,4 +1,4 @@
-package vo;
+package mybatis.vo;
 
 public class TimetableVO {
     private String timetableIdx, movieIdx, theaterIdx, screenIdx, timetableStartTime, timetableEndTime;

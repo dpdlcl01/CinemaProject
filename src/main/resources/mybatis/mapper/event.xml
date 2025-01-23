@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="event">
+    <!-- 진행중 이벤트 게시물 수를 반환 -->
+    <select id="totalEventCount" resultType="int" parameterType="String">
+        SELECT count(*)
+        FROM board
+        WHERE boardStatus = 0
+        AND boardType = #{boardType}
+        AND boardRegDate &lt;= NOW()
+        AND (boardExpDate IS NULL OR boardExpDate &gt;= NOW())
+    </select>
+
+    <!-- 지난 이벤트 게시물 수를 반환 -->
+    <select id="totalPastEventCount" resultType="int" parameterType="String">
+        SELECT count(*)
+        FROM board
+        WHERE boardStatus = 0
+        AND boardType = #{boardType}
+        AND (boardExpDate &lt; NOW())
+    </select>
+
+    <!-- 이벤트 목록 offset 부터 pageSize만큼의 행을 가져온다 -->
+    <select id="getEventList" resultType="mybatis.vo.EventVO" parameterType="java.util.Map">
+        SELECT *
+        FROM board
+        WHERE boardStatus = 0
+        AND boardType = 'EVENT'
+        AND boardRegDate &lt;= NOW()
+        AND (boardExpDate IS NULL OR boardExpDate &gt;= NOW())
+        ORDER BY boardIdx DESC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+    <!-- 종료된 이벤트 목록 offset부터 pageSize만큼의 행을 가져온다 -->
+    <select id="getPastEventList" resultType="mybatis.vo.EventVO" parameterType="java.util.Map">
+        SELECT *
+        FROM board
+        WHERE boardStatus = 0
+        AND boardType = 'EVENT'
+        AND (boardExpDate &lt; NOW())
+        ORDER BY boardIdx DESC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+    <!-- 지난 이벤트 이름 검색 결과 수 -->
+    <select id="SearchPastEventCount" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM board
+        WHERE boardStatus = 0
+        AND boardType = 'EVENT'
+        AND boardExpDate &lt; NOW()
+        AND boardTitle LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+
+    <!-- 지난 이벤트 이름 검색 -->
+    <select id="searchPastEvent" resultType="mybatis.vo.EventVO" parameterType="java.util.Map">
+        SELECT *
+        FROM board
+        WHERE boardStatus = 0
+        AND boardType = 'EVENT'
+        AND boardExpDate &lt; NOW()
+        AND boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY boardIdx DESC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+    <!-- boardIdx 값으로 이벤트 검색 -->
+    <select id="searchBoardIdxEvent" resultType="mybatis.vo.EventVO" parameterType="int">
+        SELECT *
+        FROM board
+        WHERE boardIdx = #{boardIdx}
+        AND boardType = 'EVENT'
+        AND boardStatus = 0
+    </select>
+
+</mapper>

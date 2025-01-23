@@ -180,24 +180,24 @@
   }
 
   .theater-event .event-list ul li {
-    flex: 1; /* 카드 너비를 균등 분배 */
+    /*flex: 1; !* 카드 너비를 균등 분배 *!*/
     overflow: hidden;
   }
 
   .theater-event .event-list ul li img {
     width: 100%;
     height: auto;
-    display: block;
+    /*display: block;*/
     border-radius: 5px;
   }
 
-  .theater-event .event-list ul li div {
-    margin-top: 10px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-  }
+  /*.theater-event .event-list ul li div {*/
+  /*  margin-top: 10px;*/
+  /*  text-align: center;*/
+  /*  font-size: 16px;*/
+  /*  font-weight: bold;*/
+  /*  color: #333;*/
+  /*}*/
 
   /* 극장 공지사항 섹션 */
   .theater-notice {
@@ -279,8 +279,44 @@
    background-color: #fff;
  }
 
+  /* 이벤트 */
+  .event-sector {
+    display: flex; /* 플렉스 컨테이너 */
+    width: 540px;
+    height: 250px;
+    border-radius: 10px;
+    padding: 35px;
+    background-color: #dbcaff;
+    align-items: center;
+    gap: 20px;
+  }
 
+  .event-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
+  .event-boardTitle {
+    font-size: 23px;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 25px; /* 극장명과 타이틀 간격 */
+  }
+
+  /* 이미지 */
+  .event-img {
+    display: flex;
+    align-items: center; /* 이미지 자체도 세로 가운데 정렬 */
+  }
+
+  .event-img img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 10px; /* 모서리 둥글게 */
+    object-fit: cover; /* 이미지 비율 유지 */
+  }
 </style>
 
 <!-- 상단 탭 영역 -->
@@ -363,27 +399,45 @@
     <!-- 섹션 제목 -->
     <div class="event-header">
       <h2 class="event-title">극장 이벤트</h2>
-      <a href="#" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+      <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" class="more" title="이벤트 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
     </div>
 
     <!-- 이벤트 카드 리스트 -->
     <div class="event-list">
       <ul>
         <!-- 첫 번째 이벤트 카드 -->
-        <li>
-          <a href="#" class="eventBtn" data-no="16362" data-netfunnel="N" title="[사상] 애니메이션 영화랑 매점 콜라보! 상세보기">
-            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/ABZW30ApzQFKUAzDUosgKxHftaQTXCGn.jpg" alt="[사상] 애니메이션 영화랑 매점 콜라보!" onerror="noImg(this)" />
-          </a>
-        </li>
-        <!-- 두 번째 이벤트 카드 -->
-        <li>
-          <a href="#" class="eventBtn" data-no="16948" data-netfunnel="N" title="[수원스타필드] Happy 1st Anniversary 상세보기">
-            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/m1htf1m846GY1LSBLyJ4hGEBUaaH1UsN.jpg" alt="[수원스타필드] Happy 1st Anniversary" onerror="noImg(this)" />
-          </a>
-        </li>
+        <c:forEach var="event" items="${event}">
+          <li>
+            <div class="event-sector">
+              <!-- 텍스트 영역 -->
+              <div class="event-text">
+                <div class="event-header">
+                  <h3>${event.theaterName}점</h3>
+                </div>
+                <div class="event-boardTitle">
+                  <a href="UserController?type=eventdetail&boardIdx=${event.boardIdx}">
+                      ${event.boardTitle}
+                  </a>
+                </div>
+              </div>
+              <!-- 이미지 영역 -->
+              <div class="event-img">
+                <img src="${pageContext.request.contextPath}/css/user/images/event/${event.boardContent}" alt="이벤트 이미지">
+              </div>
+            </div>
+          </li>
+        </c:forEach>
       </ul>
     </div>
   </article>
+
+
+<%--        <!-- 두 번째 이벤트 카드 -->--%>
+<%--        <li>--%>
+<%--          <a href="#" class="eventBtn" data-no="16948" data-netfunnel="N" title="[수원스타필드] Happy 1st Anniversary 상세보기">--%>
+<%--            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/m1htf1m846GY1LSBLyJ4hGEBUaaH1UsN.jpg" alt="[수원스타필드] Happy 1st Anniversary" onerror="noImg(this)" />--%>
+<%--          </a>--%>
+<%--        </li>--%>
 
 
   <!-- 극장 공지사항 -->

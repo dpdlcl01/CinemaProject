@@ -1,10 +1,10 @@
-package dao;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import org.apache.ibatis.session.SqlSession;
-import vo.MovieVO;
-import vo.TheaterVO;
-import vo.TimetableVO;
+import mybatis.vo.MovieVO;
+import mybatis.vo.TheaterVO;
+import mybatis.vo.TimetableVO;
 
 import java.util.HashMap;
 import java.util.List;

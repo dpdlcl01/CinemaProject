@@ -1,9 +1,10 @@
 package action.user.theater;
 
 import action.Action;
-import dao.TheaterDAO;
-import vo.TheaterVO;
-import vo.UserVO;
+import mybatis.dao.TheaterDAO;
+import mybatis.vo.EventVO;
+import mybatis.vo.TheaterVO;
+import mybatis.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,12 +36,17 @@ public class TheaterMainAction implements Action {
             }
         }
 
-// 전체극장 정보 가져오기 //
+        // 전체극장 정보 가져오기 //
         TheaterVO[] theaterVO = TheaterDAO.getTheaterInfo();
-
-        if (theaterVO != null) {
+        if (theaterVO.length > 0) {
             // request에 극장 정보 저장
             request.setAttribute("theater", theaterVO);
+        }
+
+        EventVO[] eventVO = TheaterDAO.getEvent();
+//        System.out.println("이벤트VO"+eventVO.length);
+        if (eventVO.length > 0) {
+            request.setAttribute("event", eventVO);
         }
 
         // 포워딩할 JSP 페이지 반환

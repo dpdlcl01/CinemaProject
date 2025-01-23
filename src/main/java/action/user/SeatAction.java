@@ -1,9 +1,7 @@
 package action.user;
 
 import action.Action;
-import dao.SeatDAO;
-import vo.UserVO;
-import vo.SeatVO;
+import mybatis.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

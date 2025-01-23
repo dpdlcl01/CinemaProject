@@ -1,9 +1,10 @@
-package dao;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
+import mybatis.vo.EventVO;
 import org.apache.ibatis.session.SqlSession;
-import vo.PriceVO;
-import vo.TheaterVO;
+import mybatis.vo.PriceVO;
+import mybatis.vo.TheaterVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,5 +64,14 @@ public class TheaterDAO {
         ss.close();
 
         return priceVO;
+    }
+
+    public static EventVO[] getEvent() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<EventVO> list = ss.selectList("theater.getEvent");
+        EventVO[] eventVO = new EventVO[list.size()];
+        list.toArray(eventVO);
+        ss.close();
+        return eventVO;
     }
 }

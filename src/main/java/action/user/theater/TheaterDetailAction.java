@@ -1,9 +1,9 @@
 package action.user.theater;
 
 import action.Action;
-import dao.TheaterDAO;
-import vo.PriceVO;
-import vo.TheaterVO;
+import mybatis.dao.TheaterDAO;
+import mybatis.vo.PriceVO;
+import mybatis.vo.TheaterVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

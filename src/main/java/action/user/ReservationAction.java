@@ -2,15 +2,13 @@ package action.user;
 
 import action.Action;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.ReservationDAO;
-import vo.MovieVO;
-import vo.TheaterVO;
-import vo.TimetableVO;
+import mybatis.dao.ReservationDAO;
+import mybatis.vo.MovieVO;
+import mybatis.vo.TheaterVO;
+import mybatis.vo.TimetableVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
