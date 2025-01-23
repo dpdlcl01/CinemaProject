@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 15.
-  Time: 오후 4:38
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!Doctype html>
@@ -27,7 +20,7 @@
       display: flex;
       width: 1100px;
       height: 375px;
-      background-image:url("../../../img/payment.png");
+      /*background-image:url("../../../img/payment.png");*/
     }
     #imgDiv{
       width: 270px;
@@ -117,9 +110,7 @@
 
 <body>
 <!-- header 영역 -->
-<header>
   <jsp:include page="../common/header.jsp"/>
-</header>
 <!-- contents 영역 -->
 <div class="page-util">
   <div class="inner-wrap">
@@ -131,62 +122,53 @@
   </div>
 </div>
 <div id="contents">
-  <h1>예매완료</h1>
-  <div id="main">
-    <c:forEach var="vo" items="${guestReservationList}"  >
-        <p>${vo.userName}</p>
-        <p>${vo.seatNumber}</p>
+    <h1>예매완료</h1>
+    <!-- 예매 내역 반복 출력 -->
+    <c:forEach var="vo" items="${guestReservationList}">
+        <div id="main">
+            <div id="imgDiv">
+                <div id="ticket">
+                    <p>티켓 예매번호</p>
+                    <p><strong>${vo.reservationIdx}</strong></p>
+                    <p>${vo.movieTitle}</p>
+                </div>
+<%--                <img src="" id="movieImg" alt="영화 포스터">--%>
+                <div>예매영화:${vo.movieTitle}</div>
+            <div id="successInfo">
+                <p><strong>예매가 완료되었습니다!</strong>
+                    <span>고객님의 상영익일 적립예정 포인트는 ??? 입니다.</span>
+                </p>
+                <hr>
+                <div id="liDiv">
+                    <div>예매영화:${vo.movieTitle}</div>
+                    <div><p>관람극장/상영관</p> ${vo.theaterName} / ${vo.screenName}</div>
+                    <div><p>관람일시</p> ${vo.timetableStartTime}</div>
+                    <div><p>관람인원</p> 성인 명 / 청소년 명</div>
+                    <div><p>좌석번호</p> ${vo.seatNumber}</div>
+                    <div><p>전화번호</p> </div>
+                    <div><p>결제정보</p><strong></strong></div>
+                </div>
+                <hr>
+            </div>
+            <hr>
+            <div id="btnDiv">
+                <button type="button">교환권출력</button>
+                <button type="button">예매내역</button>
+            </div>
+            <hr>
+        </div>
+        </div>
     </c:forEach>
-    <div id="imgDiv">
-      <div id="ticket">
-        <p>티켓 예매번호</p>
-        <p><strong>0000-000-0000</strong></p>
-      </div>
-
-      <img src="../../../img/ha.png" id="movieImg">
+    <!-- 반복 끝 -->
+    <div id="lastElement">
+        <li>※상영안내</li>
+        <p>-쾌적한 관람 환경을 위해 상영시간 이전에 입장 부탁드립니다.</p>
+        <p>-상영시간 20분전까지 취소 가능하며, 캡쳐화면으로는 입장하실 수 없습니다.</p>
     </div>
-    <div id="successInfo">
-      <p><strong>예매가 완료되었습니다!</strong><span>고객님의 상영익일 적립예정 포인트는 0000입니다.</span></p>
-      <hr>
-      <div id="liDiv">
-        <li><p>예매영화</p> 영화명/2D</li>
-        <li><p>관람극장/상영관</p> 강남/3관</li>
-        <li><p>관람일시</p>2025-01-19(일) 14:35 </li>
-        <li><p>관람인원</p>성인 1명</li>
-        <li><p>좌석번호</p> C4</li>
-        <li><p>전화번호</p> 010-4324-2421</li>
-        <li><p>결제정보</p><strong>15000원</strong></li>
-      </div>
-      <hr>
-      <div >
-
-      </div>
-    </div>
-  </div>
-  <div id="btnDiv">
-    <button type="button">교환권출력</button>
-    <button type="button">예매내역</button>
-  </div>
-  <hr>
-  <div id="lastElement">
-    <li>※상영안내</li>
-    <p>-쾌적한 관람 환경을 위해 상영시간 이전에 입장 부탁드립니다.</p>
-    <p>-상영시간 20분전까지 취소 가능하며, 캡쳐화면으로는 입장하실 수 없습니다.</p>
-  </div>
-
-
-
-
-
-
-
-
 </div>
 
 <!-- footer 영역 -->
-<footer>
   <jsp:include page="../common/footer.jsp"/>
-</footer>
 <!-- script 영역 -->
 <script>
 

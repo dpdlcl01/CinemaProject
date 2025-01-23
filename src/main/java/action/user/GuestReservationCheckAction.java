@@ -47,7 +47,9 @@ public class GuestReservationCheckAction implements Action {
 
         request.setAttribute("guestReservationList", guestReservationList);
 
-        return "./jsp/user/reservation/reservationSuccess.jsp";
+        System.out.println(guestReservationList.get(0).getMovieTitle());
+
+        return "/jsp/user/reservation/reservationSuccess.jsp";
       }
     }
     return null;
