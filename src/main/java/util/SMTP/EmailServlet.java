@@ -28,7 +28,8 @@ public class EmailServlet extends HttpServlet {
 
         String authCode = generateAuthCode();
 
-        System.out.println("인증번호가 전송 될 이메일 :  " + email);
+        System.out.println("send authcode email :  " + email);
+        System.out.println("authcode : "+authCode);
 
         try{
             MailSender.sendEmail(email, "이메일 인증 테스트입니다.",

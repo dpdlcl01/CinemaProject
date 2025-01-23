@@ -10,7 +10,7 @@
         AND userPassword = #{userPassword}
     </select>
 
-    <select id="getUserInfo" parameterType="map" resultType="vo.userVO">
+    <select id="getUserInfo" parameterType="map" resultType="vo.UserVO">
         SELECT userIdx, userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus
         FROM user
         WHERE userID = #{userId}

@@ -209,8 +209,9 @@
         </colgroup>
         <tbody>
         <tr>
+          <input type="hidden" name="userId" value="${sessionScope.userId}">
           <td>비밀번호</td>
-          <td><input type="password" id="password" name="password"></td>
+          <td><input type="password" id="userPassword" name="userPassword"></td>
         </tr>
         <tr>
           <td>이메일</td>
@@ -228,7 +229,6 @@
             <input type="text" id="authcode" name="authcode" class="inputValue">
             <button type="button" onclick="verifyAuthCode()">인증확인</button>
             <script>
-              // 인증번호 확인 AJAX 요청
               function sendAuthCode() {
                 const emailPart1 = document.getElementById("emailpart1").value;
                 console.log(emailPart1);
@@ -260,12 +260,12 @@
       </table>
       <div id="btnDiv">
         <button id="cancel">취소</button>
-        <button id="go" onclick="userStatus_drop">탈퇴</button>
+        <button id="go" onclick="userStatus_drop(this.form)">탈퇴</button>
       </div>
     </div>
-    <c:if test="${not empty message}">
-      <div class="alert">${message}</div>
-    </c:if>
+<c:if test="${not empty message}">
+  <div class="alert">${message}</div>
+</c:if>
   </article>
 </div>
 </form>
@@ -305,36 +305,8 @@
     xhr.send("authCode=" + encodeURIComponent(authCode));
   }
 
-  function userStatus_drop() {
-    const password = document.getElementById("password").value();
-
-    if(!password) {
-      alert("비밀번호를 입력해주세요.");
-      return;
-    }
-
-    if(verifyAuthCode !== "success") {
-      alert("이메일 인증을 완료해주세요.");
-      return;
-    }
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "${pageContext.request.contextPath}/UserController", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const response = xhr.responseText.trim();
-        if (response === "탈퇴 성공") {
-          alert("회원탈퇴가 완료되었습니다.");
-          location.href = "${pageContext.request.contextPath}/main.jsp"; // 메인 페이지로 이동
-        } else {
-          alert("회원탈퇴에 실패했습니다. 비밀번호를 확인해주세요.");
-        }
-      }
-    };
-
-    const userId = "${sessionScope.userId}"; // 세션에서 userId 가져오기
-    xhr.send("action=dropUser&userId=" + encodeURIComponent(userId) + "&password=" + encodeURIComponent(password));
+  function userStatus_drop(frm){
+    frm.submit();
   }
 </script>
 </body>

@@ -2,7 +2,7 @@ package action.user.login;
 
 import action.Action;
 import dao.LoginDAO;
-import vo.userVO;
+import vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +14,6 @@ public class LoginAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-
-        // 로그인 처리
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
 
@@ -26,9 +24,9 @@ public class LoginAction implements Action {
         PrintWriter out = response.getWriter();
 
         if (usercheck) {
-            userVO userVO = loginDAO.getUserInfo(userId);
+            UserVO userVO = loginDAO.getUserInfo(userId);
             HttpSession session = request.getSession();
-            session.setAttribute("user", userVO);  // 세션에 사용자 정보 저장
+            session.setAttribute("user", userVO);
 
 
             out.write("{\"success\": true}");

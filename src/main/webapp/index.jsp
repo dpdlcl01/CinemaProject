@@ -91,6 +91,7 @@
             <a href="jsp/user/movie/movieMain.jsp">영화 메인 페이지</a>
             <a href="jsp/user/movie/movieDetail.jsp">영화 상세 페이지</a>
             <a href="jsp/user/theater/theaterMain.jsp">극장 메인 페이지</a>
+            <a href="jsp/user/myInfo/editMyInfo.jsp">내정보 페이지</a>
             <a href="jsp/user/register/register.jsp">회원가입 페이지</a>
             <a href="jsp/user/myInfo/deleteAccount.jsp">회원탈퇴 페이지</a>
         </div>

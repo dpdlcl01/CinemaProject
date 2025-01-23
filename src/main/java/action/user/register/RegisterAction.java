@@ -23,7 +23,7 @@ public class RegisterAction implements Action {
         // 입력값 가져오기
         String userName = request.getParameter("userName");
         String userId = request.getParameter("userId");
-        String userPassword = request.getParameter("userPassword");
+        String userPassword = request.getParameter("userPassword1");
         String userEmail = request.getParameter("user_Email");
         String userPhone = request.getParameter("userPhone");
 

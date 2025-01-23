@@ -145,6 +145,7 @@ public class UserController extends HttpServlet {
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);
             disp.forward(request, response);
         }
+        System.out.println("action : " + actionMap);
     }
 
 
@@ -161,7 +162,7 @@ public class UserController extends HttpServlet {
         String userEmail = request.getParameter("user_Email");
         String userPhone = request.getParameter("userPhone");
         String userId = request.getParameter("userId");
-        String userPassword = request.getParameter("userPassword");
+        String userPassword = request.getParameter("userPassword1");
 
         System.out.println(userName);
         System.out.println(userEmail);
