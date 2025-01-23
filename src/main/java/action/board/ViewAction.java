@@ -16,13 +16,10 @@ public class ViewAction implements Action {
 
         int currentBoardIdx = Integer.parseInt(boardIdx);
 
-//        int previousBoardIdx = currentBoardIdx + 1;
-//        int nextBoardIdx = currentBoardIdx - 1;
-
         // 위의 기본키는 DB로부터 원하는 게시물을 검색하기 위해 받았다.
         BoardVO bo = BoardDAO.getBoard(boardIdx);
-        BoardVO pbo = BoardDAO.getPreviousBoard(currentBoardIdx);
-        BoardVO nbo = BoardDAO.getNextBoard(currentBoardIdx);
+        BoardVO pbo = BoardDAO.getPreviousBoard(boardIdx);
+        BoardVO nbo = BoardDAO.getNextBoard(boardIdx);
 
 
         request.setAttribute("board", bo);

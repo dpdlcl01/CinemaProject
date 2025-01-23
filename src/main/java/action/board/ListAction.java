@@ -13,7 +13,7 @@ public class ListAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         // 페이징 처리를 위한 객체생성
-        Paging page = new Paging(10, 10);
+        Paging page = new Paging(3, 10);
 
         //bType을 인자로 받는다.
         String bType = request.getParameter("bType");
@@ -42,6 +42,7 @@ public class ListAction implements Action {
         // 가져온 자원들을 noticeMain.jsp에서 표현할 수 있도록 request에 저장해야 한다.
         request.setAttribute("ar", ar);
         request.setAttribute("page", page);
+        request.setAttribute("cPage", cPage);
 
         return "/jsp/user/notice/noticeMain.jsp";
     }

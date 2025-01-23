@@ -67,7 +67,7 @@ public class BoardDAO {
     }
 
     //이전 게시물
-    public static BoardVO getPreviousBoard(int boardId) {
+    public static BoardVO getPreviousBoard(String boardId) {
         SqlSession ss = FactoryService.getFactory().openSession();
         BoardVO pboard = ss.selectOne("board.getPreviousBoard", boardId);
         ss.close();
@@ -75,7 +75,7 @@ public class BoardDAO {
     }
 
     //다음 게시물
-    public static BoardVO getNextBoard(int boardId) {
+    public static BoardVO getNextBoard(String boardId) {
         SqlSession ss = FactoryService.getFactory().openSession();
         BoardVO nboard = ss.selectOne("board.getNextBoard", boardId);
         ss.close();

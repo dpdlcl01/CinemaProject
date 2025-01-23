@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <jsp:include page="../common/head.jsp"/>
@@ -117,7 +118,14 @@
                 <span>이전</span>
             </td>
             <td>
-                <a href="UserController?type=view&boardIdx=${pboard.boardIdx}">${pboard.boardTitle}</a>
+                <c:choose>
+                    <c:when test="${not empty pboard}">
+                        <a href="UserController?type=view&boardIdx=${pboard.boardIdx}">${pboard.boardTitle}</a>
+                    </c:when>
+                    <c:otherwise>
+                        이전글이 없습니다.
+                    </c:otherwise>
+                </c:choose>
             </td>
         </tr>
         <tr>
@@ -125,17 +133,20 @@
                 <span>다음</span>
             </td>
             <td>
-                <a href="UserController?type=view&boardIdx=${nboard.boardIdx}">${nboard.boardTitle}</a>
+                <c:choose>
+                    <c:when test="${not empty nboard}">
+                        <a href="UserController?type=view&boardIdx=${nboard.boardIdx}">${nboard.boardTitle}</a>
+                    </c:when>
+                    <c:otherwise>
+                        다음글이 없습니다.
+                    </c:otherwise>
+                </c:choose>
             </td>
         </tr>
         </tbody>
     </table>
     <a href="UserController?type=board" class="btn-list">목록</a>
 </div>
-<script>
-    var boardIdx = ${board.boardIdx};
-
-</script>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/modalscript.jsp"/>
 </body>

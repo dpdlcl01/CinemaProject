@@ -123,6 +123,8 @@
         }
 
         .pagination {
+            display: flex;
+            list-style-type: none;
             margin-top: 20px;
             margin-bottom: 50px;
             text-align: center;
@@ -133,6 +135,7 @@
             text-decoration: none;
             color: #5a4cad;
             font-weight: bold;
+            border: 1px solid #000;
         }
 
         .pagination a.active {
@@ -140,6 +143,7 @@
             background-color: #5a4cad;
             padding: 5px 10px;
             border-radius: 5px;
+            border: 1px solid #000;
         }
 
         .event-thumbnail img {
@@ -206,7 +210,7 @@
             <c:forEach var="vo" items="${ar }" varStatus="vs">
                 <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
                 <tr>
-                    <td>${pvo.totalRecord - ((pvo.nowPage - 1) * pvo.numPerPage + vs.index) }</td>
+                    <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index)+1 }</td>
                     <td></td>
                     <td>공지</td>
                     <td>
@@ -226,20 +230,26 @@
 
         <!-- 페이지네이션 -->
         <div class="pagination">
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#" class="active">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">7</a>
-            <a href="#">8</a>
-            <a href="#">9</a>
-            <a href="#">10</a>
+            <c:if test="${pvo.startPage < pagePerBlock}">
+                <div class="disable">&lt;</div>
+            </c:if>
+            <c:if test="${pvo.startPage > pagePerBlock}">
+                <div class="able"><a href=""></a></div>
+            </c:if>
+            <c:forEach begin="${pvo.startPage }" end="${pvo.endPage }" varStatus="st">
+                <c:if test="${st.index eq pvo.nowPage }">
+                    <strong class="active">${st.index }></strong>
+                </c:if>
+                <c:if test="${st.index ne pvo.nowPage }">
+                    <a href="UserController?type=board&cPage=${st.index }">${st.index }</a>
+                </c:if>
+            </c:forEach>
         </div>
     </div>
 </div>
-</div>
+<script>
+
+</script>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/modalscript.jsp"/>
 </body>
