@@ -126,7 +126,7 @@
         background-color: #22C8F6;
         color: #ffffff;
         padding: 6px 12px;
-        margin-left: 110px;
+        /*margin-left: 110px;*/
         border-radius: 6px;
         font-size: 12px;
         font-weight: bold;
@@ -139,7 +139,7 @@
     }
 
     /* 말풍선 꼬리 */
-    .tooltip::after {
+/*    .tooltip::after {
         content: "";
         position: absolute;
         bottom: -6px;
@@ -148,7 +148,7 @@
         border-width: 6px;
         border-style: solid;
         border-color: #22C8F6 transparent transparent transparent;
-    }
+    }*/
     .level-item.active .tooltip {
         display: block;
     }
@@ -278,9 +278,9 @@
                                     <div id="totalPoint">
                                         ${requestScope.uvo.userPoint}P
                                     </div>
-                                    <span>
-              현재등급
-            </span>
+                                        <span>
+                                          현재등급
+                                        </span>
                                     <em>
                                         ${requestScope.uvo.userGrade}
                                     </em>
@@ -293,8 +293,13 @@
                                 </div>
                                 <ul class="level-list">
                                     <li class="level-item active">
+
+                                        <span>BASIC</span>
+                                    </li>
+                                    <p id="total">${requestScope.total}</p>
+                                    <li class="level-item" id="vip-item">
                                         <c:if test="${requestScope.total < 13000}">
-                                        <div class="tooltip">다음 VIP 등급까지 ${requestScope.reach} P 남았어요!</div>
+                                            <div class="tooltip">다음 VIP 등급까지 ${requestScope.reach} P 남았어요!</div>
                                         </c:if>
                                         <c:if test="${requestScope.total > 13000 and requestScope.total<20000}">
                                             <div class="tooltip">다음 VVIP 등급까지 ${requestScope.reach} P 남았어요!</div>
@@ -302,11 +307,11 @@
                                         <c:if test="${requestScope.total>20000}">
                                             <div class="tooltip">최고 등급입니다!</div>
                                         </c:if>
-                                        <span>BASIC</span>
+                                        <span>VIP</span>
+
                                     </li>
-                                    <p id="total">${requestScope.total}</p>
-                                    <li class="level-item"><span>VIP</span></li>
-                                    <li class="level-item"><span>VVIP</span></li>
+
+                                    <li class="level-item" id="vvip-item"><span>VVIP</span></li>
                                 </ul>
 
                             </div>
@@ -388,7 +393,16 @@
 <jsp:include page="../common/footer.jsp"/>
 
 <script>
-
+    var total = ${requestScope.total};
+    document.addEventListener("DOMContentLoaded", function() {
+        if (total >= 13000 && total < 20000) {
+            document.getElementById("vip-item").classList.add("active");
+        }
+        if (total >=20000){
+            document.getElementById("vip-item").classList.add("active");
+            document.getElementById("vvip-item").classList.add("active");
+        }
+    });
 
 </script>
 </body>
