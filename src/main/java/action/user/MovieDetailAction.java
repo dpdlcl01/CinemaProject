@@ -40,14 +40,19 @@ public class MovieDetailAction implements Action {
 
         // 관람 등급 문자열로 변환
         String movieGradeText = null;
-        if ("ALL".equals(mvo.getMovieGrade())) {
-            movieGradeText = "전체 관람가";
-        } else if ("12".equals(mvo.getMovieGrade())) {
-            movieGradeText = "12세 이상 관람가";
-        } else if ("15".equals(mvo.getMovieGrade())) {
-            movieGradeText = "15세 이상 관람가";
-        } else if ("19".equals(mvo.getMovieGrade())) {
-            movieGradeText = "청소년 관람 불가";
+        switch (mvo.getMovieGrade()) {
+            case "ALL":
+                movieGradeText = "전체 관람가";
+                break;
+            case "12":
+                movieGradeText = "12세 이상 관람가";
+                break;
+            case "15":
+                movieGradeText = "15세 이상 관람가";
+                break;
+            case "19":
+                movieGradeText = "청소년 관람 불가";
+                break;
         }
 
         request.setAttribute("mvo", mvo);
@@ -74,6 +79,7 @@ public class MovieDetailAction implements Action {
             // 더불어 시작페이지와 끝페이지 값도 구해진다.
         }
 
+        // 리뷰 데이터 가져오기
         ReviewVO[] reviewArray = ReviewDAO.getAllList(movieIdx, page.getBegin(), page.getEnd());
         request.setAttribute("reviewArray", reviewArray);
         request.setAttribute("page", page);
@@ -97,6 +103,14 @@ public class MovieDetailAction implements Action {
             averageRating = totalRating / reviewArray.length;
         }
         request.setAttribute("averageRating", averageRating);
+
+        // 추가: activeTab 값 처리
+        String activeTab = request.getParameter("activeTab");
+        if (activeTab == null || activeTab.isEmpty()) {
+            activeTab = "all"; // 기본값 설정
+        }
+        request.setAttribute("activeTab", activeTab); // JSP에서 사용할 수 있도록 설정
+
 
         return "/jsp/user/movie/movieDetail.jsp";
     }

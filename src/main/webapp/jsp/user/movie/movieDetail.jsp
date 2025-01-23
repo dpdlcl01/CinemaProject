@@ -7,74 +7,50 @@
 <head>
     <jsp:include page="../common/head.jsp"/>
     <style>
-    .pagination {
-        clear: both;
-        position: relative;
-        margin: 0 auto;
-        padding: 30px 0 0 0;
-        text-align: center;
-    }
+        .pagination {
+            clear: both;
+            position: relative;
+            margin: 0 auto;
+            padding: 30px 0 0 0;
+            text-align: center;
+        }
 
-    .pagination .active {
-        color: #fff;
-        background-color: #01738b;
-        border-color: #01738b;
-    }
+        .pagination .active {
+            color: #fff;
+            background-color: #01738b;
+            border-color: #01738b;
+        }
 
-    .pagination .control, .pagination a, .pagination strong {
-        display: inline-block;
-        position: relative;
-        min-width: 32px;
-        height: 32px;
-        margin: 0;
-        padding: 0 8px;
-        border: 1px solid #ebebeb;
-        text-decoration: none;
-        line-height: 30px;
-        color: #333;
-        font-weight: 400;
-        vertical-align: middle;
-        border-radius: 4px;
-    }
+        .pagination .control, .pagination a, .pagination strong {
+            display: inline-block;
+            position: relative;
+            min-width: 32px;
+            height: 32px;
+            margin: 0;
+            padding: 0 8px;
+            border: 1px solid #ebebeb;
+            text-decoration: none;
+            line-height: 30px;
+            color: #333;
+            font-weight: 400;
+            vertical-align: middle;
+            border-radius: 4px;
+        }
 
-    .pagination .control.next {
-        margin-left: 5px;
-        background-position: -64px 0;
-    }
+        .pagination .control.next {
+            margin-left: 5px;
+            background-position: -64px 0;
+        }
 
-    .pagination .control {
-        overflow: hidden;
-        width: 32px;
-        height: 32px;
-        min-width: 0;
-        padding: 0;
-        border: 0;
-        font-size: 0;
-        line-height: 0;
-        text-indent: -9999px;
-        background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
-    }
+        .pagination .control {
+            overflow: hidden;
+            width: 32px;
+            height: 32px;
+            background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
+        }
 
-    .pagination .control, .pagination a, .pagination strong {
-        display: inline-block;
-        position: relative;
-        min-width: 32px;
-        height: 32px;
-        margin: 0;
-        padding: 0 8px;
-        border: 1px solid #ebebeb;
-        text-decoration: none;
-        line-height: 30px;
-        color: #333;
-        font-weight: 400;
-        vertical-align: middle;
-        border-radius: 4px;
-    }
-
-    </style>
-<%--    <style>
-        /* 배경 어둡게 처리 */
-        .layer-con {
+        /* 모달 배경 */
+        .modal-layer {
             position: fixed;
             top: 0;
             left: 0;
@@ -87,129 +63,169 @@
             z-index: 1000;
         }
 
-        /* 모달 레이어 */
-        .regi-reply-score {
-            background: white;
+        .modal-layer .wrap {
+            background-color: white;
             border-radius: 10px;
-            padding: 20px;
-            width: 400px;
+            width: 500px;
+            height: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 모달 제목 왼쪽 정렬 */
+        .layer-header {
+            background-color: #503396;
+            color: white;
+            padding: 15px;
+            text-align: left; /* 왼쪽 정렬 */
+            font-size: 18px;
+            position: relative;
+        }
+
+        /* 닫기 버튼 스타일 */
+        .btn-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white; /* 흰색 배경 */
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 50%; /* 둥글게 */
+            padding: 5px;
+        }
+
+        /* 취소 버튼 스타일 */
+        .button.close-layer {
+            background-color: white; /* 흰색 배경 */
+            color: #503396; /* 텍스트 색상 */
+            border: 1px solid #ccc;
+        }
+
+        /* 별점 점수 부분 스타일 */
+        .num {
+            margin-top: 10px;
+            font-size: 1.5em; /* 크기를 조금 더 키움 */
+            color: #503396;
+            font-weight: bold;
             text-align: center;
         }
 
-        /* 제목 스타일 */
-        .regi-reply-score .tit {
-            font-size: 18px;
-            font-weight: bold;
+        .layer-con {
+            padding: 20px;
+        }
+
+        .regi-reply-score .score .tit {
+            text-align: center;
+            font-size: 1.4em;
             margin-bottom: 20px;
         }
 
-        /* 별점 버튼 그룹 */
-        .star {
+        /* 별점 */
+        .box-star-score .star {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 10px;
+            align-items: center;
         }
 
-        .star .btn {
-            width: 40px;
-            height: 40px;
+        .box-star-score .group {
+            display: flex;
+            margin-right: 5px; /* 그룹 간 간격 */
+        }
+
+        .btn.left,
+        .btn.right {
+            width: 15px;
+            height: 30px;
             border: none;
-            border-radius: 50%;
-            background-color: #ddd;
-            color: #333;
-            font-size: 14px;
+            background-size: cover;
             cursor: pointer;
         }
 
-        .star .btn:hover,
-        .star .btn.active {
-            background-color: #ffd700;
-            color: white;
+        /* 기본 상태 */
+        .btn.left {
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/btn/btn-star-left-off.png");
         }
 
-        /* 평점 점수 */
+        .btn.right {
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/btn/btn-star-right-off.png");
+        }
+
+        /* 활성 상태 */
+        .btn.left.active,
+        .btn.left.hovered {
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/btn/btn-star-left-review-on.png");
+        }
+
+        .btn.right.active,
+        .btn.right.hovered {
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/btn/btn-star-right-review-on.png");
+        }
+
+
+
+
         .num {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #503396;
         }
 
         /* 텍스트 입력 */
-        .textarea {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
         .textarea textarea {
             width: 100%;
-            height: 80px;
+            height: 100px;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 14px;
             resize: none;
+            margin-top: 10px;
         }
 
-        .textarea .count {
-            position: absolute;
-            bottom: 5px;
-            right: 10px;
+        .textarea .util {
+            text-align: right;
             font-size: 12px;
-            color: #999;
+            margin-top: 5px;
         }
 
-        /* 관람 포인트 버튼 */
-        .util {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .util button {
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            padding: 5px 15px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-
-        .util button:hover,
-        .util button.active {
-            background-color: #ffd700;
-            color: white;
-        }
-
-        /* 등록/취소 버튼 */
-        .btn-submit {
+        /* 버튼 */
+        .btn-group-fixed {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            padding: 10px 20px;
         }
 
-        .btn-submit button {
-            width: 48%;
+        .button {
+            width: 45%;
             padding: 10px;
             border: none;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
         }
 
-        .btn-submit .btn-cancel {
+        .button.close-layer {
             background-color: #ddd;
-            color: #333;
         }
 
-        .btn-submit .btn-register {
-            background-color: #5cb85c;
+        .button.purple {
+            background-color: #503396;
             color: white;
         }
 
-    </style>--%>
+        .btn-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+    </style>
+
 </head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieDetail.css">
 
@@ -302,11 +318,11 @@
 <div class="contents">
     <div class="main-tab">
         <div class="tabs">
-            <div class="tab active" data-target="all">주요정보</div>
-            <div class="tab" data-target="megaPick">실관람평</div>
-            <div class="tab" data-target="movies">예고편</div>
+            <div class="tab ${activeTab == 'all' ? 'active' : ''}" data-target="all">주요정보</div>
+            <div class="tab ${activeTab == 'megaPick' ? 'active' : ''}" data-target="megaPick">실관람평</div>
+            <div class="tab ${activeTab == 'movies' ? 'active' : ''}" data-target="movies">예고편</div>
         </div>
-        <div id="all" class="content active">
+        <div id="all" class="content ${activeTab == 'all' ? 'active' : ''}">
             <div class="movie-summary">
                 <div class="text">
                     ${mvo.movieInfo }
@@ -333,16 +349,19 @@
                 </c:if>
             </div>
         </div>
-        <div id="megaPick" class="content">
+        <div id="megaPick" class="content ${activeTab == 'megaPick' ? 'active' : ''}">
             <!-- 실관람평 -->
             <!-- 한줄평 없을 때 -->
             <div class="reviews">
-                <c:if test="${fn:length(requestScope.reviewArray) eq 0 }">
-                    <h2 class="titSmall">아직 남겨진 한줄평이 없어요.</h2>
-                </c:if>
-                <c:if test="${fn:length(requestScope.reviewArray) ne 0 }">
-                    <h2 class="titSmall">${mvo.movieTitle }에 대한 ${pvo.totalRecord }개의 이야기가 있어요!</h2>
-                </c:if>
+                <c:choose>
+                    <c:when test="${fn:length(requestScope.reviewArray) eq 0}">
+                        <h2 class="titSmall">아직 남겨진 한줄평이 없어요.</h2>
+                    </c:when>
+                    <c:otherwise>
+                        <h2 class="titSmall">${mvo.movieTitle}에 대한 ${page.totalRecord}개의 이야기가 있어요!</h2>
+                    </c:otherwise>
+                </c:choose>
+
                 <div class="oneLineReview">
                     <!-- 본 영화가 아닌경우 -->
                     <div class="storyBox">
@@ -353,13 +372,13 @@
                             </c:if>
                             <c:if test="${fn:length(requestScope.reviewArray) ne 0 }">
                                 <span class="fontBlue">${mvo.movieTitle }</span> 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.<br/>
-                                관람일 기준 7일 이내 등록 시 100P 가 적립됩니다.
+                                관람평 등록 시 100P가 적립됩니다.
                             </c:if>
                         </div>
 
                         <div class="storyWrite">
                             <!-- 로그인 안되어있을때 -->
-                            <a href="#tooltip" class="tooltipClick">
+                            <a href="#tooltip" class="tooltipClick" id="openModal">
                                 <i class="iconWrite"></i>
                                 관람평쓰기
                             </a>
@@ -391,12 +410,12 @@
 
                         <!-- << (맨 처음으로) -->
                         <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
-                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=1" class="control first" title="처음 페이지">&laquo;</a>
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=1&activeTab=megaPick" class="control first" title="처음 페이지">&laquo;</a>
                         </c:if>
 
                         <!-- < (이전 페이지 블록) -->
                         <c:if test="${pvo.startPage > 1}">
-                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록">&lt;</a>
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.startPage - pvo.pagePerBlock}&activeTab=megaPick" class="control prev" title="이전 블록">&lt;</a>
                         </c:if>
 
                         <!-- 페이지 번호 -->
@@ -405,117 +424,96 @@
                                 <strong class="active">${st.index}</strong>
                             </c:if>
                             <c:if test="${st.index ne pvo.nowPage}">
-                                <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${st.index}" title="${st.index}페이지 보기">${st.index}</a>
+                                <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${st.index}&activeTab=megaPick" title="${st.index}페이지 보기">${st.index}</a>
                             </c:if>
                         </c:forEach>
 
                         <!-- > (다음 페이지 블록) -->
                         <c:if test="${pvo.endPage < pvo.totalPage}">
-                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록">&gt;</a>
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.startPage + pvo.pagePerBlock}&activeTab=megaPick" class="control next" title="다음 블록">&gt;</a>
                         </c:if>
 
                         <!-- >> (맨 마지막으로) -->
                         <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
-                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지">&raquo;</a>
+                            <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}&cPage=${pvo.totalPage}&activeTab=megaPick" class="control last" title="마지막 페이지">&raquo;</a>
                         </c:if>
                     </c:if>
                 </nav>
 
-
             </div>
-
-<%--
-            <nav class="pagination">
-                <strong class="active">1</strong>
-                <a title="2페이지보기" href="javascript:void(0)" pagenum="2">2</a>
-                <a title="3페이지보기" href="javascript:void(0)" pagenum="3">3</a>
-                <a title="4페이지보기" href="javascript:void(0)" pagenum="4">4</a>
-                <a title="5페이지보기" href="javascript:void(0)" pagenum="5">5</a>
-                <a title="6페이지보기" href="javascript:void(0)" pagenum="6">6</a>
-                <a title="7페이지보기" href="javascript:void(0)" pagenum="7">7</a>
-                <a title="8페이지보기" href="javascript:void(0)" pagenum="8">8</a>
-                <a title="9페이지보기" href="javascript:void(0)" pagenum="9">9</a>
-                <a title="10페이지보기" href="javascript:void(0)" pagenum="10">10</a>
-                <a title="이후 10페이지 보기" href="javascript:void(0)" class="control next" pagenum="11">next</a>
-                <a title="마지막 페이지 보기" href="javascript:void(0)" class="control last" pagenum="1271">last</a>
-            </nav>
---%>
-
-
-
-            <!-- //한줄평 없을 때 -->
-<%--            <!-- 관람평 창 -->
-            <section id="layer_regi_reply_review" class="modal-layer on" style="z-index: 502;">
-                <div class="wrap" style="width: 500px; height: 680px; margin-left: -250px; margin-top: -340px;">
+            <section id="layer_regi_reply_review" class="modal-layer" style="display: none;">
+                <div class="wrap">
                     <header class="layer-header">
                         <h3 class="tit"><span class="oneTitle">관람평</span> 작성하기</h3>
                     </header>
-
-                    <div class="layer-con" style="height: 568px;">
-                        <!-- regi-reply-score review -->
+                    <div class="layer-con">
                         <div class="regi-reply-score review">
-                            <!-- score -->
+                            <!-- 별점 -->
                             <div class="score">
-                                <p class="tit">"${mvo.movieTitle }"<br>영화 어떠셨나요?</p>
-                                <div class="box">
-                                    <div class="box-star-score">
-                                        <div class="star">
-                                            <div class="group">
-                                                <button type="button" class="btn left score-1">1</button>
-                                                <button type="button" class="btn right score-2">2</button>
-                                            </div>
-                                            <div class="group">
-                                                <button type="button" class="btn left score-3">3</button>
-                                                <button type="button" class="btn right score-4">4</button>
-                                            </div>
-                                            <div class="group">
-                                                <button type="button" class="btn left score-5">5</button>
-                                                <button type="button" class="btn right score-6">6</button>
-                                            </div>
-                                            <div class="group">
-                                                <button type="button" class="btn left score-7">7</button>
-                                                <button type="button" class="btn right score-8">8</button>
-                                            </div>
-                                            <div class="group">
-                                                <button type="button" class="btn left score-9">9</button>
-                                                <button type="button" class="btn right score-10">10</button>
-                                            </div>
+                                <p class="tit">
+                                    "¿¿영화제목¿¿"<br>
+                                    영화 어떠셨나요?
+                                </p>
+                                <div class="box-star-score">
+                                    <div class="star">
+                                        <div class="group">
+                                            <button type="button" class="btn left" data-value="1"></button>
+                                            <button type="button" class="btn right" data-value="2"></button>
                                         </div>
-                                        <div class="num">
-                                            <em>0</em>
-                                            <span>점</span>
+                                        <div class="group">
+                                            <button type="button" class="btn left" data-value="3"></button>
+                                            <button type="button" class="btn right" data-value="4"></button>
+                                        </div>
+                                        <div class="group">
+                                            <button type="button" class="btn left" data-value="5"></button>
+                                            <button type="button" class="btn right" data-value="6"></button>
+                                        </div>
+                                        <div class="group">
+                                            <button type="button" class="btn left" data-value="7"></button>
+                                            <button type="button" class="btn right" data-value="8"></button>
+                                        </div>
+                                        <div class="group">
+                                            <button type="button" class="btn left" data-value="9"></button>
+                                            <button type="button" class="btn right" data-value="10"></button>
                                         </div>
                                     </div>
-
-                                    <div class="textarea">
-                                        <textarea id="textarea" rows="5" cols="30" title="한줄평 입력" placeholder="실관람평을 남겨주세요." class="input-textarea"></textarea>
-                                        <div class="util">
-                                            <p class="count"><span>0</span> / 100</p>
-                                        </div>
+                                    <div class="num">
+                                        <em>0</em>
+                                        <span>점</span>
                                     </div>
                                 </div>
+
+
                             </div>
-                            <!--// score -->
-                            <div class="txt-alert errText" style="display: none;">한줄평 내용을 입력해 주세요.</div>
+
+                            <!-- 한줄평 입력 -->
+                            <div class="textarea">
+                                <textarea id="textarea" rows="5" cols="30" placeholder="실관람평을 남겨주세요." class="input-textarea"></textarea>
+                                <div class="util">
+                                    <p class="count"><span>0</span> / 100</p>
+                                </div>
+                            </div>
                         </div>
-                        <!--// regi-reply-score preview -->
                     </div>
 
+                    <!-- 버튼 -->
                     <div class="btn-group-fixed">
                         <button type="button" class="button close-layer">취소</button>
-                        <button type="button" class="button purple" id="regOneBtn" data-no="" data-cd="PREV" data-mno="24036700">등록</button>
+                        <button type="button" class="button purple">등록</button>
                     </div>
-
-                    <button type="button" class="btn-modal-close">레이어 닫기</button>
+                    <button type="button" class="btn-modal-close">×</button>
                 </div>
-            </section>--%>
+            </section>
+
 
 
 
 
             <!-- //실관람평 -->
         </div>
-        <div id="movies" class="content">
+
+
+        <div id="movies" class="content ${activeTab == 'movies' ? 'active' : ''}">
             <!-- 예고편 -->
             <div class="trailer">
                 <h2 class="trailerTitle">예고편</h2>
@@ -548,29 +546,42 @@
 </div>
 </c:if>
 <script>
-    // JavaScript 코드
-    document.querySelector('.bg-img').style.backgroundImage = `url('${mvo.moviePosterUrl}')`;
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.content');
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeTab = urlParams.get('activeTab') || 'all'; // URL에서 activeTab 파라미터 가져오기, 기본값은 'all'
 
-
-    /* tab 부분 */
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.content');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
+        // 초기화: URL 파라미터에 따라 탭 및 콘텐츠 활성화
+        tabs.forEach(tab => {
             const target = tab.getAttribute('data-target');
-            contents.forEach(content => {
-                content.classList.remove('active');
-                if (content.id === target) {
-                    content.classList.add('active');
-                }
+            if (target === activeTab) {
+                tab.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            } else {
+                tab.classList.remove('active');
+                document.getElementById(target).classList.remove('active');
+            }
+        });
+
+        // 탭 클릭 이벤트 리스너
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-target');
+
+                // 모든 탭과 콘텐츠의 활성화 상태 초기화
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+
+                // 선택된 탭과 콘텐츠 활성화
+                tab.classList.add('active');
+                document.getElementById(target).classList.add('active');
             });
         });
+
+        // 배경 이미지 설정
+        document.querySelector('.bg-img').style.backgroundImage = `url('${mvo.moviePosterUrl}')`;
     });
-    /* //tab 부분 */
 
     /* 더보기 부분 */
     const btn = document.querySelector('.btn-more .btn');
@@ -589,44 +600,100 @@
         }
         iconBtn.classList.toggle('on');
     });
-    /* //더보기 부분 */
 
-    /* 관람평 로그인 부분*/
-    // 모든 .tooltipClick과 .tooltipCont를 선택
+    /* 관람평 로그인 부분 */
     const tooltipClicks = document.querySelectorAll('.tooltipClick');
     const tooltipConts = document.querySelectorAll('.tooltipCont');
 
-    // 각 .tooltipClick에 대해 클릭 이벤트 추가
     tooltipClicks.forEach((click, index) => {
-        const cont = tooltipConts[index]; // 해당하는 .tooltipCont 요소를 가져옴
+        const cont = tooltipConts[index];
 
         click.addEventListener('click', function (event) {
-            event.preventDefault(); // 기본 동작(링크 이동) 방지
-
-            // .tooltipCont에 'on' 클래스를 토글
-            if (cont.classList.contains('on')) {
-                cont.classList.remove('on');
-            } else {
-                cont.classList.add('on');
-            }
+            event.preventDefault();
+            cont.classList.toggle('on');
         });
     });
-    /* //관람평 로그인 부분*/
-    /* 예고편 부분 */
-    function changeMainVideo(videoUrl, posterUrl) {
 
+    /* 예고편 변경 부분 */
+    function changeMainVideo(videoUrl, posterUrl) {
         const currentTab = document.querySelector('.content.active');
         const mainVideo = currentTab.querySelector('.mainVideo');
         const mainVideoSource = mainVideo.querySelector('source');
 
         mainVideoSource.src = videoUrl;
-
         mainVideo.poster = posterUrl;
-
         mainVideo.load();
     }
 
-    /* //예고편 부분 */
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("layer_regi_reply_review");
+        const openButton = document.querySelector(".tooltipClick");
+        const closeButton = document.querySelector(".btn-modal-close");
+        const cancelButton = document.querySelector(".close-layer");
+        const stars = document.querySelectorAll(".btn.left, .btn.right"); // 왼쪽, 오른쪽 버튼
+        const scoreDisplay = document.querySelector(".num em");
+        const textarea = document.getElementById("textarea");
+        const charCount = document.querySelector(".count span");
+        let selectedScore = 0; // 선택된 점수
+
+        // 모달 열기
+        openButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            modal.style.display = "flex";
+        });
+
+        // 모달 닫기
+        [closeButton, cancelButton].forEach(button => {
+            button.addEventListener("click", function () {
+                modal.style.display = "none";
+            });
+        });
+
+        // 별점 선택
+        stars.forEach(star => {
+            // 마우스 오버로 별점 미리보기
+            star.addEventListener("mouseover", function () {
+                const hoverValue = parseFloat(this.getAttribute("data-value"));
+
+                // 별점 미리보기 상태 변경
+                stars.forEach(s => {
+                    s.classList.toggle("hovered", parseFloat(s.getAttribute("data-value")) <= hoverValue);
+                });
+
+                // 점수 업데이트
+                scoreDisplay.textContent = hoverValue;
+            });
+
+            // 마우스가 별에서 벗어났을 때 초기화
+            star.addEventListener("mouseout", function () {
+                // 별점 초기화 (선택된 점수로 복구)
+                stars.forEach(s => s.classList.remove("hovered"));
+
+                // 점수 디스플레이를 선택된 점수로 복구
+                scoreDisplay.textContent = selectedScore || "0";
+            });
+
+            // 클릭 시 별점 고정
+            star.addEventListener("click", function () {
+                selectedScore = parseFloat(this.getAttribute("data-value"));
+
+                // Active 상태 업데이트
+                stars.forEach(s => {
+                    s.classList.toggle("active", parseFloat(s.getAttribute("data-value")) <= selectedScore);
+                });
+
+                // 점수 디스플레이 업데이트
+                scoreDisplay.textContent = selectedScore;
+            });
+        });
+
+        // 글자수 카운트
+        textarea.addEventListener("input", function () {
+            const textLength = textarea.value.length;
+            charCount.textContent = textLength;
+            charCount.style.color = textLength > 100 ? "red" : "black";
+        });
+    });
 </script>
 <jsp:include page="../common/footer.jsp"/>
 </body>

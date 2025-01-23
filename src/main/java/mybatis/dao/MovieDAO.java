@@ -4,6 +4,7 @@ import mybatis.service.FactoryService;
 import mybatis.vo.MovieVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MovieDAO {
@@ -19,7 +20,37 @@ public class MovieDAO {
         return movieArray;
     }
 
-    // 전체 영화 정보 가져오기 (사용자 영화 메인)
+    // [박스오피스] 전체 영화 개수 반환
+    public static int getTotalMovieCount() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.selectOne("movie.totalMovieCount");
+        ss.close();
+
+        return cnt;
+    }
+
+    // [박스오피스] 전체 영화 목록
+    public static MovieVO[] getMovieList(int offset, int pageSize){
+        MovieVO[] movieArray = null;
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("offset", String.valueOf(offset));
+        map.put("pageSize", String.valueOf(pageSize));
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> mList = ss.selectList("movie.getMovieList", map);
+
+        if(mList != null && !mList.isEmpty()){
+            movieArray = new MovieVO[mList.size()];
+            mList.toArray(movieArray);
+        }
+        ss.close();
+
+        return movieArray;
+    }
+
+
+/*    // 전체 영화 정보 가져오기 (사용자 영화 메인)
     public static MovieVO[] getTotalMovie(){
         MovieVO[] movieArray = null;
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -30,7 +61,7 @@ public class MovieDAO {
         }
         ss.close();
         return movieArray;
-    }
+    }*/
 
     // 영화 idx를 받아서 해당 영화 상세 정보 가져오기 (사용자 영화 상세)
     public static MovieVO getMovieByIdx(String movieIdx){

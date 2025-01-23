@@ -10,11 +10,32 @@
         LIMIT 4
     </select>
 
-    <!-- 사용자 영화 메인 화면에서 전체 영화 리스트를 반환 -->
+    <!-- [박스오피스] 전체 영화 개수 반환.
+        80위까지만 movieRank가 NULL이 아니게 설정해서 지금은 항상 80이 반환 -->
+    <select id="totalMovieCount" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+        AND movieStatus IS NOT NULL
+    </select>
+
+    <!-- 박스오피스 전체 영화 목록 offset 부터 pageSize만큼의 행 가져오기 -->
+    <select id="getMovieList" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+        AND movieStatus IS NOT NULL
+        ORDER BY movieReservationRate DESC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+
+
+<!--    &lt;!&ndash; 사용자 영화 메인 화면에서 전체 영화 리스트를 반환 &ndash;&gt;
     <select id="getTotalMovie" resultType="mybatis.vo.MovieVO">
         SELECT * FROM movie
         ORDER BY movieReservationRate DESC
-    </select>
+    </select>-->
 
     <!-- 영화 idx를 받아서 사용자 영화 상세 화면으로 해당 영화 정보 반환 -->
     <select id="getMovieByIdx" parameterType="String" resultType="mybatis.vo.MovieVO">

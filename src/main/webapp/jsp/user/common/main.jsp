@@ -25,7 +25,7 @@
                 <button type="button" class="on" sort="boxRankList" name="btnSort">박스오피스</button>
             </div>
             <!-- //tab-sorting -->
-            <a href="${pageContext.request.contextPath}/UserController?type=movieMain" class="more-movie" title="더 많은 영화보기">
+            <a href="${pageContext.request.contextPath}/UserController?type=movieMain&offset=0&pageSize=20" class="more-movie" title="더 많은 영화보기">
                 더 많은 영화보기
                 <i class="iconset ico-more-corss gray"></i>
             </a>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="cell">
-                    <a href="${pageContext.request.contextPath}/UserController?type=movieMain" title="박스오피스 보기">
+                    <a href="${pageContext.request.contextPath}/UserController?type=movieMain&offset=0&pageSize=20" title="박스오피스 보기">
                         <i class="boxoffice"></i>
                         박스오피스
                     </a>
