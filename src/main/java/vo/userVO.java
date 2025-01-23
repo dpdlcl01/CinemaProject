@@ -1,7 +1,15 @@
 package vo;
 
 public class userVO {
-    String userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus;
+    private String userIdx, userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus;
+
+    public String getUserIdx() {
+        return userIdx;
+    }
+
+    public void setUserIdx(String userIdx) {
+        this.userIdx = userIdx;
+    }
 
     public String getUserName() {
         return userName;
