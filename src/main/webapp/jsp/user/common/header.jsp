@@ -41,7 +41,7 @@
                     <a href="#" class="store">스토어</a>
                 </li>
                 <li title="혜택">
-                    <a href="#" class="benefit">혜택</a>
+                    <a href="${pageContext.request.contextPath}/UserController?type=board" class="benefit">공지사항</a>
                 </li>
             </ul>
         </nav>

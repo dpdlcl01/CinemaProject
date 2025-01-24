@@ -1,4 +1,4 @@
-package action.board;
+package action.user.board;
 
 import action.Action;
 import mybatis.dao.BoardDAO;
