@@ -256,13 +256,15 @@
         <input type="hidden" name="pPrice" id="pPrice">
     </form>
 </div>
-<form action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
+<form id="form2" action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
 
 </form>
 
 <script>
+    let form1=document.getElementById("productForm");
+    let form2=document.getElementById("form2");
     function goCart() {
-        document.forms[1].submit();
+        form2.submit();
     }
     function goProduct(vo) {
         let pName = vo.getAttribute("data-productname");
@@ -279,7 +281,7 @@
         document.getElementById("pIdx").value=idx;
         document.getElementById("pPrice").value=price;
 
-        document.forms[0].submit();
+        form1.submit();
 
     }
 
@@ -295,6 +297,7 @@
     const main1=document.getElementById("products1");
     const main2=document.getElementById("products2");
     const main3=document.getElementById("products3");
+
 
     tabs.forEach((tab) => {
         tab.addEventListener("click", (event) => {

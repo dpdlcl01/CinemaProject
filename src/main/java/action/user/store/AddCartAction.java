@@ -4,6 +4,7 @@ import action.Action;
 import mybatis.dao.CartDAO;
 import mybatis.dao.ProductDAO;
 import mybatis.vo.ProductVO;
+import mybatis.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +18,14 @@ public class AddCartAction implements Action {
         request.setAttribute("ar",ar);
 
         String quant =request.getParameter("productQuant");
-        String idx=request.getParameter("productIdx");
+        String idx= request.getParameter("productIdx");
+
         HttpSession session = request.getSession();
-        String id = session.getAttribute("id").toString();
-        String userIdx = session.getAttribute("idx").toString();
+
+        UserVO user = (UserVO) session.getAttribute("user");
+
+        String id = user.getUserId();
+        String userIdx = user.getUserIdx();
         /*여기서 아이디 퀀트 아이디액스로 장바구니에 저장하자*/
         CartDAO.addCart(id,idx,quant,userIdx);
 

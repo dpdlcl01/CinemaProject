@@ -283,7 +283,7 @@
     </div>
   </div>
 
-  <form method="post" action="">
+  <form method="post" action="" id="form0">
     <input type="hidden" name="productImg" id="productImg" value="${requestScope.pImg}">
     <input type="hidden" name="productName" id="productName" value="${requestScope.pName}">
     <input type="hidden" name="productCategory" id="productCategory" value="${requestScope.pCategory}">
@@ -308,7 +308,7 @@
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
   <script>
 
-
+    form0=document.getElementById("form0");
     let productPrice;
     let productQuant;
 
@@ -326,10 +326,10 @@
       }
       document.getElementById("productQuant").value=productQuant;
 
-      document.forms[0].action="${pageContext.request.contextPath}/UserController?type=cart";
+      form0.action="${pageContext.request.contextPath}/UserController?type=cart";
 
 
-      document.forms[0].submit();
+      form0.submit();
 
     }
 
@@ -344,9 +344,9 @@
       document.getElementById("productPrice").value=productPrice;
 
       <%--${pageContext.request.contextPath}/UserController?type=payment--%>
-      document.forms[0].action="${pageContext.request.contextPath}/UserController?type=payment";
+      form0.action="${pageContext.request.contextPath}/UserController?type=payment";
 
-      document.forms[0].submit();
+      form0.submit();
     }
     
     let pQuant=document.getElementById("quant");

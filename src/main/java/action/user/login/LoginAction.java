@@ -13,8 +13,8 @@ import java.io.PrintWriter;
 public class LoginAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-
+        HttpSession session = request.getSession();
+        UserVO user = (UserVO) request.getAttribute("user");
         // 로그인 처리
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
@@ -27,7 +27,6 @@ public class LoginAction implements Action {
 
         if (usercheck) {
             UserVO userVO = loginDAO.getUserInfo(userId);
-            HttpSession session = request.getSession();
             session.setAttribute("user", userVO);  // 세션에 사용자 정보 저장
 
             out.write("{\"success\": true}");

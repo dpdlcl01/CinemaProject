@@ -1,8 +1,8 @@
 package mybatis.vo;
 
 public class ReservationVO {
-    private String reservationIdx, userIdx, theaterIdx, screenIdx, timetableIdx, reservationDate, reservationStatus, reservationSeatIdx, seatIdx, priceIdx;
-    String reservationIdx, theaterIdx, screenIdx, timetableIdx, movieTitle, moviePosterUrl,reservationDate,theaterName,screenName,timetableStartTime;
+    private String reservationIdx, userIdx, theaterIdx, screenIdx, timetableIdx, reservationDate, reservationStatus, reservationSeatIdx, seatIdx, priceIdx,
+    movieTitle, moviePosterUrl, theaterName, screenName, timetableStartTime;
 
     public String getTimetableStartTime() {
         return timetableStartTime;
@@ -26,14 +26,6 @@ public class ReservationVO {
 
     public void setScreenName(String screenName) {
         this.screenName = screenName;
-    }
-
-    public String getReservationDate() {
-        return reservationDate;
-    }
-
-    public void setReservationDate(String reservationDate) {
-        this.reservationDate = reservationDate;
     }
 
     public String getReservationIdx() {
@@ -102,24 +94,32 @@ public class ReservationVO {
 
     public String getReservationStatus() {
         return reservationStatus;
-    public String getMovieTitle() {
-        return movieTitle;
     }
 
     public void setReservationStatus(String reservationStatus) {
         this.reservationStatus = reservationStatus;
-    public void setMovieTitle(String movieTitle) {
-        this.movieTitle = movieTitle;
     }
 
     public String getReservationSeatIdx() {
         return reservationSeatIdx;
-    public String getMoviePosterUrl() {
-        return moviePosterUrl;
     }
 
     public void setReservationSeatIdx(String reservationSeatIdx) {
         this.reservationSeatIdx = reservationSeatIdx;
+    }
+
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
+    }
+
+    public String getMoviePosterUrl() {
+        return moviePosterUrl;
+    }
+
     public void setMoviePosterUrl(String moviePosterUrl) {
         this.moviePosterUrl = moviePosterUrl;
     }
