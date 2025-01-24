@@ -40,7 +40,6 @@ public class SeatAction implements Action {
                 screenType = 1; // 기본값
             }
         }
-
         request.setAttribute("movieIdx", movieIdx);
         request.setAttribute("screenIdx", screenIdx);
         request.setAttribute("timetableIdx", timetableIdx);
@@ -54,6 +53,15 @@ public class SeatAction implements Action {
                 ", screenType: " + screenType +
                 ", isMorning: " + isMorning +
                 ", isWeekend: " + isWeekend );
+
+        // DAO를 통해 좌석 데이터 가져오기
+        SeatVO[] availableSeats = SeatDAO.getAllSeats(screenIdx);
+        if (availableSeats != null) {
+            for (SeatVO seat : availableSeats) {
+                System.out.println("Seat: " + seat.getSeatNumber() + ", Status: " + seat.getSeatStatus());
+            }
+        }
+        request.setAttribute("availableSeats", availableSeats);
 
         // 좌석 선택 화면으로 이동
         return "./jsp/user/reservation/reservationSeat.jsp";

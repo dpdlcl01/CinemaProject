@@ -1,4 +1,8 @@
+<%@ page import="mybatis.vo.SeatVO" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -52,279 +56,369 @@
                 %>
                 <div class="seat-container">
                     <div class="screen">SCREEN</div>
-                    <% if (screenType == 1 || screenType == 2) { %>
-                        <%-- A set --%>
-                        <div class="rows">
-                            <div class="row" data-row="front">
-                                <button class="empty"></button>
-                                <button class="door-left"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                            </div>
-                            <div class="row" data-row="A">
-                                <button class="row-label">A</button>
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 1; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-center">
-                                    <% for (int i = 2; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-right">
-                                    <% for (int i = 5; i <= 5; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%></button>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <div class="row" data-row="B">
-                                <button class="row-label">B</button>
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 1; i++) { %>
-                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-center">
-                                    <% for (int i = 2; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-right">
-                                    <% for (int i = 5; i <= 5; i++) { %>
-                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <div class="row" data-row="C">
-                                <button class="row-label">C</button>
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 1; i++) { %>
-                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-center">
-                                    <% for (int i = 2; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-right">
-                                    <% for (int i = 5; i <= 5; i++) { %>
-                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <div class="row" data-row="D">
-                                <button class="row-label">D</button>
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 1; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-center">
-                                    <% for (int i = 2; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-right">
-                                    <% for (int i = 5; i <= 5; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <div class="row" data-row="back">
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="door-top"></button>
-                                <button class="empty"></button>
-                            </div>
-                        </div>
-                    <% } else if (screenType == 3) { %>
-                        <%-- B set --%>
-                        <div class="rows">
-                            <div class="row" data-row="front">
-                                <button class="empty"></button>
-                                <button class="door-left"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                            </div>
-                            <div class="row" data-row="A">
-                                <button class="row-label">A</button>
-                                <div class="seats">
+                    <c:choose>
+                        <c:when test="${screenType == 1 || screenType == 2}">
+                            <%-- A set --%>
+                            <div class="rows">
+                                <div class="row" data-row="Front">
+                                    <button class="row-label">&nbsp;</button>
                                     <div class="seat-group">
-                                        <% for (int i = 1; i <= 4; i++) { %>
-                                        <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <button class="unavailable-seat" data-seat="Fornt${i}"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <button class="door-left" data-seat="door-left}"></button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="2" end="4">
+                                            <button class="unavailable-seat" data-seat="Front${i}"></button>
+                                        </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
-                                        <% for (int i = 5; i <= 6; i++) { %>
-                                        <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <button class="unavailable-seat" data-seat="Front${i}"></button>
+                                        </c:forEach>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" data-row="B">
-                                <button class="row-label">B</button>
-                                <div class="seats">
+                                <div class="row" data-row="A">
+                                    <button class="row-label">A</button>
                                     <div class="seat-group">
-                                        <% for (int i = 1; i <= 4; i++) { %>
-                                        <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-center">
+                                        <c:forEach var="i" begin="2" end="4">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
-                                        <% for (int i = 5; i <= 6; i++) { %>
-                                        <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" data-row="C">
-                                <button class="row-label">C</button>
-                                <div class="seats">
+                                <div class="row" data-row="B">
+                                    <button class="row-label">B</button>
                                     <div class="seat-group">
-                                        <% for (int i = 1; i <= 4; i++) { %>
-                                        <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="B" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="B${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-center">
+                                        <c:forEach var="i" begin="2" end="4">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="B" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="B${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
-                                        <% for (int i = 5; i <= 6; i++) { %>
-                                        <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="B" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="B${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" data-row="D">
-                                <button class="row-label">D</button>
-                                <div class="seats">
+                                <div class="row" data-row="C">
+                                    <button class="row-label">C</button>
                                     <div class="seat-group">
-                                        <% for (int i = 1; i <= 4; i++) { %>
-                                        <button class="available-seat" data-seat="D<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="C" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="C${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-center">
+                                        <c:forEach var="i" begin="2" end="4">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="B" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="B${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
-                                        <% for (int i = 5; i <= 6; i++) { %>
-                                        <button class="available-seat" data-seat="D<%=i%>"><%=i%>
-                                        </button>
-                                        <% } %>
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="C" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    data-seat="C${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="Back">
+                                    <button class="row-label">&nbsp;</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <button class="unavailable-seat" data-seat="Back${i}"></button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-center">
+                                        <c:forEach var="i" begin="2" end="4">
+                                            <button class="unavailable-seat" data-seat="Back${i}"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="4" end="4">
+                                            <button class="door-top" data-seat="door-top"></button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <button class="unavailable-seat" data-seat="Back${i}"></button>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" data-row="back">
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="door-top"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                            </div>
-                        </div>
-                    <% } else if (screenType == 4 || screenType == 5) { %>
-                        <%-- C set--%>
-                        <div class="rows">
-                            <div class="row" data-row="front">
-                                <button class="door-left"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                            </div>
-                            <div class="row" data-row="A">
-                                <button class="row-label">A</button>
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
+                        </c:when>
+                        <c:when test="${screenType == 3}">
+                            <%-- B set --%>
+                            <div class="rows">
+                                <div class="row" data-row="Front">
+                                    <button class="row-label">&nbsp;</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <button class="door-left" data-seat="door-left"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="1" end="8">
+                                            <button class="unavailable-seat" data-seat="Fornt${i}"></button>
+                                        </c:forEach>
+                                    </div>
                                 </div>
-                                <div class="seat-group-right">
-                                    <% for (int i = 5; i <= 8; i++) { %>
-                                    <button class="available-seat" data-seat="A<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
+                                <div class="row" data-row="A">
+                                    <button class="row-label">A</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="8">
+                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="B">
+                                    <button class="row-label">B</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="8">
+                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="C">
+                                    <button class="row-label">C</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="2">
+                                            <button class="available-seat" data-seat="C${i}">${i}</button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="3" end="4">
+                                            <button class="unavailable-seat" data-seat="C${i}"></button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="6">
+                                            <button class="unavailable-seat" data-seat="C${i}"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="7" end="8">
+                                            <button class="available-seat" data-seat="C${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="Back">
+                                    <button class="row-label">&nbsp;</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="unavailable-seat" data-seat="Back${i}"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <button class="door-top"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="5" end="8">
+                                            <button class="unavailable-seat" data-seat="Back${i}"></button>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row" data-row="B">
-                                <button class="row-label">B</button>
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
+                        </c:when>
+                        <c:when test="${screenType == 4 || screenType == 5}">
+                            <%-- C set --%>
+                            <div class="rows">
+                                <div class="row" data-row="Front">
+                                    <button class="row-label"> </button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <button class="unavailable-seat" data-seat="Front${i}"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="2" end="2">
+                                            <button class="door-left" data-seat="door-left"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="3" end="4">
+                                            <button class="unavailable-seat" data-seat="Front${i}"></button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="6">
+                                            <button class="unavailable-seat" data-seat="Front${i}"></button>
+                                        </c:forEach>
+                                    </div>
                                 </div>
-                                <div class="seat-group-right">
-                                    <% for (int i = 5; i <= 8; i++) { %>
-                                    <button class="available-seat" data-seat="B<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
+                                <div class="row" data-row="A">
+                                    <button class="row-label">A</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="6">
+                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="B">
+                                    <button class="row-label">B</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="6">
+                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="C">
+                                    <button class="row-label">C</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="available-seat" data-seat="C${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="6">
+                                            <button class="available-seat" data-seat="C${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="Back">
+                                    <button class="row-label"> </button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="unavailable-seat" data-seat="Back${i}"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <button class="door-top" data-seat="door-top"></button>
+                                        </c:forEach>
+                                        <c:forEach var="i" begin="5" end="6">
+                                            <button class="unavailable-seat" data-seat="Back${i}"></button>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row" data-row="C">
-                                <button class="row-label">C</button>
-                                <div class="seat-group">
-                                    <% for (int i = 1; i <= 4; i++) { %>
-                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                                <div class="seat-group-right">
-                                    <% for (int i = 5; i <= 8; i++) { %>
-                                    <button class="available-seat" data-seat="C<%=i%>"><%=i%>
-                                    </button>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <div class="row" data-row="back">
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="door-top"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                                <button class="empty"></button>
-                            </div>
-                        </div>
-                    <% } %>
+                        </c:when>
+                    </c:choose>
                 </div>
             </div>
             <!-- 영화 정보 -->
@@ -356,9 +450,6 @@
                             <li>
                                 <div class="seat-condition impossible" title="선택 불가"></div>
                                 <em>선택불가</em></li>
-                            <li>
-                                <div class="seat-condition common" title="일반"></div>
-                                <em>일반</em></li>
                         </ul>
                     </div>
                     <div class="seat-num">

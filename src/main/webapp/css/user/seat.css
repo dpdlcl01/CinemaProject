@@ -178,7 +178,22 @@ body {
     cursor: pointer;
 }
 
-.available-seat{
+button.disabled-seat {
+    background-color: #d3d3d3; !important;
+    cursor: not-allowed; !important;
+}
+
+button.temp-seat {
+    background-color: #a9a9a9; !important;
+    cursor: not-allowed; !important;
+}
+
+.unavailable-seat {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.available-seat, .unavailable-seat {
     width: 45px;
     height: 45px;
     display: flex;
@@ -197,10 +212,10 @@ body {
     background-image: url('images/img-door-left.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 18px;
+    background-size: 22px;
     border: none;
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     cursor: default;
     pointer-events: none; /* 클릭 불가능하도록 설정 */
 }
@@ -209,10 +224,10 @@ body {
     background-image: url('images/img-door-top.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 27px;
+    background-size: 34px;
     border: none;
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     cursor: default;
     pointer-events: none;
 }
@@ -352,10 +367,6 @@ body {
     background-color: #a9a9a9;
 }
 
-.seat-condition.common {
-    background-color: #696969;
-}
-
 .seat-condition.disabled {
     background-color: #008000;
 }
@@ -390,7 +401,6 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #2e2e2e;
-    color: #fff;
     font-size: 12px;
     text-align: center;
 }
