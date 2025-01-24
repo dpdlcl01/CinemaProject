@@ -89,4 +89,15 @@ public class ReservationDAO {
         }
         return ar;
     }
+
+    // 좌석 선택 후 영화 조회
+    public static MovieVO movieDetailList(String movieIdx) {
+        MovieVO vo = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        vo = ss.selectOne("movie.movieDetail", movieIdx);
+
+        ss.close();
+        return vo;
+    }
 }

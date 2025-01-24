@@ -41,7 +41,7 @@
                             </c:if>
                             <c:forEach var="movie" items="${movies}">
                                 <li data-movie-id="${movie.movieIdx}">
-                                    <img src="${pageContext.request.contextPath}/css/user/images/ratings/${movie.movieRating}.png" class="rating-image" />
+                                    <img src="${pageContext.request.contextPath}/css/user/images/ratings/${movie.movieGrade}.png" class="rating-image" />
                                     ${movie.movieTitle}
                                 </li>
                             </c:forEach>

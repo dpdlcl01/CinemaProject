@@ -110,7 +110,7 @@
                                                 </c:if>
                                             </c:forEach>
                                             <button
-                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
                                                     data-seat="A${i}"
                                                 ${seatStatus != 0 ? 'disabled' : ''}>
                                                     ${i}
@@ -127,7 +127,7 @@
                                                 </c:if>
                                             </c:forEach>
                                             <button
-                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
                                                     data-seat="A${i}"
                                                 ${seatStatus != 0 ? 'disabled' : ''}>
                                                     ${i}
@@ -147,7 +147,7 @@
                                                 </c:if>
                                             </c:forEach>
                                             <button
-                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
                                                     data-seat="B${i}"
                                                 ${seatStatus != 0 ? 'disabled' : ''}>
                                                     ${i}
@@ -201,7 +201,7 @@
                                                 </c:if>
                                             </c:forEach>
                                             <button
-                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
                                                     data-seat="C${i}"
                                                 ${seatStatus != 0 ? 'disabled' : ''}>
                                                     ${i}
@@ -212,14 +212,14 @@
                                         <c:forEach var="i" begin="2" end="4">
                                             <c:set var="seatStatus" value="0" />
                                             <c:forEach var="seat" items="${availableSeats}">
-                                                <c:set var="seatPrefix" value="B" />
+                                                <c:set var="seatPrefix" value="C" />
                                                 <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
                                                     <c:set var="seatStatus" value="${seat.seatStatus}" />
                                                 </c:if>
                                             </c:forEach>
                                             <button
-                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
-                                                    data-seat="B${i}"
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="C${i}"
                                                 ${seatStatus != 0 ? 'disabled' : ''}>
                                                     ${i}
                                             </button>
@@ -237,6 +237,60 @@
                                             <button
                                                     class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
                                                     data-seat="C${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="D">
+                                    <button class="row-label">D</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="1">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="D" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="D${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-center">
+                                        <c:forEach var="i" begin="2" end="4">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="D" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="D${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="5">
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="D" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="D${i}"
                                                 ${seatStatus != 0 ? 'disabled' : ''}>
                                                     ${i}
                                             </button>
@@ -284,12 +338,36 @@
                                     <button class="row-label">A</button>
                                     <div class="seat-group">
                                         <c:forEach var="i" begin="1" end="4">
-                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
                                         <c:forEach var="i" begin="5" end="8">
-                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -297,20 +375,59 @@
                                     <button class="row-label">B</button>
                                     <div class="seat-group">
                                         <c:forEach var="i" begin="1" end="4">
-                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="B" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="B${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
                                         <c:forEach var="i" begin="5" end="8">
-                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="B" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="B${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                 </div>
+<%--                                <c:forEach var="ar(jsp에서 사용할 배열 변수명)" items="${requestScope.ar(리퀘스트에 저장된 배열의 키값)}">--%>
+<%--                                    <p>${ar.뽑아내고싶은값}</p>--%>
+<%--                                </c:forEach>--%>
                                 <div class="row" data-row="C">
                                     <button class="row-label">C</button>
                                     <div class="seat-group">
                                         <c:forEach var="i" begin="1" end="2">
-                                            <button class="available-seat" data-seat="C${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="C" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="C${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                         <c:forEach var="i" begin="3" end="4">
                                             <button class="unavailable-seat" data-seat="C${i}"></button>
@@ -321,7 +438,19 @@
                                             <button class="unavailable-seat" data-seat="C${i}"></button>
                                         </c:forEach>
                                         <c:forEach var="i" begin="7" end="8">
-                                            <button class="available-seat" data-seat="C${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="C" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="C${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -367,12 +496,36 @@
                                     <button class="row-label">A</button>
                                     <div class="seat-group">
                                         <c:forEach var="i" begin="1" end="4">
-                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
                                         <c:forEach var="i" begin="5" end="6">
-                                            <button class="available-seat" data-seat="A${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -380,12 +533,36 @@
                                     <button class="row-label">B</button>
                                     <div class="seat-group">
                                         <c:forEach var="i" begin="1" end="4">
-                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="A" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="A${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                     <div class="seat-group-right">
                                         <c:forEach var="i" begin="5" end="6">
-                                            <button class="available-seat" data-seat="B${i}">${i}</button>
+                                            <c:set var="seatStatus" value="0" />
+                                            <c:forEach var="seat" items="${availableSeats}">
+                                                <c:set var="seatPrefix" value="B" />
+                                                <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
+                                                    <c:set var="seatStatus" value="${seat.seatStatus}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <button
+                                                    class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
+                                                    data-seat="B${i}"
+                                                ${seatStatus != 0 ? 'disabled' : ''}>
+                                                    ${i}
+                                            </button>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -399,6 +576,19 @@
                                     <div class="seat-group-right">
                                         <c:forEach var="i" begin="5" end="6">
                                             <button class="available-seat" data-seat="C${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="row" data-row="D">
+                                    <button class="row-label">C</button>
+                                    <div class="seat-group">
+                                        <c:forEach var="i" begin="1" end="4">
+                                            <button class="available-seat" data-seat="D${i}">${i}</button>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="seat-group-right">
+                                        <c:forEach var="i" begin="5" end="6">
+                                            <button class="available-seat" data-seat="D${i}">${i}</button>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -424,19 +614,18 @@
             <!-- 영화 정보 -->
             <div class="movie-container">
                 <div class="movie-info">
-                    <img class="movie-grade" src="../../../css/user/images/age_15.png"></img>
                     <div class="movie-text-group">
-                        <p class="movie-title">검은 수녀들</p>
-                        <p class="movie-type">2D</p>
+                        <p class="movie-title">${movieVO.movieTitle}</p>
+                        <p class="movie-type">${movieType}</p>
                     </div>
                 </div>
                 <div class="movie-info-area">
                     <div class="movie-details">
-                        <p class="theater-info">${showtime.timetableIdx}</p>
+<%--                        <p class="theater-info">${}</p>--%>
                         <p class="movie-date">${showtime.screenIdx}</p>
                         <p class="movie-time">13:50~15:54</p>
                     </div>
-                    <img src="../../../css/user/images/bg/movie_poster.jpg" alt="검은 수녀들 포스터" class="poster">
+                    <img src="${movieVO.moviePosterUrl}" alt="검은 수녀들 포스터" class="poster">
                 </div>
                 <div class="choose-seat-area">
                     <div class="legend">

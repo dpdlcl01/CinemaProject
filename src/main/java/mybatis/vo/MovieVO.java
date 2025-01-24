@@ -1,7 +1,7 @@
 package mybatis.vo;
 
 public class MovieVO {
-    private String movieIdx, movieTitle, movieGenre, movieTime, movieRating, movieDate, movieDirector, movieActors, movieInfo, moviePosterUrl, movieStatus;
+    private String movieIdx, movieTitle, movieGenre, movieTime, movieGrade, movieDate, movieDirector, movieActors, movieInfo, moviePosterUrl, movieStatus;
 
     public String getMovieIdx() {
         return movieIdx;
@@ -35,13 +35,9 @@ public class MovieVO {
         this.movieTime = movieTime;
     }
 
-    public String getMovieRating() {
-        return movieRating;
-    }
+    public String getMovieGrade() { return movieGrade; }
 
-    public void setMovieRating(String movieRating) {
-        this.movieRating = movieRating;
-    }
+    public void setMovieGrade(String movieGrade) { this.movieGrade = movieGrade; }
 
     public String getMovieDate() {
         return movieDate;

@@ -1,7 +1,9 @@
 package action.user;
 
 import action.Action;
+import mybatis.dao.ReservationDAO;
 import mybatis.dao.SeatDAO;
+import mybatis.vo.MovieVO;
 import mybatis.vo.SeatVO;
 import mybatis.vo.UserVO;
 
@@ -40,10 +42,23 @@ public class SeatAction implements Action {
                 screenType = 1; // 기본값
             }
         }
+
+        if (screenType == 1) {
+            request.setAttribute("movieType", "COMFORT");
+        } else if (screenType == 2) {
+            request.setAttribute("movieType", "VIP");
+        } else if (screenType == 3) {
+            request.setAttribute("movieType", "DOLBY");
+        } else if (screenType == 4) {
+            request.setAttribute("movieType", "4DX");
+        } else if (screenType == 5) {
+            request.setAttribute("movieType", "IMAX");
+        }
+
         request.setAttribute("movieIdx", movieIdx);
         request.setAttribute("screenIdx", screenIdx);
         request.setAttribute("timetableIdx", timetableIdx);
-        request.setAttribute("screenType", screenType); // screenType 값 설정
+        request.setAttribute("screenType", screenType);
         request.setAttribute("isMorning", isMorning);
         request.setAttribute("isWeekend", isWeekend);
 
@@ -62,6 +77,11 @@ public class SeatAction implements Action {
             }
         }
         request.setAttribute("availableSeats", availableSeats);
+
+        // 영화 상세 정보 가져오기
+        MovieVO movieVO = ReservationDAO.movieDetailList(movieIdx);
+        request.setAttribute("movieVO", movieVO);
+        System.out.println(movieVO.getMovieIdx());
 
         // 좌석 선택 화면으로 이동
         return "./jsp/user/reservation/reservationSeat.jsp";
