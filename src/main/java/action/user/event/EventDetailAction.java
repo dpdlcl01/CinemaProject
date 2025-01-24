@@ -1,4 +1,4 @@
-package action.user;
+package action.user.event;
 
 import action.Action;
 import mybatis.dao.EventDAO;

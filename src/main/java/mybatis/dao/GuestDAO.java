@@ -9,13 +9,13 @@ import java.util.List;
 
 public class GuestDAO {
 
-  public static int getSearchGuest(String userName, String userBirth, String userEmail, String userAuthPassword) {
+  public static int getSearchGuest(String userName, String userEmail, String userAuthPassword) {
 
     SqlSession ss = FactoryService.getFactory().openSession();
 
     HashMap<String, String> map = new HashMap<>();
     map.put("userName", userName);
-    map.put("userBirth", userBirth);
+//    map.put("userBirth", userBirth);
     map.put("userEmail", userEmail);
     map.put("userAuthPassword", userAuthPassword);
 

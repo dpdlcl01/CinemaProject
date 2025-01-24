@@ -9,7 +9,7 @@
     SELECT userIdx
     FROM user
     WHERE userName = #{userName}
-    AND userBirth = #{userBirth}
+<!--    AND userBirth = #{userBirth}-->
     AND userEmail = #{userEmail}
     AND userAuthPassword = #{userAuthPassword}
   </select>

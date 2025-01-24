@@ -1,15 +1,11 @@
-package action.user;
+package action.user.reservation;
 
 import action.Action;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.dao.GuestDAO;
 import mybatis.vo.ReservationDetailVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
 
 public class GuestReservationCheckAction implements Action {
@@ -25,12 +21,11 @@ public class GuestReservationCheckAction implements Action {
     } else if (type.equals("NonmemberReservationCheck")) {
 
       String userName = request.getParameter("userName");
-      String userBirth = request.getParameter("userBirth");
       String userEmail = request.getParameter("userEmail");
       String userAuthPassword = request.getParameter("userAuthPassword");
       //System.out.println(userName + " " + userBirth + " " + userEmail + " " + userAuthPassword);
 
-      int guestIdx = GuestDAO.getSearchGuest(userName, userBirth, userEmail, userAuthPassword);
+      int guestIdx = GuestDAO.getSearchGuest(userName, userEmail, userAuthPassword);
       System.out.println(guestIdx);
 
       if (guestIdx == 0) {
@@ -43,13 +38,20 @@ public class GuestReservationCheckAction implements Action {
 
         List<ReservationDetailVO> guestReservationList = GuestDAO.getReservationDetail(guestIdx);
 
-        System.out.println(guestReservationList);
+        if (guestReservationList == null || guestReservationList.isEmpty()) {
+          // 비회원 예약 내역이 없는 경우 처리
+          request.setAttribute("error", "예약 내역이 없습니다.");
+          return "/jsp/user/login/guestReservationCheckModal.jsp";
+        } else {
+          // 예약 내역이 있을 경우 처리
+          System.out.println(guestReservationList);
 
-        request.setAttribute("guestReservationList", guestReservationList);
+          request.setAttribute("guestReservationList", guestReservationList);
 
-        System.out.println(guestReservationList.get(0).getMovieTitle());
+          System.out.println(guestReservationList.get(0).getMovieTitle());
 
-        return "/jsp/user/reservation/reservationSuccess.jsp";
+          return "/jsp/user/reservation/reservationSuccess.jsp";
+        }
       }
     }
     return null;
