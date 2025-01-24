@@ -20,7 +20,6 @@
     </environments>
     <mappers>
         <mapper resource="mybatis/mapper/login.xml"/>
-        <mapper resource="mybatis/mapper/user.xml"/>
         <mapper resource="mybatis/mapper/movie.xml"/>
         <mapper resource="mybatis/mapper/theater.xml"/>
         <mapper resource="mybatis/mapper/board.xml"/>
