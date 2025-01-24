@@ -256,7 +256,7 @@
     border-bottom: 1px solid #ddd;
   }
   td:nth-child(4) {
-    text-align: left;
+    text-align: center;
     padding-left: 15px;
   }
   td a:hover {
@@ -415,7 +415,7 @@
                   <h3>${event.theaterName}점</h3>
                 </div>
                 <div class="event-boardTitle">
-                  <a href="UserController?type=eventdetail&boardIdx=${event.boardIdx}">
+                  <a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=${event.boardIdx}">
                       ${event.boardTitle}
                   </a>
                 </div>
@@ -431,21 +431,12 @@
     </div>
   </article>
 
-
-<%--        <!-- 두 번째 이벤트 카드 -->--%>
-<%--        <li>--%>
-<%--          <a href="#" class="eventBtn" data-no="16948" data-netfunnel="N" title="[수원스타필드] Happy 1st Anniversary 상세보기">--%>
-<%--            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/08/m1htf1m846GY1LSBLyJ4hGEBUaaH1UsN.jpg" alt="[수원스타필드] Happy 1st Anniversary" onerror="noImg(this)" />--%>
-<%--          </a>--%>
-<%--        </li>--%>
-
-
   <!-- 극장 공지사항 -->
   <article class="theater-notice">
     <!-- 섹션 제목 -->
     <div class="notice-header">
       <h2 class="notice-title">극장 공지사항</h2>
-      <a href="#" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+      <a href="${pageContext.request.contextPath}/UserController?type=view" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
     </div>
 
     <div class="notic-table">
@@ -460,36 +451,14 @@
         </tr>
         </thead>
         <tbody>
+        <c:forEach var="notice" items="${notice}">
         <tr>
-          <td>코엑스</td>
-          <td><a href="">[코엑스] 시사회 진행에 따른 고객 안내 (1월 14일)</a></td>
-          <td>서울</td>
-          <td>2025.01.10</td>
+          <td>${notice.theaterName}</td>
+          <td><a href="${pageContext.request.contextPath}/UserController?type=view&boardIdx=${notice.boardIdx}">${notice.boardTitle}</a></td>
+          <td>${notice.theaterRegion}</td>
+          <td>${notice.boardRegDate}</td>
         </tr>
-        <tr>
-          <td>미사강변</td>
-          <td><a href="">[미사강변] 내부 인테리어 공사에 따른 임시 휴업 안내 (25년 1월 14일)</a></td>
-          <td>경기</td>
-          <td>2025.01.09</td>
-        </tr>
-        <tr>
-          <td>안성스타필드</td>
-          <td><a href="">[안성스타필드] 대관 행사로 인한 조조영화 상영 안내 (1월 10일)</a></td>
-          <td>경기</td>
-          <td>2025.01.06</td>
-        </tr>
-        <tr>
-          <td>대구신세계(동대구)</td>
-          <td><a href="">[대구신세계] 우대요금 변경안내</a></td>
-          <td>부산/대구/경상</td>
-          <td>2024.12.31</td>
-        </tr>
-        <tr>
-          <td>안산중앙</td>
-          <td><a href="">[안산중앙] 주차공간 안내</a></td>
-          <td>경기</td>
-          <td>2024.12.26</td>
-        </tr>
+        </c:forEach>
         </tbody>
       </table>
     </div>

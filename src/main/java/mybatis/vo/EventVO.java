@@ -11,6 +11,16 @@ public class EventVO {
     private String boardRegDate;
     private String boardExpDate;
     private String boardStatus;
+    private String theaterRegion;
+    private String theaterName;
+
+    public String getTheaterRegion() {
+        return theaterRegion;
+    }
+
+    public void setTheaterRegion(String theaterRegion) {
+        this.theaterRegion = theaterRegion;
+    }
 
     public String getTheaterName() {
         return theaterName;
@@ -20,7 +30,7 @@ public class EventVO {
         this.theaterName = theaterName;
     }
 
-    private String theaterName;
+
 
     public String getBoardIdx() {
         return boardIdx;

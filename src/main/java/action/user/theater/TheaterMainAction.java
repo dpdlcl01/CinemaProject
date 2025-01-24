@@ -49,6 +49,11 @@ public class TheaterMainAction implements Action {
             request.setAttribute("event", eventVO);
         }
 
+        EventVO[] notice = TheaterDAO.getNotice();
+        if (notice.length > 0) {
+            request.setAttribute("notice", notice);
+        }
+
         // 포워딩할 JSP 페이지 반환
         return "/jsp/user/theater/theaterMain.jsp";
     }

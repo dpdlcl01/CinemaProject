@@ -74,4 +74,13 @@ public class TheaterDAO {
         ss.close();
         return eventVO;
     }
+
+    public static EventVO[] getNotice() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<EventVO> list = ss.selectList("theater.getNotice");
+        EventVO[] eventVO = new EventVO[list.size()];
+        list.toArray(eventVO);
+        ss.close();
+        return eventVO;
+    }
 }

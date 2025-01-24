@@ -53,4 +53,13 @@
         LIMIT 2
     </select>
 
+    <select id="getNotice" parameterType="map" resultType="mybatis.vo.EventVO">
+        SELECT t.theaterName, t.theaterRegion, b.boardIdx, b.boardTitle, DATE(b.boardRegDate) as boardRegDate
+        FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardType = 'NOTICE' AND b.boardStatus = 0 AND b.theaterIdx is not NULL
+        ORDER BY b.boardRegDate DESC
+        LIMIT 5
+    </select>
+
 </mapper>
