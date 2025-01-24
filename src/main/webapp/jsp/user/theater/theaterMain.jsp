@@ -434,7 +434,7 @@
     <!-- 섹션 제목 -->
     <div class="notice-header">
       <h2 class="notice-title">극장 공지사항</h2>
-      <a href="${pageContext.request.contextPath}/UserController?type=view" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
+      <a href="${pageContext.request.contextPath}/UserController?type=board" class="more" title="극장 공지사항 더보기">더보기 <i class="iconset ico-arr-right-gray"></i></a>
     </div>
 
     <div class="notic-table">
