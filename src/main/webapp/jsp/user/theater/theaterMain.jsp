@@ -408,23 +408,21 @@
         <!-- 첫 번째 이벤트 카드 -->
         <c:forEach var="event" items="${event}">
           <li>
+            <a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=${event.boardIdx}">
             <div class="event-sector">
               <!-- 텍스트 영역 -->
               <div class="event-text">
                 <div class="event-header">
                   <h3>${event.theaterName}점</h3>
                 </div>
-                <div class="event-boardTitle">
-                  <a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=${event.boardIdx}">
-                      ${event.boardTitle}
-                  </a>
-                </div>
+                <div class="event-boardTitle">${event.boardTitle}</div>
               </div>
               <!-- 이미지 영역 -->
               <div class="event-img">
                 <img src="${pageContext.request.contextPath}/css/user/images/event/${event.boardContent}" alt="이벤트 이미지">
               </div>
             </div>
+            </a>
           </li>
         </c:forEach>
       </ul>
