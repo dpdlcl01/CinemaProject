@@ -16,7 +16,7 @@
 
     <select id="getFavorite" parameterType="map" resultType="map">
         SELECT t.theaterName, t.theaterIdx
-        FROM favoritetheater f
+        FROM favoriteTheater f
         JOIN theater t ON f.theaterIdx = t.theaterIdx
         WHERE f.userIdx = #{userIdx}
     </select>
