@@ -109,19 +109,20 @@ body {
     margin: 30px 50px auto auto;
 }
 
-.row {
+.line {
     display: flex;
-    justify-content: center;
     margin: 0 5px 10px 0;
+    align-items: center;
+    justify-content: center;
 }
 
-.row button.disabled {
+.line button.disabled {
     background: #ccc;
     color: #999;
     cursor: not-allowed;
 }
 
-.row button.empty {
+.line button.empty {
     background-color: transparent; /* 배경색 제거 */
     border: none; /* 테두리 제거 */
     width: 30px; /* 버튼 크기 */
@@ -130,7 +131,7 @@ body {
     pointer-events: none; /* 클릭 불가능하도록 설정 */
 }
 
-.row button.row-label{
+.line button.row-label{
     border: none;
     width: 30px;
     height: 30px;
@@ -144,6 +145,7 @@ body {
 
 .seat-container {
     text-align: center;
+    height: 400px;
 }
 
 .seats {
@@ -169,7 +171,7 @@ body {
     padding-left: 45px;
 }
 
-.row button {
+.line button {
     margin: 0 3px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -208,8 +210,8 @@ button.temp-seat {
     color: #fff;
 }
 
-.row button.door-left{
-    background-image: url('images/img-door-left.png');
+.line button.door-left{
+    background-image: url('../user/images/img-door-left.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 22px;
@@ -220,8 +222,8 @@ button.temp-seat {
     pointer-events: none; /* 클릭 불가능하도록 설정 */
 }
 
-.row button.door-top{
-    background-image: url('images/img-door-top.png');
+.line button.door-top{
+    background-image: url("../user/images/img-door-top.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 34px;
