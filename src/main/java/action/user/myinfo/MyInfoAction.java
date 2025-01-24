@@ -1,4 +1,4 @@
-package action.user.myinfo;
+package action.user.myInfo;
 
 import action.Action;
 import mybatis.dao.MyInfoDAO;
