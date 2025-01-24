@@ -23,6 +23,10 @@
         <mapper resource="mybatis/mapper/movie.xml"/>
         <mapper resource="mybatis/mapper/theater.xml"/>
         <mapper resource="mybatis/mapper/board.xml"/>
+        <mapper resource="mybatis/mapper/coupon.xml"/>
+        <mapper resource="mybatis/mapper/point.xml"/>
+        <mapper resource="mybatis/mapper/seat.xml"/>
+        <mapper resource="mybatis/mapper/reservation.xml"/>
         <mapper resource="mybatis/mapper/timetable.xml"/>
     </mappers>
 </configuration>

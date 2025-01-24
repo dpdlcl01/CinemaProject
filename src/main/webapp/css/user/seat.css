@@ -1,0 +1,490 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 예매 인원 선택 */
+.res-main {
+    width: 1100px;
+    margin: 50px auto;
+}
+.res-title {
+    font-size: 30px;
+    left: 3px;
+    font-weight: normal;
+}
+
+.seat-selection-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    height: 630px;
+}
+
+.seat-selection {
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.seat-selection .header {
+    display: flex;
+    background: #f9f9f9;
+    align-items: center;
+    padding: 0px 10px 0px 10px;
+    margin-bottom: 20px;
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.seat-selection .header label {
+    margin-right: 5px;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.seat-selection .header.adult {
+    display: flex;
+}
+
+.seat-selection .header.student {
+    display: flex;
+}
+
+.value {
+    width: 30px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+}
+
+.btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*transition: all 0.2s ease;*/
+}
+
+.btn:hover {
+    background: #ddd;
+}
+
+.reset {
+    margin-left: auto; /* 초기화 버튼을 오른쪽으로 밀기 */
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    /*transition: background 0.3s ease;*/
+}
+
+/* 좌석 선택 */
+.screen {
+    margin: 10px 0;
+    padding: 10px;
+    background: #ddd;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.rows{
+    margin: 30px 50px auto auto;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    margin: 0 5px 10px 0;
+}
+
+.row button.disabled {
+    background: #ccc;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.row button.empty {
+    background-color: transparent; /* 배경색 제거 */
+    border: none; /* 테두리 제거 */
+    width: 30px; /* 버튼 크기 */
+    height: 30px;
+    cursor: default; /* 클릭 비활성화 */
+    pointer-events: none; /* 클릭 불가능하도록 설정 */
+}
+
+.row button.row-label{
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: default;
+    pointer-events: none;
+    color: rebeccapurple;
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 45px;
+}
+
+.seat-container {
+    text-align: center;
+}
+
+.seats {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.seat-group {
+    display: flex;
+    gap: 5px;
+}
+
+.seat-group-center {
+    display: flex;
+    gap: 5px;
+    padding-left: 45px;
+}
+
+.seat-group-right {
+    display: flex;
+    gap: 5px;
+    padding-left: 45px;
+}
+
+.row button {
+    margin: 0 3px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+}
+
+button.disabled-seat {
+    background-color: #d3d3d3; !important;
+    cursor: not-allowed; !important;
+}
+
+button.temp-seat {
+    background-color: #a9a9a9; !important;
+    cursor: not-allowed; !important;
+}
+
+.unavailable-seat {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.available-seat, .unavailable-seat {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    text-align: center;
+}
+
+.available-seat.selected {
+    background-color: #6a0dad; /* 선택된 좌석 색상 */
+    color: #fff;
+}
+
+.row button.door-left{
+    background-image: url('images/img-door-left.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 22px;
+    border: none;
+    width: 45px;
+    height: 45px;
+    cursor: default;
+    pointer-events: none; /* 클릭 불가능하도록 설정 */
+}
+
+.row button.door-top{
+    background-image: url('images/img-door-top.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 34px;
+    border: none;
+    width: 45px;
+    height: 45px;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* 영화 정보 */
+.movie-container {
+    margin: 0 20px;
+    background: #333;
+    color: #fff;
+    border-radius: 10px;
+    padding: 20px 20px 15px 20px;
+}
+
+.movie-info {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid #434343;
+}
+
+.movie-info .movie-grade {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.movie- info .movie-title {
+    font-size: 1.06em;
+    font-weight: 400;
+    line-height: 1.1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.movie-info .movie-type {
+    font-size: 12px;
+    margin: 5px 0 0;
+}
+
+.movie-info .movie-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-info .movie-type {
+    display: inline-block;
+    margin: 5px 0;
+    font-size: .8667em;
+    color: #aaa;
+    line-height: 1.1;
+}
+
+/* 영화 정보 movie-info-area */
+.movie-info-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #434343;
+}
+
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.theater-info {
+    font-size: .8667em;
+    margin-bottom: 5px;
+}
+
+.movie-date {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 5px; /* 아래 여백 */
+}
+
+.movie-time {
+    font-size: 12px;
+    color: #ccc;
+}
+
+.poster {
+    width: 80px; /* 포스터 너비 조정 */
+    height: auto; /* 비율 유지 */
+    margin-left: 15px; /* 텍스트와 이미지 간 간격 */
+    border-radius: 5px; /* 포스터 모서리 둥글게 */
+}
+
+/* 좌석 선택 choose-seat-area */
+.choose-seat-area {
+    display: flex; /* 좌석 정보와 선택 좌석을 나란히 배치 */
+    justify-content: space-between;
+    padding: 20px;
+    margin: 10px 0 10px 0;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+}
+
+.legend {
+    width: 45%;
+    border-right: 1px solid #434343;
+}
+
+.legend .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: .8667em;
+    color: #aaa;
+}
+
+.legend .list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.seat-condition {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.seat-condition.choice {
+    background-color: #6a0dad;
+}
+
+.seat-condition.finish {
+    background-color: #d3d3d3;
+}
+
+.seat-condition.impossible {
+    background-color: #a9a9a9;
+}
+
+.seat-condition.disabled {
+    background-color: #008000;
+}
+
+.seat-num {
+    width: 48%;
+}
+
+.seat-num .tit {
+    font-size: .8em;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.my-seat {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+}
+
+.my-seat .seat.filled {
+    background-color: #6a0dad; /* 선택된 좌석 색상 */
+    color: white; /* 글자 색상 */
+}
+
+.seat {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #2e2e2e;
+    font-size: 12px;
+    text-align: center;
+}
+
+.seat.choice {
+    background-color: #6a0dad;
+}
+
+.seat.all {
+    background-color: #434343;
+}
+
+/* 결제 정보 */
+.payment-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    color: #fff;
+    border-top: 1px solid #434343;
+}
+
+.info {
+    text-align: left;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.details {
+    font-size: 14px;
+    color: #ccc;
+}
+
+.final-payment {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.final-payment .label {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.final-payment .amount {
+    color: #4ac5c5;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* 이전 다음 버튼 */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+
+}
+
+.button.pre {
+    margin-right: 10px;
+    width: 50%;
+}
+
+.button:hover {
+    background-color: #555; /* 호버 시 색상 */
+}
+
+.button.active {
+    background-color: #4ac5c5; /* 활성화된 버튼 색상 */
+    width: 50%;
+}
+
+#pagePrevious {
+    background-color: #666; /* 이전 버튼 색상 */
+}

@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movie">
+
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
         INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
         movieDirector, movieActors, movieInfo, moviePosterUrl,
@@ -15,5 +16,11 @@
         SELECT *
         FROM movie
         WHERE movieStatus = 0 OR movieStatus = 1
+    </select>
+    <!--  영화 정보 상세 조회 (seat)  -->
+    <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieIdx = #{movieIdx}
     </select>
 </mapper>

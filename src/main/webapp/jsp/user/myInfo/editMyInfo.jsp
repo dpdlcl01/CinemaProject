@@ -180,7 +180,7 @@
         <div class="liWrap"><li><a href="myReservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
         <div class="liWrap"> <li><a href="myAdmissionTicket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
         <div class="liWrap">  <li><a href="myCoupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
-        <div class="liWrap"> <li><a href="myMembership.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
+        <div class="liWrap"> <li><a href="myPoint.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
         <div class="liWrap"> <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li></div>
         <div class="liWrap"> <li><a href="editMyInfo.jsp" title="회원정보">회원정보</a></li></div>
 

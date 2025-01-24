@@ -26,13 +26,11 @@
       display: flex;
       width: 1100px;
       height: 375px;
-      background-image:url("../../../img/payment.png");
+      background-image:url("${pageContext.request.contextPath}/css/user/images/KangImg/payment.png");
     }
     #imgDiv{
       width: 270px;
       height: 375px;
-
-
     }
     #ticket{
       margin-top: 25px;
@@ -137,8 +135,7 @@
         <p>티켓 예매번호</p>
         <p><strong>0000-000-0000</strong></p>
       </div>
-
-      <img src="../../../img/ha.png" id="movieImg">
+      <img src="${pageContext.request.contextPath}/css/user/images/KangImg/ha.png" id="movieImg">
     </div>
     <div id="successInfo">
       <p><strong>예매가 완료되었습니다!</strong><span>고객님의 상영익일 적립예정 포인트는 0000입니다.</span></p>

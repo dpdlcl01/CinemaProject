@@ -41,8 +41,8 @@
                             </c:if>
                             <c:forEach var="movie" items="${movies}">
                                 <li data-movie-id="${movie.movieIdx}">
-                                    <img src="${pageContext.request.contextPath}/css/user/images/ratings/${movie.movieRating}.png" class="rating-image" />
-                                        ${movie.movieTitle}
+                                    <img src="${pageContext.request.contextPath}/css/user/images/ratings/${movie.movieGrade}.png" class="rating-image" />
+                                    ${movie.movieTitle}
                                 </li>
                             </c:forEach>
                         </ul>
@@ -233,6 +233,7 @@
 
                 li.setAttribute("data-timetable-id", showtime.timetableIdx);
                 li.setAttribute("data-screen-idx", showtime.screenIdx);
+                li.setAttribute("data-screen-type", showtime.screenType);
                 // 조조(0) 또는 일반(1) 정보 추가
                 li.setAttribute("data-morning", isMorning ? "0" : "1");
                 ul.appendChild(li);
@@ -280,12 +281,14 @@
             if (listItem) {
                 const timetableIdx = listItem.getAttribute("data-timetable-id");
                 const screenIdx = listItem.getAttribute("data-screen-idx");
+                const screenType = listItem.getAttribute("data-screen-type");
                 const isMorning = listItem.getAttribute("data-morning");
                 const isWeekend = (currentDate.getDay() === 0 || currentDate.getDay() === 6) ? true : false;
 
                 console.log("클릭된 시간표 데이터:", {
                     timetableIdx: timetableIdx,
                     screenIdx: screenIdx,
+                    screenType: screenType,
                     selectedMovieIdx: selectedMovieIdx,
                     selectedTheaterIdx: selectedTheaterIdx,
                     isMorning: isMorning,
@@ -296,6 +299,7 @@
                     const url = contextPath + "/UserController?type=seat&movieIdx=" + selectedMovieIdx +
                         "&screenIdx=" + screenIdx +
                         "&timetableIdx=" + timetableIdx +
+                        "&screenType=" + screenType +
                         "&isMorning=" + isMorning +
                         "&isWeekend=" + isWeekend;
 

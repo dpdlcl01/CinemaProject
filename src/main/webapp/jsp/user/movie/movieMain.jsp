@@ -2,13 +2,12 @@
 <!Doctype html>
 <html lang="ko">
 <!-- head -->
-
 <head>
     <jsp:include page="../common/head.jsp"/>
 </head>
 <link rel="stylesheet" href="../../../css/user/common.css">
 <link rel="stylesheet" href="../../../css/user/movie.css">
-<script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
+<%--<script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>--%>
 <body>
 
 <!-- header 영역 -->
