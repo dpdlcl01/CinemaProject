@@ -48,7 +48,7 @@
                     <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" class="event">이벤트</a>
                 </li>
                 <li title="스토어">
-                    <a href="#" class="store">스토어</a>
+                    <a href="${pageContext.request.contextPath}/UserController?type=store" class="store">스토어</a>
                 </li>
                 <li title="혜택">
                     <a href="${pageContext.request.contextPath}/UserController?type=board" class="benefit">공지사항</a>

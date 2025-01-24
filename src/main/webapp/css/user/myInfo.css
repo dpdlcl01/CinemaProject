@@ -41,6 +41,7 @@ body {
 }
 .sidebar li{
     border-bottom: 1px solid #222222;
+    width: 200px;
 }
 .sidebar-title>a:hover{
     color: gray;

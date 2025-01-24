@@ -2,6 +2,39 @@ package mybatis.vo;
 
 public class ReservationVO {
     private String reservationIdx, userIdx, theaterIdx, screenIdx, timetableIdx, reservationDate, reservationStatus, reservationSeatIdx, seatIdx, priceIdx;
+    String reservationIdx, theaterIdx, screenIdx, timetableIdx, movieTitle, moviePosterUrl,reservationDate,theaterName,screenName,timetableStartTime;
+
+    public String getTimetableStartTime() {
+        return timetableStartTime;
+    }
+
+    public void setTimetableStartTime(String timetableStartTime) {
+        this.timetableStartTime = timetableStartTime;
+    }
+
+    public String getTheaterName() {
+        return theaterName;
+    }
+
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public String getReservationDate() {
+        return reservationDate;
+    }
+
+    public void setReservationDate(String reservationDate) {
+        this.reservationDate = reservationDate;
+    }
 
     public String getReservationIdx() {
         return reservationIdx;
@@ -69,17 +102,25 @@ public class ReservationVO {
 
     public String getReservationStatus() {
         return reservationStatus;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
     public void setReservationStatus(String reservationStatus) {
         this.reservationStatus = reservationStatus;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
     public String getReservationSeatIdx() {
         return reservationSeatIdx;
+    public String getMoviePosterUrl() {
+        return moviePosterUrl;
     }
 
     public void setReservationSeatIdx(String reservationSeatIdx) {
         this.reservationSeatIdx = reservationSeatIdx;
+    public void setMoviePosterUrl(String moviePosterUrl) {
+        this.moviePosterUrl = moviePosterUrl;
     }
 }

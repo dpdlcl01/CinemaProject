@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+
+    <select id="total" resultType="mybatis.vo.ProductVO">
+        select *
+        from product
+        where productStatus = 0;
+    </select>
+
+    <insert id="addCart" parameterType="Map">
+        insert into cart (userIdx,productIdx,quantity)
+        values(#{userIdx}, #{productIdx}, #{quantity});
+    </insert>
+
+    <select id="selectCart" parameterType="String" resultType="mybatis.vo.CartVO">
+        SELECT
+        p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,
+        SUM(c.quantity) AS total_quant
+        FROM cart c INNER JOIN product p ON c.productIdx = p.productIdx
+        WHERE c.userIdx = #{idx}
+        GROUP BY p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg
+        ORDER BY p.productIdx
+    </select>
+    <delete id="delCart" parameterType="Map">
+        DELETE
+        FROM cart
+        WHERE userIdx=#{userIdx} and productIdx=#{productIdx}
+    </delete>
+</mapper>
