@@ -1,4 +1,4 @@
-package action.user;
+package action.user.myInfo;
 
 import action.Action;
 

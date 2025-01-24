@@ -1,4 +1,4 @@
-package action.user;
+package action.user.myInfo;
 
 import action.Action;
 import mybatis.dao.CouponDAO;
@@ -8,7 +8,6 @@ import mybatis.vo.UserVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 
 public class MyCouponAction implements Action {
     @Override

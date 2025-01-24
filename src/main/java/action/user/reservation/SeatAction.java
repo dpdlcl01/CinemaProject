@@ -1,4 +1,4 @@
-package action.user;
+package action.user.reservation;
 
 import action.Action;
 import mybatis.dao.ReservationDAO;

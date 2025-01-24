@@ -1,9 +1,7 @@
-package action.user;
+package action.user.myInfo;
 
 import action.Action;
-import mybatis.dao.CouponDAO;
 import mybatis.dao.PointDAO;
-import mybatis.vo.CouponVO;
 import mybatis.vo.PointVO;
 import mybatis.vo.UserVO;
 
