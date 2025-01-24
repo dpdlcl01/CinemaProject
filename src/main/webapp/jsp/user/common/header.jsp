@@ -19,7 +19,7 @@
                     <c:otherwise>
                         <!-- 세션에 user가 없으면 로그인 버튼 -->
                         <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a>
-                        <a href="#" title="회원가입">회원가입</a>
+                        <a href="${pageContext.request.contextPath}/UserController?type=register" title="회원가입">회원가입</a>
                     </c:otherwise>
                 </c:choose>
             </div>
