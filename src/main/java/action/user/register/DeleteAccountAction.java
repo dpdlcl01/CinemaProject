@@ -32,7 +32,7 @@ public class DeleteAccountAction implements Action {
             boolean isDeleted = userDAO.updateUserStatus(userId);
             if (isDeleted) {
                 request.getSession().invalidate();
-                return "/UserController";
+                return null;
             } else {
                 request.setAttribute("message", "회원탈퇴에 실패했습니다.");
                 return "/jsp/user/myInfo/delResult/del_fail.jsp";

@@ -81,8 +81,8 @@
                             <%-- action="${pageContext.request.contextPath}/UserController?type=action" --%>
                             <form method="post" id="loginForm">
                                 <input type="hidden" name="type" value="action">
-                                <input type="text" id="userId" name="userId" class="login-input form-control" placeholder="아이디">
-                                <input type="password" id="userPassword" name="userPassword" class="login-input form-control mt-3" placeholder="비밀번호">
+                                <input type="text" id="userId" name="userId" class="login-input form-control" placeholder="아이디" required>
+                                <input type="password" id="userPassword" name="userPassword" class="login-input form-control mt-3" placeholder="비밀번호" required>
                                 <button type="submit" class="login-button btn btn-primary mt-3">로그인</button>
                             </form>
                             <div class="login-footer mt-3">

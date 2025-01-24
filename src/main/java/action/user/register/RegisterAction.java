@@ -15,7 +15,6 @@ public class RegisterAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("inexecute1");
         if (!"POST".equalsIgnoreCase(request.getMethod())) {
             return register_form; // GET 요청일 경우 폼 페이지 반환
         }
@@ -33,7 +32,6 @@ public class RegisterAction implements Action {
             return register_fail; // 실패 페이지 반환
         }
 
-        System.out.println("inexecute2");
         // 기본값 설정
         String userPoint = "0";
         String userGrade = "Basic";

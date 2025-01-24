@@ -292,7 +292,7 @@
 
   <div id="main2" style="display: none;">
     <div>
-      <strong>${userName}님 안녕하세요</strong>
+      <strong>회원님 안녕하세요</strong>
       <p>회원 정보를 입력해주세요</p>
     </div>
 
@@ -324,8 +324,9 @@
         <tr>
           <td class="bold">아이디</td>
           <td>
-            <input type="text" id="userId" name="userId" class="inputValue">
-            <span id="idMessage" class="message"></span>
+            <input type="text" id="userId" name="userId" class="inputValue" oninput="checkid()">
+            <span id="id_ok" class="id_ok" style="color:green; display:none;">사용 가능한 아이디입니다.</span>
+            <span id="id_already" class="id_already" style="color:red; display:none;">사용 불가능 가능한 아이디입니다.</span>
           </td>
         </tr>
 
@@ -504,6 +505,38 @@
     };
     xhr.send("authCode=" + encodeURIComponent(authCode));
   }
+
+
+
+  function checkid() {
+    console.log("checkid 이벤트 호출")
+    const userId = $("#userId").val();
+
+    if(!userId){
+      $(".id_ok").hide();
+      $(".id_already").hide();
+      return;
+    }
+
+    $.ajax({
+      url:'/UserController?type=usercheckid',
+      type:"post",
+      data:{ userId: userId },
+      success:function(response) {
+        console.log("서버응답: ", response);
+          if(response.trim() === "0") {
+            $(".id_ok").show();
+            $(".id_already").hide();
+          } else {
+            $(".id_ok").hide();
+            $(".id_already").show();
+          }
+        },
+      error:function(){
+      alert("아이디검증 ajax 오류 발생.");
+      }
+    });
+}
 
 </script>
 

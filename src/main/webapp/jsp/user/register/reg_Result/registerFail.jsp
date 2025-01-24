@@ -15,4 +15,7 @@
     </form>
 </div>
 </body>
+<script>
+    setTimeout('location.href = "/UserController"', 3000)
+</script>
 </html>

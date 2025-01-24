@@ -157,22 +157,6 @@ public class UserController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        //컨트롤러로 파라미터가 잘 넘어오는지 확인하는 용도.
-        String userName = request.getParameter("userName");
-        String userEmail = request.getParameter("user_Email");
-        String userPhone = request.getParameter("userPhone");
-        String userId = request.getParameter("userId");
-        String userPassword = request.getParameter("userPassword1");
-
-        System.out.println(userName);
-        System.out.println(userEmail);
-        System.out.println(userPhone);
-        System.out.println(userId);
-        System.out.println(userPassword);
-
-
-
-
     }
 
 }

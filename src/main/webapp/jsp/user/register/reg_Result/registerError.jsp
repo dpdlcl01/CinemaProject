@@ -11,4 +11,7 @@
      에러발생! 관리자에게 문의.
     </form>
 </body>
+<script>
+    setTimeout('location.href = "/UserController"', 3000)
+</script>
 </html>

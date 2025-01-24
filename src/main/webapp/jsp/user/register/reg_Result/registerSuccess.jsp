@@ -36,7 +36,7 @@
         <p id="main3Content">이제부터 메가박스에서 제공하는 다양한 멤버십 혜택을 이용하실 수 있습니다.</p>
     </div>
     <div id="completeDiv">
-        <button type="button" id="complete">신규회원 혜택 확인</button>
+        <button type="button" id="complete"><a href="/UserController">메인으로</a></button>
     </div>
     </div>
     </form>
