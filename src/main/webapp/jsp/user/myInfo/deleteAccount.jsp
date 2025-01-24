@@ -155,7 +155,7 @@
 <jsp:include page="../common/header.jsp"/>
 
 <!-- contents 영역 -->
-
+<form action="${pageContext.request.contextPath}/UserController?type=userdrop" method="post">
 <div class="page-util">
   <div class="inner-wrap">
     <div class="location">
@@ -209,42 +209,105 @@
         </colgroup>
         <tbody>
         <tr>
+          <input type="hidden" name="userId" value="${sessionScope.userId}">
           <td>비밀번호</td>
-          <td><input type="password"></td>
+          <td><input type="password" id="userPassword" name="userPassword"></td>
         </tr>
         <tr>
           <td>이메일</td>
           <td>
-            <input type="text">
+            <input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
             <span>@</span>
-            <input type="text">
-            <button type="button">인증요청</button>
+            <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+            <button type="button" onclick="sendAuthCode()">인증번호 받기</button>
+            <input type="hidden" id="authcodecheck" value="1">
           </td>
         </tr>
         <tr>
           <td>인증번호</td>
           <td>
-            <input type="text">
-            <button type="button">인증확인</button>
+            <input type="text" id="authcode" name="authcode" class="inputValue">
+            <button type="button" onclick="verifyAuthCode()">인증확인</button>
+            <script>
+              function sendAuthCode() {
+                const emailPart1 = document.getElementById("emailpart1").value;
+                console.log(emailPart1);
+                const emailPart2 = document.getElementById("emailpart2").value;
+                console.log(emailPart2);
+
+
+                if (!emailPart1 || !emailPart2) {
+                  alert("이메일을 입력해주세요.");
+                  return;
+                }
+
+                const email = emailPart1 + "@" + emailPart2;
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert(xhr.responseText.trim());
+                  }
+                };
+                xhr.send("email=" + encodeURIComponent(email));
+              }
+            </script>
           </td>
         </tr>
         </tbody>
       </table>
       <div id="btnDiv">
-        <button id="cancle">취소</button>
-        <button id="go" disabled>탈퇴</button>
+        <button id="cancel">취소</button>
+        <button id="go" onclick="userStatus_drop(this.form)">탈퇴</button>
       </div>
     </div>
-
+<c:if test="${not empty message}">
+  <div class="alert">${message}</div>
+</c:if>
   </article>
 </div>
-
+</form>
 <!-- footer 영역 -->
 <jsp:include page="../common/footer.jsp"/>
 
 <!-- script 영역 -->
 <script>
 
+  function verifyAuthCode() {
+    console.log("verifyAuthCode 호출.");
+    const authCode = document.getElementById("authcode").value;
+
+    if (!authCode) {
+      alert("인증번호를 입력해주세요.");
+      return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const response = xhr.responseText.trim();
+
+        if (response === "인증 성공!") {
+          alert("인증에 성공했습니다!");
+          document.getElementById("authcodecheck").value = "0";
+          document.getElementById("go").disabled = false;
+        } else {
+          alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+          document.getElementById("authcodecheck").value = "1";
+        }
+      }
+    };
+    xhr.send("authCode=" + encodeURIComponent(authCode));
+  }
+
+  function userStatus_drop(frm){
+    frm.submit();
+  }
 </script>
 </body>
 </html>

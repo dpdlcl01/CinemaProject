@@ -1,12 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 14.
-  Time: 오후 5:45
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!Doctype html>
 <html lang="en">
@@ -180,8 +173,8 @@
         <div class="liWrap"><li><a href="myReservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
         <div class="liWrap"> <li><a href="myAdmissionTicket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
         <div class="liWrap">  <li><a href="myCoupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
-        <div class="liWrap"> <li><a href="myPoint.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
-        <div class="liWrap"> <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li></div>
+        <div class="liWrap"> <li><a href="myMembership.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
+        <div class="liWrap"> <li><a href="myMovieStoryV2.jsp" title="나의 무비스토리">나의 무비스토리</a></li></div>
         <div class="liWrap"> <li><a href="editMyInfo.jsp" title="회원정보">회원정보</a></li></div>
 
       </ul>
@@ -202,22 +195,22 @@
         <tbody>
         <tr>
           <td class="title">아이디</td>
-          <td><span>khh88000</span></td>
+          <td><span>${sessionScope.user.userId}</span></td>
         </tr>
         <tr>
           <td class="title">이름</td>
           <td>
-            <span>강호현</span>
+            <span>${sessionScope.user.userName}</span>
           </td>
         </tr>
         <tr>
           <td class="title">생년월일</td>
-          <td><span>1996-09-23</span></td>
+          <td><span></span></td>
         </tr>
         <tr>
           <td class="title" >휴대폰</td>
           <td>
-            <span>010-4324-2421</span>
+            <span>${sessionScope.user.userPhone}</span>
             <button type="button" class="normalBtn" onclick="viewP()">휴대폰번호변경</button>
             <p id="editPassword">변경할 휴대폰 번호 <input type="text"><button type="button">변경</button> </p>
           </td>
@@ -225,14 +218,7 @@
         <tr>
           <td class="title">이메일</td>
           <td>
-            <input type="text">
-            <span>@</span>
-            <input type="text" id="address">
-            <select id="address-select">주소 선택
-              <option value="naver.com">네이버</option>
-              <option value="daum.net">다음</option>
-              <option value="gmail.com">구글</option>
-            </select>
+            <span>${sessionScope.user.userEmail}</span>
           </td>
         </tr>
         <tr>

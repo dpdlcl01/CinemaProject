@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <jsp:include page="../common/head.jsp"/>
   <style>
     *{
       padding: 0;
@@ -149,22 +149,6 @@
     .radioContainer>label{
       padding-right: 15px;
     }
-    #main3{
-
-      text-align: center;
-    }
-    #main3Title{
-      font-size: 20px;
-      font-weight: bold;
-      color: #503396;
-      padding-bottom: 20px;
-    }
-    #main3Content{
-
-      font-size: 13px;
-      padding-bottom: 50px;
-
-    }
     .tableButton{
       height: 28px;
       background-color: white;
@@ -186,6 +170,9 @@
 
 </head>
 <body>
+<jsp:include page="../common/header.jsp"/>
+<form action="${pageContext.request.contextPath}/UserController" method="post">
+  <input type="hidden" name="type" id="type"/>
 <div id="contents">
   <h1>여기에 로고</h1>
 
@@ -197,7 +184,9 @@
       <p class="step">STEP4.가입완료</p>
     </div>
 
-    <div id="main0">
+
+
+    <div id="main0" style="display: none;">
       <article id="main0Title">
         <strong>회원가입을 위한 본인인증 단계입니다.</strong>
         <p>이메일 인증을 완료해주세요</p>
@@ -208,27 +197,61 @@
           <col width="120px">
           <col width="350px">
         </colgroup>
+
         <tr>
           <td><span>이름</span> </td>
-          <td><input type="text" class="inputValue"></td>
+          <td><input type="text" id="userName" name="userName" class="inputValue"></td>
         </tr>
         <tr>
           <td><span>이메일</span> </td>
-          <td><input type="text" class="inputEmail"><span>@</span><input type="text" class="inputEmail"><button type="button" id="Cnum">인증번호받기</button> </td>
+          <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
+            <span>@</span>
+            <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+            <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
         </tr>
         <tr>
           <td><span>인증번호</span> </td>
-          <td><input type="text" class="inputValue"> <button type="button" class="tableButton">인증 확인</button> </td>
+          <td><input type="text" id="authcode" name="authcode" class="inputValue">
+            <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
+          <script>
+            // 인증번호 확인 AJAX 요청
+            function sendAuthCode() {
+              const emailPart1 = document.getElementById("emailpart1").value;
+              console.log(emailPart1);
+              const emailPart2 = document.getElementById("emailpart2").value;
+              console.log(emailPart2);
+
+
+              if (!emailPart1 || !emailPart2) {
+                alert("이메일을 입력해주세요.");
+                return;
+              }
+
+              const email = emailPart1 + "@" + emailPart2;
+
+              const xhr = new XMLHttpRequest();
+              xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
+              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                  alert(xhr.responseText.trim());
+                }
+              };
+              xhr.send("email=" + encodeURIComponent(email));
+            }
+          </script>
         </tr>
+
       </table>
       <div id="nextDiv">
-        <button type="button" id="next" disabled>다음</button>
+        <button type="button" id="next" disabled  onclick="gotoMain2()">다음</button>
       </div>
-
+      <input type="hidden" id="user_Email" name="user_Email"/>
+      <input type="hidden" id="authcodecheck" value=""/>
     </div>
 
 
-    <div id="main" class="main default">
+    <div id="main" class="default" style="display: block;">
       <div>
         <strong>약관동의 및 정보활용 동의</strong>
       </div>
@@ -262,14 +285,14 @@
       </div>
       <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
       <div id="checkDiv">
-        <button type="button" id="check" disabled>확인</button>
+        <button type="button" id="check" disabled onclick="gotoMain0()">확인</button>
       </div>
     </div>
   </article>
 
-  <div id="main2">
+  <div id="main2" style="display: none;">
     <div>
-      <strong>사용자님 안녕하세요</strong>
+      <strong>회원님 안녕하세요</strong>
       <p>회원 정보를 입력해주세요</p>
     </div>
 
@@ -284,36 +307,38 @@
         <tr>
           <td class="bold">생년월일</td>
           <td>
-            <input type="text" class="birth" value="2025">
+            <input type="text" id="birthyear" name="birthyear" class="birth" value="2025">
             <span>년</span>
-            <input type="text" class="birth" value="01">
+            <input type="text" id="birthmonth" name="birthmonth" class="birth" value="01">
             <span>월</span>
-            <input type="text" class="birth" value="01">
+            <input type="text" id="birthday" name="birthday" class="birth" value="01">
             <span>일</span>
           </td>
         </tr>
 
         <tr>
-          <td class="bold"> 휴대폰번호</td>
-          <td><input type="text" class="inputValue"></td>
+          <td class="bold">휴대폰번호</td>
+          <td><input type="text" id="userPhone" name="userPhone" class="inputValue"></td>
         </tr>
 
         <tr>
           <td class="bold">아이디</td>
           <td>
-            <input type="text" class="inputValue">
-            <button type="button" class="tableButton">중복확인</button>
+            <input type="text" id="userId" name="userId" class="inputValue" oninput="checkid()">
+            <span id="id_ok" class="id_ok" style="color:green; display:none;">사용 가능한 아이디입니다.</span>
+            <span id="id_already" class="id_already" style="color:red; display:none;">사용 불가능 가능한 아이디입니다.</span>
           </td>
         </tr>
 
         <tr>
           <td class="bold">비밀번호</td>
-          <td><input type="text" class="inputValue"></td>
+          <td><input type="password" id="userPassword1" name="userPassword1" oninput="pwCheck()" class="inputValue"></td>
         </tr>
 
         <tr>
-          <td class="bold">비밀번호확인</td>
-          <td><input type="text" class="inputValue"></td>
+          <td class="bold" >비밀번호확인</td>
+          <td><input type="password" id="userPassword2" name="userPassword2" oninput="pwCheck()" class="inputValue"></td>
+          <span id="authpwd">비밀번호를 입력하여 주세요.</span>
         </tr>
 
 
@@ -337,33 +362,22 @@
         </div>
       </div>
       <div id="registerDiv">
-        <button type="button" id="register" disabled>회원가입</button>
+        <button type="button" id="register" onclick="gotoMain3(this.form)">회원가입</button>
       </div>
 
     </div>
   </div>
-  <div id="main3">
-    <div id="mainImg">
-      <img src="../../../img/complete.png">
-    </div>
-    <div id="main3Title">
-      <p>사용자님 메가박스 가입을 환영합니다.</p>
-    </div>
-    <div>
-      <p id="main3Content">이제부터 메가박스에서 제공하는 다양한 멤버십 혜택을 이용하실 수 있습니다.</p>
-    </div>
-    <div id="completeDiv">
-      <button type="button" id="complete">신규회원 혜택 확인</button>
-    </div>
 
   </div>
 </div>
-
-
+</form>
+<jsp:include page="../common/footer.jsp"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   const checkbox1 = document.getElementById('serviceAgree');
   const checkbox2 = document.getElementById('personalAgree');
   const checkbox = document.getElementById('allAgree');
+
   function essential() {
 
     if(checkbox.checked){
@@ -391,7 +405,140 @@
       button.classList.remove("enabled");
     }
   }
-</script><!--다음 화면 읽고 만들기-->
+
+  function gotoMain0(){
+    document.getElementById('main').style.display = 'none';
+    document.getElementById('main0').style.display = 'block';
+  }
+
+  function gotoMain2() {
+    let userName = $(".inputValue[name='userName']").val();
+    let emailPart1 = $(".inputEmail[name='emailpart1']").val();
+    let emailPart2 = $(".inputEmail[name='emailpart2']").val();
+    const user_Email = document.getElementById("user_Email");
+
+    userName = $.trim(userName);
+    emailPart1 = $.trim(emailPart1);
+    emailPart2 = $.trim(emailPart2);
+
+    if (userName.length < 1) {
+      alert("이름을 입력하세요.");
+      $(".inputValue[name='userName']").val("").focus();
+      return;
+    }
+    if (emailPart1.length < 1 || emailPart2.length < 1) {
+      alert("이메일을 입력하세요.");
+      $(".inputEmail[name='emailpart1']").val("").focus();
+      return;
+    }
+
+    // 이메일 조합 후 숨겨진 필드에 설정
+    user_Email.value = emailPart1 + "@" + emailPart2;
+
+    // 화면 전환
+    document.getElementById('main0').style.display = 'none';
+    document.getElementById('main2').style.display = 'block';
+  }
+
+  function pwCheck(){
+    const authPwd = document.getElementById('authpwd');
+    if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
+      authPwd.innerText = '비밀번호가 일치합니다.';
+      authPwd.style.color = 'green';
+    } else {
+      authPwd.innerText = '비밀번호가 불일치합니다.';
+      authPwd.style.color = 'red';
+    }
+  }
+
+  function gotoMain3(frm){
+    let userPhone = $.trim($(".inputValue[name='userPhone']").val());
+    let userId = $.trim($(".inputValue[name='userId']").val());
+
+    if(userPhone.length < 10) {
+      alert("핸드폰번호를 입력해주세요.");
+      $(".inputValue[name='userPhone']").val("").focus();
+      return false;
+    }
+    if(userId.length < 3) {
+      alert("아이디는 4글자 이상만 입력가능합니다.");
+      $(".inputValue[name='userId']").val("").focus();
+      return false;
+    }
+    if(userPassword.length < 6) {
+      alert("비밀번호는 6글자 이상만 입력가능합니다.");
+      $(".inputValue[name='userPassword']").val("").focus();
+      return false;
+    }
+    document.getElementById("type").value = "register";
+    frm.submit();
+
+  }
+
+  // 인증번호 확인 AJAX 요청
+  function verifyAuthCode() {
+    console.log("verifyAuthCode 호출.");
+    const authCode = document.getElementById("authcode").value;
+
+    if (!authCode) {
+      alert("인증번호를 입력해주세요.");
+      return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const response = xhr.responseText.trim();
+
+        if (response === "인증 성공!") {
+          alert("인증에 성공했습니다!");
+          document.getElementById("authcodecheck").value = "success"; // 인증 성공 상태 저장
+          document.getElementById("next").disabled = false;
+        } else {
+          alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+          document.getElementById("authcodecheck").value = ""; // 인증 실패 상태 초기화
+        }
+      }
+    };
+    xhr.send("authCode=" + encodeURIComponent(authCode));
+  }
+
+
+
+  function checkid() {
+    console.log("checkid 이벤트 호출")
+    const userId = $("#userId").val();
+
+    if(!userId){
+      $(".id_ok").hide();
+      $(".id_already").hide();
+      return;
+    }
+
+    $.ajax({
+      url:'/UserController?type=usercheckid',
+      type:"post",
+      data:{ userId: userId },
+      success:function(response) {
+        console.log("서버응답: ", response);
+          if(response.trim() === "0") {
+            $(".id_ok").show();
+            $(".id_already").hide();
+          } else {
+            $(".id_ok").hide();
+            $(".id_already").show();
+          }
+        },
+      error:function(){
+      alert("아이디검증 ajax 오류 발생.");
+      }
+    });
+}
+
+</script>
 
 </body>
 </html>
