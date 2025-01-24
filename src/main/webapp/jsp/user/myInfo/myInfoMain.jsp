@@ -135,7 +135,7 @@
         left: 50%;
         transform: translateX(-50%);
         white-space: nowrap;
-        display: none;
+
     }
 
     /* 말풍선 꼬리 */
@@ -149,9 +149,7 @@
         border-style: solid;
         border-color: #22C8F6 transparent transparent transparent;
     }*/
-    .level-item.active .tooltip {
-        display: block;
-    }
+
     #top2{
         display: flex;
         width: 836px;

@@ -717,7 +717,7 @@ To change this template use File | Settings | File Templates.
                 <c:forEach items="${requestScope.rvo}" var="review">
                   <li>
                     <p class="img posterImg">
-                      <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트">
+                      <img src="${review.moviePosterUrl}" alt="헌트">
                       <%--여기서 DB에서 다시 꺼내오세요--%>
                     </p>
                     <div class="cont">
@@ -812,7 +812,7 @@ To change this template use File | Settings | File Templates.
                       <li data-status="open" id="favoriteLi">
                         <!-- movie-list-info -->
                         <a href="#" class="movie-list-info" title="영화상세 보기">
-                          <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/veoYkRw8THPbrE9FobWUP1BVmEbMOXnp_420.jpg" alt="말할 수 없는 비밀" class="poster">
+                          <img src="${favorite.moviePosterUrl}" alt="말할 수 없는 비밀" class="poster">
                         </a>
                         <div class="tit-area">
                           <p class="movie-grade age-all">,</p>

@@ -13,7 +13,7 @@
     <select id="favorite" resultType="String" parameterType="String">
         SELECT
         t.theaterName
-        FROM favoritetheater f
+        FROM favoriteTheater f
         INNER JOIN theater t ON f.theaterIdx = t.theaterIdx
         WHERE f.userIdx = #{s}
     </select>
