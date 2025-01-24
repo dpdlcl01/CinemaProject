@@ -9,7 +9,7 @@
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myInfo.css">
+
 <style>
     #top1{
         background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
@@ -139,16 +139,16 @@
     }
 
     /* 말풍선 꼬리 */
-/*    .tooltip::after {
-        content: "";
-        position: absolute;
-        bottom: -6px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-width: 6px;
-        border-style: solid;
-        border-color: #22C8F6 transparent transparent transparent;
-    }*/
+    /*    .tooltip::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: #22C8F6 transparent transparent transparent;
+        }*/
 
     #top2{
         display: flex;
@@ -247,138 +247,128 @@
     <div class="total-main">
         <div class="myPage-container">
             <%--  사이드바  --%>
-            <div class="sidebar">
-                <ul>
-                    <div class="sidebar-title"><a href="MyInfo.jsp" title="나의 메가박스">나의 메가박스</a></div>
-                    <div class="liWrap"><li><a href="MyReservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
-                    <div class="liWrap"><li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
-                    <div class="liWrap"><li><a href="${pageContext.request.contextPath}/UserController?type=myCoupon" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
-                    <div class="liWrap"><li><a href="${pageContext.request.contextPath}/UserController?type=myPoint" title="멤버십 포인트">멤버십 포인트</a></li></div>
-                    <div class="liWrap"><li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li></div>
-                    <div class="liWrap"><li><a href="myInfoMain.jsp" title="회원정보">회원정보</a></li></div>
-                </ul>
-            </div>
+            <jsp:include page="../common/sideBar.jsp"/>
             <%--  메인  --%>
 
 
-                <div id="main">
-                    <div id="title">
-                        <div id="top1">
-                            <div id="imgName">
-                                <img src="${pageContext.request.contextPath}/css/user/images/KangImg/member_WELCOME_2.png">
-                                <div>
-                                    <p>안녕하세요!</p>
-                                    <p>${requestScope.uvo.userName}님</p>
-                                </div>
+            <div id="main">
+                <div id="title">
+                    <div id="top1">
+                        <div id="imgName">
+                            <img src="${pageContext.request.contextPath}/css/user/images/KangImg/member_WELCOME_2.png">
+                            <div>
+                                <p>안녕하세요!</p>
+                                <p>${requestScope.uvo.userName}님</p>
                             </div>
-                            <div id="pointDiv">
-                                <div id="point">
-                                    <div id="totalPoint">
-                                        ${requestScope.uvo.userPoint}P
-                                    </div>
-                                        <span>
+                        </div>
+                        <div id="pointDiv">
+                            <div id="point">
+                                <div id="totalPoint">
+                                    ${requestScope.uvo.userPoint}P
+                                </div>
+                                <span>
                                           현재등급
                                         </span>
-                                    <em>
-                                        ${requestScope.uvo.userGrade}
-                                    </em>
-                                </div>
-                                <div id="grade">
-
-                                </div>
-                                <div id="bar">
-
-                                </div>
-                                <ul class="level-list">
-                                    <li class="level-item active">
-
-                                        <span>BASIC</span>
-                                    </li>
-                                    <p id="total">${requestScope.total}</p>
-                                    <li class="level-item" id="vip-item">
-                                        <c:if test="${requestScope.total < 13000}">
-                                            <div class="tooltip">다음 VIP 등급까지 ${requestScope.reach} P 남았어요!</div>
-                                        </c:if>
-                                        <c:if test="${requestScope.total > 13000 and requestScope.total<20000}">
-                                            <div class="tooltip">다음 VVIP 등급까지 ${requestScope.reach} P 남았어요!</div>
-                                        </c:if>
-                                        <c:if test="${requestScope.total>20000}">
-                                            <div class="tooltip">최고 등급입니다!</div>
-                                        </c:if>
-                                        <span>VIP</span>
-
-                                    </li>
-
-                                    <li class="level-item" id="vvip-item"><span>VVIP</span></li>
-                                </ul>
+                                <em>
+                                    ${requestScope.uvo.userGrade}
+                                </em>
+                            </div>
+                            <div id="grade">
 
                             </div>
-                        </div>
-                        <div id="top2">
-                            <div id="1" class="top2">
-                                <a href="#">나의 무비스토리</a><%--페이보릿시어터랑 이너조인--%>
-                                <div>
-                                    <span>본 영화</span>
-                                    <em>${requestScope.wNum}</em>
-                                </div>
-                                <div>
-                                    <span>관람평</span>
-                                    <em>${requestScope.rNum}</em>
-                                </div>
-                                <div>
-                                    <span>보고싶어</span>
-                                    <em>${requestScope.fNum}</em>
-                                </div>
-                            </div>
-                            <div id="2" class="top2">
-                                <a href="#">선호하는 극장</a>
-                                <div>
-                                    <c:forEach var="fvo" items="${requestScope.far}">
-                                    <span>${fvo}</span>
-                                    </c:forEach>
-                                </div>
+                            <div id="bar">
 
                             </div>
-                            <div id="3" class="top2">
-                                <a href="#">구매내역 바로가기</a><%--구매내역 테이블과 이너조인--%>
-                                <span>구매내역을 확인해보세요</span>
-                            </div>
-                            <div id="4" class="top2">
-                                <a href="#">문의내역 바로가기</a>
-                                <span>문의내역을 확인해보세요</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div id="h2">
-                                <h2>나의 예매내역</h2>
-                                <button type="button">더보기&gt;</button>
-                            </div>
+                            <ul class="level-list">
+                                <li class="level-item active">
 
-                            <c:if test="${requestScope.rvo ne null}">
-                            <c:forEach items="${requestScope.rvo}" var="rvo">
-                            <div id="myReserv">
-                                <img src="${rvo.moviePosterUrl}">
-                                <div id="reservInfo">
-                                    <p>결제일시: ${rvo.reservationDate}</p>
-                                    <p><em>0000-0000-예매번호</em><span>|${rvo.movieTitle}</span></p>
-                                    <p>${rvo.theaterName} ${rvo.screenName}</p>
-                                    <p>${rvo.timetableStartTime}</p>
-                                </div>
-                                <button type="button">예매취소</button>
-                            </div>
-                            </c:forEach>
-                            </c:if>
-                            <c:if test="${requestScope.rvo eq null}">
-                                <div id="noResult">
-                                    예매 내역이 없습니다
-                                </div>
-                            </c:if>
+                                    <span>BASIC</span>
+                                </li>
+                                <p id="total">${requestScope.total}</p>
+                                <li class="level-item" id="vip-item">
+                                    <c:if test="${requestScope.total < 13000}">
+                                        <div class="tooltip">다음 VIP 등급까지 ${requestScope.reach} P 남았어요!</div>
+                                    </c:if>
+                                    <c:if test="${requestScope.total > 13000 and requestScope.total<20000}">
+                                        <div class="tooltip">다음 VVIP 등급까지 ${requestScope.reach} P 남았어요!</div>
+                                    </c:if>
+                                    <c:if test="${requestScope.total>20000}">
+                                        <div class="tooltip">최고 등급입니다!</div>
+                                    </c:if>
+                                    <span>VIP</span>
+
+                                </li>
+
+                                <li class="level-item" id="vvip-item"><span>VVIP</span></li>
+                            </ul>
 
                         </div>
                     </div>
+                    <div id="top2">
+                        <div id="1" class="top2">
+                            <a href="#">나의 무비스토리</a><%--페이보릿시어터랑 이너조인--%>
+                            <div>
+                                <span>본 영화</span>
+                                <em>${requestScope.wNum}</em>
+                            </div>
+                            <div>
+                                <span>관람평</span>
+                                <em>${requestScope.rNum}</em>
+                            </div>
+                            <div>
+                                <span>보고싶어</span>
+                                <em>${requestScope.fNum}</em>
+                            </div>
+                        </div>
+                        <div id="2" class="top2">
+                            <a href="#">선호하는 극장</a>
+                            <div>
+                                <c:forEach var="fvo" items="${requestScope.far}">
+                                    <span>${fvo}</span>
+                                </c:forEach>
+                            </div>
 
+                        </div>
+                        <div id="3" class="top2">
+                            <a href="#">구매내역 바로가기</a><%--구매내역 테이블과 이너조인--%>
+                            <span>구매내역을 확인해보세요</span>
+                        </div>
+                        <div id="4" class="top2">
+                            <a href="#">문의내역 바로가기</a>
+                            <span>문의내역을 확인해보세요</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="h2">
+                            <h2>나의 예매내역</h2>
+                            <button type="button">더보기&gt;</button>
+                        </div>
 
+                        <c:if test="${requestScope.rvo ne null}">
+                            <c:forEach items="${requestScope.rvo}" var="rvo">
+                                <div id="myReserv">
+                                    <img src="${rvo.moviePosterUrl}">
+                                    <div id="reservInfo">
+                                        <p>결제일시: ${rvo.reservationDate}</p>
+                                        <p><em>0000-0000-예매번호</em><span>|${rvo.movieTitle}</span></p>
+                                        <p>${rvo.theaterName} ${rvo.screenName}</p>
+                                        <p>${rvo.timetableStartTime}</p>
+                                    </div>
+                                    <button type="button">예매취소</button>
+                                </div>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="${requestScope.rvo eq null}">
+                            <div id="noResult">
+                                예매 내역이 없습니다
+                            </div>
+                        </c:if>
+
+                    </div>
                 </div>
+
+
+            </div>
 
 
 
