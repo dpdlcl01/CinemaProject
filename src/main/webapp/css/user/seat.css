@@ -6,10 +6,9 @@ body {
 
 /* 예매 인원 선택 */
 .res-main {
-    width: 1000px;
+    width: 1100px;
     margin: 50px auto;
 }
-
 .res-title {
     font-size: 30px;
     left: 3px;
@@ -116,15 +115,6 @@ body {
     margin: 0 5px 10px 0;
 }
 
-.row button {
-    margin: 0 3px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fff;
-    cursor: pointer;
-}
-
 .row button.disabled {
     background: #ccc;
     color: #999;
@@ -140,8 +130,67 @@ body {
     pointer-events: none; /* 클릭 불가능하도록 설정 */
 }
 
+.row button.row-label{
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: default;
+    pointer-events: none;
+    color: rebeccapurple;
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 45px;
+}
+
 .seat-container {
     text-align: center;
+}
+
+.seats {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.seat-group {
+    display: flex;
+    gap: 5px;
+}
+
+.seat-group-center {
+    display: flex;
+    gap: 5px;
+    padding-left: 45px;
+}
+
+.seat-group-right {
+    display: flex;
+    gap: 5px;
+    padding-left: 45px;
+}
+
+.row button {
+    margin: 0 3px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.available-seat{
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    text-align: center;
+}
+
+.available-seat.selected {
+    background-color: #6a0dad; /* 선택된 좌석 색상 */
+    color: #fff;
 }
 
 .row button.door-left{
@@ -166,17 +215,6 @@ body {
     height: 30px;
     cursor: default;
     pointer-events: none;
-}
-
-.row button.row-label{
-    border: none;
-    width: 30px;
-    height: 30px;
-    cursor: default;
-    pointer-events: none;
-    color: rebeccapurple;
-    font-weight: bold;
-    font-size: 16px
 }
 
 /* 영화 정보 */
@@ -336,6 +374,11 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 5px;
+}
+
+.my-seat .seat.filled {
+    background-color: #6a0dad; /* 선택된 좌석 색상 */
+    color: white; /* 글자 색상 */
 }
 
 .seat {

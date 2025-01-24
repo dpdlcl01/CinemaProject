@@ -10,4 +10,10 @@
         VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
         #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl}, #{movieReservationRate}, #{movieTotalAudience}, #{movieStatus})
     </insert>
+    <!-- 예매 가능한 영화 조회  -->
+    <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+    </select>
 </mapper>

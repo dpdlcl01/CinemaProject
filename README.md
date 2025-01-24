@@ -60,10 +60,10 @@ Java, Servlet, JSP, MyBatis, JavaScript를 사용하여 개발한 영화 예매 
 │       │   │   ├── 📝 AdminController.java  # AdminController 서블릿  
 │       │   │   ├── 📝 UserController.java  # UserController 서블릿  
 │       │   ├── 📂 mybatis/  
-│       │   │   ├── 📂 dao/  
+│       │   │   ├── 📂 mybatis.service.dao/  
 │       │   │   ├── 📂 service/  
 │       │   │   │   ├── 📝 FactoryService.java  
-│       │   │   ├── 📂 vo/  
+│       │   │   ├── 📂 mybatis.service.vo/  
 │       │   ├── 📂 util/  
 │       │   │   ├── 📝 Paging.java  
 │       ├── 📂 resources/  
