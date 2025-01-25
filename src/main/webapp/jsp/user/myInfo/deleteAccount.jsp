@@ -152,7 +152,9 @@
 </style>
 <body>
 <!-- header 영역 -->
-<jsp:include page="../common/header.jsp"/>
+<head>
+  <jsp:include page="../common/header.jsp"/>
+</head>
 
 <!-- contents 영역 -->
 <form action="${pageContext.request.contextPath}/UserController?type=userdrop" method="post">
@@ -167,19 +169,8 @@
 </div>
 <div id="contents">
   <article id="wrap">
-
-    <div class="sidebar">
-      <ul>
-        <div  id="myMega"><a href="MyInfo.jsp" title="나의 메가박스">나의 메가박스</a></div>
-        <div class="liWrap"><li><a href="Reservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
-        <div class="liWrap"> <li><a href="Admission-Ticket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
-        <div class="liWrap">  <li><a href="Discount-Coupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
-        <div class="liWrap"> <li><a href="MemberShip.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
-        <div class="liWrap"> <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li></div>
-        <div class="liWrap"> <li><a href="#" title="회원정보">회원정보</a></li></div>
-      </ul>
-    </div>
-
+    <%--  사이드바  --%>
+    <jsp:include page="../common/sideBar.jsp"/>
     <div id="main">
       <h2>회원탈퇴</h2>
       <p class="warning">[주의] 메가박스 회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>

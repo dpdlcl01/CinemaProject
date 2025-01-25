@@ -592,11 +592,8 @@ To change this template use File | Settings | File Templates.
 <!-- contents 영역 -->
 <div id="contents">
   <article id="wrap">
-
-
+    <%--  사이드바  --%>
     <jsp:include page="../common/sideBar.jsp"/>
-    <!-- 사이드 바 옆 -->
-    <%--      <jsp:include page="myMovieStory.jsp"/>--%>
     <div id="main">
       <h2>나의 무비 스토리</h2>
       <div>

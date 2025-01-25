@@ -152,7 +152,9 @@
 </style>
 <body>
 <!-- header 영역 -->
+<head>
 <jsp:include page="../common/header.jsp"/>
+</head>
 <div class="page-util">
   <div class="inner-wrap">
     <div class="location">
@@ -165,21 +167,8 @@
 <!-- contents 영역 -->
 <div id="contents">
   <article id="wrap">
-
-
-    <div class="sidebar">
-      <ul>
-        <div  id="myMega"><a href="myInfoMain.jsp" title="나의 메가박스">나의 메가박스</a></div>
-        <div class="liWrap"><li><a href="myReservation.jsp" title="예매/구매내역">예매/구매내역</a></li></div>
-        <div class="liWrap"> <li><a href="myAdmissionTicket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li></div>
-        <div class="liWrap">  <li><a href="myCoupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li></div>
-        <div class="liWrap"> <li><a href="myMembership.jsp" title="멤버십 포인트">멤버십 포인트</a></li></div>
-        <div class="liWrap"> <li><a href="myMovieStoryV2.jsp" title="나의 무비스토리">나의 무비스토리</a></li></div>
-        <div class="liWrap"> <li><a href="editMyInfo.jsp" title="회원정보">회원정보</a></li></div>
-
-      </ul>
-    </div>
-
+    <%--  사이드바  --%>
+    <jsp:include page="../common/sideBar.jsp"/>
     <div id="main">
       <h2>개인정보 수정</h2>
       <li>
