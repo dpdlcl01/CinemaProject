@@ -87,7 +87,7 @@
                     </a>
                 </div>
                 <div class="cell">
-                    <a href="#" title="극장 보기">
+                    <a href="${pageContext.request.contextPath}/UserController?type=theater" title="극장 보기">
                         <i class="schedule"></i>
                         극장
                     </a>

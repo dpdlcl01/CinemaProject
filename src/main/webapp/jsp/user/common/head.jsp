@@ -26,7 +26,7 @@
 <!-- 외부CSS 연결하기 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userMain.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/memberLogin.css">
 
 <!-- 메인화면 하트 아이콘 -->

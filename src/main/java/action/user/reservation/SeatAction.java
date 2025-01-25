@@ -1,8 +1,8 @@
 package action.user.reservation;
 
 import action.Action;
-import mybatis.dao.ReservationDAO;
-import mybatis.dao.SeatDAO;
+import mybatis.dao.user.ReservationDAO;
+import mybatis.dao.user.SeatDAO;
 import mybatis.vo.MovieVO;
 import mybatis.vo.SeatVO;
 import mybatis.vo.UserVO;

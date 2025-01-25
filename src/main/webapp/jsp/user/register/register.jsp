@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
   <jsp:include page="../common/head.jsp"/>
   <style>
     *{
@@ -15,7 +18,7 @@
       justify-content: center;
       padding: 40px;
       text-indent: -9999px;
-      background-image: url("../../../img/logo.png");
+      background-image: url("${pageContext.request.contextPath}/css/user/images/logo-purple.png");
       background-repeat: no-repeat;
       background-position: center; /*이미지 가운데 맞추는 구문*/
 
@@ -167,10 +170,9 @@
       border-radius: 4px;
     }
   </style>
-
 </head>
 <body>
-<jsp:include page="../common/header.jsp"/>
+
 <form action="${pageContext.request.contextPath}/UserController" method="post">
   <input type="hidden" name="type" id="type"/>
 <div id="contents">
@@ -371,7 +373,7 @@
   </div>
 </div>
 </form>
-<jsp:include page="../common/footer.jsp"/>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   const checkbox1 = document.getElementById('serviceAgree');

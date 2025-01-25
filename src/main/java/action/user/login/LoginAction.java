@@ -1,7 +1,7 @@
 package action.user.login;
 
 import action.Action;
-import mybatis.dao.LoginDAO;
+import mybatis.dao.user.LoginDAO;
 import mybatis.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;

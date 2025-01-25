@@ -2,7 +2,7 @@ package action.user.event;
 
 import action.Action;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mybatis.dao.EventDAO;
+import mybatis.dao.user.EventDAO;
 import mybatis.vo.EventVO;
 
 import javax.servlet.http.HttpServletRequest;

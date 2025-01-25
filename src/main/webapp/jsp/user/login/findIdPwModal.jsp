@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비회원 예매 확인</title>
+    <title>아이디/비밀번호 찾기</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -94,7 +94,7 @@
     <div class="logo">
         <img src="${pageContext.request.contextPath}/css/user/images/logo-purple.png" alt="MEGABOX 로고">
     </div>
-    <h1>비회원 예매 확인</h1>
+    <h1>아이디/비밀번호 찾기</h1>
 
     <!-- 에러 메시지 표시 -->
     <c:if test="${not empty error}">
@@ -103,26 +103,61 @@
         </div>
     </c:if>
 
-    <form action="/UserController?type=NonmemberReservationCheck" method="POST">
+    <form action="#" method="POST">
         <table>
+            <tr>
+                <td>아이디</td>
+                <td><input type="text" name="userId" placeholder="아이디" required></td>
+            </tr>
             <tr>
                 <td>이름</td>
                 <td><input type="text" name="userName" placeholder="이름" required></td>
             </tr>
             <tr>
-                <td>생년월일</td>
-                <td><input type="text" name="userBirth" placeholder="생년월일 앞 6자리" required></td>
+                <td><span>이메일</span> </td>
+                <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
+                    <span>@</span>
+                    <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+                    <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
             </tr>
             <tr>
-                <td>이메일</td>
-                <td><input type="text" name="userEmail" placeholder="'-' 없이 입력" required></td>
+                <td><span>인증번호</span> </td>
+                <td><input type="text" id="authcode" name="authcode" class="inputValue">
+                    <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
+                <script>
+                    // 인증번호 확인 AJAX 요청
+                    function sendAuthCode() {
+                        const emailPart1 = document.getElementById("emailpart1").value;
+                        console.log(emailPart1);
+                        const emailPart2 = document.getElementById("emailpart2").value;
+                        console.log(emailPart2);
+
+
+                        if (!emailPart1 || !emailPart2) {
+                            alert("이메일을 입력해주세요.");
+                            return;
+                        }
+
+                        const email = emailPart1 + "@" + emailPart2;
+
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                alert(xhr.responseText.trim());
+                            }
+                        };
+                        xhr.send("email=" + encodeURIComponent(email));
+                    }
+                </script>
             </tr>
             <tr>
                 <td>비밀번호</td>
                 <td><input type="password" name="userAuthPassword" placeholder="숫자 4자리" required></td>
             </tr>
         </table>
-        <button type="submit">비회원 예매 확인</button>
+        <button type="submit">비밀번호 찾기</button>
     </form>
 
     <div class="note">

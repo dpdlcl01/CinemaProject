@@ -1,7 +1,7 @@
 package action.user.board;
 
 import action.Action;
-import mybatis.dao.BoardDAO;
+import mybatis.dao.user.BoardDAO;
 import mybatis.vo.BoardVO;
 
 import javax.servlet.http.HttpServletRequest;

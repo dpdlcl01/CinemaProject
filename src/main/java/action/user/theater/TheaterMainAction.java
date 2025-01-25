@@ -1,7 +1,7 @@
 package action.user.theater;
 
 import action.Action;
-import mybatis.dao.TheaterDAO;
+import mybatis.dao.user.TheaterDAO;
 import mybatis.vo.EventVO;
 import mybatis.vo.TheaterVO;
 import mybatis.vo.UserVO;

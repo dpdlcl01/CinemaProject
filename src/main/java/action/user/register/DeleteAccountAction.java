@@ -1,8 +1,8 @@
 package action.user.register;
 
 import action.Action;
-import dao.UserDAO;
-import vo.UserVO;
+import mybatis.vo.UserDAO;
+import mybatis.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ public class DeleteAccountAction implements Action {
         System.out.println("DeleteAccountAction");
 
         HttpSession session = request.getSession();
-        UserVO user = (UserVO) session.getAttribute("user");
+        UserVO user = (mybatis.vo.UserVO) session.getAttribute("user");
 
         String userId = user.getUserId();
         String userPassword = request.getParameter("userPassword");
@@ -35,11 +35,11 @@ public class DeleteAccountAction implements Action {
                 return null;
             } else {
                 request.setAttribute("message", "회원탈퇴에 실패했습니다.");
-                return "/jsp/user/myInfo/delResult/del_fail.jsp";
+                return "/jsp/user/myPage/delResult/del_fail.jsp";
             }
         } else {
             request.setAttribute("message", "비밀번호가 일치하지 않습니다.");
-            return "/jsp/user/myInfo/delResult/del_error.jsp";
+            return "/jsp/user/myPage/delResult/del_error.jsp";
         }
     }
 }

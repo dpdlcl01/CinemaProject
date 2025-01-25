@@ -1,8 +1,8 @@
 package action.user.store;
 
 import action.Action;
-import mybatis.dao.CartDAO;
-import mybatis.dao.ProductDAO;
+import mybatis.dao.user.CartDAO;
+import mybatis.dao.user.ProductDAO;
 import mybatis.vo.ProductVO;
 import mybatis.vo.UserVO;
 

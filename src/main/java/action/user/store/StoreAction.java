@@ -1,6 +1,6 @@
 package action.user.store;
 import action.Action;
-import mybatis.dao.ProductDAO;
+import mybatis.dao.user.ProductDAO;
 import mybatis.vo.ProductVO;
 
 import javax.servlet.http.HttpServletRequest;

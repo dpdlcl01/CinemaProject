@@ -1,14 +1,11 @@
 package action.user.register;
 
 import action.Action;
-import dao.UserDAO;
-import dao.registerDAO;
-import org.json.JSONObject;
+import mybatis.dao.user.RegisterDAO;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class UserIdCheckAction implements Action {
@@ -17,7 +14,7 @@ public class UserIdCheckAction implements Action {
         throws IOException {
         String userId = request.getParameter("userId");
 
-        registerDAO registerdao = new registerDAO();
+        RegisterDAO registerdao = new RegisterDAO();
 
         int result = registerdao.UserIdCheck(userId);
 

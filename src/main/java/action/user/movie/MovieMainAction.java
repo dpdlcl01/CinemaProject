@@ -2,7 +2,7 @@ package action.user.movie;
 
 import action.Action;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mybatis.dao.MovieDAO;
+import mybatis.dao.user.MovieDAO;
 import mybatis.vo.MovieVO;
 
 import javax.servlet.http.HttpServletRequest;

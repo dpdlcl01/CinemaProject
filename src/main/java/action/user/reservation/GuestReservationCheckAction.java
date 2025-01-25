@@ -1,7 +1,7 @@
 package action.user.reservation;
 
 import action.Action;
-import mybatis.dao.GuestDAO;
+import mybatis.dao.user.GuestDAO;
 import mybatis.vo.ReservationDetailVO;
 
 import javax.servlet.http.HttpServletRequest;

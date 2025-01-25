@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mybatis.dao.MovieDAO;
 import mybatis.vo.MovieVO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
