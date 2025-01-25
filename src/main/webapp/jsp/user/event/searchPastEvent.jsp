@@ -23,7 +23,6 @@
             border-bottom: 2px solid #6a5acd;
             color: #6a5acd;
         }
-
         .content {
             display: none;
             margin-top: 20px;
@@ -31,6 +30,7 @@
         .content.active {
             display: block;
         }
+
         .event-bar-container {
             display: flex;
             justify-content: space-between;
@@ -39,6 +39,44 @@
         }
         .event-bar-container .total-count {
             font-size: 16px;
+        }
+        .search-bar {
+            border-bottom: 1px solid #423e3e;
+            display: inline-block;
+            position: relative;
+            width: 200px;
+            height: 30px;
+        }
+        .search-bar .input-text {
+            display: inline-block;
+            background-color: transparent;
+            border: 0;
+            color: #000;
+            line-height: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-bar .btn {
+            display: block;
+            width: 30px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0;
+            line-height: 0;
+            border: 0;
+            background-color: transparent;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .ico-search {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+            vertical-align: middle;
         }
         .event-list {
             list-style: none;
@@ -103,21 +141,32 @@
         <div class="location">
             <span>Home</span>
             <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-            <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+            <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">검색 이벤트</a>
         </div>
     </div>
 </div>
 <div class="contents">
     <h1>이벤트</h1>
     <div class="tabs">
-        <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" class="tab active" data-target="ongoingevent">진행중 이벤트</a>
-        <a href="${pageContext.request.contextPath}/UserController?type=pastevent&offset=0&pageSize=5" class="tab" data-target="pastevent">지난 이벤트</a>
+        <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" class="tab" data-target="ongoingevent">진행중 이벤트</a>
+        <a href="${pageContext.request.contextPath}/UserController?type=pastevent&offset=0&pageSize=5" class="tab active" data-target="pastevent">지난 이벤트</a>
     </div>
 
-    <div id="ongoingevent" class="content active">
+    <div id="pastevent" class="content active">
         <p>응모하신 이벤트의 당첨 여부는 <a href="#">나의 응모결과 확인</a>을 통해 확인하실 수 있습니다.</p><br/>
         <div class="event-bar-container">
-            <div class="total-count">전체 ${requestScope.totalEventCount}건</div>
+            <div class="total-count">전체 ${requestScope.totalSearchPastEventCount}건</div>
+            <div class="search-bar">
+                <form id="searchForm" action="${pageContext.request.contextPath}/UserController" method="get" onsubmit="return validateSearch()">
+                    <input type="hidden" name="type" value="searchpastevent">
+                    <input type="hidden" name="offset" value="0">
+                    <input type="hidden" name="pageSize" value="5">
+                    <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요." title="이벤트 검색" class="input-text">
+                    <button type="submit" class="btn">
+                        <i class="ico-search">검색</i>
+                    </button>
+                </form>
+            </div>
         </div>
         <ul class="event-list">
             <c:forEach var="vo" items="${ar}">
@@ -132,10 +181,36 @@
                 </li>
             </c:forEach>
         </ul>
-        <button class="load-more-btn" id="load-more-btn">더보기</button>
+        <!-- 더보기 버튼: 데이터가 5개 이상인 경우에만 표시 -->
+        <c:if test="${requestScope.totalSearchPastEventCount > 5}">
+            <button id="load-more-btn" class="load-more-btn">더보기</button>
+        </c:if>
     </div>
 </div>
 <script>
+  // 검색 유효성 검사 함수
+  function validateSearch() {
+    // 검색어 입력 필드 가져오기
+    const keywordInput = document.getElementById("keyword");
+    const keyword = keywordInput.value.trim(); // 공백 제거
+
+    // 입력값이 비어 있거나 공백인 경우 경고 메시지 출력
+    if (!keyword || keyword.length === 0) {
+      alert("검색어를 입력해주세요."); // 경고 메시지
+      keywordInput.focus(); // 입력 필드로 포커스 이동
+      return false; // 폼 제출 방지
+    }
+
+    // 공백만 입력된 경우 경고
+    if (/^\s*$/.test(keyword)) {
+      alert("검색어에 유효한 값을 입력해주세요."); // 경고 메시지
+      keywordInput.focus(); // 입력 필드로 포커스 이동
+      return false; // 폼 제출 방지
+    }
+
+    return true; // 폼 제출 허용
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     let offset = 5; // 초기 데이터 오프셋 값
     const pageSize = 5; // 한 번에 가져올 데이터 개수
@@ -147,7 +222,7 @@
 
     // 데이터를 가져오는 함수
     const fetchData = async () => {
-      const url = "/UserController?type=event&offset=" + offset + "&pageSize=" + pageSize;
+      const url = "/UserController?type=searchpastevent&offset=" + offset + "&pageSize=" + pageSize;
       console.log("Fetching data from URL: " + url);
 
       try {
@@ -198,7 +273,6 @@
       console.error("더보기 버튼을 찾을 수 없습니다.");
     }
   });
-
 </script>
 <jsp:include page="../common/footer.jsp"/>
 </body>

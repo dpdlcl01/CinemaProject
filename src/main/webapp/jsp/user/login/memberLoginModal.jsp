@@ -173,11 +173,11 @@
 <%--            <input type="password" class="login-input" name="userPassword" placeholder="비밀번호" required>--%>
 <%--            <button type="submit" class="login-button">로그인</button>--%>
 <%--        </form>--%>
-<%--        <div class="login-footer">--%>
-<%--            <a href="#">ID/PW 찾기</a>--%>
-<%--            <a href="#">회원가입</a>--%>
-<%--            <a href="#">비회원 예매확인</a>--%>
-<%--        </div>--%>
+<%--<div class="login-footer">--%>
+<%--    <a href="#">ID/PW 찾기</a>--%>
+<%--    <a href="#">회원가입</a>--%>
+<%--    <a class=".guest-booking-btn" href="${pageContext.request.contextPath}/UserController?type=guestReservationCheck">비회원 예매확인</a>--%>
+<%--</div>--%>
 <%--    </div>--%>
 
 <%--    <!-- 이미지 영역 -->--%>
@@ -206,7 +206,27 @@
 <%--    function closeErrorModal() {--%>
 <%--        document.getElementById("okModal").classList.remove("active");--%>
 <%--        document.getElementById("errorModal").classList.remove("active");--%>
-<%--    }--%>
+<%--
+  document.addEventListener('DOMContentLoaded', () => {
+    // 비회원 예매 확인 버튼 선택
+    const guestBookingLink = document.querySelector('.guest-booking-btn'); // 클래스에 맞게 수정
+
+    // 버튼 클릭 이벤트 추가
+    guestBookingLink.addEventListener('click', (event) => {
+      event.preventDefault(); // 기본 동작 방지
+      modalOverlay.style.display = "none"; // 모달 닫기
+      modalIframe.src = "";
+
+      // 페이지 전환
+      window.location.href = '${pageContext.request.contextPath}/guestReservationCheckModal.jsp';
+    });
+  });
+
+
+
+}--%>
+
+
 
 <%--</script>--%>
 <%--</body>--%>
