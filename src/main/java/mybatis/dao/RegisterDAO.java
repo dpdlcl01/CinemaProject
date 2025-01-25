@@ -1,4 +1,4 @@
-package mybatis.dao.user;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import org.apache.ibatis.session.SqlSession;
@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.Map;
 
 public class RegisterDAO {
+
     public static int userInsert(Map<String, Object> map) {
         SqlSession ss = FactoryService.getFactory().openSession();
 
@@ -27,7 +28,7 @@ public class RegisterDAO {
         return cnt;
     }
 
-    public int UserIdCheck(String userId) {
+    public static int UserIdCheck(String userId) {
         try (SqlSession ss = FactoryService.getFactory().openSession()) {
             int cnt = ss.selectOne("register.useridcheck_search", userId);
             System.out.println("검색결과 : " + cnt);

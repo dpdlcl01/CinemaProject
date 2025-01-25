@@ -1,30 +1,28 @@
 package action.user.reservation;
 
 import action.Action;
-import mybatis.dao.user.ReservationDAO;
-import mybatis.dao.user.SeatDAO;
+import mybatis.dao.ReservationDAO;
+import mybatis.dao.SeatDAO;
 import mybatis.vo.MovieVO;
 import mybatis.vo.SeatVO;
 import mybatis.vo.UserVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class SeatAction implements Action {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // 사용자 로그인 성공 시
-        HttpSession session = request.getSession();
-        UserVO user = new UserVO();
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        // 로그인 정보를 세팅
-        user.setUserIdx("1");
-        user.setUserName("김철수");
-        user.setUserId("1111");
+        // 로그인 여부 확인 및 사용자 정보 가져오기
+        UserVO uservo = SessionUtil.getLoginUser(request);
+        if (uservo == null) {
+            return "UserController?type=main";
+        }
 
-        // 세션에 저장
-        session.setAttribute("loggedInUser", user);
 
         // 영화, 극장, 시간표 정보를 가져오기
         String movieIdx = request.getParameter("movieIdx");

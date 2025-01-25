@@ -1,13 +1,15 @@
-package mybatis.vo;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
+import mybatis.vo.UserVO;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class UserDAO {
-    public boolean checkPassword(String userId, String userPassword) {
+
+    public static boolean checkPassword(String userId, String userPassword) {
         SqlSession ss = FactoryService.getFactory().openSession();
         try {
             Map<String, String> params = new HashMap<>();
@@ -27,7 +29,7 @@ public class UserDAO {
         }
     }
 
-    public boolean updateUserStatus(String userId) {
+    public static boolean updateUserStatus(String userId) {
         SqlSession ss = FactoryService.getFactory().openSession();
         try {
             int result = ss.update("user.updateUserStatus", userId);
@@ -38,7 +40,7 @@ public class UserDAO {
         }
     }
 
-    public UserVO getUserById(String userId) {
+    public static UserVO getUserById(String userId) {
         SqlSession ss = FactoryService.getFactory().openSession(); // SqlSession 열기
         try {
 

@@ -1,16 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 13.
-  Time: 오후 10:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
     <jsp:include page="../common/head.jsp"/>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
-    <title>Title</title>
     <style>
       *{
         margin: 0;
@@ -50,7 +41,7 @@
 
       }
 
-      img{
+      #center img{
         width: 280px; /* 이미지의 너비 */
         height: 340px; /* 이미지의 높이 */
         object-fit: cover; /* 비율 유지하며 크기 맞추기 */
@@ -160,7 +151,7 @@
         padding: 0;
         font-weight: 600;
       }
-      .ui-dialog #btnDiv2{
+      .ui-dialog .ui-btn-div{
         margin: auto;
         text-align: center;
         margin-top: 20px;
@@ -173,21 +164,29 @@
         color: white;
         border-radius: 3px;
       }
-
-      /* 다이얼로그 타이틀 색상 변경 */
       .ui-dialog-titlebar {
         background-color: #503396; /* 타이틀 배경색 */
         color: white; /* 텍스트 색상 */
         border: 2px solid #503396;
       }
       .ui-dialog-content {
-        color: black; /* 텍스트 색상을 명시적으로 설정 */
-        font-size: 14px; /* 적절한 폰트 크기를 설정 */
+        color: black;
+        font-size: 14px;
+        padding-bottom: 10px; /* 콘텐츠와 버튼 사이 여백 */
       }
       .ui-dialog-titlebar-close {
         display: none; /* 닫기 버튼 숨김 */
       }
-
+      /* 다이얼로그 버튼 가운데 정렬 */
+      .ui-dialog-buttonpane {
+        text-align: center !important; /* 버튼 가운데 정렬 */
+        border-top: none; /* 구분선 제거 */
+        padding-top: 10px; /* 버튼과 콘텐츠 사이 여백 */
+      }
+      .ui-dialog-buttonset {
+        float: none !important; /* 기본 float 제거 */
+        display: inline-block; /* 가운데 정렬 */
+      }
     </style>
   </head>
   <body>
@@ -199,13 +198,14 @@
     <div class="inner-wrap">
       <div class="location">
         <span>Home</span>
-        <span>스토어</span>
-        <span class="pageUtila">상세보기</span>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>스토어</label>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>상세보기</label>
       </div>
     </div>
   </div>
-  <div id="contents">
-
+  <div class="contents">
 
     <h1>${requestScope.pName}</h1>
     <div id="category">${requestScope.pCategory}</div>
@@ -292,11 +292,11 @@
     <input type="hidden" name="productIdx" id="productIdx" value="${requestScope.pIdx}">
   </form>
 
-  <article id="notice" title="다이얼로그">
+  <article id="notice" title="알림">
     <p>
      장바구니에 담았습니다.
     </p>
-    <div id="btnDiv2">
+    <div id="btnDiv2" class="ui-btn-div">
       <button type="button" onclick="addCart()"> 확인 </button>
     </div>
   </article>
@@ -304,8 +304,7 @@
   <footer>
     <jsp:include page="../common/footer.jsp"></jsp:include>
   </footer>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
   <script>
 
     form0=document.getElementById("form0");
@@ -315,8 +314,7 @@
 
     function dialog() {
       $('#notice').dialog({
-        modal: true,
-
+        modal: true, // 모달 설정
       });
     }
 

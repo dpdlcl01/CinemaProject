@@ -1,28 +1,31 @@
 package action.user.store;
 
 import action.Action;
-import mybatis.dao.user.CartDAO;
+import mybatis.dao.CartDAO;
 import mybatis.vo.CartVO;
 import mybatis.vo.UserVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class CartAction implements Action {
 
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        // 로그인 여부 확인 및 사용자 정보 가져오기
+        UserVO uservo = SessionUtil.getLoginUser(request);
+        if (uservo == null) {
+            return "UserController?type=main";
+        }
 
-        UserVO user = (UserVO) session.getAttribute("user");
-
-
-
-        String id = user.getUserId();
-        String userIdx = user.getUserIdx();
+        String id = uservo.getUserId();
+        String userIdx = uservo.getUserIdx();
         String path = (String) request.getParameter("path");
         String idx = request.getParameter("pIdx");
+
         /*아래 조건문을 바꾸자 1 2 null 각각 바꿔서 반환하자*/
         if(path != null) {
 

@@ -1,10 +1,3 @@
-<%--
-Created by IntelliJ IDEA.
-User: user
-Date: 25. 1. 14.
-Time: 오후 5:45
-To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -17,7 +10,7 @@ To change this template use File | Settings | File Templates.
   <meta charset="UTF-8">
   <jsp:include page="../common/head.jsp"/>
 </head>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movie.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieMain.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <style>
@@ -41,61 +34,6 @@ To change this template use File | Settings | File Templates.
 
   }
 
-  .page-util .inner-wrap {
-    max-width: 1100px;
-    height: 40px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    font-size: 14px;
-    color: #333;
-  }
-  .page-util .location span {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  .page-util .location a {
-    color: #0078ff;
-    text-decoration: none;
-    margin-left: 10px;
-    pointer-events: none;
-    cursor: default;
-  }
-  .page-util .location a:hover {
-    text-decoration: none; /* 호버 효과 */
-  }
-
-  /*.sidebar{
-    width: 200px;
-    border-radius: 6px;
-    height: 360px;
-    margin-top: 15px;
-    margin-right: 50px;
-
-  }
-  .sidebar>ul{
-    border-right:1px solid #222222;
-    border-left:1px solid #222222;
-    border-radius: 6px;
-  }
-  .sidebar a{
-    display: flex;
-    color: white;
-    padding-top: 15px;
-    padding-bottom: 10px;
-    text-decoration: none;
-    text-indent: 20px;
-    line-height: 30px;
-    font-weight: bolder;
-
-  }
-  .sidebar li>a{
-
-    font-size: 14px;
-    width: 180px;
-    color: #222222;
-  }*/
   /* #myMega{
      border-bottom: 2px solid #222222;
      background-color: #222222;
@@ -584,13 +522,15 @@ To change this template use File | Settings | File Templates.
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <%--        <span>회원정보</span>--%>
-      <span class="pageUtila">나의 무비스토리</span>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>마이페이지</label>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>무비스토리</label>
     </div>
   </div>
 </div>
 <!-- contents 영역 -->
-<div id="contents">
+<div class="contents">
   <article id="wrap">
     <%--  사이드바  --%>
     <jsp:include page="../common/sideBar.jsp"/>

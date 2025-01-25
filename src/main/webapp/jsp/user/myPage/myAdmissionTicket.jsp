@@ -8,79 +8,7 @@
             padding: 0;
             margin: 0;
         }
-        #s_side {
-            border: 2px solid #ccc;
-            border-radius: 8px;
-        }
-        #side{
-            border: 1px solid #;
-            overflow: hidden;
-        }
 
-        #bg{
-            background-color: black;
-            border-radius: 4px;
-        }
-        .sidebar{
-            width: 200px;
-            height: 360px;
-            margin-top: 50px;
-            margin-right: 50px;
-        }
-
-        .sidebar li {
-            border-bottom: 1px
-        }
-
-        .sidebar a{
-            display: flex;
-            color: #222222;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            text-decoration: none;
-            text-indent: 20px;
-            line-height: 30px;
-            font-weight: bolder;
-
-        }
-        .sidebar li>a{
-            font-size: 14px;
-            width: 180px;
-
-        }
-
-        .sidebar ul {
-            margin: 0;
-            padding: 0;
-            border-top : none;
-        }
-
-        .sidebar ul li {
-            border: 1px solid #ccc;
-            border-top: none;
-        }
-
-        #myMega{
-            background-color: black;
-            color: white;
-            border: 1px solid black;
-            border-radius: 7px;
-
-        }
-
-        #myMega a{
-            border-bottom: 1px solid #222222;
-            line-height: 90px;
-            color: white;
-        }
-
-        #myMega>a:hover{
-
-            color: gray;
-        }
-        .sidebar li>a:hover{
-            color: gray;
-        }
 
         /* 메인 콘텐츠 스타일 */
         .main-content {
@@ -153,29 +81,17 @@
         <div class="inner-wrap">
             <div class="location">
                 <span>Home</span>
-                <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-                <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+                <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+                <label>마이페이지</label>
+                <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+                <label>관람권</label>
             </div>
         </div>
     </div>
 <div class="contents">
 
-    <!-- 사이드바 -->
-    <div class="sidebar">
-        <div id="s_side">
-            <div id="bg">
-        <div id="myMega"><a href="myPageMain.jsp" title="나의 메가박스"><strong>나의 메가박스</strong></a></div>
-            </div>
-        <ul id="side">
-            <li><a href="myReservation.jsp" title="예매/구매내역">예매/구매내역</a></li>
-            <li><a href="myAdmissionTicket.jsp" title="영화/스토어 관람권">영화/스토어 관람권</a></li>
-            <li><a href="myCoupon.jsp" title="메가박스/제휴쿠폰">메가박스/제휴쿠폰</a></li>
-            <li><a href="myPoint.jsp" title="멤버십 포인트">멤버십 포인트</a></li>
-            <li><a href="#" title="나의 무비스토리">나의 무비스토리</a></li>
-            <li><a href="editMyInfo.jsp" title="회원정보">회원정보</a></li>
-        </ul>
-    </div>
-    </div>
+    <%--  사이드바  --%>
+    <jsp:include page="../common/sideBar.jsp"/>
 
     <!-- 메인 콘텐츠 -->
     <main class="main-content">

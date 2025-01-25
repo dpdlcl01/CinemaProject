@@ -1,7 +1,7 @@
 package action.user.event;
 
 import action.Action;
-import mybatis.dao.user.EventDAO;
+import mybatis.dao.EventDAO;
 import mybatis.vo.EventVO;
 
 import javax.servlet.http.HttpServletRequest;

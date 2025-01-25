@@ -14,11 +14,15 @@
 <jsp:include page="../common/header.jsp"/>
 <div id="contents">
   <div class="page-util">
-    <div class="inner-wrap">
-      <div class="location">
-        <span>Home</span>
-        <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-        <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+    <div class="page-util">
+      <div class="inner-wrap">
+        <div class="location">
+          <span>Home</span>
+          <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+          <label>회원정보</label>
+          <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+          <label>포인트</label>
+        </div>
       </div>
     </div>
   </div>

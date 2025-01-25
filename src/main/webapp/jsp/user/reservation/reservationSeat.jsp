@@ -8,25 +8,26 @@
 <html lang="ko">
 <head>
   <jsp:include page="../common/head.jsp"/>
-  <title>빠른 예매</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/seat.css?v=1.0">
 <body>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>
-<div id="contents">
+<div class="contents">
   <div class="page-util">
     <div class="inner-wrap">
       <div class="location">
         <span>Home</span>
-        <a href="/booking" title="예매 페이지로 이동">예매</a>
-        <a href="/booking" title="빠른예매 페이지로 이동">빠른예매</a>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>예매</label>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>빠른예매</label>
       </div>
     </div>
   </div>
   <div class="res-main">
-    <h1 class="res-title">빠른 예매</h1>
+    <h1 class="res-title">빠른예매</h1>
     <div class="seat-selection-container">
       <!-- 좌석 선택 -->
       <div class="seat-selection">

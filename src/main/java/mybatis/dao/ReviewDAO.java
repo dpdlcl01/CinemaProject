@@ -1,4 +1,4 @@
-package mybatis.dao.user;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import mybatis.vo.ReviewVO;

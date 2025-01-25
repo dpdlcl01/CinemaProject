@@ -1,7 +1,7 @@
 package action.user.common;
 
 import action.Action;
-import mybatis.dao.user.MovieDAO;
+import mybatis.dao.MovieDAO;
 import mybatis.vo.MovieVO;
 
 import javax.servlet.http.HttpServletRequest;

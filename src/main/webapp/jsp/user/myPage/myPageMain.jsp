@@ -234,23 +234,22 @@
 
 <body>
 <jsp:include page="../common/header.jsp"/>
-<div id="contents">
     <div class="page-util">
         <div class="inner-wrap">
             <div class="location">
                 <span>Home</span>
-                <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-                <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+                <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+                <label>마이페이지</label>
             </div>
         </div>
     </div>
+    <!-- contents 영역 -->
+<div class="contents">
     <div class="total-main">
         <div class="myPage-container">
             <%--  사이드바  --%>
             <jsp:include page="../common/sideBar.jsp"/>
             <%--  메인  --%>
-
-
             <div id="main">
                 <div id="title">
                     <div id="top1">
@@ -274,10 +273,8 @@
                                 </em>
                             </div>
                             <div id="grade">
-
                             </div>
                             <div id="bar">
-
                             </div>
                             <ul class="level-list">
                                 <li class="level-item active">
@@ -296,12 +293,9 @@
                                         <div class="tooltip">최고 등급입니다!</div>
                                     </c:if>
                                     <span>VIP</span>
-
                                 </li>
-
                                 <li class="level-item" id="vvip-item"><span>VVIP</span></li>
                             </ul>
-
                         </div>
                     </div>
                     <div id="top2">
@@ -363,17 +357,9 @@
                                 예매 내역이 없습니다
                             </div>
                         </c:if>
-
                     </div>
                 </div>
-
-
             </div>
-
-
-
-
-
         </div>
     </div>
 </div>

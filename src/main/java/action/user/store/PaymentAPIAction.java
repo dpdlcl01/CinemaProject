@@ -9,6 +9,6 @@ public class PaymentAPIAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        return "/jsp/user/store/PaymentAPI.jsp";
+        return "/jsp/user/store/paymentAPI.jsp";
     }
 }

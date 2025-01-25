@@ -110,10 +110,6 @@
                 <td><input type="text" name="userName" placeholder="이름" required></td>
             </tr>
             <tr>
-                <td>생년월일</td>
-                <td><input type="text" name="userBirth" placeholder="생년월일 앞 6자리" required></td>
-            </tr>
-            <tr>
                 <td>이메일</td>
                 <td><input type="text" name="userEmail" placeholder="'-' 없이 입력" required></td>
             </tr>

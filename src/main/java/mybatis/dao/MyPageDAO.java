@@ -1,4 +1,4 @@
-package mybatis.dao.user;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import mybatis.vo.*;
@@ -6,11 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
-public class MyInfoDAO {
+public class MyPageDAO {
 
     public static int getTotalPoint(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        int total = ss.selectOne("myInfo.getTotalPoint", idx);
+        int total = ss.selectOne("myPage.getTotalPoint", idx);
         ss.close();
         return total;
     }
@@ -18,7 +18,7 @@ public class MyInfoDAO {
 
     public static ReservationVO[] getReservation(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<ReservationVO> list = ss.selectList("myInfo.reservation", idx);
+        List<ReservationVO> list = ss.selectList("myPage.reservation", idx);
         if(list==null || list.size()==0){
             return null;
         }
@@ -32,14 +32,14 @@ public class MyInfoDAO {
     public static UserVO getUser(String id){
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        UserVO uvo = ss.selectOne("myInfo.getUser", id);
+        UserVO uvo = ss.selectOne("myPage.getUser", id);
         ss.close();
 
         return uvo;
     }
     public static String[] getFavorite(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<String> list = ss.selectList("myInfo.favorite", idx);
+        List<String> list = ss.selectList("myPage.favorite", idx);
         String[] favorite = new String[list.size()];
         list.toArray(favorite);
         ss.close();
@@ -47,7 +47,7 @@ public class MyInfoDAO {
     }
     public static int reviewNum(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<ReviewVO> list = ss.selectList("movieStory.review", idx);
+        List<ReviewVO> list = ss.selectList("myMovieStory.review", idx);
         if(list==null || list.size()==0){
             return 0;
         }
@@ -57,7 +57,7 @@ public class MyInfoDAO {
     }
     public static int favoriteNum(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<FavoritemovieVO> list = ss.selectList("movieStory.favoritemovie", idx);
+        List<FavoritemovieVO> list = ss.selectList("myMovieStory.favoritemovie", idx);
         if(list==null || list.size()==0){
             return 0;
         }
@@ -68,7 +68,7 @@ public class MyInfoDAO {
 
     public static int watchMovieNum(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<ReservationVO> list = ss.selectList("myInfo.reservation", idx);
+        List<ReservationVO> list = ss.selectList("myPage.reservation", idx);
         if(list==null || list.size()==0){
             return 0;
         }

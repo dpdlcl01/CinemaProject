@@ -8,44 +8,6 @@
             padding: 0;
             margin: 0;
         }
-        .sidebar{
-            width: 200px;
-            border-radius: 6px;
-            height: 360px;
-            margin-top: 15px;
-            margin-right: 50px;
-        }
-        .sidebar a{
-            display: flex;
-            color: #222222;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            text-decoration: none;
-            text-indent: 20px;
-            line-height: 30px;
-            font-weight: bolder;
-
-        }
-        .sidebar li>a{
-
-            font-size: 14px;
-            width: 180px;
-
-        }
-        .sidebar li{
-            border-bottom: 1px solid #222222;
-        }
-        #myMega a{
-            border-bottom: 2px solid #222222;
-        }
-        #myMega>a:hover{
-
-            color: gray;
-        }
-        .sidebar li>a:hover{
-            color: gray;
-        }
-
         #contents {
             width: 1100px;
             display: flex;
@@ -107,13 +69,15 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-            <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>마이페이지</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>예매/구매내역</label>
         </div>
     </div>
 </div>
 <main>
-    <div id="contents">
+    <div class="contents">
         <%--  사이드바  --%>
         <jsp:include page="../common/sideBar.jsp"/>
     <div class="content1">

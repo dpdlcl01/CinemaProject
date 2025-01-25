@@ -1,7 +1,7 @@
 package action.user.theater;
 
 import action.Action;
-import mybatis.dao.user.TheaterDAO;
+import mybatis.dao.TheaterDAO;
 import mybatis.vo.PriceVO;
 import mybatis.vo.TheaterVO;
 

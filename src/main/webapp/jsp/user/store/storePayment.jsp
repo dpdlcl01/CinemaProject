@@ -62,13 +62,15 @@
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <a href="/booking" title="예매 페이지로 이동">스토어</a>
-      <a href="/booking" title="빠른예매 페이지로 이동">결제하기</a>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>스토어</label>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>결제하기</label>
     </div>
   </div>
 </div>
 <!-- contents 영역 -->
-<div id="contents">
+<div class="contents">
   <div class="payment-main">
     <h1 class="payment-title">결제하기</h1>
     <div class="payment-container">

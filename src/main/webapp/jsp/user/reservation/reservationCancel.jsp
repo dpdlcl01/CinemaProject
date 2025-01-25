@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
   <jsp:include page="../common/head.jsp"/>
 </head>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
@@ -169,12 +168,13 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <span>예매/취소내역</span>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>예매/취소내역</label>
         </div>
     </div>
 </div>
 <!-- contents 영역 -->
-<div id="contents">
+<div class="contents">
     <h1>예매/취소내역</h1>
     <div id="title">
         <table>

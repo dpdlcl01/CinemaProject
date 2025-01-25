@@ -12,6 +12,6 @@ public class FindIdPwAction implements Action {
 
 
 
-        return "./jsp/user/login/findIdPwModal.jsp";
+        return "./jsp/user/login/findIdPw.jsp";
     }
 }

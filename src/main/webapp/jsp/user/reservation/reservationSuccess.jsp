@@ -5,7 +5,6 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
   <style>
     *{
       padding: 0px;
@@ -115,15 +114,18 @@
 </header>
 <!-- contents 영역 -->
 <div class="page-util">
-  <div class="inner-wrap">
-    <div class="location">
-      <span>Home</span>
-      <span>예매</span>
-      <span class="pageUtila">예매완료</span>
+    <div class="inner-wrap">
+        <div class="location">
+            <span>Home</span>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>예매</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>빠른예매</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>예매완료</label>
+        </div>
     </div>
-  </div>
-</div>
-<div id="contents">
+<div class="contents">
     <h1>예매완료</h1>
     <!-- 예매 내역 반복 출력 -->
     <c:forEach var="vo" items="${guestReservationList}">

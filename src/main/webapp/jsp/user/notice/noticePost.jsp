@@ -91,7 +91,10 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <a href="/booking" title="예매 페이지로 이동">공지사항</a>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>공지사항</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>상세보기</label>
         </div>
     </div>
 </div>
@@ -148,6 +151,5 @@
     <a href="UserController?type=board" class="btn-list">목록</a>
 </div>
 <jsp:include page="../common/footer.jsp"/>
-<jsp:include page="../common/modalscript.jsp"/>
 </body>
 </html>

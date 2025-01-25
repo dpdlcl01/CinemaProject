@@ -13,56 +13,53 @@
   margin: 50px auto;
 }
 
-/*!* 모달 오버레이 스타일 *!*/
-/*.modal-overlay {*/
-/*  display: none; !* 초기에는 숨김 *!*/
-/*  position: fixed;*/
-/*  top: 0;*/
-/*  left: 0;*/
-/*  width: 100%;*/
-/*  height: 100%;*/
-/*  background-color: rgba(0, 0, 0, 0.5);*/
-/*  z-index: 999;*/
-/*}*/
+
+/* 기본 알림창 dialog */
+/*
+
+.notice-dialog .ui-dialog{
+  padding: 0;
+  font-weight: 600;
+}
+.notice-dialog .ui-dialog .ui-btn-div{
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+}
+.notice-dialog .ui-dialog button{
+  width: 80px;
+  height: 40px;
+  border: 1px solid #503396;
+  background-color: #503396;
+  color: white;
+  border-radius: 3px;
+}
+
+.notice-dialog .ui-dialog-titlebar {
+  background-color: #503396; !* 타이틀 배경색 *!
+  color: white; !* 텍스트 색상 *!
+  border: 2px solid #503396;
+}
+.notice-dialog .ui-dialog-content {
+  color: black; !* 텍스트 색상을 명시적으로 설정 *!
+  font-size: 14px; !* 적절한 폰트 크기를 설정 *!
+}
+.notice-dialog .ui-dialog-titlebar-close {
+  display: none; !* 닫기 버튼 숨김 *!
+}
+!* 다이얼로그 버튼 가운데 정렬 *!
+.ui-dialog-buttonpane {
+  text-align: center !important; !* 버튼 가운데 정렬 *!
+}
+.ui-dialog-buttonset {
+  float: none !important; !* 기본 float 제거 *!
+  display: inline-block; !* 가운데 정렬 *!
+}
+*/
+
+/* 기본 알림창 dialog */
 
 
-/*!* 모달 컨테이너 스타일 *!*/
-/*.modal-container {*/
-/*  position: absolute;*/
-/*  top: 50%;*/
-/*  left: 50%;*/
-/*  transform: translate(-50%, -50%);*/
-/*  background: white;*/
-/*  border-radius: 5px;*/
-/*  overflow: hidden;*/
-/*  width: 700px; !* 고정된 너비 *!*/
-/*  display: flex;*/
-/*}*/
-
-/*!*.modal-close {*!*/
-/*!*    position: absolute;*!*/
-/*!*    top: 10px;*!*/
-/*!*    right: 10px;*!*/
-/*!*    cursor: pointer;*!*/
-/*!*    font-size: 16px;*!*/
-/*!*    color: #333;*!*/
-/*!*}*!*/
-/*.modal-close {*/
-/*  position: absolute;*/
-/*  top: 10px;*/
-/*  right: 10px;*/
-/*  font-size: 16px;*/
-/*  font-weight: bold;*/
-/*  color: #fff;*/
-/*  border: none;*/
-/*  border-radius: 50%;*/
-/*  width: 30px;*/
-/*  height: 30px;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  cursor: pointer;*/
-/*}*/
 
 /* 상단 메뉴바 Page Util */
 .page-util {
@@ -82,7 +79,6 @@
 }
 
 .page-util .location span {
-    font-weight: bold;
     margin-right: 10px;
 }
 
@@ -199,18 +195,18 @@
   background-repeat: no-repeat;
 }
 #header .link-area .sitemap {
-  background-image: url(images/ico-sitemap-white.png);
+  background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-sitemap.png);
 }
 #header .link-area .search {
-  background-image: url(images/ico-search-white.png);
+  background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search.png);
   left: 40px;
 }
 #header .link-area .timetable {
-  background-image: url(images/ico-schedule-white.png);
+  background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-schedule.png);
   right: 40px;
 }
 #header .link-area .mymega {
-  background-image: url(images/ico-mymega-white.png);
+  background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-mymega.png);
   right: 0;
 }
 
@@ -260,7 +256,7 @@
   width: 45px;
 }
 #header #gnb .benefit {
-  background-image: url(images/gnb-txt-benefit-black.png);
+  background-image: url(images/gnb-txt-notice-black.png);
   right: 150px;
   width: 31px;
 }

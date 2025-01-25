@@ -154,14 +154,14 @@
             </tr>
             <tr>
                 <td>비밀번호</td>
-                <td><input type="password" name="userAuthPassword" placeholder="숫자 4자리" required></td>
+                <td><input type="password" name="userAuthPassword" placeholder="비밀번호" required></td>
             </tr>
         </table>
         <button type="submit">비밀번호 찾기</button>
     </form>
 
     <div class="note">
-        * 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.
+        * 본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 이용 또는 저장되지 않습니다.
     </div>
 </div>
 </body>

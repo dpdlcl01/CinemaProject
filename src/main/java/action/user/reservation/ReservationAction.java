@@ -2,7 +2,7 @@ package action.user.reservation;
 
 import action.Action;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mybatis.dao.user.ReservationDAO;
+import mybatis.dao.ReservationDAO;
 import mybatis.vo.MovieVO;
 import mybatis.vo.TheaterVO;
 import mybatis.vo.TimetableVO;

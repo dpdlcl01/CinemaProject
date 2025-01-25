@@ -158,16 +158,18 @@
 
 <!-- contents 영역 -->
 <form action="${pageContext.request.contextPath}/UserController?type=userdrop" method="post">
-<div class="page-util">
-  <div class="inner-wrap">
-    <div class="location">
-      <span>Home</span>
-      <span>회원정보</span>
-      <span class="pageUtila">회원탈퇴</span>
+  <div class="page-util">
+    <div class="inner-wrap">
+      <div class="location">
+        <span>Home</span>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>마이페이지</label>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>회원탈퇴</label>
+      </div>
     </div>
   </div>
-</div>
-<div id="contents">
+<div class="contents">
   <article id="wrap">
     <%--  사이드바  --%>
     <jsp:include page="../common/sideBar.jsp"/>

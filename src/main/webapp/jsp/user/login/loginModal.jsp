@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/memberLogin.css">
+</head>
 <body>
 <div class="dialog-area">
     <div class="modal fade dialog-area" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -30,7 +33,7 @@
                     <!-- 이미지 영역 -->
                     <div class="modal-body">
                         <div class="image-container text-center">
-                            <img src="${pageContext.request.contextPath}/css/user/images/event/렛미인포스터.png" alt="이미지" class="img-fluid">
+                            <img src="https://mlink-cdn.netinsight.co.kr/2025/01/07/19941e9ce689d82066cd257a0711d97e.jpg" alt="이미지" class="img-fluid">
                         </div>
                     </div>
                 </div>
@@ -49,6 +52,7 @@
         // AJAX 요청 보내기
         fetch('${pageContext.request.contextPath}/UserController?type=login', {
             method: 'POST',
+            credentials: 'include', // 세션 쿠키 포함
             body: new URLSearchParams({
                 userId: userId,
                 userPassword: userPassword,

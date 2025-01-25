@@ -705,8 +705,12 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <a href="#" title="극장 페이지로 이동">극장</a>
-            <a href="#" title="전체극장 페이지로 이동">전체극장</a>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>극장</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>전체극장</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>상세정보</label>
         </div>
     </div>
 </div>
@@ -900,15 +904,15 @@
                                 <!-- 요일 구분 -->
                                 <td>
                                     <c:choose>
-                                        <c:when test="${price.dayOfWeek == 1}">월~목</c:when>
-                                        <c:when test="${price.dayOfWeek == 2}">금~일<br>공휴일</c:when>
+                                        <c:when test="${price.dayOfWeek == 1}">월~금</c:when>
+                                        <c:when test="${price.dayOfWeek == 2}">주말<br>공휴일</c:when>
                                     </c:choose>
                                 </td>
                                 <!-- 상영 시간 -->
                                 <td>
                                     <c:choose>
-                                        <c:when test="${price.timeOfDay == 1}">조조 (06:00~)</c:when>
-                                        <c:when test="${price.timeOfDay == 2}">일반 (10:01~)</c:when>
+                                        <c:when test="${price.timeOfDay == 1}">조조 (09:00~)</c:when>
+                                        <c:when test="${price.timeOfDay == 2}">일반 (10:30~)</c:when>
                                     </c:choose>
                                 </td>
                                 <!-- 좌석 가격 -->

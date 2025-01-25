@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="movieStory">
+<mapper namespace="myMovieStory">
 
     <select id="review" parameterType="String" resultType="mybatis.vo.ReviewVO">
         SELECT r.*, m.movieTitle, m.movieGenre, m.movieTime, m.moviePosterUrl

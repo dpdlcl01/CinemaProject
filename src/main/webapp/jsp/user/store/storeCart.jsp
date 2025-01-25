@@ -1,18 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 16.
-  Time: 오전 11:14
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
   <style>
     *{
       padding: 0px;
@@ -22,7 +14,6 @@
       margin: 50px auto;
       width: 1100px;
       min-height: 550px;
-
 
     }
     caption{
@@ -142,7 +133,7 @@
 </div>
 <!-- contents 영역 -->
 
-<div id="contents">
+<div class="contents">
   <h1>장바구니</h1>
   <c:set var="cvo" value="${requestScope.cvo}"/>
   <c:if test="${cvo eq null}">

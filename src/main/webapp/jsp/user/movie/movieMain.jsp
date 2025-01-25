@@ -1,11 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
 <!-- head -->
-
-<head>
+<head
     <jsp:include page="../common/head.jsp"/>
     <style>
         .onair-condition .total-count {
@@ -14,7 +12,7 @@
     </style>
 </head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movie.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieMain.css">
 <script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
 <body>
 
@@ -24,14 +22,16 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <a href="/movie" title="영화 페이지로 이동">영화</a>
-            <a href="/movie" title="전체영화 페이지로 이동 이동" class="pageUtila">전체영화</a>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>영화</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>전체영화</label>
         </div>
     </div>
 </div>
 
 <!-- contents 영역 -->
-<div id="contents">
+<div class="contents">
     <main id="main">
         <input type="hidden" id="onairYn" name="onairYn" value="N">
         <!-- section01 -->

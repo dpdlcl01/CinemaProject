@@ -1,4 +1,4 @@
-<%@ page import="mybatis.dao.user.RegisterDAO"%>
+<%@ page import="mybatis.dao.RegisterDAO"%>
 <%@ page import="java.io.BufferedReader"%>
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%--<%--%>

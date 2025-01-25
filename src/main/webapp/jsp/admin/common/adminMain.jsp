@@ -246,7 +246,7 @@
 
 <body>
 <jsp:include page="../../user/common/header.jsp"/>
-<div id="contents">
+<div class="contents">
   <div class="page-util">
     <div class="inner-wrap">
       <div class="location">

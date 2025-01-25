@@ -324,8 +324,10 @@
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <a href="/CinemaProject/jsp/user/theater.jsp" title="극장 페이지로 이동">극장</a>
-      <a href="/CinemaProject/jsp/user/theater.jsp" title="전체극장 페이지로 이동">전체극장</a>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>극장</label>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>전체극장</label>
     </div>
   </div>
 </div>
@@ -376,9 +378,9 @@
     <!-- 선호극장 -->
     <div class="my-fav-theater">
       <c:choose>
-        <c:when test="${not empty sessionScope.user}">
-          <%--세션에 user가 있으면--%>
-          <span>${sessionScope.user.userName}님의 선호극장</span>
+        <c:when test="${not empty sessionScope.uservo}">
+          <%--세션에 uservo가 있으면--%>
+          <span>${sessionScope.uservo.userName}님의 선호극장</span>
           <c:forEach var="theater" items="${favoriteTheater}">
             <a href="UserController?type=theaterDetail&theaterIdx=${theater['theaterIdx']}">
                 ${theater['theaterName']}  <!-- 극장 이름 출력 -->

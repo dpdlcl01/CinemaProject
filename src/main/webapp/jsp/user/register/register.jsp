@@ -5,7 +5,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원가입</title>
   <jsp:include page="../common/head.jsp"/>
   <style>
     *{
@@ -175,7 +174,7 @@
 
 <form action="${pageContext.request.contextPath}/UserController" method="post">
   <input type="hidden" name="type" id="type"/>
-<div id="contents">
+<div class="contents">
   <h1>여기에 로고</h1>
 
   <article id="all">

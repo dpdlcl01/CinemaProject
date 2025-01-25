@@ -10,20 +10,24 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/coupon.css?v=1.0"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<div id = "contents">
-    <div class="page-util">
-        <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-                <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
-            </div>
+<div class="page-util">
+    <div class="inner-wrap">
+        <div class="location">
+            <span>Home</span>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>마이페이지</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>쿠폰</label>
         </div>
     </div>
+</div>
+<div class="contents">
     <div class="total-main">
         <div class="myPoint-container">
             <%--  사이드바  --%>
-            <jsp:include page="../common/sideBar.jsp"/>
+            <div class="mypage-side">
+                <jsp:include page="../common/sideBar.jsp"/>
+            </div>
             <!-- 메인 -->
             <div class="main-content">
                 <!-- Section Header -->

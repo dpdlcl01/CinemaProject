@@ -139,8 +139,10 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-            <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">지난 이벤트</a>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>이벤트</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>지난 이벤트</label>
         </div>
     </div>
 </div>

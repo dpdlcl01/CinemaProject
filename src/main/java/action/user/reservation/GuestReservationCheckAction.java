@@ -1,7 +1,7 @@
 package action.user.reservation;
 
 import action.Action;
-import mybatis.dao.user.GuestDAO;
+import mybatis.dao.GuestDAO;
 import mybatis.vo.ReservationDetailVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ public class GuestReservationCheckAction implements Action {
 
     if (type.equals("guestReservationCheck")) {
 
-      return "./jsp/user/login/guestReservationCheckModal.jsp";
+      return "./jsp/user/login/guestReservationCheck.jsp";
 
     } else if (type.equals("NonmemberReservationCheck")) {
 
@@ -31,7 +31,7 @@ public class GuestReservationCheckAction implements Action {
       if (guestIdx == 0) {
         // 비회원 정보가 틀린 경우 처리
         request.setAttribute("error", "입력한 비회원 정보가 잘못되었습니다.");
-        return "/jsp/user/login/guestReservationCheckModal.jsp";
+        return "/jsp/user/login/guestReservationCheck.jsp";
       } else {
 
         System.out.println(guestIdx); // 값 검증 완료
@@ -41,7 +41,7 @@ public class GuestReservationCheckAction implements Action {
         if (guestReservationList == null || guestReservationList.isEmpty()) {
           // 비회원 예약 내역이 없는 경우 처리
           request.setAttribute("error", "예약 내역이 없습니다.");
-          return "/jsp/user/login/guestReservationCheckModal.jsp";
+          return "/jsp/user/login/guestReservationCheck.jsp";
         } else {
           // 예약 내역이 있을 경우 처리
           System.out.println(guestReservationList);

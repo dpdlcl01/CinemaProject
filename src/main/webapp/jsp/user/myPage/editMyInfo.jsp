@@ -34,49 +34,6 @@
     display: flex;
 
   }
-  .sidebar{
-    width: 200px;
-    border-radius: 6px;
-    height: 360px;
-    margin-top: 15px;
-    margin-right: 50px;
-
-  }
-  .sidebar>ul{
-    border-right:1px solid #222222;
-    border-left:1px solid #222222;
-    border-radius: 6px;
-  }
-  .sidebar a{
-    display: flex;
-
-    padding-top: 15px;
-    padding-bottom: 10px;
-    text-decoration: none;
-    text-indent: 20px;
-    line-height: 30px;
-    font-weight: bolder;
-
-  }
-  .sidebar li>a{
-
-    font-size: 14px;
-    width: 180px;
-    color: #222222;
-  }
-  #myMega{
-    border-bottom: 2px solid #222222;
-    background-color: #222222;
-    border-radius: 4px;
-    color: #D3D3D3;
-  }
-  #myMega>a:hover{
-
-    color: gray;
-  }
-  .sidebar li>a:hover{
-    color: gray;
-  }
 
   table{
     border-collapse: collapse;
@@ -159,13 +116,15 @@
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <span>회원정보</span>
-      <span class="pageUtila">개인정보수정</span>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>마이페이지</label>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>개인정보수정</label>
     </div>
   </div>
 </div>
 <!-- contents 영역 -->
-<div id="contents">
+<div class="contents">
   <article id="wrap">
     <%--  사이드바  --%>
     <jsp:include page="../common/sideBar.jsp"/>

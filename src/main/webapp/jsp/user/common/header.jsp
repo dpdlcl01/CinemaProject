@@ -12,12 +12,12 @@
             <div class="right-link">
                 <!-- 로그인/로그아웃 버튼 동적으로 표시 -->
                 <c:choose>
-                    <c:when test="${not empty sessionScope.user}">
-                        <!-- 세션에 user가 있으면 로그아웃 버튼 -->
+                    <c:when test="${not empty sessionScope.uservo}">
+                        <!-- 세션에 uservo가 있으면 로그아웃 버튼 -->
                         <a href="#" id="member-logout-btn" title="로그아웃">로그아웃</a>
                     </c:when>
                     <c:otherwise>
-                        <!-- 세션에 user가 없으면 로그인 버튼 -->
+                        <!-- 세션에 uservo가 없으면 로그인 버튼 -->
                         <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a>
                         <a href="${pageContext.request.contextPath}/UserController?type=register" title="회원가입">회원가입</a>
                     </c:otherwise>
@@ -51,18 +51,11 @@
                 <li title="스토어">
                     <a href="${pageContext.request.contextPath}/UserController?type=store" class="store">스토어</a>
                 </li>
-                <li title="혜택">
+                <li title="공지">
                     <a href="${pageContext.request.contextPath}/UserController?type=board" class="benefit">공지사항</a>
                 </li>
             </ul>
         </nav>
-        <!-- //gnb -->
-        <!-- 레이어 : 사이트맵 -->
-        <!-- //레이어 : 사이트맵 -->
-        <!-- 레이어 : 검색 -->
-        <!-- //레이어 : 검색 -->
-        <!-- 레이어 : 마이페이지 -->
-        <!-- //레이어 : 마이페이지 -->
     </div>
     <!-- 로그인 모달 창 -->
     <jsp:include page="../login/loginModal.jsp"/>

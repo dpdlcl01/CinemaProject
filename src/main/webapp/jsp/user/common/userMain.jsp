@@ -103,7 +103,7 @@
         <div class="wrap">
             <div class="tit-util clearfix">
                 <h2 class="tit">이벤트</h2>
-                <a href="" title="이벤트 더보기" class="btn-more">더보기</a>
+                <a href="${pageContext.request.contextPath}/UserController?type=event&offset=0&pageSize=5" title="이벤트 더보기" class="btn-more">더보기</a>
             </div>
             <!-- slider -->
             <div class="slider main-condition">
@@ -114,13 +114,13 @@
                         <!-- position -->
                         <div class="position">
                             <div class="txt" style="top: 0; opacity: 1;">
-                                <a href="" title="메가박스 오리지널 티켓 N0.4 버즈 오브 프레이(할리퀸의 황홀한 해방)을 가장 잘 간직하는 방법">
-                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2020/02/04/WVTfxUcof8BncupJOcezc5QyPd0qBDEu.jpg" alt="">
+                                <a href="" title="">
+                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/01/22/LtSV5OaUV0j7ZRViEfVXGoHH7XwJ8cbE.jpg" alt="">
                                 </a>
                             </div>
                             <div class="bg" style="left: 300px; opacity: 1;">
-                                <a href="" title="메가박스 오리지널 티켓 N0.4 버즈 오브 프레이(할리퀸의 황홀한 해방)을 가장 잘 간직하는 방법">
-                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2020/02/04/H6zaA0lnR8DwbafHONjYXL5hUOwbquFS.jpg" alt="">
+                                <a href="" title="">
+                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/01/22/ebKckKothF6d7wKeHm7eLmUBsQ9zhJuz.jpg" alt="">
                                 </a>
                             </div>
                         </div>
@@ -132,13 +132,13 @@
                         <!-- position -->
                         <div class="position">
                             <div class="txt" style="top: 100px; opacity: 1;">
-                                <a href="" title="메가박스 오리지널 티켓북 출시">
-                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2020/02/04/jIx6azAbreahaBC4Ax1uCtovoUWu3Cky.jpg" alt="">
+                                <a href="" title="">
+                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2024/12/31/XeOIoBtvrXMFmhMpgfksu048yVbtuZZp.jpg" alt="">
                                 </a>
                             </div>
                             <div class="bg" style="left: 450px; opacity: 1;">
-                                <a href="" title="메가박스 오리지널 티켓북 출시">
-                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2020/02/04/J907IQ97HGyZbAU8IYEijq0FAx2QckCd.jpg" alt="">
+                                <a href="" title="">
+                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2024/12/31/Iv48B8KKcN2iKsLHLANxPW4LJOmp8QLp.jpg" alt="">
                                 </a>
                             </div>
                         </div>
@@ -150,13 +150,13 @@
                         <!-- position -->
                         <div class="position">
                             <div class="txt" style="top: 0; opacity: 1;">
-                                <a href="" title="별별닉네임상영관 메가픽 홍대">
-                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2020/02/04/XAcNkLSSGU1PPpeFjVAjsxSBtLjUMxRx.jpg" alt="">
+                                <a href="" title="">
+                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2024/10/25/rJ952a8JpbgmHSsjPXbA20pIogJjmUJZ.jpg" alt="">
                                 </a>
                             </div>
                             <div class="bg" style="left: 300px; opacity: 1;">
-                                <a href="" title="별별닉네임상영관 메가픽 홍대">
-                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2020/02/04/wLVouIgIpeYVfhs3MuG8fhwZreUgHBoQ.jpg" alt="">
+                                <a href="" title="">
+                                    <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2024/10/25/8pnfD3MnGMMamzUSvBzGKTFHfARuRIXW.jpg" alt="">
                                 </a>
                             </div>
                         </div>
@@ -188,30 +188,22 @@
                 <!-- banner -->
                 <div class="banner clearfix">
                     <div class="size">
-                        <a href="" title="특전 이벤트 하이큐!">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2020/02/04/89hw0U9G7GNAVUqnoP1BP0YZehxo7GKe.jpg" alt="">
+                        <a href="" title="">
+                            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/17/h8nUUAwSBq48DWZf0E6PcMZpl7IWTSFh.jpg" alt="[메가박스X신세계포인트] 다시 돌아온 영화 같은 새해 이벤트">
                         </a>
                     </div>
                     <div class="size small">
-                        <a href="" title="시그니처 특별관 MX편">
-                            <img src="https://img.megabox.co.kr/SharedImg/event/2020/02/04/a9XWSZ4sDkluJJEq6x3hTd8cT6bT3rOI.jpg" alt="">
+                        <a href="" title="">
+                            <img src="https://img.megabox.co.kr/SharedImg/event/2025/01/17/ai3avxVyRya1GaSiymBsBV3cQ06rPVkQ.jpg" alt="[메가박스X신세계포인트] 다시 돌아온 영화 같은 새해 이벤트">
                         </a>
                     </div>
                 </div>
                 <!-- //banner -->
                 <div class="ad-img">
-                    <img src="https://mlink-cdn.netinsight.co.kr/2020/02/03/0d1e122f5dd9231ff5b1e17f90d7a8dd.jpg" alt="">
+                    <img src="https://mlink-cdn.netinsight.co.kr/2025/01/07/6b54ae7a722f8b4293bbcc22881cfab6.jpg" alt="">
                 </div>
             </div>
             <!-- brn-ad -->
-            <!-- grand-open -->
-            <div class="grand-open">
-                <p class="tit">
-                    <span>LIFE THEATER MEGABOX</span>
-                    <strong>GRAND<br>OPENING</strong>
-                </p>
-            </div>
-            <!-- //grand-open -->
         </div>
         <!-- //wrap -->
     </section>
@@ -235,6 +227,6 @@
 </main>
 <!-- footer 영역 -->
 <jsp:include page="footer.jsp"/>
-<%--<jsp:include page="modalscript.jsp"/>--%>
+    <script src="${pageContext.request.contextPath}/js/userMain.js"></script>
 </body>
 </html>

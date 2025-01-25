@@ -43,12 +43,13 @@
         WHERE movieIdx = #{movieIdx}
     </select>
 
-    <!-- 영화 idx를 받아서 예매율 순위를 반환 -->
+    <!-- 영화 idx를 받아서 예매율 순위를 반환. RANK() 함수는 MySQL 8.0 이상에서만 가능 -->
     <select id="calculateRank" parameterType="String" resultType="int">
         SELECT reservationRank
-            FROM (
-                SELECT movieIdx, movieRank, RANK() OVER (ORDER BY movieRank ASC) AS reservationRank
-                FROM movie
+        FROM (
+            SELECT movieIdx, movieRank, @rank := @rank + 1 AS reservationRank
+            FROM movie, (SELECT @rank := 0) r
+            ORDER BY movieRank ASC
             ) AS Movies
         WHERE movieIdx = #{movieIdx}
     </select>

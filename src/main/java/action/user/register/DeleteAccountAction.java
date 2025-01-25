@@ -1,8 +1,9 @@
 package action.user.register;
 
 import action.Action;
-import mybatis.vo.UserDAO;
+import mybatis.dao.UserDAO;
 import mybatis.vo.UserVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,26 +13,24 @@ import java.io.IOException;
 public class DeleteAccountAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("DeleteAccountAction");
 
-        HttpSession session = request.getSession();
-        UserVO user = (mybatis.vo.UserVO) session.getAttribute("user");
+        // 로그인 여부 확인 및 사용자 정보 가져오기
+        UserVO uservo = SessionUtil.getLoginUser(request);
+        if (uservo == null) {
+            return "UserController?type=main";
+        }
 
-        String userId = user.getUserId();
+        String userId = uservo.getUserId();
         String userPassword = request.getParameter("userPassword");
 
-        System.out.println("get userId: " + userId);
-        System.out.println("get userPassword: " + userPassword);
-
-        UserDAO userDAO = new UserDAO();
-
         System.out.println("entry");
-        boolean isPasswordCorrect = userDAO.checkPassword(userId, userPassword);
+        boolean isPasswordCorrect = UserDAO.checkPassword(userId, userPassword);
         System.out.println("isPasswordCorrect : " + isPasswordCorrect);
         if (isPasswordCorrect) {
-            boolean isDeleted = userDAO.updateUserStatus(userId);
+            boolean isDeleted = UserDAO.updateUserStatus(userId);
             if (isDeleted) {
                 request.getSession().invalidate();
+                response.sendRedirect("UserController?type=main");
                 return null;
             } else {
                 request.setAttribute("message", "회원탈퇴에 실패했습니다.");

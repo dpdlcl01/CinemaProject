@@ -2,13 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
     <jsp:include page="../common/head.jsp"/>
-
 </head>
 <style>
 
@@ -168,21 +165,22 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <span >스토어</span>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>스토어</label>
         </div>
     </div>
 </div>
 <div id="h2">
     <h1>스토어</h1>
 
-    <div id="contents">
+    <div class="contents">
         <div id="cartDiv">
             <button type="button" onclick="goCart()" id="cartBtn">장바구니</button>
         </div>
 
         <article id="title">
             <a href="" class="active" id="title1">전체상품</a>
-            <a href="" id="title2">팝콘,음료</a>
+            <a href="" id="title2">스낵</a>
             <a href="" id="title3">굿즈</a>
         </article>
 

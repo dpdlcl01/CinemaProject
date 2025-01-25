@@ -1,4 +1,4 @@
-package mybatis.dao.user;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import mybatis.vo.MovieVO;
@@ -81,6 +81,7 @@ public class MovieDAO {
     }
 
 
+
     // 새로운 영화 정보를 API로 받아와서 DB에 저장하는 함수 (관리자)
     public static int addNewMovie(MovieVO mvo){
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -92,8 +93,6 @@ public class MovieDAO {
         ss.close();
         return cnt;
     }
-
-
 
 
 }

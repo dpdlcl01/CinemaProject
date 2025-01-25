@@ -1,8 +1,8 @@
 package action.user.movie;
 
 import action.Action;
-import mybatis.dao.user.MovieDAO;
-import mybatis.dao.user.ReviewDAO;
+import mybatis.dao.MovieDAO;
+import mybatis.dao.ReviewDAO;
 import mybatis.vo.MovieVO;
 import mybatis.vo.ReviewVO;
 import util.Paging;

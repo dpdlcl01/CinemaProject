@@ -27,10 +27,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userMain.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/memberLogin.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 <!-- 메인화면 하트 아이콘 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
-
-<%--<script src="${pageContext.request.contextPath}/js/app.js"></script>--%>
