@@ -7,7 +7,7 @@ import mybatis.vo.MovieVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MainAction implements Action {
+public class UserMainAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -16,6 +16,6 @@ public class MainAction implements Action {
         request.setAttribute("movieArray", movieArray);
 
         // main 화면 경로 반환
-        return "./jsp/user/common/main.jsp";
+        return "./jsp/user/common/userMain.jsp";
     }
 }

@@ -144,7 +144,6 @@ public class UserController extends HttpServlet {
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);
             disp.forward(request, response);
         }
-        System.out.println("action : " + actionMap);
     }
 
     

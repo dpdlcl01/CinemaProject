@@ -27,6 +27,6 @@ public class MyMovieAction implements Action {
         request.setAttribute("fvo", fvo);
         System.out.println("myMovie"+fvo.length);
 
-       return "/jsp/user/myInfo/myMovieStoryV2.jsp";
+       return "/jsp/user/myInfo/myMovieStory.jsp";
     }
 }

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MainAction implements Action {
+public class AdminMainAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -14,6 +14,6 @@ public class MainAction implements Action {
         session.setAttribute("id","user001");
         session.setAttribute("idx","1");
         // main 화면 경로 반환
-        return "./jsp/admin/common/main.jsp";
+        return "./jsp/admin/common/adminMain.jsp";
     }
 }

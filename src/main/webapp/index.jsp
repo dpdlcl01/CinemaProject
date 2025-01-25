@@ -72,8 +72,8 @@
 <main>
     <h2>영화 예매 웹 애플리케이션</h2>
 
-    <a href="UserController">Go to UserController</a>
-<%--    <a href="AdminController">Go to AdminController</a>--%>
+    <a href="${pageContext.request.contextPath}/UserController">Go to UserController</a>
+    <a href="${pageContext.request.contextPath}/AdminController">Go to AdminController</a><br/><br/>
     <a href="${pageContext.request.contextPath}/AdminController?type=dbMovie">영화 API 연결 확인</a>
 </main>
 
