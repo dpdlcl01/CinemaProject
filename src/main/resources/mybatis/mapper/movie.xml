@@ -3,14 +3,66 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movie">
+    <!-- 사용자 메인 화면에서 예매율 상위 4개 영화 정보를 반환 -->
+    <select id="getTopMovie" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie
+        ORDER BY movieReservationRate DESC
+        LIMIT 4
+    </select>
 
+    <!-- [박스오피스] 전체 영화 개수 반환.
+        80위까지만 movieRank가 NULL이 아니게 설정해서 지금은 항상 80이 반환 -->
+    <select id="totalMovieCount" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+        AND movieStatus IS NOT NULL
+    </select>
+
+    <!-- 박스오피스 전체 영화 목록 offset 부터 pageSize만큼의 행 가져오기 -->
+    <select id="getMovieList" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+        AND movieStatus IS NOT NULL
+        ORDER BY movieReservationRate DESC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+
+
+<!--    &lt;!&ndash; 사용자 영화 메인 화면에서 전체 영화 리스트를 반환 &ndash;&gt;
+    <select id="getTotalMovie" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie
+        ORDER BY movieReservationRate DESC
+    </select>-->
+
+    <!-- 영화 idx를 받아서 사용자 영화 상세 화면으로 해당 영화 정보 반환 -->
+    <select id="getMovieByIdx" parameterType="String" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
+    <!-- 영화 idx를 받아서 예매율 순위를 반환 -->
+    <select id="calculateRank" parameterType="String" resultType="int">
+        SELECT reservationRank
+            FROM (
+                SELECT movieIdx, movieRank, RANK() OVER (ORDER BY movieRank ASC) AS reservationRank
+                FROM movie
+            ) AS Movies
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
+    <!-- 관리자 모드에서 OPEN API를 이용하여 영화 정보를 DB에 저장 -->
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
         INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
         movieDirector, movieActors, movieInfo, moviePosterUrl,
-        movieReservationRate, movieTotalAudience, movieStatus)
+        movieRank, movieReservationRate, movieTotalAudience, movieLikes, movieStatus)
         VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
-        #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl}, #{movieReservationRate}, #{movieTotalAudience}, #{movieStatus})
+        #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl},
+        #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus})
     </insert>
+
     <!-- 예매 가능한 영화 조회  -->
     <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
         SELECT *
@@ -23,4 +75,5 @@
         FROM movie
         WHERE movieIdx = #{movieIdx}
     </select>
+
 </mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+
+    <!-- 총 리뷰 수를 반환하는 기능 -->
+    <select id="getTotalCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM review
+        WHERE movieIdx = #{movieIdx}
+        AND reviewStatus = 0
+    </select>
+
+    <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
+		정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
+    <select id="getAllList" parameterType="Map" resultType="mybatis.vo.ReviewVO">
+        SELECT * FROM (
+        SELECT @RN := @RN + 1 AS rnum, r.*, u.userId
+        FROM review r INNER JOIN user u
+        ON r.userIdx = u.userIdx, (SELECT @RN := 0) rn
+        WHERE reviewStatus = 0 AND movieIdx = #{movieIdx}
+        ORDER BY reviewDate DESC
+        ) a
+        WHERE a.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+
+<!--    &lt;!&ndash; 영화 idx를 받아서 해당하는 리뷰 정보 내림차순 반환 &ndash;&gt;
+    <select id="getReviewByMovieIdx" parameterType="String" resultType="mybatis.vo.ReviewVO">
+        SELECT r.*, u.userId FROM review r INNER JOIN user u
+        ON r.userIdx = u.userIdx
+        WHERE movieIdx = #{movieIdx}
+        AND reviewStatus = 0
+        ORDER BY reviewDate DESC
+    </select>-->
+
+    <!-- 리뷰 작성 -->
+    <insert id="writeReview" parameterType="mybatis.vo.ReviewVO">
+        INSERT INTO review(userIdx, movieIdx, reviewRating, reviewContent, reviewDate, reviewStatus)
+        VALUES (#{userIdx}, #{movieIdx}, #{reviewRating}, #{reviewContent}, NOW(), 0)
+    </insert>
+
+
+</mapper>

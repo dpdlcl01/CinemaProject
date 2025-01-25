@@ -1,39 +1,15 @@
 package mybatis.vo;
 
 public class ReviewVO {
-    String reviewIdx, userIdx, movieIdx, reviewRating, reviewContent, reviewDate, reviewStatus,
-     movieTitle, movieGenre, movieTime, moviePosterUrl;
+    private String reviewIdx, userIdx, movieIdx, reviewRating, reviewContent, reviewDate, reviewStatus,
+            userId;
 
-    public String getMovieTitle() {
-        return movieTitle;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setMovieTitle(String movieTitle) {
-        this.movieTitle = movieTitle;
-    }
-
-    public String getMovieGenre() {
-        return movieGenre;
-    }
-
-    public void setMovieGenre(String movieGenre) {
-        this.movieGenre = movieGenre;
-    }
-
-    public String getMovieTime() {
-        return movieTime;
-    }
-
-    public void setMovieTime(String movieTime) {
-        this.movieTime = movieTime;
-    }
-
-    public String getMoviePosterUrl() {
-        return moviePosterUrl;
-    }
-
-    public void setMoviePosterUrl(String moviePosterUrl) {
-        this.moviePosterUrl = moviePosterUrl;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getReviewIdx() {

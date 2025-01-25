@@ -1,4 +1,4 @@
-package action.admin;
+package action.admin.movie;
 
 import action.Action;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,8 +30,11 @@ public class DbMovieAction implements Action {
 
         // 1. 실시간 예매율 순위를 제공하는 KOBIS에서 크롤링하여 영화 예매율 순위와 예매율, 영화코드를 가져오기 위해
         // WebDriver 설정
-        System.setProperty("webdriver.chrome.driver",
-                "C:/Users/user/Documents/GitHub/CinemaProject/src/main/java/util/chromedriver.exe"); // ChromeDriver 경로 설정
+        // chromedriver.exe의 경로를 상대 경로로 설정
+        String driverPath = getClass().getClassLoader().getResource("util/chromedriver.exe").getPath();
+
+        // WebDriver 설정
+        System.setProperty("webdriver.chrome.driver", driverPath);
         WebDriver driver = new ChromeDriver();
 
 
@@ -78,6 +81,16 @@ public class DbMovieAction implements Action {
                     // 영화 데이터 추출
                     String movieCd = tdList.get(1).findElement(By.tagName("a"))
                             .getAttribute("onclick").split("'")[3]; // 영화코드 --> 오픈 API에 영화 검색시 사용
+                    String movieTitle = tdList.get(1).getText(); // 영화 제목
+
+                    // 특정 영화 제외 조건
+                    if (movieTitle.contains("아이돌리쉬 세븐") || movieTitle.contains("캐롤")) {
+                        System.out.println("제외된 영화: " + movieTitle);
+                        continue; // 해당 영화 건너뛰기
+                    }
+
+
+                    String movieRank = tdList.get(0).getText(); // 예매 순위
                     String reservationRate = tdList.get(3).getText().replace("%", "").trim(); // 예매율: % 기호 제거
                     String movieTotalAudience = tdList.get(7).getText().replace(",", "").trim(); // 누적 관객수: , 제거
 
@@ -148,7 +161,7 @@ public class DbMovieAction implements Action {
                             movieGrade = "ALL"; // 전체관람가
                         } else if (watchGradeNm.contains("12")) {
                             movieGrade = "12"; // 12세 이상
-                        } else if (watchGradeNm.contains("15")) {
+                        } else if (watchGradeNm.contains("15") || watchGradeNm.contains("고등학생")) {
                             movieGrade = "15"; // 15세 이상
                         } else if (watchGradeNm.contains("18") || watchGradeNm.contains("청소년") || watchGradeNm.contains("연소자")) {
                             movieGrade = "19"; // 청소년 관람 불가
@@ -179,8 +192,10 @@ public class DbMovieAction implements Action {
                         movieActors = String.join(", ", topActors); // 쉼표로 구분된 문자열로 변환
                     }
 
-                    // 필수 값 검증: 개봉일, 관람 등급 정보가 없는 경우 제외
-                    if (openDt == null || watchGradeNm == null) {
+                    // 필수 값 검증: 영어 제목, 개봉일, 관람 등급 정보가 없는 경우 제외
+                    if (movieNmEn == null || movieNmEn.trim().isEmpty() ||
+                            movieDate == null || movieDate.trim().isEmpty() ||
+                            watchGradeNm == null || watchGradeNm.trim().isEmpty()) {
                         System.out.println("필수 데이터 누락: "+ movieNm + " 영화 제외");
                         continue;
                     }
@@ -191,6 +206,7 @@ public class DbMovieAction implements Action {
                     // KOFIC API에서 가져온 데이터를 VO에 저장
                     mvo.setMovieCd(movieCd);               // 영화 코드 (KOFIC 고유 식별자)
                     mvo.setMovieTotalAudience(movieTotalAudience); // 누적 관객 수
+                    mvo.setMovieRank(movieRank);            // 예매 순위
                     mvo.setMovieReservationRate(reservationRate); // 예매율
                     mvo.setMovieTitle(movieNm);            // 영화 제목 (국문)
                     mvo.setMovieTitleEn(movieNmEn);        // 영화 제목 (영문)
@@ -203,14 +219,16 @@ public class DbMovieAction implements Action {
                     mvo.setMovieDirector(movieDirector);   // 감독 정보
                     mvo.setMovieActors(movieActors);       // 배우 목록 (쉼표로 구분된 문자열)
 
+                    mvo.setMovieLikes("0"); // 최초 저장하는 영화 데이터의 경우 좋아요 수 0개로 설정
+
                     // TMDB API 호출로 추가 데이터 설정
                     fetchTmdbData(mvo);
 
                     // movieList에 VO 객체 추가 (DB 저장 준비)
                     movieList.add(mvo);
 
-                    // DB 저장 메서드 호출 ------------------------------------------ 최초 1번 수행하는 로직 (API 호출 확인시에는 주석처리)
-                    int cnt = MovieDAO.addNewMovie(mvo);
+                    // DB 저장 메서드 호출 ----------------------------------------------------- 최초 1번 수행하는 로직 (API 호출 확인시에는 주석처리)
+//                    int cnt = MovieDAO.addNewMovie(mvo);
 
                     count++;
                 }
@@ -225,8 +243,9 @@ public class DbMovieAction implements Action {
             driver.quit();
         }
 
-        return "/jsp/admin/common/dbMovie.jsp";
+        return "/jsp/admin/movie/dbMovie.jsp";
     }
+
 
 
 
@@ -236,30 +255,34 @@ public class DbMovieAction implements Action {
             String tmdbBaseUrl = "https://api.themoviedb.org/3/search/movie";
             ObjectMapper mapper = new ObjectMapper();
 
-            boolean isFound = false; // 검색 성공 여부
+            JsonNode movieData = null;
 
             // 1. 한국어 제목으로 검색
             if (mvo.getMovieTitle() != null) {
                 String query = URLEncoder.encode(mvo.getMovieTitle().trim(), "UTF-8");
                 String tmdbUrl = tmdbBaseUrl + "?api_key=" + apiKey + "&query=" + query + "&language=ko-KR";
 
-                JsonNode movieData = searchTmdb(tmdbUrl, mapper);
-                if (movieData != null) {
-                    isFound = true;
-                    setTmdbDataToVO(mvo, movieData);
-                }
+                movieData = searchTmdb(tmdbUrl, mapper, mvo); // 검색 결과
             }
 
             // 2. 영어 제목으로 검색 (한국어 검색 실패 시)
-            if (!isFound && mvo.getMovieTitleEn() != null) {
+            if (movieData == null && mvo.getMovieTitleEn() != null) {
                 String query = URLEncoder.encode(mvo.getMovieTitleEn().trim(), "UTF-8");
                 String tmdbUrl = tmdbBaseUrl + "?api_key=" + apiKey + "&query=" + query + "&language=en-US";
 
-                JsonNode movieData = searchTmdb(tmdbUrl, mapper);
-                if (movieData != null) {
-                    setTmdbDataToVO(mvo, movieData);
+                movieData = searchTmdb(tmdbUrl, mapper, mvo);
+            }
+
+            // 3. 검색 결과 유효성 검증 및 설정
+            if (movieData != null) {
+                int movieId = movieData.get("id").asInt();
+                JsonNode detailedData = fetchMovieDetails(movieId, mapper);
+
+                // 데이터 검증: 줄거리와 포스터가 없으면 mvo에 설정하지 않음
+                if (detailedData != null && validateTmdbData(detailedData)) {
+                    setTmdbDataToVO(mvo, detailedData);
                 } else {
-                    System.out.println("TMDB 검색 결과 없음 (한국어/영어 모두 실패): " + mvo.getMovieTitle());
+                    System.out.println("TMDB 데이터 유효하지 않음, mvo에 설정하지 않음: " + mvo.getMovieTitle());
                 }
             }
 
@@ -269,30 +292,114 @@ public class DbMovieAction implements Action {
         }
     }
 
+    private boolean validateTmdbData(JsonNode detailedData) {
+        String posterPath = detailedData.has("poster_path") ? detailedData.get("poster_path").asText() : null;
+        String overview = detailedData.has("overview") ? detailedData.get("overview").asText() : null;
+
+        // 포스터와 줄거리가 모두 있는 경우에만 유효하다고 판단
+        return posterPath != null && !posterPath.isEmpty() && overview != null && !overview.isEmpty();
+    }
+
+
+
+    // TMDB 데이터 상세 호출
+    private JsonNode fetchMovieDetails(int movieId, ObjectMapper mapper) {
+        try {
+            String detailUrl = "https://api.themoviedb.org/3/movie/" + movieId
+                    + "?api_key=8b259fc8ed83e644b26793b12795b088&language=ko-KR";
+            HttpURLConnection conn = (HttpURLConnection) new URL(detailUrl).openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            return mapper.readTree(conn.getInputStream());
+        } catch (Exception e) {
+            System.out.println("TMDB 상세 호출 실패: " + e.getMessage());
+            return null;
+        }
+    }
+
     // TMDB API 검색 결과 처리
-    private JsonNode searchTmdb(String url, ObjectMapper mapper) {
+    private JsonNode searchTmdb(String url, ObjectMapper mapper, MovieVO mvo) {
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");
             JsonNode root = mapper.readTree(conn.getInputStream());
             JsonNode results = root.get("results");
+
+            JsonNode bestMatch = null;
+            int highestScore = -1;
+
             if (results != null && results.size() > 0) {
-                return results.get(0); // 첫 번째 검색 결과 반환
+                for (JsonNode result : results) {
+                    int score = 0;
+
+                    String title = result.get("title").asText();
+                    String releaseDate = result.has("release_date") ? result.get("release_date").asText() : null;
+                    JsonNode productionCountries = result.get("production_countries");
+
+                    // 1. 제목 유사성 (점수: 10점)
+                    if (title.equalsIgnoreCase(mvo.getMovieTitle()) || title.contains(mvo.getMovieTitle())) {
+                        score += 10;
+                    }
+
+                    // 2. 개봉 연도 유사성 (점수: 5점)
+                    if (releaseDate != null && mvo.getMovieDate() != null) {
+                        String movieYear = mvo.getMovieDate().substring(0, 4);
+                        String releaseYear = releaseDate.substring(0, 4);
+                        if (movieYear.equals(releaseYear)) {
+                            score += 5;
+                        }
+                    }
+
+                    // 3. 국가 조건 (점수: 3점)
+                    boolean isCountryMatch = false;
+                    if (productionCountries != null && productionCountries.isArray()) {
+                        for (JsonNode country : productionCountries) {
+                            if ("KR".equalsIgnoreCase(country.get("iso_3166_1").asText())) {
+                                isCountryMatch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (isCountryMatch) {
+                        score += 3;
+                    }
+
+                    // 가장 높은 점수를 가진 결과를 선택
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestMatch = result;
+                    }
+                }
             }
+
+            return bestMatch; // 최적의 결과 반환
         } catch (Exception e) {
             System.out.println("TMDB 검색 실패: " + e.getMessage());
         }
-        return null; // 검색 결과 없음
+        return null;
     }
+
+
 
     // TMDB 데이터 VO 설정
     private void setTmdbDataToVO(MovieVO mvo, JsonNode movieData) {
         try {
             String posterPath = movieData.get("poster_path").asText();
+            String tagline = movieData.has("tagline") ? movieData.get("tagline").asText() : null;
             String overview = movieData.get("overview").asText();
+
+            String movieInfo = null;
+            if (tagline != null && !tagline.isEmpty()) {
+                movieInfo = tagline + "\n\n" + overview; // 두 내용을 줄바꿈으로 구분
+            } else {
+                movieInfo = "\n\n" + overview; // tagline이 없을 경우 overview만 사용
+            }
+
+            movieInfo = movieInfo.replace("\n", "<br>");
+
             mvo.setMoviePosterUrl("https://image.tmdb.org/t/p/w500" + posterPath); // 포스터 URL 설정
-            mvo.setMovieInfo(overview); // 줄거리 설정
+            mvo.setMovieInfo(movieInfo); // 줄거리 설정
         } catch (Exception e) {
             System.out.println("TMDB 데이터 설정 실패: " + e.getMessage());
         }
