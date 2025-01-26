@@ -122,28 +122,47 @@
             font-weight: bold;
         }
 
+
         .pagination {
-            display: flex;
-            list-style-type: none;
-            margin-top: 20px;
-            margin-bottom: 50px;
-            text-align: center;
+            clear: both;
+            position: relative;
+            margin: 0 auto;
+            padding: 30px 0 0 0;
+            text-align: center !important;
         }
 
-        .pagination a {
-            margin: 0 5px;
-            text-decoration: none;
-            color: #5a4cad;
-            font-weight: bold;
-            border: 1px solid #000;
-        }
-
-        .pagination a.active {
+        .pagination .active {
             color: #fff;
-            background-color: #5a4cad;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #000;
+            background-color: #01738b;
+            border-color: #01738b;
+        }
+
+        .pagination .control, .pagination a, .pagination strong {
+            display: inline-block;
+            position: relative;
+            min-width: 32px;
+            height: 32px;
+            margin: 0;
+            padding: 0 8px;
+            border: 1px solid #ebebeb;
+            text-decoration: none;
+            line-height: 30px;
+            color: #333;
+            font-weight: 400;
+            vertical-align: middle;
+            border-radius: 4px;
+        }
+
+        .pagination .control.next {
+            margin-left: 5px;
+            background-position: -64px 0;
+        }
+
+        .pagination .control {
+            overflow: hidden;
+            width: 32px;
+            height: 32px;
+            background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
         }
 
         .event-thumbnail img {
@@ -230,22 +249,42 @@
         </table>
 
         <!-- 페이지네이션 -->
-        <div class="pagination">
-            <c:if test="${pvo.startPage < pagePerBlock}">
-                <div class="disable">&lt;</div>
-            </c:if>
-            <c:if test="${pvo.startPage > pagePerBlock}">
-                <div class="able"><a href=""></a></div>
-            </c:if>
-            <c:forEach begin="${pvo.startPage }" end="${pvo.endPage }" varStatus="st">
-                <c:if test="${st.index eq pvo.nowPage }">
-                    <strong class="active">${st.index }></strong>
+        <nav class="pagination">
+            <c:if test="${requestScope.page ne null}">
+                <c:set var="pvo" value="${requestScope.page}" />
+
+                <!-- << (맨 처음으로) -->
+                <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
+                    <a href="UserController?type=board&cPage=1" class="control first" title="처음 페이지">&laquo;</a>
                 </c:if>
-                <c:if test="${st.index ne pvo.nowPage }">
-                    <a href="UserController?type=board&cPage=${st.index }">${st.index }</a>
+
+                <!-- < (이전 페이지 블록) -->
+                <c:if test="${pvo.startPage > 1}">
+                    <a href="UserController?type=board&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록">&lt;</a>
                 </c:if>
-            </c:forEach>
-        </div>
+
+                <!-- 페이지 번호 -->
+                <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="st">
+                    <c:if test="${st.index eq pvo.nowPage}">
+                        <strong class="active">${st.index}</strong>
+                    </c:if>
+                    <c:if test="${st.index ne pvo.nowPage}">
+                        <a href="UserController?type=board&cPage=${st.index}" title="${st.index}페이지 보기">${st.index}</a>
+                    </c:if>
+                </c:forEach>
+
+                <!-- > (다음 페이지 블록) -->
+                <c:if test="${pvo.endPage < pvo.totalPage}">
+                    <a href="UserController?type=board&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록">&gt;</a>
+                </c:if>
+
+                <!-- >> (맨 마지막으로) -->
+                <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
+                    <a href="UserController?type=board&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지">&raquo;</a>
+                </c:if>
+            </c:if>
+        </nav>
+
     </div>
 </div>
 <script>

@@ -13,7 +13,7 @@ public class ListAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         // 페이징 처리를 위한 객체생성
-        Paging page = new Paging(3, 10);
+        Paging page = new Paging(10, 10);
 
         //bType을 인자로 받는다.
         String bType = request.getParameter("bType");

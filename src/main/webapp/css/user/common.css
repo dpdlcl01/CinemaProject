@@ -13,7 +13,51 @@
   margin: 50px auto;
 }
 
-/* 공통 다이얼로그 스타일 */
+/* ------------------------------------------- 공통 기본 페이징 스타일 ------------------------------------------- */
+.pagination {
+  clear: both;
+  position: relative;
+  margin: 0 auto;
+  padding: 30px 0 0 0;
+  text-align: center !important;
+}
+
+.pagination .active {
+  color: #fff;
+  background-color: #01738b;
+  border-color: #01738b;
+}
+
+.pagination .control, .pagination a, .pagination strong {
+  display: inline-block;
+  position: relative;
+  min-width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid #ebebeb;
+  text-decoration: none;
+  line-height: 30px;
+  color: #333;
+  font-weight: 400;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+
+.pagination .control.next {
+  margin-left: 5px;
+  background-position: -64px 0;
+}
+
+.pagination .control {
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
+}
+/* ------------------------------------------- 공통 기본 페이징 스타일 ------------------------------------------- */
+
+/* ------------------------------------------- 공통 다이얼로그 스타일 ------------------------------------------- */
 .dialog-common {
   padding: 0;
   font-weight: 600;
@@ -61,7 +105,7 @@
   float: none !important;
   display: inline-block;
 }
-/* 공통 다이얼로그 스타일 */
+/* ------------------------------------------- 공통 다이얼로그 스타일 ------------------------------------------- */
 
 
 /* 기본 알림창 dialog */
