@@ -137,13 +137,15 @@ public class UserController extends HttpServlet {
       System.out.println("viewPath: " + viewPath);
 
         // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
-        if(viewPath == null){
-            response.sendRedirect("UserController?type=main");
-        } else {
-            //forward 준비
-            RequestDispatcher disp = request.getRequestDispatcher(viewPath);
-            disp.forward(request, response);
+        if (viewPath == null) {
+            if (!response.isCommitted()) {
+                response.sendRedirect("UserController?type=main");
+            }
+            return;
         }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request, response);
     }
 
     

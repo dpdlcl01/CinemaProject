@@ -19,7 +19,7 @@
     </select>
 
     <!-- 본 영화 db 들어오면 쿼리문 하나 추가해서 마이스토리에 추가해야한다. 그 받은 list.size 반환해서 나의 영화정보에 찍자 -->
-    <select id="watchMovie" parameterType="String" resultType="mybatis.vo.WatchMovieVO">
+    <select id="watchMovie" parameterType="String" resultType="mybatis.vo.MyMovieStoryVO">
         select *
         from  watchedmovie
         where userIdx = #{id}

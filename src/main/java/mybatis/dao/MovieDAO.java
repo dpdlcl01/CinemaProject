@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MovieDAO {
 
@@ -79,8 +80,6 @@ public class MovieDAO {
         ss.close();
         return rank;
     }
-
-
 
     // 새로운 영화 정보를 API로 받아와서 DB에 저장하는 함수 (관리자)
     public static int addNewMovie(MovieVO mvo){

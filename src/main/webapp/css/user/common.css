@@ -13,6 +13,56 @@
   margin: 50px auto;
 }
 
+/* 공통 다이얼로그 스타일 */
+.dialog-common {
+  padding: 0;
+  font-weight: 600;
+}
+
+.dialog-common .ui-btn-div {
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.dialog-common button {
+  width: 80px;
+  height: 40px;
+  border: 1px solid #503396;
+  background-color: #503396;
+  color: white;
+  border-radius: 3px;
+}
+
+/* 타이틀 스타일 */
+.dialog-common .ui-dialog-titlebar {
+  background-color: #503396; /* 타이틀 배경색 */
+  color: white; /* 텍스트 색상 */
+  border: 2px solid #503396;
+}
+
+/* 콘텐츠 스타일 */
+.dialog-common .ui-dialog-content {
+  color: black; /* 텍스트 색상 */
+  font-size: 14px; /* 적절한 폰트 크기 */
+}
+
+/* 닫기 버튼 숨김 */
+.dialog-common .ui-dialog-titlebar-close {
+  display: none;
+}
+
+/* 버튼 정렬 */
+.dialog-common .ui-dialog-buttonpane {
+  text-align: center !important;
+}
+
+.dialog-common .ui-dialog-buttonset {
+  float: none !important;
+  display: inline-block;
+}
+/* 공통 다이얼로그 스타일 */
+
 
 /* 기본 알림창 dialog */
 /*

@@ -1,8 +1,8 @@
 package mybatis.vo;
 
 public class TimetableVO {
-    private String timetableIdx, movieIdx, theaterIdx, screenIdx, timetableStartTime, timetableEndTime;
-    private String screenName, screenType;
+    private String timetableIdx, movieIdx, theaterIdx, screenIdx,
+            timetableStartTime, timetableEndTime, screenName, screenType;
 
     public String getScreenName() { return screenName; }
 

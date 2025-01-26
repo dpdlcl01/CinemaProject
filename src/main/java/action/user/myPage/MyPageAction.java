@@ -14,12 +14,6 @@ import java.io.IOException;
 public class MyPageAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-/*      로그인하지 않으면 접근 자체가 되지 않는 화면의 Action에 추가!
-        (마이페이지의 모든 화면, 예매 좌석 화면, 결제 화면, 장바구니 화면)
-        (관리자 화면의 경우 로그인하지 않으면 어떤 화면도 접근 불가능하므로 모든 화면의 Action에 추가해야 하고,
-         동일한 로직을 AdminVO, adminvo로 변경한 메서드도 존재하므로
-         AdminVO adminvo = SessionUtil.requireAdminLogin(request, response); 호출)*/
-
         // 로그인 여부 확인 및 사용자 정보 가져오기
         UserVO uservo = SessionUtil.getLoginUser(request);
         if (uservo == null) {

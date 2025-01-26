@@ -1,7 +1,8 @@
 package mybatis.vo;
 
 public class UserVO {
-    private String userIdx, userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus;
+    private String userIdx, userName, userId, userPassword, userEmail, userPhone,
+            userPoint, userGrade, userRegDate, userStatus;
 
     public String getUserIdx() {
         return userIdx;

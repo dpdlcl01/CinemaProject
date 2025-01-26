@@ -7,6 +7,56 @@
 <head>
     <jsp:include page="../common/head.jsp"/>
     <style>
+        /* 공통 다이얼로그 스타일 */
+        .dialog-common {
+            padding: 0;
+            font-weight: 600;
+        }
+
+        .dialog-common .ui-btn-div {
+            margin: auto;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dialog-common button {
+            width: 80px;
+            height: 40px;
+            border: 1px solid #503396;
+            background-color: #503396;
+            color: white;
+            border-radius: 3px;
+        }
+
+        /* 타이틀 스타일 */
+        .dialog-common .ui-dialog-titlebar {
+            background-color: #503396; /* 타이틀 배경색 */
+            color: white; /* 텍스트 색상 */
+            border: 2px solid #503396;
+        }
+
+        /* 콘텐츠 스타일 */
+        .dialog-common .ui-dialog-content {
+            color: black; /* 텍스트 색상 */
+            font-size: 14px; /* 적절한 폰트 크기 */
+        }
+
+        /* 닫기 버튼 숨김 */
+        .dialog-common .ui-dialog-titlebar-close {
+            display: none;
+        }
+
+        /* 버튼 정렬 */
+        .dialog-common .ui-dialog-buttonpane {
+            text-align: center !important;
+        }
+
+        .dialog-common .ui-dialog-buttonset {
+            float: none !important;
+            display: inline-block;
+        }
+        /* 공통 다이얼로그 스타일 */
+
         .pagination {
             clear: both;
             position: relative;
@@ -248,10 +298,12 @@
         <p class="title">${mvo.movieTitle }</p>
         <p class="title-eng">${mvo.movieTitleEn }</p>
         <div class="btn-util">
-            <button type="button" class="btn">
+            <!-- 찜하기 버튼을 누를 때 로그인 체크를 호출하며 영화 인덱스를 인자로 보낸다. -->
+            <button type="button" class="btn" onclick="loginCheck(${mvo.movieIdx})">
                 <i class="icon-heart"></i>
-                <%--          <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-line.png">--%>
-                <span title="보고싶어 한 명수" id="wantsee">${mvo.movieLikes }</span>
+                <span title="보고싶어 한 명수" id="wantsee-${mvo.movieIdx}">
+                        ${mvo.movieLikes}
+                </span>
             </button>
         </div>
         <div class="screen-type2">
@@ -545,7 +597,79 @@
     </div>
 </div>
 </c:if>
+<!-- 로그인 필요 알림 다이얼로그 -->
+<div id="loginNoticeDialog" title="알림" class="dialog-common">
+    <p>로그인 후 이용 가능한 서비스입니다.</p>
+    <div class="ui-btn-div">
+        <button type="button" onclick="closeDialog('loginNoticeDialog')">확인</button>
+    </div>
+</div>
 <script>
+    // 다이얼로그 열기 함수
+    function openDialog(dialogId) {
+        $("#" + dialogId).dialog({
+            modal: true, // 모달 형태
+            resizable: false, // 크기 조정 불가
+            width: 400, // 다이얼로그 너비
+        });
+    }
+
+    // 다이얼로그 닫기 함수
+    function closeDialog(dialogId) {
+        $("#" + dialogId).dialog("close"); // jQuery UI의 close 메서드 호출
+    }
+
+    // 로그인 여부가 필요한 찜하기 버튼의 경우 로그인 체크 액션을 호출하여
+    // 로그인 여부를 비동기식으로 판단하고, 이후 다시 비동기식으로 찜하기를 적용한다.
+    function loginCheck(movieIdx) {
+        // 1. 비동기로 로그인 체크
+        $.ajax({
+            url: 'UserController?type=loginCheck',
+            type: 'POST',
+            dataType: 'json',
+            success: function (res) {
+                if (res.login) {
+                    // 2. 로그인된 상태 → 찜하기 로직 호출
+                    updateMovieLike(movieIdx);
+                } else {
+                    // 3. 로그인되지 않은 상태 → 로그인 모달 창 띄우기
+                    openDialog("loginNoticeDialog"); // 로그인 알림 다이얼로그 열기
+                }
+            }
+        });
+    }
+
+    // 로그인된 상태라면 찜하기 버튼을 클릭할 때
+    // 이미 찜했는지 여부를 확인 후 [선호 영화로 추가 및 숫자 1 증가] 또는 [선호 영화에서 삭제 및 숫자 1 감소]
+    function updateMovieLike(movieIdx) {
+        // 로그인된 상태에서 찜하기 처리
+        $.ajax({
+            url: 'UserController?type=movieLikes',
+            type: 'POST',
+            data: { movieIdx: movieIdx },
+            dataType: 'json',
+            success: function(res) {
+                if (res.success) {
+                    // 찜하기 성공 시 UI 업데이트
+                    const likeCountSpan = document.getElementById(`wantsee-${movieIdx}`);
+                    likeCountSpan.textContent = res.newLikeCount; // 새로운 찜하기 수로 업데이트
+                } else {
+                    alert(res.message || "찜하기에 실패했습니다.");
+                }
+            },
+            error: function() {
+                alert("찜하기 처리 중 오류가 발생했습니다.");
+            }
+        });
+
+        console.log(`Updating movieLikes for movieIdx: ${movieIdx}`);
+        console.log(`Element ID: wantsee-${movieIdx}`);
+        console.log(document.getElementById(`wantsee-${movieIdx}`)); // null이면 선택자가 문제
+
+    }
+
+
+
     document.addEventListener("DOMContentLoaded", function () {
         const tabs = document.querySelectorAll('.tab');
         const contents = document.querySelectorAll('.content');

@@ -1,13 +1,22 @@
 package action.user.store;
 
 import action.Action;
+import mybatis.vo.UserVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class PaymentAction implements Action {
 
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        // 로그인 여부 확인 및 사용자 정보 가져오기
+        UserVO uservo = SessionUtil.getLoginUser(request);
+        if (uservo == null) {
+            return "UserController?type=main";
+        }
 
         String quant = request.getParameter("productQuant");
         String price = request.getParameter("productPrice");
