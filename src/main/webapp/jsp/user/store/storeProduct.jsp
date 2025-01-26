@@ -344,6 +344,7 @@
       <%--${pageContext.request.contextPath}/UserController?type=payment--%>
       form0.action="${pageContext.request.contextPath}/UserController?type=payment";
 
+      console.log("현재 바이 함수가 실행되었습니다,.");
       form0.submit();
     }
     
