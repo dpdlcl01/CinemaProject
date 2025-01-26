@@ -8,14 +8,13 @@
             padding: 0;
             margin: 0;
         }
-        #contents {
+        .contents {
             width: 1100px;
             display: flex;
             margin-left: auto;
             margin-right: auto;
             min-height: 590px;
             margin-bottom: 20px;
-            margin-top: 20px;
         }
 
         .content1 {
@@ -76,7 +75,7 @@
         </div>
     </div>
 </div>
-<main>
+<div>
     <div class="contents">
         <%--  사이드바  --%>
         <jsp:include page="../common/sideBar.jsp"/>
@@ -151,7 +150,7 @@
     </div>
     </div>
     </div>
-</main>
+</div>
 
 <footer>
     <jsp:include page="../common/footer.jsp"/>
