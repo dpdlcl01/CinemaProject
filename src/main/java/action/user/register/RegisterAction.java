@@ -1,7 +1,7 @@
 package action.user.register;
 
 import action.Action;
-import mybatis.dao.RegisterDAO;
+import dao.RegisterDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

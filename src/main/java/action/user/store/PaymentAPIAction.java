@@ -1,14 +1,15 @@
-package action.user.store;
+package action.admin;
 
 import action.Action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PaymentAPIAction implements Action {
+public class MainAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        return "/jsp/user/store/paymentAPI.jsp";
+        // main 화면 경로 반환
+        return "./jsp/admin/main.jsp";
     }
 }

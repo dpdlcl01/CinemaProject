@@ -1,10 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <jsp:include page="../common/head.jsp"/>
   <style>
     *{
@@ -17,7 +15,7 @@
       justify-content: center;
       padding: 40px;
       text-indent: -9999px;
-      background-image: url("${pageContext.request.contextPath}/css/user/images/logo-purple.png");
+      background-image: url("../../../img/logo.png");
       background-repeat: no-repeat;
       background-position: center; /*이미지 가운데 맞추는 구문*/
 
@@ -169,12 +167,13 @@
       border-radius: 4px;
     }
   </style>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<jsp:include page="../common/header.jsp"/>
 <form action="${pageContext.request.contextPath}/UserController" method="post">
   <input type="hidden" name="type" id="type"/>
-<div class="contents">
+<div id="contents">
   <h1>여기에 로고</h1>
 
   <article id="all">
@@ -323,14 +322,41 @@
         </tr>
 
         <tr>
+
           <td class="bold">아이디</td>
           <td>
-            <input type="text" id="userId" name="userId" class="inputValue" oninput="checkid()">
-            <span id="id_ok" class="id_ok" style="color:green; display:none;">사용 가능한 아이디입니다.</span>
-            <span id="id_already" class="id_already" style="color:red; display:none;">사용 불가능 가능한 아이디입니다.</span>
+            <input type="text" id="userId" name="userId" class="inputValue">
+            <button type="button" name="idcheck" id="idcheck">중복확인</button>
+            <span id="result"></span>
           </td>
         </tr>
-
+        <script>
+          $(document).ready(function() {
+            $("#checkId").click(function() {
+              var userId = $("#userId").val();
+              var url = "/UserController?type=usercheckid&userId=" + userId;
+                $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8", // 명시적으로 Content-Type 설정
+                data: { userId: userId }, // 데이터 전송
+                dataType: "json", // 서버 응답 형식 예상
+                success: function(data) {
+                  console.log(data);
+                  if (data.result) {
+                    $("#result").text("이미 사용 중인 아이디입니다.");
+                  } else {
+                    $("#result").text("사용 가능한 아이디입니다.");
+                  }
+                },
+                error: function(xhr, status, error) {
+                  console.error("AJAX Error:", status, error);
+                  $("#result").text("오류가 발생했습니다.");
+                }
+              });
+            });
+          });
+        </script>
         <tr>
           <td class="bold">비밀번호</td>
           <td><input type="password" id="userPassword1" name="userPassword1" oninput="pwCheck()" class="inputValue"></td>
@@ -372,8 +398,7 @@
   </div>
 </div>
 </form>
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<jsp:include page="../common/footer.jsp"/>
 <script>
   const checkbox1 = document.getElementById('serviceAgree');
   const checkbox2 = document.getElementById('personalAgree');
@@ -506,39 +531,6 @@
     };
     xhr.send("authCode=" + encodeURIComponent(authCode));
   }
-
-
-
-  function checkid() {
-    console.log("checkid 이벤트 호출")
-    const userId = $("#userId").val();
-
-    if(!userId){
-      $(".id_ok").hide();
-      $(".id_already").hide();
-      return;
-    }
-
-    $.ajax({
-      url:'/UserController?type=usercheckid',
-      type:"post",
-      data:{ userId: userId },
-      success:function(response) {
-        console.log("서버응답: ", response);
-          if(response.trim() === "0") {
-            $(".id_ok").show();
-            $(".id_already").hide();
-          } else {
-            $(".id_ok").hide();
-            $(".id_already").show();
-          }
-        },
-      error:function(){
-      alert("아이디검증 ajax 오류 발생.");
-      }
-    });
-}
-
 </script>
 
 </body>

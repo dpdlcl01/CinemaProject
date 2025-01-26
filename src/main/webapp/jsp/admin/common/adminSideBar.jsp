@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: user
+  Date: 25. 1. 24.
+  Time: 오후 3:01
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -56,7 +63,7 @@
     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div class="accordion-body">
         <p>
-          <a href="#">회원 목록 보기</a>
+          <a href="../admin/userList.jsp">회원 목록 보기</a>
         </p>
         <p>
         <a href="#">회원 정보 관리</a>
