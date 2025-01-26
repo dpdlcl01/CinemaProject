@@ -8,7 +8,7 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://180.71.29.2:3306/cinema_db"/>
+                <property name="url" value="jdbc:mysql://mysql.lilpa.moe:3306/cinema_db"/>
                 <property name="username" value="sist_pj"/>
                 <property name="password" value="Sist_project12!"/>
             </dataSource>
@@ -18,5 +18,6 @@
         <mapper resource="mybatis/mapper/register.xml"/>
         <mapper resource="mybatis/mapper/login.xml"/>
         <mapper resource="mybatis/mapper/user.xml"/>
+        <mapper resource="mybatis/mapper/admin.xml"/>
     </mappers>
 </configuration>

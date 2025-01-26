@@ -10,6 +10,6 @@ public class MainAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         // main 화면 경로 반환
-        return "./jsp/admin/common/main.jsp";
+        return "./jsp/admin/main.jsp";
     }
 }

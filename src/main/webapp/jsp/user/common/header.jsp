@@ -135,28 +135,28 @@
         });
 
         // 로그아웃 처리
-        document.getElementById("member-logout-btn").addEventListener("click", function(event) {
-            event.preventDefault();  // 기본 동작 방지
+        <%--document.getElementById("member-logout-btn").addEventListener("click", function(event) {--%>
+        <%--    event.preventDefault();  // 기본 동작 방지--%>
 
-            // AJAX 요청 보내기 (로그아웃)
-            fetch('${pageContext.request.contextPath}/UserController?type=logout', {
-                method: 'POST'
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // 로그아웃 후 버튼 상태 변경
-                        // alert(data.message);  // 로그아웃 메시지
-                        window.location.reload();  // 페이지 새로고침
-                    } else {
-                        alert("로그아웃 실패");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('로그아웃 처리 중 오류가 발생했습니다.');
-                });
-        });
+        <%--    // AJAX 요청 보내기 (로그아웃)--%>
+        <%--    fetch('${pageContext.request.contextPath}/UserController?type=logout', {--%>
+        <%--        method: 'POST'--%>
+        <%--    })--%>
+        <%--        .then(response => response.json())--%>
+        <%--        .then(data => {--%>
+        <%--            if (data.success) {--%>
+        <%--                // 로그아웃 후 버튼 상태 변경--%>
+        <%--                // alert(data.message);  // 로그아웃 메시지--%>
+        <%--                window.location.reload();  // 페이지 새로고침--%>
+        <%--            } else {--%>
+        <%--                alert("로그아웃 실패");--%>
+        <%--            }--%>
+        <%--        })--%>
+        <%--        .catch(error => {--%>
+        <%--            console.error('Error:', error);--%>
+        <%--            alert('로그아웃 처리 중 오류가 발생했습니다.');--%>
+        <%--        });--%>
+        <%--});--%>
 
     </script>
 </header>

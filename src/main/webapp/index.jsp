@@ -73,7 +73,7 @@
     <h2>영화 예매 웹 애플리케이션</h2>
 
     <a href="UserController">Go to UserController</a>
-<%--    <a href="AdminController">Go to AdminController</a>--%>
+    <a href="AdminController">Go to AdminController</a>
     <a href="${pageContext.request.contextPath}/AdminController?type=dbMovie">DB Movie</a>
     <br/><br/>
     <h3>메인 메뉴에 화면 연결시</h3>

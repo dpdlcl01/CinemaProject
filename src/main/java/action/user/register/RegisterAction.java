@@ -1,7 +1,7 @@
 package action.user.register;
 
 import action.Action;
-import dao.registerDAO;
+import dao.RegisterDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +48,7 @@ public class RegisterAction implements Action {
         map.put("userStatus", Integer.valueOf(userStatus));
 
         try {
-            int result = registerDAO.userInsert(map);
+            int result = RegisterDAO.userInsert(map);
             System.out.println(result);
             if (result > 0) {
                 request.setAttribute("userName", userName);
