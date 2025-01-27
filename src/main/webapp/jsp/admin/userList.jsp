@@ -1,6 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+  if (request.getAttribute("users") == null || request.getAttribute("paging") == null) {
+    response.sendRedirect(request.getContextPath() + "/AdminController?type=getalluser");
+    return;
+  }
+%>
 
 <!Doctype html>
 <html lang="ko">
@@ -241,6 +247,7 @@
     width: 1100px;
   }
   #main{
+    display: block;
     margin: 50px 0 50px 50px;
   }
 
@@ -260,6 +267,7 @@
   }
 
   table {
+    display: table;
     width: 900px;
     border-collapse: collapse;
     margin-top: 20px;
@@ -321,14 +329,16 @@
             <input type="hidden" name="type" value="getalluser"/>
             <div class="filter-container">
               <select name="searchType">
-                <option value="id">아이디</option>
-                <option value="name">이름</option>
-                <option value="grade">등급</option>
+                <option value="id" ${searchType == 'userId' ? 'selected' : ''}>아이디</option>
+                <option value="name" ${searchType == 'userName' ? 'selected' : ''}>이름</option>
+                <option value="grade" ${searchType == 'userGrade' ? 'selected' : ''}>등급</option>
               </select>
-              <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요">
+              <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요"
+                     value="${fn:escapeXml(searchKeyword)}"/>
               <button type="submit">검색</button>
             </div>
           </form>
+
 
           <table>
             <thead>
@@ -348,7 +358,7 @@
             <tbody>
             <c:forEach var="user" items="${users}" varStatus="vs">
               <tr>
-                <td>${paging.totalRecord - ((paging.nowPage - 1) * paging.numPerPage + vs.index)}</td>
+                <td>${user.userIdx}</td>
                 <td>${user.userName}</td>
                 <td>${user.userId}</td>
                 <td>${user.userEmail}</td>
@@ -368,19 +378,28 @@
             </tbody>
           </table>
 
+          <!-- 페이징 처리 -->
           <div class="pagination">
+            <!-- 이전 버튼 -->
             <c:if test="${paging.startPage > paging.pagePerBlock}">
-              <a href="?type=getalluser&cPage=${paging.startPage - paging.pagePerBlock}">&lt; 이전</a>
+              <!-- 검색 조건 유지 -->
+              <a href="?type=getalluser&searchType=${searchType}&searchKeyword=${fn:escapeXml(searchKeyword)}&cPage=${paging.startPage - paging.pagePerBlock}">&lt; 이전</a>
             </c:if>
 
+            <!-- 페이지 번호 -->
             <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="page">
-              <a href="?type=getalluser&cPage=${page}" class="${page == paging.nowPage ? 'active' : ''}">${page}</a>
+              <!-- 현재 페이지 강조 -->
+              <a href="?type=getalluser&searchType=${searchType}&searchKeyword=${fn:escapeXml(searchKeyword)}&cPage=${page}"
+                 class="${page == paging.nowPage ? 'active' : ''}">${page}</a>
             </c:forEach>
 
+            <!-- 다음 버튼 -->
             <c:if test="${paging.endPage < paging.totalPage}">
-              <a href="?type=getalluser&cPage=${paging.endPage + 1}">다음 &gt;</a>
+              <!-- 검색 조건 유지 -->
+              <a href="?type=getalluser&searchType=${searchType}&searchKeyword=${fn:escapeXml(searchKeyword)}&cPage=${paging.endPage + 1}">다음 &gt;</a>
             </c:if>
 
+            <!-- 비활성화된 다음 버튼 -->
             <c:if test="${paging.endPage >= paging.totalPage}">
               <a class="disabled">다음 &gt;</a>
             </c:if>
