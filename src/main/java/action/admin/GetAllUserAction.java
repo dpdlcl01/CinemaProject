@@ -2,8 +2,6 @@ package action.admin;
 
 import action.Action;
 import dao.AdminDAO;
-import mybatis.service.FactoryService;
-import org.apache.ibatis.session.SqlSession;
 import util.AdminPaging;
 import vo.UserVO;
 
@@ -15,12 +13,10 @@ import java.util.List;
 public class GetAllUserAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         AdminPaging page = new AdminPaging(10, 5);
 
         String searchType = request.getParameter("searchType");
         String searchKeyword = request.getParameter("searchKeyword");
-
 
         int totalCount = AdminDAO.getTotalUserCount(searchType, searchKeyword);
         page.setTotalRecord(totalCount);

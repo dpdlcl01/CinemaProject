@@ -1,23 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-  if (request.getAttribute("users") == null || request.getAttribute("paging") == null) {
-    response.sendRedirect(request.getContextPath() + "/AdminController?type=getalluser");
-    return;
-  }
-%>
-
 <!Doctype html>
 <html lang="ko">
 <head>
-  <jsp:include page="/jsp/user/common/head.jsp"/>
+<%--  <jsp:include page="../../user/common/head.jsp"/>--%>
 
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <style>
+    .admin-contents {
+        width: 100%;
+        min-height: 550px;
+    }
+    .page-util .inner-wrap {
+        max-width: 100%; !important;
+        padding: 20px 20px; !important;
+    }
   #top1{
     background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
     color: white;
@@ -241,76 +242,45 @@
     display: flex;
 
   }
-  #contents{
-    margin-left: auto;
-    margin-right: auto;
-    width: 1100px;
-  }
   #main{
-    display: block;
-    margin: 50px 0 50px 50px;
+      width: 100%;
+    margin: 27px 40px 40px 40px;
   }
-
-  .filter-container {
-    position: absolute;
-    top: -50px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-  }
-
-  .filter-container select,
-  .filter-container input,
-  .filter-container button {
-    padding: 5px;
-    font-size: 14px;
-  }
-
-  table {
-    display: table;
-    width: 900px;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border: 1px solid black;
-  }
-
-  th, td {
-    border: 1px solid black;
-    padding: 10px;
-    text-align: center;
-  }
-
-  th {
-    background-color: #f2f2f2;
-  }
-
-  td {
-    background-color: #f9f9f9;
+  #main h1{
+      font-size: 30px;
   }
 </style>
 
-
-<jsp:include page="/jsp/user/common/header.jsp"/>
-
-<div id="contents">
-  <div class="page-util">
-    <div class="inner-wrap">
-      <div class="location">
-        <span>Home</span>
-        <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-        <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
-      </div>
+<body>
+<header>
+    <div class="page-util">
+        <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+            <!-- 홍길동 관리자님 위치 -->
+            <div class="location" style="flex-grow: 1;">
+                <span>홍길동 관리자님</span>
+            </div>
+            <!-- 로그인/로그아웃 버튼 -->
+            <div style="display: flex; gap: 10px; flex-shrink: 0;">
+                <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
+                    로그인
+                </a>
+                <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
+                    로그아웃
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
-
+</header>
+<div class="admin-contents">
   <div class="total-main">
     <div class="myPage-container">
-      <jsp:include page="./common/adminSideBar.jsp"></jsp:include>
-
+      <%--  사이드바  --%>
+      <jsp:include page="adminSideBar.jsp"></jsp:include>
+      <%--  메인  --%>
 
       <div id="main">
+        <h1>관리자 정보</h1>
         <div id="title">
-          <h2>회원 목록</h2>
           <div id="top1">
             <div id="imgName">
 
@@ -325,87 +295,19 @@
 
             </div>
           </div>
-          <form action="${pageContext.request.contextPath}/AdminController" method="get">
-            <input type="hidden" name="type" value="getalluser"/>
-            <div class="filter-container">
-              <select name="searchType">
-                <option value="id" ${searchType == 'userId' ? 'selected' : ''}>아이디</option>
-                <option value="name" ${searchType == 'userName' ? 'selected' : ''}>이름</option>
-                <option value="grade" ${searchType == 'userGrade' ? 'selected' : ''}>등급</option>
-              </select>
-              <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요"
-                     value="${fn:escapeXml(searchKeyword)}"/>
-              <button type="submit">검색</button>
-            </div>
-          </form>
+          <div id="top2">
 
 
-          <table>
-            <thead>
-            <tr>
-              <th>순번</th>
-              <th>이름</th>
-              <th>아이디</th>
-              <th>이메일</th>
-              <th>전화번호</th>
-              <th>포인트</th>
-              <th>등급</th>
-              <th>가입일</th>
-              <th>상태</th>
-            </tr>
-            </thead>
 
-            <tbody>
-            <c:forEach var="user" items="${users}" varStatus="vs">
-              <tr>
-                <td>${user.userIdx}</td>
-                <td>${user.userName}</td>
-                <td>${user.userId}</td>
-                <td>${user.userEmail}</td>
-                <td>${user.userPhone}</td>
-                <td>${user.userPoint}</td>
-                <td>${user.userGrade}</td>
-                <td>${user.userRegDate}</td>
-                <td>${user.userStatus}</td>
-              </tr>
-            </c:forEach>
 
-            <c:if test="${empty users}">
-              <tr>
-                <td colspan="9" style="text-align:center;">데이터가 없습니다.</td>
-              </tr>
-            </c:if>
-            </tbody>
-          </table>
-
-          <!-- 페이징 처리 -->
-          <div class="pagination">
-            <!-- 이전 버튼 -->
-            <c:if test="${paging.startPage > paging.pagePerBlock}">
-              <!-- 검색 조건 유지 -->
-              <a href="?type=getalluser&searchType=${searchType}&searchKeyword=${fn:escapeXml(searchKeyword)}&cPage=${paging.startPage - paging.pagePerBlock}">&lt; 이전</a>
-            </c:if>
-
-            <!-- 페이지 번호 -->
-            <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="page">
-              <!-- 현재 페이지 강조 -->
-              <a href="?type=getalluser&searchType=${searchType}&searchKeyword=${fn:escapeXml(searchKeyword)}&cPage=${page}"
-                 class="${page == paging.nowPage ? 'active' : ''}">${page}</a>
-            </c:forEach>
-
-            <!-- 다음 버튼 -->
-            <c:if test="${paging.endPage < paging.totalPage}">
-              <!-- 검색 조건 유지 -->
-              <a href="?type=getalluser&searchType=${searchType}&searchKeyword=${fn:escapeXml(searchKeyword)}&cPage=${paging.endPage + 1}">다음 &gt;</a>
-            </c:if>
-
-            <!-- 비활성화된 다음 버튼 -->
-            <c:if test="${paging.endPage >= paging.totalPage}">
-              <a class="disabled">다음 &gt;</a>
-            </c:if>
           </div>
+          <div>
 
+
+          </div>
         </div>
+
+
       </div>
 
 
@@ -417,7 +319,7 @@
 </div>
 
 
-<jsp:include page="/jsp/user/common/footer.jsp"/>
+<%--<jsp:include page="../../user/common/footer.jsp"/>--%>
 
 <script>
   var total = ${requestScope.total};
