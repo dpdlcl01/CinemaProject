@@ -198,15 +198,14 @@
   const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
 
   let totalPrice = parseInt(document.getElementsByClassName("payment-value final")[0].innerText.trim(), 10);
-
   function requestPayment() {
     tossPayments.requestPayment('카드', { // 결제 수단 (예: 카드, 계좌이체 등)
       amount: totalPrice, // 결제 금액 (예: 5000원)
       orderId: "order-12345", // 주문 ID (서버에서 생성해야 함)
       orderName: document.getElementsByClassName("movie-title")[0].innerText, // 상품명
       customerEmail: "user@example.com", // 고객 이메일
-      successUrl: "http://localhost:8080/paymentSuccess.jsp", // 결제 성공 시 이동할 페이지
-      failUrl: "http://localhost:8080/paymentFail.jsp", // 결제 실패 시 이동할 페이지
+      successUrl: "http://localhost:8081/CinemaProject/jsp/user/store/paymentSuccess.jsp",
+      failUrl: "http://localhost:8081/UserController?type=success", // 결제 실패 시 이동할 페이지
     })
             .catch(function (error) {
               console.error(error);
