@@ -3,21 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin">
-
-    <select id="getTotalUserCount" resultType="int">
-        SELECT COUNT(*) FROM user
-        <if test="searchType != null and searchKeyword != null">
-            WHERE ${searchType} LIKE CONCAT('%', #{searchKeyword}, '%')
-        </if>
-
-    </select>
-
-    <select id="getUsersByPage" resultType="vo.UserVO">
-        SELECT * FROM user
-        <if test="searchType != null and searchKeyword != null">
-            WHERE ${searchType} LIKE CONCAT('%', #{searchKeyword}, '%')
-        </if>
+    <!-- 사용자 목록 가져오기 -->
+    <select id="getUsersByPage" parameterType="map" resultType="mybatis.vo.UserVO">
+        SELECT *
+        FROM user
+        <where>
+            <if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != ''">
+                ${searchType} LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+        </where>
         ORDER BY userIdx DESC
         LIMIT #{begin}, #{numPerPage}
+    </select>
+
+    <!-- 총 사용자 수 가져오기 -->
+    <select id="getTotalUserCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        <where>
+            <if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != ''">
+                ${searchType} LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+        </where>
     </select>
 </mapper>

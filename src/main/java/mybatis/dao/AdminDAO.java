@@ -1,8 +1,8 @@
-package dao;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import org.apache.ibatis.session.SqlSession;
-import vo.UserVO;
+import mybatis.vo.UserVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ public class AdminDAO {
     public static List<UserVO> getUsersByPage(int begin, int numPerPage, String searchType, String searchKeyword) {
         try (SqlSession ss = FactoryService.getFactory().openSession()) {
             Map<String, Object> params = new HashMap<>();
-            params.put("begin", begin);
+            params.put("begin", begin); // 시작 행 번호
             params.put("numPerPage", numPerPage);
             params.put("searchType", searchType);
             params.put("searchKeyword", searchKeyword);
