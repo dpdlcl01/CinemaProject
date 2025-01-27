@@ -66,13 +66,15 @@
 
             <div class="search-link clearfix">
                 <div class="cell">
+                    <form action="UserController?type=movieSearch" method="post">
                     <div class="search">
-                        <input type="text" placeholder="영화명을 입력해 주세요" title="영화 검색" class="input-text">
-                        <button class="btn">
+                        <input type="text" name="movieKeyword" placeholder="영화명을 입력해 주세요" title="영화 검색" class="input-text">
+                        <button class="btn" onclick="searchMovie()">
                             <i class="ico-search"></i>
                             검색
                         </button>
                     </div>
+                    </form>
                 </div>
                 <div class="cell">
                     <a href="${pageContext.request.contextPath}/UserController?type=movieMain&offset=0&pageSize=20" title="박스오피스 보기">
@@ -228,5 +230,10 @@
 <!-- footer 영역 -->
 <jsp:include page="footer.jsp"/>
     <script src="${pageContext.request.contextPath}/js/userMain.js"></script>
+<script>
+    function searchMovie(){
+       this.form.submit();
+    }
+</script>
 </body>
 </html>

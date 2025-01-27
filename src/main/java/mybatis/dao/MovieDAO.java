@@ -114,5 +114,32 @@ public class MovieDAO {
         return movieArray;
     }
 
+    // 검색 결과 개수 반환
+    public static int searchMovieCount(String movieTitle){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.selectOne("movie.searchMovieCount", movieTitle);
+        ss.close();
+        return cnt;
+    }
+
+    // 검색 결과 배열 반환
+    public static MovieVO[] searchMovieList(String movieTitle, int offset, int pageSize){
+        MovieVO[] movieArray = null;
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("movieTitle", movieTitle);
+        map.put("offset", String.valueOf(offset));
+        map.put("pageSize", String.valueOf(pageSize));
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> list = ss.selectList("movie.searchMovieList", map);
+        if (list != null && !list.isEmpty()) {
+            movieArray = new MovieVO[list.size()];
+            list.toArray(movieArray);
+        }
+        ss.close();
+        return movieArray;
+    }
+
 
 }

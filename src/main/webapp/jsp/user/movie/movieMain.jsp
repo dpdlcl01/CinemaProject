@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
 <!-- head -->
@@ -9,6 +10,34 @@
         .onair-condition .total-count {
             font-size: 16px;
         }
+        .onair-condition {
+            display: flex; /* 버튼과 결과 메시지를 한 줄에 배치 */
+            align-items: center; /* 버튼과 메시지 수직 정렬 */
+            gap: 20px; /* 버튼과 메시지 사이 간격 */
+        }
+
+        .result-message {
+            font-size: 16px; /* 메시지 텍스트 크기 */
+            color: #333; /* 메시지 텍스트 색상 */
+            font-weight: normal; /* 텍스트 굵기 */
+        }
+
+
+        #result-zero {
+            margin: 50px auto; /* 위아래 여백과 가로 중앙 정렬 */
+            padding: 50px 0; /* 내부 여백 */
+            text-align: center; /* 텍스트 가운데 정렬 */
+            font-size: 18px; /* 글자 크기 */
+            font-weight: bold; /* 글자 굵게 */
+            color: #333; /* 글자 색상 */
+            border-top: 1px solid #ddd; /* 위쪽 구분선 */
+            border-bottom: 1px solid #ddd; /* 아래쪽 구분선 */
+            width: 100%; /* 가로 너비 (부모 요소 대비) */
+            box-sizing: border-box; /* 패딩 포함한 크기 조정 */
+        }
+
+
+
     </style>
 </head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
@@ -46,13 +75,15 @@
                 </div>
                 <div class="search-link clearfix">
                     <div class="cell">
-                        <div class="search">
-                            <input type="text" placeholder="영화명 검색" title="영화 검색" class="input-text">
-                            <button class="btn">
-                                <i class="ico-search"></i>
-                                검색
-                            </button>
-                        </div>
+                        <form id="searchForm" action="UserController?type=movieSearch" method="post">
+                            <div class="search">
+                                <input type="text" name="movieKeyword" placeholder="영화명을 입력해 주세요" title="영화 검색" class="input-text">
+                                <button class="btn" onclick="searchMovie()">
+                                    <i class="ico-search"></i>
+                                    검색
+                                </button>
+                            </div>
+                        </form>
                     </div>
 
                     <div id="boxoffice" class="content active">
@@ -60,7 +91,7 @@
                         <div class="movie-list-util mt40">
                             <div class="onair-condition">
                                 <button type="button" title="전체 영화 보기" class="btn-onair btnOnAir">개봉작만</button>
-                                <div class="total-count">전체 ${requestScope.totalMovieCount}개의 영화가 검색되었습니다.</div>
+                                <span class="total-count">${requestScope.totalMovieCount}개의 영화가 검색되었습니다.</span>
                             </div>
                         </div>
                         <!-- main-movie-list boxRankList -->
@@ -106,9 +137,11 @@
                             </c:if>
                                 <%------------------------------여기부터 더보기라인----------------------------%>
                                 <li class="movie-item" style="display: none;">
-
                                 </li>
                             </ol>
+                            <c:if test="${requestScope.movieArray eq null or fn:length(requestScope.movieArray) eq 0 }">
+                                <div id="result-zero">현재 상영중인 영화가 없습니다.</div>
+                            </c:if>
                         </div>
                     </div>
                     <div class="btn-more v1" id="addMovieDiv" style="">
@@ -127,8 +160,16 @@
 
 <!-- script 영역 -->
 <script>
-    // 등급 클래스 반환 함수
-    function getMovieGradeClass(grade) {
+
+    function searchMovie(){
+        const form = document.getElementById("searchForm"); // 폼을 id로 찾음
+        form.submit();
+    }
+
+
+
+// 등급 클래스 반환 함수
+function getMovieGradeClass(grade) {
         switch (grade) {
             case "ALL":
                 return "age-all";
