@@ -16,7 +16,7 @@
         SELECT COUNT(*)
         FROM movie
         WHERE movieStatus = 0 OR movieStatus = 1
-        AND movieStatus IS NOT NULL
+        AND movieRank IS NOT NULL
     </select>
 
     <!-- 박스오피스 전체 영화 목록 offset 부터 pageSize만큼의 행 가져오기 -->
@@ -24,7 +24,7 @@
         SELECT *
         FROM movie
         WHERE movieStatus = 0 OR movieStatus = 1
-        AND movieStatus IS NOT NULL
+        AND movieRank IS NOT NULL
         ORDER BY movieReservationRate DESC
         LIMIT ${offset}, ${pageSize}
     </select>
@@ -52,6 +52,20 @@
             ORDER BY movieRank ASC
             ) AS Movies
         WHERE movieIdx = #{movieIdx}
+    </select>
+
+
+    <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
+        정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
+    <select id="adminMovieList" resultType="mybatis.vo.MovieVO" parameterType="Map">
+        SELECT * FROM(
+        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
+        SELECT * FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+        AND movieRank IS NOT NULL
+        ORDER BY movieReservationRate DESC
+        ) a, (SELECT @RN:=0) b
+        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
     <!-- 관리자 모드에서 OPEN API를 이용하여 영화 정보를 DB에 저장 -->

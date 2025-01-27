@@ -62,7 +62,8 @@
             position: relative;
             margin: 0 auto;
             padding: 30px 0 0 0;
-            text-align: center;
+            display: flex;
+            justify-content: center;
         }
 
         .pagination .active {
