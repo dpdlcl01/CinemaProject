@@ -75,6 +75,12 @@
                     <div class="tab" data-status="1" data-target="tab3">상영예정작</div>
                 </div>
 
+                <div class="cell">
+                    <div class="total-count">
+                        <span id="totalMovieCount">0</span>개의 영화가 검색되었습니다.
+                    </div>
+                </div>
+
                 <!-- 검색 영역 -->
                 <div class="search-link clearfix">
                     <div class="cell">
@@ -138,11 +144,15 @@
         const pageSize = 20; // 한 번에 가져올 데이터 수
 
         // 검색 이벤트 리스너
-        searchForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            offsets[currentTab] = 0; // 검색 시 현재 탭 오프셋 초기화
-            searchMovie();
-        });
+        if (searchForm) {
+            searchForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                offsets[currentTab] = 0; // 검색 시 현재 탭 오프셋 초기화
+                searchMovie();
+            });
+        } else {
+            console.error("searchForm not found");
+        }
 
         // 탭 전환 이벤트 리스너
         tabs.forEach(function (tab) {
@@ -152,12 +162,7 @@
                 });
                 this.classList.add("active");
 
-                currentTab = this.getAttribute("data-status");
-                if (!currentTab) {
-                    console.error("Invalid tab status:", currentTab);
-                    return;
-                }
-
+                currentTab = this.getAttribute("data-status") || "all";
                 offsets[currentTab] = 0; // 탭 전환 시 오프셋 초기화
 
                 // 콘텐츠 숨기기 및 선택된 탭 활성화
@@ -186,21 +191,24 @@
 
         // 영화 데이터 검색
         function searchMovie() {
-            const searchForm = document.getElementById("searchForm"); // 폼 요소 가져오기
-            const formData = new FormData(searchForm); // 폼 데이터 생성
-            const movieKeyword = formData.get("movieKeyword"); // 검색어 가져오기
+            const formData = new FormData(searchForm);
+            const movieKeyword = formData.get("movieKeyword");
 
             if (!movieKeyword) {
                 alert("검색어를 입력하세요.");
                 return;
             }
 
-            const url = "UserController?type=movieSearch&movieKeyword=" + encodeURIComponent(movieKeyword) + "&offset=0&pageSize=" + pageSize;
+            const url = "UserController?type=movieSearch&movieKeyword=" +
+                encodeURIComponent(movieKeyword) +
+                "&status=" + (currentTab || "all") +  // currentTab이 null일 경우 기본값 "all"
+                "&offset=0&pageSize=" + pageSize;
+
 
             fetch(url, {
                 method: "GET",
                 headers: {
-                    "X-Requested-With": "XMLHttpRequest", // Ajax 요청 명시
+                    "X-Requested-With": "XMLHttpRequest",
                 },
             })
                 .then(function (response) {
@@ -210,7 +218,17 @@
                     return response.json();
                 })
                 .then(function (data) {
-                    updateMovieList(data.movieArray, "movieList1", "addMovieDiv1", data.totalMovieCount, "all"); // 현재 탭은 all로 고정
+                    const listId = "movieList" + (currentTab === "all" ? 1 : parseInt(currentTab) + 2);
+                    const buttonId = "addMovieDiv" + (currentTab === "all" ? 1 : parseInt(currentTab) + 2);
+
+                    // 현재 탭의 영화 리스트 업데이트
+                    updateMovieList(data.movieArray, listId, buttonId, data.totalMovieCount, currentTab);
+
+                    // 현재 탭의 검색 결과 메시지 업데이트
+                    const totalMovieCountElement = document.getElementById("totalMovieCount");
+                    if (totalMovieCountElement) {
+                        totalMovieCountElement.textContent = data.totalMovieCount;
+                    }
                 })
                 .catch(function (error) {
                     console.error("Error fetching search results:", error);
@@ -218,13 +236,9 @@
         }
 
 
+
         // 영화 데이터 가져오기
         function fetchMovies(status, offset, limit) {
-            if (!status || offset === undefined) {
-                console.error("Invalid status or offset:", status, offset);
-                return;
-            }
-
             const url = "UserController?type=movieMain&status=" + status + "&offset=" + offset + "&pageSize=" + limit;
 
             fetch(url, {
@@ -242,7 +256,15 @@
                 .then(function (data) {
                     const listId = "movieList" + (status === "all" ? 1 : parseInt(status) + 2);
                     const buttonId = "addMovieDiv" + (status === "all" ? 1 : parseInt(status) + 2);
+
+                    // 영화 목록 업데이트
                     updateMovieList(data.movieArray, listId, buttonId, data.totalMovieCount, status);
+
+                    // 영화 개수 업데이트
+                    const totalMovieCountElement = document.getElementById("totalMovieCount");
+                    if (totalMovieCountElement) {
+                        totalMovieCountElement.textContent = data.totalMovieCount;
+                    }
                 })
                 .catch(function (error) {
                     console.error("Error fetching movies:", error);
@@ -285,6 +307,14 @@
                         '<div class="rate-date">' +
                         '<span class="rate">예매율 ' + movie.movieReservationRate + '%</span>' +
                         '<span class="date">개봉일 ' + movie.movieDate + '</span>' +
+                        '</div>' +
+                        '<div class="btn-util">' +
+                        '<button type="button" class="button btn-like">' +
+                        '<i class="far fa-heart"></i>' + movie.movieLikes +
+                        '</button>' +
+                        '<div class="case">' +
+                        '<a href="UserController?type=reservation&movieIdx=' + movie.movieIdx + '" class="button btn1" title="영화 예매하기">예매</a>' +
+                        '</div>' +
                         '</div>';
                     movieList.appendChild(li);
                 });

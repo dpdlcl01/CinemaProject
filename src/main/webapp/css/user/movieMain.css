@@ -98,7 +98,7 @@ h1 {
     transition: all 0.2s ease-in-out;
 }
 #main #section05 .cont-area .main-movie-list .movie-list-info .wrap .summary {
-    height: 150px;
+    height: 200px;
     overflow: hidden;
 }
 #main #section05 .cont-area .main-movie-list .movie-list-info .rank {

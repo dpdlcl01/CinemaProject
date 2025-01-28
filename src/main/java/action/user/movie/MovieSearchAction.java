@@ -17,16 +17,40 @@ public class MovieSearchAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            String movieKeyword = request.getParameter("movieKeyword");
             String offsetParam = request.getParameter("offset");
             String pageSizeParam = request.getParameter("pageSize");
+
+            String movieStatus = request.getParameter("status");
+            String movieKeyword = request.getParameter("movieKeyword");
+
+            // 기본값 설정
+            if (movieStatus == null || movieStatus.isEmpty()) {
+                movieStatus = "all";
+            }
+            if (movieKeyword == null) {
+                movieKeyword = ""; // 빈 문자열로 처리
+            }
 
             int offset = (offsetParam != null && !offsetParam.isEmpty()) ? Integer.parseInt(offsetParam) : 0;
             int pageSize = (pageSizeParam != null && !pageSizeParam.isEmpty()) ? Integer.parseInt(pageSizeParam) : 20;
 
-            // 검색 결과 가져오기
-            int totalMovieCount = MovieDAO.searchMovieCount(movieKeyword);
-            MovieVO[] movieArray = MovieDAO.searchMovieList(movieKeyword, offset, pageSize);
+            int totalMovieCount;
+            MovieVO[] movieArray;
+
+            // movieStatus에 따른 분기 처리
+            switch (movieStatus) {
+                case "all":
+                    totalMovieCount = MovieDAO.searchMovieCount(movieKeyword);
+                    movieArray = MovieDAO.searchMovieList(movieKeyword, offset, pageSize);
+                    break;
+                case "0":
+                case "1":
+                    totalMovieCount = MovieDAO.searchByStatusCount(movieStatus, movieKeyword);
+                    movieArray = MovieDAO.searchByStatusList(movieStatus, movieKeyword, offset, pageSize);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid status: " + movieStatus);
+            }
 
             // Ajax 요청 여부 확인
             String ajaxHeader = request.getHeader("X-Requested-With");
@@ -51,7 +75,7 @@ public class MovieSearchAction implements Action {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "/jsp/error/error.jsp"; // 에러 페이지로 포워딩
+            return "/jsp/user/common/404.jsp"; // 에러 페이지로 포워딩
         }
     }
 }

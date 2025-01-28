@@ -48,6 +48,7 @@
     </select>
 
 
+
     <!-- 영화 검색을 위한 페이징 처리로 일단 전체 검색 결과 개수 -->
     <select id="searchMovieCount" parameterType="String" resultType="int">
         SELECT COUNT(*)
@@ -68,7 +69,25 @@
         LIMIT ${offset}, ${pageSize}
     </select>
 
+    <!-- 영화 검색을 위한 페이징 처리로 영화 상태에 따른 전체 검색 결과 개수 -->
+    <select id="searchByStatusCount" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
+        AND movieRank IS NOT NULL
+    </select>
 
+    <!-- 전체 검색 결과 개수를 바탕으로 영화 상태에 따른 검색 결과 화면에 표현 -->
+    <select id="searchByStatusList" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
+        AND movieRank IS NOT NULL
+        ORDER BY movieReservationRate DESC
+        LIMIT ${offset}, ${pageSize}
+    </select>
 
 
     <!-- 영화 idx를 받아서 사용자 영화 상세 화면으로 해당 영화 정보 반환 -->

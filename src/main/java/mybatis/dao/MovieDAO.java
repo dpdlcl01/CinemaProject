@@ -101,20 +101,6 @@ public class MovieDAO {
         return rank;
     }
 
-    // ----------------------------------------------------- 관리자 ----------------------------------------------
-
-    // 새로운 영화 정보를 API로 받아와서 DB에 저장하는 함수 (관리자)
-    public static int addNewMovie(MovieVO mvo){
-        SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.insert("movie.addNewMovie", mvo);
-        if(cnt > 0)
-            ss.commit();
-        else
-            ss.rollback();
-        ss.close();
-        return cnt;
-    }
-
     // 목록
     public static MovieVO[] getList(int begin, int end) {
         MovieVO[] movieArray = null;
@@ -132,6 +118,10 @@ public class MovieDAO {
         ss.close();
         return movieArray;
     }
+
+
+    // ------------------------------- 검색 --------------------------------
+
 
     // 검색 결과 개수 반환
     public static int searchMovieCount(String movieTitle){
@@ -160,5 +150,49 @@ public class MovieDAO {
         return movieArray;
     }
 
+    // 검색 결과 개수 반환 (영화 상태에 따른)
+    public static int searchByStatusCount(String movieStatus, String movieTitle){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("movieStatus", movieStatus);
+        map.put("movieTitle", movieTitle);
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.selectOne("movie.searchByStatusCount", map);
+        ss.close();
+        return cnt;
+    }
 
+    // 검색 결과 배열 반환 (영화 상태에 따른)
+    public static MovieVO[] searchByStatusList(String movieStatus, String movieTitle, int offset, int pageSize){
+        MovieVO[] movieArray = null;
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("movieStatus", movieStatus);
+        map.put("movieTitle", movieTitle);
+        map.put("offset", String.valueOf(offset));
+        map.put("pageSize", String.valueOf(pageSize));
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> list = ss.selectList("movie.searchByStatusList", map);
+        if (list != null && !list.isEmpty()) {
+            movieArray = new MovieVO[list.size()];
+            list.toArray(movieArray);
+        }
+        ss.close();
+        return movieArray;
+    }
+
+
+    // ----------------------------------------------------- 관리자 ----------------------------------------------
+
+    // 새로운 영화 정보를 API로 받아와서 DB에 저장하는 함수 (관리자)
+    public static int addNewMovie(MovieVO mvo){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.insert("movie.addNewMovie", mvo);
+        if(cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+        return cnt;
+    }
 }
