@@ -31,6 +31,7 @@ public class PaymentController extends HttpServlet {
     private static final String SECRET_KEY = "test_sk_P9BRQmyarYDmP1Mwz94NVJ07KzLN";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("doPost");
         BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
         StringBuilder sb = new StringBuilder();
         String line;
@@ -41,8 +42,9 @@ public class PaymentController extends HttpServlet {
         JSONObject requestData = new JSONObject(sb.toString());
         String paymentKey = requestData.getString("paymentKey");
         String orderId = requestData.getString("orderId");
-
+        System.out.println("📌 클라이언트에서 받은 JSON 데이터: " + requestData.toString());
         JSONObject tossResponse = requestTossPayment(paymentKey);
+        System.out.println(tossResponse.toString());
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
