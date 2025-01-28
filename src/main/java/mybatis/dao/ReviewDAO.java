@@ -37,17 +37,28 @@ public class ReviewDAO {
     }
 
 
-/*    // 영화 idx를 받아서 해당 영화의 리뷰들 반환
-    public static ReviewVO[] getReviewByMovieIdx(String movieIdx) {
-        ReviewVO[] reviewArray = null;
+    // 리뷰창 띄우기 전 해당 영화 관람 여부 확인
+    public static boolean checkWatchedMovie(String userIdx, String movieIdx){
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("userIdx", userIdx);
+        map.put("movieIdx", movieIdx);
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<ReviewVO> rList = ss.selectList("review.getReviewByMovieIdx", movieIdx);
-        if (rList != null && rList.size() > 0) {
-            reviewArray = new ReviewVO[rList.size()];
-            rList.toArray(reviewArray);
-        }
-        return reviewArray;
-    }*/
+        int cnt = ss.selectOne("review.checkWatchedMovie", map);
+        ss.close();
+        return cnt > 0;
+    }
+
+    // 이미 작성한 리뷰인지 확인
+    public static boolean checkReviewWritten(String userIdx, String movieIdx){
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("userIdx", userIdx);
+        map.put("movieIdx", movieIdx);
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.selectOne("review.checkReviewWritten", map);
+        ss.close();
+        return cnt > 0;
+    }
+
 
     // 리뷰 작성
     public static int writeReview(String userIdx, String movieIdx, String reviewRating, String reviewContent){

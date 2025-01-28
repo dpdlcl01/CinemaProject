@@ -24,15 +24,21 @@
         WHERE a.rnum BETWEEN #{begin} AND #{end}
     </select>
 
+    <!-- 해당 영화 관람 여부 확인 -->
+    <select id="checkWatchedMovie" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*)
+        FROM watchedMovie
+        WHERE userIdx = #{userIdx}
+        AND movieIdx = #{movieIdx}
+    </select>
 
-<!--    &lt;!&ndash; 영화 idx를 받아서 해당하는 리뷰 정보 내림차순 반환 &ndash;&gt;
-    <select id="getReviewByMovieIdx" parameterType="String" resultType="mybatis.vo.ReviewVO">
-        SELECT r.*, u.userId FROM review r INNER JOIN user u
-        ON r.userIdx = u.userIdx
-        WHERE movieIdx = #{movieIdx}
-        AND reviewStatus = 0
-        ORDER BY reviewDate DESC
-    </select>-->
+    <!-- 이미 작성한 리뷰인지 확인 -->
+    <select id="checkReviewWritten" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*)
+        FROM review
+        WHERE userIdx = #{userIdx}
+        AND movieIdx = #{movieIdx}
+    </select>
 
     <!-- 리뷰 작성 -->
     <insert id="writeReview" parameterType="mybatis.vo.ReviewVO">
