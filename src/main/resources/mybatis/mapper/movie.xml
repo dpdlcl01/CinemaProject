@@ -29,6 +29,24 @@
         LIMIT ${offset}, ${pageSize}
     </select>
 
+    <!-- 영화 상태에 따른 개수 반환 -->
+    <select id="movieCountByStatus" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieRank IS NOT NULL
+    </select>
+
+    <!-- 영화 상태에 따른 영화 목록 offset 부터 pageSize만큼의 행 가져오기 -->
+    <select id="getMovieListByStatus" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieRank IS NOT NULL
+        ORDER BY movieReservationRate DESC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
 
     <!-- 영화 검색을 위한 페이징 처리로 일단 전체 검색 결과 개수 -->
     <select id="searchMovieCount" parameterType="String" resultType="int">
