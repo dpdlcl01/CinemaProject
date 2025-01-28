@@ -193,24 +193,48 @@
     </div>
   </div>
 </div>
+
 <!-- script 영역 -->
 <script>
   const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
 
+
   let totalPrice = parseInt(document.getElementsByClassName("payment-value final")[0].innerText.trim(), 10);
   function requestPayment() {
-    tossPayments.requestPayment('카드', { // 결제 수단 (예: 카드, 계좌이체 등)
-      amount: totalPrice, // 결제 금액 (예: 5000원)
-      orderId: "order-12345", // 주문 ID (서버에서 생성해야 함)
-      orderName: document.getElementsByClassName("movie-title")[0].innerText, // 상품명
-      customerEmail: "user@example.com", // 고객 이메일
+    tossPayments.requestPayment('카드', {
+      amount: totalPrice,
+      orderId: "order-12345",
+      orderName: document.getElementsByClassName("movie-title")[0].innerText,
+      customerEmail: "user@example.com",
       successUrl: "http://localhost:8081/CinemaProject/jsp/user/store/paymentSuccess.jsp",
-      failUrl: "http://localhost:8081/UserController?type=success", // 결제 실패 시 이동할 페이지
+      failUrl: "http://localhost:8081/CinemaProject/jsp/user/store/paymentFail.jsp",
     })
+            .then(function(response) { // 결제 성공 후 실행될 콜백 함수
+              fetch("http://localhost:8081/PaymentController", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  paymentKey: response.paymentKey,
+                  orderId: response.orderId
+                })
+              })
+                      .then(res => res.json())
+                      .then(data => {
+                        if (data.success) {
+                          window.location.href = "/paymentSuccess.jsp";
+                        } else {
+                          alert("결제 데이터 저장 중 오류가 발생했습니다.");
+                        }
+                      })
+                      .catch(error => console.error("서버 요청 오류:", error));
+            })
             .catch(function (error) {
               console.error(error);
               alert("결제 중 오류가 발생했습니다. 다시 시도해 주세요.");
             });
+
     return false;
   }
 
