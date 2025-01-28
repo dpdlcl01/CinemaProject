@@ -3,6 +3,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,18 +15,18 @@
 <body>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>
-<div class="contents">
-  <div class="page-util">
-    <div class="inner-wrap">
-      <div class="location">
-        <span>Home</span>
-        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-        <label>예매</label>
-        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-        <label>빠른예매</label>
-      </div>
+<div class="page-util">
+  <div class="inner-wrap">
+    <div class="location">
+      <span>Home</span>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>예매</label>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>빠른예매</label>
     </div>
   </div>
+</div>
+<div class="contents">
   <div class="res-main">
     <h1 class="res-title">빠른예매</h1>
     <div class="seat-selection-container">
@@ -47,7 +48,6 @@
           <button class="reset">초기화</button>
         </div>
         <%-- screenType에 따라 다른 레이아웃 출력 --%>
-
         <%
           Integer screenType = (Integer) request.getAttribute("screenType"); // 전달받은 screenType 값
           System.out.println(screenType);
@@ -617,14 +617,16 @@
         <div class="movie-info">
           <div class="movie-text-group">
             <p class="movie-title">${movieVO.movieTitle}</p>
-            <p class="movie-type">${movieType}</p>
+            <p class="movie-runningTime">${movieVO.movieTime}분</p>
           </div>
         </div>
         <div class="movie-info-area">
           <div class="movie-details">
-            <%--                        <p class="theater-info">${}</p>--%>
-            <p class="movie-date">${showtime.screenIdx}</p>
-            <p class="movie-time">13:50~15:54</p>
+            <p class="movie-type">${movieType} ${screenIdx}관</p>
+            <p class="movie-time">
+              ${formattedDate} <br>
+              ${formattedStartTime} ~ ${formattedEndTime}
+            </p>
           </div>
           <img src="${movieVO.moviePosterUrl}" alt="검은 수녀들 포스터" class="poster">
         </div>

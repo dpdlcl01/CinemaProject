@@ -5,6 +5,7 @@ import mybatis.dao.ReservationDAO;
 import mybatis.dao.SeatDAO;
 import mybatis.vo.MovieVO;
 import mybatis.vo.SeatVO;
+import mybatis.vo.TimetableVO;
 import mybatis.vo.UserVO;
 import util.SessionUtil;
 
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SeatAction implements Action {
     @Override
@@ -22,7 +26,6 @@ public class SeatAction implements Action {
         if (uservo == null) {
             return "UserController?type=main";
         }
-
 
         // 영화, 극장, 시간표 정보를 가져오기
         String movieIdx = request.getParameter("movieIdx");
@@ -80,6 +83,26 @@ public class SeatAction implements Action {
         MovieVO movieVO = ReservationDAO.movieDetailList(movieIdx);
         request.setAttribute("movieVO", movieVO);
         System.out.println(movieVO.getMovieIdx());
+
+        // 영화 상영시간표 상세 정보 가져오기
+        TimetableVO timetableVO = ReservationDAO.timetableDetailList(timetableIdx);
+        if (timetableVO != null) {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd (E)"); // 2025-01-29 (수)
+            SimpleDateFormat outputTimeFormat = new SimpleDateFormat("HH:mm"); // 09:00 ~ 10:54
+
+            try {
+                Date startTime = inputFormat.parse(timetableVO.getTimetableStartTime());
+                Date endTime = inputFormat.parse(timetableVO.getTimetableEndTime());
+
+                request.setAttribute("formattedDate", outputDateFormat.format(startTime)); // 날짜
+                request.setAttribute("formattedStartTime", outputTimeFormat.format(startTime)); // 시작 시간
+                request.setAttribute("formattedEndTime", outputTimeFormat.format(endTime)); // 종료 시간
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        request.setAttribute("timetableVO", timetableVO);
 
         // 좌석 선택 화면으로 이동
         return "./jsp/user/reservation/reservationSeat.jsp";

@@ -19,7 +19,7 @@ public class ReservationDAO {
         HashMap<String, Object> map = new HashMap<>();
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<MovieVO> list = ss.selectList("movie.movieList", map);
+        List<MovieVO> list = ss.selectList("reservation.movieList", map);
         if (list != null && !list.isEmpty()) {
             ar = new MovieVO[list.size()];
             list.toArray(ar);
@@ -72,7 +72,7 @@ public class ReservationDAO {
 
         SqlSession ss = FactoryService.getFactory().openSession();
         try {
-            List<TimetableVO> list = ss.selectList("timetable.allTimetable", map);
+            List<TimetableVO> list = ss.selectList("reservation.allTimetable", map);
             System.out.println("입력된 theaterIdx: " + theaterIdx);
             System.out.println("입력된 movieIdx: " + movieIdx);
             System.out.println("입력된 targetDate: " + targetDate);
@@ -95,8 +95,18 @@ public class ReservationDAO {
         MovieVO vo = null;
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        vo = ss.selectOne("movie.movieDetail", movieIdx);
+        vo = ss.selectOne("reservation.movieDetail", movieIdx);
 
+        ss.close();
+        return vo;
+    }
+
+    // 좌석 선택 후 상영 시간표 조회
+    public static TimetableVO timetableDetailList(String timetableIdx) {
+        TimetableVO vo = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        vo = ss.selectOne("reservation.timetableDetail", timetableIdx);
         ss.close();
         return vo;
     }

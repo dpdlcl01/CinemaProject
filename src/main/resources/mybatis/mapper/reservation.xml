@@ -8,4 +8,37 @@
         INSERT INTO reservation *
         VALUES (#{userIdx}, #{theaterIdx}, #{movieIdx}, #{timetableIdx}, NOW(), 0)
     </insert>
+
+    <!-- 예매 가능한 영화 조회  -->
+    <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+    </select>
+
+    <!-- 특정 영화 및 극장의 모든 상영 시간표 조회 -->
+    <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">
+        SELECT t.timetableIdx, t.timetableStartTime, t.timetableEndTime, t.movieIdx, t.theaterIdx, t.screenIdx,
+        s.screenName AS screenName, s.screenType AS screenType
+        FROM timetable t
+        JOIN screen s ON t.screenIdx = s.screenIdx
+        WHERE t.theaterIdx = #{theaterIdx}
+        AND t.movieIdx = #{movieIdx} AND DATE(t.timetableStartTime) = #{targetDate}
+        ORDER BY t.timetableStartTime ASC
+    </select>
+
+    <!--  영화 정보 상세 조회 (seat)  -->
+    <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
+    <!--  영화 시간 정보 상세 조회 (seat)  -->
+    <select id="timetableDetail" parameterType="String" resultType="mybatis.vo.TimetableVO">
+        SELECT *
+        FROM timetable
+        WHERE timetableIdx = #{timetableIdx}
+    </select>
+
 </mapper>

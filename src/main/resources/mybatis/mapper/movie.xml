@@ -64,17 +64,4 @@
         #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus})
     </insert>
 
-    <!-- 예매 가능한 영화 조회  -->
-    <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
-        SELECT *
-        FROM movie
-        WHERE movieStatus = 0 OR movieStatus = 1
-    </select>
-    <!--  영화 정보 상세 조회 (seat)  -->
-    <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">
-        SELECT *
-        FROM movie
-        WHERE movieIdx = #{movieIdx}
-    </select>
-
 </mapper>

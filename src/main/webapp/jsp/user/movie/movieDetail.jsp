@@ -665,7 +665,6 @@
         console.log(`Updating movieLikes for movieIdx: ${movieIdx}`);
         console.log(`Element ID: wantsee-${movieIdx}`);
         console.log(document.getElementById(`wantsee-${movieIdx}`)); // null이면 선택자가 문제
-
     }
 
 

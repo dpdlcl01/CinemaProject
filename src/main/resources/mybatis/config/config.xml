@@ -27,7 +27,6 @@
         <mapper resource="mybatis/mapper/review.xml"/>
         <mapper resource="mybatis/mapper/theater.xml"/>
         <mapper resource="mybatis/mapper/reservation.xml"/>
-        <mapper resource="mybatis/mapper/timetable.xml"/>
         <mapper resource="mybatis/mapper/seat.xml"/>
         <mapper resource="mybatis/mapper/product.xml"/>
         <mapper resource="mybatis/mapper/event.xml"/>

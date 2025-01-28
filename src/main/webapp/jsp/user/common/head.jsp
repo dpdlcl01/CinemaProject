@@ -25,7 +25,7 @@
 
 <!-- 외부CSS 연결하기 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css?v=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userMain.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

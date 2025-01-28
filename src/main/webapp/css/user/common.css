@@ -353,6 +353,8 @@
   background-image: url(images/gnb-txt-notice-black.png);
   right: 150px;
   width: 31px;
+  position: absolute;
+  top: 50px;
 }
 #header #gnb .gnb-depth2 {
   position: absolute;

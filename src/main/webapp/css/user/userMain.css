@@ -48,6 +48,8 @@
     background-image: url(images/gnb-txt-notice-white.png);
     right: 150px;
     width: 31px;
+    position: absolute;
+    top: 50px;
 }
 .main-page #header .link-area .sitemap {
     background-image: url(images/ico-sitemap-white.png);
@@ -64,6 +66,7 @@
     background-image: url(images/ico-mymega-white.png);
     right: 0;
 }
+
 
 
 
