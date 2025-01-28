@@ -1,6 +1,8 @@
 package action.user.movie;
 
 import action.Action;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.dao.MovieDAO;
 import mybatis.dao.ReviewDAO;
 import mybatis.vo.MovieVO;
@@ -9,14 +11,22 @@ import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MovieDetailAction implements Action {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // movieIdx 파라미터 받기
         String movieIdx = request.getParameter("movieIdx");
@@ -84,13 +94,6 @@ public class MovieDetailAction implements Action {
         request.setAttribute("reviewArray", reviewArray);
         request.setAttribute("page", page);
 
-        /*// 추후에 ReviewAction으로 빼거나 탭에서 따로 호출하는 코드로 변경
-        ReviewVO[] reviewArray = ReviewDAO.getReviewByMovieIdx(movieIdx);
-        if (reviewArray == null) {
-            reviewArray = new ReviewVO[0]; // 빈 배열로 초기화
-        }
-        request.setAttribute("reviewArray", reviewArray);*/
-
         // 리뷰 평점 평균 계산
         float totalRating = 0;
         float averageRating = 0;
@@ -103,6 +106,71 @@ public class MovieDetailAction implements Action {
             averageRating = totalRating / reviewArray.length;
         }
         request.setAttribute("averageRating", averageRating);
+
+
+        // **TMDB 예고편 데이터 가져오기**
+        String tmdbApiKey = "8b259fc8ed83e644b26793b12795b088"; // TMDB API 키
+        String movieTmdbId = mvo.getMovieTmdbId(); // TMDB ID 가져오기
+
+        // movieTmdbId가 없는 경우 예외 처리
+        if (movieTmdbId == null || movieTmdbId.trim().isEmpty()) {
+            request.setAttribute("tmdbTrailers", null);
+            request.setAttribute("errorMessage", "이 영화에 대한 예고편 정보가 없습니다.");
+            return "/jsp/user/movie/movieDetail.jsp";
+        }
+
+        // TMDB 예고편 API 호출 URL 구성
+        String tmdbApiUrl = "https://api.themoviedb.org/3/movie/" + movieTmdbId + "/videos?api_key=" + tmdbApiKey + "&language=ko-KR";
+
+        // TMDB API 호출
+        URL tmdbUrl = new URL(tmdbApiUrl);
+        HttpURLConnection tmdbConn = (HttpURLConnection) tmdbUrl.openConnection();
+        tmdbConn.setRequestMethod("GET");
+        tmdbConn.setRequestProperty("Content-Type", "application/json");
+
+        // JSON 파싱
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode tmdbRoot = mapper.readTree(tmdbConn.getInputStream());
+        JsonNode videos = tmdbRoot.get("results");
+
+        // TMDB 데이터 추출 (YouTube 예고편만 필터링)
+        List<Map<String, String>> trailerList = new ArrayList<>(); // 예고편 데이터를 저장할 리스트
+        Map<String, String> mainTrailer = null; // 메인 예고편 저장
+
+        for (JsonNode video : videos) {
+            if ("YouTube".equals(video.get("site").asText())) {
+                String videoKey = video.get("key").asText();
+                String videoName = video.get("name").asText();
+                String videoType = video.get("type").asText();
+
+                Map<String, String> trailer = new HashMap<>();
+                trailer.put("videoKey", videoKey);
+                trailer.put("videoName", videoName);
+                trailer.put("videoType", videoType);
+
+                // "메인"이 포함된 경우 우선적으로 메인 예고편 설정
+                if (mainTrailer == null && videoName.contains("메인")) {
+                    mainTrailer = trailer;
+                }
+
+                // 메인 예고편이 설정되지 않았고 타입이 "Trailer"인 경우
+                if (mainTrailer == null && "Trailer".equals(videoType)) {
+                    mainTrailer = trailer;
+                }
+
+                trailerList.add(trailer);
+            }
+        }
+
+        // 메인 예고편이 없으면 리스트의 첫 번째 동영상을 기본값으로 설정
+        if (mainTrailer == null && !trailerList.isEmpty()) {
+            mainTrailer = trailerList.get(0);
+        }
+
+        // JSP로 메인 예고편과 전체 예고편 리스트 전달
+        request.setAttribute("mainTrailer", mainTrailer);
+        request.setAttribute("tmdbTrailers", trailerList);
+
 
         // 추가: activeTab 값 처리
         String activeTab = request.getParameter("activeTab");

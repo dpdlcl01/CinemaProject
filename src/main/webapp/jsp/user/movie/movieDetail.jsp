@@ -104,7 +104,21 @@
             background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
         }
 
-        /* 모달 배경 */
+         #result-zero {
+             margin: 50px auto; /* 위아래 여백과 가로 중앙 정렬 */
+             padding: 50px 0; /* 내부 여백 */
+             text-align: center; /* 텍스트 가운데 정렬 */
+             font-size: 18px; /* 글자 크기 */
+             font-weight: bold; /* 글자 굵게 */
+             color: #333; /* 글자 색상 */
+             border-top: 1px solid #ddd; /* 위쪽 구분선 */
+             border-bottom: 1px solid #ddd; /* 아래쪽 구분선 */
+             width: 100%; /* 가로 너비 (부모 요소 대비) */
+             box-sizing: border-box; /* 패딩 포함한 크기 조정 */
+         }
+
+
+    /* 모달 배경 */
         .modal-layer {
             position: fixed;
             top: 0;
@@ -564,10 +578,6 @@
                 </div>
             </section>
 
-
-
-
-
             <!-- //실관람평 -->
         </div>
 
@@ -576,31 +586,53 @@
             <!-- 예고편 -->
             <div class="trailer">
                 <h2 class="trailerTitle">예고편</h2>
-                <div class="mainTrailer">
-                    <video class="mainVideo" controls
-                           poster="https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg">
-                        <source src="https://s3550.smartucc.kr/encodeFile/3550/2025/01/06/4528a56245b5eff8dd1b225e527db15b_W.mp4">
-                    </video>
-                </div>
-                <div class="thumbnails">
-                    <!-- 첫 번째 썸네일 -->
-                    <div class="thumbnail" onclick="changeMainVideo('https://s3550.smartucc.kr/encodeFile/3550/2025/01/06/4528a56245b5eff8dd1b225e527db15b_W.mp4'
-                                , 'https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg')">
-                        <!-- 썸네일을 클릭할 때 해당 URL로 메인 영상을 변경하는 JavaScript 함수 실행 -->
-                        <img src="https://img.megabox.co.kr/SharedImg/2025/01/06/zzqR43UsTMypGFC5MnNWhUAXTHwTj03L_1100.jpg"
-                             alt="Video 1"> <!-- 썸네일 이미지 -->
-                    </div>
 
-                    <!-- 두 번째 썸네일 -->
-                    <div class="thumbnail" onclick="changeMainVideo('https://s3550.smartucc.kr/encodeFile/3550/2025/01/10/4766006f1373165351b9eb69e5e5f04a_W.mp4'
-                                , 'https://img.megabox.co.kr/SharedImg/2025/01/10/cJYxrKQNE9mdtVQLTNCnmmUxCqvZomlR_1100.jpg')">
-                        <img src="https://img.megabox.co.kr/SharedImg/2025/01/10/cJYxrKQNE9mdtVQLTNCnmmUxCqvZomlR_1100.jpg"
-                             alt="Video 2"> <!-- 썸네일 이미지 -->
+                <c:choose>
+                    <%-- 예고편 데이터가 없는 경우 --%>
+                    <c:when test="${empty tmdbTrailers}">
+                        <div id="result-zero">해당 영화의 예고편이 존재하지 않습니다.</div>
+                    </c:when>
+
+                    <%-- 예고편 데이터가 있는 경우 --%>
+                    <c:otherwise>
+                        <c:if test="${not empty mainTrailer}">
+                            <div class="mainTrailer" style="text-align: center; margin-bottom: 20px;">
+                                <iframe id="mainTrailer" width="800" height="450" frameborder="0" allowfullscreen
+                                        src="https://www.youtube.com/embed/${mainTrailer.videoKey}?rel=0&autoplay=1">
+                                </iframe>
+                            </div>
+                        </c:if>
+
+                        <div class="thumbnails" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                            <c:forEach var="trailer" items="${tmdbTrailers}">
+                                <div class="thumbnail"
+                                     onclick="changeMainVideo('${trailer.videoKey}')"
+                                     style="width: 120px; text-align: center; cursor: pointer;">
+                                    <img src="https://img.youtube.com/vi/${trailer.videoKey}/hqdefault.jpg"
+                                         alt="${trailer.videoName}"
+                                         style="width: 100%; height: auto; border-radius: 8px;">
+                                    <p style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 5px;">
+                                        <c:out value="${trailer.videoName}" />
+                                    </p>
+                                </div>
+                            </c:forEach>
+                        </div>
                     </div>
-                </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <!-- //예고편 -->
+
+        <script>
+            function changeMainVideo(videoKey) {
+                var iframe = document.getElementById("mainTrailer");
+                iframe.src = "https://www.youtube.com/embed/" + videoKey + "?rel=0&autoplay=1";
+            }
+        </script>
         </div>
+
+
+
+
     </div>
 </div>
 </c:if>
@@ -906,16 +938,6 @@
     //     });
     // });
 
-    /* 예고편 변경 부분 */
-    function changeMainVideo(videoUrl, posterUrl) {
-        const currentTab = document.querySelector('.content.active');
-        const mainVideo = currentTab.querySelector('.mainVideo');
-        const mainVideoSource = mainVideo.querySelector('source');
-
-        mainVideoSource.src = videoUrl;
-        mainVideo.poster = posterUrl;
-        mainVideo.load();
-    }
 
 
     document.querySelector(".button.purple").addEventListener("click", function () {

@@ -123,13 +123,18 @@
 
     <!-- 관리자 모드에서 OPEN API를 이용하여 영화 정보를 DB에 저장 -->
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
-        INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
-        movieDirector, movieActors, movieInfo, moviePosterUrl,
+        INSERT INTO movie(movieCd, movieTmdbId, movieTitle, movieTitleEn, movieGenre, movieNation,
+        movieTime, movieGrade, movieDate, movieDirector, movieActors, movieInfo, moviePosterUrl,
         movieRank, movieReservationRate, movieTotalAudience, movieLikes, movieStatus)
-        VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
-        #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl},
+        VALUES (#{movieCd}, #{movieTmdbId}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieNation}
+        #{movieTime}, #{movieGrade}, #{movieDate}, #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl},
         #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus})
     </insert>
+
+
+
+
+
 
     <!-- 예매 가능한 영화 조회  -->
     <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
