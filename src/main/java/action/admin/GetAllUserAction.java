@@ -26,11 +26,9 @@ public class GetAllUserAction implements Action {
 
         Paging paging = new Paging(10, 5);
         int totalCount = AdminDAO.getTotalUserCount(searchType, searchKeyword);
-        System.out.println("totalCount entry.. : " + totalCount);
         paging.setTotalRecord(totalCount);
 
         String cPage = request.getParameter("cPage");
-        System.out.println("cPage entry.. : " + cPage);
         if (cPage == null || cPage.isEmpty()) {
             paging.setNowPage(1);
         } else {
@@ -45,15 +43,12 @@ public class GetAllUserAction implements Action {
         if (begin < 0) begin = 0; // 음수 방지
 
         List<UserVO> users = AdminDAO.getUsersByPage(begin, paging.getNumPerPage(), searchType, searchKeyword);
-        System.out.println("user entry.. : "+ users );
+
 
         request.setAttribute("users", users);
         request.setAttribute("paging", paging);
-        System.out.println("paging entry.. : " + paging);
         request.setAttribute("searchType", searchType);
-        System.out.println("searchType entry.. : " + searchType);
         request.setAttribute("searchKeyword", searchKeyword);
-        System.out.println("searchKeyword entry.. : " + searchKeyword);
 
         return "/jsp/admin/userList.jsp?type=userlist";
     }

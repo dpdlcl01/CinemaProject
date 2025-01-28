@@ -30,4 +30,18 @@ public class AdminDAO {
             return ss.selectList("admin.getUsersByPage", params);
         }
     }
+
+    public UserVO getUserById(int userIdx) {
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            return ss.selectOne("admin.getUserById", userIdx);
+        }
+    }
+
+    public boolean updateUser(UserVO user) {
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            int rowsAffected = ss.update("UserMapper.updateUser", user);
+            ss.commit();
+            return rowsAffected > 0;
+        }
+    }
 }

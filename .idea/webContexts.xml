@@ -4,14 +4,15 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/Admission-Ticket.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/admin/userList.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/MyInfo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/Reservation.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common/main.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/footer.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/myinfo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/reservation/reservationSeat.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/reservation" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/register/reg_Result/registerSuccess.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/register/reg_Result" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/register/register.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/register" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/reservation/reservationSeat.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/reservation" />
       </map>
     </option>
   </component>

@@ -7,7 +7,9 @@
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
     .admin-contents {
         width: 100%;
@@ -250,10 +252,10 @@
                     <div class="total-count">전체 ${paging.totalRecord}건</div>
                     <form method="get" action="${pageContext.request.contextPath}/AdminController">
                         <input type="hidden" name="type" value="userlist"/>
-                        <select id= "searchType" name="searchType">
-                            <option value="userId" id="userId" name="userId" ${searchType == 'userName' ? 'selected' : ''}>아이디</option>
-                            <option value="userName" id="userName" name="userName" ${searchType == 'userEmail' ? 'selected' : ''}>이름</option>
-                            <option value="userGrade" id="userGrade" name="userGrade" ${searchType == 'userGrade' ? 'selected' : ''}>등급</option>
+                        <select id="searchType" name="searchType">
+                            <option value="name" ${searchType == 'name' ? 'selected' : ''}>이름</option>
+                            <option value="id" ${searchType == 'id' ? 'selected' : ''}>아이디</option>
+                            <option value="grade" ${searchType == 'grade' ? 'selected' : ''}>등급</option>
                         </select>
                         <input type="text" name="searchKeyword" value="${searchKeyword}" placeholder="검색어 입력">
                         <button type="submit">검색</button>
@@ -276,6 +278,7 @@
                     <tbody>
                     <c:forEach var="user" items="${users}" varStatus="status">
                         <tr>
+                            <input type="hidden" name="userIdx" class="userIdx" value="${user.userIdx}">
                             <td>${(paging.nowPage - 1) * paging.numPerPage + status.index + 1}</td>
                             <td>${user.userName}</td>
                             <td>${user.userId}</td>
@@ -284,11 +287,17 @@
                             <td>${user.userPoint}</td>
                             <td>${user.userGrade}</td>
                             <td>${user.userStatus}</td>
+                            <td><button class="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" data-userIdx="${user.userIdx}">수정</button></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="9">디버깅: userIdx = ${user.userIdx}</td>
                         </tr>
                     </c:forEach>
 
+                    <!-- 사용자가 없을 경우 -->
                     <c:if test="${fn:length(users) == 0}">
-                        <tr><td colspan="8">사용자가 없습니다.</td></tr>
+                        <tr><td colspan="9">사용자가 없습니다.</td></tr>
                     </c:if>
                     </tbody>
                 </table>
@@ -314,12 +323,100 @@
                     </c:if>
                 </nav>
 
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h5 class="modal-title">사용자 정보 수정</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal Form -->
+                            <form id="editForm" method="post" action="/AdminController?action=updateUser">
+                                <div class="modal-body">
+                                    <!-- Hidden input for userIdx -->
+                                    <input type="hidden" name="userIdx" id="userIdx">
+
+                                    <!-- 이름 -->
+                                    <div class="form-group">
+                                        <label for="userName">이름</label>
+                                        <input type="text" name="userName" id="userName" class="form-control">
+                                    </div>
+
+                                    <!-- 이메일 -->
+                                    <div class="form-group">
+                                        <label for="userEmail">이메일</label>
+                                        <input type="email" name="userEmail" id="userEmail" class="form-control">
+                                    </div>
+
+                                    <!-- 전화번호 -->
+                                    <div class="form-group">
+                                        <label for="userPhone">전화번호</label>
+                                        <input type="text" name="userPhone" id="userPhone" class="form-control">
+                                    </div>
+
+                                    <!-- 포인트 -->
+                                    <div class="form-group">
+                                        <label for="userPoint">포인트</label>
+                                        <input type="number" name="userPoint" id="userPoint" class="form-control">
+                                    </div>
+
+                                    <!-- 등급 -->
+                                    <div class="form-group">
+                                        <label for="userGrade">등급</label>
+                                        <input type="text" name="userGrade" id="userGrade" class="form-control">
+                                    </div>
+                                </div>
+
+                                <!-- Modal Footer -->
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">저장</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
 
+
+    <script>
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const userIdx = this.getAttribute('data-userIdx'); // 버튼에서 userIdx 값 가져오기
+                if (!userIdx) {
+                    console.error("userIdx 값이 없습니다.");
+                    alert("사용자 정보를 불러올 수 없습니다.");
+                    return;
+                }
+
+                console.log(`Fetching data for userIdx: ${userIdx}`);
+
+                // Ajax 요청
+                fetch(`/AdminController?type=getUser&userIdx=${userIdx}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById('userName').value = data.userName || '';
+                        document.getElementById('userEmail').value = data.userEmail || '';
+                        document.getElementById('userPhone').value = data.userPhone || '';
+                        document.getElementById('userPoint').value = data.userPoint || '';
+                        document.getElementById('userGrade').value = data.userGrade || '';
+                    })
+                    .catch(error => {
+                        console.error("데이터를 가져오는 중 오류 발생:", error);
+                        alert(error.message);
+                    });
+            });
+        });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
