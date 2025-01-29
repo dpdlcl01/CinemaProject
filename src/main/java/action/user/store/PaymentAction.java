@@ -7,7 +7,7 @@ import util.SessionUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import java.util.UUID;
 public class PaymentAction implements Action {
 
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -17,13 +17,16 @@ public class PaymentAction implements Action {
         if (uservo == null) {
             return "UserController?type=main";
         }
-
+        String orderId = "order-" + UUID.randomUUID().toString();
         String quant = request.getParameter("productQuant");
         String price = request.getParameter("productPrice");
         String name = request.getParameter("productName");
         String category = request.getParameter("productCategory");
         String img = request.getParameter("productImg");
+        String pIdx = request.getParameter("productIdx");
 
+        request.setAttribute("pIdx", pIdx);
+        request.setAttribute("orderId", orderId);
         request.setAttribute("quant", quant);
         request.setAttribute("price", price);
         request.setAttribute("name", name);

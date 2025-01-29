@@ -54,6 +54,9 @@
   .payment-main{
     height: 750px;
   }
+  .hidden{
+    display: none;
+  }
 </style>
 <body>
 <!-- header 영역 -->
@@ -193,20 +196,22 @@
     </div>
   </div>
 </div>
-
+<div id="orderId" class="hidden">${requestScope.orderId}</div>
+<div id="pIdx">${requestScope.pIdx} 안녕하세요</div>
 <!-- script 영역 -->
 <script>
   const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
-
-
+  let pIdx = document.getElementById("pIdx").innerText.trim();
+  let successUrl = "http://localhost:8081/CinemaProject/UserController?type=success&pIdx=${pIdx}";
   let totalPrice = parseInt(document.getElementsByClassName("payment-value final")[0].innerText.trim(), 10);
+
   function requestPayment() {
     tossPayments.requestPayment('카드', { // 결제 수단 (예: 카드, 계좌이체 등)
       amount: totalPrice, // 결제 금액 (예: 5000원)
-      orderId: "order-12345", // 주문 ID (서버에서 생성해야 함)
+      orderId: document.getElementById("orderId").innerHTML, // 주문 ID (서버에서 생성해야 함)
       orderName: document.getElementsByClassName("movie-title")[0].innerText, // 상품명
-      customerEmail: "user@example.com", // 고객 이메일
-      successUrl: "http://localhost:8081/CinemaProject/UserController?type=success",
+      customerEmail: "qwe@naver.com", // 고객 이메일
+      successUrl: successUrl,
       failUrl: "http://localhost:8081/CinemaProject/jsp/user/store/paymentFail.jsp", // 결제 실패 시 이동할 페이지
     })
             .catch(function (error) {
