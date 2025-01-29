@@ -27,7 +27,7 @@ public class SeatDAO {
     }
 
     // 특정 좌석의 가격 정보 가져오기
-    public static int getSeatPrice(String screenType, String ageGroup, String dayOfWeek, String timeOfDay) {
+    public static int getSeatPrice(String screenType, String ageGroup, int dayOfWeek, int timeOfDay) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("screenType", screenType);
         map.put("ageGroup", ageGroup);
@@ -37,8 +37,16 @@ public class SeatDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
         Integer price = ss.selectOne("seat.getSeatPrice", map);
         ss.close();
-        return price != null ? price : 0;
+//        return price != null ? price : 0;
+        if (price == null) {
+            System.out.println("❌ 데이터가 조회되지 않음 (null 반환)");
+            return 0;
+        }
+        System.out.println("✅ 조회된 가격: " + price);
+        return price;
+
     }
+
 
     // 특정 좌석의 상태 업데이트 (예: 예약됨, 임시 확보 등)
     public static boolean updateSeatStatus(String seatIdx, String seatStatus) {

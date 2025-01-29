@@ -19,11 +19,14 @@
     <!-- 특정 영화 및 극장의 모든 상영 시간표 조회 -->
     <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">
         SELECT t.timetableIdx, t.timetableStartTime, t.timetableEndTime, t.movieIdx, t.theaterIdx, t.screenIdx,
-        s.screenName AS screenName, s.screenType AS screenType
+        s.screenName AS screenName, s.screenType AS screenType,
+        s.screenSeatCount AS screenSeatCount,
+        (SELECT COUNT(*) FROM seat se WHERE se.screenIdx = t.screenIdx AND se.seatStatus = 0) AS seatStatus
         FROM timetable t
         JOIN screen s ON t.screenIdx = s.screenIdx
         WHERE t.theaterIdx = #{theaterIdx}
         AND t.movieIdx = #{movieIdx} AND DATE(t.timetableStartTime) = #{targetDate}
+        GROUP BY t.timetableIdx, s.screenName, s.screenType, s.screenSeatCount
         ORDER BY t.timetableStartTime ASC
     </select>
 
@@ -39,6 +42,13 @@
         SELECT *
         FROM timetable
         WHERE timetableIdx = #{timetableIdx}
+    </select>
+
+    <!--  극장 정보 상세 조회 (seat)  -->
+    <select id="theaterDetail" parameterType="String" resultType="mybatis.vo.TheaterVO">
+        SELECT *
+        FROM theater
+        WHERE theaterIdx = #{theaterIdx}
     </select>
 
 </mapper>

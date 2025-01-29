@@ -65,7 +65,6 @@
     color: blue; /* 선택된 날짜 강조 색상 */
 }
 
-
 /* 메인 컨텐츠 */
 .content {
     display: grid;
@@ -148,4 +147,3 @@
     font-weight: bold; /* 글자 굵게 */
     border: 1px solid #00f; /* 선택된 항목 테두리 */
 }
-

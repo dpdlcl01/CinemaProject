@@ -11,7 +11,7 @@
   <jsp:include page="../common/head.jsp"/>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/seat.css?v=1.0">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/seat.css">
 <body>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>
@@ -615,6 +615,7 @@
       <!-- 영화 정보 -->
       <div class="movie-container">
         <div class="movie-info">
+          <img src="${pageContext.request.contextPath}/css/user/images/ratings/${movieVO.movieGrade}.png" alt="${movieVO.movieGrade}등급" class="movie-grade-image"/>
           <div class="movie-text-group">
             <p class="movie-title">${movieVO.movieTitle}</p>
             <p class="movie-runningTime">${movieVO.movieTime}분</p>
@@ -622,6 +623,7 @@
         </div>
         <div class="movie-info-area">
           <div class="movie-details">
+            <p class="movie-type">${theaterVO.theaterName}</p>
             <p class="movie-type">${movieType} ${screenIdx}관</p>
             <p class="movie-time">
               ${formattedDate} <br>
@@ -660,7 +662,7 @@
         </div>
         <div class="payment-summary">
           <div class="info">
-            <p class="details">성인 2</p>
+            <p class="details">성인 <span id="adult-count">0</span>명 / 청소년 <span id="student-count">0</span>명</p>
             <p class="final-payment">
               <span class="label">최종결제금액</span>
               <span id="totalAmount" class="amount">0 원</span>
@@ -681,41 +683,72 @@
   document.addEventListener('DOMContentLoaded', () => {
     const maxSeats = 8; // 최대 선택 가능 인원
     const selectedSeats = new Set(); // 선택된 좌석 저장
-    let adultCount = 0; // 성인 인원
-    let studentCount = 0; // 청소년 인원
+    let adultCount = 0;
+    let studentCount = 0;
     const totalAmountElement = document.getElementById('totalAmount');
+    const mySeatContainer = document.querySelector('.my-seat'); // 선택한 좌석 표시 영역
 
-    // 좌석 선택
+    // JSP에서 가격 정보를 가져올 때 기본값 설정
+    const adultPrice = parseInt("${adultPrice}") || 0;
+    const studentPrice = parseInt("${studentPrice}") || 0;
+
+    // 선택한 좌석을 업데이트하는 함수 (💡 선택된 좌석 박스 업데이트)
+    const updateSelectedSeatsDisplay = () => {
+      mySeatContainer.innerHTML = ''; // 기존 선택 좌석 초기화
+      selectedSeats.forEach(seat => {
+        const seatDiv = document.createElement('div');
+        seatDiv.classList.add('seat', 'selected-seat');
+        seatDiv.textContent = seat; // 좌석 번호 표시
+        mySeatContainer.appendChild(seatDiv);
+      });
+    };
+
+    // 가격 업데이트 함수
+    const updateTotalPrice = () => {
+      const totalSeatsSelected = selectedSeats.size;
+      let totalPrice = 0;
+
+      if (totalSeatsSelected > 0) {
+        let adultSeats = Math.min(adultCount, totalSeatsSelected);
+        let studentSeats = totalSeatsSelected - adultSeats;
+
+        totalPrice = (adultSeats * adultPrice) + (studentSeats * studentPrice);
+      }
+
+      totalAmountElement.textContent = totalPrice.toLocaleString() + " 원";
+      updateSelectedSeatsDisplay(); // 🟢 선택 좌석 UI 업데이트
+    };
+
+    // 🟢 **좌석 선택 이벤트 리스너 추가 (이전 코드 복구)**
     document.querySelectorAll('.available-seat').forEach((seat) => {
       seat.addEventListener('click', () => {
-        const totalCount = adultCount + studentCount;
+        const seatNumber = seat.dataset.seat; // 좌석 번호 가져오기
+
         if (seat.classList.contains('selected')) {
-          // 이미 선택된 좌석은 선택 해제
           seat.classList.remove('selected');
-          selectedSeats.delete(seat.dataset.seat);
-        } else if (selectedSeats.size < totalCount) {
-          // 새로운 좌석 선택
+          selectedSeats.delete(seatNumber);
+        } else if (selectedSeats.size < (adultCount + studentCount)) {
           seat.classList.add('selected');
-          selectedSeats.add(seat.dataset.seat);
+          selectedSeats.add(seatNumber);
         } else {
           alert('선택 가능한 좌석 수를 초과했습니다.');
         }
-        updateSelectedSeats();
+        updateTotalPrice(); // ✅ 좌석이 선택될 때만 총 결제 금액 업데이트
       });
     });
 
     // 성인 및 청소년 인원 조정
-    document.querySelectorAll('.increase').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.target;
-        const totalCount = adultCount + studentCount;
+    const updateTotalCount = () => {
+      document.getElementById('adult').textContent = adultCount;
+      document.getElementById('student').textContent = studentCount;
+      updateTotalPrice();
+    };
 
-        if (totalCount < maxSeats) {
-          if (target === 'adult') {
-            adultCount++;
-          } else if (target === 'student') {
-            studentCount++;
-          }
+    document.querySelectorAll('.increase').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (adultCount + studentCount < maxSeats) {
+          if (btn.dataset.target === 'adult') adultCount++;
+          else if (btn.dataset.target === 'student') studentCount++;
           updateTotalCount();
         } else {
           alert('최대 8명까지만 선택 가능합니다.');
@@ -723,13 +756,11 @@
       });
     });
 
-    document.querySelectorAll('.decrease').forEach((btn) => {
+    document.querySelectorAll('.decrease').forEach(btn => {
       btn.addEventListener('click', () => {
-        const target = btn.dataset.target;
-
-        if (target === 'adult' && adultCount > 0) {
+        if (btn.dataset.target === 'adult' && adultCount > 0) {
           adultCount--;
-        } else if (target === 'student' && studentCount > 0) {
+        } else if (btn.dataset.target === 'student' && studentCount > 0) {
           studentCount--;
         }
         updateTotalCount();
@@ -741,43 +772,122 @@
       adultCount = 0;
       studentCount = 0;
       selectedSeats.clear();
+      document.querySelectorAll('.available-seat').forEach(seat => seat.classList.remove('selected'));
       updateTotalCount();
-      document.querySelectorAll('.available-seat').forEach((seat) => seat.classList.remove('selected'));
     });
 
-    // 선택된 좌석 및 금액 업데이트
-    const updateSelectedSeats = () => {
-      const seatsArray = Array.from(selectedSeats);
-      const seatElements = document.querySelectorAll('.my-seat .seat');
-
-      // 최대 8칸 유지하며 선택된 좌석 번호 채우기
-      seatElements.forEach((seatElement, index) => {
-        if (index < seatsArray.length) {
-          // 선택된 좌석 번호 채우기
-          seatElement.textContent = seatsArray[index];
-          seatElement.classList.add('filled'); // 선택된 좌석 스타일 적용
-        } else {
-          // 선택되지 않은 칸은 "-"로 표시
-          seatElement.textContent = '-';
-          seatElement.classList.remove('filled'); // 선택되지 않은 좌석 스타일 제거
-        }
-      });
-
-      // 총 금액 업데이트
-      document.getElementById('totalAmount').textContent = (seatsArray.length * 15000).toLocaleString() + ' 원';
-    };
-
-    // 총 인원 업데이트 (화면에 표시하지 않음)
-    const updateTotalCount = () => {
-      const totalCount = adultCount + studentCount;
-      document.getElementById('adult').textContent = adultCount;
-      document.getElementById('student').textContent = studentCount;
-      updateSelectedSeats();
-    };
-
-    // 초기 업데이트
     updateTotalCount();
   });
+
+  <%--document.addEventListener('DOMContentLoaded', () => {--%>
+  <%--  const maxSeats = 8; // 최대 선택 가능 인원--%>
+  <%--  const selectedSeats = new Set(); // 선택된 좌석 저장--%>
+  <%--  let adultCount = 0; // 성인 인원--%>
+  <%--  let studentCount = 0; // 청소년 인원--%>
+  <%--  const totalAmountElement = document.getElementById('totalAmount');--%>
+
+  <%--  // JSP에서 가격 정보를 가져올 때 기본값 설정--%>
+  <%--  const adultPrice = parseInt("${adultPrice}") || 0;--%>
+  <%--  const studentPrice = parseInt("${studentPrice}") || 0;--%>
+  <%--  console.log("Adult Price: ", adultPrice);--%>
+  <%--  console.log("Student Price: ", studentPrice);--%>
+
+  <%--  const updateTotalPrice = () => {--%>
+  <%--    const totalSeatsSelected = selectedSeats.size; // 선택된 좌석 수--%>
+  <%--    const totalPeople = adultCount + studentCount; // 선택된 인원 수--%>
+  <%--    let totalPrice = 0;--%>
+
+  <%--    if (totalSeatsSelected > 0) {--%>
+  <%--      let adultSeats = Math.min(adultCount, totalSeatsSelected); // 어른 좌석 우선 배정--%>
+  <%--      let studentSeats = totalSeatsSelected - adultSeats; // 나머지 좌석을 청소년으로 배정--%>
+
+  <%--      totalPrice = (adultSeats * adultPrice) + (studentSeats * studentPrice);--%>
+  <%--    }--%>
+
+  <%--    if (totalSeatsSelected > totalPeople) {--%>
+  <%--      alert("좌석 수가 인원 수보다 많을 수 없습니다.");--%>
+  <%--      return;--%>
+  <%--    }--%>
+
+  <%--    totalAmountElement.textContent = totalPrice.toLocaleString() + " 원";--%>
+  <%--  };--%>
+
+  <%--  // 좌석 선택 이벤트 추가--%>
+  <%--  document.querySelectorAll('.available-seat').forEach(seat => {--%>
+  <%--    seat.addEventListener('click', () => {--%>
+  <%--      const seatNumber = seat.dataset.seat;--%>
+
+  <%--      if (seat.classList.contains('selected')) {--%>
+  <%--        seat.classList.remove('selected');--%>
+  <%--        selectedSeats.delete(seatNumber);--%>
+  <%--      } else if (selectedSeats.size < (adultCount + studentCount)) {--%>
+  <%--        seat.classList.add('selected');--%>
+  <%--        selectedSeats.add(seatNumber);--%>
+  <%--      } else {--%>
+  <%--        alert('선택 가능한 좌석 수를 초과했습니다.');--%>
+  <%--      }--%>
+
+  <%--      updateTotalPrice();--%>
+  <%--    });--%>
+  <%--  });--%>
+
+  <%--  // // 좌석 선택 시 가격 반영--%>
+  <%--  // document.querySelectorAll('.available-seat').forEach((seat) => {--%>
+  <%--  //   seat.addEventListener('click', () => {--%>
+  <%--  //     if (seat.classList.contains('selected')) {--%>
+  <%--  //       seat.classList.remove('selected');--%>
+  <%--  //       selectedSeats.delete(seat.dataset.seat);--%>
+  <%--  //     } else if (selectedSeats.size < (adultCount + studentCount)) {--%>
+  <%--  //       seat.classList.add('selected');--%>
+  <%--  //       selectedSeats.add(seat.dataset.seat);--%>
+  <%--  //     } else {--%>
+  <%--  //       alert('선택 가능한 좌석 수를 초과했습니다.');--%>
+  <%--  //     }--%>
+  <%--  //     updateTotalPrice();--%>
+  <%--  //   });--%>
+  <%--  // });--%>
+
+  <%--  // 성인 및 청소년 인원 조정--%>
+  <%--  const updateTotalCount = () => {--%>
+  <%--    document.getElementById('adult').textContent = adultCount;--%>
+  <%--    document.getElementById('student').textContent = studentCount;--%>
+  <%--    updateTotalPrice();--%>
+  <%--  };--%>
+
+  <%--  document.querySelectorAll('.increase').forEach((btn) => {--%>
+  <%--    btn.addEventListener('click', () => {--%>
+  <%--      if (adultCount + studentCount < maxSeats) {--%>
+  <%--        if (btn.dataset.target === 'adult') adultCount++;--%>
+  <%--        else if (btn.dataset.target === 'student') studentCount++;--%>
+  <%--        updateTotalCount();--%>
+  <%--      } else {--%>
+  <%--        alert('최대 8명까지만 선택 가능합니다.');--%>
+  <%--      }--%>
+  <%--    });--%>
+  <%--  });--%>
+
+  <%--  document.querySelectorAll('.decrease').forEach((btn) => {--%>
+  <%--    btn.addEventListener('click', () => {--%>
+  <%--      if (btn.dataset.target === 'adult' && adultCount > 0) {--%>
+  <%--        adultCount--;--%>
+  <%--      } else if (btn.dataset.target === 'student' && studentCount > 0) {--%>
+  <%--        studentCount--;--%>
+  <%--      }--%>
+  <%--      updateTotalCount();--%>
+  <%--    });--%>
+  <%--  });--%>
+
+  <%--  // 초기화 버튼--%>
+  <%--  document.querySelector('.reset').addEventListener('click', () => {--%>
+  <%--    adultCount = 0;--%>
+  <%--    studentCount = 0;--%>
+  <%--    selectedSeats.clear();--%>
+  <%--    document.querySelectorAll('.available-seat').forEach(seat => seat.classList.remove('selected'));--%>
+  <%--    updateTotalCount();--%>
+  <%--  });--%>
+
+  <%--  updateTotalCount(); // 초기 업데이트 실행--%>
+  <%--});--%>
 </script>
 </body>
 </html>

@@ -3,10 +3,7 @@ package action.user.reservation;
 import action.Action;
 import mybatis.dao.ReservationDAO;
 import mybatis.dao.SeatDAO;
-import mybatis.vo.MovieVO;
-import mybatis.vo.SeatVO;
-import mybatis.vo.TimetableVO;
-import mybatis.vo.UserVO;
+import mybatis.vo.*;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +26,7 @@ public class SeatAction implements Action {
 
         // 영화, 극장, 시간표 정보를 가져오기
         String movieIdx = request.getParameter("movieIdx");
+        String theaterIdx = request.getParameter("theaterIdx");
         String screenIdx = request.getParameter("screenIdx");
         String timetableIdx = request.getParameter("timetableIdx");
         String screenTypeParam = request.getParameter("screenType");
@@ -57,6 +55,7 @@ public class SeatAction implements Action {
         }
 
         request.setAttribute("movieIdx", movieIdx);
+        request.setAttribute("theaterIdx", theaterIdx);
         request.setAttribute("screenIdx", screenIdx);
         request.setAttribute("timetableIdx", timetableIdx);
         request.setAttribute("screenType", screenType);
@@ -64,6 +63,7 @@ public class SeatAction implements Action {
         request.setAttribute("isWeekend", isWeekend);
 
         System.out.println("SeatAction 에서의 결과: movieIdx: " + movieIdx +
+                ", theaterIdx: " + theaterIdx +
                 ", screenIdx: " + screenIdx +
                 ", timetableIdx: " + timetableIdx +
                 ", screenType: " + screenType +
@@ -84,6 +84,10 @@ public class SeatAction implements Action {
         request.setAttribute("movieVO", movieVO);
         System.out.println(movieVO.getMovieIdx());
 
+        // 극장 상세 정보 가져오기
+        TheaterVO theaterVO = ReservationDAO.theaterDetailList(theaterIdx);
+        request.setAttribute("theaterVO", theaterVO);
+
         // 영화 상영시간표 상세 정보 가져오기
         TimetableVO timetableVO = ReservationDAO.timetableDetailList(timetableIdx);
         if (timetableVO != null) {
@@ -103,6 +107,19 @@ public class SeatAction implements Action {
             }
         }
         request.setAttribute("timetableVO", timetableVO);
+
+        // 값 변환 (주중=1, 주말=2)
+        int dayOfWeek = "true".equals(isWeekend) ? 2 : 1;
+        // 값 변환 (조조 및 심야=1, 일반=2)
+        int timeOfDay = "1".equals(isMorning) ? 2 : 1;
+
+        // 영화 가격 조회 추가
+        int adultPrice = SeatDAO.getSeatPrice(screenType.toString(), "1", dayOfWeek, timeOfDay);
+        int studentPrice = SeatDAO.getSeatPrice(screenType.toString(), "2", dayOfWeek, timeOfDay);
+
+        // JSP에서 사용하도록 request에 가격 정보 추가
+        request.setAttribute("adultPrice", adultPrice);
+        request.setAttribute("studentPrice", studentPrice);
 
         // 좌석 선택 화면으로 이동
         return "./jsp/user/reservation/reservationSeat.jsp";

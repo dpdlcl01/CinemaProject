@@ -85,7 +85,7 @@
 
         // 영화 및 극장 선택 관련 변수
         const movieSelection = document.querySelector(".movie-list");
-        const theaterSelection = document.querySelector(".theater-region-list");
+        // const theaterSelection = document.querySelector(".theater-region-list");
         const timeSelectionContainer = document.querySelector("#time-selection");
 
         // 선택된 값 저장 변수
@@ -117,7 +117,6 @@
                 document.querySelectorAll(".theater-region-list").forEach(list => {
                     list.remove();
                 });
-
 
                 // 새로운 하위 리스트 생성
                 const theaterRegionList = document.createElement("ul");
@@ -320,11 +319,19 @@
                     }
                 }
 
-                // 상영 시간과 화면 정보 업데이트
-                li.innerHTML += showtime.timetableStartTime.split(" ")[1] + " ~ " + showtime.timetableEndTime.split(" ")[1] + " [" + showtime.screenName + "] [" + screenTypeText + "]";
-                // li.textContent = showtime.timetableStartTime.split(" ")[1] + " ~ " + showtime.timetableEndTime.split(" ")[1] + " [" + showtime.screenName + "] [" + screenTypeText + "]";
+                // 첫 번째 줄: 상영 시간 + 상영관 정보
+                li.innerHTML += "<div class='time-info'>" +
+                    "<span>" + showtime.timetableStartTime.split(" ")[1] + " ~ " + showtime.timetableEndTime.split(" ")[1] + "</span>" +
+                    "<span>" + showtime.screenName + "</span>" +
+                    "</div>";
+
+                // 두 번째 줄: 좌석 정보 (우측 정렬)
+                li.innerHTML += "<div class='seat-info'>" +
+                    "<span>" + showtime.seatStatus + " / " + showtime.screenSeatCount + " 좌석</span>" +
+                    "</div>";
 
                 li.setAttribute("data-timetable-id", showtime.timetableIdx);
+                li.setAttribute("data-theater-idx", showtime.theaterIdx);
                 li.setAttribute("data-screen-idx", showtime.screenIdx);
                 li.setAttribute("data-screen-type", showtime.screenType);
                 // 조조(0) 또는 일반(1) 정보 추가
@@ -378,6 +385,7 @@
             const listItem = event.target.closest("li"); // 'li' 요소 확인
             if (listItem) {
                 const timetableIdx = listItem.getAttribute("data-timetable-id");
+                const theaterIdx = listItem.getAttribute("data-theater-idx");
                 const screenIdx = listItem.getAttribute("data-screen-idx");
                 const screenType = listItem.getAttribute("data-screen-type");
                 const isMorning = listItem.getAttribute("data-morning");
@@ -385,6 +393,7 @@
 
                 console.log("클릭된 시간표 데이터:", {
                     timetableIdx: timetableIdx,
+                    theaterIdx: theaterIdx,
                     screenIdx: screenIdx,
                     screenType: screenType,
                     selectedMovieIdx: selectedMovieIdx,
@@ -395,6 +404,7 @@
 
                 if (timetableIdx && screenIdx && selectedMovieIdx && selectedTheaterIdx) {
                     const url = contextPath + "/UserController?type=seat&movieIdx=" + selectedMovieIdx +
+                        "&theaterIdx=" + theaterIdx +
                         "&screenIdx=" + screenIdx +
                         "&timetableIdx=" + timetableIdx +
                         "&screenType=" + screenType +

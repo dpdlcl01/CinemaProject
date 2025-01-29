@@ -4,13 +4,21 @@
 <!Doctype html>
 <html lang="ko">
 <head>
-  <jsp:include page="../../user/common/head.jsp"/>
+  <%--  <jsp:include page="../../user/common/head.jsp"/>--%>
 
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <style>
+  .admin-contents {
+    width: 100%;
+    min-height: 550px;
+  }
+  .page-util .inner-wrap {
+    max-width: 100%; !important;
+    padding: 20px 20px; !important;
+  }
   #top1{
     background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
     color: white;
@@ -234,36 +242,44 @@
     display: flex;
 
   }
-  #contents{
-    margin-left: auto;
-    margin-right: auto;
-    width: 1100px;
-  }
   #main{
-    margin: 50px 0 50px 50px;
+    width: 100%;
+    margin: 27px 40px 40px 40px;
+  }
+  #main h1{
+    font-size: 30px;
   }
 </style>
 
 <body>
-<jsp:include page="../../user/common/header.jsp"/>
-<div class="contents">
+<header>
   <div class="page-util">
-    <div class="inner-wrap">
-      <div class="location">
-        <span>Home</span>
-        <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-        <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
+    <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
+      <!-- 홍길동 관리자님 위치 -->
+      <div class="location" style="flex-grow: 1;">
+        <span>홍길동 관리자님</span>
+      </div>
+      <!-- 로그인/로그아웃 버튼 -->
+      <div style="display: flex; gap: 10px; flex-shrink: 0;">
+        <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
+          로그인
+        </a>
+        <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
+          로그아웃
+        </a>
       </div>
     </div>
   </div>
+</header>
+<div class="admin-contents">
   <div class="total-main">
     <div class="myPage-container">
       <%--  사이드바  --%>
       <jsp:include page="adminSideBar.jsp"></jsp:include>
       <%--  메인  --%>
 
-
       <div id="main">
+        <h1>관리자 정보</h1>
         <div id="title">
           <div id="top1">
             <div id="imgName">
@@ -302,7 +318,8 @@
   </div>
 </div>
 
-<jsp:include page="../../user/common/footer.jsp"/>
+
+<%--<jsp:include page="../../user/common/footer.jsp"/>--%>
 
 <script>
   var total = ${requestScope.total};

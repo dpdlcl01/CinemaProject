@@ -2,6 +2,7 @@ package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import mybatis.vo.MovieVO;
+import mybatis.vo.ScreenVO;
 import mybatis.vo.TheaterVO;
 import mybatis.vo.TimetableVO;
 import org.apache.ibatis.session.SqlSession;
@@ -110,4 +111,15 @@ public class ReservationDAO {
         ss.close();
         return vo;
     }
+
+    // 좌석 선택 후 극장 상세 정보 조회
+    public static TheaterVO theaterDetailList(String theaterIdx) {
+        TheaterVO vo = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        vo = ss.selectOne("reservation.theaterDetail", theaterIdx);
+        ss.close();
+        return vo;
+    }
+
 }
