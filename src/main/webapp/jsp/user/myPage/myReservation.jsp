@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.Calendar" %>
 <!Doctype html>
 <html lang="ko">
 <head>
@@ -25,13 +27,13 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 50px;
-            margin-top: 50px;
         }
         .content1 h1 {
             font-size: 24px;
             margin-bottom: 20px;
         }
         .content1 .filter {
+            display: flex;
             margin-bottom: 20px;
         }
         .content1 .filter select,
@@ -87,66 +89,145 @@
             <div class="tab" data-target="ongoinPurchase">구매내역</div>
         </div>
         <div class = "ongoinReservation" style="display : block;">
-        <div class="filter">
-            <select>
-                <option>예매내역</option>
-                <option>지난내역</option>
-                <option>취소내역</option>
-            </select>
-            <select>
-                <option>2025년 1월</option>
-                <option>2024년 12월</option>
-                <option>2024년 11월</option>
-            </select>
-            <button>조회</button>
-        </div>
+            <div class="filter">
+                <form id="reservationForm" action="UserController" method="get">
+                    <input type="hidden" name="type" value="myReservation">
+                    <input type="hidden" name="selectedYear" id="selectedYear">
+                    <input type="hidden" name="selectedMonth" id="selectedMonth">
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>취소일시</th>
-                <th>영화명</th>
-                <th>극장</th>
-                <th>상영일시</th>
-                <th>취소금액</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td colspan="5" style="text-align:center;">취소내역이 없습니다.</td>
-            </tr>
-            </tbody>
-        </table>
+                    <!-- ✅ name 추가하여 선택한 타입도 함께 전송 -->
+                    <select id="reservationType" name="reservationType">
+                        <option value="reservationTable" <c:if test="${param.reservationType eq 'reservationTable'}">selected</c:if>>예매내역</option>
+                        <option value="cancelTable" <c:if test="${param.reservationType eq 'cancelTable'}">selected</c:if>>취소내역</option>
+                    </select>
+
+                    <select id="monthSelect" name="selectedMonth">
+                        ${monthOptions}
+                    </select>
+                    <button type="submit">조회</button>
+                </form>
+            </div>
+
+            <!-- ✅ 예매내역 테이블 -->
+            <table id="reservationTable" class="table" style="<c:if test='${reservationType eq "cancelTable"}'>display: none;</c:if>">
+                <thead>
+                <tr>
+                    <th>예매번호</th>
+                    <th>영화명</th>
+                    <th>극장</th>
+                    <th>상영일시</th>
+                    <th>좌석</th>
+                    <th>결제금액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:choose>
+                    <c:when test="${not empty reservations}">
+                        <c:forEach var="reservation" items="${requestScope.reservations}">
+                            <tr>
+                                <td>${reservation.formattedReservationIdx}</td>
+                                <td>${reservation.movieTitle}</td>
+                                <td>${reservation.theaterName}</td>
+                                <td>${reservation.timetableStartTime}</td>
+                                <td>
+                                    <c:forEach var="seat" items="${reservation.seats}" varStatus="status">
+                                        ${seat.seatNumber}
+                                        <c:if test="${!status.last}">, </c:if>
+                                    </c:forEach>
+                                </td>
+                                <td>
+                                    <c:set var="totalPrice" value="0"/>
+                                    <c:forEach var="seat" items="${reservation.seats}">
+                                        <c:set var="totalPrice" value="${totalPrice + seat.seatPrice}"/>
+                                    </c:forEach>
+                                        ${totalPrice} 원
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <td colspan="6" style="text-align:center;">예매내역이 없습니다.</td>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>
+
+            <!-- ✅ 취소내역 테이블 (초기에는 숨김) -->
+            <table id="cancelTable" class="table" style="<c:if test='${reservationType ne "cancelTable"}'>display: none;</c:if>">
+                <thead>
+                <tr>
+                    <th>취소일시</th>
+                    <th>영화명</th>
+                    <th>극장</th>
+                    <th>상영일시</th>
+                    <th>취소금액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:choose>
+                    <c:when test="${not empty reservations}">
+                        <c:forEach var="reservation" items="${requestScope.reservations}">
+                            <tr>
+                                <td>${reservation.reservationDate}</td>
+                                <td>${reservation.movieTitle}</td>
+                                <td>${reservation.theaterName}</td>
+                                <td>${reservation.timetableStartTime}</td>
+                                <td>
+                                    <c:set var="totalPrice" value="0"/>
+                                    <c:forEach var="seat" items="${reservation.seats}">
+                                        <c:set var="totalPrice" value="${totalPrice + seat.seatPrice}"/>
+                                    </c:forEach>
+                                        ${totalPrice} 원
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <td colspan="5" style="text-align:center;">취소내역이 없습니다.</td>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>
         </div>
             <div class = "ongoinPurchase" style="display : none;">
         <div class="filter">
-            <select>
-                <option>구매내역</option>
-                <option>지난내역</option>
-                <option>취소내역</option>
-            </select>
-            <select>
-                <option>2025년 1월</option>
-                <option>2024년 12월</option>
-                <option>2024년 11월</option>
+            <select name="month">
+                ${monthOptions} <%-- 서버에서 완성된 <option> 리스트 출력 --%>
             </select>
             <button>조회</button>
         </div>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>구매일시</th>
-                <th>상품명</th>
-                <th>취소금액</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td colspan="5" style="text-align:center;">취소내역이 없습니다.</td>
-            </tr>
-            </tbody>
-        </table>
+                <table id="purchaseTable" class="table" style="<c:if test='${reservationType ne "purchaseTable"}'>display: none;</c:if>">
+                    <thead>
+                    <tr>
+                        <th>구매일시</th>
+                        <th>상품명</th>
+                        <th>구매금액</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:choose>
+                        <c:when test="${not empty purchaseHistory}">
+                            <c:forEach var="purchase" items="${purchaseHistory}">
+                                <tr>
+                                    <td>${purchase.purchaseDate}</td>
+                                    <td>${purchase.productName}</td>
+                                    <td>${purchase.purchaseAmount} 원</td>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="3" style="text-align:center;">구매내역이 없습니다.</td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
+                    </tbody>
+                </table>
     </div>
     </div>
     </div>
@@ -192,6 +273,47 @@
                 targetContent.classList.add('active');
             }
         });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      let reservationType = document.getElementById("reservationType").value;
+
+      // ✅ 페이지 로드 후, 선택한 타입에 따라 테이블 표시
+      if (reservationType === "reservationTable") {
+        document.getElementById("reservationTable").style.display = "table";
+        document.getElementById("cancelTable").style.display = "none";
+      } else if (reservationType === "cancelTable") {
+        document.getElementById("reservationTable").style.display = "none";
+        document.getElementById("cancelTable").style.display = "table";
+      }
+    });
+
+    document.getElementById("reservationForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      let selectedValue = document.getElementById("monthSelect").value;
+      let parts = selectedValue.split("-");
+      document.getElementById("selectedYear").value = parts[0];
+      document.getElementById("selectedMonth").value = parts[1];
+
+      let selectedType = document.getElementById("reservationType").value;
+      let hiddenTypeInput = document.getElementById("hiddenReservationType");
+
+      if (!hiddenTypeInput) {
+        hiddenTypeInput = document.createElement("input");
+        hiddenTypeInput.setAttribute("type", "hidden");
+        hiddenTypeInput.setAttribute("name", "reservationType");
+        hiddenTypeInput.setAttribute("id", "hiddenReservationType");
+        this.appendChild(hiddenTypeInput);
+      }
+      hiddenTypeInput.value = selectedType;
+
+      console.log("Submitting with:", {
+        selectedYear: parts[0],
+        selectedMonth: parts[1],
+        reservationType: selectedType
+      });
+
+      this.submit();
     });
 </script>
 </html>

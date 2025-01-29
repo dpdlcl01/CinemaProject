@@ -18,11 +18,19 @@
   <select id="getReservationsByUserIdx" parameterType="int" resultMap="reservationResultMap">
     SELECT
     r.reservationIdx AS 예매번호,
+    r.reservationDate AS 예매날짜,
+    CONCAT(
+    DATE_FORMAT(r.reservationDate, '%Y%m%d'), '-',
+    LPAD(r.reservationIdx, 4, '0')
+    ) AS formattedReservationIdx,
     u.userName AS 사용자이름,
     t.timetableStartTime AS 영화시작시간,
     t.timetableEndTime AS 영화종료시간,
     m.movieTitle AS 영화이름,
+    m.moviePosterUrl AS 영화포스터,
     s.seatNumber AS 좌석번호,
+    p.ageGroup AS 좌석나이대,
+    p.seatPrice AS 가격,
     th.theaterName AS 영화관이름,
     sc.screenName AS 스크린이름
     FROM
@@ -41,21 +49,30 @@
     reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
     JOIN
     seat s ON rsm.seatIdx = s.seatIdx
+    JOIN
+    price p ON rsm.priceIdx = p.priceIdx  -- 가격 테이블 조인 (연령 정보 가져오기)
     WHERE
-    r.userIdx = #{userIdx}
+    r.userIdx = #{userIdx} AND r.reservationStatus = 0
   </select>
 
   <!-- 결과 매핑 -->
   <resultMap id="reservationResultMap" type="mybatis.vo.ReservationDetailVO">
     <id property="reservationIdx" column="예매번호"/>
+    <result property="reservationDate" column="예매날짜"/>
+    <result property="formattedReservationIdx" column="formattedReservationIdx"/>
     <result property="userName" column="사용자이름"/>
     <result property="timetableStartTime" column="영화시작시간"/>
     <result property="timetableEndTime" column="영화종료시간"/>
     <result property="movieTitle" column="영화이름"/>
+    <result property="moviePosterUrl" column="영화포스터"/>
     <result property="theaterName" column="영화관이름"/>
     <result property="screenName" column="스크린이름"/>
-    <collection property="seatNumber" ofType="string">
-      <result column="좌석번호"/>
+
+    <!-- 좌석 정보를 리스트로 매핑 -->
+    <collection property="seats" ofType="mybatis.vo.SeatDetailVO">
+      <result property="seatNumber" column="좌석번호"/>
+      <result property="seatAgeGroup" column="좌석나이대"/>
+      <result property="seatPrice" column="가격"/>
     </collection>
   </resultMap>
 

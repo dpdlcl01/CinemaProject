@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myReservation">
+
+  <!-- 예매내역 조회 -->
+  <select id="getReservationsByUserIdx" parameterType="map" resultMap="reservationResultMap">
+    SELECT
+    r.reservationIdx AS reservationIdx,
+    r.reservationDate AS reservationDate,
+    CONCAT(DATE_FORMAT(r.reservationDate, '%Y%m%d'), '-', LPAD(r.reservationIdx, 4, '0')) AS formattedReservationIdx,
+    m.movieTitle AS movieTitle,
+    th.theaterName AS theaterName,
+    t.timetableStartTime AS screeningTime,
+    s.seatNumber AS seatNumber,
+    p.seatPrice AS seatPrice
+    FROM
+    reservation r
+    JOIN
+    timetable t ON r.timetableIdx = t.timetableIdx
+    JOIN
+    movie m ON t.movieIdx = m.movieIdx
+    JOIN
+    theater th ON r.theaterIdx = th.theaterIdx
+    JOIN
+    reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
+    JOIN
+    seat s ON rsm.seatIdx = s.seatIdx
+    JOIN
+    price p ON rsm.priceIdx = p.priceIdx
+    WHERE
+    r.userIdx = #{userIdx}  AND r.reservationStatus = 0
+    AND YEAR(t.timetableStartTime) = #{selectedYear}
+    AND MONTH(t.timetableStartTime) = #{selectedMonth}
+    ORDER BY
+    r.reservationDate DESC
+  </select>
+
+  <!-- 결과 매핑 -->
+  <resultMap id="reservationResultMap" type="mybatis.vo.ReservationDetailVO">
+    <id property="reservationIdx" column="reservationIdx"/>
+    <result property="reservationDate" column="reservationDate"/>
+    <result property="formattedReservationIdx" column="formattedReservationIdx"/>
+    <result property="movieTitle" column="movieTitle"/>
+    <result property="theaterName" column="theaterName"/>
+    <result property="timetableStartTime" column="screeningTime"/>
+
+    <!-- 좌석 정보를 리스트로 매핑 -->
+    <collection property="seats" ofType="mybatis.vo.SeatDetailVO">
+      <result property="seatNumber" column="seatNumber"/>
+      <result property="seatPrice" column="seatPrice"/>
+    </collection>
+  </resultMap>
+
+  <!-- 예매내역 조회 -->
+  <select id="getCancelReservationsByUserIdx" parameterType="map" resultMap="cancelReservationResultMap">
+    SELECT
+    r.reservationIdx AS reservationIdx,
+    r.reservationDate AS reservationDate,
+    m.movieTitle AS movieTitle,
+    th.theaterName AS theaterName,
+    t.timetableStartTime AS screeningTime,
+    s.seatNumber AS seatNumber,
+    p.seatPrice AS seatPrice
+    FROM
+    reservation r
+    JOIN
+    timetable t ON r.timetableIdx = t.timetableIdx
+    JOIN
+    movie m ON t.movieIdx = m.movieIdx
+    JOIN
+    theater th ON r.theaterIdx = th.theaterIdx
+    JOIN
+    reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
+    JOIN
+    seat s ON rsm.seatIdx = s.seatIdx
+    JOIN
+    price p ON rsm.priceIdx = p.priceIdx
+    WHERE
+    r.userIdx = #{userIdx}  AND r.reservationStatus = 1
+    AND YEAR(r.reservationDate) = #{selectedYear}
+    AND MONTH(r.reservationDate) = #{selectedMonth}
+    ORDER BY
+    r.reservationDate DESC
+  </select>
+
+  <!-- 결과 매핑 -->
+  <resultMap id="cancelReservationResultMap" type="mybatis.vo.ReservationDetailVO">
+    <id property="reservationIdx" column="reservationIdx"/>
+    <result property="reservationDate" column="reservationDate"/>
+    <result property="movieTitle" column="movieTitle"/>
+    <result property="theaterName" column="theaterName"/>
+    <result property="timetableStartTime" column="screeningTime"/>
+
+    <!-- 좌석 정보를 리스트로 매핑 -->
+    <collection property="seats" ofType="mybatis.vo.SeatDetailVO">
+      <result property="seatNumber" column="seatNumber"/>
+      <result property="seatPrice" column="seatPrice"/>
+    </collection>
+  </resultMap>
+
+  <select id="getPurchaseHistory" parameterType="map" resultType="mybatis.vo.ProductDetailVO">
+    SELECT
+    p.paymentDate AS purchaseDate,
+    pr.productName AS productName,
+    p.paymentFinal AS purchaseAmount
+    FROM payment p
+    JOIN product pr ON p.productIdx = pr.productIdx
+    WHERE p.paymentType = 2
+    AND p.userIdx = #{userIdx}
+    AND YEAR(p.paymentDate) = #{selectedYear}
+    AND MONTH(p.paymentDate) = #{selectedMonth}
+    ORDER BY p.paymentDate DESC;
+  </select>
+
+</mapper>
