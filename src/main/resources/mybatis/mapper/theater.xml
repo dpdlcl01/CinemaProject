@@ -66,7 +66,7 @@
     <select id="getMovie" parameterType="map" resultType="mybatis.vo.TheaterMovieVO">
         SELECT s.screenName, m.movieTitle, m.movieIdx, m.movieGrade, m.movieTime, s.screenSeatCount, s.screenType, s.screenIdx,
         COUNT(IF(st.seatStatus = 0, 1, NULL)) as remainSeat,
-        DATE_FORMAT(t.timetableStartTime, '%H:%i') AS startTime, -- 시간만 추출
+        DATE_FORMAT(t.timetableStartTime, '%H:%i') AS startTime,
         t.timetableIdx
         FROM timetable t
         INNER JOIN screen s ON t.screenIdx = s.screenIdx
