@@ -4,42 +4,59 @@ import action.Action;
 import com.google.gson.Gson;
 import mybatis.dao.AdminDAO;
 import mybatis.vo.UserVO;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateUserAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int userIdx = Integer.parseInt(request.getParameter("userIdx"));
-        String userName = request.getParameter("userName");
-        String userEmail = request.getParameter("userEmail");
-        String userPhone = request.getParameter("userPhone");
-        int userPoint = Integer.parseInt(request.getParameter("userPoint"));
-        String userGrade = request.getParameter("userGrade");
+        response.setContentType("application/json;charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
 
-        // VO 객체 생성 및 데이터 설정
-        UserVO user = new UserVO();
-        user.setUserIdx(String.valueOf(userIdx));
-        user.setUserName(userName);
-        user.setUserEmail(userEmail);
-        user.setUserPhone(userPhone);
-        user.setUserPoint(String.valueOf(userPoint));
-        user.setUserGrade(userGrade);
+        PrintWriter out = response.getWriter();
+        Map<String, Object> result = new HashMap<>();
 
-        // DAO를 통해 데이터 업데이트
-        AdminDAO AdminDAO = new AdminDAO();
-        boolean isUpdated = AdminDAO.updateUser(user);
+        try {
+            int userIdx = Integer.parseInt(request.getParameter("userIdx"));
+            String userName = request.getParameter("userName");
+            String userEmail = request.getParameter("userEmail");
+            String userPhone = request.getParameter("userPhone");
+            int userPoint = Integer.parseInt(request.getParameter("userPoint"));
+            String userGrade = request.getParameter("userGrade");
 
-        // 결과에 따라 메시지 설정
-        if (isUpdated) {
-            request.setAttribute("message", "사용자 정보가 성공적으로 수정되었습니다.");
-        } else {
-            request.setAttribute("message", "사용자 정보 수정에 실패했습니다.");
+            UserVO user = new UserVO();
+            user.setUserIdx(String.valueOf(userIdx));
+            user.setUserName(userName);
+            user.setUserEmail(userEmail);
+            user.setUserPhone(userPhone);
+            user.setUserPoint(String.valueOf(userPoint));
+            user.setUserGrade(userGrade);
+
+            AdminDAO adminDAO = new AdminDAO();
+            boolean isUpdated = adminDAO.updateUser(user);
+
+            if (isUpdated) {
+                result.put("success", true);
+                result.put("message", "사용자 정보가 성공적으로 수정되었습니다.");
+            } else {
+                result.put("success", false);
+                result.put("error", "사용자 정보 수정에 실패했습니다.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("error", "서버 오류: " + e.getMessage());
+        } finally {
+            out.write(new Gson().toJson(result));
+            out.flush();
+            out.close();
         }
 
-        // 사용자 목록 페이지로 리다이렉트
-        return "AdminController?type=userlist";
+        return null;
     }
 }

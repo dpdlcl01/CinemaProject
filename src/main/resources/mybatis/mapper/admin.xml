@@ -46,7 +46,7 @@
     </select>
 
     <select id="getUserById" parameterType="int" resultType="mybatis.vo.UserVO">
-        SELECT * FROM users WHERE userIdx = #{userIdx}
+        SELECT * FROM user WHERE userIdx = #{userIdx}
     </select>
 
     <update id="updateuser" parameterType="mybatis.vo.UserVO">

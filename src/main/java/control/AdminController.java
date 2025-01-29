@@ -117,7 +117,15 @@ public class AdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
+
+        String acceptHeader = request.getHeader("Accept");
+        boolean isJsonRequest = acceptHeader != null && acceptHeader.contains("application/json");
+
+        if (isJsonRequest) {
+            response.setContentType("application/json;charset=utf-8");
+        } else {
+            response.setContentType("text/html;charset=utf-8");
+        }
 
         // type이라는 파라미터를 받기
         String type = request.getParameter("type");

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% System.out.println("userList: " + request.getAttribute("userList")); %>
 <!Doctype html>
 <html lang="ko">
 <head>
@@ -287,12 +288,7 @@
                             <td>${user.userPoint}</td>
                             <td>${user.userGrade}</td>
                             <td>${user.userStatus}</td>
-                            <td><button class="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" data-userIdx="${user.userIdx}">수정</button></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="9">디버깅: userIdx = ${user.userIdx}</td>
-                        </tr>
+                            <td><button class="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" data-id="${user.userIdx}">수정</button></td>                        </tr>
                     </c:forEach>
 
                     <!-- 사용자가 없을 경우 -->
@@ -323,58 +319,110 @@
                     </c:if>
                 </nav>
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $(".edit-btn").click(function () {
+                            var userIdx = $(this).data("id");
+                            console.log("userIdx = " + userIdx);
+
+                            $.ajax({
+                                url: "AdminController?type=getuser",
+                                type: "GET",
+                                data: { userIdx: userIdx },
+                                dataType: "json",
+                                headers: { "Accept": "application/json" },
+                                success: function (response) {
+                                    if (response.error) {
+                                        alert("오류 발생: " + response.error);
+                                        return;
+                                    }
+                                    $("#userIdx").val(response.userIdx);
+                                    $("#userName").val(response.userName);
+                                    $("#userEmail").val(response.userEmail);
+                                    $("#userPhone").val(response.userPhone);
+                                    $("#userPoint").val(response.userPoint);
+                                    $("#userGrade").val(response.userGrade);
+                                    $("#editUserModal").modal("show");
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("AJAX 오류:", xhr.responseText);
+                                    alert("서버와의 통신 중 문제가 발생했습니다.");
+                                }
+                            });
+                        });
+
+
+                        $("#updateUserForm").submit(function (event) {
+                            event.preventDefault(); // 폼 기본 제출 방지
+
+                            $.ajax({
+                                url: "AdminController?type=updateuser",
+                                type: "POST",
+                                data: $("#updateUserForm").serialize(), // 폼 데이터 직렬화
+                                dataType: "json",
+                                headers: {
+                                    "Accept": "application/json"
+                                },
+                                success: function (response) {
+                                    if (response.error) {
+                                        console.error("업데이트 실패:", response.error);
+                                        alert("사용자 정보 업데이트 중 오류 발생: " + response.error);
+                                        return;
+                                    }
+
+                                    alert("사용자 정보가 성공적으로 업데이트되었습니다.");
+                                    $("#editUserModal").modal("hide");
+                                    location.reload(); // 페이지 새로고침
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("AJAX 오류 발생!");
+                                    console.error("응답 상태:", xhr.status);
+                                    console.error("응답 메시지:", xhr.responseText);
+                                    alert("업데이트에 실패했습니다. 콘솔을 확인하세요.");
+                                }
+                            });
+                        });
+                    });
+
+                </script>
+
+                <!-- 수정 모달 -->
+                <div id="editUserModal" class="modal fade" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <!-- Modal Header -->
                             <div class="modal-header">
                                 <h5 class="modal-title">사용자 정보 수정</h5>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-
-                            <!-- Modal Form -->
-                            <form id="editForm" method="post" action="/AdminController?action=updateUser">
-                                <div class="modal-body">
-                                    <!-- Hidden input for userIdx -->
-                                    <input type="hidden" name="userIdx" id="userIdx">
-
-                                    <!-- 이름 -->
+                            <div class="modal-body">
+                                <form id="updateUserForm">
+                                    <input type="hidden" id="userIdx" name="userIdx">
                                     <div class="form-group">
-                                        <label for="userName">이름</label>
-                                        <input type="text" name="userName" id="userName" class="form-control">
+                                        <label>이름</label>
+                                        <input type="text" class="form-control" id="userName" name="userName">
                                     </div>
-
-                                    <!-- 이메일 -->
                                     <div class="form-group">
-                                        <label for="userEmail">이메일</label>
-                                        <input type="email" name="userEmail" id="userEmail" class="form-control">
+                                        <label>이메일</label>
+                                        <input type="email" class="form-control" id="userEmail" name="userEmail">
                                     </div>
-
-                                    <!-- 전화번호 -->
                                     <div class="form-group">
-                                        <label for="userPhone">전화번호</label>
-                                        <input type="text" name="userPhone" id="userPhone" class="form-control">
+                                        <label>전화번호</label>
+                                        <input type="text" class="form-control" id="userPhone" name="userPhone">
                                     </div>
-
-                                    <!-- 포인트 -->
                                     <div class="form-group">
-                                        <label for="userPoint">포인트</label>
-                                        <input type="number" name="userPoint" id="userPoint" class="form-control">
+                                        <label>포인트</label>
+                                        <input type="number" class="form-control" id="userPoint" name="userPoint">
                                     </div>
-
-                                    <!-- 등급 -->
                                     <div class="form-group">
-                                        <label for="userGrade">등급</label>
-                                        <input type="text" name="userGrade" id="userGrade" class="form-control">
+                                        <label>등급</label>
+                                        <input type="text" class="form-control" id="userGrade" name="userGrade">
                                     </div>
-                                </div>
-
-                                <!-- Modal Footer -->
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success">저장</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                </div>
-                            </form>
+                                    <button type="submit" class="btn btn-primary">저장</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -382,41 +430,6 @@
         </div>
     </div>
 
-
-    <script>
-        document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const userIdx = this.getAttribute('data-userIdx'); // 버튼에서 userIdx 값 가져오기
-                if (!userIdx) {
-                    console.error("userIdx 값이 없습니다.");
-                    alert("사용자 정보를 불러올 수 없습니다.");
-                    return;
-                }
-
-                console.log(`Fetching data for userIdx: ${userIdx}`);
-
-                // Ajax 요청
-                fetch(`/AdminController?type=getUser&userIdx=${userIdx}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById('userName').value = data.userName || '';
-                        document.getElementById('userEmail').value = data.userEmail || '';
-                        document.getElementById('userPhone').value = data.userPhone || '';
-                        document.getElementById('userPoint').value = data.userPoint || '';
-                        document.getElementById('userGrade').value = data.userGrade || '';
-                    })
-                    .catch(error => {
-                        console.error("데이터를 가져오는 중 오류 발생:", error);
-                        alert(error.message);
-                    });
-            });
-        });
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
