@@ -5,6 +5,7 @@ import mybatis.vo.BoardVO;
 import mybatis.vo.MovieVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -195,4 +196,75 @@ public class MovieDAO {
         ss.close();
         return cnt;
     }
+
+    // TMDB ID 컬럼 업데이트
+    public static int updateMovieTmdbId(String movieCd, String movieTmdbId) {
+        Map<String, String> map = new HashMap<>();
+        map.put("movieCd", movieCd);
+        map.put("movieTmdbId", movieTmdbId);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("movie.updateMovieTmdbId", map);
+        if(cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+        return cnt;
+    }
+
+    // TMDB ID 컬럼이 NULL인 영화 데이터 가져오기
+    public static List<MovieVO> getMoviesWithoutTmdbId() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> movieList = ss.selectList("movie.getMoviesWithoutTmdbId");
+        ss.close();
+        return movieList;
+    }
+
+
+
+    // 영화 업데이트를 위해 현재 영화의 KOFIC 영화코드를 가져옴
+    public static List<String> getAllMovieCodes(){
+        List<String> codeList = new ArrayList<String>();
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> mList = ss.selectList("movie.getAllMovieCodes");
+        ss.close();
+
+        for(MovieVO mvo : mList){
+            codeList.add(mvo.getMovieCd());
+        }
+        return codeList;
+    }
+
+    // DB에 있는 영화는 예매 순위, 예매율, 누적관객수, 영화 상태를 업데이트
+    public static int updateMovieReservationInfo(String movieCd, String movieRank,
+                 String movieReservationRate, String movieTotalAudience){
+        Map<String, String> map = new HashMap<>();
+        map.put("movieCd", movieCd);
+        map.put("movieRank", movieRank);
+        map.put("movieReservationRate", movieReservationRate);
+        map.put("movieTotalAudience", movieTotalAudience);
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("movie.updateMovieReservationInfo", map);
+        if(cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+        return cnt;
+    }
+
+    // 이번 크롤링에서 업데이트되지 않은 영화 처리 (예매순위, 예매율, 누적관객수 NULL 처리, 영화 상태 업데이트)
+    public static int nullifyMovieReservationInfo(String movieCd){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("movie.nullifyMovieReservationInfo", movieCd);
+        if(cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+        return cnt;
+    }
+
+
 }

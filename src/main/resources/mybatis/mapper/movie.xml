@@ -10,12 +10,11 @@
         LIMIT 4
     </select>
 
-    <!-- [박스오피스] 전체 영화 개수 반환.
-        80위까지만 movieRank가 NULL이 아니게 설정해서 지금은 항상 80이 반환 -->
+    <!-- [박스오피스] 전체 영화 개수 반환 -->
     <select id="totalMovieCount" resultType="int">
         SELECT COUNT(*)
         FROM movie
-        WHERE movieStatus = 0 OR movieStatus = 1
+        WHERE (movieStatus = 0 OR movieStatus = 1)
         AND movieRank IS NOT NULL
     </select>
 
@@ -23,7 +22,7 @@
     <select id="getMovieList" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
         SELECT *
         FROM movie
-        WHERE movieStatus = 0 OR movieStatus = 1
+        WHERE (movieStatus = 0 OR movieStatus = 1)
         AND movieRank IS NOT NULL
         ORDER BY movieReservationRate DESC
         LIMIT ${offset}, ${pageSize}
@@ -126,10 +125,59 @@
         INSERT INTO movie(movieCd, movieTmdbId, movieTitle, movieTitleEn, movieGenre, movieNation,
         movieTime, movieGrade, movieDate, movieDirector, movieActors, movieInfo, moviePosterUrl,
         movieRank, movieReservationRate, movieTotalAudience, movieLikes, movieStatus)
-        VALUES (#{movieCd}, #{movieTmdbId}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieNation}
+        VALUES (#{movieCd}, #{movieTmdbId}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieNation},
         #{movieTime}, #{movieGrade}, #{movieDate}, #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl},
         #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus})
     </insert>
+
+    <!-- TMDB ID 업데이트 -->
+    <update id="updateMovieTmdbId" parameterType="java.util.Map">
+        UPDATE movie
+        SET movieTmdbId = #{movieTmdbId}
+        WHERE movieCd = #{movieCd}
+    </update>
+
+    <!-- TMDB ID가 없는 영화 목록 가져오기 -->
+    <select id="getMoviesWithoutTmdbId" resultType="mybatis.vo.MovieVO">
+        SELECT movieCd, movieTitle
+        FROM movie
+        WHERE movieTmdbId IS NULL
+    </select>
+
+
+    <!-- 영화 업데이트를 위해 현재 영화의 KOFIC 영화코드를 가져옴 -->
+    <select id="getAllMovieCodes" resultType="mybatis.vo.MovieVO">
+        SELECT movieCd
+        FROM movie
+    </select>
+
+    <!-- DB에 있는 영화는 예매 순위, 예매율, 누적관객수, 영화 상태를 업데이트 -->
+    <update id="updateMovieReservationInfo" parameterType="java.util.Map">
+        UPDATE movie
+        SET movieRank = #{movieRank},
+        movieReservationRate = #{movieReservationRate},
+        movieTotalAudience = #{movieTotalAudience},
+        movieStatus = CASE
+        WHEN movieStatus = '1' AND movieDate &lt;= CURDATE() THEN '0'
+        ELSE movieStatus  <!-- 기존 값 유지 -->
+        END
+        WHERE movieCd = #{movieCd}
+    </update>
+
+
+    <!-- 이번 크롤링에서 업데이트되지 않은 영화 처리 (예매순위, 예매율, 누적관객수 NULL 처리, 영화 상태 업데이트) -->
+    <update id="nullifyMovieReservationInfo" parameterType="String">
+        UPDATE movie
+        SET movieRank = NULL,
+        movieReservationRate = NULL,
+        movieTotalAudience = NULL,
+        movieStatus = CASE
+        WHEN movieStatus = '1' THEN '2'  <!-- 개봉예정이면 기타로 변경 -->
+        ELSE movieStatus  <!-- 나머지는 그대로 유지 -->
+        END
+        WHERE movieCd = #{movieCd}
+    </update>
+
 
 
 
