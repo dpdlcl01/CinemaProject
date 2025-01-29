@@ -312,13 +312,13 @@
                             <table class="custom-info-box-table table">
                                 <tr>
                                     <td>이름</td>
-                                    <td><input type="text" class="form-control" placeholder="이름"></td>
+                                    <td><input type="text" id="userName" class="form-control" placeholder="이름"></td>
                                 </tr>
                                <tr>
                                     <td>이메일</td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <input type="text" class="form-control input-size" placeholder="'-' 없이 입력">
+                                            <input type="text" id="userEmail" class="form-control input-size" placeholder="'-' 없이 입력">
                                             <button class="btn btn-outline-primary">인증요청</button>
                                         </div>
                                     </td>
@@ -334,11 +334,11 @@
                                 </tr>
                                 <tr>
                                     <td>비밀번호</td>
-                                    <td><input type="password" class="form-control" placeholder="비밀번호 (숫자 4자리)"></td>
+                                    <td><input type="password" id="userPasswordPassword" class="form-control" placeholder="비밀번호 (숫자 4자리)"></td>
                                 </tr>
                                 <tr>
                                     <td>비밀번호 확인</td>
-                                    <td><input type="password" class="form-control" placeholder="비밀번호 (숫자 4자리) 확인"></td>
+                                    <td><input type="password" id="userPasswordConfirm" class="form-control" placeholder="비밀번호 (숫자 4자리) 확인"></td>
                                 </tr>
                             </table>
                         </div>
@@ -357,7 +357,7 @@
                                 정보 수집에 동의하지 않을 경우, 비회원 예매 서비스를 이용할 수 없습니다.
                             </p>
                             <div class="text-center mt-3">
-                                <button class="btn btn-primary">확인</button>
+                                <button class="btn btn-primary" id="nonMember">확인</button>
                             </div>
                         </div>
                     </div>
@@ -386,8 +386,13 @@
             .then(response => response.json())  // 응답을 JSON으로 처리
             .then(data => {
                 if (data.success) {
-                    // 로그인 성공 시 페이지 새로고침
-                    window.location.reload();
+                    // 로그인 성공 시 페이지 저장된 경로로 이동
+                    const redirectUrl = sessionStorage.getItem('redirectUrl');
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        window.location.reload();
+                    }
                 } else {
                     // 로그인 실패 시 메시지 표시
                     alert(data.message);
@@ -398,6 +403,56 @@
                 alert('로그인 처리 중 오류가 발생했습니다.');
             });
     });
+
+    document.getElementById("nonMember").addEventListener("click", function() {
+        event.preventDefault();
+
+        const userName = document.getElementById("userName").value;
+        const userEmail = document.getElementById("userEmail").value;
+        const userAuthPassword = document.getElementById("userPasswordPassword").value;
+        const userAuthPasswordConfirm = document.getElementById("userPasswordConfirm").value;
+
+        // 유효성 검사
+        if (!userName || !userEmail || !userAuthPassword || !userAuthPasswordConfirm) {
+            alert('모든 필드를 입력해주세요.');
+            return;
+        }
+
+        if (userAuthPassword !== userAuthPasswordConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        // AJAX 요청 보내기
+        fetch('${pageContext.request.contextPath}/UserController?type=nonMemberLogin', {
+            method: 'POST',
+            credentials: 'include', // 세션 쿠키 포함
+            body: new URLSearchParams({
+                userName: userName,
+                userEmail: userEmail,
+                userAuthPassword: userAuthPassword
+            })
+        })
+            .then(response => response.json())  // 응답을 JSON으로 처리
+            .then(data => {
+                if (data.success) {
+                    // 로그인 성공 시 페이지 저장된 경로로 이동
+                    const redirectUrl = sessionStorage.getItem('redirectUrl');
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        window.location.reload();
+                    }
+                } else {
+                    // 로그인 실패 시 메시지 표시
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('로그인 처리 중 오류가 발생했습니다.');
+            });
+        });
 
     // 로그아웃 처리
     document.getElementById("member-logout-btn").addEventListener("click", function(event) {

@@ -1154,9 +1154,15 @@
 
                         if (!result.login) {
                             $('#customLoginModal').modal('show');
-                            sessionStorage.setItem('redirectUrl', url);
+                            sessionStorage.setItem('redirectUrl', url);  // 로그인 후 돌아갈 URL 저장
                         } else {
-                            window.location.href = url;
+                            // 로그인 후 redirectUrl이 있으면 그 URL로 리디렉션
+                            const redirectUrl = sessionStorage.getItem('redirectUrl');
+                            if (redirectUrl) {
+                                window.location.href = redirectUrl;  // 로그인 후 저장된 URL로 이동
+                            } else {
+                                window.location.href = url;  // 기본 URL로 이동
+                            }
                         }
                     } catch (error) {
                         console.error("로그인 체크 실패:", error);

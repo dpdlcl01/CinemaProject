@@ -103,7 +103,7 @@
         </div>
     </c:if>
 
-    <form action="/UserController?type=NonmemberReservationCheck" method="POST">
+    <form action="${pageContext.request.contextPath}/UserController?type=NonmemberReservationCheck" method="POST">
         <table>
             <tr>
                 <td>이름</td>
