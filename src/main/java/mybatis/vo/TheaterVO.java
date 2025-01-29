@@ -4,6 +4,7 @@ public class TheaterVO {
     private String theaterIdx, theaterName, theaterRegion, theaterAddress,
             theaterInfo, theaterImageUrl, theaterScreenCount, theaterRegDate, theaterStatus;
 
+
     public String getTheaterIdx() {
         return theaterIdx;
     }

@@ -29,4 +29,28 @@
         FROM cart
         WHERE userIdx=#{userIdx} and productIdx=#{productIdx}
     </delete>
+
+<!--관리자 기능-->
+    <!--전체 상품 조회-->
+    <select id="selectAll" parameterType="String" resultType="mybatis.vo.ProductVO">
+        SELECT * FROM product
+    </select>
+
+    <!-- 상품 정보 수정 -->
+    <update id="updateProduct" parameterType="mybatis.vo.ProductVO">
+        UPDATE product
+        SET
+        productCategory = #{productCategory},
+        productName = #{productName},
+        productPrice = #{productPrice},
+        productStock = #{productStock},
+        productStatus = #{productStatus}
+        WHERE productIdx = #{productIdx}
+    </update>
+
+<!--상품추가-->
+    <insert id="addProduct" parameterType="mybatis.vo.ProductVO">
+        INSERT INTO product (productCategory, productName, productInfo, productPrice, productStock, productImg, productRegDate, productStatus)
+        VALUES (#{productCategory}, #{productName}, #{productInfo}, #{productPrice}, #{productStock}, #{productImg}, NOW(), #{productStatus});
+    </insert>
 </mapper>
