@@ -107,18 +107,36 @@
     </select>
 
 
-    <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
-        정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
+    <!-- 관리자 화면의 조건 없이 모든 영화 개수 반환 -->
+    <select id="adminMovieCount" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+    </select>
+
+
+    <!--  관리자 화면의 모든 영화 목록 표현 -->
     <select id="adminMovieList" resultType="mybatis.vo.MovieVO" parameterType="Map">
         SELECT * FROM(
         SELECT @RN:=@RN+1 AS rnum, a.* FROM(
         SELECT * FROM movie
-        WHERE movieStatus = 0 OR movieStatus = 1
-        AND movieRank IS NOT NULL
         ORDER BY movieReservationRate DESC
         ) a, (SELECT @RN:=0) b
         ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
+
+
+    <!-- 관리자 영화 상세 정보 수정 -->
+    <update id="updateMovieInfo" parameterType="java.util.Map">
+        UPDATE movie
+        SET movieGenre = #{movieGenre},
+        movieTime = #{movieTime},
+        movieGrade = #{movieGrade},
+        movieDate = #{movieDate},
+        movieDirector = #{movieDirector},
+        movieActors = #{movieActors},
+        movieInfo = #{movieInfo}
+        WHERE movieIdx = #{movieIdx}
+    </update>
 
     <!-- 관리자 모드에서 OPEN API를 이용하여 영화 정보를 DB에 저장 -->
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">

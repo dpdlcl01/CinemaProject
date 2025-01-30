@@ -267,6 +267,9 @@
                 <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
                     로그아웃
                 </a>
+                <a href="${pageContext.request.contextPath}/UserController?type=main" title="사용자 화면" style="text-decoration: none; color: black; font-weight: 600;">
+                    사용자화면
+                </a>
             </div>
         </div>
     </div>

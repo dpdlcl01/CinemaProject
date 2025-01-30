@@ -18,7 +18,7 @@ public class MovieInfoListAction implements Action {
         Paging page = new Paging(10, 10);
 
         // 총 게시물의 수를 구한다.
-        int totalCount = MovieDAO.getTotalMovieCount();
+        int totalCount = MovieDAO.adminMovieCount();
         // 페이징 객체안에 총 게시물의 수를 저장하면서 전체페이지 수를 구한다.
         page.setTotalRecord(totalCount);// 이때 전체페이지수(totalPage)가 구해진다.
 
@@ -36,7 +36,7 @@ public class MovieInfoListAction implements Action {
 
 
         // DB에서 원하는 자원들을 가져와야 한다.
-        MovieVO[] movieArray = MovieDAO.getList(page.getBegin(), page.getEnd());
+        MovieVO[] movieArray = MovieDAO.adminMovieList(page.getBegin(), page.getEnd());
 
         // request에 저장해야 한다.
         request.setAttribute("totalCount", totalCount);

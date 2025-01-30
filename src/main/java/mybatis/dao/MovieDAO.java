@@ -1,7 +1,6 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
-import mybatis.vo.BoardVO;
 import mybatis.vo.MovieVO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -102,24 +101,6 @@ public class MovieDAO {
         return rank;
     }
 
-    // 목록
-    public static MovieVO[] getList(int begin, int end) {
-        MovieVO[] movieArray = null;
-
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("begin", begin);// String.valueOf(begin)
-        map.put("end", end);
-
-        SqlSession ss = FactoryService.getFactory().openSession();
-        List<MovieVO> list = ss.selectList("movie.adminMovieList", map);
-        if (list != null && !list.isEmpty()) {
-            movieArray = new MovieVO[list.size()];
-            list.toArray(movieArray);
-        }
-        ss.close();
-        return movieArray;
-    }
-
 
     // ------------------------------- 검색 --------------------------------
 
@@ -184,6 +165,60 @@ public class MovieDAO {
 
 
     // ----------------------------------------------------- 관리자 ----------------------------------------------
+
+
+    // 관리자 화면에서 전체 영화 개수 반환
+    public static int adminMovieCount() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.selectOne("movie.adminMovieCount");
+        ss.close();
+
+        return cnt;
+    }
+
+    // 목록 (관리자 화면에서 영화 목록 보기)
+    public static MovieVO[] adminMovieList(int begin, int end) {
+        MovieVO[] movieArray = null;
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("begin", begin);// String.valueOf(begin)
+        map.put("end", end);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<MovieVO> list = ss.selectList("movie.adminMovieList", map);
+        if (list != null && !list.isEmpty()) {
+            movieArray = new MovieVO[list.size()];
+            list.toArray(movieArray);
+        }
+        ss.close();
+        return movieArray;
+    }
+
+    // 관리자 영화 상세 정보 수정
+    public static boolean updateMovieInfo(MovieVO mvo){
+        boolean isUpdate = false;
+
+        Map<String, String> map = new HashMap<>();
+        map.put("movieIdx", mvo.getMovieIdx());
+        map.put("movieGenre", mvo.getMovieGenre());
+        map.put("movieTime", mvo.getMovieTime());
+        map.put("movieGrade", mvo.getMovieGrade());
+        map.put("movieDate", mvo.getMovieDate());
+        map.put("movieDirector", mvo.getMovieDirector());
+        map.put("movieActors", mvo.getMovieActors());
+        map.put("movieInfo", mvo.getMovieInfo());
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("movie.updateMovieInfo", map);
+        if(cnt > 0){
+            ss.commit();
+            isUpdate = true;
+        } else
+            ss.rollback();
+        ss.close();
+        return isUpdate;
+    }
+
 
     // 새로운 영화 정보를 API로 받아와서 DB에 저장하는 함수 (관리자)
     public static int addNewMovie(MovieVO mvo){
