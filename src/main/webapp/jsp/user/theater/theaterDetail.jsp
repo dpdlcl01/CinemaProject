@@ -883,11 +883,13 @@
             </c:forEach>
         </div>
     </div>
+</div>
 <input type="hidden" id="theaterIdx" value="${theaterIdx}" />
 <%--비회원 로그인 모달--%>
 <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal" style="display: none;">비회원</a>
 <jsp:include page="../login/reservationLoginModal.jsp"/>
 <div id="customLoginModal" style="display: none;">
+<%-- 로그인 모달 --%>
 </div>
 
         <!-- footer 영역 -->
