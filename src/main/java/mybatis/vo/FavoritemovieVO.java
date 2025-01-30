@@ -1,14 +1,14 @@
 package mybatis.vo;
 
 public class FavoritemovieVO {
-    String favoriteIdx, userIdx, movieIdx, addedDate, movieTitle, movieGenre, movieTime, moviePosterUrl;
+    String favoriteMovieIdx, userIdx, movieIdx, addedDate, movieTitle, movieGenre, movieTime, moviePosterUrl;
 
-    public String getFavoriteIdx() {
-        return favoriteIdx;
+    public String getFavoriteMovieIdx() {
+        return favoriteMovieIdx;
     }
 
-    public void setFavoriteIdx(String favoriteIdx) {
-        this.favoriteIdx = favoriteIdx;
+    public void setFavoriteMovieIdx(String favoriteMovieIdx) {
+        this.favoriteMovieIdx = favoriteMovieIdx;
     }
 
     public String getUserIdx() {

@@ -130,21 +130,6 @@
         #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus})
     </insert>
 
-    <!-- TMDB ID 업데이트 -->
-    <update id="updateMovieTmdbId" parameterType="java.util.Map">
-        UPDATE movie
-        SET movieTmdbId = #{movieTmdbId}
-        WHERE movieCd = #{movieCd}
-    </update>
-
-    <!-- TMDB ID가 없는 영화 목록 가져오기 -->
-    <select id="getMoviesWithoutTmdbId" resultType="mybatis.vo.MovieVO">
-        SELECT movieCd, movieTitle
-        FROM movie
-        WHERE movieTmdbId IS NULL
-    </select>
-
-
     <!-- 영화 업데이트를 위해 현재 영화의 KOFIC 영화코드를 가져옴 -->
     <select id="getAllMovieCodes" resultType="mybatis.vo.MovieVO">
         SELECT movieCd
@@ -177,7 +162,6 @@
         END
         WHERE movieCd = #{movieCd}
     </update>
-
 
 
 

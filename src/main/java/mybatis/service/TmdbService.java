@@ -98,23 +98,43 @@ public class TmdbService {
             JsonNode root = mapper.readTree(conn.getInputStream());
             JsonNode results = root.get("results");
 
+            JsonNode exactMatch = null;
             JsonNode bestMatch = null;
             int highestScore = -1;
 
             if (results != null && results.size() > 0) {
                 for (JsonNode result : results) {
-                    int score = 0;
-
                     String title = result.get("title").asText();
                     String releaseDate = result.has("release_date") ? result.get("release_date").asText() : null;
                     JsonNode productionCountries = result.get("production_countries");
 
-                    // 1. 제목 유사성 (점수: 10점)
+                    // **1. 제목과 국가가 모두 정확히 일치하는 경우** 최우선 선택
+                    boolean isExactTitleMatch = title.equalsIgnoreCase(mvo.getMovieTitle());
+                    boolean isExactCountryMatch = false;
+
+                    if (productionCountries != null && productionCountries.isArray()) {
+                        for (JsonNode country : productionCountries) {
+                            if (mvo.getMovieNation() != null && mvo.getMovieNation().equalsIgnoreCase(country.get("iso_3166_1").asText())) {
+                                isExactCountryMatch = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isExactTitleMatch && isExactCountryMatch) {
+                        exactMatch = result;
+                        break;  // 정확히 일치하는 영화가 있으면 더 이상 탐색하지 않음
+                    }
+
+                    // **2. 점수 기반 비교** (제목, 연도, 국가)
+                    int score = 0;
+
+                    // 제목 유사성 (점수: 10점)
                     if (title.equalsIgnoreCase(mvo.getMovieTitle()) || title.contains(mvo.getMovieTitle())) {
                         score += 10;
                     }
 
-                    // 2. 개봉 연도 유사성 (점수: 5점)
+                    // 개봉 연도 유사성 (점수: 5점)
                     if (releaseDate != null && mvo.getMovieDate() != null) {
                         String movieYear = mvo.getMovieDate().substring(0, 4);
                         String releaseYear = releaseDate.substring(0, 4);
@@ -123,21 +143,12 @@ public class TmdbService {
                         }
                     }
 
-                    // 3. 국가 조건 (점수: 3점)
-                    boolean isCountryMatch = false;
-                    if (productionCountries != null && productionCountries.isArray()) {
-                        for (JsonNode country : productionCountries) {
-                            if ("KR".equalsIgnoreCase(country.get("iso_3166_1").asText())) {
-                                isCountryMatch = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (isCountryMatch) {
+                    // 국가 조건 (점수: 3점)
+                    if (isExactCountryMatch) {
                         score += 3;
                     }
 
-                    // 가장 높은 점수를 가진 결과를 선택
+                    // 최고 점수의 결과 선택
                     if (score > highestScore) {
                         highestScore = score;
                         bestMatch = result;
@@ -145,7 +156,9 @@ public class TmdbService {
                 }
             }
 
-            return bestMatch; // 최적의 결과 반환
+            // **3. 정확히 일치하는 영화가 있으면 반환, 없으면 최고 점수의 결과 반환**
+            return exactMatch != null ? exactMatch : bestMatch;
+
         } catch (Exception e) {
             System.out.println("TMDB 검색 실패: " + e.getMessage());
         }

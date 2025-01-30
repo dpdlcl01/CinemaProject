@@ -48,12 +48,6 @@ public class DbUpdateAction implements Action {
                                 .getAttribute("onclick").split("'")[3]; // 영화 코드
                         String movieTitle = tdList.get(1).getText(); // 영화 제목
 
-                        // 특정 영화 제외 조건
-                        if (movieTitle.contains("아이돌리쉬 세븐") || movieTitle.contains("캐롤")) {
-                            System.out.println("제외된 영화: " + movieTitle);
-                            continue; // 해당 영화 건너뛰기
-                        }
-
                         String movieRank = tdList.get(0).getText(); // 예매 순위
                         String reservationRate = tdList.get(3).getText().replace("%", "").trim(); // 예매율
                         String movieTotalAudience = tdList.get(7).getText().replace(",", "").trim(); // 누적 관객수
@@ -99,21 +93,6 @@ public class DbUpdateAction implements Action {
                 } catch (Exception rowEx) {
                     System.out.println("행 데이터 처리 중 오류 발생: " + rowEx.getMessage());
                     rowEx.printStackTrace();
-                }
-            }
-
-            // 기존 영화 중 movieTmdbId가 없는 영화들 업데이트
-            System.out.println("기존 영화들의 TMDB ID 업데이트 시작...");
-            List<MovieVO> moviesWithoutTmdbId = MovieDAO.getMoviesWithoutTmdbId();
-
-            for (MovieVO movie : moviesWithoutTmdbId) {
-                if (TmdbService.fetchTmdbData(movie)) {
-                    int result = MovieDAO.updateMovieTmdbId(movie.getMovieCd(), movie.getMovieTmdbId());
-                    if (result > 0) {
-                        System.out.println("TMDB ID 업데이트 성공: " + movie.getMovieTitle() + " → " + movie.getMovieTmdbId());
-                    } else {
-                        System.out.println("TMDB ID 업데이트 실패: " + movie.getMovieTitle());
-                    }
                 }
             }
 

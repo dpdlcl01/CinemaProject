@@ -197,31 +197,6 @@ public class MovieDAO {
         return cnt;
     }
 
-    // TMDB ID 컬럼 업데이트
-    public static int updateMovieTmdbId(String movieCd, String movieTmdbId) {
-        Map<String, String> map = new HashMap<>();
-        map.put("movieCd", movieCd);
-        map.put("movieTmdbId", movieTmdbId);
-
-        SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.update("movie.updateMovieTmdbId", map);
-        if(cnt > 0)
-            ss.commit();
-        else
-            ss.rollback();
-        ss.close();
-        return cnt;
-    }
-
-    // TMDB ID 컬럼이 NULL인 영화 데이터 가져오기
-    public static List<MovieVO> getMoviesWithoutTmdbId() {
-        SqlSession ss = FactoryService.getFactory().openSession();
-        List<MovieVO> movieList = ss.selectList("movie.getMoviesWithoutTmdbId");
-        ss.close();
-        return movieList;
-    }
-
-
 
     // 영화 업데이트를 위해 현재 영화의 KOFIC 영화코드를 가져옴
     public static List<String> getAllMovieCodes(){

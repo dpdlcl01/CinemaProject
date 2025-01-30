@@ -306,14 +306,20 @@
 <div class="movie-detail-page">
     <div class="bg-img">영화 포스터</div>
     <div class="movie-detail-cont">
-        <c:if test="${requestScope.dDay ne null }">
-            <p class="d-day">
-            <c:choose>
-                <c:when test="${requestScope.dDay == 0}">개봉 D-Day</c:when>
-                <c:when test="${requestScope.dDay > 0}">개봉 D-${requestScope.dDay}</c:when>
-            </c:choose>
-            </p>
+        <c:if test="${mvo.movieRank eq null}">
+            <p class="d-day">상영종료</p>
         </c:if>
+        <c:if test="${mvo.movieRank ne null}">
+            <c:if test="${requestScope.dDay ne null}">
+                <p class="d-day">
+                    <c:choose>
+                        <c:when test="${requestScope.dDay == 0}">개봉 D-Day</c:when>
+                        <c:when test="${requestScope.dDay > 0}">개봉 D-${requestScope.dDay}</c:when>
+                    </c:choose>
+                </p>
+            </c:if>
+        </c:if>
+
         <p class="title">${mvo.movieTitle }</p>
         <p class="title-eng">${mvo.movieTitleEn }</p>
         <div class="btn-util">
@@ -352,16 +358,28 @@
                 <p class="tit">예매율</p>
                 <p class="cont">
                     <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-ticket-gray.png"/>
-                    <em>${requestScope.rank }</em>
-                    위 (${mvo.movieReservationRate }%)
+                    <c:choose>
+                        <c:when test="${mvo.movieRank ne null}">
+                            <em>${mvo.movieRank}</em> 위 (${mvo.movieReservationRate }%)
+                        </c:when>
+                        <c:otherwise>
+                            <em>-</em> 위 (-%)
+                        </c:otherwise>
+                    </c:choose>
                 </p>
             </div>
             <div class="audience">
                 <div class="tit">누적관객수</div>
                 <p class="cont">
                     <img src="https://img.megabox.co.kr/static/pc/images/common/ico/ico-person.png"/>
-                    <em><fmt:formatNumber value="${mvo.movieTotalAudience }"/></em>
-                    명
+                    <c:choose>
+                        <c:when test="${mvo.movieTotalAudience ne null}">
+                            <em><fmt:formatNumber value="${mvo.movieTotalAudience }"/></em> 명
+                        </c:when>
+                        <c:otherwise>
+                            <em>-</em> 명
+                        </c:otherwise>
+                    </c:choose>
                 </p>
             </div>
         </div>
@@ -378,12 +396,22 @@
             </div>
         </div>
         <div class="reserve-type">
-            <form action="UserController?type=reservation&movieIdx=${mvo.movieIdx }" method="post">
-                <button type="submit" class="reserve-btn">
-                    예매
+            <c:if test="${mvo.movieRank eq null}">
+                <!-- 상영종료 버튼 -->
+                <button type="button" class="reserve-btn disabled" disabled>
+                    상영종료
                 </button>
-            </form>
+            </c:if>
+            <c:if test="${mvo.movieRank ne null}">
+                <!-- 예매 버튼 -->
+                <form action="UserController?type=reservation&movieIdx=${mvo.movieIdx}" method="post">
+                    <button type="submit" class="reserve-btn">
+                        예매
+                    </button>
+                </form>
+            </c:if>
         </div>
+
     </div>
 </div>
 
@@ -619,7 +647,7 @@
                         </div>
                     </div>
                     </c:otherwise>
-                </c:choose>
+            </c:choose>
             </div>
 
         <script>
@@ -925,18 +953,6 @@
         iconBtn.classList.toggle('on');
     });
 
-    // /* 관람평 로그인 부분 */
-    // const tooltipClicks = document.querySelectorAll('.tooltipClick');
-    // const tooltipConts = document.querySelectorAll('.tooltipCont');
-    //
-    // tooltipClicks.forEach((click, index) => {
-    //     const cont = tooltipConts[index];
-    //
-    //     click.addEventListener('click', function (event) {
-    //         event.preventDefault();
-    //         cont.classList.toggle('on');
-    //     });
-    // });
 
 
 
