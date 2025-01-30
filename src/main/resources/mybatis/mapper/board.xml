@@ -15,18 +15,19 @@
     <select id="list" resultType="mybatis.vo.BoardVO" parameterType="Map">
         SELECT * FROM(
         SELECT @RN:=@RN+1 AS rnum, a.* FROM(
-        SELECT * FROM board
-        WHERE boardStatus = 0 AND boardType = #{bType}
-        ORDER BY boardIdx DESC
-        ) a, (SELECT @RN:=0) b
-        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+        SELECT b.*, t.theaterName FROM board b
+        JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardStatus = 0 AND b.boardType = #{bType}
+        ORDER BY b.boardIdx DESC
+        ) a ) c, (SELECT @RN:=0) b
+        WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
     <!-- 저장 -->
     <insert id="add" parameterType="Map">
-        INSERT INTO board(adminIdx, theatherIdx, boardType,
+        INSERT INTO board(adminIdx, theaterIdx, boardType,
         boardTitle, boardContent, boardRegDate, boardExpDate)
-        VALUES(#{adminIdx}, #{theatherIdx}, #{boardType},
+        VALUES(#{adminIdx}, #{theaterIdx}, #{boardType},
         #{boardTitle}, #{boardContent}, NOW(), #{boardExpDate})
     </insert>
 

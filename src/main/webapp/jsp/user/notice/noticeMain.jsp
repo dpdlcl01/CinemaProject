@@ -188,7 +188,7 @@
     <h1>공지사항</h1>
     <div id="announcement" class="noticeboard">
         <div class="search-bar-container">
-            <div class="total-count">전체 3,803건</div>
+            <div class="total-count">전체 ${requestScope.total}건</div>
             <!-- 검색어 입력 섹션 -->
             <div class="search-bar">
                 <select>
@@ -231,7 +231,7 @@
                 <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
                 <tr>
                     <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index)+1 }</td>
-                    <td></td>
+                    <td>${vo.theaterName}</td>
                     <td>공지</td>
                     <td>
                         <a href="UserController?type=view&boardIdx=${vo.boardIdx}">${vo.boardTitle}</a>

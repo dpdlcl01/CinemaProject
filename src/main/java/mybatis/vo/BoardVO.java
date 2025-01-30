@@ -1,9 +1,17 @@
 package mybatis.vo;
 
 public class BoardVO {
-    private String boardIdx, adminIdx, theatherIdx, boardType,
+    private String boardIdx, adminIdx, theaterIdx, boardType,
             boardTitle, boardContent, boardRegDate,
-            boardExpDate, boardStatus;
+            boardExpDate, boardStatus, theaterName;
+
+    public String getTheaterName() {
+        return theaterName;
+    }
+
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
+    }
 
     public String getBoardIdx() {
         return boardIdx;
@@ -21,12 +29,12 @@ public class BoardVO {
         this.adminIdx = adminIdx;
     }
 
-    public String getTheatherIdx() {
-        return theatherIdx;
+    public String getTheaterIdx() {
+        return theaterIdx;
     }
 
-    public void setTheatherIdx(String theatherIdx) {
-        this.theatherIdx = theatherIdx;
+    public void setTheaterIdx(String theaterIdx) {
+        this.theaterIdx = theaterIdx;
     }
 
     public String getBoardType() {

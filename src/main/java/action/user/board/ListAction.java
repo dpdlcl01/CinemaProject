@@ -23,6 +23,8 @@ public class ListAction implements Action {
         // 페이징 객체안에 총 게시물의 수를 저장하면서 전체페이지 수를 구한다.
         page.setTotalRecord(totalCount);// 이때 전체페이지수(totalPage)가 구해진다.
 
+        request.setAttribute("total", totalCount);
+
         // 현재페이지 값을 파라미터로 받아보자!
         String cPage = request.getParameter("cPage");
 
