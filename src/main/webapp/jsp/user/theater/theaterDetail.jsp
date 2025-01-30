@@ -257,6 +257,15 @@
         border: none; /* 테두리 제거 */
     }
 
+    /* 컨테이너 */
+    .schedule-container:first-child{
+        width: 100%; /* 양쪽 테두리를 없애고 전체 너비로 확장 */
+        margin: 20px 0;
+        padding: 20px 0; /* 좌우 패딩 제거 */
+        background-color: transparent; /* 배경 색상 제거 */
+        border: none; /* 테두리 제거 */
+    }
+
     /* 영화 정보 */
     .movie-info {
         display: flex;
@@ -343,12 +352,13 @@
         margin: 20px auto;
         padding: 20px;
         background-color: #fff;
-        border-top: 1px solid #ddd; /* 상단 보더만 유지 */
+        /*border-top: 1px solid #ddd; !* 상단 보더만 유지 *!*/
         border-bottom: 1px solid #ddd; /* 하단 보더만 유지 */
         border-left: none; /* 왼쪽 보더 제거 */
         border-right: none; /* 오른쪽 보더 제거 */
         border-radius: 0; /* 테두리 둥근 모서리 제거 */
     }
+
 
     /* 영화 정보 */
     .movie-info {
@@ -686,6 +696,11 @@
         /*margin-right: 100px;*/
     }
 
+    .movie-group{
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
 
 </style>
 
@@ -776,6 +791,7 @@
 
 
         <div class="schedule-container">
+            <div class="movieArray">
         <!-- 영화 데이터가 없을 경우 -->
         <c:if test="${empty movie}">
             <p>영화 데이터가 없습니다.</p>
@@ -784,6 +800,7 @@
         <!-- 영화 목록 반복 출력 -->
         <c:forEach var="item" items="${movie}">
             <!-- 영화 정보 -->
+
             <div class="movie-info">
                 <div class="movie-rating">
                     <span>${item.movieGrade}</span> <%-- 영화 등급 --%>
@@ -808,6 +825,7 @@
                         <a href="#">${item.timetableStartTime} <span>${item.remainSeat}석</span></a>
                     </div>
                 </div>
+            </div>
             </div>
         </c:forEach>
     </div>
@@ -1013,6 +1031,13 @@
                     return holidays.includes(formatDate(date));
                 }
 
+                // 날짜 비교용 함수
+                function isToday(date) {
+                    const today = new Date();
+                    return date.getDate() === today.getDate() &&
+                        date.getMonth() === today.getMonth() &&
+                        date.getFullYear() === today.getFullYear();
+                }
 
                 /* 영화 상영시간표 */
                 function updateShowtimes() {
@@ -1020,10 +1045,19 @@
                     const theaterIdx = document.querySelector("#theaterIdx").value;
                     const contextPath = "${pageContext.request.contextPath}";
                     const url = contextPath + "/UserController?type=theaterMovie&theaterIdx=" + theaterIdx + "&targetDate=" + formattedDate;
+                    console.log(formattedDate); //  오늘날짜 확인용
 
                     fetch(url)
                         .then(response => response.json())
                         .then(data => {
+                            // 현재 날짜인 경우 시간 필터링
+                            if (isToday(currentDate)) {
+                                const now = new Date();
+                                data = data.filter(item => {
+                                    const showTime = new Date(item.timetableStartTime);
+                                    return showTime > now; // 현재 시간 이후만 나오도록 설정
+                                });
+                            }
                             const scheduleContainer = document.querySelector(".schedule-container");
                             scheduleContainer.innerHTML = "";
 
@@ -1037,7 +1071,7 @@
                             };
 
                             if (Array.isArray(data) && data.length > 0) {
-                                // 1. 영화명 + 상영관 기준으로 2중 그룹화
+                                // 영화명 + 상영관 기준으로 2중 그룹화
                                 const groupedData = data.reduce((acc, item) => {
                                     // 영화 제목 그룹
                                     const movieKey = item.movieTitle;
@@ -1059,7 +1093,8 @@
                                     }
                                     // 시간 추가
                                     acc[movieKey].screens[screenKey].times.push({
-                                        time: item.startTime,
+                                        time: item.startTime, // 시간만 전시
+                                        timetable: item.timetableStartTime,
                                         screenIdx: item.screenIdx,
                                         remainSeat: item.remainSeat,
                                         movieIdx: item.movieIdx,
@@ -1067,13 +1102,37 @@
                                     });
                                     return acc;
                                 }, {});
+                                // console.log("현재날짜:"+currentDate);
 
-                                // 2. HTML 생성
+
+
+                                // 영화정보
                                 Object.entries(groupedData).forEach(([movieTitle, movieInfo]) => {
+                                    const movieGroup = document.createElement("div");
+                                    movieGroup.className = "movie-group";
+
                                     const movieElement = document.createElement("div");
                                     movieElement.className = "movie-info";
+                                    // movieGrade 값에 따라 배경색 설정
+                                    let bgColor = "";
+                                    switch (movieInfo.movieGrade) {
+                                        case "ALL":
+                                            bgColor = "#4CAF50"; // 초록색
+                                            break;
+                                        case "12":
+                                            bgColor = "#FFC107"; // 노란색
+                                            break;
+                                        case "15":
+                                            bgColor = "#FF5722"; // 주황색
+                                            break;
+                                        case "19":
+                                            bgColor = "#F44336"; // 빨간색
+                                            break;
+                                        default:
+                                            bgColor = "#ddd"; // 기본 배경색 (회색)
+                                    }
                                     movieElement.innerHTML =
-                                        '<div class="movie-rating"><span>' + movieInfo.movieGrade + '</span></div>' +
+                                        '<div class="movie-rating" style="background-color:' + bgColor + ';">' + movieInfo.movieGrade + '</span></div>' +
                                         '<div class="movie-details">' +
                                         '<strong>' + movieTitle + '</strong>' +
                                         '<span>상영중 / 상영시간 ' + movieInfo.movieTime + '분</span>' +
@@ -1096,20 +1155,23 @@
                                             '</div>' +
                                             '<div class="time-slots">' +
                                             screen.times.map(time =>
-                                                '<a href="#" ' + // href를 #으로 변경
+                                                '<a href="#" ' +
                                                 'data-timetable-idx="' + time.timetableIdx + '" ' +
                                                 'data-screen-idx="' + time.screenIdx + '" ' + //
                                                 'data-screen-type="'+ screen.screenType +'" ' +
-                                                'data-movie-idx="' + time.movieIdx + '" ' + // 영화 ID 추가
-                                                'data-screen-name="' + screenName + '">' + // 상영관 이름
-                                                time.time + ' <span>' + time.remainSeat + '석</span>' +
+                                                'data-movie-idx="' + time.movieIdx + '" ' +
+                                                'data-screen-name="' + screenName + '" ' +
+                                                'data-timetable-start="' + time.timetable +'">' +
+                                                time.time + ' <span>' + time.remainSeat + '석</span>' + // db변경시 수정할 곳
                                                 '</a>'
                                             ).join('') +
                                             '</div>';
                                         showtimes.appendChild(theater);
                                     });
-                                    scheduleContainer.appendChild(movieElement);
-                                    scheduleContainer.appendChild(showtimes); // showtimes를 독립적으로 추가
+                                    movieGroup.appendChild(movieElement);
+                                    movieGroup.appendChild(showtimes);
+
+                                    scheduleContainer.appendChild(movieGroup);
 
                                 });
                             } else {
@@ -1118,14 +1180,15 @@
                         })
                         .catch(error => console.error("Error:", error));
                 }
-                // 클릭 이벤트 위임 처리
-                document.querySelector('.schedule-container').addEventListener('click', async function(e) { // ← async 추가
+                // 날짜 클릭 이벤트
+                document.querySelector('.schedule-container').addEventListener('click', async function(e) {
                     const target = e.target.closest('.time-slots a');
                     if (!target) return;
-
                     e.preventDefault();
 
-                    // 1. URL 파라미터 생성
+                    const timetableStart = target.dataset.timetableStart;
+
+                    // URL 파라미터 생성
                     const timetableIdx = target.dataset.timetableIdx;
                     const screenIdx = target.dataset.screenIdx;
                     const screenType = target.dataset.screenType;
@@ -1133,11 +1196,12 @@
                     const theaterIdx = document.querySelector("#theaterIdx").value;
                     const isWeekendDay = isWeekend(currentDate);
                     const timeString = target.textContent.split(' ')[0];
+                    const [datePart, timePart] = timetableStart.split(' ');
                     const [hours] = timeString.split(':').map(Number);
                     const isMorning = hours < 12;
                     const contextPath = "${pageContext.request.contextPath}";
 
-                    // 2. URL 변수를 먼저 선언 (아래에서 사용하기 위해)
+                    //  클릭 시 이동할 경로
                     const url = contextPath + "/UserController?type=seat" +
                         "&movieIdx=" + movieIdx +
                         "&screenIdx=" + screenIdx +
@@ -1156,13 +1220,7 @@
                             $('#customLoginModal').modal('show');
                             sessionStorage.setItem('redirectUrl', url);  // 로그인 후 돌아갈 URL 저장
                         } else {
-                            // 로그인 후 redirectUrl이 있으면 그 URL로 리디렉션
-                            const redirectUrl = sessionStorage.getItem('redirectUrl');
-                            if (redirectUrl) {
-                                window.location.href = redirectUrl;  // 로그인 후 저장된 URL로 이동
-                            } else {
-                                window.location.href = url;  // 기본 URL로 이동
-                            }
+                            window.location.href = url
                         }
                     } catch (error) {
                         console.error("로그인 체크 실패:", error);

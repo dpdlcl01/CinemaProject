@@ -64,7 +64,7 @@
 
     <!--극장 상영시간표 조회-->
     <select id="getMovie" parameterType="map" resultType="mybatis.vo.TheaterMovieVO">
-        SELECT s.screenName, m.movieTitle, m.movieIdx, m.movieGrade, m.movieTime, s.screenSeatCount, s.screenType, s.screenIdx,
+        SELECT s.screenName, m.movieTitle, m.movieIdx, m.movieGrade, m.movieTime, s.screenSeatCount, s.screenType, s.screenIdx, t.timetableStartTime,
         COUNT(IF(st.seatStatus = 0, 1, NULL)) as remainSeat,
         DATE_FORMAT(t.timetableStartTime, '%H:%i') AS startTime,
         t.timetableIdx
