@@ -791,7 +791,6 @@
 
 
         <div class="schedule-container">
-            <div class="movieArray">
         <!-- 영화 데이터가 없을 경우 -->
         <c:if test="${empty movie}">
             <p>영화 데이터가 없습니다.</p>
@@ -884,7 +883,6 @@
             </c:forEach>
         </div>
     </div>
-</div>
 <input type="hidden" id="theaterIdx" value="${theaterIdx}" />
 <%--비회원 로그인 모달--%>
 <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal" style="display: none;">비회원</a>
