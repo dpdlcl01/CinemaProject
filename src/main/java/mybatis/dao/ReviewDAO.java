@@ -61,21 +61,26 @@ public class ReviewDAO {
 
 
     // 리뷰 작성
-    public static int writeReview(String userIdx, String movieIdx, String reviewRating, String reviewContent){
-        ReviewVO rvo = null;
+    public static boolean writeReview(String userIdx, String movieIdx, String reviewRating, String reviewContent){
+        boolean isSaved = false;
+
+        ReviewVO rvo = new ReviewVO();
         rvo.setUserIdx(userIdx);
         rvo.setMovieIdx(movieIdx);
         rvo.setReviewRating(reviewRating);
         rvo.setReviewContent(reviewContent);
 
+        System.out.println(rvo.getUserIdx());
+
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("review.writeReview", rvo);
-        if(cnt > 0)
+        if(cnt > 0){
             ss.commit();
-        else
+            isSaved = true;
+        } else
             ss.rollback();
         ss.close();
-        return cnt;
+        return isSaved;
     }
 
 

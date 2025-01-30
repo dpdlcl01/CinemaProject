@@ -195,21 +195,23 @@ public class MovieDAO {
     }
 
     // 관리자 영화 상세 정보 수정
-    public static boolean updateMovieInfo(MovieVO mvo){
+    public static boolean updateMovieInfo(String movieIdx, String movieGenre, String movieTime, String movieGrade,
+                              String movieDate, String movieDirector, String movieActors, String movieInfo){
         boolean isUpdate = false;
 
-        Map<String, String> map = new HashMap<>();
-        map.put("movieIdx", mvo.getMovieIdx());
-        map.put("movieGenre", mvo.getMovieGenre());
-        map.put("movieTime", mvo.getMovieTime());
-        map.put("movieGrade", mvo.getMovieGrade());
-        map.put("movieDate", mvo.getMovieDate());
-        map.put("movieDirector", mvo.getMovieDirector());
-        map.put("movieActors", mvo.getMovieActors());
-        map.put("movieInfo", mvo.getMovieInfo());
+        // MovieVO에 데이터 매핑
+        MovieVO mvo = new MovieVO();
+        mvo.setMovieIdx(movieIdx);
+        mvo.setMovieGenre(movieGenre);
+        mvo.setMovieTime(movieTime);
+        mvo.setMovieGrade(movieGrade);
+        mvo.setMovieDate(movieDate);
+        mvo.setMovieDirector(movieDirector);
+        mvo.setMovieActors(movieActors);
+        mvo.setMovieInfo(movieInfo);
 
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.update("movie.updateMovieInfo", map);
+        int cnt = ss.update("movie.updateMovieInfo", mvo);
         if(cnt > 0){
             ss.commit();
             isUpdate = true;

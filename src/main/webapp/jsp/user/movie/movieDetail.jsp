@@ -683,6 +683,7 @@
         <button type="button" onclick="closeDialog('reviewCompleteNoticeDialog')">확인</button>
     </div>
 </div>
+<input type="hidden" id="hidden-movie-idx" value="${requestScope.mvo.movieIdx}">
 <script>
     // 다이얼로그 열기 함수
     function openDialog(dialogId) {
@@ -756,6 +757,7 @@
             link.addEventListener("click", function (event) {
                 event.preventDefault(); // 기본 동작 방지
                 const movieIdx = this.getAttribute("data-movie-idx"); // data-movie-idx 값 읽기
+                console.log(movieIdx);
                 writeReview(movieIdx); // writeReview 함수 호출
             });
         });
@@ -956,11 +958,11 @@
 
 
 
+
     document.querySelector(".button.purple").addEventListener("click", function () {
         const reviewRating = document.querySelector(".num em").textContent; // 선택된 별점
         const reviewContent = document.getElementById("textarea").value.trim(); // 리뷰 내용
-        const userIdx = "사용자의 ID"; // 세션 또는 글로벌 변수에서 가져오기
-        const movieIdx = "영화의 ID"; // 현재 영화의 ID
+        const movieIdx = document.getElementById("hidden-movie-idx").value; // 숨겨진 input에서 movieIdx 가져오기
 
         if (!reviewRating || reviewRating === "0") {
             alert("별점을 선택해주세요.");
@@ -979,22 +981,17 @@
 
         // AJAX 요청으로 관람평 등록
         $.ajax({
-            url: "UserController?type=reviewWrite", // 서버의 Action URL
+            url: "UserController?type=reviewWrite",
             type: "POST",
-            data: {
-                userIdx: userIdx,
-                movieIdx: movieIdx,
-                reviewRating: reviewRating,
-                reviewContent: reviewContent,
-            },
+            data: { movieIdx, reviewRating, reviewContent },
             dataType: "json",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            },
             success: function (res) {
+                alert(res.message);
                 if (res.success) {
-                    alert(res.message);
-                    closeReviewWriteModal(); // 모달 닫기
-                    location.reload(); // 새로고침으로 리뷰 리스트 갱신
-                } else {
-                    alert(res.message);
+                    location.reload();  // 성공 시 페이지 새로고침
                 }
             },
             error: function () {

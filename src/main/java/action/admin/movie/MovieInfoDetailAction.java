@@ -42,19 +42,11 @@ public class MovieInfoDetailAction implements Action {
             String movieActors = request.getParameter("movieActors");
             String movieInfo = request.getParameter("movieInfo");
 
-            // MovieVO에 데이터 매핑
-            MovieVO mvo = new MovieVO();
-            mvo.setMovieIdx(movieIdx);
-            mvo.setMovieGenre(movieGenre);
-            mvo.setMovieTime(movieTime);
-            mvo.setMovieGrade(movieGrade);
-            mvo.setMovieDate(movieDate);
-            mvo.setMovieDirector(movieDirector);
-            mvo.setMovieActors(movieActors);
-            mvo.setMovieInfo(movieInfo);
+
 
             // DB 업데이트 실행
-            boolean isUpdated = MovieDAO.updateMovieInfo(mvo);
+            boolean isUpdated = MovieDAO.updateMovieInfo(movieIdx, movieGenre, movieTime, movieGrade,
+                    movieDate, movieDirector, movieActors, movieInfo);
 
             // 응답 전송
             if (isUpdated) {

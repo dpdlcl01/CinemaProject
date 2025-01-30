@@ -126,7 +126,7 @@
 
 
     <!-- 관리자 영화 상세 정보 수정 -->
-    <update id="updateMovieInfo" parameterType="java.util.Map">
+    <update id="updateMovieInfo" parameterType="mybatis.vo.MovieVO">
         UPDATE movie
         SET movieGenre = #{movieGenre},
         movieTime = #{movieTime},

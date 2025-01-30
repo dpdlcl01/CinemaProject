@@ -2,18 +2,24 @@ package action.user.review;
 
 import action.Action;
 import mybatis.dao.ReviewDAO;
+import mybatis.vo.UserVO;
 import org.json.JSONObject;
+import util.SessionUtil;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public class ReviewCheckAction implements Action {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        UserVO uservo = SessionUtil.getLoginUser(request);
+        String userIdx = uservo.getUserIdx();
+
         String type = request.getParameter("type"); // 타입 값 가져오기
-        String userIdx = request.getParameter("userIdx");
         String movieIdx = request.getParameter("movieIdx");
 
         response.setContentType("application/json");
