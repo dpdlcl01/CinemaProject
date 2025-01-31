@@ -455,6 +455,7 @@
   function gotoMain3(frm){
     let userPhone = $.trim($(".inputValue[name='userPhone']").val());
     let userId = $.trim($(".inputValue[name='userId']").val());
+    let userPassword = $.trim($("#userPassword1").val());  // 비밀번호 값 가져오기
 
     if(userPhone.length < 10) {
       alert("핸드폰번호를 입력해주세요.");
@@ -468,7 +469,7 @@
     }
     if(userPassword.length < 6) {
       alert("비밀번호는 6글자 이상만 입력가능합니다.");
-      $(".inputValue[name='userPassword']").val("").focus();
+      $("#userPassword1").val("").focus();
       return false;
     }
     document.getElementById("type").value = "register";
@@ -520,7 +521,7 @@
     }
 
     $.ajax({
-      url:'/UserController?type=usercheckid',
+      url:'UserController?type=usercheckid',
       type:"post",
       data:{ userId: userId },
       success:function(response) {
