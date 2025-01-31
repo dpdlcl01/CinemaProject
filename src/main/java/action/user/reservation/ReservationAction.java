@@ -18,7 +18,6 @@ public class ReservationAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("type"); // reservation은 GET 파라미터로 처리
-        System.out.println("Action 호출됨: type=" + request.getParameter("type"));
 
         if (type.equals("reservation")) {
             // 영화 데이터를 DAO에서 가져옴

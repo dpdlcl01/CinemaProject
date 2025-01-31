@@ -73,7 +73,7 @@
         INNER JOIN screen s ON t.screenIdx = s.screenIdx
         INNER JOIN movie m ON t.movieIdx = m.movieIdx
         INNER JOIN seat st ON s.screenIdx = st.screenIdx
-        LEFT JOIN timetableSeatStatus ts ON t.timetableIdx = ts.timetableIdx AND st.seatIdx = ts.seatIdx
+        LEFT JOIN seatStatus ts ON t.timetableIdx = ts.timetableIdx AND st.seatIdx = ts.seatIdx
         WHERE t.theaterIdx = #{theaterIdx} AND DATE(t.timetableStartTime) = #{targetDate}
         GROUP BY t.timetableIdx
         ORDER BY t.timetableStartTime;
