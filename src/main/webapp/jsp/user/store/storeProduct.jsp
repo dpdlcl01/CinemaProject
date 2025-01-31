@@ -289,7 +289,7 @@
     <input type="hidden" name="productCategory" id="productCategory" value="${requestScope.pCategory}">
     <input type="hidden" name="productQuant" id="productQuant">
     <input type="hidden" name="productPrice" id="productPrice">
-    <input type="hidden" name="productIdx" id="productIdx" value="${requestScope.pIdx}">
+    <input type="hidden" name="pIdx" id="productIdx" value="${requestScope.pIdx}">
   </form>
 
   <article id="notice" title="알림">

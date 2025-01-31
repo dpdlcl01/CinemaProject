@@ -247,7 +247,7 @@
         <div id="title">
             <div id="announcement" class="noticeboard">
                 <div class="search-bar-container">
-                    <div class="total-count">전체 ${requestScope.totalCount}건</div>
+                    <div class="total-count">전체 ${fn:length(requestScope.ar)}건</div>
                     <!-- 검색어 입력 섹션 -->
                     <div class="search-bar">
                     <%--    <select>
@@ -264,8 +264,8 @@
                             <option>안성스타필드</option>
                         </select>--%>
                         <div class="search-bar2">
-                            <input type="text" placeholder="검색어를 입력해주세요." title="회원번호 검색" class="input-text">
-                            <button class="btn">
+                            <input type="text" placeholder="사용자idx를 입력하세요" title="사용자 검색" class="input-text">
+                            <button class="btn" onclick="searchUser()">
                                 <i class="ico-search"></i>
                                 검색
                             </button>
@@ -277,51 +277,43 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>순위</th>
-                        <th>KOFIC 영화코드</th>
-                        <th>제목</th>
-                        <th>예매율</th>
-                        <th>상영시간</th>
-                        <th>관람등급</th>
-                        <th>개봉일</th>
-                        <th>영화상태</th>
+                        <th>유저idx</th>
+                        <th>예매정보</th>
+                        <th>상품정보</th>
+                        <th>수량</th>
+                        <th>결제방식</th>
+                        <th>결제금액</th>
+                        <th>할인금액</th>
+                        <th>최종금액</th>
+                        <th>결제번호</th>
+                        <th>결제날짜</th>
+                        <th>결제상태</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:set var="pvo" value="${requestScope.page}"/>
-                    <c:forEach var="vo" items="${movieArray }" varStatus="vs">
-                        <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
+
+                    <c:forEach items="${requestScope.ar}" var="ar">
+
+
                         <tr>
-                            <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index)+1 }</td>
-                            <td>${vo.movieCd }</td>
-                            <td>
-                                <a href="AdminController?type=movieInfoView&movieIdx=${vo.movieIdx }">${vo.movieTitle }</a>
-                            </td>
-                            <td>${vo.movieReservationRate }%</td>
-                            <td>${vo.movieTime }분</td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${vo.movieGrade == 'ALL' }"><p class="movie-grade age-all">전체 관람가</p></c:when>
-                                    <c:when test="${vo.movieGrade == '12' }"><p class="movie-grade age-12">12세 관람가</p></c:when>
-                                    <c:when test="${vo.movieGrade == '15' }"><p class="movie-grade age-15">15세 관람가</p></c:when>
-                                    <c:when test="${vo.movieGrade == '19' }"><p class="movie-grade age-19">청소년 관람 불가</p></c:when>
-                                </c:choose>
-                            </td>
-                            <td>${vo.movieDate }</td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${vo.movieStatus == 0 }">개봉</c:when>
-                                    <c:when test="${vo.movieStatus == 1 }">개봉 예정</c:when>
-                                    <c:when test="${vo.movieStatus == 2 }">종료</c:when>
-                                </c:choose>
-                            </td>
+                            <td>${ar.userIdx}</td>
+                            <td>${ar.reservationIdx}</td>
+                            <td>${ar.productIdx}</td>
+                            <td>${ar.paymentQuantiy}</td>
+                            <td>${ar.paymentMethod}</td>
+                            <td>${ar.paymentTotal}</td>
+                            <td>${ar.paymentDiscount}</td>
+                            <td>${ar.paymentFinal}</td>
+                            <td>${ar.paymentTransactionId}</td>
+                            <td>${ar.paymentDate}</td>
+                            <td>${ar.paymentStatus}</td>
+
                         </tr>
                     </c:forEach>
-                    <c:if test="${movieArray eq null or fn:length(movieArray) eq 0 }">
                         <tr>
-                            <td colspan="5">현재 등록된 데이터가 없습니다.</td>
+                            <td colspan="11">현재 등록된 데이터가 없습니다.</td>
                         </tr>
-                    </c:if>
+
 
                     </tbody>
                 </table>
@@ -370,6 +362,10 @@
     </div>
   </div>
 </div>
-
+<script>
+    function searchUser(){
+        /*비동기식 통신으로 ar을 초기화하자. ar의 값을 입력한 변수를 집어넣어 셀렉문을 뱉어야함.*/
+    }
+</script>
 </body>
 </html>

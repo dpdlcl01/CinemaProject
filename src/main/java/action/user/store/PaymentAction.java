@@ -23,7 +23,10 @@ public class PaymentAction implements Action {
         String name = request.getParameter("productName");
         String category = request.getParameter("productCategory");
         String img = request.getParameter("productImg");
-        String pIdx = request.getParameter("productIdx");
+        String pIdx = request.getParameter("pIdx");
+
+        System.out.println("paymentaction:"+pIdx);
+
 
         request.setAttribute("pIdx", pIdx);
         request.setAttribute("orderId", orderId);

@@ -6,15 +6,19 @@
 
     <insert id="insertPayment" parameterType="mybatis.vo.PaymentVO">
         INSERT INTO payment (
-        userIdx, paymentType,productIdx, paymentMethod,
+        userIdx, paymentType,productIdx,paymentQuantiy, paymentMethod,
         paymentTotal, paymentDiscount, paymentFinal, paymentTransactionId,
         paymentDate, paymentStatus
         ) VALUES (
-        #{userIdx}, #{paymentType},#{productIdx}, #{paymentMethod},
+        #{userIdx}, #{paymentType},#{productIdx},#{paymentQuantiy}, #{paymentMethod},
         #{paymentTotal}, #{paymentDiscount},#{paymentFinal}, #{paymentTransactionId},
         NOW(), #{paymentStatus}
         )
     </insert>
+    <select id="totalSelect" resultType="mybatis.vo.PaymentVO">
+        select *
+        from payment
+    </select>
 
 
 </mapper>

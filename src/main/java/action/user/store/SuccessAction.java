@@ -33,7 +33,7 @@ public class SuccessAction implements Action {
         String quant = request.getParameter("quant");
 
         String img = request.getParameter("image");
-        System.out.println("img:"+img);
+        System.out.println("pIdx:"+pIdx);
         /*다시 db가서 이미지 받아오기 */
         /*다시 db가서 이미지 받아오기 */
         /*다시 db가서 이미지 받아오기 */
@@ -89,7 +89,7 @@ public class SuccessAction implements Action {
 
 
 
-
+        pvo.setPaymentQuantiy(quant);
         pvo.setProductIdx(pIdx);
         pvo.setUserIdx(userIdx);
         pvo.setPaymentType(paymentType);
@@ -102,7 +102,7 @@ public class SuccessAction implements Action {
 
         int cnt=PaymentDAO.insertPayment(pvo);
         request.setAttribute("quant", quant);
-
+        request.setAttribute("img", img);
         request.setAttribute("totalAmount", pvo.getPaymentTotal());
         request.setAttribute("orderName", confirmResponse.getString("orderName"));
 

@@ -4,6 +4,8 @@ import mybatis.service.FactoryService;
 import mybatis.vo.PaymentVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.List;
+
 public class PaymentDAO {
 
 
@@ -22,4 +24,17 @@ public class PaymentDAO {
 
         return cnt;
     }
+    public static PaymentVO[] totalPayment(){
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<PaymentVO> list = ss.selectList("payment.totalSelect");
+        ss.close();
+        PaymentVO[] ar = new PaymentVO[list.size()];
+        list.toArray(ar);
+
+        return ar;
+
+    }
+
+
 }
