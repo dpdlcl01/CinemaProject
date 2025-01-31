@@ -102,9 +102,9 @@
 
   <select id="getPurchaseHistory" parameterType="map" resultType="mybatis.vo.ProductDetailVO">
     SELECT
-    p.paymentDate AS purchaseDate,
-    pr.productName AS productName,
-    p.paymentFinal AS purchaseAmount
+    p.paymentDate,
+    pr.productName,
+    p.paymentFinal
     FROM payment p
     JOIN product pr ON p.productIdx = pr.productIdx
     WHERE p.paymentType = 2

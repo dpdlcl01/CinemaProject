@@ -22,6 +22,7 @@
         }
 
         .content-body {
+            border-radius: 12px;
             height: auto !important;
         }
 

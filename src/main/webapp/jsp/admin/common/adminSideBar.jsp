@@ -213,7 +213,7 @@
     <div id="collapseNine" class="accordion-collapse collapse">
       <div class="accordion-body">
         <p>  <a href="#">권한 관리</a></p>
-        <p style="margin-bottom: 0"> <a href="#">사용자 활동 로그 관리</a></p>
+        <p style="margin-bottom: 0"> <a href="${pageContext.request.contextPath}/AdminController?type=logManagement">사용자 활동 로그 관리</a></p>
 
 
       </div>
