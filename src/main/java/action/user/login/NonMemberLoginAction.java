@@ -3,6 +3,7 @@ package action.user.login;
 import action.Action;
 import mybatis.dao.LoginDAO;
 import mybatis.vo.UserVO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +21,14 @@ public class NonMemberLoginAction implements Action {
         String userName = request.getParameter("userName");
         String userEmail = request.getParameter("userEmail");
         String userAuthPassword = request.getParameter("userAuthPassword");
+
+        /*비밀번호 암호화*/
+        String hashPassword = BCrypt.hashpw(userAuthPassword, BCrypt.gensalt(12));
+
         System.out.println(userName + userEmail + userAuthPassword);
 
         // 비회원 정보 DB에 추가
-        boolean addResult = LoginDAO.addNonMember(userName, userEmail, userAuthPassword);
+        boolean addResult = LoginDAO.addNonMember(userName, userEmail, hashPassword);
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();

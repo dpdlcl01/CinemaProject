@@ -41,14 +41,14 @@ public class LoginDAO {
     }
 
     // 비회원 정보 DB에 추가
-    public static boolean addNonMember(String userName, String userEmail, String userAuthPassword) {
+    public static boolean addNonMember(String userName, String userEmail, String hashPassword) {
         SqlSession ss = FactoryService.getFactory().openSession();
 
         // 파라미터를 Map 형태로 전달
         Map<String, Object> map = new HashMap<>();
         map.put("userName", userName);
         map.put("userEmail", userEmail);
-        map.put("userAuthPassword", userAuthPassword);
+        map.put("userAuthPassword", hashPassword);
 
         int cnt = ss.insert("login.addNonMember", map);
         if (cnt > 0) {
@@ -61,8 +61,6 @@ public class LoginDAO {
         return cnt > 0;  // 성공적으로 삽입되었으면 true
     }
 
-
-
     // 유저 정보 가져오기
     public static UserVO getUserInfo(String userId) {
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -71,6 +69,19 @@ public class LoginDAO {
         map.put("userId", userId);
 
         UserVO userVO = ss.selectOne("login.getUserInfo", map);
+        ss.close();
+
+        return userVO;
+    }
+
+    /* 비회원 정보 가져오기 */
+    public static UserVO getNonUserInfo(String userEmail) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("userEmail", userEmail);
+
+        UserVO userVO = ss.selectOne("login.getNonUserInfo", map);
         ss.close();
 
         return userVO;

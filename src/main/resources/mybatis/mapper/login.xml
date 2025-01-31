@@ -22,10 +22,17 @@
         INSERT INTO user (userName, userAuthPassword, userEmail, userRegDate, userStatus)
         VALUES (#{userName}, #{userAuthPassword}, #{userEmail}, now(), NULL);
     </insert>
-
+    <!--일반회원 조회-->
     <select id="getUserInfo" parameterType="map" resultType="mybatis.vo.UserVO">
         SELECT *
         FROM user
         WHERE userID = #{userId}
+    </select>
+
+    <!--비회원 조회-->
+    <select id="getNonUserInfo" parameterType="map" resultType="mybatis.vo.UserVO">
+        SELECT *
+        FROM user
+        WHERE userEmail = #{userEmail}
     </select>
 </mapper>

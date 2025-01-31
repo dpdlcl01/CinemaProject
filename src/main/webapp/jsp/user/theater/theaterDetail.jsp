@@ -56,16 +56,17 @@
 
     .theater-header .tabs {
         position: absolute;
-        top: 0px; /* 상단에 배치 */
+        top: 0; /* 상단에 배치 */
         width: 1100px;
         display: flex;
         justify-content: space-around;
-        background: rgba(0, 0, 0, 0.5); /* 배경 추가 */
         padding: 10px 0;
         margin: 0;
         z-index: 2; /* 배경 위로 배치 */
+        border-bottom: 1px solid #bbbbbb;
         /*border-radius: 10px;*/ /* 테두리 둥글게 */
     }
+
     .theater-name {
         width: 1100px;
         overflow: hidden;
@@ -939,7 +940,6 @@
                 }
             });
 
-
             document.addEventListener("DOMContentLoaded", () => {
                 // 기존 탭 시스템 (data-target 사용하는 탭들)
                 const legacyTabs = document.querySelectorAll(".tabs .tab[data-target]");
@@ -1123,10 +1123,10 @@
                                             bgColor = "#FFC107"; // 노란색
                                             break;
                                         case "15":
-                                            bgColor = "#FF5722"; // 주황색
+                                            bgColor = "#FF7E00"; // 주황색
                                             break;
                                         case "19":
-                                            bgColor = "#F44336"; // 빨간색
+                                            bgColor = "#F44444"; // 빨간색
                                             break;
                                         default:
                                             bgColor = "#ddd"; // 기본 배경색 (회색)
