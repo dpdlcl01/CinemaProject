@@ -124,6 +124,7 @@
                 <td><span>인증번호</span> </td>
                 <td><input type="text" id="authcode" name="authcode" class="inputValue">
                     <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
+                <input type="hidden" id="authStatus" value=""/>
                 <script>
                     // 인증번호 확인 AJAX 요청
                     function sendAuthCode() {
@@ -164,5 +165,35 @@
         * 본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 이용 또는 저장되지 않습니다.
     </div>
 </div>
+<script>
+    function verifyAuthCode() {
+        console.log("verifyAuthCode 호출.");
+        const authCode = document.getElementById("authcode").value;
+
+        if (!authCode) {
+            alert("인증번호를 입력해주세요.");
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = xhr.responseText.trim();
+
+                if (response === "인증 성공!") {
+                    alert("인증에 성공했습니다!");
+                    document.getElementById("authcodecheck").value = "success"; // 인증 성공 상태 저장
+                } else {
+                    alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+                    document.getElementById("authcodecheck").value = ""; // 인증 실패 상태 초기화
+                }
+            }
+        };
+        xhr.send("authCode=" + encodeURIComponent(authCode));
+    }
+</script>
 </body>
 </html>

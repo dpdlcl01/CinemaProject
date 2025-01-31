@@ -291,7 +291,6 @@
                             <td><button class="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" data-id="${user.userIdx}">수정</button></td>                        </tr>
                     </c:forEach>
 
-                    <!-- 사용자가 없을 경우 -->
                     <c:if test="${fn:length(users) == 0}">
                         <tr><td colspan="9">사용자가 없습니다.</td></tr>
                     </c:if>
@@ -388,7 +387,7 @@
                 </script>
 
                 <!-- 수정 모달 -->
-                <div id="editUserModal" class="modal fade" tabindex="-1" role="dialog">
+                <div id="editUserModal" class="modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -430,6 +429,8 @@
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('ModalCloseButton').click();
+</script>
 </body>
 </html>

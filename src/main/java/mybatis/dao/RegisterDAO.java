@@ -1,4 +1,4 @@
-package dao;
+package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import org.apache.ibatis.session.SqlSession;
@@ -32,5 +32,18 @@ public class RegisterDAO {
         int count = ss.selectOne("register.useridcheck_search", userId);
         return count > 0;
         }
+
+    public static String UserIdFind(Map<String, String> params) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        String result = null;
+        try {
+            result = ss.selectOne("register.finduserid", params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ss.close();
+        }
+        return result;
     }
+}
 

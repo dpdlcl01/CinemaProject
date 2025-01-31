@@ -11,4 +11,8 @@
     <select id="useridcheck_search" parameterType="String" resultType="int">
         SELECT COUNT(*) FROM user WHERE userId = #{userId}
     </select>
+
+    <select id="finduserid" parameterType="Map" resultType="String">
+        SELECT userId FROM user WHERE username = #{userName} AND userEmail = #{userEmail}
+    </select>
 </mapper>

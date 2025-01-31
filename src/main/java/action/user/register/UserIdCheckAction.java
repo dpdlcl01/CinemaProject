@@ -2,7 +2,7 @@ package action.user.register;
 
 import action.Action;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.RegisterDAO;
+import mybatis.dao.RegisterDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
