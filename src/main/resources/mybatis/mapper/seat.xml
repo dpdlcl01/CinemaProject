@@ -5,11 +5,13 @@
 <mapper namespace="seat">
     <!--  예매 완료, 임시 확보 좌석 조회  -->
     <select id="availableSeats" resultType="mybatis.vo.SeatVO">
-        SELECT seatIdx, screenIdx, seatNumber, seatStatus
-        FROM seat
-        JOIN
-        WHERE screenIdx = #{screenIdx}
-        ORDER BY seatNumber;
+        SELECT s.seatIdx, s.screenIdx, s.seatNumber,
+        IFNULL(ss.seatStatus, 0) AS seatStatus
+        FROM seat s
+        LEFT JOIN seatStatus ss
+        ON s.seatIdx = ss.seatIdx AND ss.timetableIdx = #{timetableIdx}
+        WHERE s.screenIdx = #{screenIdx}
+        ORDER BY s.seatNumber;
     </select>
 
     <!--  가격  -->

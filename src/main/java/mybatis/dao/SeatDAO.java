@@ -10,11 +10,12 @@ import java.util.List;
 public class SeatDAO {
 
     // 특정 상영관의 사용 가능한 좌석 목록 조회
-    public static SeatVO[] getAllSeats(String screenIdx) {
+    public static SeatVO[] getAllSeats(String screenIdx, String timetableIdx) {
         SeatVO[] seats = null;
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("screenIdx", screenIdx);
+        map.put("timetableIdx", timetableIdx);
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<SeatVO> list = ss.selectList("seat.availableSeats", map);

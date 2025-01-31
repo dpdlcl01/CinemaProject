@@ -71,7 +71,7 @@ public class SeatAction implements Action {
                 ", isWeekend: " + isWeekend );
 
         // DAO를 통해 좌석 데이터 가져오기
-        SeatVO[] availableSeats = SeatDAO.getAllSeats(screenIdx);
+        SeatVO[] availableSeats = SeatDAO.getAllSeats(screenIdx, timetableIdx);
         if (availableSeats != null) {
             for (SeatVO seat : availableSeats) {
                 System.out.println("Seat: " + seat.getSeatNumber() + ", Status: " + seat.getSeatStatus());

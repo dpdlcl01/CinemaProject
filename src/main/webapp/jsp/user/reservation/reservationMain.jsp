@@ -380,7 +380,6 @@
         }
 
         // 시간표 클릭 시 좌석 페이지로 이동
-        // 시간표 클릭 시 좌석 페이지로 이동
         timeSelectionContainer.addEventListener("click", async function (event) {
             const listItem = event.target.closest("li"); // 'li' 요소 확인
             if (listItem) {
@@ -402,6 +401,7 @@
 
                 if (timetableIdx && screenIdx && selectedMovieIdx && selectedTheaterIdx) {
                     const url = contextPath + "/UserController?type=seat&movieIdx=" + selectedMovieIdx +
+                        "&theaterIdx=" + selectedTheaterIdx +
                         "&screenIdx=" + screenIdx +
                         "&timetableIdx=" + timetableIdx +
                         "&screenType=" + screenType +
@@ -429,47 +429,6 @@
                 }
             }
         });
-        // timeSelectionContainer.addEventListener("click", function(event) {
-        //     console.log("클릭된 요소:", event.target);  // 클릭된 요소가 제대로 출력되는지 확인
-        //     const listItem = event.target.closest("li"); // 'li' 요소 확인
-        //     if (listItem) {
-        //         const timetableIdx = listItem.getAttribute("data-timetable-id");
-        //         const theaterIdx = listItem.getAttribute("data-theater-idx");
-        //         const screenIdx = listItem.getAttribute("data-screen-idx");
-        //         const screenType = listItem.getAttribute("data-screen-type");
-        //         const isMorning = listItem.getAttribute("data-morning");
-        //         const isWeekend = (currentDate.getDay() === 0 || currentDate.getDay() === 6) ? true : false;
-        //
-        //         console.log("클릭된 시간표 데이터:", {
-        //             timetableIdx: timetableIdx,
-        //             theaterIdx: theaterIdx,
-        //             screenIdx: screenIdx,
-        //             screenType: screenType,
-        //             selectedMovieIdx: selectedMovieIdx,
-        //             selectedTheaterIdx: selectedTheaterIdx,
-        //             isMorning: isMorning,
-        //             isWeekend: isWeekend,
-        //         });
-        //
-        //         if (timetableIdx && screenIdx && selectedMovieIdx && selectedTheaterIdx) {
-        //             const url = contextPath + "/UserController?type=seat&movieIdx=" + selectedMovieIdx +
-        //                 "&theaterIdx=" + theaterIdx +
-        //                 "&screenIdx=" + screenIdx +
-        //                 "&timetableIdx=" + timetableIdx +
-        //                 "&screenType=" + screenType +
-        //                 "&isMorning=" + isMorning +
-        //                 "&isWeekend=" + isWeekend +
-        //                 "&region=" + screenType;
-        //
-        //             console.log("생성된 URL:", url);
-        //             window.location.href = url;
-        //         } else {
-        //             console.error("필수 데이터가 누락되었습니다.");
-        //         }
-        //     } else {
-        //         console.log("클릭된 요소가 li가 아닙니다.");
-        //     }
-        // });
     });
 </script>
 </body>
