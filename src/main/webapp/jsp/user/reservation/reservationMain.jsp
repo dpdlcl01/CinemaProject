@@ -74,7 +74,7 @@
 <!-- 예매 로그인 모달 창 -->
 <jsp:include page="../login/reservationLoginModal.jsp"/>
 <!-- (임시 버튼) -->
-<a href="#" id="reservation-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal">예매 비회원 로그인</a>
+<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal" style="display: none;">예매 비회원 로그인</a>
 <jsp:include page="../common/footer.jsp"/>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -327,7 +327,7 @@
 
                 // 두 번째 줄: 좌석 정보 (우측 정렬)
                 li.innerHTML += "<div class='seat-info'>" +
-                    "<span>" + showtime.seatStatus + " / " + showtime.screenSeatCount + " 좌석</span>" +
+                    "<span>" + showtime.availableSeats + " / " + showtime.screenSeatCount + " 좌석</span>" +
                     "</div>";
 
                 li.setAttribute("data-timetable-id", showtime.timetableIdx);
@@ -380,12 +380,11 @@
         }
 
         // 시간표 클릭 시 좌석 페이지로 이동
-        timeSelectionContainer.addEventListener("click", function(event) {
-            console.log("클릭된 요소:", event.target);  // 클릭된 요소가 제대로 출력되는지 확인
+        // 시간표 클릭 시 좌석 페이지로 이동
+        timeSelectionContainer.addEventListener("click", async function (event) {
             const listItem = event.target.closest("li"); // 'li' 요소 확인
             if (listItem) {
                 const timetableIdx = listItem.getAttribute("data-timetable-id");
-                const theaterIdx = listItem.getAttribute("data-theater-idx");
                 const screenIdx = listItem.getAttribute("data-screen-idx");
                 const screenType = listItem.getAttribute("data-screen-type");
                 const isMorning = listItem.getAttribute("data-morning");
@@ -393,7 +392,6 @@
 
                 console.log("클릭된 시간표 데이터:", {
                     timetableIdx: timetableIdx,
-                    theaterIdx: theaterIdx,
                     screenIdx: screenIdx,
                     screenType: screenType,
                     selectedMovieIdx: selectedMovieIdx,
@@ -404,23 +402,74 @@
 
                 if (timetableIdx && screenIdx && selectedMovieIdx && selectedTheaterIdx) {
                     const url = contextPath + "/UserController?type=seat&movieIdx=" + selectedMovieIdx +
-                        "&theaterIdx=" + theaterIdx +
                         "&screenIdx=" + screenIdx +
                         "&timetableIdx=" + timetableIdx +
                         "&screenType=" + screenType +
                         "&isMorning=" + isMorning +
-                        "&isWeekend=" + isWeekend +
-                        "&region=" + screenType;
+                        "&isWeekend=" + isWeekend;
 
-                    console.log("생성된 URL:", url);
-                    window.location.href = url;
+                    try {
+                        // 3. 로그인 체크
+                        const response = await fetch(contextPath + "/UserController?type=loginCheck");
+                        const result = await response.json();
+
+                        if (!result.login) {
+                            $('#customLoginModal').modal('show');
+                            sessionStorage.setItem('redirectUrl', url);  // 로그인 후 돌아갈 URL 저장
+                            console.log("경로"+url);
+                        } else {
+                            window.location.href = url
+                        }
+                    } catch (error) {
+                        console.error("로그인 체크 실패:", error);
+                    }
+
                 } else {
                     console.error("필수 데이터가 누락되었습니다.");
                 }
-            } else {
-                console.log("클릭된 요소가 li가 아닙니다.");
             }
         });
+        // timeSelectionContainer.addEventListener("click", function(event) {
+        //     console.log("클릭된 요소:", event.target);  // 클릭된 요소가 제대로 출력되는지 확인
+        //     const listItem = event.target.closest("li"); // 'li' 요소 확인
+        //     if (listItem) {
+        //         const timetableIdx = listItem.getAttribute("data-timetable-id");
+        //         const theaterIdx = listItem.getAttribute("data-theater-idx");
+        //         const screenIdx = listItem.getAttribute("data-screen-idx");
+        //         const screenType = listItem.getAttribute("data-screen-type");
+        //         const isMorning = listItem.getAttribute("data-morning");
+        //         const isWeekend = (currentDate.getDay() === 0 || currentDate.getDay() === 6) ? true : false;
+        //
+        //         console.log("클릭된 시간표 데이터:", {
+        //             timetableIdx: timetableIdx,
+        //             theaterIdx: theaterIdx,
+        //             screenIdx: screenIdx,
+        //             screenType: screenType,
+        //             selectedMovieIdx: selectedMovieIdx,
+        //             selectedTheaterIdx: selectedTheaterIdx,
+        //             isMorning: isMorning,
+        //             isWeekend: isWeekend,
+        //         });
+        //
+        //         if (timetableIdx && screenIdx && selectedMovieIdx && selectedTheaterIdx) {
+        //             const url = contextPath + "/UserController?type=seat&movieIdx=" + selectedMovieIdx +
+        //                 "&theaterIdx=" + theaterIdx +
+        //                 "&screenIdx=" + screenIdx +
+        //                 "&timetableIdx=" + timetableIdx +
+        //                 "&screenType=" + screenType +
+        //                 "&isMorning=" + isMorning +
+        //                 "&isWeekend=" + isWeekend +
+        //                 "&region=" + screenType;
+        //
+        //             console.log("생성된 URL:", url);
+        //             window.location.href = url;
+        //         } else {
+        //             console.error("필수 데이터가 누락되었습니다.");
+        //         }
+        //     } else {
+        //         console.log("클릭된 요소가 li가 아닙니다.");
+        //     }
+        // });
     });
 </script>
 </body>

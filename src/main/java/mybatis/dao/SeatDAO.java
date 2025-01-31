@@ -39,10 +39,10 @@ public class SeatDAO {
         ss.close();
 //        return price != null ? price : 0;
         if (price == null) {
-            System.out.println("❌ 데이터가 조회되지 않음 (null 반환)");
+            System.out.println("데이터가 조회되지 않음 (null 반환)");
             return 0;
         }
-        System.out.println("✅ 조회된 가격: " + price);
+        System.out.println("조회된 가격: " + price);
         return price;
 
     }

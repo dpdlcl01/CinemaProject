@@ -36,5 +36,6 @@
         <mapper resource="mybatis/mapper/coupon.xml"/>
         <mapper resource="mybatis/mapper/point.xml"/>
         <mapper resource="mybatis/mapper/favoriteMovie.xml"/>
+        <mapper resource="mybatis/mapper/admin.xml"/>
     </mappers>
 </configuration>

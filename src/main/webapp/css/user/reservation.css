@@ -147,3 +147,8 @@
     font-weight: bold; /* 글자 굵게 */
     border: 1px solid #00f; /* 선택된 항목 테두리 */
 }
+
+/* 모달 */
+#reservation-login-btn {
+    display: none;
+}

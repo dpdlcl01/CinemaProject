@@ -17,6 +17,7 @@
         INNER JOIN theater t ON f.theaterIdx = t.theaterIdx
         WHERE f.userIdx = #{s}
     </select>
+
     <select id="reservation" parameterType="String" resultType="mybatis.vo.ReservationVO" >
         SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate
         ,m.movieTitle, m.moviePosterUrl,

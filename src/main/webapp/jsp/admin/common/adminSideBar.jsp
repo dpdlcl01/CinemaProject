@@ -134,8 +134,8 @@
       </h2>
       <div id="collapseFour" class="accordion-collapse collapse">
         <div class="accordion-body">
-          <p>  <a href="#">극장, 상영관 관리</a></p>
-          <p style="margin-bottom: 0"> <a href="#">상영관 좌석 관리</a></p>
+          <p>  <a href="${pageContext.request.contextPath}/AdminController?type=theaterManage">극장, 상영관 관리</a></p>
+          <p style="margin-bottom: 0"> <a href="${pageContext.request.contextPath}/AdminController?type=seatManage">상영관 좌석 관리</a></p>
 
 
         </div>
@@ -168,8 +168,6 @@
           <p>  <a href="#">결제 오류내역 확인 및 처리</a></p>
           <p style="margin-bottom: 0">  <a href="#">영화, 상품 매출 통계</a></p>
 
-
-
         </div>
       </div>
     </div>
@@ -183,8 +181,6 @@
         <div class="accordion-body">
           <p>   <a href="#">공지사항 작성/수정/삭제</a></p>
           <p style="margin-bottom: 0"><a href="#">이벤트 등록/수정/삭제</a></p>
-
-
 
         </div>
       </div>
@@ -200,7 +196,6 @@
           <p>       <a href="#">쿠폰 관리</a></p>
           <p style="margin-bottom: 0">   <a href="#">리뷰 관리</a></p>
 
-
         </div>
       </div>
     </div>
@@ -214,7 +209,6 @@
         <div class="accordion-body">
           <p>  <a href="#">권한 관리</a></p>
           <p style="margin-bottom: 0"> <a href="#">사용자 활동 로그 관리</a></p>
-
 
         </div>
       </div>

@@ -21,7 +21,7 @@ public class SeatAction implements Action {
         // 로그인 여부 확인 및 사용자 정보 가져오기
         UserVO uservo = SessionUtil.getLoginUser(request);
         if (uservo == null) {
-            return "UserController?type=main";
+            return "UserController?type=";
         }
 
         // 영화, 극장, 시간표 정보를 가져오기

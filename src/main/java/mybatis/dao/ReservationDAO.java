@@ -2,7 +2,6 @@ package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import mybatis.vo.MovieVO;
-import mybatis.vo.ScreenVO;
 import mybatis.vo.TheaterVO;
 import mybatis.vo.TimetableVO;
 import org.apache.ibatis.session.SqlSession;
@@ -77,7 +76,14 @@ public class ReservationDAO {
             System.out.println("입력된 theaterIdx: " + theaterIdx);
             System.out.println("입력된 movieIdx: " + movieIdx);
             System.out.println("입력된 targetDate: " + targetDate);
-            System.out.println("DB에서 반환된 데이터: " + list);
+            System.out.println("DB에서 반환된 데이터 개수: " + list.size());
+
+            for (TimetableVO t : list) {
+                System.out.println("상영 시간표 ID: " + t.getTimetableIdx());
+                System.out.println("스크린명: " + t.getScreenName());
+                System.out.println("총 좌석 수: " + t.getScreenSeatCount());
+                System.out.println("사용 가능한 좌석 수: " + t.getAvailableSeats()); // 수정된 부분
+            }
 
             if (list != null && !list.isEmpty()) {
                 ar = new TimetableVO[list.size()];

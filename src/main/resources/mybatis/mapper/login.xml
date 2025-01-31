@@ -4,14 +4,27 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="login">
     <select id="usercheck" resultType="int">
-        SELECT COUNT(*)
+        SELECT COUNT(*///)
         FROM user
         WHERE userId = #{userId}
         AND userPassword = #{userPassword}
     </select>
 
+    <!-- 비회원 정보 조회 -->
+    <select id="nonMemberCheck" parameterType="Map" resultType="mybatis.vo.UserVO">
+        SELECT userName, userEmail, userAuthPassword, userStatus
+        FROM user
+        WHERE userName = #{userName} AND userEmail = #{userEmail} AND userStatus IS NULL
+    </select>
+
+    <!--비회원 가입-->
+    <insert id="addNonMember" parameterType="Map">
+        INSERT INTO user (userName, userAuthPassword, userEmail, userRegDate, userStatus)
+        VALUES (#{userName}, #{userAuthPassword}, #{userEmail}, now(), NULL);
+    </insert>
+
     <select id="getUserInfo" parameterType="map" resultType="mybatis.vo.UserVO">
-        SELECT userIdx, userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus
+        SELECT *
         FROM user
         WHERE userID = #{userId}
     </select>

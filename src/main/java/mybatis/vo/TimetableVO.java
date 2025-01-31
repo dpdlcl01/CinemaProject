@@ -2,7 +2,11 @@ package mybatis.vo;
 
 public class TimetableVO {
     private String timetableIdx, movieIdx, theaterIdx, screenIdx,
-            timetableStartTime, timetableEndTime, screenName, screenType, screenSeatCount, seatStatus;
+            timetableStartTime, timetableEndTime, screenName, screenType, screenSeatCount, seatStatus, availableSeats;
+
+    public String getAvailableSeats() { return availableSeats; }
+
+    public void setAvailableSeats(String availableSeats) { this.availableSeats = availableSeats; }
 
     public String getScreenSeatCount() {
         return screenSeatCount;
