@@ -85,13 +85,12 @@
           <div class="movie-details">
             <img id="pImg" src="${pageContext.request.contextPath}/css/user/images/KangImg/${requestScope.img}">
             <div class="movie-info">
-              <p class="movie-title">${requestScope.name}</p>
+              <p class="movie-title" id="productTitle">${requestScope.name}</p>
               <div id="categoryPrice">
                 <p class="movie-about">${requestScope.category}</p>
                 <span id="movie-detailsPrice">${requestScope.price}원</span>
               </div>
-
-              <p class="movie-about">${requestScope.quant}개</p>
+              <p class="movie-about" id="productQuant">${requestScope.quant}개</p>
             </div>
           </div>
         </div>
@@ -197,22 +196,30 @@
   </div>
 </div>
 <div id="orderId" class="hidden">${requestScope.orderId}</div>
-<div id="pIdx">${requestScope.pIdx} 안녕하세요</div>
+<div id="pIdx" class="hidden">${requestScope.pIdx}</div>
+<div id="productImg" class="hidden">${requestScope.img}</div>
 <!-- script 영역 -->
 <script>
   const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
   let pIdx = document.getElementById("pIdx").innerText.trim();
-  let successUrl = "http://localhost:8081/CinemaProject/UserController?type=success&pIdx=${pIdx}";
+  let quant =document.getElementById("productQuant").innerHTML.trim();
+  let title = document.getElementById("productTitle").innerHTML.trim();
+  let image = document.getElementById("productImg").innerHTML.trim();
+
   let totalPrice = parseInt(document.getElementsByClassName("payment-value final")[0].innerText.trim(), 10);
 
+
   function requestPayment() {
+
+    let successUrl =`http://localhost:8080/CinemaProject_war/UserController?type=success&pIdx=${pIdx}&image=${image}`;
+    console.log(image);
     tossPayments.requestPayment('카드', { // 결제 수단 (예: 카드, 계좌이체 등)
       amount: totalPrice, // 결제 금액 (예: 5000원)
       orderId: document.getElementById("orderId").innerHTML, // 주문 ID (서버에서 생성해야 함)
       orderName: document.getElementsByClassName("movie-title")[0].innerText, // 상품명
-      customerEmail: "qwe@naver.com", // 고객 이메일
+      customerEmail: "abc@naver.com", // 고객 이메일
       successUrl: successUrl,
-      failUrl: "http://localhost:8081/CinemaProject/jsp/user/store/paymentFail.jsp", // 결제 실패 시 이동할 페이지
+      failUrl: "http://localhost:8080/CinemaProject/jsp/user/store/paymentFail.jsp", // 결제 실패 시 이동할 페이지
     })
             .catch(function (error) {
               console.error(error);

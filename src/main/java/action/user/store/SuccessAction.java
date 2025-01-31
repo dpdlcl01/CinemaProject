@@ -29,6 +29,23 @@ public class SuccessAction implements Action {
         String orderId = request.getParameter("orderId");
         String amount = request.getParameter("amount"); // JSP에서 금액을 전달받아야 함
         String pIdx = request.getParameter("pIdx");
+        /*요청객체로 넘어온 이미지 이름 퀀트를 받아내자*/
+        String quant = request.getParameter("quant");
+
+        String img = request.getParameter("image");
+        System.out.println("img:"+img);
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+        /*다시 db가서 이미지 받아오기 */
+
+
+
 
 
         if (paymentKey == null || orderId == null || amount == null) {
@@ -44,7 +61,7 @@ public class SuccessAction implements Action {
 
         //  결제 확정 API 호출
         JSONObject confirmResponse = confirmPayment(paymentKey, orderId, amount);
-
+        System.out.println(confirmResponse.toString());
 
         String status = confirmResponse.getString("status");
 
@@ -66,6 +83,13 @@ public class SuccessAction implements Action {
             paymentType = "1";
         }
 
+
+
+
+
+
+
+
         pvo.setProductIdx(pIdx);
         pvo.setUserIdx(userIdx);
         pvo.setPaymentType(paymentType);
@@ -77,7 +101,10 @@ public class SuccessAction implements Action {
         /*pvo.setPaymentStatus(confirmResponse.getString("status"));*/
 
         int cnt=PaymentDAO.insertPayment(pvo);
+        request.setAttribute("quant", quant);
 
+        request.setAttribute("totalAmount", pvo.getPaymentTotal());
+        request.setAttribute("orderName", confirmResponse.getString("orderName"));
 
         /*String paymentDiscount = confirmResponse.getString(""); 할인 생기면 여기서 해결하자*/
 
