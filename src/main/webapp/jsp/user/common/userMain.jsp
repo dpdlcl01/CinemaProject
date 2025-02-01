@@ -78,14 +78,31 @@
                     <form id="mainSearchForm" action="UserController" method="get">
                         <input type="hidden" name="type" value="movieSearch"> <!-- 요청 타입 -->
                         <div class="search">
-                            <input type="text" name="movieKeyword" placeholder="영화명을 입력해 주세요" title="영화 검색" class="input-text">
-                            <button type="submit" class="btn">
+                            <input type="text" name="movieKeyword" placeholder="영화명을 입력해 주세요" title="영화 검색" class="input-text" id="movieKeywordInput">
+                            <button type="button" class="btn" id="searchBtn">
                                 <i class="ico-search"></i>
                                 검색
                             </button>
                         </div>
                     </form>
                 </div>
+                <script>
+                    document.getElementById("searchBtn").addEventListener("click", function () {
+                        const keyword = document.getElementById("movieKeywordInput").value.trim();
+
+                        if (!keyword) {
+                            alert("검색어를 입력해 주세요.");
+                            return;
+                        }
+
+                        // 검색 페이지로 이동하며, 컨트롤러로 요청을 보냄
+                        const form = document.getElementById("mainSearchForm");
+                        const searchUrl = form.action + "?type=movieSearch&movieKeyword=" + encodeURIComponent(keyword);
+
+                        // 페이지 이동
+                        window.location.href = searchUrl;
+                    });
+                </script>
                 <div class="cell">
                     <a href="${pageContext.request.contextPath}/UserController?type=movieMain&offset=0&pageSize=20" title="박스오피스 보기">
                         <i class="boxoffice"></i>

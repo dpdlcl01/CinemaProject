@@ -147,6 +147,49 @@
         let offsets = { all: 0, 0: 0, 1: 0 }; // 각 탭 상태별 오프셋 관리
         const pageSize = 20; // 한 번에 가져올 데이터 수
 
+        // **URL 파라미터에서 검색어 가져오기**
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieKeyword = urlParams.get("movieKeyword");
+
+        // 검색어가 존재할 경우 검색 호출 후 URL 파라미터 제거
+        if (movieKeyword) {
+            searchMovieWithKeyword(movieKeyword, function () {
+                // URL에서 검색어 파라미터 제거
+                const newUrl = window.location.pathname + "?type=movieMain";
+                window.history.replaceState({}, document.title, newUrl);
+            });
+        } else {
+            // 검색어가 없을 경우 전체 목록 로드
+            fetchMovies(currentTab, offsets[currentTab], pageSize);
+        }
+
+        // 검색어로 영화 검색
+        function searchMovieWithKeyword(keyword) {
+            const url = "UserController?type=movieSearch&movieKeyword=" + encodeURIComponent(keyword) +
+                "&status=" + (currentTab || "all") + "&offset=0&pageSize=" + pageSize;
+
+            fetch(url, {
+                method: "GET",
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const listId = "movieList" + (currentTab === "all" ? 1 : parseInt(currentTab) + 2);
+                    const buttonId = "addMovieDiv" + (currentTab === "all" ? 1 : parseInt(currentTab) + 2);
+
+                    updateMovieList(data.movieArray, listId, buttonId, data.totalMovieCount, currentTab);
+
+                    const totalMovieCountElement = document.getElementById("totalMovieCount");
+                    if (totalMovieCountElement) {
+                        totalMovieCountElement.textContent = data.totalMovieCount;
+                    }
+
+                    if (callback) callback();
+                })
+                .catch(error => console.error("Error fetching search results:", error));
+        }
+
+
         // 검색 이벤트 리스너
         if (searchForm) {
             searchForm.addEventListener("submit", function (event) {
@@ -154,8 +197,6 @@
                 offsets[currentTab] = 0; // 검색 시 현재 탭 오프셋 초기화
                 searchMovie();
             });
-        } else {
-            console.error("searchForm not found");
         }
 
         // 탭 전환 이벤트 리스너
@@ -176,7 +217,7 @@
                 const target = this.getAttribute("data-target");
                 document.getElementById(target).classList.add("active");
 
-                // 데이터 로드
+                // 검색어가 없으므로 기본 목록 로드
                 fetchMovies(currentTab, offsets[currentTab], pageSize);
             });
         });
@@ -312,11 +353,12 @@
                         (movie.movieGrade === "12" ? '<p class="movie-grade age-12">12세 관람가</p>' : '') +
                         (movie.movieGrade === "15" ? '<p class="movie-grade age-15">15세 관람가</p>' : '') +
                         (movie.movieGrade === "19" ? '<p class="movie-grade age-19">청소년 관람 불가</p>' : '') +
-                        '<p title="' + movie.movieTitle + '" class="tit">' + movie.movieTitle + '</p>' +
+                        '<p title="' + movie.movieTitle + '" class="tit ellipsis">' + movie.movieTitle + '</p>' +  // ellipsis 클래스 추가
                         '</div>' +
                         '<div class="rate-date">' +
                         '<span class="rate">예매율 ' + movie.movieReservationRate + '%</span>' +
-                        '<span class="date">개봉일 ' + movie.movieDate + '</span>' +
+                        '<span class="divider"></span>' +  // 구분선 추가
+                        '<span class="date">개봉일 ' + formatDate(movie.movieDate) + '</span>' + // 포맷 적용
                         '</div>' +
                         '<div class="btn-util">' +
                         '<button type="button" class="button btn-like">' +
@@ -343,10 +385,17 @@
                 addMovieDiv.style.display = "none";
             }
         }
-
-        // 초기 로드
-        fetchMovies("all", 0, pageSize);
     });
+
+    // 날짜 포맷 변경 함수
+    function formatDate(dateString) {
+        if (!dateString) return ""; // 값이 없을 때 빈 문자열 반환
+        var dateParts = dateString.split("-"); // 'YYYY-MM-DD' 형태를 '-'로 분리
+        if (dateParts.length === 3) {
+            return dateParts[0] + "." + dateParts[1] + "." + dateParts[2]; // 'YYYY.MM.DD' 형식으로 변환
+        }
+        return dateString; // 포맷이 다를 경우 그대로 반환
+    }
 
 </script>
 </body>
