@@ -1,60 +1,80 @@
 package mybatis.vo;
 
 public class TimetableVO {
-    private String timetableIdx, movieIdx, theaterIdx, screenIdx,
-            timetableStartTime, timetableEndTime, screenName, screenType;
+  private String timetableIdx, movieIdx, theaterIdx, screenIdx,
+      timetableStartTime, timetableEndTime, screenName, screenType, screenSeatCount, seatStatus, availableSeats;
 
-    public String getScreenName() { return screenName; }
+  public String getAvailableSeats() { return availableSeats; }
 
-    public void setScreenName(String screenName) { this.screenName = screenName; }
+  public void setAvailableSeats(String availableSeats) { this.availableSeats = availableSeats; }
 
-    public String getScreenType() { return screenType; }
+  public String getScreenSeatCount() {
+    return screenSeatCount;
+  }
 
-    public void setScreenType(String screenType) { this.screenType = screenType; }
+  public void setScreenSeatCount(String screenSeatCount) {
+    this.screenSeatCount = screenSeatCount;
+  }
 
-    public String getTimetableIdx() { return timetableIdx; }
+  public String getSeatStatus() {
+    return seatStatus;
+  }
 
-    public void setTimetableIdx(String timetableIdx) {
-        this.timetableIdx = timetableIdx;
-    }
+  public void setSeatStatus(String seatStatus) {
+    this.seatStatus = seatStatus;
+  }
 
-    public String getMovieIdx() {
-        return movieIdx;
-    }
+  public String getScreenName() { return screenName; }
 
-    public void setMovieIdx(String movieIdx) {
-        this.movieIdx = movieIdx;
-    }
+  public void setScreenName(String screenName) { this.screenName = screenName; }
 
-    public String getTheaterIdx() {
-        return theaterIdx;
-    }
+  public String getScreenType() { return screenType; }
 
-    public void setTheaterIdx(String theaterIdx) {
-        this.theaterIdx = theaterIdx;
-    }
+  public void setScreenType(String screenType) { this.screenType = screenType; }
 
-    public String getScreenIdx() {
-        return screenIdx;
-    }
+  public String getTimetableIdx() { return timetableIdx; }
 
-    public void setScreenIdx(String screenIdx) {
-        this.screenIdx = screenIdx;
-    }
+  public void setTimetableIdx(String timetableIdx) {
+    this.timetableIdx = timetableIdx;
+  }
 
-    public String getTimetableStartTime() {
-        return timetableStartTime;
-    }
+  public String getMovieIdx() {
+    return movieIdx;
+  }
 
-    public void setTimetableStartTime(String timetableStartTime) {
-        this.timetableStartTime = timetableStartTime;
-    }
+  public void setMovieIdx(String movieIdx) {
+    this.movieIdx = movieIdx;
+  }
 
-    public String getTimetableEndTime() {
-        return timetableEndTime;
-    }
+  public String getTheaterIdx() {
+    return theaterIdx;
+  }
 
-    public void setTimetableEndTime(String timetableEndTime) {
-        this.timetableEndTime = timetableEndTime;
-    }
+  public void setTheaterIdx(String theaterIdx) {
+    this.theaterIdx = theaterIdx;
+  }
+
+  public String getScreenIdx() {
+    return screenIdx;
+  }
+
+  public void setScreenIdx(String screenIdx) {
+    this.screenIdx = screenIdx;
+  }
+
+  public String getTimetableStartTime() {
+    return timetableStartTime;
+  }
+
+  public void setTimetableStartTime(String timetableStartTime) {
+    this.timetableStartTime = timetableStartTime;
+  }
+
+  public String getTimetableEndTime() {
+    return timetableEndTime;
+  }
+
+  public void setTimetableEndTime(String timetableEndTime) {
+    this.timetableEndTime = timetableEndTime;
+  }
 }

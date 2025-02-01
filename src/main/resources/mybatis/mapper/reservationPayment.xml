@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationPayment">
+
+  <select id="getUserCouponList" resultType="mybatis.vo.CouponVO">
+    SELECT c.*
+    FROM couponUserMapping cum
+    JOIN coupon c ON cum.couponIdx = c.couponIdx
+    WHERE cum.userIdx = #{userIdx}
+    AND cum.couponUserStatus = 0
+    AND c.couponStatus = 0
+    AND c.couponType = 1
+  </select>
+
+</mapper>

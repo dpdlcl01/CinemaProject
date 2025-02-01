@@ -14,13 +14,11 @@ body {
     left: 3px;
     font-weight: normal;
 }
-
 .seat-selection-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
     height: 630px;
 }
-
 .seat-selection {
     padding: 20px;
     border: 1px solid #ddd;
@@ -28,7 +26,6 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 .seat-selection .header {
     display: flex;
     background: #f9f9f9;
@@ -36,28 +33,23 @@ body {
     padding: 0px 10px 0px 10px;
     margin-bottom: 20px;
 }
-
 .counter {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 10px;
 }
-
 .seat-selection .header label {
     margin-right: 5px;
     font-weight: normal;
     font-size: 14px;
 }
-
 .seat-selection .header.adult {
     display: flex;
 }
-
 .seat-selection .header.student {
     display: flex;
 }
-
 .value {
     width: 30px;
     text-align: center;
@@ -65,7 +57,6 @@ body {
     font-weight: normal;
     color: #333;
 }
-
 .btn {
     width: 30px;
     height: 30px;
@@ -81,11 +72,9 @@ body {
     justify-content: center;
     /*transition: all 0.2s ease;*/
 }
-
 .btn:hover {
     background: #ddd;
 }
-
 .reset {
     margin-left: auto; /* 초기화 버튼을 오른쪽으로 밀기 */
     padding: 5px 10px;
@@ -104,24 +93,20 @@ body {
     border-radius: 5px;
     font-weight: bold;
 }
-
 .rows{
     margin: 30px 50px auto auto;
 }
-
 .line {
     display: flex;
     margin: 0 5px 10px 0;
     align-items: center;
     justify-content: center;
 }
-
 .line button.disabled {
     background: #ccc;
     color: #999;
     cursor: not-allowed;
 }
-
 .line button.empty {
     background-color: transparent; /* 배경색 제거 */
     border: none; /* 테두리 제거 */
@@ -249,7 +234,7 @@ button.temp-seat {
     border-bottom: 1px solid #434343;
 }
 
-.movie-info .movie-grade {
+.movie-grade-image {
     width: 20px;
     height: 20px;
     margin-right: 10px;
@@ -257,7 +242,7 @@ button.temp-seat {
     background-position: center;
 }
 
-.movie- info .movie-title {
+.movie-info .movie-title {
     font-size: 1.06em;
     font-weight: 400;
     line-height: 1.1;
@@ -265,7 +250,7 @@ button.temp-seat {
     text-overflow: ellipsis;
 }
 
-.movie-info .movie-type {
+.movie-info .movie-runningTime {
     font-size: 12px;
     margin: 5px 0 0;
 }
@@ -329,6 +314,7 @@ button.temp-seat {
     margin: 10px 0 10px 0;
     border-radius: 10px;
     background-color: #1e1e1e;
+    height: 280px;
 }
 
 .legend {
