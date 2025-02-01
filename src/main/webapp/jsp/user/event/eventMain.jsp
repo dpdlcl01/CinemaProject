@@ -117,7 +117,6 @@
     </div>
 
     <div id="ongoingevent" class="content active">
-        <p>응모하신 이벤트의 당첨 여부는 <a href="#">나의 응모결과 확인</a>을 통해 확인하실 수 있습니다.</p><br/>
         <div class="event-bar-container">
             <div class="total-count">전체 ${requestScope.totalEventCount}건</div>
         </div>
@@ -125,7 +124,7 @@
             <c:forEach var="vo" items="${ar}">
                 <li class="event-item">
                     <div class="event-thumbnail">
-                        <img src="/css/user/images/event/${vo.boardContent}" alt="이벤트 이미지">
+                        <img src="${vo.boardContent}" alt="이벤트 이미지">
                     </div>
                     <div class="event-details">
                         <a href="UserController?type=eventdetail&boardIdx=${vo.boardIdx}" class="event-title">${vo.boardTitle}</a>

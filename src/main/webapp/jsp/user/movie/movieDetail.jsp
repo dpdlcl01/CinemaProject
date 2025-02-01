@@ -685,18 +685,30 @@
 </div>
 <input type="hidden" id="hidden-movie-idx" value="${requestScope.mvo.movieIdx}">
 <script>
+    // 다이얼로그 초기화
+    $(document).ready(function () {
+        $("#loginNoticeDialog, #watchNoticeDialog, #reviewCompleteNoticeDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width: 400
+        });
+    });
+
     // 다이얼로그 열기 함수
     function openDialog(dialogId) {
-        $("#" + dialogId).dialog({
-            modal: true, // 모달 형태
-            resizable: false, // 크기 조정 불가
-            width: 400, // 다이얼로그 너비
-        });
+        $("#" + dialogId).dialog("open");
     }
 
     // 다이얼로그 닫기 함수
     function closeDialog(dialogId) {
-        $("#" + dialogId).dialog("close"); // jQuery UI의 close 메서드 호출
+        const dialogElement = $("#" + dialogId);
+
+        if (dialogElement.hasClass("ui-dialog-content")) {
+            dialogElement.dialog("close");
+        } else {
+            dialogElement.hide();
+        }
     }
 
 
@@ -742,13 +754,79 @@
                 alert("찜하기 처리 중 오류가 발생했습니다.");
             }
         });
-
-        console.log("Updating movieLikes for movieIdx: " + movieIdx);
-        console.log("Element ID: wantsee-" + movieIdx);
-        console.log(document.getElementById("wantsee-" + movieIdx)); // null이면 선택자가 문제
-
-
     }
+
+    // 관람평 관련 로그인 체크, 모달
+    function writeReview(movieIdx) {
+        if (!movieIdx) {
+            alert("movieIdx 값이 유효하지 않습니다.");
+            return;
+        }
+        // 1. 비동기로 로그인 체크
+        $.ajax({
+            url: 'UserController?type=loginCheck', // 로그인 체크 URL
+            type: 'POST',
+            dataType: 'json',
+            success: function (res) {
+                if (!res.login) {
+                    // 로그인되지 않은 상태 → 로그인 안내 모달
+                    openDialog("loginNoticeDialog");
+                } else {
+                    // 로그인된 상태 → 관람 여부 확인
+                    checkWatchedMovie(res.userIdx, movieIdx);
+                }
+            }
+        });
+    }
+
+    // 2. 관람 여부 확인
+    function checkWatchedMovie(userIdx, movieIdx) {
+        $.ajax({
+            url: 'UserController?type=reviewCheckWatchedMovie',
+            type: 'POST',
+            data: { userIdx: userIdx, movieIdx: movieIdx },
+            dataType: 'json',
+            success: function (res) {
+                if (!res.watched) {
+                    // 관람 기록 없음 → 관람 필요 안내 모달
+                    openDialog("watchNoticeDialog");
+                } else {
+                    // 관람 기록 있음 → 관람평 작성 여부 확인
+                    checkReviewWritten(userIdx, movieIdx);
+                }
+            }
+        });
+    }
+
+    // 3. 관람평 작성 여부 확인
+    function checkReviewWritten(userIdx, movieIdx) {
+        $.ajax({
+            url: 'UserController?type=reviewCheckWritten',
+            type: 'POST',
+            data: { userIdx: userIdx, movieIdx: movieIdx },
+            dataType: 'json',
+            success: function (res) {
+                if (res.reviewWritten) {
+                    // 이미 관람평 작성 → 작성 완료 안내 모달
+                    openDialog("reviewCompleteNoticeDialog");
+                } else {
+                    // 관람평 작성 가능 → 관람평 작성 모달 열기
+                    openReviewWriteModal();
+                }
+            }
+        });
+    }
+
+    // 관람평 작성 모달 열기
+    function openReviewWriteModal() {
+        document.getElementById("layer_regi_reply_review").style.display = "block";
+    }
+
+    // 관람평 작성 모달 닫기
+    function closeReviewWriteModal() {
+        document.getElementById("layer_regi_reply_review").style.display = "none";
+    }
+
 
     document.addEventListener("DOMContentLoaded", function () {
         // 모든 .tooltipClick 요소에 이벤트 리스너 추가
@@ -809,95 +887,6 @@
             charCount.style.color = textLength > 100 ? "red" : "black";
         });
     });
-
-    // 관람평 관련 로그인 체크, 모달
-    function writeReview(movieIdx) {
-        console.log("Selected movieIdx:", movieIdx); // movieIdx 값 확인
-        if (!movieIdx) {
-            alert("movieIdx 값이 유효하지 않습니다.");
-            return;
-        }
-        // 1. 비동기로 로그인 체크
-        $.ajax({
-            url: 'UserController?type=loginCheck', // 로그인 체크 URL
-            type: 'POST',
-            dataType: 'json',
-            success: function (res) {
-                if (!res.login) {
-                    // 로그인되지 않은 상태 → 로그인 안내 모달
-                    openDialog("loginNoticeDialog");
-                } else {
-                    // 로그인된 상태 → 관람 여부 확인
-                    checkWatchedMovie(res.userIdx, movieIdx);
-                }
-            },
-            error: function () {
-                alert("로그인 상태를 확인하는 중 오류가 발생했습니다.");
-            }
-        });
-    }
-
-    // 2. 관람 여부 확인
-    function checkWatchedMovie(userIdx, movieIdx) {
-        $.ajax({
-            url: 'UserController?type=reviewCheckWatchedMovie',
-            type: 'POST',
-            data: { userIdx: userIdx, movieIdx: movieIdx },
-            dataType: 'json',
-            success: function (res) {
-                if (!res.watched) {
-                    // 관람 기록 없음 → 관람 필요 안내 모달
-                    openDialog("watchNoticeDialog");
-                } else {
-                    // 관람 기록 있음 → 관람평 작성 여부 확인
-                    checkReviewWritten(userIdx, movieIdx);
-                }
-            },
-            error: function () {
-                alert("관람 여부를 확인하는 중 오류가 발생했습니다.");
-            }
-        });
-    }
-
-    // 3. 관람평 작성 여부 확인
-    function checkReviewWritten(userIdx, movieIdx) {
-        $.ajax({
-            url: 'UserController?type=reviewCheckWritten',
-            type: 'POST',
-            data: { userIdx: userIdx, movieIdx: movieIdx },
-            dataType: 'json',
-            success: function (res) {
-                if (res.reviewWritten) {
-                    // 이미 관람평 작성 → 작성 완료 안내 모달
-                    openDialog("reviewCompleteNoticeDialog");
-                } else {
-                    // 관람평 작성 가능 → 관람평 작성 모달 열기
-                    openReviewWriteModal();
-                }
-            },
-            error: function () {
-                alert("관람평 작성 여부를 확인하는 중 오류가 발생했습니다.");
-            }
-        });
-    }
-
-    // 관람평 작성 모달 열기
-    function openReviewWriteModal() {
-        const modal = document.getElementById("layer_regi_reply_review");
-        modal.style.display = "block"; // 모달을 화면에 표시
-    }
-
-    // 관람평 작성 모달 닫기
-    function closeReviewWriteModal() {
-        const modal = document.getElementById("layer_regi_reply_review");
-        modal.style.display = "none"; // 모달 숨김
-    }
-    document.querySelectorAll(".close-layer, .btn-modal-close").forEach((button) => {
-        button.addEventListener("click", closeReviewWriteModal);
-    });
-
-
-
 
 
     document.addEventListener("DOMContentLoaded", function () {

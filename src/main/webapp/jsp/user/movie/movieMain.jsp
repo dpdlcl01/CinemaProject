@@ -136,6 +136,10 @@
 
 <!-- script 영역 -->
 <script>
+    function formatNumber(number) {
+        return number.toLocaleString('ko-KR');  // 한국어 숫자 포맷: 1,234,567
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         const tabs = document.querySelectorAll(".tab");
         const searchForm = document.getElementById("searchForm");
@@ -295,6 +299,12 @@
                         '<img src="' + movie.moviePosterUrl + '" alt="' + movie.movieTitle + '" class="poster">' +
                         '<div class="wrap">' +
                         '<div class="summary">' + movie.movieInfo + '</div>' +
+                        '<div class="score">' +
+                        '<div class="preview">' +
+                        '<p class="tit">관객수</p>' +
+                        '<p class="number">' + formatNumber(Number(movie.movieTotalAudience)) + '<span class="ir"></span></p>' +
+                        '</div>' +
+                        '</div>' +
                         '</div>' +
                         '</a>' +
                         '<div class="tit-area">' +

@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -43,6 +45,12 @@
                             <div class="wrap">
                                 <div class="summary">
                                     ${mvo.movieInfo }
+                                </div>
+                                <div class="score">
+                                    <div class="preview">
+                                        <p class="tit">관객수</p>
+                                        <p class="number"><fmt:formatNumber value="${mvo.movieTotalAudience }"/><span class="ir"></span></p>
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -118,12 +126,12 @@
                         <!-- position -->
                         <div class="position">
                             <div class="txt" style="top: 0; opacity: 1;">
-                                <a href="" title="">
+                                <a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=39" title="">
                                     <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/01/22/LtSV5OaUV0j7ZRViEfVXGoHH7XwJ8cbE.jpg" alt="">
                                 </a>
                             </div>
                             <div class="bg" style="left: 300px; opacity: 1;">
-                                <a href="" title="">
+                                <a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=39" title="">
                                     <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2025/01/22/ebKckKothF6d7wKeHm7eLmUBsQ9zhJuz.jpg" alt="">
                                 </a>
                             </div>
@@ -154,12 +162,12 @@
                         <!-- position -->
                         <div class="position">
                             <div class="txt" style="top: 0; opacity: 1;">
-                                <a href="" title="">
+                                <a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=38" title="">
                                     <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2024/10/25/rJ952a8JpbgmHSsjPXbA20pIogJjmUJZ.jpg" alt="">
                                 </a>
                             </div>
                             <div class="bg" style="left: 300px; opacity: 1;">
-                                <a href="" title="">
+                                <a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=38" title="">
                                     <img src="https://img.megabox.co.kr/SharedImg/BnftMng/2024/10/25/8pnfD3MnGMMamzUSvBzGKTFHfARuRIXW.jpg" alt="">
                                 </a>
                             </div>
@@ -219,11 +227,11 @@
         <h2 class="tit">메가박스 안내</h2>
         <!-- info-special -->
         <div class="info-special">
-            <a href="" title="부띠크 페이지로 이동" class="butique">부띠크</a>
-            <a href="" title="MX 페이지로 이동" class="mx">MX</a>
-            <a href="" title="COMFORT 페이지로 이동" class="comfort">COMFORT</a>
-            <a href="" title="MEGA KIDS BOX 페이지로 이동" class="mega-kids-box">MEGA KIDS BOX</a>
-            <a href="" title="THE FIRST CLUB 페이지로 이동" class="the-first-club">THE FIRST CLUB</a>
+            <a href="" title="COMFORT 페이지로 이동" class="butique">부띠크</a>
+            <a href="" title="THE FIRST CLUB 페이지로 이동" class="mx">MX</a>
+            <a href="" title="Dolby 페이지로 이동" class="comfort">COMFORT</a>
+            <a href="" title="부띠크 페이지로 이동" class="mega-kids-box">MEGA KIDS BOX</a>
+            <a href="" title="MX 페이지로 이동" class="the-first-club">THE FIRST CLUB</a>
         </div>
         <!-- //info-special -->
     </section>

@@ -21,23 +21,16 @@ public class LoginAction implements Action {
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
 
-        // 데이터베이스에서 사용자 정보 조회
-        UserVO uservo = LoginDAO.getUserInfo(userId);
+        boolean usercheck = LoginDAO.usercheck(userId, userPassword);
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-        if (uservo != null) {
-            // 암호화된 비밀번호 비교
-            boolean passwordMatch = verifyPassword(userPassword, uservo.getUserPassword());
-
-            if (passwordMatch) {
-                session.setAttribute("uservo", uservo);  // 세션에 사용자 정보 저장
-
-                out.write("{\"success\": true}");
-            } else {
-                out.write("{\"success\": false, \"message\": \"로그인 실패! 아이디와 비밀번호를 확인하세요.\"}");
-            }
+        if (usercheck) {
+            UserVO uservo = LoginDAO.getUserInfo(userId);
+            session.setAttribute("uservo", uservo);  // 세션에 사용자 정보 저장
+            System.out.println(uservo.getUserId());
+            out.write("{\"success\": true}");
         } else {
             out.write("{\"success\": false, \"message\": \"로그인 실패! 아이디와 비밀번호를 확인하세요.\"}");
         }
@@ -45,10 +38,5 @@ public class LoginAction implements Action {
         out.flush();
         out.close();
         return null;
-    }
-
-    private boolean verifyPassword(String inputPassword, String hashPassword) {
-        // 입력된 비밀번호와 저장된 암호화된 비밀번호 비교
-        return BCrypt.checkpw(inputPassword, hashPassword);
     }
 }

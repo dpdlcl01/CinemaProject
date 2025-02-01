@@ -67,6 +67,39 @@
     right: 0;
 }
 
+#main #section01 .cont-area .main-movie-list > ol li .movie-list-info .wrap .score {
+    overflow: hidden;
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px 0 0 0;
+    text-align: center;
+    border-top: 1px solid #3c3c3c;
+    text-align: center;
+}
+
+
+#main #section01 .cont-area .main-movie-list > ol li .movie-list-info .wrap .score .preview {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 36px;
+}
+
+#main #section01 .cont-area .main-movie-list > ol li .movie-list-info .wrap .score .preview .tit {
+    display: block;
+    float: left;
+    margin: 0 19px 0 0;
+    font-size: 0.8667em;
+}
+
+#main #section01 .cont-area .main-movie-list > ol li .movie-list-info .wrap .score .preview .number {
+    float: left;
+    font-size: 1.6em;
+    color: #59bec9;
+}
+
 
 
 /* main */
