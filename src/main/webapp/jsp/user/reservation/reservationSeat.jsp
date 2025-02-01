@@ -60,552 +60,343 @@
           <c:choose>
             <c:when test="${screenType == 1 || screenType == 2}">
               <%-- A set --%>
-              <div class="rows">
-                <div class="line" data-row="Front">
-                  <button class="row-label">&nbsp;</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="1">
-                      <button class="unavailable-seat" data-seat="Fornt${i}"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="1" end="1">
-                      <button class="door-left" data-seat="door-left}"></button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="2" end="4">
-                      <button class="unavailable-seat" data-seat="Front${i}"></button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="5">
-                      <button class="unavailable-seat" data-seat="Front${i}"></button>
-                    </c:forEach>
-                  </div>
+              <div class="line" data-row="Front">
+                <button class="row-label">&nbsp;</button>
+                <!-- 왼쪽 출구 -->
+                <div class="seat-group">
+                  <button class="unavailable-seat" data-seat="Front1"></button>
+                  <button class="door-left" data-seat="door-left"></button>
                 </div>
-                <div class="line" data-row="A">
-                  <button class="row-label">A</button>
+
+                <!-- 가운데 좌석 그룹 -->
+                <div class="seat-group">
+                  <button class="unavailable-seat" data-seat="Front2"></button>
+                  <button class="unavailable-seat" data-seat="Front3"></button>
+                  <button class="unavailable-seat" data-seat="Front4"></button>
+                </div>
+
+                <!-- 오른쪽 출구 -->
+                <div class="seat-group-right">
+                  <button class="unavailable-seat" data-seat="Front5"></button>
+                </div>
+              </div>
+              <c:forEach var="row" items="A,B,C,D">
+                <div class="line" data-row="${row}">
+                  <button class="row-label">${row}</button>
+
+                  <!-- 왼쪽 좌석 그룹 -->
                   <div class="seat-group">
                     <c:forEach var="i" begin="1" end="1">
-                      <c:set var="seatStatus" value="0" />
+                      <c:set var="computedSeatNumber" value="${row}${i}" />
+                      <c:set var="seatData" value="N/A" />
+
+                      <!-- availableSeats에서 해당 좌석 정보 찾기 -->
                       <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
+                        <c:if test="${seat.seatNumber == computedSeatNumber}">
+                          <c:set var="seatData" value="${seat.seatIdx}" />
                         </c:if>
                       </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
+
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                              data-seatidx="${seatData}"
+                              data-seat="${computedSeatNumber}"
+                        ${seatData == 'N/A' ? 'disabled' : ''}>
                           ${i}
                       </button>
                     </c:forEach>
                   </div>
+
+                  <!-- 가운데 좌석 그룹 -->
                   <div class="seat-group-center">
                     <c:forEach var="i" begin="2" end="4">
-                      <c:set var="seatStatus" value="0" />
+                      <c:set var="computedSeatNumber" value="${row}${i}" />
+                      <c:set var="seatData" value="N/A" />
+
                       <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
+                        <c:if test="${seat.seatNumber == computedSeatNumber}">
+                          <c:set var="seatData" value="${seat.seatIdx}" />
                         </c:if>
                       </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
+
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                              data-seatidx="${seatData}"
+                              data-seat="${computedSeatNumber}"
+                        ${seatData == 'N/A' ? 'disabled' : ''}>
                           ${i}
                       </button>
                     </c:forEach>
                   </div>
+
+                  <!-- 오른쪽 좌석 그룹 -->
                   <div class="seat-group-right">
                     <c:forEach var="i" begin="5" end="5">
-                      <c:set var="seatStatus" value="0" />
+                      <c:set var="computedSeatNumber" value="${row}${i}" />
+                      <c:set var="seatData" value="N/A" />
+
                       <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
+                        <c:if test="${seat.seatNumber == computedSeatNumber}">
+                          <c:set var="seatData" value="${seat.seatIdx}" />
                         </c:if>
                       </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                </div>
-                <div class="line" data-row="B">
-                  <button class="row-label">B</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="1">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="B" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="B${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-center">
-                    <c:forEach var="i" begin="2" end="4">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="B" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
-                              data-seat="B${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="5">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="B" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
-                              data-seat="B${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
+
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                              data-seatidx="${seatData}"
+                              data-seat="${computedSeatNumber}"
+                        ${seatData == 'N/A' ? 'disabled' : ''}>
                           ${i}
                       </button>
                     </c:forEach>
                   </div>
                 </div>
-                <div class="line" data-row="C">
-                  <button class="row-label">C</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="1">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="C" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="C${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-center">
-                    <c:forEach var="i" begin="2" end="4">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="C" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="C${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="5">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="C" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'unavailable-seat' : 'temp-seat'}"
-                              data-seat="C${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
+              </c:forEach>
+              <div class="line" data-row="Back">
+                <button class="row-label">&nbsp;</button>
+
+                <!-- 왼쪽 출구 -->
+                <div class="seat-group">
+                  <button class="unavailable-seat" data-seat="Back1"></button>
                 </div>
-                <div class="line" data-row="D">
-                  <button class="row-label">D</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="1">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="D" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="D${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-center">
-                    <c:forEach var="i" begin="2" end="4">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="D" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="D${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="5">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="D" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="D${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
+
+                <!-- 가운데 좌석 그룹 + 출구 -->
+                <div class="seat-group-center">
+                  <button class="unavailable-seat" data-seat="Back2"></button>
+                  <button class="unavailable-seat" data-seat="Back3"></button>
+                  <button class="unavailable-seat" data-seat="Back4"></button>
+                  <button class="door-top" data-seat="door-top"></button>
                 </div>
-                <div class="line" data-row="Back">
-                  <button class="row-label">&nbsp;</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="1">
-                      <button class="unavailable-seat" data-seat="Back${i}"></button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-center">
-                    <c:forEach var="i" begin="2" end="4">
-                      <button class="unavailable-seat" data-seat="Back${i}"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="4" end="4">
-                      <button class="door-top" data-seat="door-top"></button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="5" end="5">
-                      <button class="unavailable-seat" data-seat="Back${i}"></button>
-                    </c:forEach>
-                  </div>
+
+                <!-- 오른쪽 좌석 -->
+                <div class="seat-group">
+                  <button class="unavailable-seat" data-seat="Back5"></button>
                 </div>
               </div>
             </c:when>
             <c:when test="${screenType == 3}">
               <%-- B set --%>
-              <div class="rows">
-                <div class="line" data-row="Front">
-                  <button class="row-label">&nbsp;</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="1">
-                      <button class="door-left" data-seat="door-left"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="1" end="8">
-                      <button class="unavailable-seat" data-seat="Fornt${i}"></button>
-                    </c:forEach>
-                  </div>
+              <div class="line" data-row="Front">
+                <button class="row-label">&nbsp;</button>
+                <div class="seat-group">
+                  <!-- 왼쪽 출구 -->
+                  <button class="door-left" data-seat="door-left"></button>
+                  <!-- 사용 불가능한 좌석 (Front1 ~ Front8) -->
+                  <c:forEach var="i" begin="1" end="8">
+                    <button class="unavailable-seat" data-seat="Front${i}"></button>
+                  </c:forEach>
                 </div>
-                <div class="line" data-row="A">
-                  <button class="row-label">A</button>
+              </div>
+              <c:forEach var="row" items="A,B,C">
+                <div class="line" data-row="${row}">
+                  <button class="row-label">${row}</button>
+
+                  <!-- 왼쪽 좌석 그룹 -->
                   <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
+                    <c:choose>
+                      <c:when test="${row == 'C'}">
+                        <!-- C열: 1, 2번 좌석을 왼쪽에 배치 -->
+                        <c:forEach var="i" begin="1" end="2">
+                          <c:set var="computedSeatNumber" value="${row}${i}" />
+                          <c:set var="seatData" value="N/A" />
+
+                          <c:forEach var="seat" items="${availableSeats}">
+                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:if>
+                          </c:forEach>
+
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                                  data-seatidx="${seatData}"
+                                  data-seat="${computedSeatNumber}"
+                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                              ${i}
+                          </button>
+                        </c:forEach>
+
+                        <!-- C열에서 가운데 4개의 빈 좌석 추가 -->
+                        <c:forEach var="i" begin="1" end="4">
+                          <button class="unavailable-seat"></button>
+                        </c:forEach>
+                      </c:when>
+                      <c:otherwise>
+                        <!-- 일반 행(A, B, D)에서는 1~4번을 왼쪽에 배치 -->
+                        <c:forEach var="i" begin="1" end="4">
+                          <c:set var="computedSeatNumber" value="${row}${i}" />
+                          <c:set var="seatData" value="N/A" />
+
+                          <c:forEach var="seat" items="${availableSeats}">
+                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:if>
+                          </c:forEach>
+
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                                  data-seatidx="${seatData}"
+                                  data-seat="${computedSeatNumber}"
+                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                              ${i}
+                          </button>
+                        </c:forEach>
+                      </c:otherwise>
+                    </c:choose>
                   </div>
+
+                  <!-- C열일 때만 공백 추가 -->
+                  <c:if test="${row == 'C'}">
+                    <div class="seat-space"></div> <!-- 이 부분이 공백을 만들 것 -->
+                  </c:if>
+
+                  <!-- 오른쪽 좌석 그룹 -->
                   <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="8">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
+                    <c:choose>
+                      <c:when test="${row == 'C'}">
+                        <!-- C열: 3, 4번 좌석을 오른쪽에 배치 -->
+                        <c:forEach var="i" begin="3" end="4">
+                          <c:set var="computedSeatNumber" value="${row}${i}" />
+                          <c:set var="seatData" value="N/A" />
+
+                          <c:forEach var="seat" items="${availableSeats}">
+                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:if>
+                          </c:forEach>
+
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                                  data-seatidx="${seatData}"
+                                  data-seat="${computedSeatNumber}"
+                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                              ${i}
+                          </button>
+                        </c:forEach>
+                      </c:when>
+                      <c:otherwise>
+                        <!-- 일반 행(A, B, D)에서는 5~8번을 오른쪽에 배치 -->
+                        <c:forEach var="i" begin="5" end="8">
+                          <c:set var="computedSeatNumber" value="${row}${i}" />
+                          <c:set var="seatData" value="N/A" />
+
+                          <c:forEach var="seat" items="${availableSeats}">
+                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:if>
+                          </c:forEach>
+
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                                  data-seatidx="${seatData}"
+                                  data-seat="${computedSeatNumber}"
+                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                              ${i}
+                          </button>
+                        </c:forEach>
+                      </c:otherwise>
+                    </c:choose>
                   </div>
                 </div>
-                <div class="line" data-row="B">
-                  <button class="row-label">B</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="B" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="B${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="8">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="B" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="B${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                </div>
-                  <%--                                <c:forEach var="ar(jsp에서 사용할 배열 변수명)" items="${requestScope.ar(리퀘스트에 저장된 배열의 키값)}">--%>
-                  <%--                                    <p>${ar.뽑아내고싶은값}</p>--%>
-                  <%--                                </c:forEach>--%>
-                <div class="line" data-row="C">
-                  <button class="row-label">C</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="2">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="C" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="C${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="3" end="4">
-                      <button class="unavailable-seat" data-seat="C${i}"></button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="6">
-                      <button class="unavailable-seat" data-seat="C${i}"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="7" end="8">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="C" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="C${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                </div>
-                <div class="line" data-row="Back">
-                  <button class="row-label">&nbsp;</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <button class="unavailable-seat" data-seat="Back${i}"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="5" end="5">
-                      <button class="door-top"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="5" end="8">
-                      <button class="unavailable-seat" data-seat="Back${i}"></button>
-                    </c:forEach>
-                  </div>
+              </c:forEach>
+              <div class="line" data-row="Back">
+                <button class="row-label">&nbsp;</button>
+                <div class="seat-group">
+                  <!-- 사용 불가능한 좌석 (Back1 ~ Back4) -->
+                  <c:forEach var="i" begin="1" end="3">
+                    <button class="unavailable-seat" data-seat="Back${i}"></button>
+                  </c:forEach>
+                  <!-- 상단 출구 -->
+                  <button class="door-top" data-seat="door-top"></button>
+                  <!-- 사용 불가능한 좌석 (Back5 ~ Back8) -->
+                  <c:forEach var="i" begin="6" end="8">
+                    <button class="unavailable-seat" data-seat="Back${i}"></button>
+                  </c:forEach>
                 </div>
               </div>
             </c:when>
             <c:when test="${screenType == 4 || screenType == 5}">
               <%-- C set --%>
-              <div class="rows">
-                <div class="line" data-row="Front">
-                  <button class="row-label"> </button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="1">
-                      <button class="unavailable-seat" data-seat="Front${i}"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="2" end="2">
-                      <button class="door-left" data-seat="door-left"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="3" end="4">
-                      <button class="unavailable-seat" data-seat="Front${i}"></button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="6">
-                      <button class="unavailable-seat" data-seat="Front${i}"></button>
-                    </c:forEach>
-                  </div>
+              <div class="line" data-row="Front">
+                <button class="row-label"> </button>
+                <!-- 왼쪽 좌석 그룹 -->
+                <div class="seat-group">
+                  <c:forEach var="i" begin="1" end="1">
+                    <button class="unavailable-seat" data-seat="Front${i}"></button>
+                  </c:forEach>
+
+                  <!-- 출입구 버튼 -->
+                  <button class="door-left" data-seat="door-left"></button>
+
+                  <c:forEach var="i" begin="3" end="4">
+                    <button class="unavailable-seat" data-seat="Front${i}"></button>
+                  </c:forEach>
                 </div>
-                <div class="line" data-row="A">
-                  <button class="row-label">A</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="6">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
+
+                <!-- 가운데 빈 좌석 추가 -->
+                <div class="seat-space"></div>
+
+                <!-- 오른쪽 좌석 그룹 -->
+                <div class="seat-group-right">
+                  <c:forEach var="i" begin="5" end="6">
+                    <button class="unavailable-seat" data-seat="Front${i}"></button>
+                  </c:forEach>
                 </div>
-                <div class="line" data-row="B">
-                  <button class="row-label">B</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="A" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="A${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="6">
-                      <c:set var="seatStatus" value="0" />
-                      <c:forEach var="seat" items="${availableSeats}">
-                        <c:set var="seatPrefix" value="B" />
-                        <c:if test="${seat.seatNumber == (seatPrefix.concat(i))}">
-                          <c:set var="seatStatus" value="${seat.seatStatus}" />
-                        </c:if>
-                      </c:forEach>
-                      <button
-                              class="seat ${seatStatus == 0 ? 'available-seat' : seatStatus == 1 ? 'disabled-seat' : 'temp-seat'}"
-                              data-seat="B${i}"
-                        ${seatStatus != 0 ? 'disabled' : ''}>
-                          ${i}
-                      </button>
-                    </c:forEach>
-                  </div>
+              </div>
+              <c:forEach var="row" items="A,B,C,D">
+                <div class="line" data-row="${row}">
+                  <button class="row-label">${row}</button>
+                    <!-- A, B, D 행 (일반적인 좌석 배치) -->
+                      <div class="seat-group">
+                        <c:forEach var="i" begin="1" end="4">
+                          <c:set var="computedSeatNumber" value="${row}${i}" />
+                          <c:set var="seatData" value="N/A" />
+
+                          <c:forEach var="seat" items="${availableSeats}">
+                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:if>
+                          </c:forEach>
+
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                                  data-seatidx="${seatData}"
+                                  data-seat="${computedSeatNumber}"
+                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                              ${i}
+                          </button>
+                        </c:forEach>
+                      </div>
+                      <div class="seat-group-right">
+                        <c:forEach var="i" begin="5" end="6">
+                          <c:set var="computedSeatNumber" value="${row}${i}" />
+                          <c:set var="seatData" value="N/A" />
+
+                          <c:forEach var="seat" items="${availableSeats}">
+                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:if>
+                          </c:forEach>
+
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                                  data-seatidx="${seatData}"
+                                  data-seat="${computedSeatNumber}"
+                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                              ${i}
+                          </button>
+                        </c:forEach>
+                      </div>
                 </div>
-                <div class="line" data-row="C">
-                  <button class="row-label">C</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <button class="available-seat" data-seat="C${i}">${i}</button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="6">
-                      <button class="available-seat" data-seat="C${i}">${i}</button>
-                    </c:forEach>
-                  </div>
-                </div>
-                <div class="line" data-row="D">
-                  <button class="row-label">C</button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <button class="available-seat" data-seat="D${i}">${i}</button>
-                    </c:forEach>
-                  </div>
-                  <div class="seat-group-right">
-                    <c:forEach var="i" begin="5" end="6">
-                      <button class="available-seat" data-seat="D${i}">${i}</button>
-                    </c:forEach>
-                  </div>
-                </div>
-                <div class="line" data-row="Back">
-                  <button class="row-label"> </button>
-                  <div class="seat-group">
-                    <c:forEach var="i" begin="1" end="4">
-                      <button class="unavailable-seat" data-seat="Back${i}"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="5" end="5">
-                      <button class="door-top" data-seat="door-top"></button>
-                    </c:forEach>
-                    <c:forEach var="i" begin="5" end="6">
-                      <button class="unavailable-seat" data-seat="Back${i}"></button>
-                    </c:forEach>
-                  </div>
+              </c:forEach>
+              <div class="line" data-row="Back">
+                <button class="row-label"> </button>
+
+                <div class="seat-group">
+                  <!-- 1~4번 좌석 -->
+                  <c:forEach var="i" begin="1" end="4">
+                    <button class="unavailable-seat" data-seat="Back${i}"></button>
+                  </c:forEach>
+
+                  <!-- 출구 버튼 (door-top) -->
+                  <div class="seat-space"></div>
+                  <button class="door-top" data-seat="door-top"></button>
+                  <div class="seat-space"></div>
+
+                  <!-- 5~6번 좌석 -->
+                  <c:forEach var="i" begin="5" end="6">
+                    <button class="unavailable-seat" data-seat="Back${i}"></button>
+                  </c:forEach>
                 </div>
               </div>
             </c:when>
@@ -648,16 +439,7 @@
           </div>
           <div class="seat-num">
             <p class="tit">선택좌석</p>
-            <div class="my-seat">
-              <div class="seat all" title="구매가능 좌석">-</div>
-              <div class="seat all" title="구매가능 좌석">-</div>
-              <div class="seat all" title="구매가능 좌석">-</div>
-              <div class="seat all" title="구매가능 좌석">-</div>
-              <div class="seat all" title="구매가능 좌석">-</div>
-              <div class="seat all" title="구매가능 좌석">-</div>
-              <div class="seat all" title="구매가능 좌석">-</div>
-              <div class="seat all" title="구매가능 좌석">-</div>
-            </div>
+            <div class="my-seat"></div>
           </div>
         </div>
         <div class="payment-summary">
@@ -670,8 +452,19 @@
           </div>
         </div>
         <div class="btn-group">
-          <a href="" class="button pre" id="pagePrevious" title="이전">이전</a>
-          <a href="" class="button active" id="pageNext" title="다음">다음</a>
+          <a href="${pageContext.request.contextPath}/reservationMain.jsp" class="button pre" id="pagePrevious" title="이전">이전</a>
+          <button type="button" class="button active" id="pageNext" title="다음" onclick="sendSeatData();"> 다음</button>
+        </div>
+        <!-- 좌석 예약 정보를 담는 폼 -->
+        <div style="display: none;">
+          <form id="seatForm" action="${pageContext.request.contextPath}/UserController?type=reserveSeats" method="post">
+            <!-- 예약 분기를 위한 type hidden 필드 -->
+            <input type="hidden" name="type" value="reserveSeats"/>
+            <!-- 타임테이블 번호를 담은 히든 필드 -->
+            <input type="hidden" id="timetableIdx" name="timetableIdx" value="${timetableIdx}" />
+            <!-- 선택된 좌석들의 ID(hidden 필드)를 추가할 컨테이너 -->
+            <div id="seatHiddenContainer"></div>
+          </form>
         </div>
       </div>
     </div>
@@ -692,7 +485,7 @@
     const adultPrice = parseInt("${adultPrice}") || 0;
     const studentPrice = parseInt("${studentPrice}") || 0;
 
-    // 선택한 좌석을 업데이트하는 함수 (💡 선택된 좌석 박스 업데이트)
+    // 선택한 좌석을 업데이트하는 함수 (선택된 좌석 박스 업데이트)
     const updateSelectedSeatsDisplay = () => {
       mySeatContainer.innerHTML = ''; // 기존 선택 좌석 초기화
       selectedSeats.forEach(seat => {
@@ -701,6 +494,9 @@
         seatDiv.textContent = seat; // 좌석 번호 표시
         mySeatContainer.appendChild(seatDiv);
       });
+
+      // 콘솔에 선택한 좌석 seatIdx 출력
+      console.log("선택한 좌석 seatIdx 목록:", Array.from(selectedSeats));
     };
 
     // 가격 업데이트 함수
@@ -716,14 +512,17 @@
       }
 
       totalAmountElement.textContent = totalPrice.toLocaleString() + " 원";
-      updateSelectedSeatsDisplay(); // 🟢 선택 좌석 UI 업데이트
+      updateSelectedSeatsDisplay(); // 선택 좌석 UI 업데이트
     };
 
-    // 🟢 **좌석 선택 이벤트 리스너 추가 (이전 코드 복구)**
-    document.querySelectorAll('.available-seat').forEach((seat) => {
-      seat.addEventListener('click', () => {
-        const seatNumber = seat.dataset.seat; // 좌석 번호 가져오기
+    // 좌석 선택 이벤트 리스너 추가
+    document.querySelectorAll('.available-seat').forEach(function (seat) {
+      var seatIdx = seat.getAttribute('data-seatidx'); // 좌석 ID 가져오기
+      var seatNumber = seat.getAttribute('data-seat'); // 좌석 번호 가져오기
 
+      seat.classList.add("seat-" + seatIdx); // seatIdx를 class로 추가
+
+      seat.addEventListener('click', function () {
         if (seat.classList.contains('selected')) {
           seat.classList.remove('selected');
           selectedSeats.delete(seatNumber);
@@ -733,7 +532,9 @@
         } else {
           alert('선택 가능한 좌석 수를 초과했습니다.');
         }
-        updateTotalPrice(); // ✅ 좌석이 선택될 때만 총 결제 금액 업데이트
+
+        console.log("선택한 seatIdx:", Array.from(selectedSeats)); // seatIdx 출력
+        updateTotalPrice(); // 가격 및 UI 업데이트
       });
     });
 
@@ -775,119 +576,32 @@
       document.querySelectorAll('.available-seat').forEach(seat => seat.classList.remove('selected'));
       updateTotalCount();
     });
-
-    updateTotalCount();
   });
 
-  <%--document.addEventListener('DOMContentLoaded', () => {--%>
-  <%--  const maxSeats = 8; // 최대 선택 가능 인원--%>
-  <%--  const selectedSeats = new Set(); // 선택된 좌석 저장--%>
-  <%--  let adultCount = 0; // 성인 인원--%>
-  <%--  let studentCount = 0; // 청소년 인원--%>
-  <%--  const totalAmountElement = document.getElementById('totalAmount');--%>
+  function sendSeatData(){
+    console.log("sendSeatData 호출됨");
+    const selectedSeatIdxList = Array.from(document.querySelectorAll('.available-seat.selected'))
+            .map(seat => seat.getAttribute('data-seatidx'));
+    console.log("선택된 seatIdx 목록:", selectedSeatIdxList);
+    if (selectedSeatIdxList.length === 0) {
+      alert("좌석을 선택해주세요.");
+      return;
+    }
 
-  <%--  // JSP에서 가격 정보를 가져올 때 기본값 설정--%>
-  <%--  const adultPrice = parseInt("${adultPrice}") || 0;--%>
-  <%--  const studentPrice = parseInt("${studentPrice}") || 0;--%>
-  <%--  console.log("Adult Price: ", adultPrice);--%>
-  <%--  console.log("Student Price: ", studentPrice);--%>
+    const container = document.getElementById('seatHiddenContainer');
+    container.innerHTML = "";
+    selectedSeatIdxList.forEach(seatIdx => {
+      let input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "seatIdxList";
+      input.value = seatIdx;
+      container.appendChild(input);
+    });
 
-  <%--  const updateTotalPrice = () => {--%>
-  <%--    const totalSeatsSelected = selectedSeats.size; // 선택된 좌석 수--%>
-  <%--    const totalPeople = adultCount + studentCount; // 선택된 인원 수--%>
-  <%--    let totalPrice = 0;--%>
+    console.log("폼 데이터:", $("#seatForm").serialize());
+    document.getElementById("seatForm").submit();
+  }
 
-  <%--    if (totalSeatsSelected > 0) {--%>
-  <%--      let adultSeats = Math.min(adultCount, totalSeatsSelected); // 어른 좌석 우선 배정--%>
-  <%--      let studentSeats = totalSeatsSelected - adultSeats; // 나머지 좌석을 청소년으로 배정--%>
-
-  <%--      totalPrice = (adultSeats * adultPrice) + (studentSeats * studentPrice);--%>
-  <%--    }--%>
-
-  <%--    if (totalSeatsSelected > totalPeople) {--%>
-  <%--      alert("좌석 수가 인원 수보다 많을 수 없습니다.");--%>
-  <%--      return;--%>
-  <%--    }--%>
-
-  <%--    totalAmountElement.textContent = totalPrice.toLocaleString() + " 원";--%>
-  <%--  };--%>
-
-  <%--  // 좌석 선택 이벤트 추가--%>
-  <%--  document.querySelectorAll('.available-seat').forEach(seat => {--%>
-  <%--    seat.addEventListener('click', () => {--%>
-  <%--      const seatNumber = seat.dataset.seat;--%>
-
-  <%--      if (seat.classList.contains('selected')) {--%>
-  <%--        seat.classList.remove('selected');--%>
-  <%--        selectedSeats.delete(seatNumber);--%>
-  <%--      } else if (selectedSeats.size < (adultCount + studentCount)) {--%>
-  <%--        seat.classList.add('selected');--%>
-  <%--        selectedSeats.add(seatNumber);--%>
-  <%--      } else {--%>
-  <%--        alert('선택 가능한 좌석 수를 초과했습니다.');--%>
-  <%--      }--%>
-
-  <%--      updateTotalPrice();--%>
-  <%--    });--%>
-  <%--  });--%>
-
-  <%--  // // 좌석 선택 시 가격 반영--%>
-  <%--  // document.querySelectorAll('.available-seat').forEach((seat) => {--%>
-  <%--  //   seat.addEventListener('click', () => {--%>
-  <%--  //     if (seat.classList.contains('selected')) {--%>
-  <%--  //       seat.classList.remove('selected');--%>
-  <%--  //       selectedSeats.delete(seat.dataset.seat);--%>
-  <%--  //     } else if (selectedSeats.size < (adultCount + studentCount)) {--%>
-  <%--  //       seat.classList.add('selected');--%>
-  <%--  //       selectedSeats.add(seat.dataset.seat);--%>
-  <%--  //     } else {--%>
-  <%--  //       alert('선택 가능한 좌석 수를 초과했습니다.');--%>
-  <%--  //     }--%>
-  <%--  //     updateTotalPrice();--%>
-  <%--  //   });--%>
-  <%--  // });--%>
-
-  <%--  // 성인 및 청소년 인원 조정--%>
-  <%--  const updateTotalCount = () => {--%>
-  <%--    document.getElementById('adult').textContent = adultCount;--%>
-  <%--    document.getElementById('student').textContent = studentCount;--%>
-  <%--    updateTotalPrice();--%>
-  <%--  };--%>
-
-  <%--  document.querySelectorAll('.increase').forEach((btn) => {--%>
-  <%--    btn.addEventListener('click', () => {--%>
-  <%--      if (adultCount + studentCount < maxSeats) {--%>
-  <%--        if (btn.dataset.target === 'adult') adultCount++;--%>
-  <%--        else if (btn.dataset.target === 'student') studentCount++;--%>
-  <%--        updateTotalCount();--%>
-  <%--      } else {--%>
-  <%--        alert('최대 8명까지만 선택 가능합니다.');--%>
-  <%--      }--%>
-  <%--    });--%>
-  <%--  });--%>
-
-  <%--  document.querySelectorAll('.decrease').forEach((btn) => {--%>
-  <%--    btn.addEventListener('click', () => {--%>
-  <%--      if (btn.dataset.target === 'adult' && adultCount > 0) {--%>
-  <%--        adultCount--;--%>
-  <%--      } else if (btn.dataset.target === 'student' && studentCount > 0) {--%>
-  <%--        studentCount--;--%>
-  <%--      }--%>
-  <%--      updateTotalCount();--%>
-  <%--    });--%>
-  <%--  });--%>
-
-  <%--  // 초기화 버튼--%>
-  <%--  document.querySelector('.reset').addEventListener('click', () => {--%>
-  <%--    adultCount = 0;--%>
-  <%--    studentCount = 0;--%>
-  <%--    selectedSeats.clear();--%>
-  <%--    document.querySelectorAll('.available-seat').forEach(seat => seat.classList.remove('selected'));--%>
-  <%--    updateTotalCount();--%>
-  <%--  });--%>
-
-  <%--  updateTotalCount(); // 초기 업데이트 실행--%>
-  <%--});--%>
 </script>
 </body>
 </html>

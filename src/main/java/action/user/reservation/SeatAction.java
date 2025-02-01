@@ -1,6 +1,7 @@
 package action.user.reservation;
 
 import action.Action;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.dao.ReservationDAO;
 import mybatis.dao.SeatDAO;
 import mybatis.vo.*;
@@ -9,10 +10,12 @@ import util.SessionUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 public class SeatAction implements Action {
     @Override
@@ -23,6 +26,41 @@ public class SeatAction implements Action {
         if (uservo == null) {
             return "UserController?type=";
         }
+
+        // 만약 type 파라미터가 "reserveSeats"이면 좌석 예약 insert 처리 후 payment 페이지로 포워딩
+        String type = request.getParameter("type");
+        if ("reserveSeats".equals(type)) {
+            // 폼 전송 방식으로 전달된 파라미터에서 timetableIdx와 seatIdxList 읽기
+            String timetableIdx = request.getParameter("timetableIdx");
+            String[] seatIdxStrs = request.getParameterValues("seatIdxList");
+            int successCount = 0;
+            if (seatIdxStrs != null) {
+                for (String seatIdxStr : seatIdxStrs) {
+                    try {
+                        int seatIdx = Integer.parseInt(seatIdxStr);
+                        int result = SeatDAO.insertSeatStatus(timetableIdx, seatIdx);
+                        if (result > 0) {
+                            System.out.println("좌석 예약 성공: timetableIdx=" + timetableIdx + ", seatIdx=" + seatIdx);
+                            successCount++;
+                        } else {
+                            System.out.println("좌석 예약 실패: timetableIdx=" + timetableIdx + ", seatIdx=" + seatIdx);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("seatIdx 파싱 오류: " + seatIdxStr);
+                    }
+                }
+            } else {
+                System.out.println("선택된 좌석이 없습니다.");
+            }
+            // 예약 후 timetableIdx와 seatIdxList 값을 request에 담아 결제 페이지로 포워딩
+            request.setAttribute("timetableIdx", timetableIdx);
+            request.setAttribute("seatIdxList", seatIdxStrs);
+
+            // 결제 페이지로 포워딩 (여기서는 payment.jsp로 직접 이동하는 예)
+            return "./jsp/user/reservation/payment.jsp";
+        }
+
+
 
         // 영화, 극장, 시간표 정보를 가져오기
         String movieIdx = request.getParameter("movieIdx");
@@ -74,7 +112,7 @@ public class SeatAction implements Action {
         SeatVO[] availableSeats = SeatDAO.getAllSeats(screenIdx, timetableIdx);
         if (availableSeats != null) {
             for (SeatVO seat : availableSeats) {
-                System.out.println("Seat: " + seat.getSeatNumber() + ", Status: " + seat.getSeatStatus());
+                System.out.println("Seat: " + seat.getSeatNumber() + ", ID: " + seat.getSeatIdx() + ", Status: " + seat.getSeatStatus());
             }
         }
         request.setAttribute("availableSeats", availableSeats);
