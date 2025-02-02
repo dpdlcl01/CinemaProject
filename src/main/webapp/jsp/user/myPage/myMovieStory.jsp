@@ -643,6 +643,9 @@
         <div id="review" class="content">
           <div class="my-appraisal">
             <ul id="myAppraisal">
+              <c:if test="${empty rvo}">
+                <li class="no-result">등록된 리뷰가 없습니다.</li>
+              </c:if>
               <c:forEach items="${requestScope.rvo}" var="review">
                 <li>
                   <p class="img posterImg">
@@ -666,9 +669,7 @@
                   </div>
                 </li>
               </c:forEach>
-              <c:if test="${requestScope.rvo eq null}">
-                <li class="no-result">결과가 없습니다.</li>
-              </c:if>
+
 
             </ul>
           </div>
@@ -794,23 +795,31 @@
 
 <!-- script 영역 -->
 <script>
-  const tabs = document.querySelectorAll('.tab');
-  const contents = document.querySelectorAll('.content');
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.content');
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // 모든 탭에서 active 제거
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
 
-      const target = tab.getAttribute('data-target');
-      contents.forEach(content => {
-        content.classList.remove('active');
-        if (content.id === target) {
-          content.classList.add('active');
+        // 모든 콘텐츠 숨김
+        contents.forEach(content => content.classList.remove('active'));
+
+        // 클릭한 탭에 해당하는 콘텐츠 활성화
+        const target = tab.getAttribute('data-target');
+        const targetContent = document.getElementById(target);
+        if (targetContent) {
+          targetContent.classList.add('active');
         }
+
+        console.log(`Active tab: ${target}`); // 디버깅 로그
       });
     });
   });
+
 
   const tabButtons = document.querySelectorAll('.YearTab');
   const tabPanels = document.querySelectorAll('.YearContent');

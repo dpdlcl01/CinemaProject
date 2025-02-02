@@ -4,6 +4,26 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="payment">
 
+
+
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM payment;
+    </select>
+
+    <select id="selectByPage" parameterType="map" resultType="mybatis.vo.PaymentVO">
+        SELECT * FROM payment
+        ORDER BY paymentDate DESC
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <select id="searchSelect" parameterType="String" resultType="mybatis.vo.PaymentVO">
+        SELECT p.*, r.productName
+        FROM user u
+        INNER JOIN payment p ON u.userIdx = p.userIdx
+        LEFT JOIN product r ON p.productIdx = r.productIdx
+        WHERE u.userId = #{userName};
+    </select>
+
     <insert id="insertPayment" parameterType="mybatis.vo.PaymentVO">
         INSERT INTO payment (
         userIdx, paymentType,productIdx,paymentQuantiy, paymentMethod,
@@ -16,8 +36,10 @@
         )
     </insert>
     <select id="totalSelect" resultType="mybatis.vo.PaymentVO">
-        select *
-        from payment
+        SELECT p.*, r.productName
+        FROM payment p
+        LEFT JOIN product r
+        ON p.productIdx = r.productIdx;
     </select>
 
 

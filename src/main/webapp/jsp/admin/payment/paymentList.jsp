@@ -264,8 +264,8 @@
                             <option>안성스타필드</option>
                         </select>--%>
                         <div class="search-bar2">
-                            <input type="text" placeholder="사용자idx를 입력하세요" title="사용자 검색" class="input-text">
-                            <button class="btn" onclick="searchUser()">
+                            <input type="text" placeholder="회원 id를 입력하세요" title="사용자 검색" class="input-text">
+                            <button class="btn" id="searchBtn">
                                 <i class="ico-search"></i>
                                 검색
                             </button>
@@ -298,7 +298,7 @@
                         <tr>
                             <td>${ar.userIdx}</td>
                             <td>${ar.reservationIdx}</td>
-                            <td>${ar.productIdx}</td>
+                            <td>${ar.productName}</td>
                             <td>${ar.paymentQuantiy}</td>
                             <td>${ar.paymentMethod}</td>
                             <td>${ar.paymentTotal}</td>
@@ -310,9 +310,12 @@
 
                         </tr>
                     </c:forEach>
+                    <c:if test="${empty requestScope.ar}">
                         <tr>
                             <td colspan="11">현재 등록된 데이터가 없습니다.</td>
                         </tr>
+                    </c:if>
+
 
 
                     </tbody>
@@ -320,40 +323,28 @@
 
                 <!--------------------- 페이지네이션 -------------------->
                 <nav class="pagination">
-                    <c:if test="${requestScope.page ne null}">
-                        <c:set var="pvo" value="${requestScope.page}" />
+                    <c:if test="${cPage > 1}">
+                        <a href="AdminController?type=paymentList&cPage=1" class="control first">&laquo; 처음</a>
+                        <a href="AdminController?type=paymentList&cPage=${cPage - 1}" class="control prev">&lt; 이전</a>
+                    </c:if>
 
-                        <!-- << (맨 처음으로) -->
-                        <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
-                            <a href="AdminController?type=movieInfoList&cPage=1" class="control first" title="처음 페이지">&laquo;</a>
-                        </c:if>
+                    <c:forEach begin="1" end="${totalPage}" var="pageNum">
+                        <c:choose>
+                            <c:when test="${pageNum == cPage}">
+                                <strong class="active">${pageNum}</strong>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="AdminController?type=paymentList&cPage=${pageNum}">${pageNum}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
 
-                        <!-- < (이전 페이지 블록) -->
-                        <c:if test="${pvo.startPage > 1}">
-                            <a href="UAdminController?type=movieInfoList&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록">&lt;</a>
-                        </c:if>
-
-                        <!-- 페이지 번호 -->
-                        <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="st">
-                            <c:if test="${st.index eq pvo.nowPage}">
-                                <strong class="active">${st.index}</strong>
-                            </c:if>
-                            <c:if test="${st.index ne pvo.nowPage}">
-                                <a href="AdminController?type=movieInfoList&cPage=${st.index}" title="${st.index}페이지 보기">${st.index}</a>
-                            </c:if>
-                        </c:forEach>
-
-                        <!-- > (다음 페이지 블록) -->
-                        <c:if test="${pvo.endPage < pvo.totalPage}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록">&gt;</a>
-                        </c:if>
-
-                        <!-- >> (맨 마지막으로) -->
-                        <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지">&raquo;</a>
-                        </c:if>
+                    <c:if test="${cPage < totalPage}">
+                        <a href="AdminController?type=paymentList&cPage=${cPage + 1}" class="control next">&gt; 다음</a>
+                        <a href="AdminController?type=paymentList&cPage=${totalPage}" class="control last">&raquo; 마지막</a>
                     </c:if>
                 </nav>
+
                 <!--------------------- 페이지네이션 -------------------->
 
             </div>
@@ -362,10 +353,66 @@
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-    function searchUser(){
-        /*비동기식 통신으로 ar을 초기화하자. ar의 값을 입력한 변수를 집어넣어 셀렉문을 뱉어야함.*/
-    }
+    $(document).ready(function() {
+        let currentPage = 1; // 현재 페이지 (초기값 1)
+
+        function undefinedToWhitespace(value) {
+            return (value !== undefined && value !== null && value !== "") ? value : '&nbsp;';
+        }
+
+
+
+        $("#searchBtn").on("click", function() {
+            let userId = $(".input-text").val().trim();  // 입력된 회원 ID 가져오기
+
+            if (userId === "") {
+                alert("회원 ID를 입력하세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "${pageContext.request.contextPath}/AdminController?type=paymentIdSearch",
+                data: { userId: userId },  // 요청 데이터
+                dataType: "json",  // JSON 형식으로 응답 받기
+                success: function(response) {
+                    console.log("응답 데이터:", response);
+
+                    let tbody = $("table tbody");
+                    tbody.empty();  // 기존 테이블 데이터 삭제
+
+                    if (response.length === 0) {
+                        tbody.append('<tr><td colspan="11">해당 회원의 결제 내역이 없습니다.</td></tr>');
+                    } else {
+                        response.forEach(function(ar) {
+                            let row =  '<tr>' +
+                                '<td>' + undefinedToWhitespace(ar.userIdx) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.reservationIdx) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.productName) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentQuantiy) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentMethod) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentTotal) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentDiscount) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentFinal) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentTransactionId) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentDate) + '</td>' +
+                                '<td>' + undefinedToWhitespace(ar.paymentStatus) + '</td>' +
+                                '</tr>';
+                            tbody.append(row);
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("오류 발생:", error);
+                    alert("검색 중 오류가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+        });
+    });
+
+
 </script>
 </body>
 </html>

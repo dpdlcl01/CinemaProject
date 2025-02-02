@@ -15,27 +15,33 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class MyMovieStroyAction implements Action {
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            UserVO uservo = SessionUtil.getLoginUser(request);
+            if (uservo == null) {
+                return "UserController?type=main";
+            }
 
-        // 로그인 여부 확인 및 사용자 정보 가져오기
-        UserVO uservo = SessionUtil.getLoginUser(request);
-        if (uservo == null) {
-            return "UserController?type=main";
+            String idx = uservo.getUserIdx();
+
+            ReviewVO[] rvo = MyMovieStoryDAO.getReview(idx);
+            FavoritemovieVO[] fvo = MyMovieStoryDAO.getFavoritemovie(idx);
+            ReservationVO[] reserveVO = MyPageDAO.getReservation(idx);
+
+            request.setAttribute("rvo", rvo);
+            request.setAttribute("reservVO", reserveVO);
+            request.setAttribute("fvo", fvo);
+
+            System.out.println("myMovieStory 실행 완료. Favorite Movie 개수: " + (fvo != null ? fvo.length : "null"));
+
+            response.flushBuffer();  // 🚀 응답 강제 전송
+            return "/jsp/user/myPage/myMovieStory.jsp";
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "서버 오류 발생");
+            return "/jsp/error/errorPage.jsp";
         }
-
-        String idx = uservo.getUserIdx();
-
-
-        ReviewVO[] rvo = MyMovieStoryDAO.getReview(idx);
-        FavoritemovieVO[] fvo = MyMovieStoryDAO.getFavoritemovie(idx);
-        ReservationVO[] reserveVO = MyPageDAO.getReservation(idx);
-
-
-        request.setAttribute("rvo", rvo);
-        request.setAttribute("reservVO", reserveVO);
-        request.setAttribute("fvo", fvo);
-        System.out.println("myMovie"+fvo.length);
-
-       return "/jsp/user/myPage/myMovieStory.jsp";
     }
+
+
 }
