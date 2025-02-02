@@ -120,7 +120,7 @@
     <div id="collapseThree" class="accordion-collapse collapse">
       <div class="accordion-body">
         <p> <a href="${pageContext.request.contextPath}/AdminController?type=movieInfoList">영화 정보 관리</a></p>
-        <p style="margin-bottom: 0">     <a href="#">영화 타임테이블 관리</a></p>
+        <p style="margin-bottom: 0">     <a href="${pageContext.request.contextPath}/AdminController?type=timetableList">영화 타임테이블 관리</a></p>
 
 
       </div>

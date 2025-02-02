@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminTimetable">
+
+    <!-- 상영 시간표 총 개수 -->
+    <select id="getTimetableCount" resultType="int">
+        SELECT COUNT(*)
+        FROM timetable
+    </select>
+
+    <!-- 상영 시간표 목록 조회 -->
+    <select id="getTimetableList" resultType="mybatis.vo.TimetableVO" parameterType="java.util.Map">
+        SELECT *
+        FROM timetable
+        ORDER BY timetableStartTime DESC
+        LIMIT #{begin}, #{end}
+    </select>
+
+    <!-- 특정 극장의 상영 시간표 목록 조회 -->
+    <select id="getTimetableListByTheater" resultType="mybatis.vo.TimetableVO" parameterType="java.util.Map">
+        SELECT *
+        FROM timetable
+        WHERE theaterIdx = #{theaterIdx}
+        ORDER BY timetableStartTime DESC
+        LIMIT #{begin}, #{end}
+    </select>
+
+
+
+    <!-- 관리자 상영시간표 생성 관련 -->
+    <!-- 특정 개수의 예매율 상위 영화 가져오기 -->
+    <select id="getMoviesByRange" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
+        SELECT * FROM movie
+        ORDER BY movieReservationRate DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <!-- 영화 상영 시간표 삽입 -->
+    <insert id="insertTimetable" parameterType="mybatis.vo.TimetableVO">
+        INSERT INTO timetable ( movieIdx, theaterIdx, screenIdx, timetableStartTime, timetableEndTime )
+        VALUES ( #{movieIdx}, #{theaterIdx}, #{screenIdx}, #{timetableStartTime}, #{timetableEndTime} )
+    </insert>
+
+    <!-- 특정 상영관 ID 조회 -->
+    <select id="getScreenIdxByType" resultType="String">
+        SELECT screenIdx
+        FROM screen
+        WHERE theaterIdx = #{theaterIdx}
+        AND screenType = #{screenType}
+        AND screenStatus = 0
+        ORDER BY screenIdx
+        LIMIT 1
+    </select>
+
+    <!-- 모든 극장 ID 조회 -->
+    <select id="getAllTheaterIdx" resultType="String">
+        SELECT theaterIdx
+        FROM theater
+        WHERE theaterStatus = 0
+    </select>
+</mapper>
