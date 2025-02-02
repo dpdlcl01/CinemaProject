@@ -157,11 +157,19 @@
         </tr>
         </tbody>
     </table>
-    <a href="UserController?type=board
-    <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
-    <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
-    <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>"
-       class="btn-list">목록</a>
+    <form action="UserController" method="get">
+        <input type="hidden" name="type" value="board" />
+        <c:if test='${not empty param.keyword}'>
+            <input type="hidden" name="keyword" value="${param.keyword}" />
+        </c:if>
+        <c:if test='${not empty param.region}'>
+            <input type="hidden" name="region" value="${param.region}" />
+        </c:if>
+        <c:if test='${not empty param.theater}'>
+            <input type="hidden" name="theater" value="${param.theater}" />
+        </c:if>
+        <button type="submit" class="btn-list">목록</button>
+    </form>
 </div>
 <jsp:include page="../common/footer.jsp"/>
 </body>
