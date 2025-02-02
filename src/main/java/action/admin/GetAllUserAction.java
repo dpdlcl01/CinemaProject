@@ -13,7 +13,7 @@ import java.util.List;
 public class GetAllUserAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        String userType = request.getParameter("userType");
         String searchType = request.getParameter("searchType");
         String searchKeyword = request.getParameter("searchKeyword");
 
@@ -23,9 +23,12 @@ public class GetAllUserAction implements Action {
         if (searchKeyword == null || searchKeyword.isEmpty()) {
             searchKeyword = "";
         }
+        if (userType == null || userType.isEmpty()) {
+            userType = "all";
+        }
 
         Paging paging = new Paging(10, 5);
-        int totalCount = AdminDAO.getTotalUserCount(searchType, searchKeyword);
+        int totalCount = AdminDAO.getTotalUserCount(searchType, searchKeyword, userType);
         paging.setTotalRecord(totalCount);
 
         String cPage = request.getParameter("cPage");
@@ -42,14 +45,16 @@ public class GetAllUserAction implements Action {
         int begin = (paging.getNowPage() - 1) * paging.getNumPerPage();
         if (begin < 0) begin = 0; // 음수 방지
 
-        List<UserVO> users = AdminDAO.getUsersByPage(begin, paging.getNumPerPage(), searchType, searchKeyword);
+        List<UserVO> users = AdminDAO.getUsersByPage(begin, paging.getNumPerPage(), searchType, searchKeyword, userType);
 
 
         request.setAttribute("users", users);
         request.setAttribute("paging", paging);
         request.setAttribute("searchType", searchType);
         request.setAttribute("searchKeyword", searchKeyword);
+        request.setAttribute("userType", userType);
 
-        return "/jsp/admin/userList.jsp?type=userlist";
+//        return "/jsp/admin/userList.jsp?type=userlist";
+        return "/jsp/admin/userList.jsp";
     }
 }

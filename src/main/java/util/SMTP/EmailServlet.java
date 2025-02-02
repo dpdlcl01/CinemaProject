@@ -50,4 +50,3 @@ public class EmailServlet extends HttpServlet {
         return String.valueOf((int)(Math.random()*1000000));
     }
 }
-

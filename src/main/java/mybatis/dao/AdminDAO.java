@@ -1,18 +1,20 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
+import mybatis.vo.LogVO;
 import org.apache.ibatis.session.SqlSession;
 import mybatis.vo.UserVO;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AdminDAO {
 
-
-    public static int getTotalUserCount(String searchType, String searchKeyword) {
+    public static int getTotalUserCount(String searchType, String searchKeyword, String userType) {
         try (SqlSession ss = FactoryService.getFactory().openSession()) {
             Map<String, Object> params = new HashMap<>();
+            params.put("userType", userType);
             params.put("searchType", searchType);
             params.put("searchKeyword", searchKeyword);
             return ss.selectOne("admin.getTotalUserCount", params);
@@ -24,11 +26,12 @@ public class AdminDAO {
     }
 
 
-    public static List<UserVO> getUsersByPage(int begin, int numPerPage, String searchType, String searchKeyword) {
+    public static List<UserVO> getUsersByPage(int begin, int numPerPage, String searchType, String searchKeyword, String userType) {
         try (SqlSession ss = FactoryService.getFactory().openSession()) {
             Map<String, Object> params = new HashMap<>();
             params.put("begin", begin);
             params.put("numPerPage", numPerPage);
+            params.put("userType", userType);
             params.put("searchType", searchType);
             params.put("searchKeyword", searchKeyword);
             return ss.selectList("admin.getUsersByPage", params);
@@ -75,5 +78,21 @@ public class AdminDAO {
         } finally {
             ss.close();
         }
+    }
+
+
+
+    public boolean insertLog(LogVO log) {
+        System.out.println("insertLog 실행됨: " + log);
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        int result = ss.insert("insertlog", log);
+
+        if (result > 0) {
+            ss.commit();
+        }
+
+        System.out.println("로그 INSERT 결과: " + result);
+        return result > 0;
     }
 }

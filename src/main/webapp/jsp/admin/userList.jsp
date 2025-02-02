@@ -251,14 +251,20 @@
             <div id="announcement" class="noticeboard">
                 <div class="search-bar-container">
                     <div class="total-count">전체 ${paging.totalRecord}건</div>
-                    <form method="get" action="${pageContext.request.contextPath}/AdminController">
+                    <form method="get" action="${pageContext.request.contextPath}/AdminController?type=userlist">
                         <input type="hidden" name="type" value="userlist"/>
-                        <select id="searchType" name="searchType">
-                            <option value="name" ${searchType == 'name' ? 'selected' : ''}>이름</option>
-                            <option value="id" ${searchType == 'id' ? 'selected' : ''}>아이디</option>
-                            <option value="grade" ${searchType == 'grade' ? 'selected' : ''}>등급</option>
+                        <select name="userType">
+                            <option value="all" ${param.userType eq 'all' ? 'selected' : ''}>전체</option>
+                            <option value="member" ${param.userType eq 'member' ? 'selected' : ''}>회원</option>
+                            <option value="non-member" ${param.userType eq 'non-member' ? 'selected' : ''}>비회원</option>
                         </select>
-                        <input type="text" name="searchKeyword" value="${searchKeyword}" placeholder="검색어 입력">
+                        <select id="searchType" name="searchType">
+                            <option value="name" ${param.searchType == 'name' ? 'selected' : ''}>이름</option>
+                            <option value="id" ${param.searchType == 'id' ? 'selected' : ''}>아이디</option>
+                            <option value="grade" ${param.searchType == 'grade' ? 'selected' : ''}>등급</option>
+                        </select>
+                        <input type="text" name="searchKeyword" value="${param.searchKeyword}" placeholder="검색어 입력">
+                        <input type="hidden" name="searchType" value="${searchType}">
                         <button type="submit">검색</button>
                     </form>
                 </div>
@@ -299,22 +305,22 @@
 
                 <nav class="pagination">
                     <c:if test="${paging.nowPage > 1}">
-                        <a href="/AdminController?type=userlist&cPage=${paging.nowPage - 1}&searchType=${searchType}&searchKeyword=${searchKeyword}" class="prev">이전</a>
+                        <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${paging.nowPage - 1}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="prev">이전</a>
                     </c:if>
 
                     <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="pageNum">
                         <c:choose>
                             <c:when test="${pageNum == paging.nowPage}">
-                                <a href="/AdminController?type=userlist&cPage=${pageNum}&searchType=${searchType}&searchKeyword=${searchKeyword}" class="current">${pageNum}</a>
+                                <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${pageNum}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="current">${pageNum}</a>
                             </c:when>
                             <c:otherwise>
-                                <a href="/AdminController?type=userlist&cPage=${pageNum}&searchType=${searchType}&searchKeyword=${searchKeyword}">${pageNum}</a>
+                                <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${pageNum}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">${pageNum}</a>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
 
                     <c:if test="${paging.nowPage < paging.totalPage}">
-                        <a href="/AdminController?type=userlist&cPage=${paging.nowPage + 1}&searchType=${searchType}&searchKeyword=${searchKeyword}" class="next">다음</a>
+                        <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${paging.nowPage + 1}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="next">다음</a>
                     </c:if>
                 </nav>
 
@@ -326,7 +332,7 @@
                             console.log("userIdx = " + userIdx);
 
                             $.ajax({
-                                url: "AdminController?type=getuser",
+                                url: "${pageContext.request.contextPath}/AdminController?type=getuser",
                                 type: "GET",
                                 data: { userIdx: userIdx },
                                 dataType: "json",
@@ -356,7 +362,7 @@
                             event.preventDefault(); // 폼 기본 제출 방지
 
                             $.ajax({
-                                url: "AdminController?type=updateuser",
+                                url: "${pageContext.request.contextPath}/AdminController?type=updateuser",
                                 type: "POST",
                                 data: $("#updateUserForm").serialize(), // 폼 데이터 직렬화
                                 dataType: "json",
@@ -392,7 +398,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">사용자 정보 수정</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" id="ModalCloseButton" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -402,10 +408,6 @@
                                     <div class="form-group">
                                         <label>이름</label>
                                         <input type="text" class="form-control" id="userName" name="userName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>이메일</label>
-                                        <input type="email" class="form-control" id="userEmail" name="userEmail">
                                     </div>
                                     <div class="form-group">
                                         <label>전화번호</label>
@@ -430,7 +432,9 @@
     </div>
 
 <script>
-    document.getElementById('ModalCloseButton').click();
+    document.getElementById('ModalCloseButton').addEventListener("click", function () {
+        $('#editUserModal').modal('hide');
+    });
 </script>
 </body>
 </html>

@@ -7,16 +7,23 @@
         SELECT *
         FROM user
         <where>
+            <if test="userType == 'member'">
+                userId IS NOT NULL
+            </if>
+            <if test="userType == 'non-member'">
+                userId IS NULL
+            </if>
+
             <if test="searchKeyword != null and searchKeyword != ''">
                 <choose>
                     <when test="searchType == 'name'">
-                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                        AND userName LIKE CONCAT('%', #{searchKeyword}, '%')
                     </when>
                     <when test="searchType == 'id'">
-                        userId LIKE CONCAT('%', #{searchKeyword}, '%')
+                        AND userId LIKE CONCAT('%', #{searchKeyword}, '%')
                     </when>
                     <when test="searchType == 'grade'">
-                        userGrade LIKE CONCAT('%', #{searchKeyword}, '%')
+                        AND userGrade LIKE CONCAT('%', #{searchKeyword}, '%')
                     </when>
                 </choose>
             </if>
@@ -29,6 +36,17 @@
         SELECT COUNT(*)
         FROM user
         <where>
+            <if test="userType != null and userType != ''">
+                <choose>
+                    <when test="userType == 'member'">
+                        userId IS NOT NULL
+                    </when>
+                    <when test="userType == 'non-member'">
+                        userId IS NULL
+                    </when>
+                </choose>
+            </if>
+
             <if test="searchKeyword != null and searchKeyword != ''">
                 <choose>
                     <when test="searchType == 'name'">
@@ -50,8 +68,17 @@
     </select>
 
     <update id="updateuser" parameterType="mybatis.vo.UserVO">
-        UPDATE user SET userName = #{userName}, userEmail = #{userEmail},
-        userPhone = #{userPhone}, userPoint = #{userPoint}, userGrade = #{userGrade}
-        WHERE userIdx = #{userIdx}
+        UPDATE user
+        SET
+        userName = #{userName},
+        userPhone = #{userPhone},
+        userPoint = #{userPoint},
+        userGrade = #{userGrade}
+        WHERE userIdx = #{userIdx};
     </update>
+
+    <insert id="insertlog" parameterType="mybatis.vo.LogVO">
+        INSERT INTO log(logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue, logDate)
+        VALUES (#{logType}, #{adminIdx}, #{logTarget}, #{logInfo}, #{logPreValue}, #{logCurValue}, now())
+    </insert>
 </mapper>

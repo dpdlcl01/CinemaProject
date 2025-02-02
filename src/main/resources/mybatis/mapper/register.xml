@@ -15,4 +15,18 @@
     <select id="finduserid" parameterType="Map" resultType="String">
         SELECT userId FROM user WHERE username = #{userName} AND userEmail = #{userEmail}
     </select>
+
+    <select id="checkemail" resultType="int">
+        SELECT COUNT(*) FROM user WHERE userEmail = #{userEmail}
+    </select>
+
+    <select id="finduserid_email" parameterType="Map" resultType="int">
+        SELECT COUNT(*) FROM user WHERE username = #{userName} and userEmail = #{userEmail} and userId = #{userId}
+    </select>
+
+    <update id="updateUserPassword" parameterType="Map">
+        UPDATE user
+        SET userPassword = #{newPassword}
+        WHERE userId = #{userId}
+    </update>
 </mapper>

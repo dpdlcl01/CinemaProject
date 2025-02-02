@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>아이디 찾기 실패</h1>
+    <h1>비밀번호 찾기 실패</h1>
     <p>${error}</p>
     <div id="completeDiv">
         <button type="button" id="complete"><a href="/UserController">메인으로</a></button>

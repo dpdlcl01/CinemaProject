@@ -52,8 +52,8 @@
       padding-bottom: 20px;
     }
     input{
-      width: 16px;
-      height: 16px;
+      width: 40px;
+      height: 20px;
     }
     #allAgreeLabel{
       font-size: 18px;
@@ -107,11 +107,7 @@
       height: 50px;
 
     }
-    .birth{
-      width: 40px;
-      text-align: center;
-      height: 25px;
-    }
+
     .inputValue{
       width: 150px;
       height: 25px;
@@ -168,6 +164,22 @@
       background-color: white;
       border-radius: 4px;
     }
+
+  #authpwd{
+    position: absolute;
+    left: 300px;
+    right: 10px;
+    top: 430px;
+  }
+
+    .inputshort {
+      width: 120px;
+    }
+
+    select {
+      padding: 5px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -198,7 +210,6 @@
             <col width="120px">
             <col width="350px">
           </colgroup>
-
           <tr>
             <td><span>이름</span> </td>
             <td><input type="text" id="userName" name="userName" class="inputValue"></td>
@@ -242,13 +253,12 @@
               }
             </script>
           </tr>
-
         </table>
         <div id="nextDiv">
           <button type="button" id="next" disabled  onclick="gotoMain2()">다음</button>
         </div>
         <input type="hidden" id="user_Email" name="user_Email"/>
-        <input type="hidden" id="authcodecheck" value=""/>
+        <input type="hidden" id="emailVerified" value=""/>
       </div>
 
 
@@ -293,7 +303,7 @@
 
     <div id="main2" style="display: none;">
       <div>
-        <strong>회원님 안녕하세요</strong>
+        <strong>회원님 안녕하세요.</strong>
         <p>회원 정보를 입력해주세요</p>
       </div>
 
@@ -306,20 +316,15 @@
           </colgroup>
           <tbody>
           <tr>
-            <td class="bold">생년월일</td>
+            <td class="bold">전화번호</td>
             <td>
-              <input type="text" id="birthyear" name="birthyear" class="birth" value="2025">
-              <span>년</span>
-              <input type="text" id="birthmonth" name="birthmonth" class="birth" value="01">
-              <span>월</span>
-              <input type="text" id="birthday" name="birthday" class="birth" value="01">
-              <span>일</span>
+              <span id="userPhone1">010</span>
+              <span>-</span>
+              <input type="text" id="userPhone2" name="userPhone2" width="40px" size="10" maxlength="4">
+              <span>-</span>
+              <input type="text" id="userPhone3" name="userPhone3" width="40px" size="10" maxlength="4">
+              <input type="hidden" id="userPhone" name="userPhone">
             </td>
-          </tr>
-
-          <tr>
-            <td class="bold">휴대폰번호</td>
-            <td><input type="text" id="userPhone" name="userPhone" class="inputValue"></td>
           </tr>
 
           <tr>
@@ -339,7 +344,7 @@
           <tr>
             <td class="bold" >비밀번호확인</td>
             <td><input type="password" id="userPassword2" name="userPassword2" oninput="pwCheck()" class="inputValue"></td>
-            <span id="authpwd">비밀번호를 입력하여 주세요.</span>
+            <a id="authpwd">비밀번호를 입력하여 주세요.</a>
           </tr>
 
 
@@ -375,6 +380,8 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
+
+
   const checkbox1 = document.getElementById('serviceAgree');
   const checkbox2 = document.getElementById('personalAgree');
   const checkbox = document.getElementById('allAgree');
@@ -453,15 +460,37 @@
   }
 
   function gotoMain3(frm){
-    let userPhone = $.trim($(".inputValue[name='userPhone']").val());
+    let userPhone1 = document.getElementById("userPhone1").textContent.trim();
+    let userPhone2 = document.getElementById("userPhone2").value.trim();
+    let userPhone3 = document.getElementById("userPhone3").value.trim();
+
+    console.log("userPhone1:", userPhone1);
+    console.log("userPhone2:", userPhone2);
+    console.log("userPhone3:", userPhone3);
+
+    let fullPhone = userPhone1 + "-" + userPhone2 + "-" + userPhone3;
+
+    console.log("히든태그안에 들어갈 값 : "+fullPhone);
+
+    document.getElementById("userPhone").value = fullPhone;
+
+    console.log("히든 input 태그에 들어간 값 : " + document.getElementById("userPhone").value);
+
     let userId = $.trim($(".inputValue[name='userId']").val());
     let userPassword = $.trim($("#userPassword1").val());  // 비밀번호 값 가져오기
 
-    if(userPhone.length < 10) {
-      alert("핸드폰번호를 입력해주세요.");
-      $(".inputValue[name='userPhone']").val("").focus();
+    if (!userPhone2 || userPhone2.length !== 4) {
+      alert("핸드폰 번호의 가운데 네 자리를 정확히 입력해주세요.");
+      document.getElementById("userPhone2").focus();
       return false;
     }
+
+    if (!userPhone3 || userPhone3.length !== 4) {
+      alert("핸드폰 번호의 마지막 네 자리를 정확히 입력해주세요.");
+      document.getElementById("userPhone3").focus();
+      return false;
+    }
+
     if(userId.length < 3) {
       alert("아이디는 4글자 이상만 입력가능합니다.");
       $(".inputValue[name='userId']").val("").focus();
@@ -481,6 +510,7 @@
   function verifyAuthCode() {
     console.log("verifyAuthCode 호출.");
     const authCode = document.getElementById("authcode").value;
+    console.log("사용자 입력 인증 코드 : " + authCode);
 
     if (!authCode) {
       alert("인증번호를 입력해주세요.");
@@ -497,11 +527,11 @@
 
         if (response === "인증 성공!") {
           alert("인증에 성공했습니다!");
-          document.getElementById("authcodecheck").value = "success"; // 인증 성공 상태 저장
+          document.getElementById("emailVerified").value = "true"; // 인증 성공 상태 저장
           document.getElementById("next").disabled = false;
         } else {
           alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
-          document.getElementById("authcodecheck").value = ""; // 인증 실패 상태 초기화
+          document.getElementById("emailVerified").value = ""; // 인증 실패 상태 초기화
         }
       }
     };

@@ -2,10 +2,12 @@ package action.user.register;
 
 import action.Action;
 import mybatis.dao.RegisterDAO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+
 
 public class RegisterAction implements Action {
     private static final String register_form = "/jsp/user/register/register.jsp";
@@ -19,28 +21,36 @@ public class RegisterAction implements Action {
             return register_form; // GET 요청일 경우 폼 페이지 반환
         }
 
-        // 입력값 가져오기
+//        String emailpart1 = request.getParameter("emailpart1");
+//        String emailpart2 = request.getParameter("emailpart2");
+//
+//        System.out.println("emailpart1 : " + emailpart1);
+//        System.out.println("emailpart2 : " + emailpart2);
+//
+
         String userName = request.getParameter("userName");
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword1");
         String userEmail = request.getParameter("user_Email");
         String userPhone = request.getParameter("userPhone");
 
-        // 필수 입력값 검증
         if (isNullOrEmpty(userName) || isNullOrEmpty(userId) || isNullOrEmpty(userPassword)
                 || isNullOrEmpty(userEmail) || isNullOrEmpty(userPhone)) {
             return register_fail; // 실패 페이지 반환
         }
 
-        // 기본값 설정
+
+        String hashPassword = BCrypt.hashpw(userPassword, BCrypt.gensalt(12));
+
+
         String userPoint = "0";
-        String userGrade = "Basic";
+        String userGrade = "BASIC";
         String userStatus = "0";
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("userName", userName);
         map.put("userId", userId);
-        map.put("userPassword", userPassword);
+        map.put("userPassword", hashPassword);
         map.put("userEmail", userEmail);
         map.put("userPhone", userPhone);
         map.put("userPoint", Integer.valueOf(userPoint));

@@ -103,7 +103,7 @@
         </div>
     </c:if>
 
-    <form action="#" method="POST">
+    <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST">
         <table>
             <tr>
                 <td>아이디</td>
@@ -126,7 +126,6 @@
                     <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
                 <input type="hidden" id="authStatus" value=""/>
                 <script>
-                    // 인증번호 확인 AJAX 요청
                     function sendAuthCode() {
                         const emailPart1 = document.getElementById("emailpart1").value;
                         console.log(emailPart1);
@@ -153,12 +152,8 @@
                     }
                 </script>
             </tr>
-            <tr>
-                <td>비밀번호</td>
-                <td><input type="password" name="userAuthPassword" placeholder="비밀번호" required></td>
-            </tr>
         </table>
-        <button type="submit">비밀번호 찾기</button>
+        <button type="submit" onclick="gotosumbit(this.form)">비밀번호 찾기</button>
     </form>
 
     <div class="note">
@@ -185,14 +180,18 @@
 
                 if (response === "인증 성공!") {
                     alert("인증에 성공했습니다!");
-                    document.getElementById("authcodecheck").value = "success"; // 인증 성공 상태 저장
+                    document.getElementById("authcodecheck").value = "success";
                 } else {
                     alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
-                    document.getElementById("authcodecheck").value = ""; // 인증 실패 상태 초기화
+                    document.getElementById("authcodecheck").value = "";
                 }
             }
         };
         xhr.send("authCode=" + encodeURIComponent(authCode));
+    }
+
+    function gotosumbit(frm) {
+        frm.submit();
     }
 </script>
 </body>

@@ -11,10 +11,17 @@ public class FindIdAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userName = request.getParameter("userName");
-        String userEmail = request.getParameter("userEmail");
+        String emailpart1 = request.getParameter("emailpart1");
+        String emailpart2 = request.getParameter("emailpart2");
+
+        System.out.println("emailpart1 : " + emailpart1);
+        System.out.println("emailpart2 : " + emailpart2);
+
+        String userEmail = emailpart1 + "@" + emailpart2;
+
 
         System.out.println("userName : " + userName);
-        System.out.println("userEmail : " + userEmail);
+        System.out.println("조합된 userEmail : " + userEmail);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("userName", userName);
@@ -25,6 +32,7 @@ public class FindIdAction implements Action {
             System.out.println("debug result : " + userId);
 
             if(userId != null && !userId.isEmpty()) {
+                request.setAttribute("userName", userName);
                 request.setAttribute("userId", userId);
                 return "./jsp/user/login/result/idFind_success.jsp";
             } else {

@@ -1,4 +1,4 @@
-<%@ page import="dao.RegisterDAO"%><%@ page import="java.io.BufferedReader"%><%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="mybatis.dao.RegisterDAO"%><%@ page import="java.io.BufferedReader"%><%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%--<%--%>
 <%--    // JSON 데이터를 읽기 위해 BufferedReader 사용--%>
 <%--    StringBuilder sb = new StringBuilder();--%>
