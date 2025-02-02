@@ -13,13 +13,31 @@
     <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
         정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
     <select id="list" resultType="mybatis.vo.BoardVO" parameterType="Map">
-        SELECT * FROM(
-        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
-        SELECT b.*, t.theaterName FROM board b
-        JOIN theater t ON b.theaterIdx = t.theaterIdx
+        SELECT * FROM (
+        SELECT @RN := @RN + 1 AS rnum, a.* FROM (
+        SELECT b.*, t.theaterName
+        FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
         WHERE b.boardStatus = 0 AND b.boardType = #{bType}
+
+        <!-- 검색어가 입력된 경우 제목에 해당 검색어가 포함된 데이터만 조회 -->
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+        <!-- 지역이 선택된 경우 해당 지역의 극장만 조회 -->
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+
+        <!-- 극장이 선택된 경우 해당 극장만 조회 -->
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+
         ORDER BY b.boardIdx DESC
-        ) a ) c, (SELECT @RN:=0) b
+        ) a
+        ) c, (SELECT @RN := 0) b
         WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 

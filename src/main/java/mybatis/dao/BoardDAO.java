@@ -19,13 +19,24 @@ public class BoardDAO {
     }
 
     // 목록
-    public static BoardVO[] getList(String bType, int begin, int end) {
+    public static BoardVO[] getList(String bType, int begin, int end, String keyword, String region, String theater) {
         BoardVO[] ar = null;
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("bType", bType);
         map.put("begin", begin);// String.valueOf(begin)
         map.put("end", end);
+
+        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
+        if(keyword != null && !keyword.isEmpty()){
+            map.put("keyword", keyword);
+        }
+        if(region != null && !region.isEmpty()){
+            map.put("region", region);
+        }
+        if(theater != null && !theater.isEmpty()){
+            map.put("theater", theater);
+        }
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<BoardVO> list = ss.selectList("board.list", map);

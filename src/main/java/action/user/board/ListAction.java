@@ -37,9 +37,13 @@ public class ListAction implements Action {
             // 더불어 시작페이지와 끝페이지 값도 구해진다.
         }
 
+        // 검색어, 지역, 극장값을 받는다.
+        String keyword = request.getParameter("keyword");
+        String region = request.getParameter("region");
+        String theater = request.getParameter("theater");
 
         // 게시판의 목록을 noticeMain.jsp에서 표현하기 위해 DB에서 원하는 자원들을 가져와야 한다.
-        BoardVO[] ar = BoardDAO.getList("notice", page.getBegin(), page.getEnd());
+        BoardVO[] ar = BoardDAO.getList("notice", page.getBegin(), page.getEnd(), keyword, region, theater);
 
         // 가져온 자원들을 noticeMain.jsp에서 표현할 수 있도록 request에 저장해야 한다.
         request.setAttribute("ar", ar);
