@@ -44,7 +44,8 @@
         productName = #{productName},
         productPrice = #{productPrice},
         productStock = #{productStock},
-        productStatus = #{productStatus}
+        productStatus = #{productStatus},
+        productImg = #{productImg}
         WHERE productIdx = #{productIdx}
     </update>
 

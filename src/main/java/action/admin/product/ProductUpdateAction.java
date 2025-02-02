@@ -24,6 +24,7 @@ public class ProductUpdateAction implements Action {
         String productPrice = request.getParameter("productPrice");
         String productStock = request.getParameter("productStock");
         String productStatus = request.getParameter("productStatus");
+        String productImg = request.getParameter("productImg");
 
         // 수정된 상품 정보를 ProductVO 객체에 담기 (String을 적절하게 변환)
         ProductVO updatedProduct = new ProductVO();
@@ -33,13 +34,14 @@ public class ProductUpdateAction implements Action {
         updatedProduct.setProductPrice(Integer.parseInt(productPrice)); // 가격
         updatedProduct.setProductStock(Integer.parseInt(productStock)); // 재고
         updatedProduct.setProductStatus(productStatus); // 상품 상태
+        updatedProduct.setProductImg(productImg); // 상품 이미지
 
         // 상품 정보 수정
         int result = ProductDAO.updateProduct(updatedProduct);
         if (result > 0) {
-            System.out.println("상품 수정 성공");
+            System.out.println("items secces");
         } else {
-            System.out.println("상품 수정 실패");
+            System.out.println("item fails");
         }
 
         // 수정된 정보를 다시 request에 저장 (다시 확인할 수 있도록)

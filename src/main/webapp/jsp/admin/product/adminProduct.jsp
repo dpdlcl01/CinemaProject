@@ -54,12 +54,12 @@
     margin-bottom: 10px;
   }
   table {
-    width: 100%;
+    width: 1400px;
     text-align: center;
   }
 
   table th {
-    background-color: #503396;
+    background-color: #ddd;
     color: white;
     font-weight: bold;
   }
@@ -68,15 +68,16 @@
     border: none;
     text-align: center;
   }
-/*상품번호*/
+
+  /*상품번호*/
   #title table td:nth-of-type(1) {
-    width: 75px;
+    width: 70px;
   }
 
   #title table td:nth-of-type(1) input {
     width: 100%;
   }
-/*카테고리*/
+  /*카테고리*/
   #title table td:nth-of-type(2) {
     width: 100px;
   }
@@ -85,9 +86,9 @@
     width: 100%;
   }
 
-  /* 상품명 열 */
+  /* 상품이미지 열 */
   #title table td:nth-of-type(3) {
-    width: 250px; /* 원하는 width 값으로 수정 */
+    width: 220px; /* 원하는 width 값으로 수정 */
   }
 
   #title table td:nth-of-type(3) input {
@@ -103,40 +104,50 @@
      width: 100%;
    }
 
+   /* 상품명(이미지) */
+   #title table td:nth-of-type(5) {
+     width: 150px;
+   }
+
+   #title table td:nth-of-type(5) input {
+     margin-top: 5px;
+     width: 100%;
+   }
+
 
   /* 가격 열 */
-  #title table td:nth-of-type(5) {
-    width: 100px; /* 원하는 width 값으로 수정 */
-  }
-
-  #title table td:nth-of-type(5) input {
-    width: 100%; /* input 요소가 td의 너비를 채우도록 설정 */
-  }
-
-
-  /* 재고 열 */
   #title table td:nth-of-type(6) {
-    width: 90px; /* 원하는 width 값으로 수정 */
+    width: 100px; /* 원하는 width 값으로 수정 */
   }
 
   #title table td:nth-of-type(6) input {
     width: 100%; /* input 요소가 td의 너비를 채우도록 설정 */
   }
 
-  /* 상품 상태 */
+
+  /* 재고 열 */
   #title table td:nth-of-type(7) {
-    width: 130px; /* 원하는 width 값으로 수정 */
+    width: 90px; /* 원하는 width 값으로 수정 */
   }
 
   #title table td:nth-of-type(7) input {
-    width: 100%;
+    width: 100%; /* input 요소가 td의 너비를 채우도록 설정 */
   }
 
+  /* 상품 상태 */
   #title table td:nth-of-type(8) {
-    width: 75px;
+    width: 130px; /* 원하는 width 값으로 수정 */
   }
 
   #title table td:nth-of-type(8) input {
+    width: 100%;
+  }
+
+  #title table td:nth-of-type(9) {
+    width: 75px;
+  }
+
+  #title table td:nth-of-type(9) input {
     width: 100%;
   }
 
@@ -200,7 +211,8 @@
   }
 
   button[type="submit"] {
-    background-color: #503396;
+    /*background-color: #503396;*/
+    background-color: #bbb;
     color: white;
     border: none;
     border-radius: 5px;
@@ -248,7 +260,8 @@
 
   /* 테이블 헤더 스타일 */
   table th {
-    background-color: #503396; /* 헤더 배경색 */
+    /*background-color: #503396; !* 헤더 배경색 *!*/
+    background-color: #dddddd; /* 헤더 배경색 */
     color: white; /* 헤더 텍스트 색상 */
     font-weight: bold;
     padding: 12px;
@@ -274,6 +287,11 @@
     border-color: #503396; /* 포커스 시 테두리 색상 변경 */
     outline: none;
   }
+
+   img, svg {
+     height: 100px;
+     vertical-align: middle;
+   }
 
 </style>
 
@@ -318,6 +336,7 @@
               <th>카테고리</th>
               <th>상품명</th>
               <th>상품설명</th>
+              <th>상품이미지</th>
               <th>가격</th>
               <th>재고</th>
               <th>상품상태</th>
@@ -336,7 +355,11 @@
                     </select>
                   </td>
                   <td><input type="text" name="productName" value="${product.productName}" required /></td>
-                  <td><input type="text" name="productName" value="${product.productInfo}" required /></td>
+                  <td><input type="text" name="productInfo" value="${product.productInfo}" required /></td>
+                  <td>
+                    <img src="/CinemaProject_war_exploded/css/user/images/KangImg/${product.productImg}">
+                    <input type="text" name="productImg" value="${product.productImg}" required />
+                  </td>
                   <td><input type="number" name="productPrice" value="${product.productPrice}" required /></td>
                   <td><input type="number" name="productStock" value="${product.productStock}" required /></td>
                   <td>
@@ -373,7 +396,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>상품명:</td>
+                    <td>상품이미지:</td>
                     <td><input type="text" name="productName" required /></td>
                   </tr>
                   <tr>

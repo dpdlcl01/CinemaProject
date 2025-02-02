@@ -560,20 +560,9 @@
     }
 
     .nav-button:disabled {
-        color: #ddd;
+        /*color: #ddd;*/
         cursor: not-allowed;
     }
-
-
-
-
-    .nav-button:disabled {
-        color: #ddd;
-        cursor: not-allowed;
-    }
-
-
-
 
 
     /* 비활성화된 날짜 */
@@ -1003,6 +992,8 @@
 
                 // 오늘 날짜
                 const today = new Date();
+                today.setHours(0, 0, 0, 0); // 날짜 비교를 위해 시간 초기화
+
                 let currentDate = new Date(today); // 현재 선택된 날짜
 
                 // 날짜 포맷 함수
@@ -1232,27 +1223,13 @@
                 function generateDateList(targetDate) {
                     dateList.innerHTML = ""; // 기존 목록 초기화
 
-                    for (let i = -3; i <= 3; i++) {
+                    for (let i = 0; i <= 7; i++) {
                         const date = new Date(targetDate);
                         date.setDate(targetDate.getDate() + i);
 
                         const li = document.createElement("li");
                         li.classList.add("date-item");
 
-                        // // 오늘 날짜인 경우
-                        // if (i === 0) {
-                        //     li.classList.add("today", "active");
-                        //     li.innerHTML = '<span class="date">' + date.getDate() + '</span>' +
-                        //         '<span class="day">오늘</span>';
-                        // }
-                        // // 내일 날짜인 경우
-                        // else if (i === 1) {
-                        //     li.classList.add("active");
-                        //     li.innerHTML = '<span class="date">' + date.getDate() + '</span>' +
-                        //         '<span class="day">내일</span>';
-                        // }
-                        // // 그 외 날짜
-                        // else {
                             // 주말인 경우
                             if (isWeekend(date)) {
                                 li.classList.add("weekend");
@@ -1273,6 +1250,7 @@
 
                             // 선택된 날짜 업데이트
                             currentDate = new Date(date);
+                            targetDate = new Date(date); // 기준점도 함께 업데이트
                             console.log("선택한 날짜:", formatDate(currentDate));
 
                             // 선택된 날짜에 맞는 상영 시간표 조회
@@ -1281,22 +1259,47 @@
 
                         dateList.appendChild(li); // 날짜 목록에 추가
                     }
+                    // 이전 버튼 상태 업데이트
+                    prevButton.disabled = currentDate <= today;
                 }
 
+
+                let targetDate = new Date(); // 초기 날짜를 오늘로 설정
+
+                const today1 = new Date();
+                today1.setHours(0, 0, 0, 0);
+
                 // 이전 버튼 클릭 이벤트
-                prevButton.addEventListener("click", () => {
-                    currentDate.setDate(currentDate.getDate() - 7); // 7일 전으로 이동
-                    generateDateList(currentDate);
+                prevButton.addEventListener("click", function () {
+                    const newTargetDate = new Date(targetDate);
+                    newTargetDate.setDate(newTargetDate.getDate() - 7);
+                    console.log("날짜"+newTargetDate);
+
+                    // 오늘보다 이전인지 확인
+                    if (newTargetDate >= today1) {
+                        targetDate = newTargetDate;
+                        generateDateList(targetDate); // 날짜 목록 갱신
+                        currentDate = new Date(targetDate); // 현재 선택 날짜 업데이트
+                        // updateShowtimes(); // 상영시간표 갱신
+                    } else {
+                        console.log("이전 날짜");
+                    }
                 });
 
                 // 다음 버튼 클릭 이벤트
-                nextButton.addEventListener("click", () => {
-                    currentDate.setDate(currentDate.getDate() + 7); // 7일 후로 이동
-                    generateDateList(currentDate);
+                nextButton.addEventListener("click", function () {
+                    const newTargetDate = new Date(targetDate);
+                    newTargetDate.setDate(newTargetDate.getDate() + 7);
+                    targetDate = newTargetDate;
+                    generateDateList(targetDate); // 날짜 목록 갱신
+                    currentDate = new Date(targetDate); // 현재 선택 날짜 업데이트
+                    // updateShowtimes(); // 상영시간표 갱신
                 });
 
-                // 초기화: 오늘 날짜를 기준으로 날짜 목록 생성
+                // 초기화
                 generateDateList(today);
+
+                updateShowtimes();
             });
 
 
