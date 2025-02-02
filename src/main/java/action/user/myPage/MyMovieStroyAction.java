@@ -28,13 +28,14 @@ public class MyMovieStroyAction implements Action {
             FavoritemovieVO[] fvo = MyMovieStoryDAO.getFavoritemovie(idx);
             ReservationVO[] reserveVO = MyPageDAO.getReservation(idx);
 
+
+
+
             request.setAttribute("rvo", rvo);
-            request.setAttribute("reservVO", reserveVO);
+            request.setAttribute("reserveVO", reserveVO);
             request.setAttribute("fvo", fvo);
 
-            System.out.println("myMovieStory 실행 완료. Favorite Movie 개수: " + (fvo != null ? fvo.length : "null"));
 
-            response.flushBuffer();  // 🚀 응답 강제 전송
             return "/jsp/user/myPage/myMovieStory.jsp";
         } catch (Exception e) {
             e.printStackTrace();
