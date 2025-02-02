@@ -170,6 +170,7 @@
     const formFinalAmount = document.getElementById("formFinalAmount");
     const formPaymentKey = document.getElementById("paymentKey");
     const formOrderId = document.getElementById("orderId");
+    const formCouponIdx = document.getElementById("formCouponIdx"); // 쿠폰 ID 저장용
 
     let userPoints = parseInt("${requestScope.uservo.userPoint}", 10) || 0;
     let totalAmount = parseInt("${totalAmount}", 10);
@@ -177,11 +178,14 @@
 
     let discountValue = 0;
     let pointDiscount = 0;
+    let couponIdx = null; // 쿠폰 ID 저장 변수 추가
 
     // 🔹 쿠폰 선택 시 할인 적용
     couponDropdown.addEventListener("change", function () {
       let selectedOption = couponDropdown.options[couponDropdown.selectedIndex];
       discountValue = parseInt(selectedOption.value, 10) || 0;
+
+      couponIdx = selectedOption.getAttribute("data-coupon-idx"); // 쿠폰 ID 저장
 
       if (discountValue === 0 && selectedOption.text.includes("예매권 1장 무료")) {
         discountValue = oneTicketPrice;
@@ -213,6 +217,7 @@
       finalAmountElement.textContent = finalPrice.toLocaleString();
       formDiscountAmount.value = discountValue + pointDiscount;
       formFinalAmount.value = finalPrice;
+      formCouponIdx.value = couponIdx || ""; // 폼에 쿠폰 ID 저장
     }
 
     // 🔹 Toss Payments 결제 요청
@@ -245,7 +250,7 @@
         orderId: "ORDER-" + new Date().getTime(),
         orderName: "${movieTitle}",
         customerEmail: "${requestScope.uservo.userEmail}",
-        successUrl: window.location.origin + "/UserController?type=reservationPaymentSuccess",
+        successUrl: window.location.origin + "/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx,
         failUrl: window.location.origin + "/UserController?type=reservationPaymentFail"
       }).then((result) => {
         console.log("결제 성공, 폼 제출 시작"); // 디버깅 추가

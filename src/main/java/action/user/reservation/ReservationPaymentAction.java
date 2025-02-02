@@ -22,6 +22,18 @@ public class ReservationPaymentAction implements Action {
 
     HttpSession session = request.getSession();
 
+    String paymentTotal = request.getParameter("paymentTotal");
+    String paymentDiscount = request.getParameter("paymentDiscount");
+    String pointDiscount = request.getParameter("pointDiscount");
+    String paymentFinal = request.getParameter("paymentFinal");
+    String couponIdx = request.getParameter("couponIdx");
+
+    System.out.println("paymentTotal:" + paymentTotal);
+    System.out.println("paymentDiscount:" + paymentDiscount);
+    System.out.println("pointDiscount:" + pointDiscount);
+    System.out.println("paymentFinal:" + paymentFinal);
+    System.out.println("couponIdx:" + couponIdx);
+
     // 콘솔에 출력
     System.out.println("=== [JSP] 세션 저장된 값 확인 ===");
     System.out.println("좌석배열" + session.getAttribute("seatIdxList"));
@@ -30,9 +42,6 @@ public class ReservationPaymentAction implements Action {
     System.out.println("스크린 번호: " + session.getAttribute("screenIdx"));
     System.out.println("성인 수: " + session.getAttribute("adultCount"));
     System.out.println("청소년 수: " + session.getAttribute("studentCount"));
-    System.out.println("총 금액: " + session.getAttribute("totalAmount"));
-    System.out.println("할인 금액: " + session.getAttribute("discountAmount"));
-    System.out.println("최종 결제 금액: " + session.getAttribute("finalAmount"));
     System.out.println("================================");
 
 
