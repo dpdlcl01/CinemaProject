@@ -304,6 +304,7 @@
           selectedTheaterIdx: selectedTheaterIdx,
           isMorning: isMorning,
           isWeekend: isWeekend,
+          theaterIdx: selectedTheaterIdx  // 🎯 theaterIdx URL에 추가
         });
 
         if (timetableIdx && screenIdx && selectedMovieIdx && selectedTheaterIdx) {
@@ -312,7 +313,8 @@
               "&timetableIdx=" + timetableIdx +
               "&screenType=" + screenType +
               "&isMorning=" + isMorning +
-              "&isWeekend=" + isWeekend;
+              "&isWeekend=" + isWeekend
+             + "&theaterIdx=" + selectedTheaterIdx;
 
           try {
             // 3. 로그인 체크

@@ -62,7 +62,7 @@
                                         <!-- 쿠폰이 있을 때 -->
                                         <option value="0">쿠폰을 선택해주세요.</option>
                                         <c:forEach var="coupon" items="${couponList}">
-                                            <option value="${coupon.couponValue}">
+                                            <option value="${coupon.couponValue}" data-coupon-idx="${coupon.couponIdx}">
                                                 <c:choose>
                                                     <c:when test="${coupon.couponValue == 0}">
                                                         ${coupon.couponName} - 예매권 1장 무료
@@ -80,8 +80,6 @@
                                     </c:otherwise>
                                 </c:choose>
                             </select>
-
-
                         </div>
                     </div>
                     <div class="discount-points">
@@ -99,50 +97,6 @@
                         </div>
                     </div>
                 </div>
-<%--                <div class="payment-choose-container">--%>
-<%--                    <div class="payment-check">--%>
-<%--                        <h2>결제수단</h2>--%>
-<%--                        <div class="payment-btn">--%>
-<%--                            <button class="btn" id="card-btn">신용/체크카드</button>--%>
-<%--                            <button class="btn" id="simple-btn">간편결제</button>--%>
-<%--                        </div>--%>
-<%--                        &lt;%&ndash;  카드 결제 영역  &ndash;%&gt;--%>
-<%--                        <div class="payment-card" id="payment-card">--%>
-<%--                            <label for="card-company">카드사 선택</label>--%>
-<%--                            <select id="card-company" class="card-company">--%>
-<%--                                <option value="현대카드">현대카드</option>--%>
-<%--                                <option value="삼성카드">삼성카드</option>--%>
-<%--                                <option value="신한카드">신한카드</option>--%>
-<%--                            </select>--%>
-<%--                        </div>--%>
-<%--                        &lt;%&ndash;  간편결제 영역  &ndash;%&gt;--%>
-<%--                        <div class="payment-simple" id="payment-simple" style="display: none;">--%>
-<%--                            <label>간편결제 선택</label>--%>
-<%--                            <div class="payment-simple-radio">--%>
-<%--                                <input type="radio" id="toss" name="simple-payment" value="toss" class="simple-payment">--%>
-<%--                                <label for="toss" class="simple-payment-label">토스페이</label>--%>
-<%--                                <input type="radio" id="naver" name="simple-payment" value="naver" class="simple-payment">--%>
-<%--                                <label for="naver" class="simple-payment-label">네이버페이</label>--%>
-<%--                                <input type="radio" id="kakao" name="simple-payment" value="kakao" class="simple-payment">--%>
-<%--                                <label for="kakao" class="simple-payment-label">카카오페이</label>--%>
-<%--                                <input type="radio" id="payco" name="simple-payment" value="payco" class="simple-payment">--%>
-<%--                                <label for="payco" class="simple-payment-label">페이코</label>--%>
-<%--                                <input type="radio" id="kbpay" name="simple-payment" value="kbpay" class="simple-payment">--%>
-<%--                                <label for="kbpay" class="simple-payment-label">KB PAY</label>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                        <div class="cancel-area">--%>
-<%--                            <button type="button" id="cancel-btn" class="cancel-button">--%>
-<%--                                ✓--%>
-<%--                            </button>--%>
-<%--                            <label for="cancel-btn" class="cancel-title">취소/환불 정책에 대한 동의</label>--%>
-<%--                            <p class="cancel-content">--%>
-<%--                                - 온라인 예매는 영화 상영시간 20분 전까지 취소 가능하며, 20분 이후 현장 취소만 가능합니다.<br>--%>
-<%--                                - 현장 취소 시 영화 상영시간 이전까지만 가능합니다.--%>
-<%--                            </p>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
             </div>
             <!-- 결제 금액 -->
             <div class="payment">
@@ -189,23 +143,18 @@
         </div>
     </div>
 </div>
-
-<form id="paymentForm" action="${pageContext.request.contextPath}/UserController?type=reservationPaymentSuccess" method="POST">
-    <input type="hidden" name="uservo" value="${uservo}">
-    <input type="hidden" name="seatIdxList" value="${seatIdxList}">
-    <input type="hidden" name="theaterIdx" value="${theaterIdx}">
-    <input type="hidden" name="timetableIdx" value="${timetableIdx}">
-    <input type="hidden" name="screenIdx" value="${screenIdx}">
-    <input type="hidden" name="adultCount" value="${adultCount}">
-    <input type="hidden" name="studentCount" value="${studentCount}">
-    <input type="hidden" name="adultPriceIdx" value="${adultPriceIdx}">
-    <input type="hidden" name="studentPriceIdx" value="${studentPriceIdx}">
-    <input type="hidden" name="paymentTotal" id="formTotalAmount" value="${totalAmount}">
-    <input type="hidden" name="paymentDiscount" id="formDiscountAmount" value="0">
-    <input type="hidden" name="paymentFinal" id="formFinalAmount" value="${totalAmount}">
-    <input type="hidden" name="paymentKey" id="paymentKey">
-    <input type="hidden" name="orderId" id="orderId">
-</form>
+<%
+    // seatIdxList를 세션에 저장
+    session.setAttribute("seatIdxList", request.getParameterValues("seatIdxList"));
+    session.setAttribute("theaterIdx", request.getParameter("theaterIdx"));
+    session.setAttribute("timetableIdx", request.getParameter("timetableIdx"));
+    session.setAttribute("screenIdx", request.getParameter("screenIdx"));
+    session.setAttribute("adultCount", request.getParameter("adultCount"));
+    session.setAttribute("studentCount", request.getParameter("studentCount"));
+    session.setAttribute("totalAmount", request.getParameter("totalAmount"));
+    session.setAttribute("discountAmount", request.getParameter("discountAmount"));
+    session.setAttribute("finalAmount", request.getParameter("finalAmount"));
+%>
 
 <script src="https://js.tosspayments.com/v1"></script>
 <script>
@@ -276,6 +225,20 @@
       }
 
       const tossPayments = TossPayments("test_ck_AQ92ymxN34Zmb2DLJyJOrajRKXvd");
+
+      let successUrl = "http://localhost:8081/UserController?type=reservationPaymentSuccess"
+          + "&theaterIdx=${theaterIdx}"
+          + "&timetableIdx=${timetableIdx}"
+          + "&screenIdx=${screenIdx}"
+          + "&adultCount=${adultCount}"
+          + "&studentCount=${studentCount}"
+          + "&adultPriceIdx=${adultPriceIdx}"
+          + "&studentPriceIdx=${studentPriceIdx}"
+          + "&paymentTotal=" + totalAmount
+          + "&paymentDiscount=" + (discountValue + pointDiscount)
+          + "&paymentFinal=" + finalPaymentAmount;
+
+
 
       tossPayments.requestPayment("카드", {
         amount: finalPaymentAmount,

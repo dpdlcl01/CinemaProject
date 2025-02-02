@@ -74,6 +74,7 @@ public class SeatAction implements Action {
       request.setAttribute("movieType", request.getParameter("movieType"));
       request.setAttribute("moviePosterUrl", request.getParameter("moviePosterUrl"));
       request.setAttribute("theaterIdx", request.getParameter("theaterIdx"));
+      System.out.println("theaterIdx=" + request.getParameter("theaterIdx"));
       request.setAttribute("adultPriceIdx", request.getParameter("adultPriceIdx"));
       request.setAttribute("studentPriceIdx", request.getParameter("studentPriceIdx"));
       request.setAttribute("adultCount", request.getParameter("adultCount"));

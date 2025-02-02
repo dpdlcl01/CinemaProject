@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="theater">
 
-    <select id="getTheaterInfo" resultType="mybatis.vo.TheaterVO">
-        SELECT * FROM theater
-    </select>
+  <select id="getTheaterInfo" resultType="mybatis.vo.TheaterVO">
+    SELECT * FROM theater
+  </select>
 
-    <select id="getTheaterById" parameterType="map" resultType="mybatis.vo.TheaterVO">
-        SELECT theaterIdx, theaterName, theaterRegion, theaterAddress, theaterInfo, theaterImageUrl, theaterScreenCount, theaterRegDate, theaterStatus
-        FROM theater
-        WHERE theaterIdx = #{theaterIdx}
-    </select>
+  <select id="getTheaterById" parameterType="map" resultType="mybatis.vo.TheaterVO">
+    SELECT theaterIdx, theaterName, theaterRegion, theaterAddress, theaterInfo, theaterImageUrl, theaterScreenCount, theaterRegDate, theaterStatus
+    FROM theater
+    WHERE theaterIdx = #{theaterIdx}
+  </select>
 
-    <select id="getFavorite" parameterType="map" resultType="map">
-        SELECT t.theaterName, t.theaterIdx
-        FROM favoriteTheater f
-        JOIN theater t ON f.theaterIdx = t.theaterIdx
-        WHERE f.userIdx = #{userIdx}
-    </select>
+  <select id="getFavorite" parameterType="map" resultType="map">
+    SELECT t.theaterName, t.theaterIdx
+    FROM favoriteTheater f
+    JOIN theater t ON f.theaterIdx = t.theaterIdx
+    WHERE f.userIdx = #{userIdx}
+  </select>
 
-    <select id="getPrice" parameterType="map" resultType="mybatis.vo.PriceVO">
-        SELECT screenType, dayOfWeek, timeOfDay,
-        MAX(CASE WHEN ageGroup = 1 THEN seatPrice END) AS generalPrice,
-        MAX(CASE WHEN ageGroup = 2 THEN seatPrice END) AS teenPrice
-        FROM price GROUP BY screenType, dayOfWeek, timeOfDay
-    </select>
+  <select id="getPrice" parameterType="map" resultType="mybatis.vo.PriceVO">
+    SELECT screenType, dayOfWeek, timeOfDay,
+    MAX(CASE WHEN ageGroup = 1 THEN seatPrice END) AS generalPrice,
+    MAX(CASE WHEN ageGroup = 2 THEN seatPrice END) AS teenPrice
+    FROM price GROUP BY screenType, dayOfWeek, timeOfDay
+  </select>
 
-    <!-- 전체 극장 조회 -->
-    <select id="getTheaterRegion" resultType="map">
-        SELECT t.theaterRegion AS region, COUNT(*) AS count
-        FROM theater t
-        WHERE t.theaterStatus = 0
-        GROUP BY t.theaterRegion
-    </select>
+  <!-- 전체 극장 조회 -->
+  <select id="getTheaterRegion" resultType="map">
+    SELECT t.theaterRegion AS region, COUNT(*) AS count
+    FROM theater t
+    WHERE t.theaterStatus = 0
+    GROUP BY t.theaterRegion
+  </select>
 
-    <!-- 지역별 극장 리스트 -->
-    <select id="getTheaterName" parameterType="String" resultType="mybatis.vo.TheaterVO">
-        SELECT *
-        FROM theater
-        WHERE theaterRegion = #{region}
-    </select>
+  <!-- 지역별 극장 리스트 -->
+  <select id="getTheaterName" parameterType="String" resultType="mybatis.vo.TheaterVO">
+    SELECT *
+    FROM theater
+    WHERE theaterRegion = #{region}
+  </select>
 
-    <!-- 극장 내 이벤트 -->
-    <select id="getEvent" parameterType="map" resultType="mybatis.vo.EventVO">
-        SELECT t.theaterName, b.boardTitle, b.boardContent, b.boardIdx
-        FROM board b
-        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
-        WHERE b.boardType = 'EVENT' AND b.boardStatus = 0 AND b.theaterIdx is not NULL
-        ORDER BY b.boardRegDate DESC
-        LIMIT 2
-    </select>
+  <!-- 극장 내 이벤트 -->
+  <select id="getEvent" parameterType="map" resultType="mybatis.vo.EventVO">
+    SELECT t.theaterName, b.boardTitle, b.boardContent, b.boardIdx
+    FROM board b
+    LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+    WHERE b.boardType = 'EVENT' AND b.boardStatus = 0 AND b.theaterIdx is not NULL
+    ORDER BY b.boardRegDate DESC
+    LIMIT 2
+  </select>
 
-    <select id="getNotice" parameterType="map" resultType="mybatis.vo.EventVO">
-        SELECT t.theaterName, t.theaterRegion, b.boardIdx, b.boardTitle, DATE(b.boardRegDate) as boardRegDate
-        FROM board b
-        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
-        WHERE b.boardType = 'NOTICE' AND b.boardStatus = 0 AND b.theaterIdx is not NULL
-        ORDER BY b.boardRegDate DESC
-        LIMIT 5
-    </select>
+  <select id="getNotice" parameterType="map" resultType="mybatis.vo.EventVO">
+    SELECT t.theaterName, t.theaterRegion, b.boardIdx, b.boardTitle, DATE(b.boardRegDate) as boardRegDate
+    FROM board b
+    LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+    WHERE b.boardType = 'NOTICE' AND b.boardStatus = 0 AND b.theaterIdx is not NULL
+    ORDER BY b.boardRegDate DESC
+    LIMIT 5
+  </select>
 
 </mapper>
