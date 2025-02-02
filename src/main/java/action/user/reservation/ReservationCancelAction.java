@@ -25,6 +25,7 @@ public class ReservationCancelAction implements Action {
                 out.print("{ \"success\": false, \"message\": \"예매 취소 실패. 다시 시도해주세요.\" }");
             }
             out.flush();
+            out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

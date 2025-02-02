@@ -24,6 +24,14 @@ public class MyReservationAction implements Action {
         ReservationVO[] rvo = MyPageDAO.getReservation(idx);
         ReservationVO[] cvo = MyPageDAO.getCancel(idx);
 
+        if(cvo == null){
+            cvo = new ReservationVO[0];
+        }
+
+        System.out.println("rvo:"+rvo.length);
+        System.out.println(cvo.length);
+
+
         request.setAttribute("rvo", rvo);
         request.setAttribute("cvo", cvo);
 

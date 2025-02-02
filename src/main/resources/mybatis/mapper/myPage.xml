@@ -5,16 +5,18 @@
 <mapper namespace="myPage">
 
     <select id="cancel" parameterType="String" resultType="mybatis.vo.ReservationVO" >
-        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate
+        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate,r.customReservationIdx
         ,m.movieTitle, m.moviePosterUrl,
         h.theaterName,
         s.screenName,
-        t.timetableStartTime
+        t.timetableStartTime,
+        p.paymentFinal
         FROM reservation r
         INNER JOIN timetable t ON r.timetableIdx = t.timetableIdx
         INNER JOIN movie m ON t.movieIdx = m.movieIdx
         inner join theater h on r.theaterIdx = h.theaterIdx
         inner join screen s on r.screenIdx=s.screenIdx
+        inner join payment p on r.reservationIdx = p.reservationIdx
         WHERE r.userIdx = #{idx} AND r.reservationStatus = 1
         ORDER BY reservationIdx DESC;
     </select>
@@ -33,16 +35,18 @@
         WHERE f.userIdx = #{s}
     </select>
     <select id="reservation" parameterType="String" resultType="mybatis.vo.ReservationVO" >
-        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate
+        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate,r.customReservationIdx
         ,m.movieTitle, m.moviePosterUrl,
         h.theaterName,
         s.screenName,
-        t.timetableStartTime
+        t.timetableStartTime,
+        p.paymentFinal
         FROM reservation r
         INNER JOIN timetable t ON r.timetableIdx = t.timetableIdx
         INNER JOIN movie m ON t.movieIdx = m.movieIdx
         inner join theater h on r.theaterIdx = h.theaterIdx
         inner join screen s on r.screenIdx=s.screenIdx
+        inner join payment p on r.reservationIdx = p.reservationIdx
         WHERE r.userIdx = #{idx} AND r.reservationStatus = 0
         ORDER BY reservationIdx DESC;
     </select>

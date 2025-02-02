@@ -372,7 +372,7 @@
                                     <img src="${rvo.moviePosterUrl}">
                                     <div id="reservInfo">
                                         <p>결제일시: ${rvo.reservationDate}</p>
-                                        <p><em>0000-0000-예매번호</em><span>|${rvo.movieTitle}</span></p>
+                                        <p><em>${rvo.customReservationIdx}-예매번호</em><span>|${rvo.movieTitle}</span></p>
                                         <p>${rvo.theaterName} ${rvo.screenName}</p>
                                         <p>${rvo.timetableStartTime}</p>
                                     </div>
@@ -417,7 +417,6 @@
     // 취소 버튼 클릭 이벤트
     $('.reservCancel').on('click', function () {
         let reservationIdx = $(this).siblings('.reservationIdx').val();
-        console.log(reservationIdx);
         // 해당 버튼과 같은 div 내의 숨겨진 input 값 가져오기 siblings 같은 부모요소를 가진 형제요소 중 클래스가 idx인 것을 선택
 
         $('#notice').dialog({
@@ -427,7 +426,7 @@
             buttons: {
                 "확인": function () {
                     $.ajax({
-                        type: "POST", // 또는 "GET" (Spring에서 @RequestParam 받기)
+                        type: "POST",
                         url: "${pageContext.request.contextPath}/UserController?type=reservationCancel", // action에 맞게 수정
                         data: { reservationIdx: reservationIdx },
                         dataType: "json",
