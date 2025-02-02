@@ -122,11 +122,15 @@
             </td>
             <td>
                 <c:choose>
-                    <c:when test="${not empty pboard}">
-                        <a href="UserController?type=view&boardIdx=${pboard.boardIdx}">${pboard.boardTitle}</a>
+                    <c:when test="${not empty nboard}">
+                        <a href="UserController?type=view&boardIdx=${nboard.boardIdx}
+                        <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+                        <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
+                        <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>">
+                                ${nboard.boardTitle}</a>
                     </c:when>
                     <c:otherwise>
-                        이전글이 없습니다.
+                        이전 글이 없습니다.
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -137,18 +141,27 @@
             </td>
             <td>
                 <c:choose>
-                    <c:when test="${not empty nboard}">
-                        <a href="UserController?type=view&boardIdx=${nboard.boardIdx}">${nboard.boardTitle}</a>
+                    <c:when test="${not empty pboard}">
+                        <a href="UserController?type=view&boardIdx=${pboard.boardIdx}
+                            <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+                            <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
+                            <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>">
+                                ${pboard.boardTitle}</a>
                     </c:when>
                     <c:otherwise>
-                        다음글이 없습니다.
+                        다음 글이 없습니다.
                     </c:otherwise>
                 </c:choose>
+
             </td>
         </tr>
         </tbody>
     </table>
-    <a href="UserController?type=board" class="btn-list">목록</a>
+    <a href="UserController?type=board
+    <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+    <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
+    <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>"
+       class="btn-list">목록</a>
 </div>
 <jsp:include page="../common/footer.jsp"/>
 </body>

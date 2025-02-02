@@ -10,9 +10,24 @@ import java.util.List;
 public class BoardDAO {
 
     //총 게시물 수를 반환
-    public static int getTotalCount(String bType) {
+    public static int getTotalCount(String bType, String keyword, String region, String theater) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.selectOne("board.totalCount", bType);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("bType", bType);
+
+        // 검색어, 지역, 극장 조건이 있는 경우
+        if(keyword != null && !keyword.isEmpty()) {
+            map.put("keyword", keyword);
+        }
+        if(region != null && !region.isEmpty()) {
+            map.put("region", region);
+        }
+        if(theater != null && !theater.isEmpty()) {
+            map.put("theater", theater);
+        }
+
+        int cnt = ss.selectOne("board.totalCount", map);
         ss.close();
 
         return cnt;
@@ -78,17 +93,47 @@ public class BoardDAO {
     }
 
     //이전 게시물
-    public static BoardVO getPreviousBoard(String boardId) {
+    public static BoardVO getPreviousBoard(String bType, String boardIdx, String keyword, String region, String theater) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("bType", bType);
+        map.put("boardIdx", boardIdx);
+
+        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
+        if(keyword != null && !keyword.isEmpty()){
+            map.put("keyword", keyword);
+        }
+        if(region != null && !region.isEmpty()){
+            map.put("region", region);
+        }
+        if(theater != null && !theater.isEmpty()){
+            map.put("theater", theater);
+        }
+
         SqlSession ss = FactoryService.getFactory().openSession();
-        BoardVO pboard = ss.selectOne("board.getPreviousBoard", boardId);
+        BoardVO pboard = ss.selectOne("board.getPreviousBoard", map);
         ss.close();
         return pboard;
     }
 
     //다음 게시물
-    public static BoardVO getNextBoard(String boardId) {
+    public static BoardVO getNextBoard(String bType, String boardIdx, String keyword, String region, String theater) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("bType", bType);
+        map.put("boardIdx", boardIdx);
+
+        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
+        if(keyword != null && !keyword.isEmpty()){
+            map.put("keyword", keyword);
+        }
+        if(region != null && !region.isEmpty()){
+            map.put("region", region);
+        }
+        if(theater != null && !theater.isEmpty()){
+            map.put("theater", theater);
+        }
+
         SqlSession ss = FactoryService.getFactory().openSession();
-        BoardVO nboard = ss.selectOne("board.getNextBoard", boardId);
+        BoardVO nboard = ss.selectOne("board.getNextBoard", map);
         ss.close();
         return nboard;
     }

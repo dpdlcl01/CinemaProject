@@ -5,9 +5,20 @@
 <mapper namespace="board">
 
     <!-- 총 게시물 수를 반환하는 기능 -->
-    <select id="totalCount" resultType="int" parameterType="String">
-        SELECT COUNT(*) FROM board
-        WHERE boardStatus = 0 AND boardType = #{bType}
+    <select id="totalCount" resultType="int" parameterType="Map">
+        SELECT COUNT(*) FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardStatus = 0 AND b.boardType = #{bType}
+
+        <if test="keyword != null and keyword !=''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
     </select>
 
     <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
@@ -55,20 +66,42 @@
         WHERE boardIdx = #{idx} and boardStatus = 0
     </select>
 
-    <!-- 이전글(현재 boardIdx보다 큰 값중에서 가장 작은 값)-->
-    <select id="getPreviousBoard" parameterType="String" resultType="mybatis.vo.BoardVO">
-        SELECT * FROM board
-        WHERE boardIdx &gt; #{boardIdx}
-        ORDER BY boardIdx ASC
+    <!-- 이전글(현재 boardIdx보다 작은값 중에서 가장 큰 값)-->
+    <select id="getPreviousBoard" parameterType="Map" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE boardIdx &lt; #{boardIdx}
+        AND b.boardStatus = 0 AND b.boardType = #{bType}
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+        ORDER BY boardIdx DESC
         LIMIT 1;
     </select>
 
-    <!-- 다음글(현재 boardIdx보다 작은 값중에서 가장 큰 값)-->
-    <select id="getNextBoard" parameterType="String" resultType="mybatis.vo.BoardVO">
-        SELECT * FROM board
-        WHERE boardIdx &lt; #{boardIdx}
-        ORDER BY boardIdx DESC
-        LIMIT 1;
+    <!-- 다음글(현재 boardIdx보다 큰 값중에서 가장 작은 값)-->
+    <select id="getNextBoard" parameterType="Map" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardIdx &gt; #{boardIdx}
+        AND b.boardStatus = 0 AND b.boardType = #{bType}
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+        ORDER BY b.boardIdx ASC
+        LIMIT 1
     </select>
 
 

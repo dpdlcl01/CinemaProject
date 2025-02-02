@@ -262,12 +262,14 @@
 
                 <!-- << (맨 처음으로) -->
                 <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
-                    <a href="UserController?type=board&cPage=1" class="control first" title="처음 페이지">&laquo;</a>
+                    <a href="UserController?type=board&cPage=1&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                       class="control first" title="처음 페이지">&laquo;</a>
                 </c:if>
 
                 <!-- < (이전 페이지 블록) -->
                 <c:if test="${pvo.startPage > 1}">
-                    <a href="UserController?type=board&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록">&lt;</a>
+                    <a href="UserController?type=board&cPage=${pvo.startPage - pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                       class="control prev" title="이전 블록">&lt;</a>
                 </c:if>
 
                 <!-- 페이지 번호 -->
@@ -276,18 +278,26 @@
                         <strong class="active">${st.index}</strong>
                     </c:if>
                     <c:if test="${st.index ne pvo.nowPage}">
-                        <a href="UserController?type=board&cPage=${st.index}" title="${st.index}페이지 보기">${st.index}</a>
+                        <a href="UserController?type=board&cPage=${st.index}
+                                <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
+                                <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
+                                <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>" title="${st.index}페이지 보기">
+                        ${st.index}
+                        </a>
+
                     </c:if>
                 </c:forEach>
 
                 <!-- > (다음 페이지 블록) -->
                 <c:if test="${pvo.endPage < pvo.totalPage}">
-                    <a href="UserController?type=board&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록">&gt;</a>
+                    <a href="UserController?type=board&cPage=${pvo.startPage + pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                       class="control next" title="다음 블록">&gt;</a>
                 </c:if>
 
                 <!-- >> (맨 마지막으로) -->
                 <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
-                    <a href="UserController?type=board&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지">&raquo;</a>
+                    <a href="UserController?type=board&cPage=${pvo.totalPage}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                       class="control last" title="마지막 페이지">&raquo;</a>
                 </c:if>
             </c:if>
         </nav>
