@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,6 +114,7 @@
         border-collapse: collapse;
     }
     #bottomTable thead{
+        text-align: center;
         height: 45px;
         background-color: #eeeeee;
     }
@@ -160,6 +163,10 @@
         color: black; /* 텍스트 색상을 명시적으로 설정 */
         font-size: 14px; /* 적절한 폰트 크기를 설정 */
     }
+    #paymentInfo{
+        display: none;
+         }
+
 </style>
 <body>
 <!-- header 영역 -->
@@ -189,7 +196,7 @@
                     <label for="radio1">예매내역</label>
                     <input type="radio" id="radio2" name="radioSelect" value="before">
                     <label for="radio2">지난내역</label>
-                    <button id="searchBtn"><img src="../../../img/search.png">조회</button>
+                    <button id="searchBtn"><img src="${pageContext.request.contextPath}/css/user/images/KangImg/search.png">조회</button>
                 </td>
             </tr>
         </table>
@@ -197,10 +204,15 @@
     <div id="strong">
 
     </div>
+
+    <c:if test="${empty requestScope.rvo}">
     <div id="null">
         예약내역이 없습니다.
     </div>
-    <strong>총<b>1</b>건</strong>
+    </c:if>
+    <strong>총<b></b>건</strong>
+
+
     <div id="main">
         <img src="../../../img/ha.png">
         <div id="mainInfo">
@@ -247,11 +259,6 @@
                     </tr>
                 </table>
             </div>
-
-
-
-
-
             <div id="btnDiv">
                 <button type="button" id="reservCancel">
                     예매취소
@@ -259,6 +266,11 @@
             </div>
         </div>
     </div>
+
+
+
+
+
     <article id="cancelHistory">
         <h3>예매취소내역</h3>
         <li>상영일 기준 7일간 취소내역을 확인하실 수 있습니다.</li>
@@ -295,10 +307,7 @@
     </p>
 
 
-    <div id="btnDiv2">
-        <button type="button"> 취소 </button>
-        <button type="button"> 확인 </button>
-    </div>
+
 </article>
 <article id="paymentInfo" title="결제정보">
     <br>
@@ -353,14 +362,32 @@
         $('#reservCancel').on('click', function () {
             $('#notice').dialog({
                 modal: true,
+                title: "예매 취소 확인",  // 다이얼로그 제목 추가
+                closeText: "닫기",  // 닫기 버튼 텍스트 설정
+                buttons: {
+                    "확인": function () {
+                        /*비동기식으로 sql문 바꿔야함*/
+                        $(this).dialog("close");
+                    },
+                    "취소": function () {
+                        $(this).dialog("close");
+                    }
+                }
             });
         });
 
         $('#payInfo').on('click', function () {
-          $('#paymentInfo').dialog({
-              modal: true,
-          })
-        })
+            $('#paymentInfo').dialog({
+                modal: true,
+                title: "결제 정보",  // 다이얼로그 제목 추가
+                closeText: "닫기",  // 닫기 버튼 텍스트 설정
+                buttons: {
+                    "확인": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
     });
 
 </script>

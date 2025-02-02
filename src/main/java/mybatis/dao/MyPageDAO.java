@@ -8,6 +8,20 @@ import java.util.List;
 
 public class MyPageDAO {
 
+    public  static ReservationVO[] getCancel(String idx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<ReservationVO> list = ss.selectList("myPage.cancel", idx);
+        if(list==null || list.size()==0){
+            return null;
+        }
+        ReservationVO[] reservation = new ReservationVO[list.size()];
+        list.toArray(reservation);
+        ss.close();
+
+        return reservation;
+
+    }
+
     public static int getTotalPoint(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
         int total = ss.selectOne("myPage.getTotalPoint", idx);

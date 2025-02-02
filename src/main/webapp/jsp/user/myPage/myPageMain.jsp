@@ -230,6 +230,37 @@
     #total{
         display: none;
     }
+    #notice{
+        display: none;
+    }
+    .ui-dialog{
+        padding: 0;
+        font-weight: 600;
+    }
+    .ui-dialog #btnDiv2{
+        margin: auto;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .ui-dialog button{
+        width: 80px;
+        height: 40px;
+        border: 1px solid #503396;
+        background-color: #503396;
+        color: white;
+        border-radius: 3px;
+    }
+
+    /* 다이얼로그 타이틀 색상 변경 */
+    .ui-dialog-titlebar {
+        background-color: #503396; /* 타이틀 배경색 */
+        color: white; /* 텍스트 색상 */
+        border: 2px solid #503396;
+    }
+    .ui-dialog-content {
+        color: black; /* 텍스트 색상을 명시적으로 설정 */
+        font-size: 14px; /* 적절한 폰트 크기를 설정 */
+    }
 </style>
 
 <body>
@@ -300,7 +331,7 @@
                     </div>
                     <div id="top2">
                         <div id="1" class="top2">
-                            <a href="#">나의 무비스토리</a><%--페이보릿시어터랑 이너조인--%>
+                            <a href="${pageContext.request.contextPath}/UserController?type=myMovieStory">나의 무비스토리</a><%--페이보릿시어터랑 이너조인--%>
                             <div>
                                 <span>본 영화</span>
                                 <em>${requestScope.wNum}</em>
@@ -324,22 +355,19 @@
 
                         </div>
                         <div id="3" class="top2">
-                            <a href="#">구매내역 바로가기</a><%--구매내역 테이블과 이너조인--%>
+                            <a href="${pageContext.request.contextPath}/UserController?type=myReservation">구매내역 바로가기</a><%--구매내역 테이블과 이너조인--%>
                             <span>구매내역을 확인해보세요</span>
                         </div>
-                        <div id="4" class="top2">
-                            <a href="#">문의내역 바로가기</a>
-                            <span>문의내역을 확인해보세요</span>
-                        </div>
+
                     </div>
                     <div>
                         <div id="h2">
                             <h2>나의 예매내역</h2>
-                            <button type="button">더보기&gt;</button>
+                            <a href="${pageContext.request.contextPath}/UserController?type=myReservation">더보기&gt;</a>
                         </div>
 
                         <c:if test="${requestScope.rvo ne null}">
-                            <c:forEach items="${requestScope.rvo}" var="rvo">
+                            <c:forEach items="${requestScope.rvo}" var="rvo" begin="0" end="1">
                                 <div id="myReserv">
                                     <img src="${rvo.moviePosterUrl}">
                                     <div id="reservInfo">
@@ -348,8 +376,10 @@
                                         <p>${rvo.theaterName} ${rvo.screenName}</p>
                                         <p>${rvo.timetableStartTime}</p>
                                     </div>
-                                    <button type="button">예매취소</button>
+                                    <button type="button" class="reservCancel">취소</button>
+                                    <input type="hidden" class="reservationIdx" value="${rvo.reservationIdx}"></input>
                                 </div>
+
                             </c:forEach>
                         </c:if>
                         <c:if test="${requestScope.rvo eq null}">
@@ -363,10 +393,17 @@
         </div>
     </div>
 </div>
-
+<article id="notice" title="다이얼로그">
+    <p>
+        취소 시 유효기간 경과된 관람권, 쿠폰, 포인트는 복구되지 않습니다. <br/>
+        예매취소 하시겠습니까?
+    </p>
+   </article>
 <jsp:include page="../common/footer.jsp"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script>   $(function () {
 
-<script>
     var total = ${requestScope.total};
     document.addEventListener("DOMContentLoaded", function() {
         if (total >= 13000 && total < 20000) {
@@ -377,6 +414,50 @@
             document.getElementById("vvip-item").classList.add("active");
         }
     });
+    // 취소 버튼 클릭 이벤트
+    $('.reservCancel').on('click', function () {
+        let reservationIdx = $(this).siblings('.reservationIdx').val();
+        console.log(reservationIdx);
+        // 해당 버튼과 같은 div 내의 숨겨진 input 값 가져오기 siblings 같은 부모요소를 가진 형제요소 중 클래스가 idx인 것을 선택
+
+        $('#notice').dialog({
+            modal: true,
+            title: "예매 취소 확인",
+            closeText: "닫기",
+            buttons: {
+                "확인": function () {
+                    $.ajax({
+                        type: "POST", // 또는 "GET" (Spring에서 @RequestParam 받기)
+                        url: "${pageContext.request.contextPath}/UserController?type=reservationCancel", // action에 맞게 수정
+                        data: { reservationIdx: reservationIdx },
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.success) {
+                                alert("예매가 취소되었습니다.");
+                                location.reload(); // UI 업데이트를 위해 새로고침
+                            } else {
+                                alert("예매 취소 실패: " + response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("서버 오류 발생: " + error);
+                        }
+                    });
+
+                    $(this).dialog("close");
+                },
+                "취소": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+
+
+});
+
+
+
 
 </script>
 </body>

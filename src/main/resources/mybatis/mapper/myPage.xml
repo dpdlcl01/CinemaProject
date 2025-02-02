@@ -4,6 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="myPage">
 
+    <select id="cancel" parameterType="String" resultType="mybatis.vo.ReservationVO" >
+        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate
+        ,m.movieTitle, m.moviePosterUrl,
+        h.theaterName,
+        s.screenName,
+        t.timetableStartTime
+        FROM reservation r
+        INNER JOIN timetable t ON r.timetableIdx = t.timetableIdx
+        INNER JOIN movie m ON t.movieIdx = m.movieIdx
+        inner join theater h on r.theaterIdx = h.theaterIdx
+        inner join screen s on r.screenIdx=s.screenIdx
+        WHERE r.userIdx = #{idx} AND r.reservationStatus = 1
+        ORDER BY reservationIdx DESC;
+    </select>
+
     <select id="getUser" parameterType="String" resultType="mybatis.vo.UserVO">
         select *
         from user
@@ -29,6 +44,7 @@
         inner join theater h on r.theaterIdx = h.theaterIdx
         inner join screen s on r.screenIdx=s.screenIdx
         WHERE r.userIdx = #{idx} AND r.reservationStatus = 0
+        ORDER BY reservationIdx DESC;
     </select>
 
     <select id="getTotalPoint" parameterType="String" resultType="int">

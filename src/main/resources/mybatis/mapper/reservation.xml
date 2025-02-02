@@ -8,4 +8,9 @@
         INSERT INTO reservation *
         VALUES (#{userIdx}, #{theaterIdx}, #{movieIdx}, #{timetableIdx}, NOW(), 0)
     </insert>
+    <update id="updateReservation" parameterType="String">
+        UPDATE reservation
+        SET reservationStatus = 1
+        WHERE reservationIdx=#{ridx};
+    </update>
 </mapper>
