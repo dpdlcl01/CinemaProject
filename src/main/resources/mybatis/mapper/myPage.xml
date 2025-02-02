@@ -4,6 +4,24 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="myPage">
 
+    <delete id="deleteFavoriteTheater" parameterType="map">
+        delete
+        from favoriteTheater
+        where userIdx=#{userIdx} and theaterIdx=#{theaterIdx}
+    </delete>
+
+    <insert id="insertFavoriteTheater" parameterType="Map">
+        insert into favoriteTheater(userIdx,theaterIdx)
+        values(#{userIdx},#{theaterIdx})
+    </insert>
+
+    <select id="favoriteTheater" parameterType="String" resultType="mybatis.vo.FavoriteTheaterVO">
+        select *
+        from favoriteTheater f inner join theater t
+        on f.theaterIdx = t.theaterIdx
+        where userIdx=#{w}
+    </select>
+
     <select id="cancel" parameterType="String" resultType="mybatis.vo.ReservationVO" >
         SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate,r.customReservationIdx
         ,m.movieTitle, m.moviePosterUrl,

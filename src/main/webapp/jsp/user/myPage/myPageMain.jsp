@@ -159,11 +159,11 @@
         border-bottom-right-radius: 20px;
         margin-bottom: 50px;
     }
-    .top2{
+    .top2,.top1{
         width: 200px;
         padding: 10px 20px 0;
     }
-    .top2>a{
+    .top2>a,.top1>a{
         display: block;
         text-align: center;
         color: #503396;
@@ -175,12 +175,12 @@
         display: flex;
         margin-left: 10px;
     }
-    .top2 span{
+    .top2 span , .top1 span{
 
 
         width: 120px;
     }
-    .top2 em{
+    .top2 em,.top1 em{
         text-align: right;
         display: block;
         font-weight: 600;
@@ -224,6 +224,9 @@
         border: none;
         background-color: white;
     }
+    .top1 span{
+        font-size: 14px;
+    }
     .top2 span{
         font-size: 14px;
     }
@@ -261,6 +264,34 @@
         color: black; /* 텍스트 색상을 명시적으로 설정 */
         font-size: 14px; /* 적절한 폰트 크기를 설정 */
     }
+    .ui-dialog .delBtn{
+        width: 30px;
+        height: 20px;
+        margin-top: 5px;
+    }
+    .ui-dialog select{
+
+        width: 123px;
+        height: 25px;
+    }
+    .ui-dialog p{
+        width: 260px;
+        display: flex;
+        height: 30px;
+        line-height: 30px;
+    }
+    .ui-dialog .span{
+        width: 200px;
+        margin-right: 20px;
+    }
+    .ui-dialog .btnDiv{
+        width: 200px;
+        margin: 0 auto 0 auto;
+        padding-left: 20px;
+    }
+
+
+
 </style>
 
 <body>
@@ -345,11 +376,11 @@
                                 <em>${requestScope.fNum}</em>
                             </div>
                         </div>
-                        <div id="2" class="top2">
+                        <div id="2" class="top1">
                             <a href="#">선호하는 극장</a>
                             <div>
                                 <c:forEach var="fvo" items="${requestScope.far}">
-                                    <span>${fvo}</span>
+                                    <p>${fvo}</p>
                                 </c:forEach>
                             </div>
 
@@ -398,11 +429,186 @@
         취소 시 유효기간 경과된 관람권, 쿠폰, 포인트는 복구되지 않습니다. <br/>
         예매취소 하시겠습니까?
     </p>
-   </article>
+</article>
+
+<article id="favorite" title="선호극장">
+    <div>
+        <select id="city">
+            <option value="">지역 선택</option>
+            <option value="서울">서울</option>
+            <option value="경기">경기</option>
+            <option value="대전/충청/세종">대전/충청/세종</option>
+            <option value="부산/대구/경상">부산/대구/경상</option>
+            <option value="광주/전라">광주/전라</option>
+            <option value="강원">강원</option>
+        </select>
+        <select id="theater">
+           <option value="">극장을 선택</option>
+        </select>
+        <div class="favoriteTheater">
+            <c:forEach items="${requestScope.fvo}" var="fvo" begin="0" end="4">
+            <p><span class="span">${fvo.theaterName}</span> <button type="button" class="delBtn" data-id="${fvo.theaterIdx}">X</button></p>
+            </c:forEach>
+        </div>
+        <div class="btnDiv">
+            <button type="button" id="cancelBtn">취소</button>
+            <button type="button">등록</button>
+        </div>
+    </div>
+</article>
+
 <jsp:include page="../common/footer.jsp"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-<script>   $(function () {
+<script>
+    $(document).ready(function() {
+        $("#cancelBtn").on("click",function (){
+            $('#favorite').dialog("close");
+        });
+
+        $(".top1").on("click",function (){
+            $('#favorite').dialog("open");
+        });
+
+        $('#favorite').dialog({
+            autoOpen:false,
+            modal: true,
+            title: "선호 극장 등록",
+            closeText: "닫기",
+            height: 220,
+
+        });
+
+        $(document).on('click', '.delBtn', function () {
+            var $this = $(this); // 클릭한 삭제 버튼
+            var favoriteTheaterId = $this.attr('data-id'); // 삭제할 극장의 ID 가져오기
+
+            if (!favoriteTheaterId) {
+                alert("삭제할 극장 ID가 없습니다.");
+                return;
+            }
+
+            // 삭제 요청 전 사용자 확인
+            if (!confirm("해당 극장을 삭제하시겠습니까?")) {
+                return;
+            }
+
+            // AJAX를 통해 서버에 삭제 요청
+            $.ajax({
+                url: `${pageContext.request.contextPath}/UserController?type=removeFavoriteTheater`,
+                type: 'POST',
+                data: { favoriteTheaterId: favoriteTheaterId }, // 삭제할 극장 ID 전송
+                dataType: 'json',
+                success: function (response) {
+                    console.log("삭제 성공:", response);
+
+                    if (response.success) {
+                        // 해당 극장 요소 삭제
+                        $this.closest('p').remove();
+                        alert("극장이 삭제되었습니다.");
+                    } else {
+                        alert("삭제할 수 없습니다. 다시 시도해주세요.");
+                    }
+                },
+                error: function () {
+                    alert("삭제 요청에 실패했습니다.");
+                }
+            });
+        });
+
+
+        $('#city').change(function () {
+            var cityName = $(this).val(); // 선택한 지역 값 가져오기
+            var $theaterSelect = $('#theater'); // 극장 select 요소
+
+            // 기존 옵션 초기화
+            $theaterSelect.html('<option value="">극장을 선택하세요</option>');
+
+            if (cityName) {
+                // AJAX 요청
+                $.ajax({
+                    url: `${pageContext.request.contextPath}/UserController?type=getTheater`, // 요청 URL
+                    type: 'GET',
+                    data: { cityName: cityName }, // 선택한 지역명 전송
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("AJAX 성공, 받은 데이터:", data);
+
+                        // 데이터가 배열인지 확인
+                        if (Array.isArray(data) && data.length > 0) {
+                            data.forEach((theater, index) => {
+                                console.log(`옵션 추가: ID=${theater.theaterIdx}, 이름=${theater.theaterName}`);
+
+                                // **옵션 추가 코드 수정**
+                                let optionHtml = '<option value="' + theater.theaterIdx + '">' + theater.theaterName + '</option>';
+                                console.log("추가될 HTML:", optionHtml); // 디버깅용 로그
+                                $theaterSelect.append(optionHtml);
+                            });
+                        } else {
+                            $theaterSelect.append('<option value="">해당 지역에 극장이 없습니다</option>');
+                        }
+                    },
+                    error: function () {
+                        alert('극장 목록을 불러오는 데 실패했습니다.');
+                    }
+                });
+            }
+        });
+
+
+        $('.btnDiv button:contains("등록")').click(function () {
+            var selectedTheaterId = $('#theater').val(); // 선택된 극장 ID 가져오기
+            var selectedTheaterName = $('#theater option:selected').text(); // 선택된 극장 이름
+
+            if (!selectedTheaterId) {
+                alert("극장을 선택해주세요!");
+                return;
+            }
+
+            var favoriteCount = $('.favoriteTheater p').length;
+
+            if (favoriteCount >= 3) { // 3개 이상이면 등록 불가
+                alert("선호 극장은 최대 3개까지만 등록할 수 있습니다!");
+                return;
+            }
+
+
+
+            var isDuplicate = $('.favoriteTheater button.delBtn').filter(function () {
+                return $(this).attr('data-id') === selectedTheaterId;
+            }).length > 0;
+
+            if (isDuplicate) {
+                alert("이미 등록된 극장입니다!");
+                return;
+            }
+            // 서버에 데이터 전송 (비동기 AJAX 요청)
+            $.ajax({
+                url: `${pageContext.request.contextPath}/UserController?type=addFavoriteTheater`, // 등록 API
+                type: 'POST',
+                data: { theaterId: selectedTheaterId, theaterName: selectedTheaterName }, // 선택한 극장 정보 전송
+                dataType: 'json',
+                success: function (response) {
+                    console.log("등록 성공:", response);
+
+                    if (response.success) {
+                        // 화면의 선호극장 목록 업데이트
+                        $('.favoriteTheater').append(
+
+                            '<p><span style="width: 220px">' + selectedTheaterName + '</span> <button type="button" class="delBtn" data-id="' + selectedTheaterId + '">X</button></p>'
+                        );
+                        alert("선호 극장이 등록되었습니다!");
+                    } else {
+                        alert("이미 등록된 극장입니다!");
+                    }
+                },
+                error: function () {
+                    alert('등록에 실패했습니다.');
+                }
+            });
+        });
+
+
 
     var total = ${requestScope.total};
     document.addEventListener("DOMContentLoaded", function() {

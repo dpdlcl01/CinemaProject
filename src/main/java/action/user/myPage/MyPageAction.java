@@ -2,6 +2,8 @@ package action.user.myPage;
 
 import action.Action;
 import mybatis.dao.MyPageDAO;
+import mybatis.vo.FavoriteTheaterVO;
+import mybatis.vo.FavoritemovieVO;
 import mybatis.vo.ReservationVO;
 import mybatis.vo.UserVO;
 import util.SessionUtil;
@@ -26,6 +28,7 @@ public class MyPageAction implements Action {
 
 
         UserVO uvo = MyPageDAO.getUser(id);
+        FavoriteTheaterVO[] fvo= MyPageDAO.getFavoriteTheater(idx);
         String[] far= MyPageDAO.getFavorite(idx);
         int rNum = MyPageDAO.reviewNum(idx);
         int fNum = MyPageDAO.favoriteNum(idx);
@@ -55,6 +58,7 @@ public class MyPageAction implements Action {
         request.setAttribute("rNum", rNum);
         request.setAttribute("fNum", fNum);
         request.setAttribute("wNum", wNum);
+        request.setAttribute("fvo", fvo);
 
 
         return "/jsp/user/myPage/myPageMain.jsp";
