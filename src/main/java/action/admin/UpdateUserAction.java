@@ -88,15 +88,12 @@ public class UpdateUserAction implements Action {
 
         LogVO log = new LogVO();
         log.setLogType("0");
-        log.setAdminIdx(String.valueOf(adminIdx));
-        if (log.getLogInfo() == null) {
-            log.setLogInfo("정보 없음");
-        } else {
-            log.setLogInfo(log.getLogInfo() + preValue + curValue);
-        }
+//        log.setAdminIdx(String.valueOf(adminIdx)); 세션을 통해서 저장할때 해당코드 사용.
+        log.setAdminIdx("1");
         log.setLogTarget(target);
-        log.setLogPreValue(preValue != null ? preValue : null);
-        log.setLogCurValue(curValue != null ? curValue : null);
+        log.setLogPreValue(preValue != null ? preValue : "없음");
+        log.setLogCurValue(curValue != null ? curValue : "없음");
+        log.setLogInfo(target + " 수정");
 
         boolean logInserted = adminDAO.insertLog(log);
         System.out.println("로그 입력 시도: " + logInserted);

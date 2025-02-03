@@ -167,7 +167,7 @@
         </div>
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST">
+    <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST" onsubmit="return validateForm()">
         <table>
             <tr>
                 <td>아이디</td>
@@ -181,9 +181,17 @@
                 <td>이메일</td>
                 <td>
                     <div class="email-container">
-                        <input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
+                        <input type="text" id="emailpart1" name="emailpart1" class="inputshort">
                         <span>@</span>
-                        <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+                        <input type="text" id="emailpart2" name="emailpart2" class="inputshort" disabled>
+                        <select name="emailDomain" id="emailDomain" title="이메일 선택" class="email_address">
+                            <option value="" disabled selected>선택하세요</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="nate.com">nate.com</option>
+                            <option value="direct">직접입력</option>
+                        </select>
                         <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button>
                     </div>
                 </td>
@@ -235,6 +243,23 @@
     </div>
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const domain = document.getElementById("emailDomain");
+        const emailpart2input = document.getElementById("emailpart2");
+
+        domain.addEventListener("change", function () {
+            const selectedValue = this.value;
+            if(this.value === "direct") {
+                emailpart2input.disabled = false;
+                emailpart2input.value = "";
+                emailpart2input.placeholder = "도메인 입력";
+            } else {
+                emailpart2input.disabled = true;
+                emailpart2input.value = selectedValue;
+            }
+        })
+    })
+
     function verifyAuthCode() {
         console.log("verifyAuthCode 호출.");
         const authCode = document.getElementById("authcode").value;
@@ -264,8 +289,44 @@
         xhr.send("authCode=" + encodeURIComponent(authCode));
     }
 
-    function gotosumbit(frm) {
-        frm.submit();
+    function validateForm() {
+        const userId = document.getElementById("userId").value.trim();
+        const userName = document.getElementById("userName").value.trim();
+        const emailPart1 = document.getElementById("emailpart1").value.trim();
+        const emailPart2 = document.getElementById("emailpart2").value.trim();
+        const authCode = document.getElementById("authcode").value.trim();
+
+        if (!userId) {
+            alert("아이디를 입력해주세요.");
+            document.getElementById("userId").focus();
+            return false;
+        }
+
+        if (!userName) {
+            alert("이름을 입력해주세요.");
+            document.getElementById("userName").focus();
+            return false;
+        }
+
+        if (!emailPart1) {
+            alert("이메일 아이디를 입력해주세요.");
+            document.getElementById("emailpart1").focus();
+            return false;
+        }
+
+        if (!emailPart2) {
+            alert("이메일 도메인을 선택하거나 입력해주세요.");
+            document.getElementById("emailpart2").focus();
+            return false;
+        }
+
+        if (!authCode) {
+            alert("인증번호를 입력해주세요.");
+            document.getElementById("authcode").focus();
+            return false;
+        }
+
+        return true;
     }
 </script>
 </body>
