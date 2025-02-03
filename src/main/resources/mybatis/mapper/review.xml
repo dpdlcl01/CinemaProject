@@ -46,5 +46,11 @@
         VALUES (#{userIdx}, #{movieIdx}, #{reviewRating}, #{reviewContent}, NOW(), 0)
     </insert>
 
+    <!-- 리뷰 작성 완료시 100포인트 적립 -->
+    <insert id="plusPointByReview" parameterType="java.util.Map">
+        INSERT INTO point(userIdx, reviewIdx, pointType, pointSource, pointValue, pointDate, pointStatus)
+        VALUES (#{userIdx}, #{reviewIdx}, 1, 'REVIEW', 100, NOW(), 0)
+    </insert>
+
 
 </mapper>

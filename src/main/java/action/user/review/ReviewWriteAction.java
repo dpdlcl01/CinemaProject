@@ -30,6 +30,7 @@ public class ReviewWriteAction implements Action {
         // 응답 전송
         response.setContentType("application/json");
         if (isSaved) {
+            boolean result = ReviewDAO.plusPointByReview(userIdx, movieIdx);
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write("{\"message\": \"Review saved successfully\"}");
         } else {

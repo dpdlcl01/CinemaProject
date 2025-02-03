@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ReviewDAO {
 
@@ -48,6 +49,7 @@ public class ReviewDAO {
         return cnt > 0;
     }
 
+
     // 이미 작성한 리뷰인지 확인
     public static boolean checkReviewWritten(String userIdx, String movieIdx){
         HashMap<String, String> map = new HashMap<String, String>();
@@ -83,5 +85,22 @@ public class ReviewDAO {
         return isSaved;
     }
 
+
+    // 리뷰 작성 완료시 100포인트 적립
+    public static boolean plusPointByReview(String userIdx, String reviewIdx){
+        boolean result = false;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("userIdx", userIdx);
+        map.put("reviewIdx", reviewIdx);
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.insert("review.plusPointByReview", map);
+        if (cnt > 0) {
+            ss.commit();
+            result = true;
+        } else
+            ss.rollback();
+        ss.close();
+        return result;
+    }
 
 }
