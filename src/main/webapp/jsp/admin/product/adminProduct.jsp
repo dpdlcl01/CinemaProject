@@ -49,9 +49,12 @@
 
   /*상품관리 스타일*/
   #store{
-    display: flex;
-    width: 1200px;
+    display: inline-block;
+    width: 1400px;
     margin-bottom: 10px;
+  }
+  #store h3{
+    float: left;
   }
   table {
     width: 1400px;
@@ -200,6 +203,7 @@
 
   #addBtn {
     background-color: #503396;
+    float: right;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -207,7 +211,7 @@
     text-align: right;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
   button[type="submit"] {
@@ -327,6 +331,7 @@
         <div id="title">
           <div id="store">
             <h3>상품관리</h3>
+            <button id="addBtn" type="button" onclick="showAddProductForm()">새 상품 추가</button>
           </div>
           <%-- 테이블 추가 --%>
           <table>
@@ -376,7 +381,7 @@
             </tbody>
           </table>
 
-          <button id="addBtn" type="button" onclick="showAddProductForm()">새 상품 추가</button>
+
 
 
           <!-- 상품 추가 다이얼로그 -->
