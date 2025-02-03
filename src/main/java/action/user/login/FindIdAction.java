@@ -37,12 +37,12 @@ public class FindIdAction implements Action {
                 return "./jsp/user/login/result/idFind_success.jsp";
             } else {
                 request.setAttribute("error", "사용자를 찾을 수 없습니다.");
-                return "./jsp/user/login/result/idFind_Failed.jsp";
+                return "./jsp/user/common/error.jsp";
             }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "오류가 발생하였습니다.");
-            return "./jsp/user/login/result/idFind_Failed.jsp";
+            return "./jsp/user/common/error.jsp";
         }
     }
 }

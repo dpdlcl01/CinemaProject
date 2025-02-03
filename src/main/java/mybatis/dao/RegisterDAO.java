@@ -61,19 +61,27 @@ public class RegisterDAO {
 
     public static boolean validateUserForPasswordReset(Map<String, String> params) {
         SqlSession ss = FactoryService.getFactory().openSession();
-            int count = ss.selectOne("register.finduserid_email", params);
-            System.out.println("검증결과 : " + count);
-            ss.close();
-            return count > 0;
+        boolean count = ss.selectOne("register.finduserid_email", params);
+        System.out.println("검증결과 : " + count);
+        ss.close();
+        return count;
     }
 
-    public static int updatePassword(Map<String, String> params) {
-            SqlSession ss = FactoryService.getFactory().openSession();
+    public static int updatePassword(HashMap<String, String> params) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
             int result = ss.update("register.updateUserPassword", params);
-            System.out.println("비번 변경 결과 : " + result);
+            System.out.println("updatePassword Result : " + result);
             ss.commit();
             return result;
+        } catch (Exception e) {
+            ss.rollback();
+            return 0;
+        } finally {
+            if (ss != null)
+                ss.close();
         }
     }
+}
 
 

@@ -20,13 +20,17 @@
         SELECT COUNT(*) FROM user WHERE userEmail = #{userEmail}
     </select>
 
-    <select id="finduserid_email" parameterType="Map" resultType="int">
-        SELECT COUNT(*) FROM user WHERE username = #{userName} and userEmail = #{userEmail} and userId = #{userId}
+    <select id="finduserid_email" parameterType="Map" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM user
+        WHERE username = #{userName}
+        and userEmail = #{userEmail}
+        and userId = #{userId}
     </select>
 
     <update id="updateUserPassword" parameterType="Map">
         UPDATE user
         SET userPassword = #{newPassword}
-        WHERE userId = #{userId}
+        WHERE
+        userId = #{userId}
     </update>
 </mapper>

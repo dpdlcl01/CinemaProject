@@ -84,7 +84,8 @@
             width: 100%; /* 버튼 폭 통일 */
             padding: 10px;
             font-size: 16px;
-            background-color: #e0e0e0; /* 버튼 배경색 */
+            background-color: #503396;
+            border-radius: 4px;
             color: #4a4a4a; /* 버튼 글자색 */
             border: none; /* 테두리 제거 */
             margin-bottom: 10px; /* 버튼 아래 여백 */

@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class FindPwAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String userIdx = request.getParameter("userIdx");
         String userId = request.getParameter("userId");
         String userName = request.getParameter("userName");
         String emailPart1 = request.getParameter("emailpart1");
@@ -26,6 +27,7 @@ public class FindPwAction implements Action {
         System.out.println("userEmail: " + userEmail);
 
         HashMap<String, String> params = new HashMap<>();
+        params.put("userIdx", userIdx);
         params.put("userId", userId);
         params.put("userName", userName);
         params.put("userEmail", userEmail);
@@ -36,9 +38,12 @@ public class FindPwAction implements Action {
             if (isUserValid) {
                 System.out.println("FindPwAction success");
                 request.setAttribute("userId", userId);
+                request.setAttribute("userName", userName);
+                request.setAttribute("userEmail", userEmail);
+                request.setAttribute("userIdx", userIdx);
                 return "/jsp/user/login/result/pwFind_success.jsp";
             } else {
-                System.out.println("FindPwAction not found.");
+                System.out.println("FindPwAction : user not found.");
                 request.setAttribute("error", "사용자를 찾을 수 없습니다.");
                 return "/jsp/user/login/result/pwFind_failed.jsp";
             }

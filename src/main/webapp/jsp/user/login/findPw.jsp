@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    session.setAttribute("userIdx", request.getParameter("userIdx"));
+    session.setAttribute("userId", request.getParameter("userId"));
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,7 +26,7 @@
             min-height: 100vh; /* 화면 꽉 차게 */
             background: white;
             margin: auto; /* 좌우 중앙 정렬 */
-            padding: 100px 100px; /* 좌우 여백 추가 */
+            padding: 10px 20px; /* 좌우 여백 추가 */
             box-sizing: border-box;
         }
         .logo img {
@@ -53,15 +57,16 @@
             font-size: 14px;
         }
         table td:first-child {
-            width: 30%;
+            width: 60px;
             font-weight: 500;
             background-color: #f5f5f5; /* 회색 배경 */
             text-align: center;
         }
         input {
-            width: 100%; /* 입력 필드 폭 통일 */
+            width: 150px; /* 입력 필드 크기 조정 */
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             font-size: 14px;
             box-sizing: border-box;
         }
@@ -70,14 +75,14 @@
             border-color: #999;
         }
         button {
-            width: 100%; /* 버튼 폭 통일 */
-            padding: 10px;
-            font-size: 16px;
-            background-color: #e0e0e0;
-            color: #4a4a4a;
+            padding: 8px 14px;
+            font-size: 14px;
+            background-color: #503396;
+            color: white;
             border: none;
-            /*cursor: not-allowed; !* 비활성화 효과 *!*/
-            margin-bottom: 10px; /* 버튼 아래 여백 */
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
         }
         .note {
             width: 100%; /* 글씨 영역 폭 통일 */
@@ -86,6 +91,65 @@
             text-align: left;
             margin-top: 10px;
             box-sizing: border-box;
+        }
+        /* 기본 스타일 수정 */
+        table td {
+            padding: 10px;
+            vertical-align: middle; /* 테이블 내 요소 수직 중앙 정렬 */
+        }
+
+        .email-container {
+            display: flex;
+            align-items: center; /* 수직 중앙 정렬 */
+            gap: 8px; /* 입력 필드와 버튼 간격 */
+        }
+
+        .inputEmail {
+            width: 120px; /* 입력 필드 크기 조정 */
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        #Cnum {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #503396;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* 인증번호 입력 필드 및 인증 확인 버튼 정렬 */
+        .auth-container {
+            display: flex;
+            align-items: center; /* 수직 정렬 */
+            gap: 8px; /* 간격 조정 */
+        }
+
+        #authcode {
+            width: 120px; /* 입력 필드 크기 조정 */
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .tableButton {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #503396;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap; /* 줄바꿈 방지 */
+        }
+        .pwrecovery {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px
         }
     </style>
 </head>
@@ -114,17 +178,25 @@
                 <td><input type="text" name="userName" placeholder="이름" required></td>
             </tr>
             <tr>
-                <td><span>이메일</span> </td>
-                <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
-                    <span>@</span>
-                    <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
-                    <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
+                <td>이메일</td>
+                <td>
+                    <div class="email-container">
+                        <input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
+                        <span>@</span>
+                        <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+                        <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button>
+                    </div>
+                </td>
             </tr>
+
             <tr>
                 <td><span>인증번호</span> </td>
-                <td><input type="text" id="authcode" name="authcode" class="inputValue">
-                    <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
-                <input type="hidden" id="authStatus" value=""/>
+                <td>
+                    <div class="auth-container">
+                    <input type="text" id="authcode" name="authcode" class="inputValue">
+                    <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button>
+                </div>
+                </td>
                 <script>
                     function sendAuthCode() {
                         const emailPart1 = document.getElementById("emailpart1").value;
@@ -153,7 +225,9 @@
                 </script>
             </tr>
         </table>
+        <div class="pwrecovery">
         <button type="submit" onclick="gotosumbit(this.form)">비밀번호 찾기</button>
+        </div>
     </form>
 
     <div class="note">
