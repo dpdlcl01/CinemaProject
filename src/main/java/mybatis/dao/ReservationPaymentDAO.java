@@ -200,4 +200,20 @@ public class ReservationPaymentDAO {
       ss.close();
     }
   }
+
+  // 해당 예매내역 가져오기
+  public static ReservationDetailVO getReservationDetail(String userIdx, String reservationIdx) {
+
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    Map<String, Object> params = new HashMap<>();
+    params.put("userIdx", userIdx);
+    params.put("reservationIdx", reservationIdx);
+
+    ReservationDetailVO vo = ss.selectOne("reservationPayment.getReservationsByUserIdx", params);
+
+    ss.close();
+
+    return vo;
+  }
 }

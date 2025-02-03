@@ -155,14 +155,18 @@ public class ReservationPaymentAction implements Action {
       }
     }
 
-    if (couponIdx != null && !couponIdx.trim().isEmpty() && !"0".equals(couponIdx)) {
+    if (couponIdx != null && !couponIdx.trim().isEmpty() && !"0".equals(couponIdx) && !"null".equals(couponIdx)) {
       // 쿠폰 상태 업데이트 실행
       boolean couponUpdated = ReservationPaymentDAO.updateCouponStatus(couponIdx, userIdx);
       System.out.println("couponUpdated:" + couponUpdated);
     }
 
-    // JSP에 결제 정보 전달
+    // 예매내역 보여주기
+    ReservationDetailVO reservationDetailVO = new ReservationDetailVO();
+    reservationDetailVO = ReservationPaymentDAO.getReservationDetail(userIdx, reservationIdx);
 
+    // JSP에 결제 정보 전달
+    request.setAttribute("vo", reservationDetailVO);
 
     return "./jsp/user/reservation/reservationPaymentSuccess.jsp";
   }
