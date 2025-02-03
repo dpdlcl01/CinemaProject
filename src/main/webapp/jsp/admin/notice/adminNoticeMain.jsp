@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <style>
-    #top1{
+    #top1 {
         background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
         color: white;
         background-repeat: no-repeat;
@@ -20,40 +20,48 @@
         height: 220px;
         background-size: contain;
     }
-    #top1 img{
+
+    #top1 img {
         width: 90px;
         height: 90px;
     }
-    #imgName{
+
+    #imgName {
         display: flex;
         padding-right: 30px;
         width: 420px;
         align-items: center;
         justify-content: center;
     }
-    #imgName p{
+
+    #imgName p {
         font-size: 40px;
         line-height: 10px;
         padding-left: 30px;
         margin: 30px 0;
 
     }
-    #point{
+
+    #point {
         display: flex;
         padding-top: 30px;
         margin-left: 50px;
     }
-    #totalPoint{
+
+    #totalPoint {
         font-size: 40px;
     }
-    #point span, #point em{
+
+    #point span, #point em {
         padding-top: 10px;
         padding-left: 10px;
     }
-    #point em{
+
+    #point em {
         color: deepskyblue;
         font-weight: 600;
     }
+
     #pointDiv {
         position: relative;
         height: 120px;
@@ -150,7 +158,7 @@
             border-color: #22C8F6 transparent transparent transparent;
         }*/
 
-    #top2{
+    #top2 {
         display: flex;
         width: 836px;
         height: 140px;
@@ -159,11 +167,13 @@
         border-bottom-right-radius: 20px;
         margin-bottom: 50px;
     }
-    .top2{
+
+    .top2 {
         width: 200px;
         padding: 10px 20px 0;
     }
-    .top2>a{
+
+    .top2 > a {
         display: block;
         text-align: center;
         color: #503396;
@@ -171,21 +181,25 @@
         padding-bottom: 10px;
         text-decoration: none;
     }
-    .top2>div{
+
+    .top2 > div {
         display: flex;
         margin-left: 10px;
     }
-    .top2 span{
+
+    .top2 span {
 
 
         width: 120px;
     }
-    .top2 em{
+
+    .top2 em {
         text-align: right;
         display: block;
         font-weight: 600;
     }
-    #myReserv{
+
+    #myReserv {
         display: flex;
         width: 840px;
         height: 140px;
@@ -193,62 +207,76 @@
         align-items: center;
         border-bottom: 1px solid #eeeeee;
     }
-    #myReserv>img{
+
+    #myReserv > img {
         width: 70px;
         height: 100px;
     }
-    #reservInfo p{
+
+    #reservInfo p {
         margin: 0 30px;
         width: 640px;
     }
-    #reservInfo em{
+
+    #reservInfo em {
         color: #01738b;
     }
-    #myReserv button{
+
+    #myReserv button {
         background-color: white;
         width: 74px;
         height: 32px;
     }
-    #h2{
+
+    #h2 {
         display: flex;
         align-items: center;
-        border-bottom:1px solid #666666;
+        border-bottom: 1px solid #666666;
         width: 840px;
     }
-    #h2 h2{
+
+    #h2 h2 {
         width: 760px;
     }
-    #h2 button{
-        height:32px ;
+
+    #h2 button {
+        height: 32px;
         width: 74px;
         border: none;
         background-color: white;
     }
-    .top2 span{
+
+    .top2 span {
         font-size: 14px;
     }
-    #total{
+
+    #total {
         display: none;
     }
-    .myPage-container{
+
+    .myPage-container {
         display: flex;
 
     }
-    #contents{
+
+    #contents {
         margin-left: auto;
         margin-right: auto;
         width: 1100px;
     }
+
     #main {
         margin: 50px 0 50px 50px;
     }
 
-    .notice{
+    .notice {
         width: 840px;
     }
-    .noticeboard{
+
+    .noticeboard {
         width: 100%;
     }
+
     .search-bar-container {
         display: flex;
         justify-content: space-between;
@@ -320,15 +348,15 @@
         vertical-align: middle;
     }
 
-    .notice h1{
+    .notice h1 {
         font-size: 30px;
     }
 
-    .noticeboard table{
-       width: 100%;
+    .noticeboard table {
+        width: 100%;
     }
 
-    .writeNotice{
+    .writeNotice {
         float: right;
         margin-top: 10px;
         text-align: center;
@@ -367,15 +395,17 @@
                         <div class="search-bar-container">
                             <div class="total-count">전체 ${requestScope.total}건</div>
                             <!-- 검색어 입력 섹션 -->
-                            <form method="post" action="UserController" class="search-bar">
-                                <input type="hidden" name="type" value="board"/>
+                            <form method="post" action="AdminController" class="search-bar">
+                                <input type="hidden" name="type" value="adBoard"/>
                                 <select id="region" name="region" onchange="updateTheaters()">
                                     <option value="">지역 선택</option>
                                     <option value="서울" ${param.region == '서울' ? 'selected' : ''}>서울</option>
                                     <option value="경기" ${param.region == '경기' ? 'selected' : ''}>경기</option>
                                     <option value="인천" ${param.region == '인천' ? 'selected' : ''}>인천</option>
-                                    <option value="대전/충청/세종" ${param.region == '대전/충청/세종' ? 'selected' : ''}>대전/충청/세종</option>
-                                    <option value="부산/대구/경상" ${param.region == '부산/대구/경상' ? 'selected' : ''}>부산/대구/경상</option>
+                                    <option value="대전/충청/세종" ${param.region == '대전/충청/세종' ? 'selected' : ''}>대전/충청/세종
+                                    </option>
+                                    <option value="부산/대구/경상" ${param.region == '부산/대구/경상' ? 'selected' : ''}>부산/대구/경상
+                                    </option>
                                     <option value="광주/전라" ${param.region == '광주/전라' ? 'selected' : ''}>광주/전라</option>
                                     <option value="강원" ${param.region == '강원' ? 'selected' : ''}>강원</option>
                                 </select>
@@ -383,7 +413,8 @@
                                     <option value="">극장 선택</option>
                                 </select>
                                 <div class="search-bar2">
-                                    <input type="text" name="keyword" placeholder="검색어를 입력해주세요." title="공지사항 검색" class="input-text" value="${param.keyword}"/>
+                                    <input type="text" name="keyword" placeholder="검색어를 입력해주세요." title="공지사항 검색"
+                                           class="input-text" value="${param.keyword}"/>
                                     <button class="btn">
                                         <i class="ico-search"></i>
                                         검색
@@ -432,22 +463,23 @@
                             </tbody>
                         </table>
 
-                        <button type="button" class="writeNotice">새글작성</button>
+                        <a href=""
+                        <button>글쓰기</button>
 
                         <!-- 페이지네이션 -->
                         <nav class="pagination">
                             <c:if test="${requestScope.page ne null}">
-                                <c:set var="pvo" value="${requestScope.page}" />
+                                <c:set var="pvo" value="${requestScope.page}"/>
 
                                 <!-- << (맨 처음으로) -->
                                 <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
-                                    <a href="AdminController?type=board&cPage=1&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                    <a href="AdminController?type=adBoard&cPage=1&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
                                        class="control first" title="처음 페이지">&laquo;</a>
                                 </c:if>
 
                                 <!-- < (이전 페이지 블록) -->
                                 <c:if test="${pvo.startPage > 1}">
-                                    <a href="AdminController?type=board&cPage=${pvo.startPage - pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                    <a href="AdminController?type=adBoard&cPage=${pvo.startPage - pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
                                        class="control prev" title="이전 블록">&lt;</a>
                                 </c:if>
 
@@ -457,10 +489,11 @@
                                         <strong class="active">${st.index}</strong>
                                     </c:if>
                                     <c:if test="${st.index ne pvo.nowPage}">
-                                        <a href="AdminController?type=board&cPage=${st.index}
+                                        <a href="AdminController?type=adBoard&cPage=${st.index}
                                 <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
                                 <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
-                                <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>" title="${st.index}페이지 보기">
+                                <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>"
+                                           title="${st.index}페이지 보기">
                                                 ${st.index}
                                         </a>
 
@@ -469,13 +502,13 @@
 
                                 <!-- > (다음 페이지 블록) -->
                                 <c:if test="${pvo.endPage < pvo.totalPage}">
-                                    <a href="AdminController?type=board&cPage=${pvo.startPage + pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                    <a href="AdminController?type=adBoard&cPage=${pvo.startPage + pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
                                        class="control next" title="다음 블록">&gt;</a>
                                 </c:if>
 
                                 <!-- >> (맨 마지막으로) -->
                                 <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
-                                    <a href="AdminController?type=board&cPage=${pvo.totalPage}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                    <a href="AdminController?type=adBoard&cPage=${pvo.totalPage}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
                                        class="control last" title="마지막 페이지">&raquo;</a>
                                 </c:if>
                             </c:if>
@@ -493,13 +526,13 @@
 <script>
     // 지역별 극장 목록
     const theatersByRegion = {
-        '서울' : ['강남', '센트럴', '코엑스', '홍대'],
-        '경기' : ['고양스타필드', '수원스타필드', '안성스타필드'],
-        '인천' : ['송도', '인천논현'],
-        '대전/충청/세종' : ['대전중앙로', '세종나성'],
-        '부산/대구/경상' : ['대구신세계', '해운대'],
-        '광주/전라' : ['광주하남', '전주혁신'],
-        '강원' : ['원주혁신']
+        '서울': ['강남', '센트럴', '코엑스', '홍대'],
+        '경기': ['고양스타필드', '수원스타필드', '안성스타필드'],
+        '인천': ['송도', '인천논현'],
+        '대전/충청/세종': ['대전중앙로', '세종나성'],
+        '부산/대구/경상': ['대구신세계', '해운대'],
+        '광주/전라': ['광주하남', '전주혁신'],
+        '강원': ['원주혁신']
     };
 
     function updateTheaters() {
@@ -526,7 +559,7 @@
     }
 
     // 페이지 로드 시 기존 선택 유지 (검색 후 값 유지)
-    window.onload = function() {
+    window.onload = function () {
         const selectedRegion = "${param.region}";
         const selectedTheater = "${param.theater}";
 
@@ -541,11 +574,11 @@
     };
 
     var total = ${requestScope.total};
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         if (total >= 13000 && total < 20000) {
             document.getElementById("vip-item").classList.add("active");
         }
-        if (total >=20000){
+        if (total >= 20000) {
             document.getElementById("vip-item").classList.add("active");
             document.getElementById("vvip-item").classList.add("active");
         }

@@ -62,7 +62,9 @@
 
     <!-- 기본키를 인자로 받아서 원하는 게시물 검색 -->
     <select id="getBoard" parameterType="String" resultType="mybatis.vo.BoardVO">
-        SELECT * FROM board
+        SELECT b.* , t.theaterName
+        FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
         WHERE boardIdx = #{idx} and boardStatus = 0
     </select>
 

@@ -269,49 +269,96 @@
         margin: 50px 0 50px 50px;
     }
 
-    .view {
+    .notice {
         width: 840px;
     }
 
-    .view h2 {
+    .noticeboard {
+        width: 100%;
+    }
+
+    .search-bar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-bar-container .total-count {
+        font-size: 16px;
+    }
+
+    .search-bar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search-bar select {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .search-bar2 {
+        border-bottom: 1px solid #423e3e;
+        display: inline-block;
+        position: relative;
+        width: 200px;
+        height: 30px;
+    }
+
+    .search-bar2 .input-text {
+        display: inline-block;
+        background-color: transparent;
+        border: 0;
+        color: #000;
+        line-height: 25px;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search-bar2 .input-text:active {
+        border: 0;
+        outline: none;
+    }
+
+    .search-bar2 .btn {
+        display: block;
+        width: 30px;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 0;
+        line-height: 0;
+        border: 0;
+        background-color: transparent;
+    }
+
+    .search-bar2 .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .search-bar2 .btn .ico-search {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+        vertical-align: middle;
+    }
+
+    .notice h1 {
         font-size: 30px;
     }
 
-    .view table {
+    .noticeboard table {
         width: 100%;
     }
 
-    .notice-title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        margin-top: 20px;
-    }
-
-    .notice-info {
-        font-size: 12px;
-        color: #888;
-        margin-bottom: 20px;
-    }
-
-    .notice-content {
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-        padding: 20px 0;
-        margin-bottom: 20px;
-    }
-
-    .navigation-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-    }
-
-    .btn-list {
-        display: block;
-        width: 100px;
-        margin: 20px auto;
-        padding: 10px;
+    .writeNotice {
+        float: right;
+        margin-top: 10px;
         text-align: center;
         color: #fff;
         background-color: #6a5acd;
@@ -319,6 +366,7 @@
         border-radius: 5px;
         font-size: 14px;
     }
+
 </style>
 
 <body>
@@ -338,83 +386,10 @@
             <%--  사이드바  --%>
             <jsp:include page="../common/adminSideBar.jsp"></jsp:include>
             <%--  메인  --%>
-
-
+                
             <div id="main">
-                <div class="view">
-                    <c:set var="board" value="${requestScope.board}"/>
-                    <c:set var="pboard" value="${requestScope.pboard}"/>
-                    <c:set var="nboard" value="${requestScope.nboard}"/>
-                    <h2>공지사항</h2>
-                    <h1 class="notice-title">${board.boardTitle}</h1>
-                    <div class="notice-info">
-                        <span>영화관: ${param.theater}</span> | <span>구분: 공지</span> |
-                        <span>등록일: ${board.boardRegDate}</span>
-                    </div>
-                    <div class="notice-content">
-                        ${board.boardContent}
-                    </div>
-                    <table class="navigation-table">
-                        <colgroup>
-                            <col width="20%">
-                            <col width="*">
-                        </colgroup>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <span>이전</span>
-                            </td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${not empty nboard}">
-                                        <a href="AdminController?type=adView&boardIdx=${nboard.boardIdx}
-                        <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
-                        <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
-                        <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>">
-                                                ${nboard.boardTitle}</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        이전 글이 없습니다.
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span>다음</span>
-                            </td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${not empty pboard}">
-                                        <a href="AdminController?type=adView&boardIdx=${pboard.boardIdx}
-                            <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
-                            <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
-                            <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>">
-                                                ${pboard.boardTitle}</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        다음 글이 없습니다.
-                                    </c:otherwise>
-                                </c:choose>
 
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <form action="AdminController" method="get">
-                        <input type="hidden" name="type" value="adBoard"/>
-                        <c:if test='${not empty param.keyword}'>
-                            <input type="hidden" name="keyword" value="${param.keyword}"/>
-                        </c:if>
-                        <c:if test='${not empty param.region}'>
-                            <input type="hidden" name="region" value="${param.region}"/>
-                        </c:if>
-                        <c:if test='${not empty param.theater}'>
-                            <input type="hidden" name="theater" value="${param.theater}"/>
-                        </c:if>
-                        <button type="submit" class="btn-list">목록</button>
-                    </form>
-                </div>
+
             </div>
         </div>
     </div>
