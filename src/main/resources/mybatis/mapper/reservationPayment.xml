@@ -14,4 +14,112 @@
     AND c.couponType = 1
   </select>
 
+  <!-- 예약 정보 INSERT (customReservationIdx 포함) -->
+  <insert id="insertReservation" parameterType="mybatis.vo.ReservationTableVO" useGeneratedKeys="true" keyProperty="reservationIdx">
+    INSERT INTO reservation (userIdx, theaterIdx, screenIdx, timetableIdx, reservationDate, reservationStatus, customReservationIdx)
+    VALUES (#{userIdx}, #{theaterIdx}, #{screenIdx}, #{timetableIdx}, NOW(), #{reservationStatus},
+    CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(LAST_INSERT_ID() + 1, 4, '0')))
+  </insert>
+
+  <!-- 방금 INSERT한 예약 정보 가져오기 -->
+  <select id="getInsertedReservation" parameterType="string" resultType="mybatis.vo.ReservationTableVO">
+    SELECT reservationIdx, customReservationIdx FROM reservation WHERE reservationIdx = #{reservationIdx}
+  </select>
+
+  <!-- seatStatus 결제 대기를 결제 완료로 변경 -->
+  <update id="updateSeatStatus">
+    UPDATE seatStatus
+    SET seatStatus = 1, reservedTime = NOW()
+    WHERE seatStatus = 2
+    AND timetableIdx = #{timetableIdx}
+    AND seatIdx IN
+    <foreach item="seatIdx" collection="seatIdxList" open="(" separator="," close=")">
+      #{seatIdx}
+    </foreach>
+  </update>
+
+  <!-- 변경된 seatStatusIdx 가져오기 -->
+  <select id="getUpdatedSeatStatusIdx" resultType="String">
+    SELECT seatStatusIdx FROM seatStatus
+    WHERE timetableIdx = #{timetableIdx}
+    AND seatIdx IN
+    <foreach item="seatIdx" collection="seatIdxList" open="(" separator="," close=")">
+      #{seatIdx}
+    </foreach>
+    AND seatStatus = 1
+  </select>
+
+  <!-- 예약 좌석 매핑 INSERT -->
+  <insert id="insertReservationSeats">
+    INSERT INTO reservationSeatMapping (reservationIdx, priceIdx, seatStatusIdx)
+    VALUES
+    <foreach item="item" collection="seatMappings" separator=",">
+      (#{item.reservationIdx}, #{item.priceIdx}, #{item.seatStatusIdx})
+    </foreach>
+  </insert>
+
+  <!-- 결제 내역 INSERT -->
+  <insert id="insertPayment" parameterType="mybatis.vo.ReservationPaymentVO" useGeneratedKeys="true" keyProperty="paymentIdx">
+    INSERT INTO payment (
+    userIdx,
+    paymentType,
+    reservationIdx,
+    paymentMethod,
+    paymentTotal,
+    paymentDiscount,
+    paymentFinal,
+    paymentTransactionId,
+    paymentDate,
+    paymentStatus
+    )
+    VALUES (
+    #{userIdx},
+    1,
+    #{reservationIdx},
+    #{paymentMethod},
+    #{paymentTotal},
+    <if test="paymentDiscount != null">
+      #{paymentDiscount}
+    </if>
+    <if test="paymentDiscount == null">
+      NULL
+    </if>,
+    #{paymentFinal},
+    #{paymentTransactionId},
+    NOW(),
+    #{paymentStatus}
+    )
+  </insert>
+
+  <!-- 결제 후 포인트 차감 및 기록 -->
+  <update id="updateUserPoint" parameterType="map">
+    UPDATE user
+    SET userPoint = userPoint - #{pointDiscount}
+    WHERE userIdx = #{userIdx}
+  </update>
+
+  <!-- 포인트 사용 기록 추가 -->
+  <insert id="insertPointUsage" parameterType="mybatis.vo.PointVO">
+    INSERT INTO point (
+    userIdx,
+    paymentIdx,
+    reviewIdx,
+    pointType,
+    pointSource,
+    pointValue,
+    pointDate,
+    pointStatus
+    ) VALUES (
+    #{userIdx},
+    #{paymentIdx},
+    NULL,
+    1,  <!-- 1: 포인트 사용 -->
+    'PAYMENT',
+    #{pointDiscount},
+    NOW(),
+    0
+    )
+  </insert>
+
+
 </mapper>

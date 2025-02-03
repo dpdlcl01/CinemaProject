@@ -154,6 +154,8 @@
     session.setAttribute("totalAmount", request.getParameter("totalAmount"));
     session.setAttribute("discountAmount", request.getParameter("discountAmount"));
     session.setAttribute("finalAmount", request.getParameter("finalAmount"));
+    session.setAttribute("adultPriceIdx", request.getParameter("adultPriceIdx"));
+    session.setAttribute("studentPriceIdx", request.getParameter("studentPriceIdx"));
 %>
 
 <script src="https://js.tosspayments.com/v1"></script>
@@ -230,20 +232,6 @@
       }
 
       const tossPayments = TossPayments("test_ck_AQ92ymxN34Zmb2DLJyJOrajRKXvd");
-
-      let successUrl = "http://localhost:8081/UserController?type=reservationPaymentSuccess"
-          + "&theaterIdx=${theaterIdx}"
-          + "&timetableIdx=${timetableIdx}"
-          + "&screenIdx=${screenIdx}"
-          + "&adultCount=${adultCount}"
-          + "&studentCount=${studentCount}"
-          + "&adultPriceIdx=${adultPriceIdx}"
-          + "&studentPriceIdx=${studentPriceIdx}"
-          + "&paymentTotal=" + totalAmount
-          + "&paymentDiscount=" + (discountValue + pointDiscount)
-          + "&paymentFinal=" + finalPaymentAmount;
-
-
 
       tossPayments.requestPayment("카드", {
         amount: finalPaymentAmount,

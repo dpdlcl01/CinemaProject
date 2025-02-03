@@ -48,11 +48,11 @@
     JOIN
     reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
     JOIN
-    seatStatus ss ON rsm.seatStatusIdx = ss.seatStatusIdx -- seatStatus 테이블과 조인
+    seatStatus ss ON rsm.seatStatusIdx = ss.seatStatusIdx
     JOIN
-    seat s ON ss.seatIdx = s.seatIdx -- seatIdx 가져오기
+    seat s ON ss.seatIdx = s.seatIdx
     JOIN
-    price p ON rsm.priceIdx = p.priceIdx  -- 가격 테이블 조인 (연령 정보 가져오기)
+    price p ON rsm.priceIdx = p.priceIdx
     WHERE
     r.userIdx = #{userIdx} AND r.reservationStatus = 0
   </select>

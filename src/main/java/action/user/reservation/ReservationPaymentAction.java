@@ -1,15 +1,28 @@
 package action.user.reservation;
 
 import action.Action;
+import mybatis.dao.ReservationPaymentDAO;
+import mybatis.vo.PaymentVO;
+import mybatis.vo.ReservationPaymentVO;
+import mybatis.vo.ReservationTableVO;
 import mybatis.vo.UserVO;
+import org.json.JSONObject;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
 
 public class ReservationPaymentAction implements Action {
+
+  private static final String SECRET_KEY = "test_sk_6bJXmgo28eNZ2KNapENX3LAnGKWx"; // Toss Secret Key
 
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -22,29 +35,178 @@ public class ReservationPaymentAction implements Action {
 
     HttpSession session = request.getSession();
 
+    String paymentKey = request.getParameter("paymentKey");
+    String orderId = request.getParameter("orderId");
+    String amount = request.getParameter("amount");
+
     String paymentTotal = request.getParameter("paymentTotal");
     String paymentDiscount = request.getParameter("paymentDiscount");
     String pointDiscount = request.getParameter("pointDiscount");
     String paymentFinal = request.getParameter("paymentFinal");
     String couponIdx = request.getParameter("couponIdx");
 
-    System.out.println("paymentTotal:" + paymentTotal);
-    System.out.println("paymentDiscount:" + paymentDiscount);
-    System.out.println("pointDiscount:" + pointDiscount);
-    System.out.println("paymentFinal:" + paymentFinal);
-    System.out.println("couponIdx:" + couponIdx);
+    String[] seatIdxList = (String[]) session.getAttribute("seatIdxList");
+    String theaterIdx = (String) session.getAttribute("theaterIdx");
+    String timetableIdx = (String) session.getAttribute("timetableIdx");
+    String screenIdx = (String) session.getAttribute("screenIdx");
+    String adultCountStr = (String) session.getAttribute("adultCount");
+    String studentCountStr = (String) session.getAttribute("studentCount");
+    String adultPriceIdx = (String) session.getAttribute("adultPriceIdx");
+    String studentPriceIdx = (String) session.getAttribute("studentPriceIdx");
 
-    // 콘솔에 출력
-    System.out.println("=== [JSP] 세션 저장된 값 확인 ===");
-    System.out.println("좌석배열" + session.getAttribute("seatIdxList"));
-    System.out.println("극장 ID: " + session.getAttribute("theaterIdx"));
-    System.out.println("상영 시간표 ID: " + session.getAttribute("timetableIdx"));
-    System.out.println("스크린 번호: " + session.getAttribute("screenIdx"));
-    System.out.println("성인 수: " + session.getAttribute("adultCount"));
-    System.out.println("청소년 수: " + session.getAttribute("studentCount"));
-    System.out.println("================================");
+    if (paymentKey == null || orderId == null || amount == null) {
+      System.out.println("[오류] 요청 파라미터 부족");
+      response.sendRedirect("./jsp/user/reservation/reservationPaymentFail.jsp");
+      return null;
+    }
+
+    // Toss 결제 승인 요청
+    JSONObject confirmResponse = confirmPayment(paymentKey, orderId, amount);
+    System.out.println("[결제 승인 응답] " + confirmResponse.toString());
+
+    if (confirmResponse.has("error")) {
+      response.sendRedirect("./jsp/user/reservation/reservationPaymentFail.jsp");
+      return null;
+    }
+
+    // 결제 상태 확인
+    String status = confirmResponse.getString("status");
+    String pstatus = status.equals("DONE") ? "0" : "1";
+
+    // 예약 테이블 insert
+    String userIdx = uservo.getUserIdx();
+
+    String reservationStatus = "0"; // 기본값
+
+    ReservationTableVO reservation = new ReservationTableVO();
+    reservation.setUserIdx(userIdx);
+    reservation.setTheaterIdx(theaterIdx);
+    reservation.setScreenIdx(screenIdx);
+    reservation.setTimetableIdx(timetableIdx);
+    reservation.setReservationStatus(reservationStatus);
+
+    ReservationTableVO reservationTableVO = ReservationPaymentDAO.insertReservation(reservation);
+    String reservationIdx = reservationTableVO.getReservationIdx();
+    System.out.println("reservationIdx:" + reservationIdx);
+
+    if (timetableIdx != null && seatIdxList != null) {
+      // 좌석 상태 업데이트
+      boolean seatUpdated = ReservationPaymentDAO.updateSeatStatus(timetableIdx, seatIdxList);
+
+      if (seatUpdated) {
+        // 방금 변경된 seatStatusIdx 가져오기
+        String[] updatedSeatStatusIdxList = ReservationPaymentDAO.getUpdatedSeatStatusIdx(timetableIdx, seatIdxList);
+        System.out.println("updatedSeatStatusIdxList:" + updatedSeatStatusIdxList.length);
+
+        if (updatedSeatStatusIdxList.length > 0) {
+          int adultCount = Integer.parseInt(adultCountStr);
+          int studentCount = Integer.parseInt(studentCountStr);
+
+          // 예약 좌석 매핑 테이블에 insert
+          boolean mappingInsert = ReservationPaymentDAO.insertReservationSeatMapping(reservationIdx, seatIdxList, updatedSeatStatusIdxList, adultCount, studentCount, adultPriceIdx, studentPriceIdx);
+        }
+      }
+    } else {
+      System.out.println("좌석리스트 또는 타임테이블 존재하지 않음");
+    }
+
+    // NULL 또는 0이면 기본값 처리
+    if (paymentDiscount == null || paymentDiscount.trim().isEmpty() || "0".equals(paymentDiscount)) {
+      paymentDiscount = "0";
+    }
+    if (pointDiscount == null || pointDiscount.trim().isEmpty() || "0".equals(pointDiscount)) {
+      pointDiscount = "0";
+    }
+
+    String paymentStatus = "0";
+
+    // 결제 정보 저장 (결제 테이블에 insert)
+    ReservationPaymentVO reservationPaymentVO = new ReservationPaymentVO();
+
+    reservationPaymentVO.setUserIdx(userIdx);
+    reservationPaymentVO.setReservationIdx(reservationIdx);
+    reservationPaymentVO.setPaymentMethod(confirmResponse.getString("method"));
+    reservationPaymentVO.setPaymentTotal(paymentTotal);
+    reservationPaymentVO.setPaymentDiscount(paymentDiscount + pointDiscount);
+    reservationPaymentVO.setPaymentFinal(paymentFinal);
+    reservationPaymentVO.setPaymentTransactionId(orderId);
+    reservationPaymentVO.setPaymentStatus(paymentStatus);
+
+    boolean paymentSaved = ReservationPaymentDAO.insertPayment(reservationPaymentVO, paymentDiscount);
+
+    String paymentIdx = reservationPaymentVO.getPaymentIdx();
+
+
+    // JSP에 결제 정보 전달
 
 
     return "./jsp/user/reservation/reservationPaymentSuccess.jsp";
+  }
+
+  /**
+   * Toss 결제 확정(Confirm API) 호출
+   */
+  private JSONObject confirmPayment(String paymentKey, String orderId, String amount) {
+    try {
+      URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("POST");
+      conn.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
+      conn.setRequestProperty("Content-Type", "application/json");
+      conn.setDoOutput(true);
+
+      // 요청 바디 생성
+      JSONObject requestBody = new JSONObject();
+      requestBody.put("paymentKey", paymentKey);
+      requestBody.put("orderId", orderId);
+      requestBody.put("amount", Integer.parseInt(amount));
+
+      // 요청 전송
+      try (OutputStream os = conn.getOutputStream()) {
+        os.write(requestBody.toString().getBytes("utf-8"));
+      }
+
+      // 응답 코드 확인
+      int responseCode = conn.getResponseCode();
+      if (responseCode == 200) {
+        JSONObject jsonResponse = getJsonResponse(conn);
+        System.out.println("[결제 승인 응답] " + jsonResponse.toString());
+
+        return jsonResponse;
+      } else {
+        return getJsonErrorResponse(conn);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new JSONObject().put("error", "서버 오류 발생");
+    }
+  }
+
+  /**
+   * API 응답을 JSON 객체로 변환하는 공통 메서드
+   */
+  private JSONObject getJsonResponse(HttpURLConnection conn) throws IOException {
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+      StringBuilder response = new StringBuilder();
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+      }
+      return new JSONObject(response.toString());
+    }
+  }
+
+  /**
+   * API 오류 응답을 JSON 객체로 변환하는 공통 메서드
+   */
+  private JSONObject getJsonErrorResponse(HttpURLConnection conn) throws IOException {
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"))) {
+      StringBuilder errorResponse = new StringBuilder();
+      String inputLine;
+      while ((inputLine = in.readLine()) != null) {
+        errorResponse.append(inputLine);
+      }
+      return new JSONObject(errorResponse.toString());
+    }
   }
 }
