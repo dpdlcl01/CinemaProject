@@ -124,7 +124,7 @@ public class AdminController extends HttpServlet {
 
         // 만약! type이 null이면 기본객체(DateAction)을 지정한다.
         if(type == null)
-            type = "main";
+            type = "admin";
 
         // type으로 받은 값이 actionMap의 key로 사용되고 있으며
         // actionMap으로부터 원하는 객체를 얻도록 한다.
@@ -143,7 +143,7 @@ public class AdminController extends HttpServlet {
 
         // 비 AJAX 요청에 대한 기존 처리
         if (viewPath == null) {
-            response.sendRedirect("AdminController?type=main");
+            response.sendRedirect("AdminController?type=admin");
         } else {
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);
             disp.forward(request, response);

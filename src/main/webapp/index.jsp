@@ -76,7 +76,7 @@
     <a href="${pageContext.request.contextPath}/AdminController">Go to AdminController</a><br/><br/>
     <a href="${pageContext.request.contextPath}/AdminController?type=dbMovie">영화 API 연결 확인</a>
     <a href="${pageContext.request.contextPath}/AdminController?type=dbUpdate">영화 API 업데이트 확인</a>
-    <a href="${pageContext.request.contextPath}/AdminController?type=timetable">현재 예매순위 바탕으로 일주일 후 2일치 상영시간표 생성</a>
+    <a href="${pageContext.request.contextPath}/AdminController?type=adminLogin">관리자 로그인</a>
 </main>
 
 <footer>

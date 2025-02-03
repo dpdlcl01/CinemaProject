@@ -257,14 +257,11 @@
         <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
             <!-- 홍길동 관리자님 위치 -->
             <div class="location" style="flex-grow: 1;">
-                <span>홍길동 관리자님</span>
+                <span>${sessionScope.adminvo.adminId } 관리자님</span>
             </div>
-            <!-- 로그인/로그아웃 버튼 -->
+            <!-- 로그아웃 버튼 -->
             <div style="display: flex; gap: 10px; flex-shrink: 0;">
-                <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그인
-                </a>
-                <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
+                <a href="${pageContext.request.contextPath}/AdminController?type=adminLogout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
                     로그아웃
                 </a>
                 <a href="${pageContext.request.contextPath}/UserController?type=main" title="사용자 화면" style="text-decoration: none; color: black; font-weight: 600;">
@@ -313,10 +310,6 @@
 
       </div>
 
-
-
-
-
     </div>
   </div>
 </div>
@@ -324,18 +317,5 @@
 
 <%--<jsp:include page="../../user/common/footer.jsp"/>--%>
 
-<script>
-  var total = ${requestScope.total};
-  document.addEventListener("DOMContentLoaded", function() {
-    if (total >= 13000 && total < 20000) {
-      document.getElementById("vip-item").classList.add("active");
-    }
-    if (total >=20000){
-      document.getElementById("vip-item").classList.add("active");
-      document.getElementById("vvip-item").classList.add("active");
-    }
-  });
-
-</script>
 </body>
 </html>
