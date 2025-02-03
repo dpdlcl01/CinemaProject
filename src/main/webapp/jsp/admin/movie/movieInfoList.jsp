@@ -51,6 +51,13 @@
         display: block;
     }
 
+    /* form 내의 요소들을 나란히 배치 */
+    #searchForm {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* 간격 설정 */
+    }
+
     .search-bar-container {
         display: flex;
         justify-content: space-between;
@@ -337,26 +344,30 @@
                     <div class="total-count">전체 ${requestScope.totalCount}건</div>
                     <!-- 검색어 입력 섹션 -->
                     <div class="search-bar">
-                        <select>
+                        <%--<select>
                             <option>지역 선택</option>
                             <option>서울</option>
                             <option>경기</option>
                             <option>인천</option>
                             <option>부산</option>
-                        </select>
-                        <select>
-                            <option>극장 선택</option>
-                            <option>코엑스</option>
-                            <option>미사강변</option>
-                            <option>안성스타필드</option>
-                        </select>
-                        <div class="search-bar2">
-                            <input type="text" placeholder="검색어를 입력해주세요." title="영화 검색" class="input-text">
-                            <button class="btn">
-                                <i class="ico-search"></i>
-                                검색
-                            </button>
-                        </div>
+                        </select>--%>
+                        <form id="searchForm" action="AdminController" method="get">
+                            <input type="hidden" name="type" value="movieInfoList" />
+                            <select id="searchType" name="searchType">
+                                <option value="-1">::선택::</option>
+                                <option value="0">제목</option>
+                                <option value="1">장르</option>
+                                <option value="2">감독</option>
+                                <option value="3">배우</option>
+                                <option value="4">정보</option>
+                            </select>
+                            <div class="search-bar2">
+                                <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." class="input-text" />
+                                <button type="submit" class="btn">
+                                    <i class="ico-search"></i> 검색
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -425,13 +436,15 @@
                         <c:set var="pvo" value="${requestScope.page}" />
 
                         <!-- << (맨 처음으로) -->
-                        <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
-                            <a href="AdminController?type=movieInfoList&cPage=1" class="control first" title="처음 페이지"></a>
+                        <c:if test="${pvo.startPage > 1}">
+                            <a href="AdminController?type=movieInfoList&cPage=1&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                               class="control first" title="처음 페이지"></a>
                         </c:if>
 
                         <!-- < (이전 페이지 블록) -->
                         <c:if test="${pvo.startPage > 1}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록"></a>
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                               class="control prev" title="이전 블록"></a>
                         </c:if>
 
                         <!-- 페이지 번호 -->
@@ -440,18 +453,21 @@
                                 <strong class="active">${st.index}</strong>
                             </c:if>
                             <c:if test="${st.index ne pvo.nowPage}">
-                                <a href="AdminController?type=movieInfoList&cPage=${st.index}" title="${st.index}페이지 보기">${st.index}</a>
+                                <a href="AdminController?type=movieInfoList&cPage=${st.index}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                                   title="${st.index}페이지 보기">${st.index}</a>
                             </c:if>
                         </c:forEach>
 
                         <!-- > (다음 페이지 블록) -->
                         <c:if test="${pvo.endPage < pvo.totalPage}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록"></a>
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                               class="control next" title="다음 블록"></a>
                         </c:if>
 
                         <!-- >> (맨 마지막으로) -->
-                        <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지"></a>
+                        <c:if test="${pvo.endPage < pvo.totalPage}">
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                               class="control last" title="마지막 페이지"></a>
                         </c:if>
                     </c:if>
                 </nav>

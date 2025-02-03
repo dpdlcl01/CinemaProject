@@ -27,8 +27,16 @@ public class MovieInfoListAction implements Action {
         // 페이징 처리를 위한 객체생성
         Paging page = new Paging(10, 10);
 
+
+        // 검색 기준, 검색어를 파라미터로 받기
+        String searchType = request.getParameter("searchType");
+        String searchValue = request.getParameter("searchValue");
+
         // 총 게시물의 수를 구한다.
-        int totalCount = MovieDAO.adminMovieCount();
+        int totalCount = MovieDAO.adminMovieCount(searchType, searchValue);
+
+
+
         // 페이징 객체안에 총 게시물의 수를 저장하면서 전체페이지 수를 구한다.
         page.setTotalRecord(totalCount);// 이때 전체페이지수(totalPage)가 구해진다.
 
@@ -44,16 +52,14 @@ public class MovieInfoListAction implements Action {
             // 더불어 시작페이지와 끝페이지 값도 구해진다.
         }
 
-
         // DB에서 원하는 자원들을 가져와야 한다.
-        MovieVO[] movieArray = MovieDAO.adminMovieList(page.getBegin(), page.getEnd());
+        MovieVO[] movieArray = MovieDAO.adminMovieList(searchType, searchValue, page.getBegin(), page.getEnd());
 
         // request에 저장해야 한다.
         request.setAttribute("totalCount", totalCount);
         request.setAttribute("movieArray", movieArray);
         request.setAttribute("page", page);
         request.setAttribute("cPage", cPage);
-
 
         return "/jsp/admin/movie/movieInfoList.jsp";
     }

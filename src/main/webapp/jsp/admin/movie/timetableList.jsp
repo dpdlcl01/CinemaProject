@@ -327,7 +327,7 @@
                             <c:set var="pvo" value="${requestScope.page}" />
 
                             <!-- << (맨 처음으로) -->
-                            <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
+                            <c:if test="${pvo.nowPage > 1}">
                                 <a href="AdminController?type=timetableList&cPage=1" class="control first" title="처음 페이지"></a>
                             </c:if>
 
@@ -348,11 +348,11 @@
 
                             <!-- > (다음 페이지 블록) -->
                             <c:if test="${pvo.endPage < pvo.totalPage}">
-                                <a href="AdminController?type=timetableList&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록"></a>
+                                <a href="AdminController?type=timetableList&cPage=${pvo.endPage + 1}" class="control next" title="다음 블록"></a>
                             </c:if>
 
                             <!-- >> (맨 마지막으로) -->
-                            <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
+                            <c:if test="${pvo.nowPage < pvo.totalPage}">
                                 <a href="AdminController?type=timetableList&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지"></a>
                             </c:if>
                         </c:if>

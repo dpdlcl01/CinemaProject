@@ -167,21 +167,27 @@ public class MovieDAO {
     // ----------------------------------------------------- 관리자 ----------------------------------------------
 
 
-    // 관리자 화면에서 전체 영화 개수 반환
-    public static int adminMovieCount() {
+    // 관리자 화면에서 전체 영화 개수 반환 (검색 기준과 검색어를 파라미터로 받는다)
+    public static int adminMovieCount(String searchType, String searchValue) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("searchValue", searchValue);
+
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.selectOne("movie.adminMovieCount");
+        int cnt = ss.selectOne("movie.adminMovieCount", map);
         ss.close();
 
         return cnt;
     }
 
     // 목록 (관리자 화면에서 영화 목록 보기)
-    public static MovieVO[] adminMovieList(int begin, int end) {
+    public static MovieVO[] adminMovieList(String searchType, String searchValue, int begin, int end) {
         MovieVO[] movieArray = null;
 
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("begin", begin);// String.valueOf(begin)
+        map.put("searchType", searchType);
+        map.put("searchValue", searchValue);
+        map.put("begin", begin);
         map.put("end", end);
 
         SqlSession ss = FactoryService.getFactory().openSession();

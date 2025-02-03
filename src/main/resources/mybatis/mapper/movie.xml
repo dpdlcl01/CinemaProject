@@ -107,18 +107,60 @@
     </select>
 
 
-    <!-- 관리자 화면의 조건 없이 모든 영화 개수 반환 -->
-    <select id="adminMovieCount" resultType="int">
+    <!-- 관리자 화면의 영화 개수 반환 (동적 쿼리) -->
+    <select id="adminMovieCount" resultType="int" parameterType="java.util.Map">
         SELECT COUNT(*)
         FROM movie
+        <if test="searchType != null and searchType >= 0">
+            <trim prefix="WHERE">
+                <choose>
+                    <when test="searchType == 0">
+                        movieTitle LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 1">
+                        movieGenre LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 2">
+                        movieDirector LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 3">
+                        movieActors LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 4">
+                        movieInfo LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                </choose>
+            </trim>
+        </if>
     </select>
 
 
-    <!--  관리자 화면의 모든 영화 목록 표현 -->
-    <select id="adminMovieList" resultType="mybatis.vo.MovieVO" parameterType="Map">
+    <!--  관리자 화면의 영화 목록 표현 (동적 쿼리) -->
+    <select id="adminMovieList" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
         SELECT * FROM(
         SELECT @RN:=@RN+1 AS rnum, a.* FROM(
         SELECT * FROM movie
+        <if test="searchType != null and searchType >= 0">
+            <trim prefix="WHERE">
+                <choose>
+                    <when test="searchType == 0">
+                        movieTitle LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 1">
+                        movieGenre LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 2">
+                        movieDirector LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 3">
+                        movieActors LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 4">
+                        movieInfo LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                </choose>
+            </trim>
+        </if>
         ORDER BY movieReservationRate DESC
         ) a, (SELECT @RN:=0) b
         ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
