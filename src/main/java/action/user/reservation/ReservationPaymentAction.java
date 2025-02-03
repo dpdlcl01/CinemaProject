@@ -2,10 +2,7 @@ package action.user.reservation;
 
 import action.Action;
 import mybatis.dao.ReservationPaymentDAO;
-import mybatis.vo.PaymentVO;
-import mybatis.vo.ReservationPaymentVO;
-import mybatis.vo.ReservationTableVO;
-import mybatis.vo.UserVO;
+import mybatis.vo.*;
 import org.json.JSONObject;
 import util.SessionUtil;
 
@@ -136,6 +133,33 @@ public class ReservationPaymentAction implements Action {
 
     String paymentIdx = reservationPaymentVO.getPaymentIdx();
 
+    // 포인트 사용시 감소, 사용내역 추가
+    if (Integer.parseInt(pointDiscount) > 0) {
+      System.out.println("포인트 사용 ! pointDiscount:" + pointDiscount);
+
+      int pointCount = Integer.parseInt(pointDiscount);
+      System.out.println("pointCount:" + pointCount);
+
+      // 유저 포인트 감소
+      boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointCount);
+      System.out.println("pointUpdated:" + pointUpdated);
+
+      if (pointUpdated) {
+        ReservationPointVO reservationPointVO = new ReservationPointVO();
+        reservationPointVO.setUserIdx(userIdx);
+        reservationPointVO.setPaymentIdx(paymentIdx);
+        reservationPointVO.setPointValue(pointDiscount);
+
+        ReservationPaymentDAO.insertPointUsage(reservationPointVO);
+        System.out.println(reservationPointVO.getPointIdx());
+      }
+    }
+
+    if (couponIdx != null && !couponIdx.trim().isEmpty() && !"0".equals(couponIdx)) {
+      // 쿠폰 상태 업데이트 실행
+      boolean couponUpdated = ReservationPaymentDAO.updateCouponStatus(couponIdx, userIdx);
+      System.out.println("couponUpdated:" + couponUpdated);
+    }
 
     // JSP에 결제 정보 전달
 

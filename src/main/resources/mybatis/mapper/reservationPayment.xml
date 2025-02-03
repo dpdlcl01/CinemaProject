@@ -99,7 +99,7 @@
   </update>
 
   <!-- 포인트 사용 기록 추가 -->
-  <insert id="insertPointUsage" parameterType="mybatis.vo.PointVO">
+  <insert id="insertPointUsage" parameterType="mybatis.vo.ReservationPointVO">
     INSERT INTO point (
     userIdx,
     paymentIdx,
@@ -115,11 +115,18 @@
     NULL,
     1,  <!-- 1: 포인트 사용 -->
     'PAYMENT',
-    #{pointDiscount},
+    #{pointValue},
     NOW(),
     0
     )
   </insert>
+
+  <!-- 쿠폰 사용시 쿠폰 status 1로 변경 -->
+  <update id="updateCouponStatus" parameterType="map">
+    UPDATE couponUserMapping
+    SET couponUserStatus = 1, couponUserDate = NOW()
+    WHERE couponIdx = #{couponIdx} AND userIdx = #{userIdx}
+  </update>
 
 
 </mapper>

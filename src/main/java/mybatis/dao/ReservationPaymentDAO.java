@@ -144,12 +144,12 @@ public class ReservationPaymentDAO {
   }
 
   // 유저 테이블 포인트 차감
-  public static boolean updateUserPointUsage(String userIdx, String pointDiscount) {
+  public static boolean updateUserPointUsage(String userIdx, int pointDiscount) {
     SqlSession ss = FactoryService.getFactory().openSession();
 
     try {
       Map<String, Object> params = new HashMap<>();
-      params.put("pointDiscount", pointDiscount);
+      params.put("pointValue", pointDiscount);
       params.put("userIdx", userIdx);
 
       int result = ss.update("reservationPayment.updateUserPoint", params);
@@ -170,6 +170,26 @@ public class ReservationPaymentDAO {
 
     try {
       int result = ss.insert("reservationPayment.insertPointUsage", point);
+      ss.commit();
+      return result > 0;
+    } catch (Exception e) {
+      e.printStackTrace();
+      ss.rollback();
+      return false;
+    } finally {
+      ss.close();
+    }
+  }
+
+  // 쿠폰 사용시 쿠폰 stauts = 1 로 변경
+  public static boolean updateCouponStatus(String couponIdx, String userIdx) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    try {
+      Map<String, Object> params = new HashMap<>();
+      params.put("couponIdx", couponIdx);
+      params.put("userIdx", userIdx);
+      int result = ss.update("reservationPayment.updateCouponStatus", params);
       ss.commit();
       return result > 0;
     } catch (Exception e) {
