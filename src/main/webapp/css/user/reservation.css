@@ -138,8 +138,20 @@
     font-size: 0.9em;
 }
 .selected {
-    background-color: #999999; /* 선택된 항목의 배경색 */
+    background-color: #666666; /* 선택된 항목의 배경색 */
     font-weight: bold; /* 글자 굵게 */
+}
+
+li.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
+}
+
+.disabled {
+    color: gray;
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 /* 모달 */

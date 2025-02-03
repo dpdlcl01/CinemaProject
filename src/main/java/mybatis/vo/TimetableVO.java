@@ -4,6 +4,9 @@ public class TimetableVO {
     private String timetableIdx, movieIdx, theaterIdx, screenIdx,
             timetableStartTime, timetableEndTime, screenName, screenType, screenSeatCount, seatStatus, availableSeats;
 
+    // 타임테이블, 극장 테이블 조인해서 필요한 값
+    private String theaterName, theaterRegion;
+
     public String getAvailableSeats() { return availableSeats; }
 
     public void setAvailableSeats(String availableSeats) { this.availableSeats = availableSeats; }
@@ -76,5 +79,21 @@ public class TimetableVO {
 
     public void setTimetableEndTime(String timetableEndTime) {
         this.timetableEndTime = timetableEndTime;
+    }
+
+    public String getTheaterName() {
+        return theaterName;
+    }
+
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
+    }
+
+    public String getTheaterRegion() {
+        return theaterRegion;
+    }
+
+    public void setTheaterRegion(String theaterRegion) {
+        this.theaterRegion = theaterRegion;
     }
 }

@@ -19,7 +19,6 @@ public class TheaterDAO {
         List<TheaterVO> list = ss.selectList("theater.getTheaterInfo");
         TheaterVO[] theaterVO = new TheaterVO[list.size()];
         list.toArray(theaterVO);
-//        System.out.println(theaterVO.length);
         ss.close();
 
         return theaterVO;
@@ -56,7 +55,6 @@ public class TheaterDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
 
         List<PriceVO> list = ss.selectList("theater.getPrice");
-
 
         PriceVO[] priceVO = new PriceVO[list.size()];
         list.toArray(priceVO);

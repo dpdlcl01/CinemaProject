@@ -13,6 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/seat.css">
 <body>
+<div id="modalOverlay" class="modal-overlay"></div>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>
 <div class="page-util">
@@ -579,33 +580,60 @@
   const modalCancelButton = seatCancelModal.querySelector('.lyclose');
   const modalConfirmButton = seatCancelModal.querySelector('.confirm');
 
-  // 모달 보이기/숨기기 함수
-  function showSeatCancelModal() {
-    seatCancelModal.style.display = 'block';
-  }
-
-  function hideSeatCancelModal() {
-    seatCancelModal.style.display = 'none';
-  }
-
   // 두 번째 모달, 좌석 초과 모달 요소 가져오기
   const seatLimitModal = document.getElementById('seatLimitModal');
-  const seatLimitMessage = document.getElementById('seatLimitMessage');
   const closeSeatLimitModal = document.getElementById('closeSeatLimitModal');
+  const modalOverlay = document.getElementById("modalOverlay"); // 오버레이 요소 가져오기
+
+  // 모달 보이기 / 숨기기 함수
+  function showModal(modal) {
+    modal.style.display = "block";
+    modalOverlay.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideModal(modal) {
+    modal.style.display = "none";
+    modalOverlay.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  // 좌석 선택 취소 모달 보이기
+  function showSeatCancelModal() {
+    showModal(seatCancelModal);
+  }
 
   // 좌석 초과 모달 보이기 함수
   function showSeatLimitModal(message) {
-    seatLimitMessage.textContent = message;
-    seatLimitModal.style.display = 'block';
+    document.getElementById('seatLimitModal').textContent = message;
+    showModal(seatLimitModal);
   }
 
-  // 좌석 초과 모달 닫기 함수
-  function hideSeatLimitModal() {
-    seatLimitModal.style.display = 'none';
-  }
+  // 좌석 선택 초과 모달 닫기 이벤트
+  closeSeatLimitModal.addEventListener("click", () => hideModal(seatLimitModal));
 
-  closeSeatLimitModal.addEventListener('click', hideSeatLimitModal);
-  modalCancelButton.addEventListener('click', hideSeatCancelModal);
+  // 좌석 취소 모달에서 확인 버튼 클릭 시 초기화 실행
+  modalConfirmButton.addEventListener("click", () => {
+    document.querySelector(".reset").click(); // 초기화 버튼 클릭
+    hideModal(seatCancelModal);
+  });
+
+  // ✅ 배경 클릭 시 모달 닫기 방지
+  seatCancelModal.addEventListener("click", (event) => {
+    if (event.target === seatCancelModal) {
+      event.stopPropagation();
+    }
+  });
+
+  seatLimitModal.addEventListener("click", (event) => {
+    if (event.target === seatLimitModal) {
+      event.stopPropagation();
+    }
+  });
+
+
+  // closeSeatLimitModal.addEventListener('click', hideSeatLimitModal);
+  // modalCancelButton.addEventListener('click', hideSeatCancelModal);
 </script>
 
 <!-- footer 영역 -->
@@ -762,7 +790,7 @@
 
           // 취소 버튼: 변경을 취소하고 모달만 닫기
           modalCancelButton.onclick = () => {
-            hideSeatCancelModal();
+            hideModal(seatCancelModal);
           };
 
         } else {

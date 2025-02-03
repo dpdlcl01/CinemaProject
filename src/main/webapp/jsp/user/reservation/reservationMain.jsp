@@ -73,8 +73,6 @@
 <!-- 예매 로그인 모달 창 -->
 <jsp:include page="../login/reservationLoginModal.jsp"/>
 <!-- (임시 버튼) -->
-<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal" style="display: none;">예매 비회원 로그인</a>
-<jsp:include page="../common/footer.jsp"/>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         var contextPath = "${pageContext.request.contextPath}";
@@ -197,36 +195,53 @@
         // 날짜 목록 생성
         function generateDateList(selectedDate) {
             console.log("generateDateList 실행됨");
-
             dateList.innerHTML = "";
+
+            // 오늘 날짜의 시간 정보를 제거 (00:00:00 기준)
+            const todayNoTime = new Date();
+            todayNoTime.setHours(0, 0, 0, 0);
 
             for (let i = -3; i <= 3; i++) {
                 const date = new Date(selectedDate);
                 date.setDate(date.getDate() + i);
+
+                // 생성된 날짜에서도 시간 정보를 0으로 초기화하여 비교할 변수 생성
+                const dateNoTime = new Date(date);
+                dateNoTime.setHours(0, 0, 0, 0);
 
                 const li = document.createElement("li");
                 li.textContent = formatDay(date) + " · " + date.getDate();
                 li.dataset.date = formatDate(date);
                 li.style.color = isWeekend(date) ? "red" : "black";
 
-                console.log("📆 생성된 날짜:", li.dataset.date, "현재 날짜:", currentDateStr);
+                console.log("📆 생성된 날짜:", li.dataset.date, "현재 날짜:", formatDate(todayNoTime));
 
-                if (li.dataset.date === currentDateStr) {
-                    li.classList.add("selected");
+                // 오늘보다 이전 날짜라면 클릭 불가로 처리
+                if (dateNoTime < todayNoTime) {
+                    li.classList.add("disabled");
+                    li.style.pointerEvents = "none";  // 클릭 방지
+                    li.style.opacity = "0.5";          // 시각적으로 비활성화 표시
+                } else {
+                    // 오늘 이후 또는 오늘인 경우 클릭 이벤트 등록
+                    li.addEventListener("click", function () {
+                        // 다른 날짜의 selected 클래스 제거
+                        dateList.querySelectorAll("li").forEach(function(el) {
+                            el.classList.remove("selected");
+                        });
+                        li.classList.add("selected");
+
+                        currentDate = new Date(li.dataset.date);
+                        currentDateStr = formatDate(currentDate);
+                        console.log("선택한 날짜:", currentDateStr);
+
+                        updateShowtimes();
+                    });
                 }
 
-                li.addEventListener("click", function() {
-                    dateList.querySelectorAll("li").forEach(function(el) {
-                        el.classList.remove("selected");
-                    });
+                // 오늘 날짜이면 selected 처리 (옵션)
+                if (li.dataset.date === formatDate(todayNoTime)) {
                     li.classList.add("selected");
-
-                    currentDate = new Date(li.dataset.date);
-                    currentDateStr = formatDate(currentDate);
-                    console.log("선택한 날짜:", currentDateStr);
-
-                    updateShowtimes();
-                });
+                }
 
                 dateList.appendChild(li);
             }
@@ -250,8 +265,6 @@
         // 시간표 렌더링
         function renderTimetable(showtimes) {
             if (!showtimes || showtimes.length === 0) {
-                // timeSelectionContainer.innerHTML = "<p>" + currentDateStr + " 상영 데이터 조회중</p>";
-
                 timeSelectionContainer.innerHTML = "<p> 해당 일자에 상영 시간표가 없습니다. </p>";
                 return;
             }
@@ -344,7 +357,7 @@
         }
 
         // 영화 선택 이벤트
-        movieSelection.addEventListener("click", function(event) {
+        movieSelection.addEventListener("click", async function(event) {
             const selectedElement = event.target.closest("li");
             if (selectedElement) {
                 movieSelection.querySelectorAll(".selected").forEach(function(el) {
@@ -355,9 +368,88 @@
                 selectedMovieIdx = selectedElement.getAttribute("data-movie-id");
                 console.log("선택한 영화 ID:", selectedMovieIdx);
 
+                // 🎯 영화가 선택되면 해당 영화가 상영하는 극장 리스트 가져오기
+                await updateTheaterList(selectedMovieIdx);
+
+                // 강제로 UI 업데이트
+                autoClickFirstAvailableRegion();
                 updateShowtimes();
             }
         });
+
+        async function updateTheaterList(movieIdx) {
+            try {
+                const url = contextPath + "/UserController?type=availableTheaters&movieIdx=" + movieIdx;
+                const response = await fetch(url);
+
+                if (!response.ok) throw new Error("HTTP error! status: " + response.status);
+
+                const availableTheaters = await response.json();
+                console.log("🎥 선택한 영화의 상영 극장 목록:", availableTheaters);
+
+                // 🚨 추가: 서버에서 데이터가 비어 있으면 콘솔에 경고 메시지 출력
+                if (!availableTheaters || availableTheaters.length === 0) {
+                    console.warn("🚨 서버에서 해당 영화의 극장 데이터를 내려주지 않음!");
+                    return;
+                }
+
+                // `availableTheaters` 배열에서 `theaterIdx` 값만 추출하여 새로운 배열 생성
+                const availableTheaterIds = availableTheaters.map(theater => String(theater.theaterIdx)); // 문자열 변환
+
+                // 🎯 theaterRegion(지역) 목록 추출
+                const availableRegions = new Set(availableTheaters.map(theater => theater.theaterRegion));
+
+                document.querySelectorAll(".region-link").forEach(link => {
+                    const region = link.getAttribute("data-region").trim();
+                    const regionLi = link.closest("li");
+                    const theaters = regionLi.querySelectorAll("ul.theater-region-list li a");
+
+                    let hasActiveTheater = false;
+
+                    // 🎯 현재 지역이 활성화 대상인지 확인 후 적용
+                    if (availableRegions.has(region)) {
+                        regionLi.classList.remove("disabled");
+                        regionLi.style.opacity = "1";
+                        regionLi.style.pointerEvents = "auto";
+                    } else {
+                        regionLi.classList.add("disabled");
+                        regionLi.style.opacity = "0.5";
+                        regionLi.style.pointerEvents = "none";
+                    }
+
+                    // 🎯 지역 안의 극장 개별 활성화
+                    if (theaters.length > 0) {
+                        theaters.forEach(theater => {
+                            const theaterIdx = String(theater.getAttribute("data-theater-id"));
+
+                            if (availableTheaterIds.includes(theaterIdx)) {
+                                // 상영하는 극장은 활성화
+                                theater.classList.remove("disabled");
+                                theater.style.opacity = "1";
+                                theater.style.pointerEvents = "auto";
+                                hasActiveTheater = true;
+                            } else {
+                                // 상영하지 않는 극장은 비활성화 (클릭 불가)
+                                theater.classList.add("disabled");
+                                theater.style.opacity = "0.5";
+                                theater.style.pointerEvents = "none";
+                            }
+                        });
+                    }
+                });
+
+            } catch (error) {
+                console.error("🎥 극장 목록 업데이트 오류:", error);
+            }
+        }
+
+        // // 🎯 자동으로 첫 번째 활성화된 지역을 클릭하는 함수 추가
+        // function autoClickFirstAvailableRegion() {
+        //     const firstAvailableRegion = document.querySelector(".region-link:not(.disabled)");
+        //     if (firstAvailableRegion) {
+        //         firstAvailableRegion.click();
+        //     }
+        // }
 
         // 시간표 업데이트
         async function updateShowtimes() {
@@ -372,17 +464,6 @@
                 if (!response.ok) throw new Error("HTTP error! status: " + response.status);
 
                 const showtimes = await response.json();
-
-                // // 🎯 상영 시간표 데이터가 없을 경우 모달 띄우기
-                // if (!showtimes || showtimes.length === 0) {
-                //     const noMovieModalEl = document.getElementById("noMovieModal");
-                //     const modalInstance = new bootstrap.Modal(noMovieModalEl);
-                //     modalInstance.show();
-                //
-                //     // 시간표 영역 초기화 (필요하면)
-                //     timeSelectionContainer.innerHTML = "<p>해당 일자에 상영 시간표가 없습니다.</p>";
-                //     return;
-                // }
 
                 renderTimetable(showtimes);
             } catch (err) {
@@ -443,5 +524,7 @@
         });
     });
 </script>
+<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal" style="display: none;">예매 비회원 로그인</a>
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

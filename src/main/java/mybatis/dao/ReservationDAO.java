@@ -6,6 +6,7 @@ import mybatis.vo.TheaterVO;
 import mybatis.vo.TimetableVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,17 @@ public class ReservationDAO {
         ss.close();
         return ar;
     }
+
+    // 영화 선택시 가능 상영관 조회
+    public static List<TimetableVO> getAvailableTheaters(String movieIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        List<TimetableVO> list = ss.selectList("reservation.getAvailableTheaters", movieIdx);
+
+        ss.close();
+        return list;
+    }
+
 
     // 특정 극장 및 날짜의 상영 시간표 조회
     public static TimetableVO[] allTimetable(String theaterIdx, String movieIdx, String targetDate) {
