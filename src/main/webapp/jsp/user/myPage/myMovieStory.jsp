@@ -150,12 +150,11 @@
               <c:forEach items="${requestScope.rvo}" var="review">
                 <li>
                   <p class="img posterImg">
-                    <img src="" alt="헌트">
-                      <%--여기서 DB에서 다시 꺼내오세요--%>
+                    <img src="${review.moviePosterUrl}" alt="헌트">
                   </p>
                   <div class="cont">
                     <p class="tit">
-                      <a href="#" title="한줄평 상세보기"></a>
+                      <a href="#" title="한줄평 상세보기">${review.movieTitle}</a>
                     </p>
                     <p class="oneData">${review.reviewContent}</p>
                     <div class="modify-area updateData" style="display: none;">
@@ -191,7 +190,7 @@
               <c:forEach items="${requestScope.reserveVO}" var="res">
                 <li>
                   <p class="img posterImg">
-                    <img src="" alt="헌트">
+                    <img src="${res.moviePosterUrl}" alt="헌트">
                   </p>    <div class="cont">
                   <p class="tit"><a href="#" title="헌트 상세보기"></a></p>
                   <div class="theater">
@@ -221,15 +220,15 @@
             <div class="cont-area">
               <div class="main-movie-list">
                 <ol class="list clearfix movie-list" id="favorite">
-                  <c:forEach items="$" var="favorite">
+                  <c:forEach items="${requestScope.fvo}" var="fvo">
                     <li data-status="open" id="favoriteLi">
                       <!-- movie-list-info -->
                       <a href="#" class="movie-list-info" title="영화상세 보기">
-                        <img src="" alt="말할 수 없는 비밀" class="poster">
+                        <img src="${fvo.moviePosterUrl}" alt="말할 수 없는 비밀" class="poster">
                       </a>
                       <div class="tit-area">
                         <p class="movie-grade age-all">,</p>
-                        <p title="말할 수 없는 비밀" class="tit"></p>
+                        <p title="말할 수 없는 비밀" class="tit">${fvo.movieTitle}</p>
                       </div>
                       <!-- //movie-list-info -->
                       <!-- btn-util -->

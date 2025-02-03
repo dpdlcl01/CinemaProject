@@ -323,7 +323,9 @@
         productQuant="1";
       }
       document.getElementById("productQuant").value=productQuant;
+      let Idx = document.getElementById("productIdx").value;
 
+      console.log(Idx);
       form0.action="${pageContext.request.contextPath}/UserController?type=cart";
 
 
