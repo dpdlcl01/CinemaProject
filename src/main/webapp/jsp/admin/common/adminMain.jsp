@@ -3,12 +3,21 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
+
 <head>
 <%--  <jsp:include page="../../user/common/head.jsp"/>--%>
 
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 외부CSS 연결하기 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userMain.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
 <style>
     .admin-contents {
@@ -250,12 +259,16 @@
             </div>
             <!-- 로그인/로그아웃 버튼 -->
             <div style="display: flex; gap: 10px; flex-shrink: 0;">
-                <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그인
-                </a>
-                <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그아웃
-                </a>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.adminVO}">
+                        <a href="#" id="member-logout-btn" title="로그아웃">로그아웃</a>
+                    </c:when>
+                    <c:otherwise>
+                        <!-- 세션에 uservo가 없으면 로그인 버튼 -->
+                        <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal">로그인</a>
+                        <a href="${pageContext.request.contextPath}/UserController?type=register" title="회원가입">회원가입</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>
@@ -269,6 +282,7 @@
 
       <div id="main">
         <h1>관리자 정보</h1>
+<%--        <h1>${sessionScope.adminVO.adminLevel}</h1>--%>
         <div id="title">
           <div id="top1">
             <div id="imgName">
@@ -306,6 +320,8 @@
     </div>
   </div>
 </div>
+<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal" style="display: none;">어드민로그인</a>
+<jsp:include page="../login/adminLoginModal.jsp"/>
 
 
 <%--<jsp:include page="../../user/common/footer.jsp"/>--%>
