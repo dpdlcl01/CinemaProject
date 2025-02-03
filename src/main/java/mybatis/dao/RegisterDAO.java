@@ -31,7 +31,6 @@ public class RegisterDAO {
     public static int UserIdCheck(String userId) {
         try (SqlSession ss = FactoryService.getFactory().openSession()) {
             int cnt = ss.selectOne("register.useridcheck_search", userId);
-            System.out.println("검색결과 : " + cnt);
             return cnt;
         }
     }

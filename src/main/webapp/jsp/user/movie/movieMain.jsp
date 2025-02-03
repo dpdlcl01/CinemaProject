@@ -3,13 +3,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
-<!-- head -->
-<head
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieMain.css">
+<script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
+<head>
     <jsp:include page="../common/head.jsp"/>
     <style>
         .onair-condition .total-count {
             font-size: 16px;
         }
+
         .onair-condition {
             display: flex; /* 버튼과 결과 메시지를 한 줄에 배치 */
             align-items: center; /* 버튼과 메시지 수직 정렬 */
@@ -21,7 +23,6 @@
             color: #333; /* 메시지 텍스트 색상 */
             font-weight: normal; /* 텍스트 굵기 */
         }
-
 
         #result-zero {
             margin: 50px auto; /* 위아래 여백과 가로 중앙 정렬 */
@@ -35,16 +36,10 @@
             width: 100%; /* 가로 너비 (부모 요소 대비) */
             box-sizing: border-box; /* 패딩 포함한 크기 조정 */
         }
-
-
-
     </style>
 </head>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieMain.css">
-<script src="https://kit.fontawesome.com/d7f530ec10.js" crossorigin="anonymous"></script>
-<body>
 
+<body>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>
 <div class="page-util">
@@ -129,7 +124,6 @@
         </section>
     </main>
 </div>
-
 
 <!-- footer 영역 -->
 <jsp:include page="../common/footer.jsp"/>

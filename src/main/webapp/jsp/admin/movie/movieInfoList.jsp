@@ -206,7 +206,7 @@
         position: relative;
         min-width: 32px;
         height: 32px;
-        margin: 0;
+        margin: 0 2px;
         padding: 0 8px;
         border: 1px solid #ebebeb;
         text-decoration: none;
@@ -217,16 +217,27 @@
         border-radius: 4px;
     }
 
+    .pagination .control.first {
+        background-position: 0 0;
+    }
+
+    .pagination .control.prev {
+        background-position: -32px 0;
+    }
+
     .pagination .control.next {
-        margin-left: 5px;
         background-position: -64px 0;
+    }
+
+    .pagination .control.last {
+        background-position: -96px 0;
     }
 
     .pagination .control {
         overflow: hidden;
         width: 32px;
         height: 32px;
-        background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
+        background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
     }
 
     .modal-body {
@@ -415,12 +426,12 @@
 
                         <!-- << (맨 처음으로) -->
                         <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
-                            <a href="AdminController?type=movieInfoList&cPage=1" class="control first" title="처음 페이지">&laquo;</a>
+                            <a href="AdminController?type=movieInfoList&cPage=1" class="control first" title="처음 페이지"></a>
                         </c:if>
 
                         <!-- < (이전 페이지 블록) -->
                         <c:if test="${pvo.startPage > 1}">
-                            <a href="UAdminController?type=movieInfoList&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록">&lt;</a>
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록"></a>
                         </c:if>
 
                         <!-- 페이지 번호 -->
@@ -435,12 +446,12 @@
 
                         <!-- > (다음 페이지 블록) -->
                         <c:if test="${pvo.endPage < pvo.totalPage}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록">&gt;</a>
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록"></a>
                         </c:if>
 
                         <!-- >> (맨 마지막으로) -->
                         <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지">&raquo;</a>
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지"></a>
                         </c:if>
                     </c:if>
                 </nav>

@@ -22,17 +22,25 @@ public class TimetableDAO {
 
     // 상영 시간표 목록 가져오기
     public static TimetableVO[] getTimetableList(int begin, int end) {
+        TimetableVO[] timetableArray = null;
+
         Map<String, Integer> map = new HashMap<>();
         map.put("begin", begin);
         map.put("end", end);
         SqlSession ss = FactoryService.getFactory().openSession();
         List<TimetableVO> tList = ss.selectList("adminTimetable.getTimetableList", map);
+        if(tList != null && !tList.isEmpty()) {
+            timetableArray = new TimetableVO[tList.size()];
+            tList.toArray(timetableArray);
+        }
         ss.close();
-        return tList.toArray(new TimetableVO[0]);
+        return timetableArray;
     }
 
     // 특정 극장의 상영 시간표 목록 가져오기
     public static TimetableVO[] getTimetableListByTheater(String theaterIdx, int begin, int end) {
+        TimetableVO[] timetableArray = null;
+
         Map<String, Object> map = new HashMap<>();
         map.put("theaterIdx", theaterIdx);
         map.put("begin", begin);
@@ -40,8 +48,12 @@ public class TimetableDAO {
 
         SqlSession ss = FactoryService.getFactory().openSession();
         List<TimetableVO> tList = ss.selectList("adminTimetable.getTimetableListByTheater", map);
+        if(tList != null && !tList.isEmpty()) {
+            timetableArray = new TimetableVO[tList.size()];
+            tList.toArray(timetableArray);
+        }
         ss.close();
-        return tList.toArray(new TimetableVO[0]);
+        return timetableArray;
     }
 
 
