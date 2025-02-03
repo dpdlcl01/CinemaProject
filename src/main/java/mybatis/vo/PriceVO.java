@@ -7,7 +7,12 @@ public class PriceVO {
     private String ageGroup;
     private String dayOfWeek;
     private String timeOfDay;
-    private String generalPrice;
+    private String seatPrice;
+
+
+    public String getSeatPrice() { return seatPrice; }
+
+    public void setSeatPrice(String seatPrice) { this.seatPrice = seatPrice; }
 
     public String getTeenPrice() {
         return teenPrice;
@@ -15,14 +20,6 @@ public class PriceVO {
 
     public void setTeenPrice(String teenPrice) {
         this.teenPrice = teenPrice;
-    }
-
-    public String getGeneralPrice() {
-        return generalPrice;
-    }
-
-    public void setGeneralPrice(String generalPrice) {
-        this.generalPrice = generalPrice;
     }
 
     private String teenPrice;

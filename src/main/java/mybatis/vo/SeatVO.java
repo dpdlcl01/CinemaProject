@@ -2,7 +2,11 @@ package mybatis.vo;
 
 public class SeatVO {
     private String seatIdx, screenIdx, seatNumber, seatStatus, priceIdx, screenType, ageGroup, dayOfWeek, timeOfDay, seatPrice
-            , timetableIdx;
+            , timetableIdx, reservedTime;
+
+    public String getReservedTime() { return reservedTime; }
+
+    public void setReservedTime(String reservedTime) { this.reservedTime = reservedTime; }
 
     public String getTimetableIdx() { return timetableIdx; }
 

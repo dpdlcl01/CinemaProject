@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/reservation.css?v=1.0">
 <body>
 <jsp:include page="../common/header.jsp"/>
-
     <!-- 추가된 page-util -->
     <div class="page-util">
         <div class="inner-wrap">
@@ -251,10 +250,11 @@
         // 시간표 렌더링
         function renderTimetable(showtimes) {
             if (!showtimes || showtimes.length === 0) {
-                timeSelectionContainer.innerHTML = "<p>" + currentDateStr + " 상영 데이터 조회중</p>";
+                // timeSelectionContainer.innerHTML = "<p>" + currentDateStr + " 상영 데이터 조회중</p>";
+
+                timeSelectionContainer.innerHTML = "<p> 해당 일자에 상영 시간표가 없습니다. </p>";
                 return;
             }
-
             const screenTypeMapping = {
                 1: "COMFORT",
                 2: "VIP",
@@ -372,6 +372,18 @@
                 if (!response.ok) throw new Error("HTTP error! status: " + response.status);
 
                 const showtimes = await response.json();
+
+                // // 🎯 상영 시간표 데이터가 없을 경우 모달 띄우기
+                // if (!showtimes || showtimes.length === 0) {
+                //     const noMovieModalEl = document.getElementById("noMovieModal");
+                //     const modalInstance = new bootstrap.Modal(noMovieModalEl);
+                //     modalInstance.show();
+                //
+                //     // 시간표 영역 초기화 (필요하면)
+                //     timeSelectionContainer.innerHTML = "<p>해당 일자에 상영 시간표가 없습니다.</p>";
+                //     return;
+                // }
+
                 renderTimetable(showtimes);
             } catch (err) {
                 console.error("시간표 업데이트 중 오류:", err);

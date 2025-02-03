@@ -3,6 +3,7 @@ package action.user.reservation;
 import action.Action;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.dao.ReservationDAO;
+import mybatis.dao.ReservationPaymentDAO;
 import mybatis.dao.SeatDAO;
 import mybatis.vo.*;
 import util.SessionUtil;
@@ -29,7 +30,7 @@ public class SeatAction implements Action {
 
         // 만약 type 파라미터가 "reserveSeats"이면 좌석 예약 insert 처리 후 payment 페이지로 포워딩
         String type = request.getParameter("type");
-        if ("reserveSeats".equals(type)) {
+        if ("reservationPayment".equals(type)) {
             // 폼 전송 방식으로 전달된 파라미터에서 timetableIdx와 seatIdxList 읽기
             String timetableIdx = request.getParameter("timetableIdx");
             String[] seatIdxStrs = request.getParameterValues("seatIdxList");
@@ -52,9 +53,33 @@ public class SeatAction implements Action {
             } else {
                 System.out.println("선택된 좌석이 없습니다.");
             }
+
+            // 유저의 쿠폰 리스트
+            List<CouponVO> couponList = ReservationPaymentDAO.userCouponList(uservo.getUserIdx());
+            System.out.println(couponList.get(0).getCouponName());
+
             // 예약 후 timetableIdx와 seatIdxList 값을 request에 담아 결제 페이지로 포워딩
             request.setAttribute("timetableIdx", timetableIdx);
             request.setAttribute("seatIdxList", seatIdxStrs);
+
+            // 기본 정보들
+            request.setAttribute("uservo", uservo);
+            request.setAttribute("couponList", couponList);
+            request.setAttribute("movieTitle", request.getParameter("movieTitle"));
+            request.setAttribute("theaterName", request.getParameter("theaterName"));
+            request.setAttribute("formattedDate", request.getParameter("formattedDate"));
+            request.setAttribute("formattedStartTime", request.getParameter("formattedStartTime"));
+            request.setAttribute("formattedEndTime", request.getParameter("formattedEndTime"));
+            request.setAttribute("screenIdx", request.getParameter("screenIdx"));
+            request.setAttribute("movieType", request.getParameter("movieType"));
+            request.setAttribute("moviePosterUrl", request.getParameter("moviePosterUrl"));
+            request.setAttribute("theaterIdx", request.getParameter("theaterIdx"));
+            System.out.println("theaterIdx=" + request.getParameter("theaterIdx"));
+            request.setAttribute("adultPriceIdx", request.getParameter("adultPriceIdx"));
+            request.setAttribute("studentPriceIdx", request.getParameter("studentPriceIdx"));
+            request.setAttribute("adultCount", request.getParameter("adultCount"));
+            request.setAttribute("studentCount", request.getParameter("studentCount"));
+            request.setAttribute("totalAmount", request.getParameter("totalAmount"));
 
             // 결제 페이지로 포워딩 (여기서는 payment.jsp로 직접 이동하는 예)
             return "./jsp/user/reservation/payment.jsp";
@@ -152,12 +177,20 @@ public class SeatAction implements Action {
         int timeOfDay = "1".equals(isMorning) ? 2 : 1;
 
         // 영화 가격 조회 추가
-        int adultPrice = SeatDAO.getSeatPrice(screenType.toString(), "1", dayOfWeek, timeOfDay);
-        int studentPrice = SeatDAO.getSeatPrice(screenType.toString(), "2", dayOfWeek, timeOfDay);
+        PriceVO priceVO = new PriceVO();
+        priceVO = SeatDAO.getSeatPrice(screenType.toString(), "1", dayOfWeek, timeOfDay);
+        int adultPrice = Integer.parseInt(priceVO.getSeatPrice());
+        int adultPriceIdx = Integer.parseInt(priceVO.getPriceIdx());
+
+        priceVO = SeatDAO.getSeatPrice(screenType.toString(), "2", dayOfWeek, timeOfDay);
+        int studentPrice = Integer.parseInt(priceVO.getSeatPrice());
+        int studentPriceIdx = Integer.parseInt(priceVO.getPriceIdx());
 
         // JSP에서 사용하도록 request에 가격 정보 추가
         request.setAttribute("adultPrice", adultPrice);
+        request.setAttribute("adultPriceIdx", adultPriceIdx);
         request.setAttribute("studentPrice", studentPrice);
+        request.setAttribute("studentPriceIdx", studentPriceIdx);
 
         // 좌석 선택 화면으로 이동
         return "./jsp/user/reservation/reservationSeat.jsp";

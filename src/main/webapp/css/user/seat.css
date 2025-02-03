@@ -191,8 +191,8 @@ button.temp-seat {
 }
 
 .available-seat.selected {
-    background-color: #6a0dad; /* 선택된 좌석 색상 */
-    color: #fff;
+    background-color: #6a0dad !important;
+    color: #fff !important;
 }
 
 .line button.door-left{
@@ -355,10 +355,6 @@ button.temp-seat {
     background-color: #a9a9a9;
 }
 
-.seat-condition.disabled {
-    background-color: #008000;
-}
-
 .seat-num {
     width: 48%;
 }
@@ -400,6 +396,22 @@ button.temp-seat {
 .seat.all {
     background-color: #434343;
 }
+
+.seat.finish {
+    background-color: #d3d3d3 !important; /* 기존 .seat-condition.finish 색상 */
+    cursor: not-allowed !important;
+    color: #999 !important;
+    pointer-events: none; /* 클릭 방지 */
+}
+
+/* 예약된 좌석 (어두운 회색) */
+.seat.impossible {
+    background-color: #a9a9a9 !important; /* 예약됨 */
+    color: #666 !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
 
 /* 결제 정보 */
 .payment-summary {
@@ -468,6 +480,12 @@ button.temp-seat {
     background-color: #555; /* 호버 시 색상 */
 }
 
+.button[disabled] {
+    background-color: #ccc; /* 비활성화된 색상 */
+    cursor: not-allowed;
+    width: 50%;
+}
+
 .button.active {
     background-color: #4ac5c5; /* 활성화된 버튼 색상 */
     width: 50%;
@@ -475,4 +493,98 @@ button.temp-seat {
 
 #pagePrevious {
     background-color: #666; /* 이전 버튼 색상 */
+}
+
+/* 모달 CSS */
+.alert-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    z-index: 5006;
+    width: 420px;
+    padding: 0;
+    border-radius: 10px;
+    height: 200px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.wrap {
+    position: relative;
+}
+
+.layer-header {
+    background: #5E3AA6; /* 보라색 */
+    padding: 15px;
+    height: 50px;
+    border-radius: 10px 10px 0 0;
+}
+
+.tit {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.layer-con {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.txt-common {
+    font-size: 17px;
+    color: #333;
+}
+
+.modal-btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid #5E3AA6;
+    background: #fff;
+    color: #5E3AA6;
+    font-weight: bold;
+    width: 100px;
+    text-align: center;
+}
+
+.button:hover {
+    background: #5E3AA6;
+    color: #fff;
+}
+
+.purple {
+    background: #5E3AA6;
+    color: #fff;
+}
+
+.purple:hover {
+    background: #4A2E8F;
+}
+
+/* 닫기 버튼 (X) 스타일 */
+.btn-layer-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-layer-close:hover {
+    color: #ccc;
 }

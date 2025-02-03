@@ -90,17 +90,23 @@
                       <c:set var="computedSeatNumber" value="${row}${i}" />
                       <c:set var="seatData" value="N/A" />
 
-                      <!-- availableSeats에서 해당 좌석 정보 찾기 -->
                       <c:forEach var="seat" items="${availableSeats}">
                         <c:if test="${seat.seatNumber == computedSeatNumber}">
-                          <c:set var="seatData" value="${seat.seatIdx}" />
+                          <c:choose>
+                            <c:when test="${seat.seatStatus == 0}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:when>
+                            <c:otherwise>
+                              <c:set var="seatData" value="예약됨" />
+                            </c:otherwise>
+                          </c:choose>
                         </c:if>
                       </c:forEach>
 
-                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
                               data-seatidx="${seatData}"
                               data-seat="${computedSeatNumber}"
-                        ${seatData == 'N/A' ? 'disabled' : ''}>
+                        ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
                           ${i}
                       </button>
                     </c:forEach>
@@ -114,14 +120,21 @@
 
                       <c:forEach var="seat" items="${availableSeats}">
                         <c:if test="${seat.seatNumber == computedSeatNumber}">
-                          <c:set var="seatData" value="${seat.seatIdx}" />
+                          <c:choose>
+                            <c:when test="${seat.seatStatus == 0}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:when>
+                            <c:otherwise>
+                              <c:set var="seatData" value="예약됨" />
+                            </c:otherwise>
+                          </c:choose>
                         </c:if>
                       </c:forEach>
 
-                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
                               data-seatidx="${seatData}"
                               data-seat="${computedSeatNumber}"
-                        ${seatData == 'N/A' ? 'disabled' : ''}>
+                        ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
                           ${i}
                       </button>
                     </c:forEach>
@@ -135,20 +148,28 @@
 
                       <c:forEach var="seat" items="${availableSeats}">
                         <c:if test="${seat.seatNumber == computedSeatNumber}">
-                          <c:set var="seatData" value="${seat.seatIdx}" />
+                          <c:choose>
+                            <c:when test="${seat.seatStatus == 0}">
+                              <c:set var="seatData" value="${seat.seatIdx}" />
+                            </c:when>
+                            <c:otherwise>
+                              <c:set var="seatData" value="예약됨" />
+                            </c:otherwise>
+                          </c:choose>
                         </c:if>
                       </c:forEach>
 
-                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
                               data-seatidx="${seatData}"
                               data-seat="${computedSeatNumber}"
-                        ${seatData == 'N/A' ? 'disabled' : ''}>
+                        ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
                           ${i}
                       </button>
                     </c:forEach>
                   </div>
                 </div>
               </c:forEach>
+
               <div class="line" data-row="Back">
                 <button class="row-label">&nbsp;</button>
 
@@ -199,14 +220,21 @@
 
                           <c:forEach var="seat" items="${availableSeats}">
                             <c:if test="${seat.seatNumber == computedSeatNumber}">
-                              <c:set var="seatData" value="${seat.seatIdx}" />
+                              <c:choose>
+                                <c:when test="${seat.seatStatus == 0}">
+                                  <c:set var="seatData" value="${seat.seatIdx}" />
+                                </c:when>
+                                <c:otherwise>
+                                  <c:set var="seatData" value="예약됨" />
+                                </c:otherwise>
+                              </c:choose>
                             </c:if>
                           </c:forEach>
 
-                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
                                   data-seatidx="${seatData}"
                                   data-seat="${computedSeatNumber}"
-                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                            ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
                               ${i}
                           </button>
                         </c:forEach>
@@ -224,14 +252,21 @@
 
                           <c:forEach var="seat" items="${availableSeats}">
                             <c:if test="${seat.seatNumber == computedSeatNumber}">
-                              <c:set var="seatData" value="${seat.seatIdx}" />
+                              <c:choose>
+                                <c:when test="${seat.seatStatus == 0}">
+                                  <c:set var="seatData" value="${seat.seatIdx}" />
+                                </c:when>
+                                <c:otherwise>
+                                  <c:set var="seatData" value="예약됨" />
+                                </c:otherwise>
+                              </c:choose>
                             </c:if>
                           </c:forEach>
 
-                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
                                   data-seatidx="${seatData}"
                                   data-seat="${computedSeatNumber}"
-                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                            ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
                               ${i}
                           </button>
                         </c:forEach>
@@ -248,41 +283,53 @@
                   <div class="seat-group-right">
                     <c:choose>
                       <c:when test="${row == 'C'}">
-                        <!-- C열: 3, 4번 좌석을 오른쪽에 배치 -->
                         <c:forEach var="i" begin="3" end="4">
                           <c:set var="computedSeatNumber" value="${row}${i}" />
                           <c:set var="seatData" value="N/A" />
 
                           <c:forEach var="seat" items="${availableSeats}">
                             <c:if test="${seat.seatNumber == computedSeatNumber}">
-                              <c:set var="seatData" value="${seat.seatIdx}" />
+                              <c:choose>
+                                <c:when test="${seat.seatStatus == 0}">
+                                  <c:set var="seatData" value="${seat.seatIdx}" />
+                                </c:when>
+                                <c:otherwise>
+                                  <c:set var="seatData" value="예약됨" />
+                                </c:otherwise>
+                              </c:choose>
                             </c:if>
                           </c:forEach>
 
-                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
                                   data-seatidx="${seatData}"
                                   data-seat="${computedSeatNumber}"
-                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                            ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
                               ${i}
                           </button>
                         </c:forEach>
                       </c:when>
                       <c:otherwise>
-                        <!-- 일반 행(A, B, D)에서는 5~8번을 오른쪽에 배치 -->
                         <c:forEach var="i" begin="5" end="8">
                           <c:set var="computedSeatNumber" value="${row}${i}" />
                           <c:set var="seatData" value="N/A" />
 
                           <c:forEach var="seat" items="${availableSeats}">
                             <c:if test="${seat.seatNumber == computedSeatNumber}">
-                              <c:set var="seatData" value="${seat.seatIdx}" />
+                              <c:choose>
+                                <c:when test="${seat.seatStatus == 0}">
+                                  <c:set var="seatData" value="${seat.seatIdx}" />
+                                </c:when>
+                                <c:otherwise>
+                                  <c:set var="seatData" value="예약됨" />
+                                </c:otherwise>
+                              </c:choose>
                             </c:if>
                           </c:forEach>
 
-                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
+                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
                                   data-seatidx="${seatData}"
                                   data-seat="${computedSeatNumber}"
-                            ${seatData == 'N/A' ? 'disabled' : ''}>
+                            ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
                               ${i}
                           </button>
                         </c:forEach>
@@ -338,45 +385,59 @@
               <c:forEach var="row" items="A,B,C,D">
                 <div class="line" data-row="${row}">
                   <button class="row-label">${row}</button>
-                    <!-- A, B, D 행 (일반적인 좌석 배치) -->
-                      <div class="seat-group">
-                        <c:forEach var="i" begin="1" end="4">
-                          <c:set var="computedSeatNumber" value="${row}${i}" />
-                          <c:set var="seatData" value="N/A" />
+                  <!-- A, B, D 행 (일반적인 좌석 배치) -->
+                  <div class="seat-group">
+                    <c:forEach var="i" begin="1" end="4">
+                      <c:set var="computedSeatNumber" value="${row}${i}" />
+                      <c:set var="seatData" value="N/A" />
 
-                          <c:forEach var="seat" items="${availableSeats}">
-                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                      <c:forEach var="seat" items="${availableSeats}">
+                        <c:if test="${seat.seatNumber == computedSeatNumber}">
+                          <c:choose>
+                            <c:when test="${seat.seatStatus == 0}">
                               <c:set var="seatData" value="${seat.seatIdx}" />
-                            </c:if>
-                          </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                              <c:set var="seatData" value="예약됨" />
+                            </c:otherwise>
+                          </c:choose>
+                        </c:if>
+                      </c:forEach>
 
-                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
-                                  data-seatidx="${seatData}"
-                                  data-seat="${computedSeatNumber}"
-                            ${seatData == 'N/A' ? 'disabled' : ''}>
-                              ${i}
-                          </button>
-                        </c:forEach>
-                      </div>
-                      <div class="seat-group-right">
-                        <c:forEach var="i" begin="5" end="6">
-                          <c:set var="computedSeatNumber" value="${row}${i}" />
-                          <c:set var="seatData" value="N/A" />
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
+                              data-seatidx="${seatData}"
+                              data-seat="${computedSeatNumber}"
+                        ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
+                          ${i}
+                      </button>
+                    </c:forEach>
+                  </div>
+                  <div class="seat-group-right">
+                    <c:forEach var="i" begin="5" end="6">
+                      <c:set var="computedSeatNumber" value="${row}${i}" />
+                      <c:set var="seatData" value="N/A" />
 
-                          <c:forEach var="seat" items="${availableSeats}">
-                            <c:if test="${seat.seatNumber == computedSeatNumber}">
+                      <c:forEach var="seat" items="${availableSeats}">
+                        <c:if test="${seat.seatNumber == computedSeatNumber}">
+                          <c:choose>
+                            <c:when test="${seat.seatStatus == 0}">
                               <c:set var="seatData" value="${seat.seatIdx}" />
-                            </c:if>
-                          </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                              <c:set var="seatData" value="예약됨" />
+                            </c:otherwise>
+                          </c:choose>
+                        </c:if>
+                      </c:forEach>
 
-                          <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : 'available-seat'}"
-                                  data-seatidx="${seatData}"
-                                  data-seat="${computedSeatNumber}"
-                            ${seatData == 'N/A' ? 'disabled' : ''}>
-                              ${i}
-                          </button>
-                        </c:forEach>
-                      </div>
+                      <button class="seat ${seatData == 'N/A' ? 'unavailable-seat' : (seatData == '예약됨' ? 'finish' : 'available-seat')}"
+                              data-seatidx="${seatData}"
+                              data-seat="${computedSeatNumber}"
+                        ${seatData == 'N/A' || seatData == '예약됨' ? 'disabled' : ''}>
+                          ${i}
+                      </button>
+                    </c:forEach>
+                  </div>
                 </div>
               </c:forEach>
               <div class="line" data-row="Back">
@@ -453,16 +514,29 @@
         </div>
         <div class="btn-group">
           <a href="${pageContext.request.contextPath}/reservationMain.jsp" class="button pre" id="pagePrevious" title="이전">이전</a>
-          <button type="button" class="button active" id="pageNext" title="다음" onclick="sendSeatData();"> 다음</button>
+          <button type="button" class="button" id="pageNext" title="다음" onclick="sendSeatData();" disabled> 다음</button>
         </div>
         <!-- 좌석 예약 정보를 담는 폼 -->
         <div style="display: none;">
-          <form id="seatForm" action="${pageContext.request.contextPath}/UserController?type=reserveSeats" method="post">
-            <!-- 예약 분기를 위한 type hidden 필드 -->
-            <input type="hidden" name="type" value="reserveSeats"/>
-            <!-- 타임테이블 번호를 담은 히든 필드 -->
-            <input type="hidden" id="timetableIdx" name="timetableIdx" value="${timetableIdx}" />
-            <!-- 선택된 좌석들의 ID(hidden 필드)를 추가할 컨테이너 -->
+          <form id="seatForm" action="${pageContext.request.contextPath}/UserController?type=reservationPayment" method="post">
+            <input type="hidden" name="timetableIdx" value="${timetableIdx}" />
+            <input type="hidden" name="movieTitle" value="${movieVO.movieTitle}" />
+            <input type="hidden" name="movieGrade" value="${movieVO.movieGrade}" />
+            <input type="hidden" name="movieTime" value="${movieVO.movieTime}" />
+            <input type="hidden" name="moviePosterUrl" value="${movieVO.moviePosterUrl}" />
+            <input type="hidden" name="theaterName" value="${theaterVO.theaterName}" />
+            <input type="hidden" name="formattedDate" value="${formattedDate}" />
+            <input type="hidden" name="formattedStartTime" value="${formattedStartTime}" />
+            <input type="hidden" name="formattedEndTime" value="${formattedEndTime}" />
+            <input type="hidden" name="screenIdx" value="${screenIdx}" />
+            <input type="hidden" name="movieType" value="${movieType}" />
+            <input type="hidden" name="theaterIdx" value="${theaterIdx}" />
+            <input type="hidden" name="adultPriceIdx" value="${adultPriceIdx}" />
+            <input type="hidden" name="studentPriceIdx" value="${studentPriceIdx}" />
+            <input type="hidden" name="adultCount" id="hiddenAdultCount" value="0">
+            <input type="hidden" name="studentCount" id="hiddenStudentCount" value="0">
+            <input type="hidden" name="totalAmount" id="hiddenTotalAmount" value="0">
+
             <div id="seatHiddenContainer"></div>
           </form>
         </div>
@@ -470,10 +544,76 @@
     </div>
   </div>
 </div>
+<!-- 좌석 선택 취소 모달 -->
+<section class="alert-popup" id="seatCancelModal" >
+  <div class="wrap">
+    <header class="layer-header">
+      <h3 class="tit">알림</h3>
+    </header>
+    <div class="layer-con">
+      <p class="txt-common">선택하신 좌석을 모두 취소하고 다시 선택하시겠습니까?</p>
+      <div class="modal-btn-group">
+        <button type="button" class="modal-btn lyclose">취소</button>
+        <button type="button" class="modal-btn purple confirm">확인</button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 좌석 선택 초과 알림 모달 -->
+<section class="alert-popup" id="seatLimitModal">
+  <div class="wrap">
+    <header class="layer-header">
+      <h3 class="tit">알림</h3>
+    </header>
+    <div class="layer-con">
+      <p class="txt-common" id="seatLimitMessage">선택 가능한 좌석 수를 초과했습니다.</p>
+      <div class="modal-btn-group">
+        <button type="button" class="modal-btn purple confirm" id="closeSeatLimitModal">확인</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  // 첫 번째 모달 요소와 내부 버튼들 가져오기
+  const seatCancelModal = document.getElementById('seatCancelModal');
+  const modalCancelButton = seatCancelModal.querySelector('.lyclose');
+  const modalConfirmButton = seatCancelModal.querySelector('.confirm');
+
+  // 모달 보이기/숨기기 함수
+  function showSeatCancelModal() {
+    seatCancelModal.style.display = 'block';
+  }
+
+  function hideSeatCancelModal() {
+    seatCancelModal.style.display = 'none';
+  }
+
+  // 두 번째 모달, 좌석 초과 모달 요소 가져오기
+  const seatLimitModal = document.getElementById('seatLimitModal');
+  const seatLimitMessage = document.getElementById('seatLimitMessage');
+  const closeSeatLimitModal = document.getElementById('closeSeatLimitModal');
+
+  // 좌석 초과 모달 보이기 함수
+  function showSeatLimitModal(message) {
+    seatLimitMessage.textContent = message;
+    seatLimitModal.style.display = 'block';
+  }
+
+  // 좌석 초과 모달 닫기 함수
+  function hideSeatLimitModal() {
+    seatLimitModal.style.display = 'none';
+  }
+
+  closeSeatLimitModal.addEventListener('click', hideSeatLimitModal);
+  modalCancelButton.addEventListener('click', hideSeatCancelModal);
+</script>
+
 <!-- footer 영역 -->
 <jsp:include page="../common/footer.jsp"/>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const nextButton = document.getElementById('pageNext');
+    nextButton.disabled = true; // 초기 상태에서 비활성화
     const maxSeats = 8; // 최대 선택 가능 인원
     const selectedSeats = new Set(); // 선택된 좌석 저장
     let adultCount = 0;
@@ -481,10 +621,32 @@
     const totalAmountElement = document.getElementById('totalAmount');
     const mySeatContainer = document.querySelector('.my-seat'); // 선택한 좌석 표시 영역
 
+    // ✅ 추가된 코드: 성인/청소년 카운트 UI 요소 가져오기
+    const adultCountElement = document.getElementById('adult-count');
+    const studentCountElement = document.getElementById('student-count');
+
+    // ✅ 추가된 코드: 폼에 hidden input 요소 가져오기
+    const hiddenAdultCount = document.getElementById('hiddenAdultCount');
+    const hiddenStudentCount = document.getElementById('hiddenStudentCount');
+
     // JSP에서 가격 정보를 가져올 때 기본값 설정
     const adultPrice = parseInt("${adultPrice}") || 0;
     const studentPrice = parseInt("${studentPrice}") || 0;
 
+    function updateNextButtonState() {
+      const requiredSeatCount = adultCount + studentCount;
+      const selectedSeatCount = selectedSeats.size;
+
+      console.log("requiredSeatCount=", requiredSeatCount, "selectedSeatCount=", selectedSeatCount);
+
+      if (selectedSeatCount === requiredSeatCount && requiredSeatCount > 0) {
+        nextButton.disabled = false;
+        nextButton.classList.add('active');  // 활성화된 스타일 적용
+      } else {
+        nextButton.disabled = true;
+        nextButton.classList.remove('active');  // 비활성화된 스타일 적용
+      }
+    }
     // 선택한 좌석을 업데이트하는 함수 (선택된 좌석 박스 업데이트)
     const updateSelectedSeatsDisplay = () => {
       mySeatContainer.innerHTML = ''; // 기존 선택 좌석 초기화
@@ -512,7 +674,21 @@
       }
 
       totalAmountElement.textContent = totalPrice.toLocaleString() + " 원";
+
+      // ✅ 추가된 코드: hidden input 업데이트
+      document.getElementById('hiddenTotalAmount').value = totalPrice;
+
       updateSelectedSeatsDisplay(); // 선택 좌석 UI 업데이트
+    };
+
+    // ✅ 추가된 코드: 성인 및 청소년 인원 업데이트 함수 (UI 변경)
+    const updateSeatCountUI = () => {
+      adultCountElement.textContent = adultCount;  // 성인 인원 UI 업데이트
+      studentCountElement.textContent = studentCount; // 청소년 인원 UI 업데이트
+
+      // ✅ 추가된 코드: hidden input 값 업데이트
+      hiddenAdultCount.value = adultCount;
+      hiddenStudentCount.value = studentCount;
     };
 
     // 좌석 선택 이벤트 리스너 추가
@@ -530,11 +706,12 @@
           seat.classList.add('selected');
           selectedSeats.add(seatNumber);
         } else {
-          alert('선택 가능한 좌석 수를 초과했습니다.');
+          showSeatLimitModal("선택 가능한 좌석 수를 초과했습니다.");
         }
 
         console.log("선택한 seatIdx:", Array.from(selectedSeats)); // seatIdx 출력
         updateTotalPrice(); // 가격 및 UI 업데이트
+        updateNextButtonState(); // 다음 버튼 상태 업데이트
       });
     });
 
@@ -543,6 +720,9 @@
       document.getElementById('adult').textContent = adultCount;
       document.getElementById('student').textContent = studentCount;
       updateTotalPrice();
+
+      // ✅ 추가된 코드: 성인 및 청소년 인원 UI 업데이트
+      updateSeatCountUI();
     };
 
     document.querySelectorAll('.increase').forEach(btn => {
@@ -551,6 +731,7 @@
           if (btn.dataset.target === 'adult') adultCount++;
           else if (btn.dataset.target === 'student') studentCount++;
           updateTotalCount();
+          updateNextButtonState();
         } else {
           alert('최대 8명까지만 선택 가능합니다.');
         }
@@ -559,12 +740,41 @@
 
     document.querySelectorAll('.decrease').forEach(btn => {
       btn.addEventListener('click', () => {
+        // 현재 상태를 임시 변수에 저장 (변경 후 값을 계산)
+        let newAdultCount = adultCount;
+        let newStudentCount = studentCount;
+
         if (btn.dataset.target === 'adult' && adultCount > 0) {
-          adultCount--;
+          newAdultCount--;
         } else if (btn.dataset.target === 'student' && studentCount > 0) {
-          studentCount--;
+          newStudentCount--;
         }
-        updateTotalCount();
+
+        const newTotalCount = newAdultCount + newStudentCount;
+        if (selectedSeats.size > newTotalCount) {
+          showSeatCancelModal();
+
+          // 확인 버튼: 선택 좌석을 모두 취소하고 인원 수 업데이트
+          modalConfirmButton.onclick = () => {
+            document.querySelector('.reset').click(); // 초기화 버튼 클릭 이벤트를 발생시킴
+            hideSeatCancelModal();
+          };
+
+          // 취소 버튼: 변경을 취소하고 모달만 닫기
+          modalCancelButton.onclick = () => {
+            hideSeatCancelModal();
+          };
+
+        } else {
+          // 문제가 없으면 그대로 인원 수 변경
+          if (btn.dataset.target === 'adult') {
+            adultCount = newAdultCount;
+          } else if (btn.dataset.target === 'student') {
+            studentCount = newStudentCount;
+          }
+          updateTotalCount();
+          updateNextButtonState();
+        }
       });
     });
 
@@ -575,19 +785,29 @@
       selectedSeats.clear();
       document.querySelectorAll('.available-seat').forEach(seat => seat.classList.remove('selected'));
       updateTotalCount();
+
+      // ✅ 추가된 코드: 페이지 로드 시 초기 UI 업데이트
+      updateSeatCountUI();
     });
+
+
   });
 
   function sendSeatData(){
     console.log("sendSeatData 호출됨");
     const selectedSeatIdxList = Array.from(document.querySelectorAll('.available-seat.selected'))
             .map(seat => seat.getAttribute('data-seatidx'));
+
+    // ✅ totalAmountValue 변수를 올바르게 가져오기
+    const totalAmountValue = document.getElementById('hiddenTotalAmount').value;
+
     console.log("선택된 seatIdx 목록:", selectedSeatIdxList);
+    console.log("성인 수:", hiddenAdultCount.value, "청소년 수:", hiddenStudentCount.value); // ✅ 추가된 코드
+    console.log("최종 결제 금액:", totalAmountValue); // ✅ 추가된 코드
     if (selectedSeatIdxList.length === 0) {
       alert("좌석을 선택해주세요.");
       return;
     }
-
     const container = document.getElementById('seatHiddenContainer');
     container.innerHTML = "";
     selectedSeatIdxList.forEach(seatIdx => {
@@ -601,7 +821,6 @@
     console.log("폼 데이터:", $("#seatForm").serialize());
     document.getElementById("seatForm").submit();
   }
-
 </script>
 </body>
 </html>

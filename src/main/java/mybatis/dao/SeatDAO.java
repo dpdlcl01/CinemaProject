@@ -1,6 +1,7 @@
 package mybatis.dao;
 
 import mybatis.service.FactoryService;
+import mybatis.vo.PriceVO;
 import mybatis.vo.SeatVO;
 import org.apache.ibatis.session.SqlSession;
 
@@ -29,23 +30,25 @@ public class SeatDAO {
     }
 
     // 특정 좌석의 가격 정보 가져오기
-    public static int getSeatPrice(String screenType, String ageGroup, int dayOfWeek, int timeOfDay) {
+    public static PriceVO getSeatPrice(String screenType, String ageGroup, int dayOfWeek, int timeOfDay) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("screenType", screenType);
         map.put("ageGroup", ageGroup);
         map.put("dayOfWeek", dayOfWeek);
         map.put("timeOfDay", timeOfDay);
 
+        PriceVO priceVO = null;
+
         SqlSession ss = FactoryService.getFactory().openSession();
-        Integer price = ss.selectOne("seat.getSeatPrice", map);
+        priceVO = ss.selectOne("seat.getSeatPrice", map);
         ss.close();
 
-        if (price == null) {
+        if (priceVO == null) {
             System.out.println("데이터가 조회되지 않음 (null 반환)");
-            return 0;
+            return null;
         }
-        System.out.println("조회된 가격: " + price);
-        return price;
+        System.out.println("조회된 가격: " + priceVO);
+        return priceVO;
 
     }
 
@@ -68,6 +71,22 @@ public class SeatDAO {
         }
 
         ss.close(); // 세션 닫기
+        return result;
+    }
+
+    // 좌석 예약 delete
+    public static int deleteExpiredReservations() {
+        Map<String, Object> map = new HashMap<>();
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int result = ss.delete("seat.deleteExpiredReservations", map);
+        if(result > 0) {
+            ss.commit();
+            System.out.println("만료된 예약 " + result + "건 삭제");
+        } else {
+            ss.rollback();
+        }
+        ss.close();
         return result;
     }
 
