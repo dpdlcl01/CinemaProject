@@ -185,7 +185,7 @@
   }
 
   table th, table td {
-    border: 1px solid #ddd;
+    border: 1px solid;
     padding: 12px;
   }
 
