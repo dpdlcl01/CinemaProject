@@ -401,7 +401,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>상품이미지:</td>
+                    <td>상품 이름:</td>
                     <td><input type="text" name="productName" required /></td>
                   </tr>
                   <tr>
@@ -418,7 +418,7 @@
                   </tr>
                   <tr>
                     <td>상품 이미지:</td>
-                    <td><input type="text" name="productImg" /></td>
+                    <td><input type="text" name="productImg"/></td>
                   </tr>
                   <tr>
                     <td>상품 상태:</td>

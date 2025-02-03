@@ -2,6 +2,7 @@ package action.admin.product;
 
 import action.Action;
 import mybatis.dao.ProductDAO;
+import mybatis.vo.LogVO;
 import mybatis.vo.ProductVO;
 
 
@@ -32,6 +33,11 @@ public class ProductAddAction implements Action {
             productImg = null;
         }
 
+        // 관리자 ID
+//        HttpSession session = request.getSession();
+//        Object adminIdx = session.getAttribute("adminIdx");
+        String adminIdx = "1";
+
         // ProductVO 객체에 값 설정
         ProductVO newProduct = new ProductVO();
         newProduct.setProductCategory(productCategory); // 카테고리
@@ -42,9 +48,18 @@ public class ProductAddAction implements Action {
         newProduct.setProductImg(productImg); // 상품 이미지
         newProduct.setProductStatus(productStatus); // 상품 상태
 
-        // DAO를 통해 상품 추가
-        ProductDAO.addProduct(newProduct);
 
+
+        // DAO를 통해 상품 추가
+        int result = ProductDAO.addProduct(newProduct);
+
+        System.out.println(newProduct.getProductName());
+
+        if(result > 0){
+            logChanges(adminIdx, "adminProduct", "상품 추가", newProduct.getProductName());
+        } else {
+            System.out.println("fail");
+        }
 
         // 전체 정보 가져오기 //
         ProductVO[] productVO = ProductDAO.selectAll();
@@ -52,8 +67,17 @@ public class ProductAddAction implements Action {
             // request에 전체정보 저장
             request.setAttribute("product", productVO);
         }
-
         return "/jsp/admin/product/adminProduct.jsp";
     }
 
+    private void logChanges(String adminIdx, String target, String info, String curValue) {
+            LogVO log = new LogVO();
+            log.setLogType("0");
+            log.setAdminIdx(adminIdx);
+            log.setLogTarget(target);
+            log.setLogInfo(info);
+            log.setLogPreValue(null);
+            log.setLogCurValue(curValue);
+            ProductDAO.insertLog(log);
+    }
 }
