@@ -78,7 +78,12 @@
 <jsp:include page="../login/reservationLoginModal.jsp"/>
 <!-- (임시 버튼) -->
 <a href="#" id="reservation-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal">예매 비회원 로그인</a>
+<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal" style="display: none;">비회원</a>
 <jsp:include page="../common/footer.jsp"/>
+
+<div id="customLoginModal" style="display: none;">
+    <%-- 로그인 모달 --%>
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         var contextPath = "${pageContext.request.contextPath}";
@@ -282,7 +287,7 @@
         });
 
         // 시간표 클릭 시 좌석 페이지로 이동
-        timeSelectionContainer.addEventListener("click", function(event) {
+        timeSelectionContainer.addEventListener("click", async function (event) {
             const listItem = event.target.closest("li"); // 'li' 요소 확인
             if (listItem) {
                 const timetableIdx = listItem.getAttribute("data-timetable-id");
@@ -309,8 +314,22 @@
                         "&isMorning=" + isMorning +
                         "&isWeekend=" + isWeekend;
 
-                    console.log("생성된 URL:", url);
-                    window.location.href = url;
+                    try {
+                        // 3. 로그인 체크
+                        const response = await fetch(contextPath + "/UserController?type=loginCheck");
+                        const result = await response.json();
+
+                        if (!result.login) {
+                            $('#customLoginModal').modal('show');
+                            sessionStorage.setItem('redirectUrl', url);  // 로그인 후 돌아갈 URL 저장
+                            console.log("경로"+url);
+                        } else {
+                            window.location.href = url
+                        }
+                    } catch (error) {
+                        console.error("로그인 체크 실패:", error);
+                    }
+
                 } else {
                     console.error("필수 데이터가 누락되었습니다.");
                 }

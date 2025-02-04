@@ -149,8 +149,8 @@
     </h2>
     <div id="collapseFive" class="accordion-collapse collapse">
       <div class="accordion-body">
-        <p> <a href="#">상품 목록 조회</a></p>
-        <p style="margin-bottom: 0">  <a href="#">상품 추가/수정/삭제</a></p>
+        <p> <a href="${pageContext.request.contextPath}/AdminController?type=product">상품 목록 조회</a></p>
+        <p style="margin-bottom: 0">  <a href="${pageContext.request.contextPath}/AdminController?type=product">상품 추가/수정/삭제</a></p>
 
 
       </div>

@@ -165,12 +165,12 @@
       border-radius: 4px;
     }
 
-  #authpwd{
-    position: absolute;
-    left: 300px;
-    right: 10px;
-    top: 430px;
-  }
+    #authpwd{
+      position: absolute;
+      left: 300px;
+      right: 10px;
+      top: 430px;
+    }
 
     .inputshort {
       width: 120px;

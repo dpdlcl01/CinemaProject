@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="dialog-area">
-    <div class="modal fade dialog-area" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal fade dialog-area" id="AdminLoginModal" tabindex="-1" aria-labelledby="AdminLoginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <!-- 모달 헤더 -->
@@ -16,18 +16,17 @@
                 <div class="modal-body dialog-container">
                     <!-- 로그인 영역 -->
                     <div class="login-container">
-                        <div class="login-header">로그인</div>
-                        <%-- action="${pageContext.request.contextPath}/UserController?type=action" --%>
-                        <form method="post" id="loginForm">
-                            <input type="hidden" name="type" value="action">
-                            <input type="text" id="userId" name="userId" class="login-input form-control" placeholder="아이디" required>
-                            <input type="password" id="userPassword" name="userPassword" class="login-input form-control mt-3" placeholder="비밀번호" required>
-                            <button type="submit" class="login-button btn btn-primary mt-3">로그인</button>
+                        <div class="login-header">관리자 로그인</div>
+                        <form method="post" id="adminLoginForm">
+                            <input type="hidden" name="type" value="adminLogin">
+                            <input type="text" id="adminId" name="adminId" class="login-input" placeholder="관리자 아이디" required>
+                            <input type="password" id="adminPassword" name="adminPassword" class="login-input" placeholder="비밀번호" required>
+                            <button type="submit" class="login-button">로그인</button>
                         </form>
                         <div class="login-footer mt-3">
-                            <a href="${pageContext.request.contextPath}/UserController?type=goidfind">ID/PW 찾기</a>
-                            <a href="${pageContext.request.contextPath}/UserController?type=register" class="ms-3">회원가입</a>
-                            <a href="${pageContext.request.contextPath}/UserController?type=guestReservationCheck" class="ms-3 guest-booking-btn">비회원 예매확인</a>
+<%--                            <a href="${pageContext.request.contextPath}/UserController?type=findIdPw">ID/PW 찾기</a>--%>
+<%--                            <a href="${pageContext.request.contextPath}/UserController?type=register" class="ms-3">회원가입</a>--%>
+<%--                            <a href="${pageContext.request.contextPath}/UserController?type=guestReservationCheck" class="ms-3 guest-booking-btn">비회원 예매확인</a>--%>
                         </div>
                     </div>
                     <!-- 이미지 영역 -->
@@ -41,21 +40,22 @@
         </div>
     </div>
 </div>
+
 <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
+    document.getElementById("adminLoginForm").addEventListener("submit", function(event) {
         event.preventDefault();  // 폼 제출 기본 동작 방지
 
-        const userId = document.getElementById("userId").value;
-        const userPassword = document.getElementById("userPassword").value;
+        const adminId = document.getElementById("adminId").value;
+        const adminPassword = document.getElementById("adminPassword").value;
 
 
         // AJAX 요청 보내기
-        fetch('${pageContext.request.contextPath}/UserController?type=login', {
+        fetch('${pageContext.request.contextPath}/AdminController?type=login', {
             method: 'POST',
             credentials: 'include', // 세션 쿠키 포함
             body: new URLSearchParams({
-                userId: userId,
-                userPassword: userPassword,
+                adminId: adminId,
+                adminPassword: adminPassword,
             })
         })
             .then(response => response.json())  // 응답을 JSON으로 처리

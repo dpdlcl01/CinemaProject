@@ -38,4 +38,13 @@
         AND YEAR(pointDate) = YEAR(CURDATE()) and pointStatus=0 AND pointValue > 0
     </select>
 
+    <select id ="checkPassword" parameterType="map" resultType="int">
+        SELECT userPassword FROM user WHERE userId = #{userId}
+    </select>
+
+    <update id="updatePassword" parameterType="map">
+        UPDATE user
+        SET userPassword = #{newPassword}
+        WHERE userId = #{userId}
+    </update>
 </mapper>

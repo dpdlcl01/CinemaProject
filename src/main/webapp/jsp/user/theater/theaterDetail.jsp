@@ -56,16 +56,17 @@
 
     .theater-header .tabs {
         position: absolute;
-        top: 0px; /* 상단에 배치 */
+        top: 0; /* 상단에 배치 */
         width: 1100px;
         display: flex;
         justify-content: space-around;
-        background: rgba(0, 0, 0, 0.5); /* 배경 추가 */
         padding: 10px 0;
         margin: 0;
         z-index: 2; /* 배경 위로 배치 */
+        border-bottom: 1px solid #bbbbbb;
         /*border-radius: 10px;*/ /* 테두리 둥글게 */
     }
+
     .theater-name {
         width: 1100px;
         overflow: hidden;
@@ -88,7 +89,7 @@
 
     .theater-header .tabs li:hover {
         font-weight: bold;
-        border-bottom: 3px solid white;
+        /*border-bottom: 3px solid white;*/
     }
 
 
@@ -257,6 +258,15 @@
         border: none; /* 테두리 제거 */
     }
 
+    /* 컨테이너 */
+    .schedule-container:first-child{
+        width: 100%; /* 양쪽 테두리를 없애고 전체 너비로 확장 */
+        margin: 20px 0;
+        padding: 20px 0; /* 좌우 패딩 제거 */
+        background-color: transparent; /* 배경 색상 제거 */
+        border: none; /* 테두리 제거 */
+    }
+
     /* 영화 정보 */
     .movie-info {
         display: flex;
@@ -336,19 +346,6 @@
         border-color: #0078ff;
     }
 
-    .format {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        color: #555;
-        background-color: #f4f4f4;
-        padding: 10px;
-        border-radius: 5px;
-        margin-right: 10px;
-    }
-
     /* 전체 컨테이너 */
     .schedule-container {
         width: 100%;
@@ -356,12 +353,13 @@
         margin: 20px auto;
         padding: 20px;
         background-color: #fff;
-        border-top: 1px solid #ddd; /* 상단 보더만 유지 */
+        /*border-top: 1px solid #ddd; !* 상단 보더만 유지 *!*/
         border-bottom: 1px solid #ddd; /* 하단 보더만 유지 */
         border-left: none; /* 왼쪽 보더 제거 */
         border-right: none; /* 오른쪽 보더 제거 */
         border-radius: 0; /* 테두리 둥근 모서리 제거 */
     }
+
 
     /* 영화 정보 */
     .movie-info {
@@ -403,11 +401,6 @@
         color: #777;
     }
 
-    /* 상영 시간표 */
-    .showtimes {
-        margin-top: 20px;
-    }
-
     .theater {
         display: flex;
         align-items: flex-start;
@@ -440,11 +433,12 @@
         align-items: center;
         justify-content: center;
         font-size: 14px;
+        font-weight: bold;
         color: #555;
         background-color: #f4f4f4;
         padding: 10px;
         height: 70px; /* 높이 증가 */
-        width: 60px; /* 너비 감소 */
+        width: 75px; /* 너비 감소 */
         text-align: center;
         border-radius: 5px;
         margin-right: 10px;
@@ -503,7 +497,7 @@
         overflow: hidden;
         background-color: #fff;
         padding: 5px 0; /* 상하 패딩 축소 */
-        margin: 0;
+        margin-top: 15px;
         border-top: 1px solid #ddd; /* 위쪽 테두리 */
         border-bottom: 1px solid #ddd; /* 아래쪽 테두리 */
         width: 100%; /* 화면 너비에 맞춤 */
@@ -562,20 +556,9 @@
     }
 
     .nav-button:disabled {
-        color: #ddd;
+        /*color: #ddd;*/
         cursor: not-allowed;
     }
-
-
-
-
-    .nav-button:disabled {
-        color: #ddd;
-        cursor: not-allowed;
-    }
-
-
-
 
 
     /* 비활성화된 날짜 */
@@ -584,13 +567,13 @@
         cursor: not-allowed;
     }
 
-    /* 주말 날짜 (토요일) */
-    .date-item .weekend {
-        color: #0078ff; /* 파란색 */
+    /* 주말 날짜 */
+    .date-item.weekend span{
+        color: #ff4c4c; /* 빨간색 */
     }
 
     /* 공휴일 및 일요일 */
-    .date-item .holiday {
+    .date-item.holiday {
         color: #ff4c4c; /* 빨간색 */
     }
 
@@ -698,6 +681,13 @@
         height: 420px;
         /*margin-right: 100px;*/
     }
+
+    .movie-group{
+        margin-bottom: 30px;
+        border-bottom: 2px solid #ddd;
+    }
+
+
 </style>
 
 <!-- page-util -->
@@ -705,11 +695,11 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png" alt="극장"/>
             <label>극장</label>
-            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png" alt="전체극장"/>
             <label>전체극장</label>
-            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png" alt="상세정보"/>
             <label>상세정보</label>
         </div>
     </div>
@@ -778,47 +768,8 @@
         <h2 class="schedule-title">상영스케줄</h2>
         <div class="date-picker">
             <button class="nav-button prev">&lt;</button>
-            <ul class="date-list">
-                <li class="date-item today">
-                    <span class="date">14</span>
-                    <span class="day">오늘</span>
-                </li>
-                <li class="date-item active">
-                    <span class="date">15</span>
-                    <span class="day">내일</span>
-                </li>
-                <li class="date-item">
-                    <span class="date">16</span>
-                    <span class="day">목</span>
-                </li>
-                <li class="date-item">
-                    <span class="date">17</span>
-                    <span class="day">금</span>
-                </li>
-                <li class="date-item">
-                    <span class="date weekend">18</span>
-                    <span class="day weekend">토</span>
-                </li>
-                <li class="date-item">
-                    <span class="date holiday">19</span>
-                    <span class="day holiday">일</span>
-                </li>
-                <li class="date-item">
-                    <span class="date">20</span>
-                    <span class="day">월</span>
-                </li>
-                <li class="date-item">
-                    <span class="date">21</span>
-                    <span class="day">화</span>
-                </li>
-                <li class="date-item">
-                    <span class="date">22</span>
-                    <span class="day">수</span>
-                </li>
-                <li class="date-item disabled">
-                    <span class="date">23</span>
-                    <span class="day">목</span>
-                </li>
+            <ul id="date-list" class="date-list">
+                <!-- JavaScript로 동적으로 날짜 생성 -->
             </ul>
             <button class="nav-button next">&gt;</button>
         </div>
@@ -826,53 +777,45 @@
 
 
         <div class="schedule-container">
+        <!-- 영화 데이터가 없을 경우 -->
+        <c:if test="${empty movie}">
+            <p>영화 데이터가 없습니다.</p>
+        </c:if>
+
+        <!-- 영화 목록 반복 출력 -->
+        <c:forEach var="item" items="${movie}">
             <!-- 영화 정보 -->
+
             <div class="movie-info">
                 <div class="movie-rating">
-                    <span>15</span>
+                    <span>${item.movieGrade}</span> <%-- 영화 등급 --%>
                 </div>
                 <div class="movie-details">
-                    <strong>하얼빈</strong>
-                    <span>상영중 / 상영시간 113분</span>
+                    <strong>${item.movieTitle}</strong>
+                    <span>상영중 / 상영시간 ${item.movieTime}분</span>
                 </div>
-            </div>
+            </div> <!-- movie-info div 닫힘 -->
 
             <!-- 상영 시간표 -->
             <div class="showtimes">
-                <!-- 상영관 -->
                 <div class="theater">
                     <div class="theater-info">
-                        <strong>1관</strong>
-                        <span>총 232석</span>
+                        <strong>${item.screenName}</strong>
+                        <span>${item.screenSeatCount}석</span>
                     </div>
                     <div class="format">
-                        <span>2D</span>
+                        <span>${item.screenType}</span>
                     </div>
                     <div class="time-slots">
-                        <a href="#">11:30 <span>228석</span></a>
-                        <a href="#">13:50 <span>225석</span></a>
-                        <a href="#">16:10 <span>229석</span></a>
-                        <a href="#">18:30 <span>228석</span></a>
-                        <a href="#">20:50 <span>232석</span></a>
-                    </div>
-                </div>
-
-                <!-- 다른 상영관 -->
-                <div class="theater">
-                    <div class="theater-info">
-                        <strong>컴포트 4관 [리클라이너] [Laser]</strong>
-                        <span>총 53석</span>
-                    </div>
-                    <div class="format">
-                        <span>2D</span>
-                    </div>
-                    <div class="time-slots">
-                        <a href="#">22:10 <span>53석</span></a>
+                        <a href="#">${item.timetableStartTime} <span>${item.remainSeat}석</span></a>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+        </c:forEach>
     </div>
+</div>
+
     <!-- 영화관람료 -->
     <div id="fees" class="content">
         <h2 class="fees-title">영화관람료</h2>
@@ -927,9 +870,17 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="theaterIdx" value="${theaterIdx}" />
+<%--비회원 로그인 모달--%>
+<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#customLoginModal" style="display: none;">비회원</a>
+<jsp:include page="../login/reservationLoginModal.jsp"/>
+<div id="customLoginModal" style="display: none;">
+<%-- 로그인 모달 --%>
+</div>
 
         <!-- footer 영역 -->
         <jsp:include page="../common/footer.jsp"/>
+
 
         <!-- script 영역 -->
         <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=dc04bf5e499b3bbf3bd615ac599cba19&libraries=services"></script>
@@ -975,14 +926,19 @@
             });
 
             document.addEventListener("DOMContentLoaded", () => {
-                // 탭과 콘텐츠 가져오기
-                const tabs = document.querySelectorAll(".tabs .tab");
-                const contents = document.querySelectorAll(".contents > .content, #info"); // #info 포함
+                // 기존 탭 시스템 (data-target 사용하는 탭들)
+                const legacyTabs = document.querySelectorAll(".tabs .tab[data-target]");
+                const contents = document.querySelectorAll(".contents > .content, #info");
 
-                tabs.forEach((tab) => {
+                // 영화관 탭 시스템 (data-cinemas 사용하는 탭들)
+                const cinemaTabs = document.querySelectorAll(".tabs .tab[data-cinemas]");
+                const cinemaListContainer = document.getElementById("cinema-list-container");
+
+                // 기존 탭 시스템 동작
+                legacyTabs.forEach((tab) => {
                     tab.addEventListener("click", () => {
-                        // 모든 탭과 콘텐츠 비활성화
-                        tabs.forEach((t) => t.classList.remove("active"));
+                        // 모든 기존 탭 & 콘텐츠 비활성화
+                        legacyTabs.forEach((t) => t.classList.remove("active"));
                         contents.forEach((content) => content.classList.remove("active"));
 
                         // 클릭된 탭 활성화
@@ -991,81 +947,355 @@
                         // 해당 콘텐츠 활성화
                         const targetId = tab.getAttribute("data-target");
                         const targetContent = document.getElementById(targetId);
-                        if (targetContent) {
-                            targetContent.classList.add("active");
-                        }
+                        if (targetContent) targetContent.classList.add("active");
                     });
                 });
 
-                // 초기 상태: 첫 번째 탭과 콘텐츠 활성화
-                tabs[0]?.classList.add("active");
+                // 영화관 탭 시스템 동작 (별도 처리)
+                cinemaTabs.forEach((tab) => {
+                           // 마우스 오버 시 영화관 목록 표시
+                    tab.addEventListener("mouseover", () => {
+                        cinemaListContainer.innerHTML = tab.dataset.cinemas.split(", ").join(" | ");
+                        cinemaListContainer.style.display = "block";
+                    });
+
+                    // 마우스 아웃 시 영화관 목록 숨김
+                    tab.addEventListener("mouseout", () => {
+                        cinemaListContainer.style.display = "none";
+                    });
+                });
+
+                // 3. 컨테이너 호버 상태 유지
+                cinemaListContainer.addEventListener("mouseover", () => {
+                    cinemaListContainer.style.display = "block";
+                });
+
+                cinemaListContainer.addEventListener("mouseout", () => {
+                    cinemaListContainer.style.display = "none";
+                });
+
+                // 초기화
+                legacyTabs[0]?.classList.add("active");
                 contents[0]?.classList.add("active");
             });
 
 
             // 초기 설정
             document.addEventListener("DOMContentLoaded", () => {
-                const dateItems = document.querySelectorAll('.date-item');
-                const contentContainer = document.querySelector('.schedule-container');
-                const prevButton = document.querySelector('.nav-button.prev');
-                const nextButton = document.querySelector('.nav-button.next');
-                const dateList = document.querySelector('.date-list');
-                const visibleDates = 7; // 화면에 보이는 날짜 수 (기준)
+                const dateList = document.querySelector("#date-list");
+                const prevButton = document.querySelector(".nav-button.prev");
+                const nextButton = document.querySelector(".nav-button.next");
 
-                let currentIndex = 0;
+                // 오늘 날짜
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // 날짜 비교를 위해 시간 초기화
 
+                let currentDate = new Date(today); // 현재 선택된 날짜
+
+                // 날짜 포맷 함수
+                function formatDate(date) {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, "0");
+                    const day = String(date.getDate()).padStart(2, "0");
+                    return year + "-" + month + "-" + day;
+                }
+
+                // 요일 포맷 함수
+                function formatDay(date) {
+                    const days = ["일", "월", "화", "수", "목", "금", "토"];
+                    return days[date.getDay()];
+                }
+
+                // 주말 확인 함수
+                function isWeekend(date) {
+                    const day = date.getDay();
+                    return day === 0 || day === 6; // 일요일(0) 또는 토요일(6)
+                }
+
+                // 공휴일 확인 함수
+                function isHoliday(date) {
+                    const holidays = ["2025-01-29", "2025-01-30, 2025-01-31"]; // 공휴일 목록
+                    return holidays.includes(formatDate(date));
+                }
+
+                // 날짜 비교용 함수
+                function isToday(date) {
+                    const today = new Date();
+                    return date.getDate() === today.getDate() &&
+                        date.getMonth() === today.getMonth() &&
+                        date.getFullYear() === today.getFullYear();
+                }
+
+                /* 영화 상영시간표 */
+                function updateShowtimes() {
+                    const formattedDate = formatDate(currentDate);
+                    const theaterIdx = document.querySelector("#theaterIdx").value;
+                    const contextPath = "${pageContext.request.contextPath}";
+                    const url = contextPath + "/UserController?type=theaterMovie&theaterIdx=" + theaterIdx + "&targetDate=" + formattedDate;
+                    console.log(formattedDate); //  오늘날짜 확인용
+
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            // 현재 날짜인 경우 시간 필터링
+                            if (isToday(currentDate)) {
+                                const now = new Date();
+                                data = data.filter(item => {
+                                    const showTime = new Date(item.timetableStartTime);
+                                    return showTime > now; // 현재 시간 이후만 나오도록 설정
+                                });
+                            }
+                            const scheduleContainer = document.querySelector(".schedule-container");
+                            scheduleContainer.innerHTML = "";
+
+                            // screenType 매핑 객체 추가
+                            const screenType = {
+                                1: "COMFORT",
+                                2: "VIP",
+                                3: "DOLBY",
+                                4: "4DX",
+                                5: "IMAX"
+                            };
+
+                            if (Array.isArray(data) && data.length > 0) {
+                                // 영화명 + 상영관 기준으로 2중 그룹화
+                                const groupedData = data.reduce((acc, item) => {
+                                    // 영화 제목 그룹
+                                    const movieKey = item.movieTitle;
+                                    if (!acc[movieKey]) {
+                                        acc[movieKey] = {
+                                            movieGrade: item.movieGrade,
+                                            movieTime: item.movieTime,
+                                            screens: {}
+                                        };
+                                    }
+                                    // 상영관 이름 그룹
+                                    const screenKey = item.screenName;
+                                    if (!acc[movieKey].screens[screenKey]) {
+                                        acc[movieKey].screens[screenKey] = {
+                                            seatCount: item.screenSeatCount,
+                                            screenType: item.screenType,
+                                            times: []
+                                        };
+                                    }
+                                    // 시간 추가
+                                    acc[movieKey].screens[screenKey].times.push({
+                                        time: item.startTime, // 시간만 전시
+                                        timetable: item.timetableStartTime,
+                                        screenIdx: item.screenIdx,
+                                        remainSeat: item.remainSeat,
+                                        movieIdx: item.movieIdx,
+                                        timetableIdx: item.timetableIdx
+                                    });
+                                    return acc;
+                                }, {});
+                                // console.log("현재날짜:"+currentDate);
+
+
+
+                                // 영화정보
+                                Object.entries(groupedData).forEach(([movieTitle, movieInfo]) => {
+                                    const movieGroup = document.createElement("div");
+                                    movieGroup.className = "movie-group";
+
+                                    const movieElement = document.createElement("div");
+                                    movieElement.className = "movie-info";
+                                    // movieGrade 값에 따라 배경색 설정
+                                    let bgColor = "";
+                                    switch (movieInfo.movieGrade) {
+                                        case "ALL":
+                                            bgColor = "#4CAF50"; // 초록색
+                                            break;
+                                        case "12":
+                                            bgColor = "#FFC107"; // 노란색
+                                            break;
+                                        case "15":
+                                            bgColor = "#FF7E00"; // 주황색
+                                            break;
+                                        case "19":
+                                            bgColor = "#F44444"; // 빨간색
+                                            break;
+                                        default:
+                                            bgColor = "#ddd"; // 기본 배경색 (회색)
+                                    }
+                                    movieElement.innerHTML =
+                                        '<div class="movie-rating" style="background-color:' + bgColor + ';">' + movieInfo.movieGrade + '</span></div>' +
+                                        '<div class="movie-details">' +
+                                        '<strong>' + movieTitle + '</strong>' +
+                                        '<span>상영중 / 상영시간 ' + movieInfo.movieTime + '분</span>' +
+                                        '</div>';
+
+                                    const showtimes = document.createElement("div");
+                                    showtimes.className = "showtimes";
+
+                                    // 상영관별 처리
+                                    Object.entries(movieInfo.screens).forEach(([screenName, screen]) => {
+                                        const theater = document.createElement("div");
+                                        theater.className = "theater";
+                                        theater.innerHTML =
+                                            '<div class="theater-info">' +
+                                            '<strong>' + screenName + '</strong>' +
+                                            '<span>' + screen.seatCount + '석</span>' +
+                                            '</div>' +
+                                            '<div class="format">' +
+                                            '<span>' + screenType[screen.screenType] +'</span>'+
+                                            '</div>' +
+                                            '<div class="time-slots">' +
+                                            screen.times.map(time =>
+                                                '<a href="#" ' +
+                                                'data-timetable-idx="' + time.timetableIdx + '" ' +
+                                                'data-screen-idx="' + time.screenIdx + '" ' + //
+                                                'data-screen-type="'+ screen.screenType +'" ' +
+                                                'data-movie-idx="' + time.movieIdx + '" ' +
+                                                'data-screen-name="' + screenName + '" ' +
+                                                'data-timetable-start="' + time.timetable +'">' +
+                                                time.time + ' <span>' + time.remainSeat + '석</span>' + // db변경시 수정할 곳
+                                                '</a>'
+                                            ).join('') +
+                                            '</div>';
+                                        showtimes.appendChild(theater);
+                                    });
+                                    movieGroup.appendChild(movieElement);
+                                    movieGroup.appendChild(showtimes);
+
+                                    scheduleContainer.appendChild(movieGroup);
+
+                                });
+                            } else {
+                                scheduleContainer.innerHTML = "<p>영화 데이터가 없습니다.</p>";
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                }
                 // 날짜 클릭 이벤트
-                dateItems.forEach((item, index) => {
-                    item.addEventListener('click', () => {
-                        // 모든 날짜에서 active 제거
-                        dateItems.forEach(d => d.classList.remove('active'));
-                        item.classList.add('active');
+                document.querySelector('.schedule-container').addEventListener('click', async function(e) {
+                    const target = e.target.closest('.time-slots a');
+                    if (!target) return;
+                    e.preventDefault();
 
-                        // 컨텐츠 갱신 (여기선 임시 텍스트로 대체)
-                        contentContainer.innerHTML = `
-                <div class="movie-info">
-                    <div class="movie-rating"><span>${item.querySelector('.date').textContent}</span></div>
-                    <div class="movie-details">
-                        <strong>${item.querySelector('.day').textContent}의 상영 정보</strong>
-                        <span>상영 시간표를 확인하세요.</span>
-                    </div>
-                </div>
-            `;
-                    });
-                });
+                    const timetableStart = target.dataset.timetableStart;
 
-                // 스크롤 이동
-                const updateScroll = () => {
-                    const totalDates = dateItems.length;
-                    const maxIndex = totalDates - visibleDates; // 스크롤 가능한 최대 인덱스
+                    // URL 파라미터 생성
+                    const timetableIdx = target.dataset.timetableIdx;
+                    const screenIdx = target.dataset.screenIdx;
+                    const screenType = target.dataset.screenType;
+                    const movieIdx = target.dataset.movieIdx;
+                    const theaterIdx = document.querySelector("#theaterIdx").value;
+                    const isWeekendDay = isWeekend(currentDate);
+                    const timeString = target.textContent.split(' ')[0];
+                    const [datePart, timePart] = timetableStart.split(' ');
+                    const [hours] = timeString.split(':').map(Number);
+                    const isMorning = hours < 12;
+                    const contextPath = "${pageContext.request.contextPath}";
 
-                    // 이동 가능한 버튼 활성화/비활성화
-                    prevButton.disabled = currentIndex === 0;
-                    nextButton.disabled = currentIndex === maxIndex;
+                    //  클릭 시 이동할 경로
+                    const url = contextPath + "/UserController?type=seat" +
+                        "&movieIdx=" + movieIdx +
+                        "&screenIdx=" + screenIdx +
+                        "&timetableIdx=" + timetableIdx +
+                        "&screenType=" + screenType +
+                        "&isMorning=" + isMorning +
+                        "&isWeekend=" + isWeekendDay +
+                        "&theaterIdx=" + theaterIdx;
 
-                    // 스크롤 이동
-                    const offset = currentIndex * dateItems[0].offsetWidth;
-                    dateList.style.transform = `translateX(-${offset}px)`;
-                };
+                    try {
+                        // 3. 로그인 체크
+                        const response = await fetch(contextPath + "/UserController?type=loginCheck");
+                        const result = await response.json();
 
-                // 이전 버튼 클릭
-                prevButton.addEventListener('click', () => {
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                        updateScroll();
+                        if (!result.login) {
+                            $('#customLoginModal').modal('show');
+                            sessionStorage.setItem('redirectUrl', url);  // 로그인 후 돌아갈 URL 저장
+                        } else {
+                            window.location.href = url
+                        }
+                    } catch (error) {
+                        console.error("로그인 체크 실패:", error);
                     }
                 });
 
-                // 다음 버튼 클릭
-                nextButton.addEventListener('click', () => {
-                    if (currentIndex < dateItems.length - visibleDates) {
-                        currentIndex++;
-                        updateScroll();
+
+                // 날짜 목록 생성
+                function generateDateList(targetDate) {
+                    dateList.innerHTML = ""; // 기존 목록 초기화
+
+                    for (let i = 0; i <= 7; i++) {
+                        const date = new Date(targetDate);
+                        date.setDate(targetDate.getDate() + i);
+
+                        const li = document.createElement("li");
+                        li.classList.add("date-item");
+
+                            // 주말인 경우
+                            if (isWeekend(date)) {
+                                li.classList.add("weekend");
+                            }
+                            // 공휴일인 경우
+                            if (isHoliday(date)) {
+                                li.classList.add("holiday");
+                            }
+                            li.innerHTML = '<span class="date">' + date.getDate() + '</span>' +
+                                '<span class="day">' + formatDay(date) + '</span>';
+                        // }
+
+                        // 날짜 클릭 이벤트
+                        li.addEventListener("click", () => {
+                            // 모든 날짜에서 active 제거
+                            dateList.querySelectorAll("li").forEach(item => item.classList.remove("active"));
+                            li.classList.add("active"); // 클릭된 날짜 활성화
+
+                            // 선택된 날짜 업데이트
+                            currentDate = new Date(date);
+                            targetDate = new Date(date); // 기준점도 함께 업데이트
+                            console.log("선택한 날짜:", formatDate(currentDate));
+
+                            // 선택된 날짜에 맞는 상영 시간표 조회
+                            updateShowtimes();
+                        });
+
+                        dateList.appendChild(li); // 날짜 목록에 추가
+                    }
+                    // 이전 버튼 상태 업데이트
+                    prevButton.disabled = currentDate <= today;
+                }
+
+
+                let targetDate = new Date(); // 초기 날짜를 오늘로 설정
+
+                const today1 = new Date();
+                today1.setHours(0, 0, 0, 0);
+
+                // 이전 버튼 클릭 이벤트
+                prevButton.addEventListener("click", function () {
+                    const newTargetDate = new Date(targetDate);
+                    newTargetDate.setDate(newTargetDate.getDate() - 7);
+                    console.log("날짜"+newTargetDate);
+
+                    // 오늘보다 이전인지 확인
+                    if (newTargetDate >= today1) {
+                        targetDate = newTargetDate;
+                        generateDateList(targetDate); // 날짜 목록 갱신
+                        currentDate = new Date(targetDate); // 현재 선택 날짜 업데이트
+                        // updateShowtimes(); // 상영시간표 갱신
+                    } else {
+                        console.log("이전 날짜");
                     }
                 });
 
-                // 초기 스크롤 상태 설정
-                updateScroll();
+                // 다음 버튼 클릭 이벤트
+                nextButton.addEventListener("click", function () {
+                    const newTargetDate = new Date(targetDate);
+                    newTargetDate.setDate(newTargetDate.getDate() + 7);
+                    targetDate = newTargetDate;
+                    generateDateList(targetDate); // 날짜 목록 갱신
+                    currentDate = new Date(targetDate); // 현재 선택 날짜 업데이트
+                    // updateShowtimes(); // 상영시간표 갱신
+                });
+
+                // 초기화
+                generateDateList(today);
+
+                updateShowtimes();
             });
 
 

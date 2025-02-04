@@ -52,6 +52,8 @@
 
   ul.tabs li {
     flex: 1;
+    font-size: 15px;
+    font-weight: bold;
     text-align: center;
     padding: 10px 15px;
     cursor: pointer;

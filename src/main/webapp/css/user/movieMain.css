@@ -4,8 +4,8 @@ h1 {
 }
 
 #contents{
-    margin: 20px auto;
-    height: auto;
+    /*margin: 20px auto;*/
+    /*height: auto;*/
     width: 1100px;
 }
 #main #section05 {
@@ -129,7 +129,7 @@ h1 {
 }
 #main #section05 .cont-area .main-movie-list .btn-util {
     width: 230px;
-    margin-top: 8px;
+    /*margin-top: 8px;*/
     position: relative;
     padding: 0 0 0 85px;
 }
