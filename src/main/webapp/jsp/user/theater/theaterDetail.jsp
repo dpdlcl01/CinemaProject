@@ -801,7 +801,7 @@
                 <div class="theater">
                     <div class="theater-info">
                         <strong>${item.screenName}</strong>
-                        <span>${item.screenSeatCount}석</span>
+                        <span>${item.screenSeatCount}석"</span>
                     </div>
                     <div class="format">
                         <span>${item.screenType}</span>
@@ -1135,7 +1135,7 @@
                                         theater.innerHTML =
                                             '<div class="theater-info">' +
                                             '<strong>' + screenName + '</strong>' +
-                                            '<span>' + screen.seatCount + '석</span>' +
+                                            '<span>총&nbsp;' + screen.seatCount + '석</span>' +
                                             '</div>' +
                                             '<div class="format">' +
                                             '<span>' + screenType[screen.screenType] +'</span>'+
