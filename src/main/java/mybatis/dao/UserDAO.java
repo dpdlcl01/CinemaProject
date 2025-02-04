@@ -43,7 +43,6 @@ public class UserDAO {
     public static UserVO getUserById(String userId) {
         SqlSession ss = FactoryService.getFactory().openSession(); // SqlSession 열기
         try {
-
             return ss.selectOne("user.getUserById", userId);
         } finally {
             ss.close();

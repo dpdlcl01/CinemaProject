@@ -25,7 +25,7 @@
                             <button type="submit" class="login-button btn btn-primary mt-3">로그인</button>
                         </form>
                         <div class="login-footer mt-3">
-                            <a href="${pageContext.request.contextPath}/UserController?type=findIdPw">ID/PW 찾기</a>
+                            <a href="${pageContext.request.contextPath}/UserController?type=goidfind">ID/PW 찾기</a>
                             <a href="${pageContext.request.contextPath}/UserController?type=register" class="ms-3">회원가입</a>
                             <a href="${pageContext.request.contextPath}/UserController?type=guestReservationCheck" class="ms-3 guest-booking-btn">비회원 예매확인</a>
                         </div>
