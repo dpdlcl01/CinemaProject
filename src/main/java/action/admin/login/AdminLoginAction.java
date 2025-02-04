@@ -29,7 +29,7 @@ public class AdminLoginAction implements Action {
             AdminVO adminvo = LoginDAO.getAdminInfo(adminId);
             session.setAttribute("adminvo", adminvo);  // 세션에 관리자 정보 저장
             // main 화면 경로 반환
-            viewPath = "./jsp/admin/common/adminMain.jsp";
+            viewPath = "./jsp/admin/common/Dashboard.jsp";
         } else {
             // 추후 ajax로 모달 띄우기 구현해도 됨
 

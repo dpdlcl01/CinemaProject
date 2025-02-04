@@ -84,7 +84,7 @@
 <div class="accordion" id="accordionExample">
   <div class="accordion-item">
     <h2 class="accordion-header">
-      <a class="dashboard" href="${pageContext.request.contextPath}/AdminController?type=main">
+      <a class="dashboard" href="${pageContext.request.contextPath}/AdminController?type=dashboard">
         관리자 정보
       </a>
     </h2>
@@ -103,7 +103,7 @@
     <div id="collapseTwo" class="accordion-collapse collapse">
       <div class="accordion-body">
         <p>
-          <a href="#">회원 목록 보기</a>
+          <a href="${pageContext.request.contextPath}/AdminController?type=userlist">회원 목록 보기</a>
         </p>
         <p style="margin-bottom: 0">
         <a href="#">회원 정보 관리</a>

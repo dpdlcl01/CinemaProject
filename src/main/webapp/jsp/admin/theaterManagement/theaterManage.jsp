@@ -166,25 +166,8 @@
 </style>
 
 <body>
-<header>
-    <div class="page-util">
-        <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-            <!-- 홍길동 관리자님 위치 -->
-            <div class="location" style="flex-grow: 1;">
-                <span>홍길동 관리자님</span>
-            </div>
-            <!-- 로그인/로그아웃 버튼 -->
-            <div style="display: flex; gap: 10px; flex-shrink: 0;">
-                <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그인
-                </a>
-                <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그아웃
-                </a>
-            </div>
-        </div>
-    </div>
-</header>
+<%--  헤더  --%>
+<jsp:include page="../common/header.jsp"></jsp:include>
 <div class="admin-contents">
     <div class="total-main">
         <div class="myPage-container">

@@ -1,4 +1,4 @@
-package action.admin;
+package action.admin.userInfo;
 
 import action.Action;
 import com.google.gson.Gson;

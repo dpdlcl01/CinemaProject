@@ -170,6 +170,17 @@
         font-weight: bold;
     }
 
+    /* 클릭 가능한 행 스타일 */
+    .clickable-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    /* 마우스를 가져갔을 때 배경색 변경 */
+    .clickable-row:hover {
+        background-color: #f0f0f0;
+    }
+
     /* 페이지네이션 */
     .pagination {
         clear: both;
@@ -191,7 +202,7 @@
         position: relative;
         min-width: 32px;
         height: 32px;
-        margin: 0;
+        margin: 0 2px;
         padding: 0 8px;
         border: 1px solid #ebebeb;
         text-decoration: none;
@@ -202,39 +213,34 @@
         border-radius: 4px;
     }
 
+    .pagination .control.first {
+        background-position: 0 0;
+    }
+
+    .pagination .control.prev {
+        background-position: -32px 0;
+    }
+
     .pagination .control.next {
-        margin-left: 5px;
         background-position: -64px 0;
+    }
+
+    .pagination .control.last {
+        background-position: -96px 0;
     }
 
     .pagination .control {
         overflow: hidden;
         width: 32px;
         height: 32px;
-        background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
+        background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
     }
+
 </style>
 
 <body>
-<header>
-    <div class="page-util">
-        <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-            <!-- 홍길동 관리자님 위치 -->
-            <div class="location" style="flex-grow: 1;">
-                <span>홍길동 관리자님</span>
-            </div>
-            <!-- 로그인/로그아웃 버튼 -->
-            <div style="display: flex; gap: 10px; flex-shrink: 0;">
-                <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그인
-                </a>
-                <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그아웃
-                </a>
-            </div>
-        </div>
-    </div>
-</header>
+<%--  헤더  --%>
+<jsp:include page="../common/header.jsp"></jsp:include>
 <div class="admin-contents">
   <div class="total-main">
     <div class="myPage-container">
@@ -295,7 +301,7 @@
                     <c:forEach items="${requestScope.ar}" var="ar">
 
 
-                        <tr>
+                        <tr class="clickable-row">
                             <td>${ar.userIdx}</td>
                             <td>${ar.reservationIdx}</td>
                             <td>${ar.productName}</td>
@@ -324,8 +330,8 @@
                 <!--------------------- 페이지네이션 -------------------->
                 <nav class="pagination">
                     <c:if test="${cPage > 1}">
-                        <a href="AdminController?type=paymentList&cPage=1" class="control first">&laquo; 처음</a>
-                        <a href="AdminController?type=paymentList&cPage=${cPage - 1}" class="control prev">&lt; 이전</a>
+                        <a href="AdminController?type=paymentList&cPage=1" class="control first"></a>
+                        <a href="AdminController?type=paymentList&cPage=${cPage - 1}" class="control prev"></a>
                     </c:if>
 
                     <c:forEach begin="1" end="${totalPage}" var="pageNum">
@@ -340,8 +346,8 @@
                     </c:forEach>
 
                     <c:if test="${cPage < totalPage}">
-                        <a href="AdminController?type=paymentList&cPage=${cPage + 1}" class="control next">&gt; 다음</a>
-                        <a href="AdminController?type=paymentList&cPage=${totalPage}" class="control last">&raquo; 마지막</a>
+                        <a href="AdminController?type=paymentList&cPage=${cPage + 1}" class="control next"></a>
+                        <a href="AdminController?type=paymentList&cPage=${totalPage}" class="control last"></a>
                     </c:if>
                 </nav>
 
@@ -387,7 +393,7 @@
                         tbody.append('<tr><td colspan="11">해당 회원의 결제 내역이 없습니다.</td></tr>');
                     } else {
                         response.forEach(function(ar) {
-                            let row =  '<tr>' +
+                            let row =  '<tr class="clickable-row">' +
                                 '<td>' + undefinedToWhitespace(ar.userIdx) + '</td>' +
                                 '<td>' + undefinedToWhitespace(ar.reservationIdx) + '</td>' +
                                 '<td>' + undefinedToWhitespace(ar.productName) + '</td>' +

@@ -21,27 +21,27 @@
         padding: 20px 20px; !important;
     }
 
-  #h2 h2{
-    width: 760px;
-  }
-  #h2 button{
-    height:32px ;
-    width: 74px;
-    border: none;
-    background-color: white;
-  }
+    #h2 h2{
+        width: 760px;
+    }
+    #h2 button{
+        height:32px ;
+        width: 74px;
+        border: none;
+        background-color: white;
+    }
 
-  .myPage-container{
-    display: flex;
+    .myPage-container{
+        display: flex;
 
-  }
-  #main{
-      width: 100%;
-    margin: 27px 40px 40px 40px;
-  }
-  #main h1{
-      font-size: 30px;
-  }
+    }
+    #main{
+        width: 100%;
+        margin: 27px 40px 40px 40px;
+    }
+    #main h1{
+        font-size: 30px;
+    }
 
 
 
@@ -51,6 +51,13 @@
 
     .noticeboard.active {
         display: block;
+    }
+
+    /* form 내의 요소들을 나란히 배치 */
+    #searchForm {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* 간격 설정 */
     }
 
     .search-bar-container {
@@ -77,21 +84,24 @@
     }
 
     .search-bar2 {
-        border-bottom: 1px solid #423e3e;
-        display: inline-block;
-        position: relative;
-        width: 200px;
+        flex: 1;               /* 부모 컨테이너의 남은 공간을 차지 */
+        max-width: 400px;      /* 최대 너비 */
+        min-width: 200px;      /* 최소 너비 */
         height: 30px;
+        position: relative;
+        border-bottom: 1px solid #423e3e;
     }
 
     .search-bar2 .input-text {
-        display: inline-block;
+        width: 100%;           /* 부모의 너비에 맞게 확장 */
         background-color: transparent;
         border: 0;
         color: #000;
         line-height: 25px;
         font-size: 16px;
         outline: none;
+        padding: 0 35px 0 5px; /* 버튼과 충돌 방지 */
+        box-sizing: border-box;
     }
 
     .search-bar2 .input-text:active {
@@ -100,16 +110,15 @@
     }
 
     .search-bar2 .btn {
-        display: block;
         width: 30px;
         height: 100%;
         position: absolute;
         right: 0;
         top: 0;
         font-size: 0;
-        line-height: 0;
         border: 0;
         background-color: transparent;
+        cursor: pointer;
     }
 
     .search-bar2 .btn:hover {
@@ -153,10 +162,10 @@
     }
 
     /* 제목 왼쪽 정렬 필요할 경우 */
-/*    td:nth-child(4) {
-        text-align: left;
-        padding-left: 15px;
-    }*/
+    /*    td:nth-child(4) {
+            text-align: left;
+            padding-left: 15px;
+        }*/
 
     td a {
         color: inherit; /* 부모 요소의 색상을 따르도록 설정 */
@@ -171,6 +180,17 @@
     th {
         background-color: #f4f4f4;
         font-weight: bold;
+    }
+
+    /* 클릭 가능한 행 스타일 */
+    .clickable-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    /* 마우스를 가져갔을 때 배경색 변경 */
+    .clickable-row:hover {
+        background-color: #f0f0f0;
     }
 
     /* 페이지네이션 */
@@ -219,30 +239,13 @@
 </style>
 
 <body>
-<header>
-    <div class="page-util">
-        <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-            <!-- 홍길동 관리자님 위치 -->
-            <div class="location" style="flex-grow: 1;">
-                <span>홍길동 관리자님</span>
-            </div>
-            <!-- 로그인/로그아웃 버튼 -->
-            <div style="display: flex; gap: 10px; flex-shrink: 0;">
-                <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그인
-                </a>
-                <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그아웃
-                </a>
-            </div>
-        </div>
-    </div>
-</header>
+<%--  헤더  --%>
+<jsp:include page="../common/header.jsp"></jsp:include>
 <div class="admin-contents">
   <div class="total-main">
     <div class="myPage-container">
       <%--  사이드바  --%>
-      <jsp:include page="./common/adminSideBar.jsp"></jsp:include>
+      <jsp:include page="../common/adminSideBar.jsp"></jsp:include>
       <%--  메인  --%>
 
       <div id="main">
@@ -269,7 +272,7 @@
                     </form>
                 </div>
 
-                <table border="1">
+                <table>
                     <thead>
                     <tr>
                         <th>번호</th>
@@ -284,7 +287,7 @@
                     </thead>
                     <tbody>
                     <c:forEach var="user" items="${users}" varStatus="status">
-                        <tr>
+                        <tr class="clickable-row">
                             <input type="hidden" name="userIdx" class="userIdx" value="${user.userIdx}">
                             <td>${(paging.nowPage - 1) * paging.numPerPage + status.index + 1}</td>
                             <td>${user.userName}</td>

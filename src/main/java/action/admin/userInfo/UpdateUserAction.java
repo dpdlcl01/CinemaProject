@@ -1,10 +1,12 @@
-package action.admin;
+package action.admin.userInfo;
 
 import action.Action;
 import com.google.gson.Gson;
 import mybatis.dao.AdminDAO;
+import mybatis.vo.AdminVO;
 import mybatis.vo.LogVO;
 import mybatis.vo.UserVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,17 @@ import java.util.Map;
 public class UpdateUserAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        // 로그인 여부 확인 및 관리자 정보 가져오기
+        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
+
+        // adminvo가 null이면 로그인하지 않은 경우 - 관리자 페이지 전체 접근 불가능하므로 로그인 페이지로 전환
+        if (adminvo == null) {
+            return "AdminController?type=admin";
+        }
+
+        String adminIdx = adminvo.getAdminIdx();
+
         response.setContentType("application/json;charset=utf-8");
         PrintWriter out = response.getWriter();
         Map<String, Object> result = new HashMap<>();
@@ -28,8 +41,7 @@ public class UpdateUserAction implements Action {
             String userPoint = request.getParameter("userPoint");
             String userGrade = request.getParameter("userGrade");
 
-            Integer adminIdxObj = (Integer) request.getSession().getAttribute("adminIdx");
-            int adminIdx = (adminIdxObj != null) ? adminIdxObj : 1;
+
 
 
             AdminDAO adminDAO = new AdminDAO();
@@ -56,10 +68,10 @@ public class UpdateUserAction implements Action {
 
             if (isUpdated) {
 
-                logChange(adminDAO, adminIdx, "userName", existingUser.getUserName(), userName);
-                logChange(adminDAO, adminIdx, "userPhone", existingUser.getUserPhone(), userPhone);
-                logChange(adminDAO, adminIdx, "userPoint", existingUser.getUserPoint(), userPoint);
-                logChange(adminDAO, adminIdx, "userGrade", existingUser.getUserGrade(), userGrade);
+                logChange(adminDAO, Integer.parseInt(adminIdx), "userName", existingUser.getUserName(), userName);
+                logChange(adminDAO, Integer.parseInt(adminIdx), "userPhone", existingUser.getUserPhone(), userPhone);
+                logChange(adminDAO, Integer.parseInt(adminIdx), "userPoint", existingUser.getUserPoint(), userPoint);
+                logChange(adminDAO, Integer.parseInt(adminIdx), "userGrade", existingUser.getUserGrade(), userGrade);
 
                 result.put("success", true);
                 result.put("message", "사용자 정보가 성공적으로 수정되었습니다.");

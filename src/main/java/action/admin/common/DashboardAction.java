@@ -2,15 +2,13 @@ package action.admin.common;
 
 import action.Action;
 import mybatis.vo.AdminVO;
-import mybatis.vo.UserVO;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class AdminMainAction implements Action {
+public class DashboardAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -32,6 +30,6 @@ public class AdminMainAction implements Action {
 
 
         // main 화면 경로 반환
-        return "./jsp/admin/common/adminMain.jsp";
+        return "./jsp/admin/common/Dashboard.jsp";
     }
 }

@@ -300,30 +300,8 @@
 </style>
 
 <body>
-<header>
-  <div class="page-util">
-    <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-      <!-- 홍길동 관리자님 위치 -->
-      <div class="location" style="flex-grow: 1;">
-<%--        <span>홍길동 관리자님</span>--%>
-        <span>${sessionScope.adminvo.adminId} 관리자님</span>
-      </div>
-      <!-- 로그인/로그아웃 버튼 -->
-      <div style="display: flex; gap: 10px; flex-shrink: 0;">
-        <c:choose>
-          <c:when test="${not empty sessionScope.adminvo}">
-            <a href="#" id="member-logout-btn" title="로그아웃">로그아웃</a>
-          </c:when>
-          <c:otherwise>
-            <!-- 세션에 uservo가 없으면 로그인 버튼 -->
-            <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal">로그인</a>
-            <a href="${pageContext.request.contextPath}/UserController?type=register" title="회원가입">회원가입</a>
-          </c:otherwise>
-        </c:choose>
-      </div>
-    </div>
-  </div>
-</header>
+<%--  헤더  --%>
+<jsp:include page="../common/header.jsp"></jsp:include>
 <div class="admin-contents">
   <div class="total-main">
     <div class="myPage-container">
