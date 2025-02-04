@@ -6,85 +6,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 로그인</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
         }
 
-        .login-page {
-            width: 400px;
-            padding: 20px;
+        .form-signin {
+            width: 100%;
+            max-width: 360px;
+            padding: 30px;
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .login-header {
             font-size: 24px;
             font-weight: bold;
             color: #6a5acd;
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .login-button {
-            width: 100%;
-            padding: 12px;
-            background-color: #6a5acd;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        .form-floating input {
+            height: 50px;
             font-size: 16px;
-            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #6c63ff;
+            border: none;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #584de6;
+        }
+
+        .login-links {
             margin-top: 10px;
-        }
-
-        .login-button:hover {
-            background-color: #5a4cad;
-        }
-
-        .login-footer {
+            display: flex;
+            justify-content: space-around;
             font-size: 14px;
-            margin-top: 20px;
+            color: #6c63ff;
         }
 
-        .login-footer a {
-            color: #6a5acd;
+        .login-links a {
             text-decoration: none;
+            color: #6c63ff;
         }
 
-        .login-footer a:hover {
+        .login-links a:hover {
             text-decoration: underline;
         }
+
     </style>
 </head>
 <body>
-<div class="login-page">
-    <div class="login-header">관리자 로그인</div>
+<main class="form-signin text-center">
     <form method="post" action="${pageContext.request.contextPath}/AdminController?type=adminLogin">
-        <input type="text" name="adminId" class="login-input" placeholder="아이디" required>
-        <input type="password" name="adminPassword" class="login-input" placeholder="비밀번호" required>
-        <button type="submit" class="login-button">로그인</button>
+        <h1 class="login-header">관리자 로그인</h1>
+
+        <div class="form-floating mb-3">
+            <input type="text" name="adminId" class="form-control" id="floatingInput" placeholder="아이디">
+            <label for="floatingInput">아이디</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" name="adminPassword" class="form-control" id="floatingPassword" placeholder="비밀번호">
+            <label for="floatingPassword">비밀번호</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+        <p class="mt-3 mb-3 text-muted">© 2025</p>
     </form>
-    <div class="login-footer">
-        <a href="${pageContext.request.contextPath}/AdminController?type=findIdPw">ID/PW 찾기</a>
-    </div>
-</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

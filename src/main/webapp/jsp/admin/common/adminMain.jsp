@@ -11,14 +11,65 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <style>
-    .admin-contents {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* 화면 전체 높이 */
+        margin: 0;
+    }
+
+    header, .admin-contents, footer {
         width: 100%;
+    }
+
+    .admin-contents {
+        flex: 1; /* 컨텐츠가 부족할 경우 남는 공간을 채움 */
         min-height: 550px;
     }
+
+    footer {
+        background-color: #f8f9fa;
+        padding: 15px 0;
+        text-align: center;
+        font-size: 14px;
+        color: #6c757d;
+        border-top: 1px solid #dee2e6;
+    }
+
+    footer a {
+        color: #503396;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    footer a:hover {
+        text-decoration: underline;
+    }
+
     .page-util .inner-wrap {
         max-width: 100%; !important;
         padding: 20px 20px; !important;
     }
+    .btn-logout {
+      font-weight: 500;
+      color: #6c757d;
+      background-color: white;
+      border: 1px solid #ced4da;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+    }
+
+    .btn-logout:hover {
+      background-color: #e9ecef;
+      border-color: #adb5bd;
+      text-decoration: none;
+    }
+
   #top1{
     background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
     color: white;
@@ -252,25 +303,7 @@
 </style>
 
 <body>
-<header>
-    <div class="page-util">
-        <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-            <!-- 홍길동 관리자님 위치 -->
-            <div class="location" style="flex-grow: 1;">
-                <span>${sessionScope.adminvo.adminId } 관리자님</span>
-            </div>
-            <!-- 로그아웃 버튼 -->
-            <div style="display: flex; gap: 10px; flex-shrink: 0;">
-                <a href="${pageContext.request.contextPath}/AdminController?type=adminLogout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
-                    로그아웃
-                </a>
-                <a href="${pageContext.request.contextPath}/UserController?type=main" title="사용자 화면" style="text-decoration: none; color: black; font-weight: 600;">
-                    사용자화면
-                </a>
-            </div>
-        </div>
-    </div>
-</header>
+    <jsp:include page="header.jsp"/>
 <div class="admin-contents">
   <div class="total-main">
     <div class="myPage-container">
@@ -313,9 +346,7 @@
     </div>
   </div>
 </div>
-
-
-<%--<jsp:include page="../../user/common/footer.jsp"/>--%>
-
+<!-- footer 영역 -->
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
