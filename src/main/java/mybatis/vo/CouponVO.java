@@ -1,7 +1,7 @@
 package mybatis.vo;
 
 public class CouponVO {
-    private String couponIdx, couponName, couponInfo, couponType, couponValue, couponRegDate, couponExpDate, couponStatus, couponUserIdx,
+    private String couponIdx, couponName, couponCategory,  couponInfo, couponType, couponValue, couponRegDate, couponExpDate, couponStatus, couponUserIdx,
                 userIdx, couponUserStatus, couponUserDate;
 
     public String getCouponIdx() {
@@ -44,7 +44,15 @@ public class CouponVO {
         this.couponName = couponName;
     }
 
-    public String getCouponInfo() {
+  public String getCouponCategory() {
+    return couponCategory;
+  }
+
+  public void setCouponCategory(String couponCategory) {
+    this.couponCategory = couponCategory;
+  }
+
+  public String getCouponInfo() {
         return couponInfo;
     }
 

@@ -10,4 +10,18 @@
         INSERT INTO log (logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue, logDate)
         VALUES (#{logType}, #{adminIdx}, #{logTarget}, #{logInfo}, #{logPreValue}, #{logCurValue}, NOW())
     </select>
+
+    <!-- 로그 조회 -->
+    <select id="getAllLogs" parameterType="map" resultType="mybatis.vo.LogVO">
+        SELECT *
+        FROM log
+        ORDER BY logIdx DESC
+        LIMIT #{begin, jdbcType=INTEGER}, #{end, jdbcType=INTEGER}
+    </select>
+
+    <!-- 총 게시물 수를 반환하는 기능 -->
+    <select id="getTotalCount" resultType="int">
+        select count(*)
+        from log
+    </select>
 </mapper>

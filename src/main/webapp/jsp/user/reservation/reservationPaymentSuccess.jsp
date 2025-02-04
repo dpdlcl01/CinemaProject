@@ -157,49 +157,49 @@
     <h1 style="margin-bottom: 30px">예매완료</h1>
 
     <!-- 예매 내역 반복 출력 -->
-    <c:forEach var="vo" items="${guestReservationList}">
-        <div id="main">
-            <div id="imgDiv">
-                <p>티켓 예매번호</p>
-                <p><strong>${vo.formattedReservationIdx}</strong></p>
-                <img src="${vo.moviePosterUrl}" id="movieImg" alt="영화 포스터">
-                <p>${vo.movieTitle}</p>
-            </div>
+    <div id="main">
+        <div id="imgDiv">
+            <p>티켓 예매번호</p>
+            <p><strong>${requestScope.vo.formattedReservationIdx}</strong></p>
+            <img src="${requestScope.vo.moviePosterUrl}" id="movieImg" alt="영화 포스터">
+            <p>${requestScope.vo.movieTitle}</p>
+        </div>
 
-            <div id="successInfo">
-                <p><strong>예매가 완료되었습니다!</strong></p>
-                <hr>
-                <div id="liDiv">
-                    <div><p>예매영화 :</p> ${vo.movieTitle}</div>
-                    <div><p>관람극장/상영관 :</p> ${vo.theaterName} / ${vo.screenName}</div>
-                    <div><p>관람일시 :</p> ${vo.timetableStartTime}</div>
+        <div id="successInfo">
+            <p><strong>예매가 완료되었습니다!</strong></p>
+            <hr>
+            <div id="liDiv">
+                <div><p>예매영화 :</p> ${requestScope.vo.movieTitle}</div>
+                <div><p>관람극장/상영관 :</p> ${requestScope.vo.theaterName} / ${requestScope.vo.screenName}</div>
+                <div><p>관람일시 :</p> ${requestScope.vo.timetableStartTime}</div>
 
-                    <!-- ✅ 결제 가격 합계 변수 선언 -->
-                    <c:set var="totalPrice" value="0" />
+                <!-- ✅ 결제 가격 합계 변수 선언 -->
+                <c:set var="totalPrice" value="0" />
 
-                    <!-- ✅ 좌석 정보를 한 줄로 표시하면서 가격 합산 -->
-                    <div><p>좌석번호 :</p>
-                        <c:forEach var="seat" items="${vo.seats}" varStatus="status">
-                            <span class="seat-list">${seat.seatNumber} (${seat.seatAgeGroupText})</span>
-                            <c:if test="${!status.last}">, </c:if>
+                <!-- ✅ 좌석 정보를 한 줄로 표시하면서 가격 합산 -->
+                <div><p>좌석번호 :</p>
+                    <c:forEach var="seat" items="${requestScope.vo.seats}" varStatus="status">
+                        <span class="seat-list">${seat.seatNumber} (${seat.seatAgeGroupText})</span>
+                        <c:if test="${!status.last}">, </c:if>
 
-                            <!-- ✅ 개별 좌석 가격 합산 -->
-                            <c:set var="totalPrice" value="${totalPrice + seat.seatPrice}" />
-                        </c:forEach>
-                    </div>
-
-                    <!-- ✅ 결제 가격 합계 출력 -->
-                    <div><p>결제정보 :</p> <strong>${totalPrice} 원</strong></div>
+                        <!-- ✅ 개별 좌석 가격 합산 -->
+                        <c:set var="totalPrice" value="${totalPrice + seat.seatPrice}" />
+                    </c:forEach>
                 </div>
+
+                <!-- ✅ 결제 가격 합계 출력 -->
+                <div><p>결제정보 :</p> <strong>${totalPrice} 원 </strong></div>
+                <div><p>할인금액 :</p> <strong>${requestScope.paymentDiscount} 원 </strong></div>
+                <div><p>결제금액 :</p> <strong>${requestScope.paymentFinal} 원 </strong></div>
             </div>
         </div>
+    </div>
 
-        <!-- ✅ 버튼을 검은 배경 밑에 위치 -->
-        <div id="btnDiv">
-            <button type="button">교환권 출력</button>
-            <button type="button">예매내역</button>
-        </div>
-    </c:forEach>
+    <!-- ✅ 버튼을 검은 배경 밑에 위치 -->
+    <div id="btnDiv">
+        <button type="button">교환권 출력</button>
+        <button type="button">예매내역</button>
+    </div>
 
     <div id="lastElement">
         <li>※상영안내</li>
