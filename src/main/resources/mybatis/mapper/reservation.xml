@@ -64,4 +64,10 @@
     WHERE theaterIdx = #{theaterIdx}
   </select>
 
+  <update id="updateReservation" parameterType="String">
+    UPDATE reservation
+    SET reservationStatus = 1
+    WHERE reservationIdx=#{ridx};
+  </update>
+
 </mapper>

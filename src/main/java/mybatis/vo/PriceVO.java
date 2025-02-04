@@ -2,7 +2,7 @@ package mybatis.vo;
 
 public class PriceVO {
 
-  private String priceIdx, screenType, ageGroup, dayOfWeek, timeOfDay, seatPrice;
+  private String priceIdx, screenType, ageGroup, dayOfWeek, timeOfDay, teenPrice, generalPrice, seatPrice;
 
   public String getPriceIdx() {
     return priceIdx;
@@ -42,6 +42,22 @@ public class PriceVO {
 
   public void setTimeOfDay(String timeOfDay) {
     this.timeOfDay = timeOfDay;
+  }
+
+  public String getTeenPrice() {
+    return teenPrice;
+  }
+
+  public void setTeenPrice(String teenPrice) {
+    this.teenPrice = teenPrice;
+  }
+
+  public String getGeneralPrice() {
+    return generalPrice;
+  }
+
+  public void setGeneralPrice(String generalPrice) {
+    this.generalPrice = generalPrice;
   }
 
   public String getSeatPrice() {
