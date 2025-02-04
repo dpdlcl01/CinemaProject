@@ -1,4 +1,4 @@
-package action.user.board;
+package action.admin.board;
 
 import action.Action;
 import mybatis.dao.BoardDAO;
@@ -53,6 +53,6 @@ public class ListAction implements Action {
         request.setAttribute("page", page);
         request.setAttribute("cPage", cPage);
 
-        return "/jsp/user/notice/noticeMain.jsp";
+        return "/jsp/admin/notice/adminNoticeMain.jsp";
     }
 }

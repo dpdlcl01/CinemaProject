@@ -181,8 +181,8 @@
     </h2>
     <div id="collapseSeven" class="accordion-collapse collapse">
       <div class="accordion-body">
-        <p>   <a href="#">공지사항 작성/수정/삭제</a></p>
-        <p style="margin-bottom: 0"><a href="#">이벤트 등록/수정/삭제</a></p>
+        <p>   <a href="${pageContext.request.contextPath}/AdminController?type=adBoard">공지사항 작성/수정/삭제</a></p>
+          <p style="margin-bottom: 0"><a href="#">이벤트 등록/수정/삭제</a></p>
 
 
 

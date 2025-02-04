@@ -1,4 +1,4 @@
-package action.user.board;
+package action.admin.board;
 
 import action.Action;
 import mybatis.dao.BoardDAO;
@@ -30,6 +30,6 @@ public class ViewAction implements Action {
         request.setAttribute("pboard", pbo);
         request.setAttribute("nboard", nbo);
 
-        return "/jsp/user/notice/noticePost.jsp";
+        return "/jsp/admin/notice/adminNoticeView.jsp";
     }
 }
