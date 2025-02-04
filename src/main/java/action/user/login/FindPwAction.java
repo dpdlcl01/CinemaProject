@@ -45,12 +45,12 @@ public class FindPwAction implements Action {
             } else {
                 System.out.println("FindPwAction : user not found.");
                 request.setAttribute("error", "사용자를 찾을 수 없습니다.");
-                return "/jsp/user/login/result/pwFind_failed.jsp";
+                return "./jsp/user/common/error.jsp";
             }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "오류가 발생하였습니다. 관리자에게 문의하세요.");
-            return "/jsp/user/login/result/pwFind_failed.jsp";
+            return "./jsp/user/common/error.jsp";
         }
     }
 }

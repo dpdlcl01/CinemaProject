@@ -133,7 +133,7 @@
         <table>
             <tr>
                 <td><label for="userName">이름</label></td>
-                <td><input type="text" class="inputshort" name="userName" id="userName" placeholder="이름" required></td>
+                <td><input type="text" class="inputshort" name="userName" id="userName" placeholder="이름"></td>
             </tr>
             <tr>
                 <td><label for="emailpart1">이메일</label></td>
@@ -155,7 +155,8 @@
             </tr>
         </table>
         <div class="button-container">
-            <button id="findid" name="findid" onclick="findid(this.form)" type="submit">확인</button>
+            <!-- 버튼 클릭 시 findid 함수 호출 -->
+            <button type="button" id="findid" name="findid" onclick="searchid(event, this.form)">확인</button>
         </div>
     </form>
 
@@ -182,19 +183,37 @@
         })
     })
 
-    function findid(frm) {
-        let userName = $(".inputValue[name='userName']").val();
-        let emailPart1 = $(".inputEmail[name='emailpart1']").val();
-        let emailPart2 = $(".inputEmail[name='emailpart2']").val();
+    function searchid(event, frm) {
+        event.preventDefault(); // 기본 동작 방지
+
+        let userName = document.getElementById("userName").value.trim();
+        let emailPart1 = document.getElementById("emailpart1").value.trim();
+        let emailPart2 = document.getElementById("emailpart2").value.trim();
         const userEmail = document.getElementById("userEmail");
 
-        userName = $.trim(userName);
-        emailPart1 = $.trim(emailPart1);
-        emailPart2 = $.trim(emailPart2);
-
+        // 이메일 조합
         userEmail.value = emailPart1 + "@" + emailPart2;
 
+        // 입력값 검증
+        if (!userName || userName.length < 1) {
+            alert("이름을 입력해주세요.");
+            return false;
+        }
+
+        if (!emailPart1 || emailPart1.length < 3) {
+            alert("이메일 첫 번째 칸을 입력해주세요.");
+            return false;
+        }
+
+        if (!emailPart2 || emailPart2.length < 3) {
+            alert("이메일 두 번째 칸을 선택하거나 입력해주세요.");
+            return false;
+        }
+
+        // type 값 설정
         document.getElementById("type").value = "findid";
+
+        // 폼 제출
         frm.submit();
     }
 </script>

@@ -24,7 +24,7 @@
         <img src="../../../img/complete.png">
       </div>
       <div id="main3Title">
-        <p>${userName}님 비밀번호 변경이 완료되었습니다.</p>
+        <p>${userId}님 비밀번호 변경이 완료되었습니다.</p>
         <p>3초후 메인으로 자동 이동됩니다.</p>
       </div>
 

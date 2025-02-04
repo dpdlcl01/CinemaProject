@@ -14,7 +14,6 @@ public class EditMyInfoAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        // 로그인 여부 확인 및 사용자 정보 가져오기
         UserVO uservo = SessionUtil.getLoginUser(request);
         if (uservo == null) {
             return "UserController?type=main";
@@ -27,7 +26,7 @@ public class EditMyInfoAction implements Action {
         if (user == null) {
             System.out.println("no user info.");
             request.setAttribute("message", "유저 정보를 찾을 수 없습니다.");
-            return "/jsp/user/myPage/error.jsp"; // 에러 페이지로 이동
+            return "./jsp/user/common/error.jsp";
         }
 
         request.setAttribute("user", user);

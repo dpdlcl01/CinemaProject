@@ -10,10 +10,10 @@ import java.util.HashMap;
 
 
 public class RegisterAction implements Action {
-    private static final String register_form = "/jsp/user/register/register.jsp";
-    private static final String register_suc = "/jsp/user/register/reg_Result/registerSuccess.jsp";
-    private static final String register_fail = "/jsp/user/register/reg_Result/registerFail.jsp";
-    private static final String register_error = "/jsp/user/register/reg_Result/registerError.jsp";
+   private static final String register_form = "/jsp/user/register/register.jsp";
+   private static final String register_suc = "/jsp/user/register/reg_Result/registerSuccess.jsp";
+   private static final String register_fail = "/jsp/user/register/reg_Result/registerFail.jsp";
+//    private static final String register_error = "/jsp/user/register/reg_Result/registerError.jsp";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -36,7 +36,7 @@ public class RegisterAction implements Action {
 
         if (isNullOrEmpty(userName) || isNullOrEmpty(userId) || isNullOrEmpty(userPassword)
                 || isNullOrEmpty(userEmail) || isNullOrEmpty(userPhone)) {
-            return register_fail; // 실패 페이지 반환
+            return "./jsp/user/common/error.jsp"; // 실패 페이지 반환
         }
 
 
@@ -70,8 +70,8 @@ public class RegisterAction implements Action {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "회원가입 중 오류가 발생했습니다.");
-            return register_error; // 에러 페이지 반환
+            request.setAttribute("error", "회원가입 중 오류가 발생했습니다.");
+            return "./jsp/user/common/error.jsp"; // 에러 페이지 반환
         }
     }
 

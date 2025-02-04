@@ -33,11 +33,11 @@ public class UserIdCheckAction implements Action {
 
             response.getWriter().write(jsonResponse);
             response.getWriter().flush();
-            response.getWriter().close();  // 스트림을 닫아 명확히 종료
+            response.getWriter().close();
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "서버 내부 오류 발생");
         }
-        return ""; // 명확한 종료 처리
+        return "";
     }
 }

@@ -171,11 +171,11 @@
         <table>
             <tr>
                 <td>아이디</td>
-                <td><input type="text" name="userId" placeholder="아이디" required></td>
+                <td><input type="text" id="userId" name="userId" placeholder="아이디" required></td>
             </tr>
             <tr>
                 <td>이름</td>
-                <td><input type="text" name="userName" placeholder="이름" required></td>
+                <td><input type="text" id="userName" name="userName" placeholder="이름" required></td>
             </tr>
             <tr>
                 <td>이메일</td>
@@ -234,7 +234,7 @@
             </tr>
         </table>
         <div class="pwrecovery">
-        <button type="submit" onclick="gotosumbit(this.form)">비밀번호 찾기</button>
+        <button type="submit" onclick="gotosumbit(event, this.form)">비밀번호 찾기</button>
         </div>
     </form>
 
@@ -289,32 +289,34 @@
         xhr.send("authCode=" + encodeURIComponent(authCode));
     }
 
-    function validateForm() {
+    function gotosumbit(event, frm) {
+        event.preventDefault();
+
         const userId = document.getElementById("userId").value.trim();
         const userName = document.getElementById("userName").value.trim();
         const emailPart1 = document.getElementById("emailpart1").value.trim();
         const emailPart2 = document.getElementById("emailpart2").value.trim();
         const authCode = document.getElementById("authcode").value.trim();
 
-        if (!userId) {
+        if (!userId || userId.length < 3) {
             alert("아이디를 입력해주세요.");
             document.getElementById("userId").focus();
             return false;
         }
 
-        if (!userName) {
+        if (!userName || userName.length < 1) {
             alert("이름을 입력해주세요.");
             document.getElementById("userName").focus();
             return false;
         }
 
-        if (!emailPart1) {
+        if (!emailPart1 || emailPart1.length < 3) {
             alert("이메일 아이디를 입력해주세요.");
             document.getElementById("emailpart1").focus();
             return false;
         }
 
-        if (!emailPart2) {
+        if (!emailPart2 || emailPart2.length < 7) {
             alert("이메일 도메인을 선택하거나 입력해주세요.");
             document.getElementById("emailpart2").focus();
             return false;
