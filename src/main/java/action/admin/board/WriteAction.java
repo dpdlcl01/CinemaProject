@@ -2,34 +2,35 @@ package action.admin.board;
 
 import action.Action;
 import mybatis.dao.BoardDAO;
-import mybatis.vo.BoardVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WriteAction implements Action {
-
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
-        // 기본키 boardIdx값을 파라미터로 받기, bType , cPage, ....
-        String boardIdx = request.getParameter("boardIdx");
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        int currentBoardIdx = Integer.parseInt(boardIdx);
+        String[] selectedNotices = request.getParameterValues("selectedNotice");
 
-        String keyword = request.getParameter("keyword");
-        String region = request.getParameter("region");
-        String theater = request.getParameter("theater");
+        if (selectedNotices != null && selectedNotices.length > 0) {
+            List<Integer> boardIdxList = new ArrayList<>();
+            for (String noticeId : selectedNotices) {
+                boardIdxList.add(Integer.parseInt(noticeId));  // 문자열을 정수로 변환
+            }
 
-        // 위의 기본키는 DB로부터 원하는 게시물을 검색하기 위해 받았다.
-        BoardVO bo = BoardDAO.getBoard(boardIdx);
-        BoardVO pbo = BoardDAO.getPreviousBoard("notice", boardIdx, keyword, region, theater);
-        BoardVO nbo = BoardDAO.getNextBoard("notice", boardIdx, keyword, region, theater);
+            int result = BoardDAO.deleteMultipleBoards(boardIdxList);  // DAO 호출
 
-
-        request.setAttribute("board", bo);
-        request.setAttribute("pboard", pbo);
-        request.setAttribute("nboard", nbo);
+            if (result > 0) {
+                response.sendRedirect("AdminController?type=adBoard&msg=deleteSuccess");  // 삭제 성공 시 리다이렉트
+            } else {
+                response.sendRedirect("AdminController?type=adBoard&msg=deleteFail");  // 삭제 실패 시 리다이렉트
+            }
+        } else {
+            response.sendRedirect("AdminController?type=adBoard&msg=noSelection");  // 선택된 항목이 없을 경우
+        }
 
         return "/jsp/admin/notice/adminNoticeWrite.jsp";
     }

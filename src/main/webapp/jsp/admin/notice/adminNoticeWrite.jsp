@@ -8,6 +8,8 @@
 
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Summernote CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <style>
@@ -367,6 +369,43 @@
         font-size: 14px;
     }
 
+    /* summernote */
+    #main {
+        margin: 50px 0 50px 50px;
+        width: 840px;
+    }
+    .note-editor.note-frame {
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .btn-submit {
+        background-color: #6a5acd;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .btn-submit:hover {
+        background-color: #5a4db2;
+    }
+
+    #summernote, .note-editor {
+        all: unset !important;  /* 모든 기존 스타일 초기화 */
+    }
+
+
 </style>
 
 <body>
@@ -388,6 +427,22 @@
             <%--  메인  --%>
                 
             <div id="main">
+                <h1>공지사항 작성</h1>
+                <form action="AdminController" method="post">
+                    <input type="hidden" name="type" value="adWriteSubmit">
+
+                    <div class="form-group">
+                        <label for="title">제목</label>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">내용</label>
+                        <textarea id="summernote" name="content"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">등록</button>
+                </form>
 
 
             </div>
@@ -397,7 +452,27 @@
 
 <jsp:include page="../../user/common/footer.jsp"/>
 
+<!-- Summernote JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+
+
 <script>
+    $(document).ready(function() {
+        console.log("jQuery가 작동 중");
+
+        try {
+            $('#summernote').summernote({
+                placeholder: '내용을 입력하세요...',
+                tabsize: 2,
+                height: 300
+            });
+            console.log("Summernote 초기화 성공");
+        } catch (error) {
+            console.error("Summernote 초기화 오류:", error);
+        }
+    });
+
+
     var total = ${requestScope.total};
     document.addEventListener("DOMContentLoaded", function () {
         if (total >= 13000 && total < 20000) {

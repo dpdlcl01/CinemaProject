@@ -137,6 +137,34 @@ public class BoardDAO {
         ss.close();
         return nboard;
     }
+
+    // 단일 게시물 삭제
+    public static int deleteBoard(int boardIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.delete("board.deleteBoard", boardIdx);
+        if (cnt > 0) {
+            ss.commit();  // 삭제 성공 시 커밋
+        } else {
+            ss.rollback();  // 삭제 실패 시 롤백
+        }
+        ss.close();
+        return cnt;
+    }
+
+    // 여러 게시물 삭제
+    public static int deleteMultipleBoards(List<Integer> boardIdxList) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.delete("board.deleteMultipleBoards", boardIdxList);
+        if (cnt > 0) {
+            ss.commit();  // 삭제 성공 시 커밋
+        } else {
+            ss.rollback();  // 삭제 실패 시 롤백
+        }
+        ss.close();
+        return cnt;
+    }
+
+
 }
 
 

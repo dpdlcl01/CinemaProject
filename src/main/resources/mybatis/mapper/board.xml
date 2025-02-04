@@ -107,6 +107,15 @@
     </select>
 
 
+    <!-- 여러 개의 공지사항 삭제 쿼리 (배열 처리) -->
+    <delete id="deleteMultipleBoards" parameterType="list">
+        DELETE FROM board
+        WHERE boardIdx IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>
 
 

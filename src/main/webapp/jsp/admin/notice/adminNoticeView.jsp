@@ -307,6 +307,23 @@
         margin: 20px 0;
     }
 
+    .navigation-table td:first-child {
+        background-color: #f8f8f8;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .navigation-table td {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        vertical-align: middle;
+    }
+
+    a{
+        color: inherit !important;
+    }
+
+
     .btn-list {
         display: block;
         width: 100px;
@@ -348,7 +365,12 @@
                     <h2>공지사항</h2>
                     <h1 class="notice-title">${board.boardTitle}</h1>
                     <div class="notice-info">
-                        <span>영화관: ${param.theater}</span> | <span>구분: 공지</span> |
+                        <span>영화관: <c:if test="${board.theaterName ne null}">
+                        <td>${board.theaterName}</td>
+                    </c:if>
+                        <c:if test="${board.theaterName eq null}">
+                            <td>메가박스</td>
+                        </c:if></span> | <span>구분: 공지</span> |
                         <span>등록일: ${board.boardRegDate}</span>
                     </div>
                     <div class="notice-content">

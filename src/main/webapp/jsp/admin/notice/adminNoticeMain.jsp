@@ -352,9 +352,44 @@
         font-size: 30px;
     }
 
-    .noticeboard table {
+    table {
         width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 16px;
+        text-align: center;
+        border-top: 2px solid #000 !important;
     }
+
+    th, td {
+        padding: 12px 15px; /* 셀 안쪽 여백 추가 */
+        border-bottom: 1px solid #ddd !important;
+    }
+    td:nth-child(4) {
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2; /* 헤더 배경색 */
+        font-weight: bold;
+    }
+
+    tr {
+        border-bottom: 1px solid #ddd; /* 행 간 구분선 */
+    }
+
+    tr:last-child {
+        border-bottom: none; /* 마지막 행 구분선 제거 */
+    }
+
+    tr:hover {
+        background-color: #f9f9f9; /* 마우스 오버 시 배경색 */
+    }
+
+    a{
+        color: inherit !important;
+    }
+
 
     .writeNotice {
         float: right;
@@ -365,6 +400,14 @@
         text-decoration: none;
         border-radius: 5px;
         font-size: 14px;
+    }
+
+    .checkbox-column {
+        display: none;
+    }
+
+    .delete{
+        display: none;
     }
 
 </style>
@@ -394,6 +437,8 @@
                     <div id="announcement" class="noticeboard">
                         <div class="search-bar-container">
                             <div class="total-count">전체 ${requestScope.total}건</div>
+                            <button id="delete" class="delete">삭제</button>
+                            <button id="toggleSelect">선택</button>
                             <!-- 검색어 입력 섹션 -->
                             <form method="post" action="AdminController" class="search-bar">
                                 <input type="hidden" name="type" value="adBoard"/>
@@ -425,46 +470,58 @@
 
 
                         <!-- 공지사항 테이블 -->
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>극장</th>
-                                <th>구분</th>
-                                <th>제목</th>
-                                <th>등록일</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:set var="pvo" value="${requestScope.page}"/>
-                            <c:forEach var="vo" items="${ar }" varStatus="vs">
-                                <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
+                        <form id="deleteForm" method="post" action="AdminController">
+                            <input type="hidden" name="type" value="adWrite">
+                            <table>
+                                <thead>
                                 <tr>
-                                    <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index)+1 }</td>
-                                    <c:if test="${vo.theaterName ne null}">
-                                        <td>${vo.theaterName}</td>
-                                    </c:if>
-                                    <c:if test="${vo.theaterName eq null}">
-                                        <td>메가박스</td>
-                                    </c:if>
-                                    <td>공지</td>
-                                    <td>
-                                        <a href="AdminController?type=adView&boardIdx=${vo.boardIdx}">${vo.boardTitle}</a>
-                                    </td>
-                                    <td>${vo.boardRegDate.substring(0,10)}</td>
+                                    <th class="checkbox-column">
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+                                    <th>번호</th>
+                                    <th>극장</th>
+                                    <th>구분</th>
+                                    <th>제목</th>
+                                    <th>등록일</th>
                                 </tr>
-                            </c:forEach>
-                            <c:if test="${ar eq null or fn:length(ar) eq 0 }">
-                                <tr>
-                                    <td colspan="5">현재 등록된 데이터가 없습니다.</td>
-                                </tr>
-                            </c:if>
+                                </thead>
+                                <tbody>
+                                <c:set var="pvo" value="${requestScope.page}"/>
+                                <c:forEach var="vo" items="${ar }" varStatus="vs">
+                                    <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
+                                    <tr>
+                                        <%-- 체크박스 --%>
+                                            <td class="checkbox-column">
+                                                <input type="checkbox" class="row-checkbox" name="selectedNotice" value="${vo.boardIdx}">
+                                            </td>
 
-                            </tbody>
-                        </table>
+                                        <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index)+1 }</td>
+                                        <c:if test="${vo.theaterName ne null}">
+                                            <td>${vo.theaterName}</td>
+                                        </c:if>
+                                        <c:if test="${vo.theaterName eq null}">
+                                            <td>메가박스</td>
+                                        </c:if>
+                                        <td>공지</td>
+                                        <td>
+                                            <a href="AdminController?type=adView&boardIdx=${vo.boardIdx}">${vo.boardTitle}</a>
+                                        </td>
+                                        <td>${vo.boardRegDate.substring(0,10)}</td>
+                                    </tr>
+                                </c:forEach>
+                                <c:if test="${ar eq null or fn:length(ar) eq 0 }">
+                                    <tr>
+                                        <td colspan="5">현재 등록된 데이터가 없습니다.</td>
+                                    </tr>
+                                </c:if>
 
-                        <a href=""
-                        <button>글쓰기</button>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <a href="AdminController?type=adWrite" class="writeNotice">글쓰기</a>
+
+
 
                         <!-- 페이지네이션 -->
                         <nav class="pagination">
@@ -523,6 +580,18 @@
 
 <jsp:include page="../../user/common/footer.jsp"/>
 
+<!-- 삭제 결과 메시지 표시 -->
+<c:if test="${param.msg == 'deleteSuccess'}">
+    <script>alert('선택한 공지사항이 삭제되었습니다.');</script>
+</c:if>
+<c:if test="${param.msg == 'deleteFail'}">
+    <script>alert('삭제에 실패했습니다. 다시 시도하세요.');</script>
+</c:if>
+<c:if test="${param.msg == 'noSelection'}">
+    <script>alert('삭제할 공지사항을 선택하세요.');</script>
+</c:if>
+
+
 <script>
     // 지역별 극장 목록
     const theatersByRegion = {
@@ -572,6 +641,45 @@
             }
         }
     };
+
+    // 선택눌렀을때 체크박스
+    document.getElementById('toggleSelect').addEventListener('click', function () {
+        const checkboxes = document.querySelectorAll('.checkbox-column');
+        const deleteButton = document.getElementById('delete');
+
+        let isVisible = checkboxes[0].style.display === 'table-cell';
+
+        checkboxes.forEach(checkbox => {
+            checkbox.style.display = isVisible ? 'none' : 'table-cell';
+        });
+
+        // 삭제 버튼도 선택 버튼과 함께 보이게/숨기게
+        deleteButton.style.display = isVisible ? 'none' : 'inline-block';
+    });
+
+    // 전체선택
+    document.getElementById('selectAll').addEventListener('change', function () {
+        const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+        rowCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;  // 전체 체크박스 상태에 따라 개별 체크박스 변경
+        });
+    });
+
+    // 삭제버튼 누를시
+    document.getElementById('delete').addEventListener('click', function () {
+        const selectedItems = document.querySelectorAll('.row-checkbox:checked');
+        if (selectedItems.length === 0) {
+            alert('삭제할 항목을 선택하세요.');
+            return;
+        }
+
+        if (confirm('선택한 항목을 삭제하시겠습니까?')) {
+            const form = document.getElementById('deleteForm');
+            form.submit();  // 선택된 항목을 서버로 전송하여 삭제 요청
+        }
+    });
+
+
 
     var total = ${requestScope.total};
     document.addEventListener("DOMContentLoaded", function () {
