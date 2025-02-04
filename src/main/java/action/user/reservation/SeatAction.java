@@ -56,7 +56,6 @@ public class SeatAction implements Action {
 
       // 유저의 쿠폰 리스트
       List<CouponVO> couponList = ReservationPaymentDAO.userCouponList(uservo.getUserIdx());
-      System.out.println(couponList.get(0).getCouponName());
 
       // 예약 후 timetableIdx와 seatIdxList 값을 request에 담아 결제 페이지로 포워딩
       request.setAttribute("timetableIdx", timetableIdx);

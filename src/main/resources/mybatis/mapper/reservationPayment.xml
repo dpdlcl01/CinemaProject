@@ -94,7 +94,7 @@
   <!-- 결제 후 포인트 차감 및 기록 -->
   <update id="updateUserPoint" parameterType="map">
     UPDATE user
-    SET userPoint = userPoint - #{pointDiscount}
+    SET userPoint = userPoint - #{pointValue}
     WHERE userIdx = #{userIdx}
   </update>
 

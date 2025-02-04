@@ -107,16 +107,40 @@
     #main h1{
         font-size: 30px;
     }
-    table {
+    table th {
+        border: 1px solid #ccc;
+        background-color: #dddddd;
+        color: #1e1e1e;
+        font-weight: bold;
+        padding: 12px;
+    }
+
+    table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* 테이블 호버 효과 */
+    table tbody tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+    }
+
+    /* 테이블 셀 스타일 */
+    table td {
+        padding: 12px;
+        border: 1px solid #ddd; /* 테두리 색상 */
+    }
+
+    /* 입력 필드와 셀렉트 박스 스타일 */
+    #title td input, #title td select {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 8px;
         width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed; /* 테이블이 지정된 너비 내에서 고정됨 */
-        margin-top: 20px;
+        text-align: center;
+        transition: border-color 0.3s ease;
     }
-    table, th {
-        border-top: 1px solid #333;
-        border-bottom: 1px solid #333;
-    }
+
     th, td {
         font-size: 13px;
         padding: 8px;
@@ -132,6 +156,29 @@
     th {
         background-color: #f4f4f4;
         font-weight: bold;
+    }
+
+    table tfoot ol.paging {
+        list-style:none;
+    }
+
+    table tfoot ol.paging li {
+        float:left;
+        margin-right:8px;
+    }
+
+    table tfoot ol.paging li a {
+        display:block;
+        padding:3px 7px;
+        border:1px solid #00B3DC;
+        color:#2f313e;
+        font-weight:bold;
+    }
+
+    table tfoot ol.paging li a:hover {
+        background:#00B3DC;
+        color:white;
+        font-weight:bold;
     }
 </style>
 
@@ -189,23 +236,65 @@
                             <th style="width: 10%;">관리</th>  <!-- 수정 및 삭제 버튼 -->
                         </tr>
                         </thead>
-                        <tbody>
-                        <c:forEach var="log" items="${allLogList}">
+
+                        <tfoot>
                             <tr>
-                                <td>${log.logIdx}</td>
-                                <td>${log.logType}</td>
-                                <td>${log.adminIdx}</td>
-                                <td>${log.logTarget}</td>
-                                <td>${log.logInfo}</td>
-                                <td>${log.logPreValue}</td>
-                                <td>${log.logCurValue}</td>
-                                <td>${log.logDate}</td>
-                                <td>
-                                    <button onclick="editLog(${log.logIdx})" style="margin-right: 5px;">수정</button>
-                                    <button onclick="deleteLog(${log.logIdx})" style="color: red;">삭제</button>
+                                <td colspan="7">
+                                    <ol class="paging">
+                                        <c:if test="${requestScope.page ne null}">
+                                            <c:set var="pvo" value="${requestScope.page}"/>
+                                            <c:if test="${pvo.startPage < pvo.pagePerBlock}">
+                                                <li class="disable">&lt;</li>
+                                            </c:if>
+                                            <c:if test="${pvo.startPage >= pvo.pagePerBlock}">
+                                                <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement&cPage=${pvo.startPage - pvo.pagePerBlock}">&lt;</a></li>
+                                            </c:if>
+                                            <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="status">
+                                                <c:if test="${status.index eq pvo.nowPage}">
+                                                    <li class="now">${status.index}</li>
+                                                </c:if>
+                                                <c:if test="${status.index ne pvo.nowPage}">
+                                                    <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement=list&cPage=${status.index}">${status.index}</a></li>
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:if test="${pvo.endPage < pvo.totalPage}">
+                                                <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement&cPage=${pvo.startPage+pvo.pagePerBlock}">&gt;</a></li>
+                                            </c:if>
+                                            <c:if test="${pvo.endPage >= pvo.totalPage}">
+                                                <li class="disable">&gt;</li>
+                                            </c:if>
+                                        </c:if>
+                                    </ol>
                                 </td>
                             </tr>
-                        </c:forEach>
+                        </tfoot>
+
+                        <tbody>
+                        <c:choose>
+                            <c:when test="${empty ar}">
+                                <tr>
+                                    <td colspan="9" style="text-align: center; color: red;">로그 데이터가 없습니다.</td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="log" items="${ar}">
+                                    <tr>
+                                        <td>${log.logIdx}</td>
+                                        <td>${log.logType}</td>
+                                        <td>${log.adminIdx}</td>
+                                        <td>${log.logTarget}</td>
+                                        <td>${log.logInfo}</td>
+                                        <td>${log.logPreValue}</td>
+                                        <td>${log.logCurValue}</td>
+                                        <td>${log.logDate}</td>
+                                        <td>
+                                            <button onclick="editLog(${log.logIdx})">수정</button>
+                                            <button onclick="deleteLog(${log.logIdx})" style="color: red;">삭제</button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
                         </tbody>
                     </table>
                 </div>

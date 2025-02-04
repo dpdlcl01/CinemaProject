@@ -188,7 +188,9 @@
                 </div>
 
                 <!-- ✅ 결제 가격 합계 출력 -->
-                <div><p>결제정보 :</p> <strong>${totalPrice} 원</strong></div>
+                <div><p>결제정보 :</p> <strong>${totalPrice} 원 </strong></div>
+                <div><p>할인금액 :</p> <strong>${requestScope.paymentDiscount} 원 </strong></div>
+                <div><p>결제금액 :</p> <strong>${requestScope.paymentFinal} 원 </strong></div>
             </div>
         </div>
     </div>

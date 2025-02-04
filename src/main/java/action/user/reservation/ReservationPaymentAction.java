@@ -53,6 +53,8 @@ public class ReservationPaymentAction implements Action {
 
     if (paymentKey == null || orderId == null || amount == null) {
       System.out.println("[오류] 요청 파라미터 부족");
+      String error = "결제 중 오류가 발생했습니다.";
+      request.setAttribute("error", error);
       response.sendRedirect("./jsp/user/reservation/reservationPaymentFail.jsp");
       return null;
     }
@@ -124,7 +126,7 @@ public class ReservationPaymentAction implements Action {
     reservationPaymentVO.setReservationIdx(reservationIdx);
     reservationPaymentVO.setPaymentMethod(confirmResponse.getString("method"));
     reservationPaymentVO.setPaymentTotal(paymentTotal);
-    reservationPaymentVO.setPaymentDiscount(paymentDiscount + pointDiscount);
+    reservationPaymentVO.setPaymentDiscount(paymentDiscount);
     reservationPaymentVO.setPaymentFinal(paymentFinal);
     reservationPaymentVO.setPaymentTransactionId(orderId);
     reservationPaymentVO.setPaymentStatus(paymentStatus);
@@ -137,11 +139,10 @@ public class ReservationPaymentAction implements Action {
     if (Integer.parseInt(pointDiscount) > 0) {
       System.out.println("포인트 사용 ! pointDiscount:" + pointDiscount);
 
-      int pointCount = Integer.parseInt(pointDiscount);
-      System.out.println("pointCount:" + pointCount);
+      System.out.println("pointCount:" + pointDiscount);
 
       // 유저 포인트 감소
-      boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointCount);
+      boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointDiscount);
       System.out.println("pointUpdated:" + pointUpdated);
 
       if (pointUpdated) {
@@ -151,7 +152,7 @@ public class ReservationPaymentAction implements Action {
         reservationPointVO.setPointValue(pointDiscount);
 
         ReservationPaymentDAO.insertPointUsage(reservationPointVO);
-        System.out.println(reservationPointVO.getPointIdx());
+        System.out.println(reservationPointVO.getUserIdx());
       }
     }
 
@@ -167,6 +168,8 @@ public class ReservationPaymentAction implements Action {
 
     // JSP에 결제 정보 전달
     request.setAttribute("vo", reservationDetailVO);
+    request.setAttribute("paymentDiscount", paymentDiscount);
+    request.setAttribute("paymentFinal", paymentFinal);
 
     return "./jsp/user/reservation/reservationPaymentSuccess.jsp";
   }
