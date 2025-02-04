@@ -56,19 +56,5 @@
         WHERE userEmail = #{userEmail}
     </select>
 
-    <!-- 어드민 로그인  -->
-    <select id="adminCheck" resultType="int">
-        SELECT COUNT(*)
-        FROM admin
-        WHERE adminId = #{adminId}
-        AND adminPassword = #{adminPassword}
-        AND adminStatus = 0
-    </select>
-
-    <select id="getAdminInfo" parameterType="map" resultType="mybatis.vo.AdminVO">
-        SELECT *
-        FROM admin
-        WHERE adminId = #{adminId}
-    </select>
 
 </mapper>
