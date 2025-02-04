@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class UserController extends HttpServlet {
         actionMap = new HashMap<>();
     }
 
-   
+
     public void init() throws ServletException {
         // 생성자 다음에 수행하는 함수
         // 첫 요청자에 의해 단! 한번만 수행하는 곳!
@@ -113,7 +114,7 @@ public class UserController extends HttpServlet {
         }//while의 끝
     }
 
-    
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("utf-8");
@@ -147,10 +148,22 @@ public class UserController extends HttpServlet {
       System.out.println("type: " + type);
       System.out.println("viewPath: " + viewPath);
 
-        // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
         if (viewPath == null) {
             if (!response.isCommitted()) {
-                response.sendRedirect("UserController?type=main");
+                // AJAX 요청인지 확인
+                String requestedWith = request.getHeader("X-Requested-With");
+                if ("XMLHttpRequest".equals(requestedWith)) {
+                    // JSON 응답 반환
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 상태 코드 반환
+                    PrintWriter out = response.getWriter();
+                    out.flush();
+                    out.close();
+                } else {
+                    // 일반 요청인 경우 메인 페이지로 리다이렉트
+                    response.sendRedirect("UserController?type=main");
+                }
             }
             return;
         }
@@ -159,7 +172,7 @@ public class UserController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         doGet(request, response);

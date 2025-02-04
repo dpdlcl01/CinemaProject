@@ -183,7 +183,7 @@
       </div>
     </div>
 
-    <form action="${pageContext.request.contextPath}/UserController?type=changepw" method="POST">
+    <form id="passwordChangeForm" action="${pageContext.request.contextPath}/UserController?type=changepw" method="POST">
     <div id="passwordMain">
       <h2>비밀번호 변경</h2>
       ${success}
@@ -198,7 +198,7 @@
         <tbody>
         <tr>
           <td class="title">현재 비밀번호</td>
-          <td><input type="password" id="oldpassword" name="oldpassword"></td>
+          <td><input type="password" id="currentPassword" name="currentPassword"></td>
         </tr>
         <tr>
           <td class="title">새 비밀번호</td>
@@ -213,6 +213,35 @@
             <input type="password" id="newPassword2" name="newPassword2" oninput="pwCheck()" placeholder="위에서 입력한 비밀번호와 동일하게 작성하세요.">
             <div id="authpwd" style="margin-top: 5px; font-size: 12px; color: red;">비밀번호를 입력하여 주세요.</div>
           </td>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              document.getElementById("changePasswordButton").addEventListener("click", function (event) {
+                event.preventDefault();
+
+                const currentPassword = document.getElementById("currentPassword").value;
+                const newPassword = document.getElementById("newPassword").value;
+
+                $.ajax({
+                  url: "${pageContext.request.contextPath}/UserController?type=changepw",
+                  dataType: "json",
+                  headers: { "Accept": "application/json" },
+                  type: "POST",
+                  data: { currentPassword, newPassword },
+                  success: function (response) {
+                    if (response.status === "success") {
+                      alert("비밀번호가 성공적으로 변경되었습니다.");
+                    } else if (response.status === "invalid_password") {
+                      alert("현재 비밀번호가 일치하지 않습니다.");
+                    } else if (response.status === "unauthorized") {
+                      alert("로그인이 필요합니다.");
+                    } else {
+                      alert("비밀번호 변경에 실패하였습니다.");
+                    }
+                  },
+                });
+              });
+            });
+          </script>
         </tr>
         </tbody>
       </table>
@@ -222,7 +251,7 @@
       </div>
       <div id="lastBtnDiv">
         <button type="button" class="lastBtn" onclick="returnMain()">취소</button>
-        <button type="button" class="lastBtn" id="changeuserpassword" onclick="changeuserpassword()">변경</button>
+        <button type="button" class="lastBtn" id="changePasswordButton" name="changePasswordButton">변경</button>
       </div>
 
     </div>
@@ -235,6 +264,7 @@
 <jsp:include page="../common/footer.jsp"/>
 
 <!-- script 영역 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   function viewP(){
     const editPassword = document.getElementById('editPassword');
@@ -258,7 +288,7 @@
     mainDiv.style.display='block';
   }
   function pwCheck() {
-    const oldpassword = document.getElementById('oldpassword').value;
+    const currentPassword = document.getElementById('currentPassword').value;
     const authPwd = document.getElementById('authpwd');
     const newPassword = document.getElementById('newPassword').value;
     const newPassword2 = document.getElementById('newPassword2').value;
@@ -277,52 +307,6 @@
       // changeuserpassword.disabled = true;
     }
   }
-
-  $(document).ready(function () {
-    $("#changeuserpassword").click(function (event) {
-      event.preventDefault(); // 기본 폼 제출 방지
-
-      let oldPassword = $("#oldpassword").val();
-      let newPassword = $("#newPassword").val();
-      let newPassword2 = $("#newPassword2").val();
-
-      // 비밀번호 유효성 검사
-      if (newPassword.length < 8) {
-        alert("새 비밀번호는 최소 8자리 이상이어야 합니다.");
-        return;
-      }
-      if (newPassword !== newPassword2) {
-        alert("새 비밀번호가 일치하지 않습니다.");
-        return;
-      }
-
-      $.ajax({
-        url: '${pageContext.request.contextPath}/UserController?type=changepw',
-        type: 'POST',
-        data: JSON.stringify({
-          oldpassword: $('#oldpassword').val(),
-          newPassword: $('#newpassword').val()
-        }),
-        contentType: 'application/json',
-        success: function(response) {
-          if (response.success) {
-            alert(response.message); // 성공 메시지 출력
-            window.location.href = '/profile.jsp'; // 프로필 페이지로 리다이렉트
-          } else {
-            alert(response.message); // 실패 메시지 출력
-          }
-        },
-        error: function(xhr) {
-          if (xhr.status === 401) {
-            alert('세션이 만료되었습니다. 다시 로그인하세요.');
-            window.location.href = '/login.jsp'; // 로그인 페이지로 리다이렉트
-          } else {
-            alert('오류가 발생했습니다. 관리자에게 문의하세요.');
-          }
-        }
-      });
-    });
-  });
 </script>
 </body>
 </html>

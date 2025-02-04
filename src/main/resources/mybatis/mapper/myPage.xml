@@ -38,8 +38,14 @@
         AND YEAR(pointDate) = YEAR(CURDATE()) and pointStatus=0 AND pointValue > 0
     </select>
 
-    <select id ="checkPassword" parameterType="map" resultType="int">
-        SELECT userPassword FROM user WHERE userId = #{userId}
+    <select id="getUser2" parameterType="string" resultType="mybatis.vo.UserVO">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <select id="getPasswordHash" parameterType="string" resultType="string">
+        SELECT userPassword
+        FROM user
+        WHERE userId = #{userId}
     </select>
 
     <update id="updatePassword" parameterType="map">
