@@ -54,4 +54,24 @@ public class PointDAO {
         }
     }
 
+    // 포인트 내역 조회 (기간 필터 포함)
+    public static PointVO[] getListWithDate(String userIdx, String startDate, String endDate) {
+        PointVO[] ar = null;
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userIdx", userIdx);
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+
+        List<PointVO> list = ss.selectList("point.getPointList", map);
+        ss.close();
+
+        if (list != null && !list.isEmpty()) {
+            ar = new PointVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
 }

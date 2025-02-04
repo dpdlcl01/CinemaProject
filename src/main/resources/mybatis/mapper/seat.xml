@@ -3,31 +3,39 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="seat">
-  <!--  예매 완료, 임시 확보 좌석 조회  -->
-  <select id="availableSeats" resultType="mybatis.vo.SeatVO">
-    SELECT s.seatIdx, s.screenIdx, s.seatNumber,
-    IFNULL(ss.seatStatus, 0) AS seatStatus
-    FROM seat s
-    LEFT JOIN seatStatus ss
-    ON s.seatIdx = ss.seatIdx AND ss.timetableIdx = #{timetableIdx}
-    WHERE s.screenIdx = #{screenIdx}
-    ORDER BY s.seatNumber;
-  </select>
+    <!--  예매 완료, 임시 확보 좌석 조회  -->
+    <select id="availableSeats" resultType="mybatis.vo.SeatVO">
+        SELECT s.seatIdx, s.screenIdx, s.seatNumber,
+        IFNULL(ss.seatStatus, 0) AS seatStatus
+        FROM seat s
+        LEFT JOIN seatStatus ss
+        ON s.seatIdx = ss.seatIdx AND ss.timetableIdx = #{timetableIdx}
+        WHERE s.screenIdx = #{screenIdx}
+        ORDER BY s.seatNumber;
+    </select>
 
-  <!--  가격  -->
-  <select id="getSeatPrice" parameterType="map" resultType="mybatis.vo.PriceVO">
-    SELECT priceIdx, seatPrice
-    FROM price
-    WHERE screenType = #{screenType}
-    AND ageGroup = #{ageGroup}
-    AND dayOfWeek = #{dayOfWeek}
-    AND timeOfDay = #{timeOfDay}
-  </select>
+    <!--  가격  -->
+    <select id="getSeatPrice" parameterType="map" resultType="mybatis.vo.PriceVO">
+        SELECT *
+        FROM price
+        WHERE screenType = #{screenType}
+        AND ageGroup = #{ageGroup}
+        AND dayOfWeek = #{dayOfWeek}
+        AND timeOfDay = #{timeOfDay}
+    </select>
 
-  <!--  좌석 상태 예약 업데이트  -->
-  <insert id="insertSeatStatus" parameterType="map">
-    INSERT INTO seatStatus (timetableIdx, seatStatus, seatIdx)
-    VALUES (#{timetableIdx}, #{seatStatus}, #{seatIdx})
-  </insert>
+    <!--  좌석 예약  -->
+    <insert id="insertSeatStatus" parameterType="map">
+        INSERT INTO seatStatus (timetableIdx, seatStatus, seatIdx, reservedTime)
+        VALUES (#{timetableIdx}, #{seatStatus}, #{seatIdx}, NOW())
+    </insert>
+
+
+    <!-- 만료된 예약 삭제 SQL (예약 상태가 2이고, reservedTime과 현재 시간 차이가 10분 이상인 경우 삭제) -->
+    <delete id="deleteExpiredReservations" parameterType="map">
+        DELETE FROM seatStatus
+        WHERE seatStatus = 2
+        AND TIMESTAMPDIFF(MINUTE, reservedTime, NOW()) >= 10
+    </delete>
 
 </mapper>

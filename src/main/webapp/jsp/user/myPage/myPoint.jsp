@@ -55,8 +55,19 @@
               <td>${userPoints}P</td>
             </tr>
             <tr>
-              <td>VIP 선정 누적 포인트</td>
-              <td>${userVIPPoints}P</td>
+              <td colspan="2" id="vipStatus">
+                <c:choose>
+                  <c:when test="${loggedInUser.userGrade eq 'Basic'}">
+                    VIP 등급까지 <span id="pointsToVIP"></span>P 필요합니다.
+                  </c:when>
+                  <c:when test="${loggedInUser.userGrade eq 'VIP'}">
+                    VVIP 등급까지 <span id="pointsToVVIP"></span>P 필요합니다.
+                  </c:when>
+                  <c:otherwise>
+                    최고 등급입니다.
+                  </c:otherwise>
+                </c:choose>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -68,15 +79,16 @@
 
           <!-- 조회 폼 -->
           <form id="search-form" action="${pageContext.request.contextPath}/UserController?type=myPoint" method="get">
-            <label for="start-date">조회기간:</label>
+            <label for="start-date">조회기간 </label>
             <input type="date" id="start-date" name="startDate" value="${param.startDate != null ? param.startDate : '2025-01-01'}">
             ~
             <input type="date" id="end-date" name="endDate" value="${param.endDate != null ? param.endDate : '2025-12-31'}">
-            <button type="submit">조회</button>
+            <button type="button" id="searchButton">조회</button>
+            <button type="button" id="totalButton">전체</button>
           </form>
 
           <!-- 조회 결과 -->
-          <table class="history-table">
+          <table id="pointTable" class="history-table">
             <thead>
             <tr><th>일자</th><th>구분</th><th>내용</th><th>포인트 변동</th></tr>
             </thead>
@@ -124,5 +136,116 @@
 </div>
 
 <jsp:include page="../common/footer.jsp"/>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var searchButton = document.getElementById("searchButton");
+    var totalButton = document.getElementById("totalButton");
+
+    searchButton.addEventListener("click", function () {
+      var startDate = document.getElementById("start-date").value;
+      var endDate = document.getElementById("end-date").value;
+
+      console.log("조회 기간: " + startDate + " ~ " + endDate);
+
+      var url = "UserController?type=pointFilter&startDate=" + startDate + "&endDate=" + endDate;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var pointList = JSON.parse(xhr.responseText);
+          updatePointTable(pointList);
+        }
+      };
+
+      xhr.send();
+    });
+
+    function updatePointTable(pointList) {
+      var tableBody = document.getElementById("pointTable").getElementsByTagName("tbody")[0];
+
+      if (!tableBody) {
+        console.error("tableBody 요소를 찾을 수 없습니다.");
+        return;
+      }
+
+      tableBody.innerHTML = ""; // 기존 내용 제거 후 새로운 데이터 추가
+
+      if (!pointList || pointList.length === 0) {
+        var emptyRow = document.createElement("tr");
+        var emptyCell = document.createElement("td");
+        emptyCell.colSpan = "4";
+        emptyCell.textContent = "포인트 내역이 없습니다.";
+        emptyRow.appendChild(emptyCell);
+        tableBody.appendChild(emptyRow);
+        return;
+      }
+
+      pointList.forEach(function (point) {
+        var row = document.createElement("tr");
+
+        // 날짜 셀
+        var dateCell = document.createElement("td");
+        dateCell.textContent = point.pointDate;
+        dateCell.className = "date";
+
+        // 구분 셀
+        var typeCell = document.createElement("td");
+        typeCell.className = "type";
+        if (point.pointType === "0") {
+          typeCell.textContent = "적립";
+        } else if (point.pointType === "1") {
+          typeCell.textContent = "사용";
+        } else {
+          typeCell.textContent = "만료";
+        }
+
+        // 내용 셀
+        var detailCell = document.createElement("td");
+        detailCell.className = "detail";
+        detailCell.textContent = point.pointSource;
+
+        // 포인트 변동 셀
+        var changeCell = document.createElement("td");
+        changeCell.className = "change";
+        if (point.pointType === "0") {
+          changeCell.textContent = "+ " + point.pointValue + "P";
+        } else {
+          changeCell.textContent = "- " + point.pointValue + "P";
+        }
+
+        row.appendChild(dateCell);
+        row.appendChild(typeCell);
+        row.appendChild(detailCell);
+        row.appendChild(changeCell);
+
+        tableBody.appendChild(row);
+      });
+
+      document.getElementById("totalButton").addEventListener("click", function () {
+        window.location.href = "UserController?type=myPoint"; // 초기 화면처럼 다시 호출
+      });
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var userGrade = "${loggedInUser.userGrade}";  // 현재 등급
+    var currentVIPPoints = ${userVIPPoints};  // 현재 VIP 포인트
+
+    var vipThreshold = 13000;  // Basic -> VIP 기준
+    var vvipThreshold = 20000; // VIP -> VVIP 기준
+
+    if (userGrade === "Basic") {
+      var pointsToVIP = vipThreshold - currentVIPPoints;
+      document.getElementById("pointsToVIP").textContent = pointsToVIP > 0 ? pointsToVIP : 0;
+    } else if (userGrade === "VIP") {
+      var pointsToVVIP = vvipThreshold - currentVIPPoints;
+      document.getElementById("pointsToVVIP").textContent = pointsToVVIP > 0 ? pointsToVVIP : 0;
+    }
+  });
+</script>
+
 </body>
 </html>

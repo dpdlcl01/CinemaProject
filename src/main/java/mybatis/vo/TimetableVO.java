@@ -3,7 +3,8 @@ package mybatis.vo;
 public class TimetableVO {
     private String timetableIdx, movieIdx, theaterIdx, screenIdx,
             timetableStartTime, timetableEndTime, screenName, screenType,
-            movieTitle, theaterName, movieReservationRate, screenSeatCount, seatStatus, availableSeats;
+            movieTitle, theaterName, theaterRegion, movieReservationRate, screenSeatCount, seatStatus, availableSeats;
+
 
     public String getMovieTitle() {
         return movieTitle;
@@ -19,6 +20,14 @@ public class TimetableVO {
 
     public void setTheaterName(String theaterName) {
         this.theaterName = theaterName;
+    }
+
+    public String getTheaterRegion() {
+        return theaterRegion;
+    }
+
+    public void setTheaterRegion(String theaterRegion) {
+        this.theaterRegion = theaterRegion;
     }
 
     public String getMovieReservationRate() {
@@ -102,4 +111,6 @@ public class TimetableVO {
     public void setTimetableEndTime(String timetableEndTime) {
         this.timetableEndTime = timetableEndTime;
     }
+
+
 }

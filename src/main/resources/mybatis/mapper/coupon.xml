@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coupon">
+    <!-- 사용자의 전체 쿠폰 수 구하기 -->
+    <select id="totalCount" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM couponUserMapping
+        WHERE userIdx = #{userIdx}
+    </select>
+
     <!--  사용자 쿠폰 조회  -->
     <select id="userCoupon" parameterType="map" resultType="mybatis.vo.CouponVO">
         SELECT c.couponIdx, c.couponName, c.couponInfo, c.couponType, c.couponValue, c.couponRegDate, c.couponExpDate, c.couponStatus,
@@ -10,7 +17,30 @@
         FROM coupon c
         JOIN couponUserMapping cum ON c.couponIdx = cum.couponIdx
         WHERE cum.userIdx = #{userIdx}
+
         ORDER BY c.couponExpDate DESC
-        LIMIT #{begin}, #{end};
+        LIMIT #{begin}, #{numPerPage};
     </select>
+
+    <!-- 페이징 없이 -->
+    <select id="userCouponNoPaging" parameterType="map" resultType="mybatis.vo.CouponVO">
+        SELECT c.*, cum.couponUserStatus, cum.couponUserDate
+        FROM couponUserMapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        <if test="filter == '사용가능'">
+            AND cum.couponUserStatus = 0
+            AND c.couponExpDate >= NOW()
+        </if>
+        <if test="filter == '사용완료'">
+            AND cum.couponUserStatus = 1
+        </if>
+        <if test="filter == '기간만료'">
+            AND c.couponExpDate &lt; NOW()
+            AND cum.couponUserStatus = 0
+        </if>
+        ORDER BY c.couponExpDate ASC
+    </select>
+
+
 </mapper>

@@ -1,90 +1,94 @@
 package mybatis.vo;
 
 public class SeatVO {
-  private String seatIdx, screenIdx, seatNumber, seatStatus, priceIdx, screenType, ageGroup, dayOfWeek, timeOfDay, seatPrice
-      , timetableIdx;
+    private String seatIdx, screenIdx, seatNumber, seatStatus, priceIdx, screenType, ageGroup, dayOfWeek, timeOfDay, seatPrice
+            , timetableIdx, reservedTime;
 
-  public String getTimetableIdx() { return timetableIdx; }
+    public String getReservedTime() { return reservedTime; }
 
-  public void setTimetableIdx(String timetableIdx) { this.timetableIdx = timetableIdx; }
+    public void setReservedTime(String reservedTime) { this.reservedTime = reservedTime; }
 
-  public String getSeatIdx() {
-    return seatIdx;
-  }
+    public String getTimetableIdx() { return timetableIdx; }
 
-  public void setSeatIdx(String seatIdx) {
-    this.seatIdx = seatIdx;
-  }
+    public void setTimetableIdx(String timetableIdx) { this.timetableIdx = timetableIdx; }
 
-  public String getScreenIdx() {
-    return screenIdx;
-  }
+    public String getSeatIdx() {
+        return seatIdx;
+    }
 
-  public void setScreenIdx(String screenIdx) {
-    this.screenIdx = screenIdx;
-  }
+    public void setSeatIdx(String seatIdx) {
+        this.seatIdx = seatIdx;
+    }
 
-  public String getSeatNumber() {
-    return seatNumber;
-  }
+    public String getScreenIdx() {
+        return screenIdx;
+    }
 
-  public void setSeatNumber(String seatNumber) {
-    this.seatNumber = seatNumber;
-  }
+    public void setScreenIdx(String screenIdx) {
+        this.screenIdx = screenIdx;
+    }
 
-  public String getSeatStatus() {
-    return seatStatus;
-  }
+    public String getSeatNumber() {
+        return seatNumber;
+    }
 
-  public void setSeatStatus(String seatStatus) {
-    this.seatStatus = seatStatus;
-  }
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
 
-  public String getPriceIdx() {
-    return priceIdx;
-  }
+    public String getSeatStatus() {
+        return seatStatus;
+    }
 
-  public void setPriceIdx(String priceIdx) {
-    this.priceIdx = priceIdx;
-  }
+    public void setSeatStatus(String seatStatus) {
+        this.seatStatus = seatStatus;
+    }
 
-  public String getScreenType() {
-    return screenType;
-  }
+    public String getPriceIdx() {
+        return priceIdx;
+    }
 
-  public void setScreenType(String screenType) {
-    this.screenType = screenType;
-  }
+    public void setPriceIdx(String priceIdx) {
+        this.priceIdx = priceIdx;
+    }
 
-  public String getAgeGroup() {
-    return ageGroup;
-  }
+    public String getScreenType() {
+        return screenType;
+    }
 
-  public void setAgeGroup(String ageGroup) {
-    this.ageGroup = ageGroup;
-  }
+    public void setScreenType(String screenType) {
+        this.screenType = screenType;
+    }
 
-  public String getDayOfWeek() {
-    return dayOfWeek;
-  }
+    public String getAgeGroup() {
+        return ageGroup;
+    }
 
-  public void setDayOfWeek(String dayOfWeek) {
-    this.dayOfWeek = dayOfWeek;
-  }
+    public void setAgeGroup(String ageGroup) {
+        this.ageGroup = ageGroup;
+    }
 
-  public String getTimeOfDay() {
-    return timeOfDay;
-  }
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
 
-  public void setTimeOfDay(String timeOfDay) {
-    this.timeOfDay = timeOfDay;
-  }
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
 
-  public String getSeatPrice() {
-    return seatPrice;
-  }
+    public String getTimeOfDay() {
+        return timeOfDay;
+    }
 
-  public void setSeatPrice(String seatPrice) {
-    this.seatPrice = seatPrice;
-  }
+    public void setTimeOfDay(String timeOfDay) {
+        this.timeOfDay = timeOfDay;
+    }
+
+    public String getSeatPrice() {
+        return seatPrice;
+    }
+
+    public void setSeatPrice(String seatPrice) {
+        this.seatPrice = seatPrice;
+    }
 }

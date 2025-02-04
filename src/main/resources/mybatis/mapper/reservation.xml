@@ -3,35 +3,43 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservation">
-  <!--  예매 메인 > 좌석 선택으로 넘어갈 때  -->
-  <insert id="insertReservation" parameterType="Map">
-    INSERT INTO reservation *
-    VALUES (#{userIdx}, #{theaterIdx}, #{movieIdx}, #{timetableIdx}, NOW(), 0)
-  </insert>
+    <!--  예매 메인 > 좌석 선택으로 넘어갈 때  -->
+    <insert id="insertReservation" parameterType="Map">
+        INSERT INTO reservation *
+        VALUES (#{userIdx}, #{theaterIdx}, #{movieIdx}, #{timetableIdx}, NOW(), 0)
+    </insert>
 
-  <!-- 예매 가능한 영화 조회  -->
-  <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
-    SELECT *
-    FROM movie
-    WHERE movieStatus = 0 OR movieStatus = 1
-  </select>
+    <!-- 예매 가능한 영화 조회  -->
+    <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+    </select>
 
-  <!-- 특정 영화 및 극장의 모든 상영 시간표 조회 -->
-  <!--    <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">-->
-  <!--        SELECT t.timetableIdx, t.timetableStartTime, t.timetableEndTime, t.movieIdx, t.theaterIdx, t.screenIdx,-->
-  <!--        s.screenName AS screenName, s.screenType AS screenType,-->
-  <!--        s.screenSeatCount AS screenSeatCount,-->
-  <!--        (SELECT COUNT(*) FROM seat se WHERE se.screenIdx = t.screenIdx AND se.seatStatus = 0) AS seatStatus-->
-  <!--        FROM timetable t-->
-  <!--        JOIN screen s ON t.screenIdx = s.screenIdx-->
-  <!--        WHERE t.theaterIdx = #{theaterIdx}-->
-  <!--        AND t.movieIdx = #{movieIdx} AND DATE(t.timetableStartTime) = #{targetDate}-->
-  <!--        GROUP BY t.timetableIdx, s.screenName, s.screenType, s.screenSeatCount-->
-  <!--        ORDER BY t.timetableStartTime ASC-->
-  <!--    </select>-->
+    <!-- 특정 영화 및 극장의 모든 상영 시간표 조회 -->
+    <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">
+        SELECT t.timetableIdx, t.timetableStartTime, t.timetableEndTime, t.movieIdx, t.theaterIdx, t.screenIdx,
+        s.screenName AS screenName, s.screenType AS screenType, s.screenSeatCount AS screenSeatCount,
+        -- 사용 가능한 좌석 수 계산 (전체 좌석 수 - 예약된 좌석 수 - 임시 확보된 좌석 수)
+        (s.screenSeatCount - (SELECT COUNT(*) FROM seatStatus ts WHERE ts.timetableIdx = t.timetableIdx AND ts.seatStatus IN (1, 2)) ) AS availableSeats
+        FROM timetable t
+        JOIN screen s ON t.screenIdx = s.screenIdx
+        WHERE t.theaterIdx = #{theaterIdx}
+        AND t.movieIdx = #{movieIdx}
+        AND DATE(t.timetableStartTime) = #{targetDate}
+        ORDER BY t.timetableStartTime ASC
+    </select>
+
+    <select id="getAvailableTheaters" parameterType="String" resultType="mybatis.vo.TimetableVO">
+        SELECT DISTINCT t.theaterIdx, t.theaterName, t.theaterRegion
+        FROM timetable tt
+        JOIN theater t ON tt.theaterIdx = t.theaterIdx
+        WHERE tt.movieIdx = #{movieIdx}
+    </select>
 
 
-  <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">
+
+    <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">
     SELECT t.timetableIdx, t.timetableStartTime, t.timetableEndTime, t.movieIdx, t.theaterIdx, t.screenIdx,
     s.screenName AS screenName, s.screenType AS screenType, s.screenSeatCount AS screenSeatCount,
     -- 사용 가능한 좌석 수 계산 (전체 좌석 수 - 예약된 좌석 수 - 임시 확보된 좌석 수)

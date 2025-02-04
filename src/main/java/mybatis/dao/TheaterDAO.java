@@ -68,6 +68,7 @@ public class TheaterDAO {
     public static PriceVO[] getPrice() {
         SqlSession ss = FactoryService.getFactory().openSession();
         List<PriceVO> list = ss.selectList("theater.getPrice");
+
         PriceVO[] priceVO = new PriceVO[list.size()];
         list.toArray(priceVO);
         ss.close();

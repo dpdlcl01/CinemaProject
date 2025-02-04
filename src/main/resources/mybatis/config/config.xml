@@ -42,5 +42,6 @@
         <mapper resource="mybatis/mapper/payment.xml"/>
         <mapper resource="mybatis/mapper/myReservation.xml"/>
         <mapper resource="mybatis/mapper/reservationPayment.xml"/>
+        <mapper resource="mybatis/mapper/admin.xml"/>
     </mappers>
 </configuration>

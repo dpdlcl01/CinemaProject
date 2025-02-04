@@ -123,19 +123,19 @@
         <p style="margin-bottom: 0">     <a href="${pageContext.request.contextPath}/AdminController?type=timetableList">영화 타임테이블 관리</a></p>
 
 
+        </div>
       </div>
     </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-        상영관리
-      </button>
-    </h2>
-    <div id="collapseFour" class="accordion-collapse collapse">
-      <div class="accordion-body">
-        <p>  <a href="#">극장, 상영관 관리</a></p>
-        <p style="margin-bottom: 0"> <a href="#">상영관 좌석 관리</a></p>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          상영관리
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <p>  <a href="${pageContext.request.contextPath}/AdminController?type=theaterManage">극장, 상영관 관리</a></p>
+          <p style="margin-bottom: 0"> <a href="${pageContext.request.contextPath}/AdminController?type=seatManage">상영관 좌석 관리</a></p>
 
 
       </div>
@@ -216,10 +216,10 @@
         <p style="margin-bottom: 0"> <a href="${pageContext.request.contextPath}/AdminController?type=logManagement">사용자 활동 로그 관리</a></p>
 
 
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 </body>
 </html>
