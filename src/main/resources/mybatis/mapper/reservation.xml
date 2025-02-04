@@ -37,20 +37,6 @@
         WHERE tt.movieIdx = #{movieIdx}
     </select>
 
-
-
-    <select id="allTimetable" parameterType="Map" resultType="mybatis.vo.TimetableVO">
-    SELECT t.timetableIdx, t.timetableStartTime, t.timetableEndTime, t.movieIdx, t.theaterIdx, t.screenIdx,
-    s.screenName AS screenName, s.screenType AS screenType, s.screenSeatCount AS screenSeatCount,
-    -- 사용 가능한 좌석 수 계산 (전체 좌석 수 - 예약된 좌석 수 - 임시 확보된 좌석 수)
-    (s.screenSeatCount - (SELECT COUNT(*) FROM seatStatus ts WHERE ts.timetableIdx = t.timetableIdx AND ts.seatStatus IN (1, 2)) ) AS availableSeats
-    FROM timetable t
-    JOIN screen s ON t.screenIdx = s.screenIdx
-    WHERE t.theaterIdx = #{theaterIdx}
-    AND t.movieIdx = #{movieIdx}
-    AND DATE(t.timetableStartTime) = #{targetDate}
-    ORDER BY t.timetableStartTime ASC
-  </select>
   <!--  영화 정보 상세 조회 (seat)  -->
   <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">
     SELECT *
