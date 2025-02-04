@@ -1,22 +1,33 @@
 package action.user.movie;
 
 import action.Action;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.dao.MovieDAO;
 import mybatis.dao.ReviewDAO;
+import mybatis.service.TmdbService;
 import mybatis.vo.MovieVO;
 import mybatis.vo.ReviewVO;
 import util.Paging;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MovieDetailAction implements Action {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // movieIdx 파라미터 받기
         String movieIdx = request.getParameter("movieIdx");
@@ -84,13 +95,6 @@ public class MovieDetailAction implements Action {
         request.setAttribute("reviewArray", reviewArray);
         request.setAttribute("page", page);
 
-        /*// 추후에 ReviewAction으로 빼거나 탭에서 따로 호출하는 코드로 변경
-        ReviewVO[] reviewArray = ReviewDAO.getReviewByMovieIdx(movieIdx);
-        if (reviewArray == null) {
-            reviewArray = new ReviewVO[0]; // 빈 배열로 초기화
-        }
-        request.setAttribute("reviewArray", reviewArray);*/
-
         // 리뷰 평점 평균 계산
         float totalRating = 0;
         float averageRating = 0;
@@ -104,13 +108,17 @@ public class MovieDetailAction implements Action {
         }
         request.setAttribute("averageRating", averageRating);
 
-        // 추가: activeTab 값 처리
-        String activeTab = request.getParameter("activeTab");
-        if (activeTab == null || activeTab.isEmpty()) {
-            activeTab = "all"; // 기본값 설정
-        }
-        request.setAttribute("activeTab", activeTab); // JSP에서 사용할 수 있도록 설정
 
+        // TMDB ID 가져오기
+        String movieTmdbId = mvo.getMovieTmdbId();
+
+        // TMDB 예고편 데이터 조회 (TmdbService에서 처리)
+        Map<String, Object> trailerData = TmdbService.fetchMovieTrailers(movieTmdbId);
+
+        // JSP로 데이터 전달
+        request.setAttribute("mainTrailer", trailerData.get("mainTrailer"));
+        request.setAttribute("tmdbTrailers", trailerData.get("tmdbTrailers"));
+        request.setAttribute("errorMessage", trailerData.get("errorMessage"));
 
         return "/jsp/user/movie/movieDetail.jsp";
     }

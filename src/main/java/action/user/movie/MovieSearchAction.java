@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MovieMainAction implements Action {
+public class MovieSearchAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -19,22 +19,37 @@ public class MovieMainAction implements Action {
         try {
             String offsetParam = request.getParameter("offset");
             String pageSizeParam = request.getParameter("pageSize");
-            String statusParam = request.getParameter("status");
+
+            String movieStatus = request.getParameter("status");
+            String movieKeyword = request.getParameter("movieKeyword");
+
+            // 기본값 설정
+            if (movieStatus == null || movieStatus.isEmpty()) {
+                movieStatus = "all";
+            }
+            if (movieKeyword == null) {
+                movieKeyword = ""; // 빈 문자열로 처리
+            }
 
             int offset = (offsetParam != null && !offsetParam.isEmpty()) ? Integer.parseInt(offsetParam) : 0;
             int pageSize = (pageSizeParam != null && !pageSizeParam.isEmpty()) ? Integer.parseInt(pageSizeParam) : 20;
-            String status = (statusParam != null) ? statusParam : "all";
 
             int totalMovieCount;
             MovieVO[] movieArray;
 
-            if ("all".equals(status)) {
-                totalMovieCount = MovieDAO.getTotalMovieCount();
-                movieArray = MovieDAO.getMovieList(offset, pageSize);
-            } else {
-                String movieStatus = status;
-                totalMovieCount = MovieDAO.getMovieCountByStatus(movieStatus);
-                movieArray = MovieDAO.getMovieListByStatus(movieStatus, offset, pageSize);
+            // movieStatus에 따른 분기 처리
+            switch (movieStatus) {
+                case "all":
+                    totalMovieCount = MovieDAO.searchMovieCount(movieKeyword);
+                    movieArray = MovieDAO.searchMovieList(movieKeyword, offset, pageSize);
+                    break;
+                case "0":
+                case "1":
+                    totalMovieCount = MovieDAO.searchByStatusCount(movieStatus, movieKeyword);
+                    movieArray = MovieDAO.searchByStatusList(movieStatus, movieKeyword, offset, pageSize);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid status: " + movieStatus);
             }
 
             // Ajax 요청 여부 확인
@@ -60,7 +75,7 @@ public class MovieMainAction implements Action {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "/jsp/error/error.jsp"; // 에러 페이지로 포워딩
+            return "/jsp/user/common/404.jsp"; // 에러 페이지로 포워딩
         }
     }
 }

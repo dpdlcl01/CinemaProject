@@ -32,8 +32,10 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-            <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">선택 이벤트</a>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>이벤트</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>상세보기</label>
         </div>
     </div>
 </div>
@@ -43,7 +45,7 @@
         <p class="event-meta">${vo.boardRegDate} ~ ${vo.boardExpDate}</p>
         <div class="divider"></div>
         <div class="event-image">
-            <img src="/css/user/images/event/${vo.boardContent}" alt="이벤트 이미지">
+            <img src="${vo.boardContent}" alt="이벤트 이미지">
         </div>
         <div class="divider"></div>
     </div>

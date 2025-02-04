@@ -2,7 +2,7 @@ package mybatis.vo;
 
 public class MovieVO {
 
-    private String movieIdx, movieCd,
+    private String movieIdx, movieCd, movieTmdbId,
             movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
             movieNation, movieDirector, movieActors, movieInfo, moviePosterUrl,
             movieRank, movieReservationRate, movieTotalAudience, movieLikes, movieStatus;
@@ -21,6 +21,14 @@ public class MovieVO {
 
     public void setMovieCd(String movieCd) {
         this.movieCd = movieCd;
+    }
+
+    public String getMovieTmdbId() {
+        return movieTmdbId;
+    }
+
+    public void setMovieTmdbId(String movieTmdbId) {
+        this.movieTmdbId = movieTmdbId;
     }
 
     public String getMovieTitle() {

@@ -20,7 +20,6 @@ public class LoginDAO {
 
 
         int cnt = ss.selectOne("login.usercheck", map);
-//        System.out.println("count" + cnt);
         ss.close();
 
         return cnt > 0;
@@ -87,27 +86,31 @@ public class LoginDAO {
         return userVO;
     }
 
-    // 어드민 로그인 기능
+    // 관리자 로그인 검증
     public static boolean adminCheck(String adminId, String adminPassword) {
         SqlSession ss = FactoryService.getFactory().openSession();
+
 
         Map<String, String> map = new HashMap<>();
         map.put("adminId", adminId);
         map.put("adminPassword", adminPassword);
 
-        int cnt = ss.selectOne("login.adminCheck", map); // SQL 쿼리로 일치하는 데이터 개수 확인
+        int cnt = ss.selectOne("login.adminCheck", map);
         ss.close();
 
         return cnt > 0;
     }
 
-    // 어드민 정보 가져오기
+    // 관리자 정보 가져오기
     public static AdminVO getAdminInfo(String adminId) {
         SqlSession ss = FactoryService.getFactory().openSession();
+
         Map<String, String> map = new HashMap<>();
         map.put("adminId", adminId);
-        AdminVO adminVO = ss.selectOne("login.getAdminInfo", map);
+
+        AdminVO adminvo = ss.selectOne("login.getAdminInfo", map);
         ss.close();
-        return adminVO;
+
+        return adminvo;
     }
 }

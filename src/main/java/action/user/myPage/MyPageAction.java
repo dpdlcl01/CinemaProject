@@ -16,7 +16,9 @@ public class MyPageAction implements Action {
 
         // 로그인 여부 확인 및 사용자 정보 가져오기
         UserVO uservo = SessionUtil.getLoginUser(request);
-        if (uservo == null) {
+        
+        // uservo가 null이면 로그인하지 않은 경우, userStatus가 null이면 비회원 로그인한 경우 - 마이페이지 전체 접근 불가능
+        if (uservo == null || uservo.getUserStatus() == null) {
             return "UserController?type=main";
         }
 

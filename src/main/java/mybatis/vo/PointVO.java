@@ -1,7 +1,7 @@
 package mybatis.vo;
 
 public class PointVO {
-    private String pointIdx, userIdx, pointType, pointSource, pointValue, pointDate, pointStatus;
+    private String pointIdx, userIdx, paymentIdx, reviewIdx, pointType, pointSource, pointValue, pointDate, pointStatus;
 
     public String getPointIdx() {
         return pointIdx;
@@ -17,6 +17,22 @@ public class PointVO {
 
     public void setUserIdx(String userIdx) {
         this.userIdx = userIdx;
+    }
+
+    public String getPaymentIdx() {
+        return paymentIdx;
+    }
+
+    public void setPaymentIdx(String paymentIdx) {
+        this.paymentIdx = paymentIdx;
+    }
+
+    public String getReviewIdx() {
+        return reviewIdx;
+    }
+
+    public void setReviewIdx(String reviewIdx) {
+        this.reviewIdx = reviewIdx;
     }
 
     public String getPointType() {

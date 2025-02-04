@@ -3,31 +3,73 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
-
 <head>
 <%--  <jsp:include page="../../user/common/head.jsp"/>--%>
 
 </head>
-<!-- 외부CSS 연결하기 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userMain.css">
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 
 <style>
-    .admin-contents {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* 화면 전체 높이 */
+        margin: 0;
+    }
+
+    header, .admin-contents, footer {
         width: 100%;
+    }
+
+    .admin-contents {
+        flex: 1; /* 컨텐츠가 부족할 경우 남는 공간을 채움 */
         min-height: 550px;
     }
+
+    footer {
+        background-color: #f8f9fa;
+        padding: 15px 0;
+        text-align: center;
+        font-size: 14px;
+        color: #6c757d;
+        border-top: 1px solid #dee2e6;
+    }
+
+    footer a {
+        color: #503396;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+    footer a:hover {
+        text-decoration: underline;
+    }
+
     .page-util .inner-wrap {
         max-width: 100%; !important;
         padding: 20px 20px; !important;
     }
+    .btn-logout {
+      font-weight: 500;
+      color: #6c757d;
+      background-color: white;
+      border: 1px solid #ced4da;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+    }
+
+    .btn-logout:hover {
+      background-color: #e9ecef;
+      border-color: #adb5bd;
+      text-decoration: none;
+    }
+
   #top1{
     background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
     color: white;
@@ -155,6 +197,17 @@
 
   }
 
+  /* 말풍선 꼬리 */
+  /*    .tooltip::after {
+          content: "";
+          position: absolute;
+          bottom: -6px;
+          left: 50%;
+          transform: translateX(-50%);
+          border-width: 6px;
+          border-style: solid;
+          border-color: #22C8F6 transparent transparent transparent;
+      }*/
 
   #top2{
     display: flex;
@@ -250,29 +303,7 @@
 </style>
 
 <body>
-<header>
-    <div class="page-util">
-        <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-            <!-- 홍길동 관리자님 위치 -->
-            <div class="location" style="flex-grow: 1;">
-                <span>홍길동 관리자님</span>
-            </div>
-            <!-- 로그인/로그아웃 버튼 -->
-            <div style="display: flex; gap: 10px; flex-shrink: 0;">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.adminVO}">
-                        <a href="#" id="member-logout-btn" title="로그아웃">로그아웃</a>
-                    </c:when>
-                    <c:otherwise>
-                        <!-- 세션에 uservo가 없으면 로그인 버튼 -->
-                        <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal">로그인</a>
-                        <a href="${pageContext.request.contextPath}/UserController?type=register" title="회원가입">회원가입</a>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
-    </div>
-</header>
+    <jsp:include page="header.jsp"/>
 <div class="admin-contents">
   <div class="total-main">
     <div class="myPage-container">
@@ -282,7 +313,6 @@
 
       <div id="main">
         <h1>관리자 정보</h1>
-<%--        <h1>${sessionScope.adminVO.adminLevel}</h1>--%>
         <div id="title">
           <div id="top1">
             <div id="imgName">
@@ -313,31 +343,10 @@
 
       </div>
 
-
-
-
-
     </div>
   </div>
 </div>
-<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal" style="display: none;">어드민로그인</a>
-<jsp:include page="../login/adminLoginModal.jsp"/>
-
-
-<%--<jsp:include page="../../user/common/footer.jsp"/>--%>
-
-<script>
-  var total = ${requestScope.total};
-  document.addEventListener("DOMContentLoaded", function() {
-    if (total >= 13000 && total < 20000) {
-      document.getElementById("vip-item").classList.add("active");
-    }
-    if (total >=20000){
-      document.getElementById("vip-item").classList.add("active");
-      document.getElementById("vvip-item").classList.add("active");
-    }
-  });
-
-</script>
+<!-- footer 영역 -->
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

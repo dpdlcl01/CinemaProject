@@ -2,10 +2,12 @@ package action.user.register;
 
 import action.Action;
 import mybatis.dao.RegisterDAO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+
 
 public class RegisterAction implements Action {
     private static final String register_form = "/jsp/user/register/register.jsp";
@@ -32,15 +34,20 @@ public class RegisterAction implements Action {
             return register_fail; // 실패 페이지 반환
         }
 
+        // 비밀번호 암호화
+        // 12는 강도(복잡도) 설정 값으로 보통 10~12 사이를 권장
+        String hashPassword = BCrypt.hashpw(userPassword, BCrypt.gensalt(12));
+
+
         // 기본값 설정
         String userPoint = "0";
-        String userGrade = "Basic";
+        String userGrade = "BASIC";
         String userStatus = "0";
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("userName", userName);
         map.put("userId", userId);
-        map.put("userPassword", userPassword);
+        map.put("userPassword", hashPassword);  // 암호화된 비밀번호 사용
         map.put("userEmail", userEmail);
         map.put("userPhone", userPhone);
         map.put("userPoint", Integer.valueOf(userPoint));
