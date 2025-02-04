@@ -20,7 +20,7 @@ public class ProductAction implements Action {
 
         AdminVO adminvo = SessionUtil.getLoginAdmin(request);
         if (adminvo == null) {
-            return "AdminController?type=main";
+            return "AdminController?type=admin";
         }
 
         // 전체 정보 가져오기 //

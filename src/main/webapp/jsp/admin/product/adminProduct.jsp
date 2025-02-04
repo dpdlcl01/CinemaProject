@@ -367,7 +367,7 @@
                   <td><input type="text" name="productName" value="${product.productName}" required /></td>
                   <td><input type="text" name="productInfo" value="${product.productInfo}" required /></td>
                   <td>
-                    <img src="/CinemaProject_war_exploded/css/user/images/KangImg/${product.productImg}">
+                    <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${product.productImg}">
                     <input type="text" name="productImg" value="${product.productImg}" required />
                   </td>
                   <td><input type="number" name="productPrice" value="${product.productPrice}" required /></td>
@@ -435,9 +435,9 @@
                       </select>
                     </td>
                   </tr>
-<%--                  <tr>--%>
-<%--                    <td colspan="2"><button type="submit">상품 추가</button></td>--%>
-<%--                  </tr>--%>
+                  <tr>
+                    <td colspan="2"><button type="submit">상품 추가</button></td>
+                  </tr>
                 </table>
               </form>
             </div>

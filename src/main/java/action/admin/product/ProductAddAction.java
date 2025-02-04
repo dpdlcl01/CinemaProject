@@ -5,6 +5,7 @@ import mybatis.dao.ProductDAO;
 import mybatis.vo.AdminVO;
 import mybatis.vo.LogVO;
 import mybatis.vo.ProductVO;
+import util.LogUtil;
 import util.SessionUtil;
 
 
@@ -21,7 +22,7 @@ public class ProductAddAction implements Action {
 
         AdminVO adminvo = SessionUtil.getLoginAdmin(request);
         if (adminvo == null) {
-            return "AdminController?type=main";
+            return "AdminController?type=admin";
         }
 
         String productCategory = request.getParameter("productCategory");
@@ -58,10 +59,10 @@ public class ProductAddAction implements Action {
         // DAO를 통해 상품 추가
         int result = ProductDAO.addProduct(newProduct);
 
-        System.out.println(newProduct.getProductName());
+        System.out.println(newProduct.getProductName()+": "+result);
 
         if(result > 0){
-            logChanges(adminIdx, "adminProduct", "상품 추가", newProduct.getProductName());
+            LogUtil.logChanges("0", adminIdx, "productName:"+productName, "product 추가", null,  productName);
         } else {
             System.out.println("fail");
         }
@@ -73,16 +74,5 @@ public class ProductAddAction implements Action {
             request.setAttribute("product", productVO);
         }
         return "/jsp/admin/product/adminProduct.jsp";
-    }
-
-    private void logChanges(String adminIdx, String target, String info, String curValue) {
-            LogVO log = new LogVO();
-            log.setLogType("0");
-            log.setAdminIdx(adminIdx);
-            log.setLogTarget(target);
-            log.setLogInfo(info);
-            log.setLogPreValue(null);
-            log.setLogCurValue(curValue);
-            ProductDAO.insertLog(log);
     }
 }

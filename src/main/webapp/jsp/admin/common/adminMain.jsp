@@ -3,73 +3,31 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
+
 <head>
-<%--  <jsp:include page="../../user/common/head.jsp"/>--%>
+  <%--  <jsp:include page="../../user/common/head.jsp"/>--%>
 
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 외부CSS 연결하기 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userMain.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
 <style>
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh; /* 화면 전체 높이 */
-        margin: 0;
-    }
-
-    header, .admin-contents, footer {
-        width: 100%;
-    }
-
-    .admin-contents {
-        flex: 1; /* 컨텐츠가 부족할 경우 남는 공간을 채움 */
-        min-height: 550px;
-    }
-
-    footer {
-        background-color: #f8f9fa;
-        padding: 15px 0;
-        text-align: center;
-        font-size: 14px;
-        color: #6c757d;
-        border-top: 1px solid #dee2e6;
-    }
-
-    footer a {
-        color: #503396;
-        text-decoration: none;
-        margin: 0 10px;
-    }
-
-    footer a:hover {
-        text-decoration: underline;
-    }
-
-    .page-util .inner-wrap {
-        max-width: 100%; !important;
-        padding: 20px 20px; !important;
-    }
-    .btn-logout {
-      font-weight: 500;
-      color: #6c757d;
-      background-color: white;
-      border: 1px solid #ced4da;
-      padding: 6px 12px;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 14px;
-    }
-
-    .btn-logout:hover {
-      background-color: #e9ecef;
-      border-color: #adb5bd;
-      text-decoration: none;
-    }
-
+  .admin-contents {
+    width: 100%;
+    min-height: 550px;
+  }
+  .page-util .inner-wrap {
+    max-width: 100%; !important;
+    padding: 20px 20px; !important;
+  }
   #top1{
     background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
     color: white;
@@ -197,17 +155,6 @@
 
   }
 
-  /* 말풍선 꼬리 */
-  /*    .tooltip::after {
-          content: "";
-          position: absolute;
-          bottom: -6px;
-          left: 50%;
-          transform: translateX(-50%);
-          border-width: 6px;
-          border-style: solid;
-          border-color: #22C8F6 transparent transparent transparent;
-      }*/
 
   #top2{
     display: flex;
@@ -294,11 +241,11 @@
 
   }
   #main{
-      width: 100%;
+    width: 100%;
     margin: 27px 40px 40px 40px;
   }
   #main h1{
-      font-size: 30px;
+    font-size: 30px;
   }
 </style>
 
@@ -308,7 +255,7 @@
   <div class="total-main">
     <div class="myPage-container">
       <%--  사이드바  --%>
-      <jsp:include page="adminSideBar.jsp"></jsp:include>
+      <jsp:include page="adminSideBar.jsp"/>
       <%--  메인  --%>
 
       <div id="main">
@@ -346,7 +293,5 @@
     </div>
   </div>
 </div>
-<!-- footer 영역 -->
-<jsp:include page="footer.jsp"/>
 </body>
 </html>

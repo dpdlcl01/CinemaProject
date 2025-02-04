@@ -48,7 +48,12 @@ public class LoginAction implements Action {
     }
 
     private boolean verifyPassword(String inputPassword, String hashPassword) {
-        // 입력된 비밀번호와 저장된 암호화된 비밀번호 비교
-        return BCrypt.checkpw(inputPassword, hashPassword);
+        try {
+            return BCrypt.checkpw(inputPassword, hashPassword);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid password format.");
+            return false;  // 잘못된 해시 형식일 경우 false 반환
+        }
     }
+
 }

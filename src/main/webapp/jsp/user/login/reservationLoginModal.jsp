@@ -302,7 +302,7 @@
                             </div>
                         </div>
                         <div class="custom-image-container text-center mt-3">
-                            <img src="https://mlink-cdn.netinsight.co.kr/2025/01/07/19941e9ce689d82066cd257a0711d97e.jpg" alt="이미지" class="img-fluid">
+                            <img src="https://img.megabox.co.kr/SharedImg/frontBanner/2025/02/03/Gj9RZJkAG1LyRddiMjE1yzQqxAakOdKw.jpg" alt="이미지" class="img-fluid">
                         </div>
                     </div>
 

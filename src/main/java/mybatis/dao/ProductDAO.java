@@ -62,16 +62,4 @@ public class ProductDAO {
         ss.close();
         return product;
     }
-
-    public static int insertLog(LogVO log) {
-        SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.insert("product.insertLog", log);
-        if (cnt > 0) {
-            ss.commit();
-        } else {
-            ss.rollback();
-        }
-        ss.close();
-        return cnt;
-    }
 }

@@ -10,9 +10,10 @@ public class MyPageDAO {
 
     public static int getTotalPoint(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();
-        int total = ss.selectOne("myPage.getTotalPoint", idx);
+        Integer total = ss.selectOne("myPage.getTotalPoint", idx);
         ss.close();
-        return total;
+        // null 값 처리
+        return (total != null) ? total : 0;
     }
 
 

@@ -47,6 +47,7 @@
         SET
         productCategory = #{productCategory},
         productName = #{productName},
+        productInfo = #{productInfo},
         productPrice = #{productPrice},
         productStock = #{productStock},
         productStatus = #{productStatus},
@@ -58,12 +59,6 @@
     <insert id="addProduct" parameterType="mybatis.vo.ProductVO">
         INSERT INTO product (productCategory, productName, productInfo, productPrice, productStock, productImg, productRegDate, productStatus)
         VALUES (#{productCategory}, #{productName}, #{productInfo}, #{productPrice}, #{productStock}, #{productImg}, NOW(), #{productStatus});
-    </insert>
-
-    <!--상품 수정내역-->
-    <insert id="insertLog" parameterType="mybatis.vo.LogVO">
-        INSERT INTO log (logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue, logDate)
-        VALUES (#{logType}, #{adminIdx}, #{logTarget}, #{logInfo}, #{logPreValue}, #{logCurValue}, NOW());
     </insert>
 
 </mapper>

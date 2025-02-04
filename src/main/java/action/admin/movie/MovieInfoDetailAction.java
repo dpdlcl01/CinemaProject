@@ -6,6 +6,7 @@ import mybatis.dao.LogDAO;
 import mybatis.dao.MovieDAO;
 import mybatis.vo.AdminVO;
 import mybatis.vo.MovieVO;
+import util.LogUtil;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,14 @@ import java.io.IOException;
 public class MovieInfoDetailAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
+        if(adminvo == null){
+            return "AdminController?type=admin";
+        }
+        // 세션의 adminvo에서 idx값 얻기 - 로그 테이블에 관리자 idx 저장시
+        String adminIdx = adminvo.getAdminIdx();
+
 
         String type = request.getParameter("type");
 
@@ -51,34 +60,22 @@ public class MovieInfoDetailAction implements Action {
             String movieActors = request.getParameter("movieActors");
             String movieInfo = request.getParameter("movieInfo");
 
-            // DB 업데이트 실행
+            // 3. DB 업데이트 실행
             boolean isUpdated = MovieDAO.updateMovieInfo(movieIdx, movieGenre, movieTime, movieGrade,
                     movieDate, movieDirector, movieActors, movieInfo);
 
-            // 3. 업데이트 성공 시 로그 기록
+            // 4. 업데이트 성공 시 로그 기록
             if (isUpdated) {
+                String logType = "0"; // 관리자 관련 로그이므로 0 지정
+                String logTarget = "movieIdx:"+movieIdx; // 로그 대상 idx
 
-                AdminVO adminvo = SessionUtil.getLoginAdmin(request);
-                if(adminvo == null){
-                    return "AdminController?type=admin";
-                }
-                // 세션의 adminvo에서 idx값 얻기 - 로그 테이블에 관리자 idx 저장시
-                String adminIdx = adminvo.getAdminIdx();
-
-                String logType = "0"; // 관리자 관련 로그 0
-                String logTarget = "movieIdx " + movieIdx;
-                String logInfo = "영화 정보 수정";
-
-                // 4. 이전 값과 현재 값 준비
-                //String logPreValue = new ObjectMapper().writeValueAsString(oldMovieData);
-                String logPreValue = "logPreValue 데이터타입 TEXT로 변경하기";
-                String logCurValue = String.format(
-                        "장르: %s, 상영 시간: %s, 등급: %s, 개봉일: %s, 감독: %s, 출연 배우: %s, 정보: %s",
-                        movieGenre, movieTime, movieGrade, movieDate, movieDirector, movieActors, movieInfo
-                );
-
-                // 5. 로그 기록
-                LogDAO.insertLog(logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue);
+                LogUtil.logChanges(logType, adminIdx, logTarget, "movieGenre 수정", oldMovieData.getMovieGenre(), movieGenre); // 영화 장르
+                LogUtil.logChanges(logType, adminIdx, logTarget, "movieTime 수정", oldMovieData.getMovieTime(), movieTime); // 영화 상영 시간
+                LogUtil.logChanges(logType, adminIdx, logTarget, "movieGrade 수정", oldMovieData.getMovieGrade(), movieGrade); // 영화 등급
+                LogUtil.logChanges(logType, adminIdx, logTarget, "movieDate 수정", oldMovieData.getMovieDate(), movieDate); // 개봉일
+                LogUtil.logChanges(logType, adminIdx, logTarget, "movieDirector 수정", oldMovieData.getMovieDirector(), movieDirector); // 감독
+                LogUtil.logChanges(logType, adminIdx, logTarget, "movieActor 수정", oldMovieData.getMovieActors(), movieActors); // 배우
+                LogUtil.logChanges(logType, adminIdx, logTarget, "movieInfo 수정", oldMovieData.getMovieInfo(), movieInfo); // 영화 소개
 
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("{\"message\": \"Movie updated successfully\"}");
@@ -87,7 +84,6 @@ public class MovieInfoDetailAction implements Action {
                 response.getWriter().write("{\"error\": \"Failed to update movie\"}");
             }
         }
-
         return null;
     }
 
