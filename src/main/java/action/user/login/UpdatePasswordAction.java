@@ -31,7 +31,7 @@ public class UpdatePasswordAction implements Action {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", userId);
-        params.put("newPassword", newPassword);
+        params.put("newPassword", hashedPassword);
 
         int result = RegisterDAO.updatePassword(params);
 

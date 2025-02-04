@@ -167,7 +167,7 @@
         </div>
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST" onsubmit="return validateForm()">
+    <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST">
         <table>
             <tr>
                 <td>아이디</td>
@@ -201,7 +201,8 @@
                 <td><span>인증번호</span> </td>
                 <td>
                     <div class="auth-container">
-                    <input type="text" id="authcode" name="authcode" class="inputValue">
+                    <input type="text" id="authcode" name="authcode" class="inputValue"/>
+                    <input type="hidden" id="authcodecheck" name="authcodecheck" value=""/>
                     <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button>
                 </div>
                 </td>
@@ -297,6 +298,7 @@
         const emailPart1 = document.getElementById("emailpart1").value.trim();
         const emailPart2 = document.getElementById("emailpart2").value.trim();
         const authCode = document.getElementById("authcode").value.trim();
+        const authcodecheck = document.getElementById("authcodecheck").value.trim();
 
         if (!userId || userId.length < 3) {
             alert("아이디를 입력해주세요.");
@@ -328,7 +330,12 @@
             return false;
         }
 
-        return true;
+        if(authcodecheck !== "success") {
+            alert("인증완료를 진행해주세요.");
+            return false;
+        }
+
+        frm.submit();
     }
 </script>
 </body>
