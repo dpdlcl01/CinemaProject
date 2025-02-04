@@ -113,10 +113,40 @@
         table-layout: fixed; /* 테이블이 지정된 너비 내에서 고정됨 */
         margin-top: 20px;
     }
-    table, th {
-        border-top: 1px solid #333;
-        border-bottom: 1px solid #333;
+    table th {
+        border: 1px solid #ccc;
+        background-color: #dddddd;
+        color: #1e1e1e;
+        font-weight: bold;
+        padding: 12px;
     }
+
+    table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* 테이블 호버 효과 */
+    table tbody tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+    }
+
+    /* 테이블 셀 스타일 */
+    table td {
+        padding: 12px;
+        border: 1px solid #ddd; /* 테두리 색상 */
+    }
+
+    /* 입력 필드와 셀렉트 박스 스타일 */
+    #title td input, #title td select {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 8px;
+        width: 100%;
+        text-align: center;
+        transition: border-color 0.3s ease;
+    }
+
     th, td {
         font-size: 13px;
         padding: 8px;
