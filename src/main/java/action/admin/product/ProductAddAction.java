@@ -2,8 +2,10 @@ package action.admin.product;
 
 import action.Action;
 import mybatis.dao.ProductDAO;
+import mybatis.vo.AdminVO;
 import mybatis.vo.LogVO;
 import mybatis.vo.ProductVO;
+import util.SessionUtil;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,11 @@ public class ProductAddAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
+        if (adminvo == null) {
+            return "AdminController?type=main";
+        }
 
         String productCategory = request.getParameter("productCategory");
         String productName = request.getParameter("productName");
@@ -34,9 +41,7 @@ public class ProductAddAction implements Action {
         }
 
         // 관리자 ID
-//        HttpSession session = request.getSession();
-//        Object adminIdx = session.getAttribute("adminIdx");
-        String adminIdx = "1";
+        String adminIdx = adminvo.getAdminIdx();
 
         // ProductVO 객체에 값 설정
         ProductVO newProduct = new ProductVO();

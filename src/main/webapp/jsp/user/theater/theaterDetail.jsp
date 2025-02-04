@@ -401,11 +401,6 @@
         color: #777;
     }
 
-    /* 상영 시간표 */
-    .showtimes {
-        margin-top: 20px;
-    }
-
     .theater {
         display: flex;
         align-items: flex-start;
@@ -438,6 +433,7 @@
         align-items: center;
         justify-content: center;
         font-size: 14px;
+        font-weight: bold;
         color: #555;
         background-color: #f4f4f4;
         padding: 10px;
@@ -501,7 +497,7 @@
         overflow: hidden;
         background-color: #fff;
         padding: 5px 0; /* 상하 패딩 축소 */
-        margin: 0;
+        margin-top: 15px;
         border-top: 1px solid #ddd; /* 위쪽 테두리 */
         border-bottom: 1px solid #ddd; /* 아래쪽 테두리 */
         width: 100%; /* 화면 너비에 맞춤 */
@@ -687,8 +683,8 @@
     }
 
     .movie-group{
-        margin-bottom: 10px;
-        border-bottom: 1px solid #ddd;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #ddd;
     }
 
 
@@ -699,11 +695,11 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png" alt="극장"/>
             <label>극장</label>
-            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png" alt="전체극장"/>
             <label>전체극장</label>
-            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png" alt="상세정보"/>
             <label>상세정보</label>
         </div>
     </div>

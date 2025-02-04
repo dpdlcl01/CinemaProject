@@ -305,16 +305,21 @@
     <div class="inner-wrap" style="display: flex; justify-content: space-between; align-items: center;">
       <!-- 홍길동 관리자님 위치 -->
       <div class="location" style="flex-grow: 1;">
-        <span>홍길동 관리자님</span>
+<%--        <span>홍길동 관리자님</span>--%>
+        <span>${sessionScope.adminvo.adminId} 관리자님</span>
       </div>
       <!-- 로그인/로그아웃 버튼 -->
       <div style="display: flex; gap: 10px; flex-shrink: 0;">
-        <a href="/login" title="로그인 페이지로 이동" style="text-decoration: none; color: black; font-weight: 600;">
-          로그인
-        </a>
-        <a href="/logout" title="로그아웃" style="text-decoration: none; color: black; font-weight: 600;">
-          로그아웃
-        </a>
+        <c:choose>
+          <c:when test="${not empty sessionScope.adminvo}">
+            <a href="#" id="member-logout-btn" title="로그아웃">로그아웃</a>
+          </c:when>
+          <c:otherwise>
+            <!-- 세션에 uservo가 없으면 로그인 버튼 -->
+            <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal">로그인</a>
+            <a href="${pageContext.request.contextPath}/UserController?type=register" title="회원가입">회원가입</a>
+          </c:otherwise>
+        </c:choose>
       </div>
     </div>
   </div>
@@ -430,9 +435,9 @@
                       </select>
                     </td>
                   </tr>
-                  <tr>
-                    <td colspan="2"><button type="submit">상품 추가</button></td>
-                  </tr>
+<%--                  <tr>--%>
+<%--                    <td colspan="2"><button type="submit">상품 추가</button></td>--%>
+<%--                  </tr>--%>
                 </table>
               </form>
             </div>
@@ -442,6 +447,9 @@
     </div>
   </div>
 </div>
+
+<a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal" style="display: none;">어드민로그인</a>
+<jsp:include page="../login/adminLoginModal.jsp"/>
 
 <%--<jsp:include page="../../user/common/footer.jsp"/>--%>
 

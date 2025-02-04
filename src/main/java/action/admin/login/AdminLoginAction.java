@@ -27,7 +27,7 @@ public class AdminLoginAction implements Action {
         PrintWriter out = response.getWriter();
         if (adminCheck) {
             AdminVO adminVO = LoginDAO.getAdminInfo(adminId);  // 관리자 정보 가져오기
-            session.setAttribute("adminVO", adminVO);  // 세션에 관리자 정보 저장
+            session.setAttribute("adminvo", adminVO);  // 세션에 관리자 정보 저장
             out.write("{\"success\": true}");
         } else {
             out.write("{\"success\": false, \"message\": \"로그인 실패! 관리자 아이디와 비밀번호를 확인하세요.\"}");

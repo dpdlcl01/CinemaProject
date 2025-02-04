@@ -2,7 +2,9 @@ package action.admin.product;
 
 import action.Action;
 import mybatis.dao.ProductDAO;
+import mybatis.vo.AdminVO;
 import mybatis.vo.ProductVO;
+import util.SessionUtil;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,11 @@ public class ProductAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
+        if (adminvo == null) {
+            return "AdminController?type=main";
+        }
 
         // 전체 정보 가져오기 //
         ProductVO[] productVO = ProductDAO.selectAll();

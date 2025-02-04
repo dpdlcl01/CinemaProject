@@ -2,8 +2,10 @@ package action.admin.product;
 
 import action.Action;
 import mybatis.dao.ProductDAO;
+import mybatis.vo.AdminVO;
 import mybatis.vo.LogVO;
 import mybatis.vo.ProductVO;
+import util.SessionUtil;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,11 @@ public class ProductUpdateAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
+        if (adminvo == null) {
+            return "AdminController?type=main";
+        }
+
 
         // 폼에서 수정된 정보 가져오기
         String productIdx = request.getParameter("productIdx");
@@ -29,9 +36,8 @@ public class ProductUpdateAction implements Action {
         String productImg = request.getParameter("productImg");
 
         // 관리자 ID
-//        HttpSession session = request.getSession();
-//        Object adminIdx = session.getAttribute("adminIdx");
-        String adminIdx = "1";
+        String adminIdx = adminvo.getAdminIdx();
+//        System.out.println("adminidx:"+adminIdx);
 
         // 기존 상품 정보 가져오기
         ProductVO oldProduct = ProductDAO.selectById(productIdx);
@@ -50,7 +56,7 @@ public class ProductUpdateAction implements Action {
         int result = ProductDAO.updateProduct(updatedProduct);
 
         if (result > 0) {
-//            System.out.println("update successes");
+            System.out.println("update successes");
             logChanges(adminIdx, productIdx, "카테고리 변경", oldProduct.getProductCategory(), updatedProduct.getProductCategory());
             logChanges(adminIdx, productIdx, "상품명 변경", oldProduct.getProductName(), updatedProduct.getProductName());
             logChanges(adminIdx, productIdx, "상품 가격 변경", String.valueOf(oldProduct.getProductPrice()), String.valueOf(updatedProduct.getProductPrice()));

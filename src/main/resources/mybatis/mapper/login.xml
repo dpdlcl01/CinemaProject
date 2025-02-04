@@ -9,6 +9,7 @@
         FROM user
         WHERE userId = #{userId}
         AND userPassword = #{userPassword}
+        AND userStatus = 0
     </select>
 
     <!-- 비회원 정보 조회 -->
