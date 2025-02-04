@@ -2,7 +2,23 @@ package mybatis.vo;
 
 public class ReviewVO {
     private String reviewIdx, userIdx, movieIdx, reviewRating, reviewContent, reviewDate, reviewStatus,
-            userId;
+            userId,movieTitle,moviePosterUrl;
+
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
+    }
+
+    public String getMoviePosterUrl() {
+        return moviePosterUrl;
+    }
+
+    public void setMoviePosterUrl(String moviePosterUrl) {
+        this.moviePosterUrl = moviePosterUrl;
+    }
 
     public String getUserId() {
         return userId;

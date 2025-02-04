@@ -4,6 +4,12 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="theater">
 
+    <select id="getTheater" parameterType="String" resultType="mybatis.vo.TheaterVO">
+        select theaterIdx,theaterName
+        from theater
+        where theaterRegion=#{theaterRegion};
+    </select>
+
     <select id="getTheaterInfo" resultType="mybatis.vo.TheaterVO">
         SELECT * FROM theater
     </select>

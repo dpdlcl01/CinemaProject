@@ -11,6 +11,23 @@ import java.util.List;
 import java.util.Map;
 
 public class ReservationDAO {
+
+
+    public static int updateReservation(String ridx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt =ss.update("reservation.updateReservation", ridx);
+
+        if(cnt>0){
+            ss.commit();
+
+        }else {
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
+
     // 예매 가능한 영화 조회
     public static MovieVO[] movieList() {
         MovieVO[] ar = null;

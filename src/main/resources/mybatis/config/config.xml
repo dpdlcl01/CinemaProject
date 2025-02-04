@@ -39,5 +39,6 @@
         <mapper resource="mybatis/mapper/favoriteMovie.xml"/>
         <mapper resource="mybatis/mapper/adminTimetable.xml"/>
         <mapper resource="mybatis/mapper/log.xml"/>
+        <mapper resource="mybatis/mapper/payment.xml"/>
     </mappers>
 </configuration>

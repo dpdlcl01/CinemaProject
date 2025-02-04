@@ -1,6 +1,8 @@
 package action.user.myPage;
 
 import action.Action;
+import mybatis.dao.MyPageDAO;
+import mybatis.vo.ReservationVO;
 import mybatis.vo.UserVO;
 import util.SessionUtil;
 
@@ -17,13 +19,26 @@ public class MyReservationAction implements Action {
         if (uservo == null) {
             return "UserController?type=main";
         }
+        String idx = uservo.getUserIdx();
+
+        ReservationVO[] rvo = MyPageDAO.getReservation(idx);
+        ReservationVO[] cvo = MyPageDAO.getCancel(idx);
+
+        if(cvo == null){
+            cvo = new ReservationVO[0];
+        }
+
+        System.out.println("rvo:"+rvo.length);
+        System.out.println(cvo.length);
+
+
+        request.setAttribute("rvo", rvo);
+        request.setAttribute("cvo", cvo);
 
 
 
 
 
-
-
-        return "./jsp/user/myPage/myReservation.jsp";
+        return "./jsp/user/reservation/reservationCancel.jsp";
     }
 }

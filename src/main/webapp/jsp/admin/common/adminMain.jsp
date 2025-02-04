@@ -6,6 +6,7 @@
 
 <head>
   <%--  <jsp:include page="../../user/common/head.jsp"/>--%>
+<%--  <jsp:include page="../../user/common/head.jsp"/>--%>
 
 </head>
 <!-- 외부CSS 연결하기 -->
@@ -28,6 +29,14 @@
     max-width: 100%; !important;
     padding: 20px 20px; !important;
   }
+    .admin-contents {
+        width: 100%;
+        min-height: 550px;
+    }
+    .page-util .inner-wrap {
+        max-width: 100%; !important;
+        padding: 20px 20px; !important;
+    }
   #top1{
     background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
     color: white;

@@ -4,9 +4,69 @@ import mybatis.service.FactoryService;
 import mybatis.vo.*;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MyPageDAO {
+
+    public static int deleteFavoriteTheater(String idx,String theaterId){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("theaterIdx", theaterId);
+        map.put("userIdx", idx);
+        int cnt = ss.delete("myPage.deleteFavoriteTheater", map);
+        if(cnt>0){
+            ss.commit();
+        }else{
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
+
+    public static int insertFavoriteTheater(String idx,String theaterId){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        HashMap<String,String> map = new HashMap<>();
+        map.put("userIdx",idx);
+        map.put("theaterIdx",theaterId);
+        int cnt = ss.insert("myPage.insertFavoriteTheater", map);
+        if(cnt>0){
+            ss.commit();
+
+        }else {
+            ss.rollback();
+        }
+        ss.close();
+        return cnt;
+    }
+
+    public static FavoriteTheaterVO[] getFavoriteTheater(String idx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<FavoriteTheaterVO> list = ss.selectList("myPage.favoriteTheater", idx);
+        if(list==null || list.size()==0){
+            return null;
+        }
+       FavoriteTheaterVO[] favorite = new FavoriteTheaterVO[list.size()];
+        list.toArray(favorite);
+        ss.close();
+        return favorite;
+
+    }
+
+    public  static ReservationVO[] getCancel(String idx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<ReservationVO> list = ss.selectList("myPage.cancel", idx);
+        if(list==null || list.size()==0){
+            return null;
+        }
+        ReservationVO[] reservation = new ReservationVO[list.size()];
+        list.toArray(reservation);
+        ss.close();
+
+        return reservation;
+
+    }
 
     public static int getTotalPoint(String idx){
         SqlSession ss = FactoryService.getFactory().openSession();

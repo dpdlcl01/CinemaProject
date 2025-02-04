@@ -164,7 +164,7 @@
     </h2>
     <div id="collapseSix" class="accordion-collapse collapse">
       <div class="accordion-body">
-        <p>     <a href="#">사용자별 결제내역 확인</a></p>
+        <p>     <a href="${pageContext.request.contextPath}/AdminController?type=paymentList">사용자별 결제내역 확인</a></p>
         <p>  <a href="#">결제 오류내역 확인 및 처리</a></p>
         <p style="margin-bottom: 0">  <a href="#">영화, 상품 매출 통계</a></p>
 

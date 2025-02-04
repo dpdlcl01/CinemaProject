@@ -3,7 +3,23 @@ package mybatis.vo;
 public class PaymentVO {
     private String paymentIdx, userIdx, paymentType, reservationIdx, productIdx,
             paymentMethod, paymentTotal, paymentDiscount, paymentFinal,
-            paymentTransactionId, paymentApprovalNumber, paymentDate, paymentStatus;
+            paymentTransactionId, paymentApprovalNumber, paymentDate,paymentQuantiy, paymentStatus,productName;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getPaymentQuantiy() {
+        return paymentQuantiy;
+    }
+
+    public void setPaymentQuantiy(String paymentQuantiy) {
+        this.paymentQuantiy = paymentQuantiy;
+    }
 
     public String getPaymentIdx() {
         return paymentIdx;

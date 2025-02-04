@@ -183,8 +183,8 @@
         <c:set var="buyPrice" value="${ar.productPrice*ar.total_quant}"/>
         <td><em class="priceEm">${buyPrice}</em><em>원</em></td>
         <td>
-          <button type="button"  class="buyBtn" >구매하기</button>
-          <button type="button" id="delBtn" class="delBtn">삭제하기</button>
+          <button type="button"  class="buyBtn" >구매</button>
+          <button type="button" id="delBtn" class="delBtn">삭제</button>
         </td>
       </tr>
       </c:forEach>
@@ -225,6 +225,7 @@
     });
 
     $(document).on("click", ".buyBtn", function() {
+      let pIdx=document.getElementById("pIdx").innerHTML.trim();
       let row = $(this).closest("tr"); // 현재 버튼이 속한 tr 찾기
       let form = row.find("form"); // 해당 tr 내부의 form 가져오기
       let price = row.find(".priceEm").text();

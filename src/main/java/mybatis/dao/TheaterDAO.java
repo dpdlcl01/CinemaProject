@@ -13,6 +13,19 @@ import java.util.Map;
 
 public class TheaterDAO {
 
+    public static TheaterVO[] getTheater(String theaterRegion) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+
+        List<TheaterVO> list = ss.selectList("theater.getTheater", theaterRegion);
+        TheaterVO[] theaterVO = new TheaterVO[list.size()];
+        list.toArray(theaterVO);
+        ss.close();
+
+        return theaterVO;
+
+    }
+
     public static TheaterVO[] getTheaterInfo() {
         SqlSession ss = FactoryService.getFactory().openSession();
 
