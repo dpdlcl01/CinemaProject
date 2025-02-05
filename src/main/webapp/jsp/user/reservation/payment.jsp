@@ -237,7 +237,7 @@
         amount: finalPaymentAmount,
         orderId: "ORDER-" + new Date().getTime(),
         orderName: "${movieTitle}",
-        customerEmail: "${requestScope.uservo.userEmail}",
+        customerEmail: "${sessionScope.uservo.userEmail}",
         successUrl: window.location.origin + "/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx,
         failUrl: window.location.origin + "/UserController?type=reservationPaymentFail"
       }).then((result) => {
