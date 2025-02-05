@@ -30,12 +30,23 @@
         ORDER BY t.timetableStartTime ASC
     </select>
 
-    <select id="getAvailableTheaters" parameterType="String" resultType="mybatis.vo.TimetableVO">
-        SELECT DISTINCT t.theaterIdx, t.theaterName, t.theaterRegion
+    <!--  영화 선택 후 극장 필터링  -->
+<!--    <select id="getAvailableTheaters" parameterType="String" resultType="mybatis.vo.TimetableVO">-->
+<!--        SELECT DISTINCT tt.movieIdx, t.theaterIdx, t.theaterName, t.theaterRegion-->
+<!--        FROM timetable tt-->
+<!--        JOIN theater t ON tt.theaterIdx = t.theaterIdx-->
+<!--        WHERE tt.movieIdx = #{movieIdx}-->
+<!--        AND DATE(tt.timetableStartTime) = #{targetDate}-->
+<!--    </select>-->
+    <select id="getAvailableTheaters" parameterType="map" resultType="mybatis.vo.TimetableVO">
+        SELECT tt.movieIdx, t.theaterIdx, t.theaterName, t.theaterRegion
         FROM timetable tt
         JOIN theater t ON tt.theaterIdx = t.theaterIdx
         WHERE tt.movieIdx = #{movieIdx}
+        AND DATE(tt.timetableStartTime) = #{targetDate}
+        GROUP BY tt.movieIdx, t.theaterIdx, t.theaterName, t.theaterRegion
     </select>
+
 
     <!--  영화 정보 상세 조회 (seat)  -->
     <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">

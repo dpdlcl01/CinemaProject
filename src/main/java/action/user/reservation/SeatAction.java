@@ -84,8 +84,6 @@ public class SeatAction implements Action {
             return "./jsp/user/reservation/payment.jsp";
         }
 
-
-
         // 영화, 극장, 시간표 정보를 가져오기
         String movieIdx = request.getParameter("movieIdx");
         String theaterIdx = request.getParameter("theaterIdx");

@@ -62,10 +62,15 @@ public class ReservationDAO {
     }
 
     // 영화 선택시 가능 상영관 조회
-    public static List<TimetableVO> getAvailableTheaters(String movieIdx) {
+    public static List<TimetableVO> getAvailableTheaters(String movieIdx, String targetDate) {
         SqlSession ss = FactoryService.getFactory().openSession();
 
-        List<TimetableVO> list = ss.selectList("reservation.getAvailableTheaters", movieIdx);
+        // 파라미터를 Map으로 생성
+        Map<String, Object> params = new HashMap<>();
+        params.put("movieIdx", movieIdx);
+        params.put("targetDate", targetDate);
+
+        List<TimetableVO> list = ss.selectList("reservation.getAvailableTheaters", params);
 
         ss.close();
         return list;
@@ -85,17 +90,6 @@ public class ReservationDAO {
         SqlSession ss = FactoryService.getFactory().openSession();
         try {
             List<TimetableVO> list = ss.selectList("reservation.allTimetable", map);
-            System.out.println("입력된 theaterIdx: " + theaterIdx);
-            System.out.println("입력된 movieIdx: " + movieIdx);
-            System.out.println("입력된 targetDate: " + targetDate);
-            System.out.println("DB에서 반환된 데이터 개수: " + list.size());
-
-            for (TimetableVO t : list) {
-                System.out.println("상영 시간표 ID: " + t.getTimetableIdx());
-                System.out.println("스크린명: " + t.getScreenName());
-                System.out.println("총 좌석 수: " + t.getScreenSeatCount());
-                System.out.println("사용 가능한 좌석 수: " + t.getAvailableSeats()); // 수정된 부분
-            }
 
             if (list != null && !list.isEmpty()) {
                 ar = new TimetableVO[list.size()];

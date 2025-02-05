@@ -82,7 +82,6 @@
 
         // 영화 및 극장 선택 관련 변수
         const movieSelection = document.querySelector(".movie-list");
-        // const theaterSelection = document.querySelector(".theater-region-list");
         const timeSelectionContainer = document.querySelector("#time-selection");
 
         // 선택된 값 저장 변수
@@ -214,8 +213,6 @@
                 li.dataset.date = formatDate(date);
                 li.style.color = isWeekend(date) ? "red" : "black";
 
-                console.log("📆 생성된 날짜:", li.dataset.date, "현재 날짜:", formatDate(todayNoTime));
-
                 // 오늘보다 이전 날짜라면 클릭 불가로 처리
                 if (dateNoTime < todayNoTime) {
                     li.classList.add("disabled");
@@ -225,14 +222,22 @@
                     // 오늘 이후 또는 오늘인 경우 클릭 이벤트 등록
                     li.addEventListener("click", function () {
                         // 다른 날짜의 selected 클래스 제거
-                        dateList.querySelectorAll("li").forEach(function(el) {
-                            el.classList.remove("selected");
-                        });
+                        dateList.querySelectorAll("li").forEach(el => el.classList.remove("selected"));
                         li.classList.add("selected");
+                        // dateList.querySelectorAll("li").forEach(function(el) {
+                        //     el.classList.remove("selected");
+                        // });
+                        // li.classList.add("selected");
 
                         currentDate = new Date(li.dataset.date);
                         currentDateStr = formatDate(currentDate);
                         console.log("선택한 날짜:", currentDateStr);
+
+                        // ✅ 날짜 변경 시 극장 필터링 다시 실행
+                        if (selectedMovieIdx) {
+                            console.log("🎬 선택된 영화 ID:", selectedMovieIdx, "📅 변경된 날짜:", currentDateStr);
+                            updateTheaterList(selectedMovieIdx, currentDateStr);
+                        }
 
                         updateShowtimes();
                     });
@@ -368,46 +373,72 @@
                 selectedMovieIdx = selectedElement.getAttribute("data-movie-id");
                 console.log("선택한 영화 ID:", selectedMovieIdx);
 
+                // **기존 극장/지역 UI 초기화**
+                // 모든 region-link 요소의 disabled 상태 및 style 초기화
+                document.querySelectorAll(".region-link").forEach(link => {
+                    link.classList.remove("disabled");
+                    link.style.opacity = "1";
+                    link.style.pointerEvents = "auto";
+                });
+                // 기존에 열려있는 극장 리스트 삭제
+                document.querySelectorAll(".theater-region-list").forEach(list => {
+                    list.remove();
+                });
+                // 선택된 극장 변수 초기화 (필요하면)
+                selectedTheaterIdx = null;
+
                 // 🎯 영화가 선택되면 해당 영화가 상영하는 극장 리스트 가져오기
                 await updateTheaterList(selectedMovieIdx);
 
                 // 강제로 UI 업데이트
-                autoClickFirstAvailableRegion();
                 updateShowtimes();
             }
         });
 
+        // 전역 변수 선언 (스크립트 최상단에)
+        let globalAvailableTheaters = [];
+
+        // 영화 선택 이벤트 내에서 availableTheaters를 저장
         async function updateTheaterList(movieIdx) {
             try {
-                const url = contextPath + "/UserController?type=availableTheaters&movieIdx=" + movieIdx;
-                const response = await fetch(url);
+                // 기존 극장 UI 초기화
+                document.querySelectorAll(".theater-region-list").forEach(list => list.remove());
+                selectedTheaterIdx = null;
 
+                const url = contextPath + "/UserController?type=availableTheaters&movieIdx=" + movieIdx + "&targetDate=" + currentDateStr;
+                const response = await fetch(url);
                 if (!response.ok) throw new Error("HTTP error! status: " + response.status);
 
                 const availableTheaters = await response.json();
                 console.log("🎥 선택한 영화의 상영 극장 목록:", availableTheaters);
 
-                // 🚨 추가: 서버에서 데이터가 비어 있으면 콘솔에 경고 메시지 출력
                 if (!availableTheaters || availableTheaters.length === 0) {
-                    console.warn("🚨 서버에서 해당 영화의 극장 데이터를 내려주지 않음!");
+                    console.warn("🚨 해당 영화의 극장 데이터가 없습니다!");
+
+                    document.querySelectorAll(".region-link").forEach(link => {
+                        link.classList.add("disabled");
+                        link.style.opacity = "0.5";
+                        link.style.pointerEvents = "none";
+                    });
+
+                    // globalAvailableTheaters = [];
                     return;
                 }
 
-                // `availableTheaters` 배열에서 `theaterIdx` 값만 추출하여 새로운 배열 생성
-                const availableTheaterIds = availableTheaters.map(theater => String(theater.theaterIdx)); // 문자열 변환
+                // 전역 변수에 저장
+                globalAvailableTheaters = availableTheaters;
 
-                // 🎯 theaterRegion(지역) 목록 추출
-                const availableRegions = new Set(availableTheaters.map(theater => theater.theaterRegion));
+                // const globalAvailableTheaters = new Set(availableTheaters.map(theater => theater.theaterRegion));
 
+                // 각 지역 링크에 대해 해당 지역에 극장이 있는지 확인하여 활성/비활성 처리
                 document.querySelectorAll(".region-link").forEach(link => {
                     const region = link.getAttribute("data-region").trim();
                     const regionLi = link.closest("li");
-                    const theaters = regionLi.querySelectorAll("ul.theater-region-list li a");
 
-                    let hasActiveTheater = false;
+                    // availableTheaters 내에 해당 지역에 속하는 극장이 있는지 필터링
+                    const theatersInRegion = globalAvailableTheaters.filter(theater => theater.theaterRegion === region);
 
-                    // 🎯 현재 지역이 활성화 대상인지 확인 후 적용
-                    if (availableRegions.has(region)) {
+                    if (theatersInRegion.length > 0) {
                         regionLi.classList.remove("disabled");
                         regionLi.style.opacity = "1";
                         regionLi.style.pointerEvents = "auto";
@@ -417,37 +448,116 @@
                         regionLi.style.pointerEvents = "none";
                     }
 
-                    // 🎯 지역 안의 극장 개별 활성화
-                    if (theaters.length > 0) {
-                        theaters.forEach(theater => {
-                            const theaterIdx = String(theater.getAttribute("data-theater-id"));
-
-                            if (availableTheaterIds.includes(theaterIdx)) {
-                                // 상영하는 극장은 활성화
-                                theater.classList.remove("disabled");
-                                theater.style.opacity = "1";
-                                theater.style.pointerEvents = "auto";
-                                hasActiveTheater = true;
-                            } else {
-                                // 상영하지 않는 극장은 비활성화 (클릭 불가)
-                                theater.classList.add("disabled");
-                                theater.style.opacity = "0.5";
-                                theater.style.pointerEvents = "none";
-                            }
+                    // 극장 리스트 UI 업데이트 (이미 하위 리스트가 있으면 제거)
+                    const existingList = regionLi.querySelector(".theater-region-list");
+                    if (existingList) {
+                        existingList.remove();
+                    }
+                    // 새로운 극장 리스트 생성
+                    if (theatersInRegion.length > 0) {
+                        const ul = document.createElement("ul");
+                        ul.classList.add("theater-region-list");
+                        theatersInRegion.forEach(theater => {
+                            const li = document.createElement("li");
+                            const a = document.createElement("a");
+                            a.textContent = theater.theaterName;
+                            a.href = "#";
+                            a.setAttribute("data-theater-id", theater.theaterIdx);
+                            a.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                selectedTheaterIdx = theater.theaterIdx;
+                                console.log("선택한 극장 ID:", selectedTheaterIdx);
+                                updateShowtimes(); // 극장 선택 후 시간표 업데이트
+                            });
+                            li.appendChild(a);
+                            ul.appendChild(li);
                         });
+                        regionLi.appendChild(ul);
                     }
                 });
-
             } catch (error) {
                 console.error("🎥 극장 목록 업데이트 오류:", error);
             }
         }
 
-        // // 🎯 자동으로 첫 번째 활성화된 지역을 클릭하는 함수 추가
-        // function autoClickFirstAvailableRegion() {
-        //     const firstAvailableRegion = document.querySelector(".region-link:not(.disabled)");
-        //     if (firstAvailableRegion) {
-        //         firstAvailableRegion.click();
+
+        // async function updateTheaterList(movieIdx) {
+        //     try {
+        //         // 먼저 기존 극장 영역 초기화: 모든 지역 링크를 기본 활성 상태로 리셋
+        //         document.querySelectorAll(".region-link").forEach(link => {
+        //             link.classList.remove("disabled");
+        //             link.style.opacity = "1";
+        //             link.style.pointerEvents = "auto";
+        //         });
+        //         // // 기존에 생성된 극장 리스트(예: .theater-region-list)가 있다면 모두 제거
+        //         // document.querySelectorAll(".theater-region-list").forEach(list => {
+        //         //     list.remove();
+        //         // });
+        //         // 선택된 극장 관련 변수도 초기화 (필요하다면)
+        //         // selectedTheaterIdx = null;
+        //
+        //
+        //         const url = contextPath + "/UserController?type=availableTheaters&movieIdx=" + movieIdx + "&targetDate=" + currentDateStr;
+        //         const response = await fetch(url);
+        //
+        //         if (!response.ok) throw new Error("HTTP error! status: " + response.status);
+        //
+        //         const availableTheaters = await response.json();
+        //         console.log("🎥 선택한 영화의 상영 극장 목록:", availableTheaters);
+        //
+        //         // 🚨 추가: 서버에서 데이터가 비어 있으면 콘솔에 경고 메시지 출력
+        //         if (!availableTheaters || availableTheaters.length === 0) {
+        //             console.warn("🚨 서버에서 해당 영화의 극장 데이터를 내려주지 않음!");
+        //             return;
+        //         }
+        //
+        //         // `availableTheaters` 배열에서 `theaterIdx` 값만 추출하여 새로운 배열 생성
+        //         const availableTheaterIds = availableTheaters.map(theater => String(theater.theaterIdx)); // 문자열 변환
+        //
+        //         // 🎯 theaterRegion(지역) 목록 추출
+        //         const availableRegions = new Set(availableTheaters.map(theater => theater.theaterRegion));
+        //
+        //         document.querySelectorAll(".region-link").forEach(link => {
+        //             const region = link.getAttribute("data-region").trim();
+        //             const regionLi = link.closest("li");
+        //             const theaters = regionLi.querySelectorAll("ul.theater-region-list li a");
+        //
+        //             let hasActiveTheater = false;
+        //
+        //             // 🎯 현재 지역이 활성화 대상인지 확인 후 적용
+        //             if (availableRegions.has(region)) {
+        //                 regionLi.classList.remove("disabled");
+        //                 regionLi.style.opacity = "1";
+        //                 regionLi.style.pointerEvents = "auto";
+        //             } else {
+        //                 regionLi.classList.add("disabled");
+        //                 regionLi.style.opacity = "0.5";
+        //                 regionLi.style.pointerEvents = "none";
+        //             }
+        //
+        //             // 🎯 지역 안의 극장 개별 활성화
+        //             if (theaters.length > 0) {
+        //                 theaters.forEach(theater => {
+        //                     const theaterIdx = String(theater.getAttribute("data-theater-id"));
+        //
+        //                     if (availableTheaterIds.includes(theaterIdx)) {
+        //                         // 상영하는 극장은 활성화
+        //                         theater.classList.remove("disabled");
+        //                         theater.style.opacity = "1";
+        //                         theater.style.pointerEvents = "auto";
+        //                         hasActiveTheater = true;
+        //                     } else {
+        //                         // 상영하지 않는 극장은 비활성화 (클릭 불가)
+        //                         theater.classList.add("disabled");
+        //                         theater.style.opacity = "0.5";
+        //                         theater.style.pointerEvents = "none";
+        //                     }
+        //                 });
+        //             }
+        //         });
+        //
+        //     } catch (error) {
+        //         console.error("🎥 극장 목록 업데이트 오류:", error);
         //     }
         // }
 

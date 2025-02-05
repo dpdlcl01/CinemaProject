@@ -11,6 +11,8 @@ import mybatis.vo.TimetableVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,12 +57,21 @@ public class ReservationAction implements Action {
             }
             return null; // 추가적인 리다이렉션이나 포워딩 없이 종료
         }else if ("availableTheaters".equals(type)) {
-
             String movieIdx = request.getParameter("movieIdx");
-            List<TimetableVO> timetableVOList = ReservationDAO.getAvailableTheaters(movieIdx);
+            String targetDate = request.getParameter("targetDate");
 
-            // 🚨 디버깅용 콘솔 출력
-            System.out.println("🔍 movieIdx: " + movieIdx);
+            Map<String, Object> params = new HashMap<>();
+            params.put("movieIdx", movieIdx);
+            params.put("targetDate", targetDate);
+
+            // `targetDate`가 없으면 오늘 날짜로 설정
+            if (targetDate == null || targetDate.isEmpty()) {
+                LocalDate today = LocalDate.now();
+                targetDate = today.toString(); // "yyyy-MM-dd" 형식
+            }
+
+            List<TimetableVO> timetableVOList = ReservationDAO.getAvailableTheaters(movieIdx, targetDate);
+
             try {
                 System.out.println("🔍 반환된 극장 리스트: " + new ObjectMapper().writeValueAsString(timetableVOList));
             } catch (JsonProcessingException e) {
@@ -72,7 +83,6 @@ public class ReservationAction implements Action {
             try {
                 PrintWriter out = response.getWriter();
                 ObjectMapper mapper = new ObjectMapper();
-                System.out.println(new ObjectMapper().writeValueAsString(timetableVOList));
                 mapper.writeValue(out, timetableVOList); // JSON으로 응답
                 return null;
             } catch (Exception e) {
@@ -87,8 +97,6 @@ public class ReservationAction implements Action {
 
             // DAO 호출
             TimetableVO[] timetables = ReservationDAO.allTimetable(theaterIdx, movieIdx, targetDate);
-//            System.out.println("DAO에서 반환된 timetables: " + timetables);
-
             // JSON 형식으로 응답 반환
             response.setContentType("application/json;charset=utf-8");
             try {
