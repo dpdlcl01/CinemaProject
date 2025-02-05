@@ -16,12 +16,17 @@ public class TheaterMovieAction implements Action {
         String theaterIdx = request.getParameter("theaterIdx");
         String targetDate = request.getParameter("targetDate"); // targetDate로 수정
 
+//        System.out.println("theaterIdx:"+theaterIdx+"targetDate:"+targetDate);
+
         // 극장 영화 정보 가져오기
         TheaterMovieVO[] movieList = TheaterDAO.getMovie(theaterIdx, targetDate);
+//        System.out.println(movieList.length);
+
 
         // 응답 유형 설정
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
 
         JSONArray jsonArray = new JSONArray();
 
@@ -44,12 +49,13 @@ public class TheaterMovieAction implements Action {
         }
 
         if (jsonArray.isEmpty()) {
-            response.getWriter().write("{\"message\": \"현재 상영 중인 영화가 없습니다.\"}");
+//            response.getWriter().write("{\"message\": \"현재 상영 중인 영화가 없습니다.\"}");
+            response.getWriter().write("[]");
         } else {
             response.getWriter().write(jsonArray.toString());
+            response.getWriter().flush();
         }
-
-        response.getWriter().flush();
-        return null;
+          response.getWriter().close();
+          return null;
     }
 }
