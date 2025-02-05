@@ -26,7 +26,7 @@ public class GuestReservationCheckAction implements Action {
 
     } else if (type.equals("NonmemberReservationCheck")) {
 
-      HttpSession session = request.getSession();
+//      HttpSession session = request.getSession();
 
       String userName = request.getParameter("userName");
       String userEmail = request.getParameter("userEmail");
@@ -34,13 +34,25 @@ public class GuestReservationCheckAction implements Action {
 
       UserVO uservo = LoginDAO.getNonUserInfo(userEmail);
 
+      if (uservo == null) {
+        request.setAttribute("error", "입력한 비회원 정보가 잘못되었습니다.");
+        return "/jsp/user/login/guestReservationCheck.jsp";
+      }
+
+      String hashedPassword = uservo.getUserAuthPassword();
+
+      // 비밀번호가 평문인지 또는 잘못된 해시인지 확인
+      if (hashedPassword == null || !hashedPassword.startsWith("$2a$")) {
+        request.setAttribute("error", "입력한 비회원 정보가 잘못되었습니다.");
+        return "/jsp/user/login/guestReservationCheck.jsp";
+      }
 
 
       if (uservo != null) {
         boolean passwordMatch = BCrypt.checkpw(userAuthPassword, uservo.getUserAuthPassword());
         System.out.println("password"+userAuthPassword+"hashPassword:"+uservo.getUserAuthPassword());
         if (passwordMatch) {
-          session.setAttribute("uservo", uservo);  // 세션에 사용자 정보 저장
+//          session.setAttribute("uservo", uservo);  // 세션에 사용자 정보 저장
           int guestIdx = GuestDAO.getSearchGuest(userName, userEmail, uservo.getUserAuthPassword());
 
           List<ReservationDetailVO> guestReservationList = GuestDAO.getReservationDetail(guestIdx);

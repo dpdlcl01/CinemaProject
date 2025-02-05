@@ -1188,7 +1188,7 @@
             const theaterIdx = document.querySelector("#theaterIdx").value;
             const isWeekendDay = isWeekend(currentDate);
             const timeString = target.textContent.split(' ')[0];
-            const [datePart, timePart] = timetableStart.split(' ');
+            // const [datePart, timePart] = timetableStart.split(' ');
             const [hours] = timeString.split(':').map(Number);
             const isMorning = hours < 12;
             const contextPath = "${pageContext.request.contextPath}";
@@ -1196,12 +1196,12 @@
             //  클릭 시 이동할 경로
             const url = contextPath + "/UserController?type=seat" +
                 "&movieIdx=" + movieIdx +
+                "&theaterIdx=" + theaterIdx +
                 "&screenIdx=" + screenIdx +
                 "&timetableIdx=" + timetableIdx +
                 "&screenType=" + screenType +
                 "&isMorning=" + isMorning +
-                "&isWeekend=" + isWeekendDay +
-                "&theaterIdx=" + theaterIdx;
+                "&isWeekend=" + isWeekendDay;
 
             try {
                 // 3. 로그인 체크

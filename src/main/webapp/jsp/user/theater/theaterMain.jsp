@@ -186,20 +186,7 @@
     overflow: hidden;
   }
 
-  .theater-event .event-list ul li img {
-    width: 100%;
-    height: auto;
-    /*display: block;*/
-    border-radius: 5px;
-  }
 
-  /*.theater-event .event-list ul li div {*/
-  /*  margin-top: 10px;*/
-  /*  text-align: center;*/
-  /*  font-size: 16px;*/
-  /*  font-weight: bold;*/
-  /*  color: #333;*/
-  /*}*/
 
   /* 극장 공지사항 섹션 */
   .theater-notice {
@@ -284,10 +271,10 @@
   /* 이벤트 */
   .event-sector {
     display: flex; /* 플렉스 컨테이너 */
-    width: 540px;
+    width: 100%;
     height: 250px;
     border-radius: 10px;
-    padding: 35px;
+    padding: 35px 30px 10px;
     background-color: #dbcaff;
     align-items: center;
     gap: 20px;
@@ -309,15 +296,19 @@
 
   /* 이미지 */
   .event-img {
+    width: 200px;
+    height: 100%;
     display: flex;
-    align-items: center; /* 이미지 자체도 세로 가운데 정렬 */
+    align-items: center;
+
   }
 
   .event-img img {
-    max-width: 200px;
-    height: auto;
-    border-radius: 10px; /* 모서리 둥글게 */
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
     object-fit: cover; /* 이미지 비율 유지 */
+    object-position: top;
   }
 </style>
 
@@ -423,7 +414,7 @@
               </div>
               <!-- 이미지 영역 -->
               <div class="event-img">
-                <img src="${vo.boardContent}" alt="이벤트 이미지">
+                <img src="${event.boardContent}" alt="이벤트 이미지">
               </div>
             </div>
             </a>

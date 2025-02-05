@@ -44,20 +44,22 @@
     width: 1100px;
   }
   #main{
-    margin: 50px 0 50px 50px;
+    width: 100%;
+    margin: 27px 40px 40px 40px;
   }
 
   /*상품관리 스타일*/
   #store{
     display: inline-block;
-    width: 1400px;
+    width: 100%;
     margin-bottom: 10px;
   }
   #store h3{
     float: left;
   }
   table {
-    width: 1400px;
+    font-size: 13px;
+    width: 100%;
     text-align: center;
   }
 
@@ -71,90 +73,6 @@
     border: none;
     text-align: center;
   }
-
-  /*상품번호*/
-  #title table td:nth-of-type(1) {
-    width: 70px;
-  }
-
-  #title table td:nth-of-type(1) input {
-    width: 100%;
-  }
-  /*카테고리*/
-  #title table td:nth-of-type(2) {
-    width: 100px;
-  }
-
-  #title table td:nth-of-type(2) input {
-    width: 100%;
-  }
-
-  /* 상품이미지 열 */
-  #title table td:nth-of-type(3) {
-    width: 220px; /* 원하는 width 값으로 수정 */
-  }
-
-  #title table td:nth-of-type(3) input {
-    width: 100%; /* input 요소가 td의 너비를 채우도록 설정 */
-  }
-
-  /* 상품설명 */
-   #title table td:nth-of-type(4) {
-     width: 300px;
-   }
-
-   #title table td:nth-of-type(4) input {
-     width: 100%;
-   }
-
-   /* 상품명(이미지) */
-   #title table td:nth-of-type(5) {
-     width: 150px;
-   }
-
-   #title table td:nth-of-type(5) input {
-     margin-top: 5px;
-     width: 100%;
-   }
-
-
-  /* 가격 열 */
-  #title table td:nth-of-type(6) {
-    width: 100px; /* 원하는 width 값으로 수정 */
-  }
-
-  #title table td:nth-of-type(6) input {
-    width: 100%; /* input 요소가 td의 너비를 채우도록 설정 */
-  }
-
-
-  /* 재고 열 */
-  #title table td:nth-of-type(7) {
-    width: 90px; /* 원하는 width 값으로 수정 */
-  }
-
-  #title table td:nth-of-type(7) input {
-    width: 100%; /* input 요소가 td의 너비를 채우도록 설정 */
-  }
-
-  /* 상품 상태 */
-  #title table td:nth-of-type(8) {
-    width: 130px; /* 원하는 width 값으로 수정 */
-  }
-
-  #title table td:nth-of-type(8) input {
-    width: 100%;
-  }
-
-  #title table td:nth-of-type(9) {
-    width: 75px;
-  }
-
-  #title table td:nth-of-type(9) input {
-    width: 100%;
-  }
-
-
 
   #addProductDialog table {
     width: 100%;
@@ -184,21 +102,12 @@
 
   #addProductDialog td[colspan="2"] {
     text-align: right;
-    border: none !important; /* !important 추가 */
+    border: none !important;
   }
 
   table th, table td {
     border: 1px solid;
     padding: 12px;
-  }
-
-  #title td input, #title td select {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 8px;
-    width: 100%;
-    text-align: center;
-    transition: border-color 0.3s ease;
   }
 
   #addBtn {
@@ -215,8 +124,10 @@
   }
 
   button[type="submit"] {
-    /*background-color: #503396;*/
-    background-color: #bbb;
+    background-color: #503396;
+    height: 36px;
+    width: 100%;
+    /*background-color: #bbb;*/
     color: white;
     border: none;
     border-radius: 5px;
@@ -278,19 +189,33 @@
   }
 
   /* 입력 필드와 셀렉트 박스 스타일 */
-  #title td input, #title td select {
+  #title td input, #title td select, #title td textarea {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 8px;
     width: 100%;
+    height: 100%;
     text-align: center;
     transition: border-color 0.3s ease;
   }
 
-  #title td input:focus, #title td select:focus {
+   #title td textarea {
+     border: 1px solid #ddd;
+     border-radius: 5px;
+     padding: 12px;
+     width: 100%;
+     height: 50px;
+     text-align: center;
+     line-height: 1.5; /* 줄간격 */
+     resize: none;
+   }
+
+
+  #title td input:focus, #title td select:focus, #title td textarea:focus {
     border-color: #000000; /* 포커스 시 테두리 색상 변경 */
     outline: none;
   }
+
 
    img, svg {
      height: 100px;
@@ -308,9 +233,7 @@
       <%--  사이드바  --%>
       <jsp:include page="../common/adminSideBar.jsp"></jsp:include>
       <%--  메인  --%>
-
       <div id="main">
-<%--        <h1>관리자 정보</h1>--%>
         <div id="title">
           <div id="store">
             <h3>상품관리</h3>
@@ -318,6 +241,17 @@
           </div>
           <%-- 테이블 추가 --%>
           <table>
+            <colgroup>
+              <col style="width: 50px;">   <!-- 상품 ID -->
+              <col style="width: 100px;">  <!-- 카테고리 -->
+              <col style="width: 220px;">  <!-- 상품명 -->
+              <col style="width: 300px;">  <!-- 상품설명 -->
+              <col style="width: 220px;">  <!-- 상품이미지 -->
+              <col style="width: 100px;">  <!-- 가격 -->
+              <col style="width: 90px;">   <!-- 재고 -->
+              <col style="width: 130px;">  <!-- 상품 상태 -->
+              <col style="width: 75px;">   <!-- 관리 -->
+            </colgroup>
             <thead>
             <tr>
               <th>상품ID</th>
@@ -343,7 +277,7 @@
                     </select>
                   </td>
                   <td><input type="text" name="productName" value="${product.productName}" required /></td>
-                  <td><input type="text" name="productInfo" value="${product.productInfo}" required /></td>
+                  <td><textarea name="productInfo" required>${product.productInfo}</textarea></td>
                   <td>
                     <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${product.productImg}">
                     <input type="text" name="productImg" value="${product.productImg}" required />
@@ -363,8 +297,6 @@
             </c:forEach>
             </tbody>
           </table>
-
-
 
 
           <!-- 상품 추가 다이얼로그 -->

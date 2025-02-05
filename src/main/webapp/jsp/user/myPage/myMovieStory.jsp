@@ -1,21 +1,66 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!Doctype html>
 <html lang="en">
 <!-- head -->
 <head>
-  <meta charset="UTF-8">
   <jsp:include page="../common/head.jsp"/>
 </head>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieMain.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myMovieStory.css">
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieMain.css">
+<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myMovieStory.css">
 <style>
 
+  *{
+    padding: 0;
+    margin: 0;
+  }
+  .contents {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .content1 {
+    width: 850px;
+  }
+  .content1 h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .content1 .filter {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .content1 .filter select,
+  .content1 .filter button {
+    padding: 5px 10px;
+    margin-right: 10px;
+  }
+  .content1 table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .content1 table th,
+  .content1 table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  .content1 table th {
+    background-color: #f4f4f4;
+  }
+
+  .content1 > .ongoinReservation {
+    display: block; /* 초기 상태로 예매 내역 표시 */
+  }
+
+  .content1 > div.active {
+    display: block; /* active 클래스가 추가되면 표시 */
+  }
 </style>
+
 <body>
 <!-- header 영역 -->
 <jsp:include page="../common/header.jsp"/>
@@ -30,6 +75,7 @@
     </div>
   </div>
 </div>
+<div class="total-main">
 <!-- contents 영역 -->
 <div class="contents">
   <article id="wrap">
@@ -243,17 +289,15 @@
                       <!-- //btn-util -->
                     </li>
                   </c:forEach>
-
                 </ol>
               </div>
             </div>
           </section>
-          <%--                <li class="no-result">보고싶은 영화를 등록 해 주세요</li>--%>
         </div>
       </div>
     </div>
-
   </article>
+</div>
 </div>
 
 

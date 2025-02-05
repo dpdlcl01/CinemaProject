@@ -1,9 +1,11 @@
 package action.user.myPage;
 
 import action.Action;
+import mybatis.dao.MyPageDAO;
 import mybatis.dao.MyReservationDAO;
 import mybatis.vo.ProductDetailVO;
 import mybatis.vo.ReservationDetailVO;
+import mybatis.vo.ReservationVO;
 import mybatis.vo.UserVO;
 import util.SessionUtil;
 
@@ -25,6 +27,11 @@ public class MyReservationAction implements Action {
     }
 
     int userIdx = Integer.parseInt(uservo.getUserIdx()); // 로그인한 사용자 ID
+
+  //마이페이지 메인 예약 내역 가져오기
+    ReservationVO[] rvo = MyPageDAO.getReservation(String.valueOf(userIdx));
+    request.setAttribute("rvo", rvo);
+
 
     // 사용자가 선택한 값 가져오기
     String selectedYear = request.getParameter("selectedYear");
