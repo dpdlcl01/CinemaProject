@@ -141,7 +141,7 @@ public class UserController extends HttpServlet {
         // actionMap에서 type에 해당하는 액션을 가져옴
         Action action = actionMap.get(type);
 
-    // action이 null일 경우 에러 처리 또는 기본 페이지 리다이렉트
+        // action이 null일 경우 에러 처리 또는 기본 페이지 리다이렉트
         if (action == null) {
             System.out.println("유효하지 않은 type 요청: " + type);
             if (!response.isCommitted()) {
@@ -150,18 +150,18 @@ public class UserController extends HttpServlet {
             return;
         }
 
-    // AJAX 요청 여부 확인 (헤더에서 "X-Requested-With"가 "XMLHttpRequest"인지 확인)
+        // AJAX 요청 여부 확인 (헤더에서 "X-Requested-With"가 "XMLHttpRequest"인지 확인)
         boolean isAjaxRequest = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 
-    // Action 실행 및 뷰 경로 반환
+        // Action 실행 및 뷰 경로 반환
         String viewPath = action.execute(request, response);
 
-    // AJAX 요청일 경우, 추가 포워딩 없이 바로 종료
+        // AJAX 요청일 경우, 추가 포워딩 없이 바로 종료
         if (isAjaxRequest) {
             return;  // JSON 응답이 완료되었으면 추가 처리 없이 종료
         }
 
-    // 비 AJAX 요청에 대한 처리
+        // 비 AJAX 요청에 대한 처리
         if (viewPath == null) {
             if (!response.isCommitted()) {
                 String requestedWith = request.getHeader("X-Requested-With");
