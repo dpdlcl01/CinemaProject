@@ -30,6 +30,7 @@ public class ProductUpdateAction implements Action {
         String productIdx = request.getParameter("productIdx");
         String productCategory = request.getParameter("productCategory");
         String productName = request.getParameter("productName");
+        String productInfo = request.getParameter("productInfo");
         String productPrice = request.getParameter("productPrice");
         String productStock = request.getParameter("productStock");
         String productStatus = request.getParameter("productStatus");
@@ -46,6 +47,7 @@ public class ProductUpdateAction implements Action {
         ProductVO updatedProduct = new ProductVO();
         updatedProduct.setProductIdx(productIdx); // 상품
         updatedProduct.setProductCategory(productCategory); // 상품 카테고리
+        updatedProduct.setProductInfo(productInfo); // 상품 카테고리
         updatedProduct.setProductName(productName); // 상품명
         updatedProduct.setProductPrice(Integer.parseInt(productPrice)); // 가격
         updatedProduct.setProductStock(Integer.parseInt(productStock)); // 재고
@@ -59,6 +61,7 @@ public class ProductUpdateAction implements Action {
             System.out.println("update successes");
             logChanges(adminIdx, productIdx, "카테고리 변경", oldProduct.getProductCategory(), updatedProduct.getProductCategory());
             logChanges(adminIdx, productIdx, "상품명 변경", oldProduct.getProductName(), updatedProduct.getProductName());
+            logChanges(adminIdx, productIdx, "상품 설명 변경", oldProduct.getProductInfo(), updatedProduct.getProductInfo());
             logChanges(adminIdx, productIdx, "상품 가격 변경", String.valueOf(oldProduct.getProductPrice()), String.valueOf(updatedProduct.getProductPrice()));
             logChanges(adminIdx, productIdx, "상품 재고 변경", String.valueOf(oldProduct.getProductStock()), String.valueOf(updatedProduct.getProductStock()));
             logChanges(adminIdx, productIdx, "상품 상태 변경", oldProduct.getProductStatus(), updatedProduct.getProductStatus());

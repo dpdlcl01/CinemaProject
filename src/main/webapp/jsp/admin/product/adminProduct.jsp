@@ -264,9 +264,9 @@
 
   /* 테이블 헤더 스타일 */
   table th {
-    /*background-color: #503396; !* 헤더 배경색 *!*/
-    background-color: #dddddd; /* 헤더 배경색 */
-    color: white; /* 헤더 텍스트 색상 */
+    border: 1px solid #ccc;
+    background-color: #dddddd;
+    color: #1e1e1e;
     font-weight: bold;
     padding: 12px;
   }
@@ -288,7 +288,7 @@
   }
 
   #title td input:focus, #title td select:focus {
-    border-color: #503396; /* 포커스 시 테두리 색상 변경 */
+    border-color: #000000; /* 포커스 시 테두리 색상 변경 */
     outline: none;
   }
 
@@ -435,9 +435,9 @@
                       </select>
                     </td>
                   </tr>
-<%--                  <tr>--%>
-<%--                    <td colspan="2"><button type="submit">상품 추가</button></td>--%>
-<%--                  </tr>--%>
+                  <tr>
+                    <td colspan="2"><button type="submit">상품 추가</button></td>
+                  </tr>
                 </table>
               </form>
             </div>
