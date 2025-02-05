@@ -220,15 +220,15 @@
 
   function requestPayment() {
 
-    let successUrl ="http://localhost:8081/CinemaProject/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar;
+    let successUrl ="/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar;
     console.log(image);
     tossPayments.requestPayment('카드', { // 결제 수단 (예: 카드, 계좌이체 등)
       amount: totalPrice, // 결제 금액 (예: 5000원)
       orderId: document.getElementById("orderId").innerHTML, // 주문 ID (서버에서 생성해야 함)
       orderName: document.getElementsByClassName("movie-title")[0].innerText, // 상품명
       customerEmail: "abc@naver.com", // 고객 이메일
-      successUrl: successUrl,
-      failUrl: "http://localhost:8080/CinemaProject/jsp/user/store/paymentFail.jsp", // 결제 실패 시 이동할 페이지
+      successUrl: window.location.origin + successUrl,
+      failUrl: window.location.origin + "/UserController?type=reservationPaymentFail", // 결제 실패 시 이동할 페이지
     })
             .catch(function (error) {
               console.error(error);
