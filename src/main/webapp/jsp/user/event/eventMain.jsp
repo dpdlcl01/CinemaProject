@@ -148,8 +148,9 @@
 
     // 데이터를 가져오는 함수
     const fetchData = async () => {
-      const url = "/UserController?type=event&offset=" + offset + "&pageSize=" + pageSize;
-      console.log("Fetching data from URL: " + url);
+        const url = "${pageContext.request.contextPath}/UserController?type=event&offset=" + offset + "&pageSize=" + pageSize;
+
+        console.log("Fetching data from URL: " + url);
 
       try {
         const response = await fetch(url);
@@ -165,15 +166,17 @@
             const li = document.createElement("li");
             li.classList.add("event-item");
 
-            let html = `
-                <div class="event-thumbnail">
-                    <img src="/css/user/images/event/` + event.boardContent + `" alt="이벤트 이미지">
-                </div>
-                <div class="event-details">
-                    <a href="/UserController?type=eventdetail&boardIdx=` + event.boardIdx + `" class="event-title">` + event.boardTitle + `</a>
-                    <p class="event-meta">` + event.boardRegDate + ` ~ ` + event.boardExpDate + `</p>
-                </div>
-            `;
+              let html =
+                  '<div class="event-thumbnail">' +
+                  '<img src="' + event.boardContent + '" alt="이벤트 이미지">' +
+                  '</div>' +
+                  '<div class="event-details">' +
+                  '<a href="/UserController?type=eventdetail&boardIdx=' + event.boardIdx + '" class="event-title">' +
+                  event.boardTitle +
+                  '</a>' +
+                  '<p class="event-meta">' + event.boardRegDate + ' ~ ' + event.boardExpDate + '</p>' +
+                  '</div>'
+              ;
 
             li.innerHTML = html;
             eventList.appendChild(li);

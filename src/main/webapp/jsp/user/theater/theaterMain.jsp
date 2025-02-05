@@ -423,7 +423,7 @@
               </div>
               <!-- 이미지 영역 -->
               <div class="event-img">
-                <img src="${pageContext.request.contextPath}/css/user/images/event/${event.boardContent}" alt="이벤트 이미지">
+                <img src="${vo.boardContent}" alt="이벤트 이미지">
               </div>
             </div>
             </a>
