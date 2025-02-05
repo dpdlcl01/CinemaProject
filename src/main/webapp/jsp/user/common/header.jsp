@@ -3,59 +3,98 @@
 <!-- header -->
 <header id="header">
     <style>
-        /* 로그인 알림 다이얼로그 기본 숨김 */
-        #loginNoticeDialog {
+        /* 모달 CSS */
+        .alert-popup {
             display: none;
-        }
-        /* 공통 다이얼로그 스타일 */
-        .dialog-common {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            z-index: 5006;
+            width: 420px;
             padding: 0;
-            font-weight: 600;
+            border-radius: 10px;
+            height: 200px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .dialog-common .ui-btn-div {
-            margin: auto;
+        .wrap {
+            position: relative;
+        }
+
+        .layer-header {
+            background: #5E3AA6; /* 보라색 */
+            padding: 15px;
+            height: 50px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tit {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .layer-con {
+            padding: 30px 20px;
             text-align: center;
-            margin-top: 20px;
         }
 
-        .dialog-common button {
-            width: 80px;
-            height: 40px;
-            border: 1px solid #503396;
-            background-color: #503396;
-            color: white;
-            border-radius: 3px;
+        .txt-common {
+            font-size: 17px;
+            color: #333;
         }
 
-        /* 타이틀 스타일 */
-        .dialog-common .ui-dialog-titlebar {
-            background-color: #503396; /* 타이틀 배경색 */
-            color: white; /* 텍스트 색상 */
-            border: 2px solid #503396;
+        .modal-btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
         }
 
-        /* 콘텐츠 스타일 */
-        .dialog-common .ui-dialog-content {
-            color: black; /* 텍스트 색상 */
-            font-size: 14px; /* 적절한 폰트 크기 */
+        .modal-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid #5E3AA6;
+            background: #fff;
+            color: #5E3AA6;
+            font-weight: bold;
+            width: 100px;
+            text-align: center;
         }
 
-        /* 닫기 버튼 숨김 */
-        .dialog-common .ui-dialog-titlebar-close {
+        .button:hover {
+            background: #5E3AA6;
+            color: #fff;
+        }
+
+        .purple {
+            background: #5E3AA6;
+            color: #fff;
+        }
+
+        .purple:hover {
+            background: #4A2E8F;
+        }
+
+        .btn-layer-close:hover {
+            color: #ccc;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* 검은색 배경 (50% 투명) */
+            z-index: 999; /* 모달보다 아래, 일반 요소보다 위 */
             display: none;
+            overflow: auto;  /* 오버레이에 스크롤 허용 */
         }
-
-        /* 버튼 정렬 */
-        .dialog-common .ui-dialog-buttonpane {
-            text-align: center !important;
-        }
-
-        .dialog-common .ui-dialog-buttonset {
-            float: none !important;
-            display: inline-block;
-        }
-        /* 공통 다이얼로그 스타일 */
     </style>
         <!-- container -->
     <div class="container">
@@ -89,26 +128,64 @@
         </div>
         <!-- //link-area -->
         <!-- 로그인 필요 알림 다이얼로그 -->
-        <div id="loginNoticeDialog" title="알림" class="dialog-common">
+<%--        <div id="loginNoticeDialog" title="알림" class="dialog-common">
             <p>로그인 후 이용 가능한 서비스입니다.</p>
             <div class="ui-btn-div">
                 <button type="button" onclick="closeDialog('loginNoticeDialog')">확인</button>
             </div>
-        </div>
+        </div>--%>
+        <!-- 오버레이 HTML -->
+        <div id="modalOverlay" class="modal-overlay"></div>
+        <!-- 로그인 필요 알림 모달 -->
+        <section class="alert-popup" id="loginNoticeModal">
+            <div class="wrap">
+                <header class="layer-header">
+                    <h3 class="tit">알림</h3>
+                </header>
+                <div class="layer-con">
+                    <p class="txt-common" id="loginNoticeMessage">로그인 후 이용 가능한 서비스입니다.</p>
+                    <div class="modal-btn-group">
+                        <button type="button" class="modal-btn purple confirm" id="closeLoginNoticeModal">확인</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <script>
-            // 다이얼로그 열기 함수
-            function openDialog(dialogId) {
-                $("#" + dialogId).dialog({
-                    modal: true, // 모달 형태
-                    resizable: false, // 크기 조정 불가
-                    width: 400, // 다이얼로그 너비
-                });
+            // 로그인 필요 알림 모달 요소 가져오기
+            const loginNoticeModal = document.getElementById('loginNoticeModal');
+            const closeLoginNoticeModal = document.getElementById('closeLoginNoticeModal');
+            const modalOverlay = document.getElementById("modalOverlay"); // 오버레이 요소 가져오기
+
+            // 모달 보이기 / 숨기기 함수
+            function showModal(modal) {
+                modal.style.display = "block";
+                modalOverlay.style.display = "block";
             }
 
-            // 다이얼로그 닫기 함수
-            function closeDialog(dialogId) {
-                $("#" + dialogId).dialog("close"); // jQuery UI의 close 메서드 호출
+            function hideModal(modal) {
+                modal.style.display = "none";
+                modalOverlay.style.display = "none";
+                document.body.style.overflow = "auto";
             }
+
+            // 로그인 필요 알림 모달 보이기 함수
+            function showLoginNoticeModal(message) {
+                document.getElementById('loginNoticeMessage').textContent = message;
+                showModal(loginNoticeModal);
+            }
+
+            // 닫기 버튼 클릭 시 모달 숨기기
+            closeLoginNoticeModal.addEventListener("click", () => hideModal(loginNoticeModal));
+
+            // ✅ 모달 외부 클릭 시 닫기 방지
+            loginNoticeModal.addEventListener("click", (event) => {
+                if (event.target === loginNoticeModal) {
+                    event.stopPropagation();
+                }
+            });
+
+            // 기존 이벤트와 통합
             $(document).ready(function () {
                 $(".mymega").on("click", function (e) {
                     e.preventDefault();  // 기본 링크 동작 막기
@@ -122,14 +199,15 @@
                                 // 로그인된 상태 → 마이페이지로 이동
                                 window.location.href = `${pageContext.request.contextPath}/UserController?type=myPage`;
                             } else {
-                                // 로그인되지 않은 상태 → 로그인 알림 다이얼로그 띄우기
-                                openDialog("loginNoticeDialog");
+                                // 로그인되지 않은 상태 → 로그인 알림 모달 띄우기
+                                showLoginNoticeModal("로그인 후 이용 가능한 서비스입니다.");
                             }
                         }
                     });
                 });
             });
         </script>
+
         <!-- gnb -->
         <nav id="gnb">
             <ul class="gnb-depth1">

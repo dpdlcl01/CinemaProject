@@ -162,15 +162,23 @@ public class UserController extends HttpServlet {
         }
 
     // 비 AJAX 요청에 대한 처리
-        if (viewPath == null || viewPath.trim().isEmpty()) {
-            // 뷰 경로가 없을 경우 기본 페이지로 리다이렉트
+        if (viewPath == null) {
             if (!response.isCommitted()) {
-                response.sendRedirect("UserController?type=main");
+                String requestedWith = request.getHeader("X-Requested-With");
+                if ("XMLHttpRequest".equals(requestedWith)) {
+                    // AJAX 요청인 경우 별도의 JSP로 포워딩
+                    request.setAttribute("status", "error");
+                    request.setAttribute("message", "viewPath is null");
+                    viewPath = "/WEB-INF/views/ajaxResponse.jsp"; // AJAX 응답을 위한 JSP 경로
+                } else {
+                    // 일반 요청인 경우 메인 페이지로 리다이렉트
+                    response.sendRedirect("UserController?type=main");
+                }
             }
-            return;
         }
 
-    // viewPath가 정상적으로 반환되면 해당 경로로 포워딩
+
+        // viewPath가 정상적으로 반환되면 해당 경로로 포워딩
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
         dispatcher.forward(request, response);
     }

@@ -144,16 +144,22 @@ public class MyPageDAO {
         return watchMovieNum;
     }
 
-    public static boolean checkPassword(String userId, String oldPassword) {
+    public static boolean checkPassword(String userId, String inputPassword) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        Map<String, String> params = new HashMap<>();
-        params.put("userId", userId);
-        params.put("oldPassword", oldPassword);
 
-        Integer count = ss.selectOne("myPage.checkPassword", params);
-        ss.close();
-        return count != null && count > 0;
+        try {
+            String storedPasswordHash = ss.selectOne("myPage.getPasswordHash", userId);
+
+            if (storedPasswordHash == null) {
+                return false; // 비밀번호가 없으면 false 반환
+            }
+
+            return BCrypt.checkpw(inputPassword, storedPasswordHash); // 입력된 비밀번호 검증
+        } finally {
+            ss.close();
+        }
     }
+
 
     // 새 비밀번호 업데이트
     public static boolean updatePassword(String userId, String newPassword) {
@@ -162,14 +168,18 @@ public class MyPageDAO {
         params.put("userId", userId);
         params.put("newPassword", newPassword);
 
-        int result = ss.update("myPage.updatePassword", params);
-        if (result > 0) {
-            ss.commit(); // 변경 사항 반영
+        try {
+            int result = ss.update("myPage.updatePassword", params);
+            if (result > 0) {
+                ss.commit();
+                return true;
+            } else {
+                ss.rollback();
+                return false;
+            }
+        } finally {
             ss.close();
-            return true;
         }
-        ss.rollback(); // 실패 시 롤백
-        ss.close();
-        return false;
     }
+
 }
