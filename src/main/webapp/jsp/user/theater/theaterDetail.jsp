@@ -1032,11 +1032,16 @@
             const theaterIdx = document.querySelector("#theaterIdx").value;
             const contextPath = "${pageContext.request.contextPath}";
             const url = contextPath + "/UserController?type=theaterMovie&theaterIdx=" + theaterIdx + "&targetDate=" + formattedDate;
-            console.log(formattedDate); //  오늘날짜 확인용
+            // console.log(url); //  오늘날짜 확인용
 
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
+
+                    if (!Array.isArray(data)) {
+                        data =[];
+                    }
+
                     // 현재 날짜인 경우 시간 필터링
                     if (isToday(currentDate)) {
                         const now = new Date();
@@ -1162,7 +1167,7 @@
 
                         });
                     } else {
-                        scheduleContainer.innerHTML = "<p>영화 데이터가 없습니다.</p>";
+                        scheduleContainer.innerHTML = "<p>상영중인 영화가 없습니다.</p>";
                     }
                 })
                 .catch(error => console.error("Error:", error));
