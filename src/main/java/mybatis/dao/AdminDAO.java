@@ -80,8 +80,6 @@ public class AdminDAO {
         }
     }
 
-
-
     public boolean insertLog(LogVO log) {
         System.out.println("insertLog 실행됨: " + log);
         SqlSession ss = FactoryService.getFactory().openSession();

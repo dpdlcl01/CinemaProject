@@ -150,22 +150,17 @@ public class UserController extends HttpServlet {
 
         if (viewPath == null) {
             if (!response.isCommitted()) {
-                // AJAX 요청인지 확인
                 String requestedWith = request.getHeader("X-Requested-With");
                 if ("XMLHttpRequest".equals(requestedWith)) {
-                    // JSON 응답 반환
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400 상태 코드 반환
-                    PrintWriter out = response.getWriter();
-                    out.flush();
-                    out.close();
+                    // AJAX 요청인 경우 별도의 JSP로 포워딩
+                    request.setAttribute("status", "error");
+                    request.setAttribute("message", "viewPath is null");
+                    viewPath = "/WEB-INF/views/ajaxResponse.jsp"; // AJAX 응답을 위한 JSP 경로
                 } else {
                     // 일반 요청인 경우 메인 페이지로 리다이렉트
                     response.sendRedirect("UserController?type=main");
                 }
             }
-            return;
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);

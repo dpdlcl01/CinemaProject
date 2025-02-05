@@ -183,7 +183,7 @@
       </div>
     </div>
 
-    <form id="passwordChangeForm" action="${pageContext.request.contextPath}/UserController?type=changepw" method="POST">
+    <form id="passwordChangeForm" action="${pageContext.request.contextPath}/UserController?type=changepassword" method="POST">
     <div id="passwordMain">
       <h2>비밀번호 변경</h2>
       ${success}
@@ -222,21 +222,18 @@
                 const newPassword = document.getElementById("newPassword").value;
 
                 $.ajax({
-                  url: "${pageContext.request.contextPath}/UserController?type=changepw",
-                  dataType: "json",
-                  headers: { "Accept": "application/json" },
+                  url: "${pageContext.request.contextPath}/UserController?type=changepassword",
                   type: "POST",
                   data: { currentPassword, newPassword },
                   success: function (response) {
                     if (response.status === "success") {
-                      alert("비밀번호가 성공적으로 변경되었습니다.");
-                    } else if (response.status === "invalid_password") {
-                      alert("현재 비밀번호가 일치하지 않습니다.");
-                    } else if (response.status === "unauthorized") {
-                      alert("로그인이 필요합니다.");
+                      alert(response.message);
                     } else {
-                      alert("비밀번호 변경에 실패하였습니다.");
+                      alert(response.message);
                     }
+                  },
+                  error: function () {
+                    alert("오류가 발생했습니다. 다시 시도해주세요.");
                   },
                 });
               });
