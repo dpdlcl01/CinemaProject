@@ -180,6 +180,33 @@
         color:white;
         font-weight:bold;
     }
+    .disable {
+        padding:3px 7px;
+        border:1px solid silver;
+        color:silver;
+    }
+
+    .now {
+        padding:3px 7px;
+        border:1px solid #ff4aa5;
+        background:#ff4aa5;
+        color:white;
+        font-weight:bold;
+    }
+    .paging td {
+        text-align:center !important;
+        display: flex !important;
+        justify-content: center !important;
+        border: none;
+    }
+    tfoot tr {
+        border: none;
+    }
+    tfoot td {
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+    }
 </style>
 
 <body>
@@ -216,14 +243,13 @@
                             <th style="width: 19%;">이전 값</th>
                             <th style="width: 19%;">변경 후 값</th>
                             <th style="width: 14%;">날짜</th>
-                            <th style="width: 10%;">관리</th>  <!-- 수정 및 삭제 버튼 -->
                         </tr>
                         </thead>
 
                         <tfoot>
                             <tr>
-                                <td colspan="7">
-                                    <ol class="paging">
+                                <td colspan="8" style="text-align: center;">
+                                    <ol class="paging" style="display:flex; justify-content: center;">
                                         <c:if test="${requestScope.page ne null}">
                                             <c:set var="pvo" value="${requestScope.page}"/>
                                             <c:if test="${pvo.startPage < pvo.pagePerBlock}">
@@ -237,7 +263,7 @@
                                                     <li class="now">${status.index}</li>
                                                 </c:if>
                                                 <c:if test="${status.index ne pvo.nowPage}">
-                                                    <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement=list&cPage=${status.index}">${status.index}</a></li>
+                                                    <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement&list&cPage=${status.index}">${status.index}</a></li>
                                                 </c:if>
                                             </c:forEach>
                                             <c:if test="${pvo.endPage < pvo.totalPage}">
@@ -256,7 +282,7 @@
                         <c:choose>
                             <c:when test="${empty ar}">
                                 <tr>
-                                    <td colspan="9" style="text-align: center; color: red;">로그 데이터가 없습니다.</td>
+                                    <td colspan="8" style="text-align: center; color: red;">로그 데이터가 없습니다.</td>
                                 </tr>
                             </c:when>
                             <c:otherwise>
@@ -270,10 +296,6 @@
                                         <td>${log.logPreValue}</td>
                                         <td>${log.logCurValue}</td>
                                         <td>${log.logDate}</td>
-                                        <td>
-                                            <button onclick="editLog(${log.logIdx})">수정</button>
-                                            <button onclick="deleteLog(${log.logIdx})" style="color: red;">삭제</button>
-                                        </td>
                                     </tr>
                                 </c:forEach>
                             </c:otherwise>
