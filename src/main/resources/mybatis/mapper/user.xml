@@ -3,11 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user">
-    <select id="checkPassword" parameterType="map" resultType="int">
-        SELECT COUNT(*)
+    <select id="getPasswordByUserId" parameterType="String" resultType="String">
+        SELECT userPassword
         FROM user
-        WHERE userId = #{userId} AND userPassword = #{userPassword}
+        WHERE userId = #{userId}
     </select>
+
+    <update id="updateUserPassword" parameterType="map">
+        UPDATE user
+        SET userPassword = #{userPw}
+        WHERE userIdx = #{userIdx}
+    </update>
+
     <update id="updateUserStatus" parameterType="String">
         UPDATE user
         SET userStatus = 1

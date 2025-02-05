@@ -9,6 +9,6 @@ import java.io.IOException;
 public class IdPwFindAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        return "/jsp/user/login/findIdPw_tab.jsp";
+        return "/jsp/user/login/findPw.jsp";
     }
 }

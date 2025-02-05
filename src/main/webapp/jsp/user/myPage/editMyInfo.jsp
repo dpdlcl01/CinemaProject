@@ -138,6 +138,7 @@
         UserVO uservo = (UserVO) session.getAttribute("uservo");
       %>
       <h3>기본 정보</h3>
+      <button onclick="window.location.href='${pageContext.request.contextPath}/UserController?type=deleteuser'">페이지 이동</button>
       <table>
         <caption>기본정보 테이블</caption>
         <colgroup>

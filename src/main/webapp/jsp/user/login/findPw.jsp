@@ -184,7 +184,7 @@
                         <input type="text" id="emailpart1" name="emailpart1" class="inputshort">
                         <span>@</span>
                         <input type="text" id="emailpart2" name="emailpart2" class="inputshort" disabled>
-                        <select name="emailDomain" id="emailDomain" title="이메일 선택" class="email_address">
+                        <select name="emailDomain2" id="emailDomain" title="이메일 선택" class="email_address">
                             <option value="" disabled selected>선택하세요</option>
                             <option value="naver.com">naver.com</option>
                             <option value="gmail.com">gmail.com</option>

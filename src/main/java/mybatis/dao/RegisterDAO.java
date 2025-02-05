@@ -97,5 +97,3 @@ public class RegisterDAO {
         return result > 0;
     }
 }
-
-
