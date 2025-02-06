@@ -28,13 +28,6 @@ public class EmailServlet extends HttpServlet {
             return;
         }
 
-        RegisterDAO dao = new RegisterDAO();
-        boolean isEmailExist = dao.emailCheck(email);
-
-        if(isEmailExist) {
-            response.getWriter().write("이미 가입된 이메일입니다.");
-            return;
-        }
         String authCode = generateAuthCode();
 
         System.out.println("send authcode email :  " + email);

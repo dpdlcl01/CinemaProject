@@ -238,7 +238,7 @@
 
 
                         if (!emailPart1 || !emailPart2) {
-                            alert("이메일을 입력해주세요.");
+                            showModal("이메일을 입력해주세요.");
                             return;
                         }
 
@@ -249,7 +249,7 @@
                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                         xhr.onreadystatechange = function () {
                             if (xhr.readyState === 4 && xhr.status === 200) {
-                                alert(xhr.responseText.trim());
+                                showModal(xhr.responseText.trim());
                             }
                         };
                         xhr.send("email=" + encodeURIComponent(email));
@@ -265,6 +265,23 @@
     <div class="note">
         * 본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 이용 또는 저장되지 않습니다.
     </div>
+
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 200px; max-height: 200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalLabel">알림</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -289,7 +306,7 @@
         const authCode = document.getElementById("authcode").value;
 
         if (!authCode) {
-            alert("인증번호를 입력해주세요.");
+            showModal("인증번호를 입력해주세요.");
             return;
         }
 
@@ -302,10 +319,10 @@
                 const response = xhr.responseText.trim();
 
                 if (response === "인증 성공!") {
-                    alert("인증에 성공했습니다!");
+                    showModal("인증에 성공했습니다!");
                     document.getElementById("authcodecheck").value = "success";
                 } else {
-                    alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+                    showModal("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
                     document.getElementById("authcodecheck").value = "";
                 }
             }
@@ -325,41 +342,50 @@
         const authcodecheck = document.getElementById("authcodecheck").value.trim();
 
         if (!userId || userId.length < 3) {
-            alert("아이디를 입력해주세요.");
+            showModal("아이디를 입력해주세요.");
             document.getElementById("userId").focus();
             return false;
         }
 
         if (!userName || userName.length < 1) {
-            alert("이름을 입력해주세요.");
+            showModal("이름을 입력해주세요.");
             document.getElementById("userName").focus();
             return false;
         }
 
         if (!emailPart1 || emailPart1.length < 3) {
-            alert("이메일 아이디를 입력해주세요.");
+            showModal("이메일 아이디를 입력해주세요.");
             document.getElementById("emailpart1").focus();
             return false;
         }
 
         if (!emailPart2 || emailPart2.length < 7) {
-            alert("이메일 도메인을 선택하거나 입력해주세요.");
+            showModal("이메일 도메인을 선택하거나 입력해주세요.");
             document.getElementById("emailpart2").focus();
             return false;
         }
 
         if (!authCode) {
-            alert("인증번호를 입력해주세요.");
+            showModal("인증번호를 입력해주세요.");
             document.getElementById("authcode").focus();
             return false;
         }
 
         if(authcodecheck !== "success") {
-            alert("인증완료를 진행해주세요.");
+            showModal("인증완료를 진행해주세요.");
             return false;
         }
 
         frm.submit();
+    }
+
+    function showModal(message) {
+
+        document.querySelector('#alertModal .modal-body').textContent = message;
+
+        // Bootstrap Modal 표시
+        const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+        alertModal.show();
     }
 </script>
 </body>

@@ -88,17 +88,4 @@ public class RegisterDAO {
                 ss.close();
         }
     }
-    public boolean insertLog(LogVO log) {
-        System.out.println("insertLog 실행됨: " + log);
-        SqlSession ss = FactoryService.getFactory().openSession();
-
-        int result = ss.insert("insertlog", log);
-
-        if (result > 0) {
-            ss.commit();
-        }
-
-        System.out.println("로그 INSERT 결과: " + result);
-        return result > 0;
-    }
 }

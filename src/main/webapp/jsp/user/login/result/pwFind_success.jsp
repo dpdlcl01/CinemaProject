@@ -133,30 +133,41 @@
                 </td>
             </tr>
         </table>
-        <button type="submit" id="gosub" name="gosub" disabled>비밀번호 찾기</button>
+        <button type="submit" id="gosub" name="gosub">비밀번호 변경</button>
     </form>
 </div>
 
 <script>
     function pwCheck() {
-        const authPwd = document.getElementById('authpwd');
-        const newPassword = document.getElementById('newPassword').value;
-        const newPassword2 = document.getElementById('newPassword2').value;
+            const authPwd = document.getElementById('authpwd');
+            const password1 = document.getElementById('newPassword').value;
+            const gosub = document.getElementById('gosub')
 
-        if (newPassword === newPassword2 && newPassword.length >= 8) {
-            authPwd.innerText = '비밀번호가 일치합니다.';
-            authPwd.style.color = 'green';
-            gosub.disabled = false;
-        } else if (newPassword !== newPassword2) {
-            authPwd.innerText = '비밀번호가 불일치합니다.';
-            authPwd.style.color = 'red';
-            gosub.disabled = true;
-        } else if (newPassword.length < 8) {
-            authPwd.innerText = '비밀번호는 최소 8자리 이상이어야 합니다.';
-            authPwd.style.color = 'red';
-            gosub.disabled = true;
+
+            const numberOnly = /^\d+$/;
+
+
+            if(numberOnly.test(password1)) {
+                authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다."
+                authPwd.style.color = "red";
+                gosub.disabled = true;
+            }
+            else if (document.getElementById('userPassword1').value.length <= 7){
+                authPwd.innerText = "비밀번호 8자리 이상이여야합니다."
+                authPwd.style.color = "red";
+                gosub.disabled = true;
+            }
+            else if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
+                authPwd.innerText = '비밀번호가 일치합니다.';
+                authPwd.style.color = 'green';
+                gosub.disabled = false;
+            }
+            else {
+                authPwd.innerText = '비밀번호가 불일치합니다.';
+                authPwd.style.color = 'red';
+                gosub.disabled = true;
+            }
         }
-    }
 </script>
 
 </body>

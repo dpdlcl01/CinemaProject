@@ -9,6 +9,9 @@
   <meta charset="UTF-8">
   <jsp:include page="../common/head.jsp"/>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <style>
   *{
     padding: 0;
@@ -106,11 +109,20 @@
   #editPassword{
     display: none;
   }
+ .modal-content {
+   width: 300px;
+   height: 200px;
+ }
+  .modal-dialog {
+    max-width: 400px; /* 모달 너비 */
+  }
 
 </style>
 <body>
 <!-- header 영역 -->
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <jsp:include page="../common/header.jsp"/>
 </head>
 <div class="page-util">
@@ -138,7 +150,7 @@
         UserVO uservo = (UserVO) session.getAttribute("uservo");
       %>
       <h3>기본 정보</h3>
-      <button onclick="window.location.href='${pageContext.request.contextPath}/UserController?type=deleteuser'">페이지 이동</button>
+      <button onclick="window.location.href='${pageContext.request.contextPath}/UserController?type=deleteuser'">회원탈퇴</button>
       <table>
         <caption>기본정보 테이블</caption>
         <colgroup>
@@ -200,18 +212,18 @@
         <tr>
           <td class="title">현재 비밀번호</td>
           <td><input type="password" id="currentPassword" name="currentPassword"></td>
+          <div id="authpwd2" style="margin-top: 5px; font-size: 12px; color: red;">비밀번호를 입력하여 주세요.</div>
         </tr>
         <tr>
           <td class="title">새 비밀번호</td>
           <td>
-            <input type="password" id="newPassword" name="newPassword" oninput="pwCheck()" placeholder="8자리 이상 비밀번호를 설정해주세요.">
-            <span>※영문,숫자를 조합하여 8자리 이상으로 입력해주세요.</span>
+            <input type="password" id="newPassword" name="newPassword" oninput="pwCheck()" placeholder="8자리 이상 비밀번호">
           </td>
         </tr>
         <tr>
           <td class="title">새 비밀번호 확인</td>
           <td>
-            <input type="password" id="newPassword2" name="newPassword2" oninput="pwCheck()" placeholder="위에서 입력한 비밀번호와 동일하게 작성하세요.">
+            <input type="password" id="newPassword2" name="newPassword2" oninput="pwCheck()" placeholder="비밀번호 확인">
             <div id="authpwd" style="margin-top: 5px; font-size: 12px; color: red;">비밀번호를 입력하여 주세요.</div>
           </td>
           <script>
@@ -228,13 +240,13 @@
                   data: { currentPassword, newPassword },
                   success: function (response) {
                     if (response.status === "success") {
-                      alert(response.message);
+                      showModal(response.message);
                     } else {
-                      alert(response.message);
+                      showModal(response.message);
                     }
                   },
                   error: function () {
-                    alert("오류가 발생했습니다. 다시 시도해주세요.");
+                    showModal("오류가 발생했습니다. 다시 시도해주세요.");
                   },
                 });
               });
@@ -254,8 +266,24 @@
 
     </div>
     </form>
-
   </article>
+
+  <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 200px; max-height: 200px;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="alertModalLabel">알림</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- footer 영역 -->
@@ -288,22 +316,37 @@
   function pwCheck() {
     const currentPassword = document.getElementById('currentPassword').value;
     const authPwd = document.getElementById('authpwd');
-    const newPassword = document.getElementById('newPassword').value;
-    const newPassword2 = document.getElementById('newPassword2').value;
+    const authPwd2 = document.getElementById('authpwd2');
+    const password1 = document.getElementById('newPassword').value;
+    const password2 = document.getElementById('newPassword2').value;
 
-    if (newPassword === newPassword2 && newPassword.length >= 8) {
-      authPwd.innerText = '비밀번호가 일치합니다.';
-      authPwd.style.color = 'green';
-      // changeuserpassword.disabled = false;
-    } else if (newPassword !== newPassword2) {
-      authPwd.innerText = '비밀번호가 불일치합니다.';
-      authPwd.style.color = 'red';
-      // changeuserpassword.disabled = true;
-    } else if (newPassword.length < 8) {
-      authPwd.innerText = '비밀번호는 최소 8자리 이상이어야 합니다.';
-      authPwd.style.color = 'red';
-      // changeuserpassword.disabled = true;
-    }
+      const numberOnly = /^\d+$/;
+
+
+      if(numberOnly.test(password1)) {
+        authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다."
+        authPwd.style.color = "red";
+      }
+      else if (document.getElementById('userPassword1').value.length <= 7){
+        authPwd.innerText = "비밀번호 8자리 이상이여야합니다."
+        authPwd.style.color = "red";
+      }
+      else if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
+        authPwd.innerText = '비밀번호가 일치합니다.';
+        authPwd.style.color = 'green';
+      }
+      else {
+        authPwd.innerText = '비밀번호가 불일치합니다.';
+        authPwd.style.color = 'red';
+      }
+  }
+  function showModal(message) {
+
+    document.querySelector('#alertModal .modal-body').textContent = message;
+
+    // Bootstrap Modal 표시
+    const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+    alertModal.show();
   }
 </script>
 </body>

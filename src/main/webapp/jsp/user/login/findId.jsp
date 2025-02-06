@@ -187,6 +187,23 @@
     <div class="note">
         * 본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 이용 또는 저장되지 않습니다.
     </div>
+
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 200px; max-height: 200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalLabel">알림</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -220,23 +237,32 @@
 
         // 입력값 검증
         if (!userName || userName.length < 1) {
-            alert("이름을 입력해주세요.");
+            showModal("이름을 입력해주세요.");
             return false;
         }
 
         if (!emailPart1 || emailPart1.length < 3) {
-            alert("이메일 첫 번째 칸을 입력해주세요.");
+            showModal("이메일 첫 번째 칸을 입력해주세요.");
             return false;
         }
 
         if (!emailPart2 || emailPart2.length < 3) {
-            alert("이메일 두 번째 칸을 선택하거나 입력해주세요.");
+            showModal("이메일 두 번째 칸을 선택하거나 입력해주세요.");
             return false;
         }
 
 
         // 폼 제출
         frm.submit();
+    }
+
+    function showModal(message) {
+
+        document.querySelector('#alertModal .modal-body').textContent = message;
+
+        // Bootstrap Modal 표시
+        const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+        alertModal.show();
     }
 </script>
 </body>

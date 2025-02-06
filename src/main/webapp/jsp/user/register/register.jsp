@@ -3,8 +3,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <jsp:include page="../common/head.jsp"/>
   <style>
     *{
@@ -236,14 +239,15 @@
                 <option value="nate.com">nate.com</option>
                 <option value="direct">직접입력</option>
               </select>
+              <div id="emailResult"></div>
               <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
           </tr>
           <tr>
             <td><span>인증번호</span> </td>
             <td><input type="text" id="authcode" name="authcode" class="inputValue">
               <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
+            <div id="responseMessage" name="responseMessage"></div>
             <script>
-              // 인증번호 확인 AJAX 요청
               function sendAuthCode() {
                 const emailPart1 = document.getElementById("emailpart1").value;
                 console.log(emailPart1);
@@ -252,7 +256,7 @@
 
 
                 if (!emailPart1 || !emailPart2) {
-                  alert("이메일을 입력해주세요.");
+                  showModal("이메일을 입력해주세요.");
                   return;
                 }
 
@@ -263,7 +267,7 @@
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function () {
                   if (xhr.readyState === 4 && xhr.status === 200) {
-                    alert(xhr.responseText.trim());
+                    showModal(xhr.responseText.trim());
                   }
                 };
                 xhr.send("email=" + encodeURIComponent(email));
@@ -393,7 +397,25 @@
 
   </div>
   </div>
+
 </form>
+
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 200px; max-height: 200px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">알림</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
@@ -464,12 +486,12 @@
     emailPart2 = $.trim(emailPart2);
 
     if (userName.length < 1) {
-      alert("이름을 입력하세요.");
+      showModal("이름을 입력하세요.");
       $(".inputValue[name='userName']").val("").focus();
       return;
     }
     if (emailPart1.length < 1 || emailPart2.length < 1) {
-      alert("이메일을 입력하세요.");
+      showModal("이메일을 입력하세요.");
       $(".inputEmail[name='emailpart1']").val("").focus();
       return;
     }
@@ -524,26 +546,26 @@
     let userPassword = $.trim($("#userPassword1").val());  // 비밀번호 값 가져오기
 
     if (!userPhone2 || userPhone2.length !== 4) {
-      alert("핸드폰 번호의 가운데 네 자리를 정확히 입력해주세요.");
+      showModal("핸드폰 번호의 가운데 네 자리를 정확히 입력해주세요.");
       document.getElementById("userPhone2").focus();
       return false;
     }
 
     if (!userPhone3 || userPhone3.length !== 4) {
-      alert("핸드폰 번호의 마지막 네 자리를 정확히 입력해주세요.");
+      showModal("핸드폰 번호의 마지막 네 자리를 정확히 입력해주세요.");
       document.getElementById("userPhone3").focus();
       return false;
     }
 
 
     if(userId.length < 7) {
-      alert("아이디는 8글자 이상만 입력가능합니다.");
+      showModal("아이디는 8글자 이상만 입력가능합니다.");
       $(".inputValue[name='userId']").val("").focus();
       return false;
     }
 
     if(userPassword.length < 7) {
-      alert("비밀번호는 8글자 이상만 입력가능합니다.");
+      showModal("비밀번호는 8글자 이상만 입력가능합니다.");
       $("#userPassword1").val("").focus();
       return false;
     }
@@ -560,7 +582,7 @@
     console.log("사용자 입력 인증 코드 : " + authCode);
 
     if (!authCode) {
-      alert("인증번호를 입력해주세요.");
+      showModal("인증번호를 입력해주세요.");
       return;
     }
 
@@ -573,11 +595,11 @@
         const response = xhr.responseText.trim();
 
         if (response === "인증 성공!") {
-          alert("인증에 성공했습니다!");
+          showModal("인증에 성공했습니다!");
           document.getElementById("emailVerified").value = "true"; // 인증 성공 상태 저장
           document.getElementById("next").disabled = false;
         } else {
-          alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+          showModal("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
           document.getElementById("emailVerified").value = ""; // 인증 실패 상태 초기화
         }
       }
@@ -631,6 +653,15 @@
       });
     });
   });
+
+  function showModal(message) {
+
+    document.querySelector('#alertModal .modal-body').textContent = message;
+
+    // Bootstrap Modal 표시
+    const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+    alertModal.show();
+  }
 
 </script>
 
