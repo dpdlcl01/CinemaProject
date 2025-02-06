@@ -12,7 +12,7 @@
     </select>
 
     <select id="favoritemovie" parameterType="String" resultType="mybatis.vo.FavoritemovieVO">
-        SELECT f.movieIdx, m.movieTitle, m.movieGenre, m.movieTime, m.moviePosterUrl
+        SELECT f.movieIdx, m.movieTitle, m.movieGenre, m.movieTime, m.moviePosterUrl, m.movieGrade, m.movieLikes
         FROM favoriteMovie f
         INNER JOIN movie m ON f.movieIdx = m.movieIdx
         WHERE f.userIdx =  #{idx}

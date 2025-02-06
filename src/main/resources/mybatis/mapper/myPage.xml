@@ -55,7 +55,7 @@
 
     <select id="reservation" parameterType="String" resultType="mybatis.vo.ReservationVO" >
         SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate, r.customReservationIdx
-        ,m.movieTitle, m.moviePosterUrl,
+        ,m.movieTitle, m.moviePosterUrl, m.movieIdx,
         h.theaterName,
         s.screenName,
         t.timetableStartTime,

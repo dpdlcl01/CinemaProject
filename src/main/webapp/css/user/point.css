@@ -77,3 +77,18 @@ table th, table td {
     padding: 10px;
     text-align: center;
 }
+
+/*버튼 스타일*/
+button {
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-color: #503396;
+    width: 60px;
+    height: 100%;
+}
+
+button:hover {
+    color: #fff;
+    background-color: #01738b;
+}

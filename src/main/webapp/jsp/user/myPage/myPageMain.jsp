@@ -403,7 +403,7 @@
                                     <img src="${rvo.moviePosterUrl}">
                                     <div id="reservInfo">
                                         <p>결제일시: ${rvo.reservationDate}</p>
-                                        <p><em>${rvo.customReservationIdx}-예매번호</em><span>|${rvo.movieTitle}</span></p>
+                                        <p><em>${rvo.customReservationIdx}</em><span>|${rvo.movieTitle}</span></p>
                                         <p>${rvo.theaterName} ${rvo.screenName}</p>
                                         <p>${rvo.timetableStartTime}</p>
                                     </div>

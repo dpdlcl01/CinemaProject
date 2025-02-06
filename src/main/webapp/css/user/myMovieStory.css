@@ -19,39 +19,11 @@ caption{
     text-indent: -9999px;
 }
 
-/*#main,#passwordMain{*/
-/*    padding-left: 100px;*/
-/*    width: 800px;*/
-/*}*/
-/*#btnDiv>button, #lastBtnDiv>button{*/
-/*    width: 88px;*/
-/*    height: 46px;*/
-/*}*/
-
-/*table .normalBtn{*/
-/*    background-color: white;*/
-/*    border: 1px solid gray;*/
-/*    width: 120px;*/
-/*    height: 30px;*/
-/*    border-radius: 4px;*/
-/*    margin-left: 10px;*/
-/*}*/
-/*table input{*/
-/*    height: 25px;*/
-/*}*/
-/*i{*/
-/*    !*text-indent: -9999px;*!*/
-/*}*/
-/*.liWrap{*/
-/*    display: flex;*/
-
-/*}*/
-
 #main {
     width: 100%;
     position: relative;
     /*min-height: 800px;*/
-    padding: 0 0 80px 50px;
+    padding: 0 10px;
     background-color: #ffffff;
 }
 
@@ -243,6 +215,7 @@ caption{
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     margin-bottom: -20px;
+    justify-items: start;
 }
 
 .my-saw-movie ul li {
@@ -505,10 +478,27 @@ ol li{
     margin-bottom: 5px;
 }
 
-.movie-grade.age-all {
+.movie-grade.age-ALL {
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/ALL_46x46.png);
     background-size: 23px 23px;
 }
+
+.movie-grade.age-19 {
+    background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/19_46x46.png);
+    background-size: 23px 23px;
+}
+
+.movie-grade.age-15 {
+    background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/15_46x46.png);
+    background-size: 23px 23px;
+}
+
+.movie-grade.age-12 {
+    background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/12_46x46.png);
+    background-size: 23px 23px;
+}
+
+
 
 .movie-grade {
     overflow: hidden;
@@ -544,6 +534,10 @@ ol li{
     border: 1px solid #ebebeb;
     border-radius: 5px;
     background-color: #fff;
+}
+
+#main #section06 .cont-area .main-movie-list .btn-util .btn-like i {
+    margin-right: 5px;
 }
 
 #main #section06 .cont-area .main-movie-list .btn-util {

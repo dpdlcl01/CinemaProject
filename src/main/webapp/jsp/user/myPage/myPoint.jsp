@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="mybatis.vo.PointVO" %>
 <%@ page import="mybatis.vo.UserVO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -8,21 +7,18 @@
   <jsp:include page="../common/head.jsp"/>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/point.css"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div id="contents">
   <div class="page-util">
-    <div class="page-util">
-      <div class="inner-wrap">
-        <div class="location">
-          <span>Home</span>
-          <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-          <label>회원정보</label>
-          <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-          <label>포인트</label>
-        </div>
+    <div class="inner-wrap">
+      <div class="location">
+        <span>Home</span>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>회원정보</label>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>포인트</label>
       </div>
     </div>
   </div>

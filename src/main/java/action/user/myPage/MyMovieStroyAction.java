@@ -25,10 +25,8 @@ public class MyMovieStroyAction implements Action {
             String idx = uservo.getUserIdx();
 
             ReviewVO[] rvo = MyMovieStoryDAO.getReview(idx);/*무비 idx로 이너조인*/
-            FavoritemovieVO[] fvo = MyMovieStoryDAO.getFavoritemovie(idx);/*무비 idx로 이너조인*/
+            FavoritemovieVO[] fvo = MyMovieStoryDAO.getFavoritemovie(idx);/*무비 idx로 이너조인*/ // 보고싶어탭
             ReservationVO[] reserveVO = MyPageDAO.getReservation(idx);/*무비 idx로 이너조인*/
-
-
 
 
             request.setAttribute("rvo", rvo);

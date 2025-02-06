@@ -10,36 +10,25 @@
   <jsp:include page="../common/head.jsp"/>
 </head>
 <style>
-  *{
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
-  }
-  h2{
-    font-size: 30px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-  #contents{
+
+  .contents{
     width: 1100px;
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 30px;
-
   }
 
-  li{
-    padding-bottom: 5px;
-  }
   #wrap{
     display: flex;
 
   }
 
+  #main h1, #passwordMain h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
   table{
     border-collapse: collapse;
     width: 720px;
-    margin-bottom: 70px;
+    margin-bottom: 10px;
   }
 
   table td{
@@ -61,8 +50,8 @@
     padding-top: 20px;
   }
   #main,#passwordMain{
-    padding-left: 100px;
-    width: 800px;
+    padding-left: 50px;
+    /*width: 800px;*/
   }
   #btnDiv>button, #lastBtnDiv>button{
     width: 88px;
@@ -75,36 +64,56 @@
     padding-bottom: 40px;
     text-align: right;
   }
-  table .normalBtn{
-    background-color: white;
-    border: 1px solid gray;
-    width: 120px;
-    height: 30px;
-    border-radius: 4px;
-    margin-left: 10px;
-  }
+  /*table .normalBtn{*/
+  /*  background-color: white;*/
+  /*  border: 1px solid gray;*/
+  /*  width: 120px;*/
+  /*  height: 30px;*/
+  /*  border-radius: 4px;*/
+  /*  margin-left: 10px;*/
+  /*}*/
   table input{
     height: 25px;
   }
   i{
     text-indent: -9999px;
   }
-  .liWrap{
-    display: flex;
-    border-bottom: 1px solid #222222;
-  }
-  #passwordBtn{
-    background-color: white;
-    border: 1px solid gray;
-    width: 120px;
-    height: 30px;
-    border-radius: 4px;
-  }
+  /*.liWrap{*/
+  /*  display: flex;*/
+  /*  border-bottom: 1px solid #222222;*/
+  /*}*/
+  /*#passwordBtn{*/
+  /*  background-color: white;*/
+  /*  border: 1px solid gray;*/
+  /*  width: 120px;*/
+  /*  height: 30px;*/
+  /*  border-radius: 4px;*/
+  /*}*/
   #passwordMain{
     display: none;
   }
   #editPassword{
     display: none;
+  }
+
+  /*버튼 스타일*/
+  button {
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-color: #503396;
+    /*width: 60px;*/
+    height: 70%;
+    margin-left: 10px;
+  }
+  #passwordBtn{
+    margin-left: 0
+  }
+
+  button:hover {
+    color: #fff;
+    background-color: #01738b;
   }
 
 </style>
@@ -130,7 +139,7 @@
     <%--  사이드바  --%>
     <jsp:include page="../common/sideBar.jsp"/>
     <div id="main">
-      <h2>개인정보 수정</h2>
+      <h1>개인정보 수정</h1>
       <li>
         회원님의 정보를 정확히 입력해주세요.
       </li>
@@ -185,7 +194,7 @@
 
     <form id="passwordChangeForm" action="${pageContext.request.contextPath}/UserController?type=changepw" method="POST">
       <div id="passwordMain">
-        <h2>비밀번호 변경</h2>
+        <h1>비밀번호 변경</h1>
         ${success}
         <li>현재 비밀번호를 입력한 후 새로 사용할 비밀번호를 입력하세요.</li>
         <h3>비밀번호</h3>
@@ -204,7 +213,7 @@
             <td class="title">새 비밀번호</td>
             <td>
               <input type="password" id="newPassword" name="newPassword" oninput="pwCheck()" placeholder="8자리 이상 비밀번호를 설정해주세요.">
-              <span>※영문,숫자를 조합하여 8자리 이상으로 입력해주세요.</span>
+              <span style="display: block">※영문,숫자를 조합하여 8자리 이상으로 입력해주세요.</span>
             </td>
           </tr>
           <tr>
@@ -307,4 +316,3 @@
 </script>
 </body>
 </html>
-

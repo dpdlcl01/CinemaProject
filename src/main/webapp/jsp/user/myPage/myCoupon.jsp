@@ -8,7 +8,7 @@
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/coupon.css?v=1.0"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/coupon.css?v=2.0"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div class="page-util">

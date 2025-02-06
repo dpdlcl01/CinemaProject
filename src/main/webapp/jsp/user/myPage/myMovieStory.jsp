@@ -98,7 +98,7 @@
               <c:forEach items="${requestScope.rvo}" var="review">
                 <li>
                   <p class="img posterImg">
-                    <img src="${review.moviePosterUrl}" alt="헌트">
+                    <img src="${review.moviePosterUrl}" alt="영화 포스터">
                   </p>
                   <div class="cont">
                     <p class="tit">
@@ -138,7 +138,7 @@
                   </div>
                 </div>
                   <div class="btn-group">
-                    <a href="#" class="btn review moveOneBtn" title="관람평쓰기">
+                    <a href="${pageContext.request.contextPath}/UserController?type=movieDetail&movieIdx=${res.movieIdx}" class="btn review moveOneBtn" title="관람평쓰기">
                       <i class="iconset ico-pencil"></i> 관람평쓰기</a>
                     <button type="button" class="btn del deleteBtn">삭제</button>
                   </div>
@@ -165,17 +165,17 @@
                         <img src="${fvo.moviePosterUrl}" alt="영화포스터" class="poster">
                       </a>
                       <div class="tit-area">
-                        <p class="movie-grade age-all">,</p>
+                        <p class="movie-grade age-${fvo.movieGrade}"></p>
                         <p title="영화제목" class="tit">${fvo.movieTitle}</p>
                       </div>
                       <!-- //movie-list-info -->
                       <!-- btn-util -->
                       <div class="btn-util">
                         <button type="button" class="button btn-like">
-                          <i class="far fa-heart"></i>
+                          <i class="far fa-heart"></i>${fvo.movieLikes}
                         </button>
                         <div class="case">
-                          <a href="${pageContext.request.contextPath}/UserController?type=reservation&movieIdx="${fvo.movieIdx} class="button btn1" title="영화 예매하기">예매</a>
+                          <a href="${pageContext.request.contextPath}/UserController?type=reservation&movieIdx=${fvo.movieIdx}" class="button btn1" title="영화 예매하기">예매</a>
                         </div>
                       </div>
                       <!-- //btn-util -->

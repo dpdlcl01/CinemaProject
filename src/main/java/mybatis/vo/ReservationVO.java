@@ -2,7 +2,15 @@ package mybatis.vo;
 
 public class ReservationVO {
     private String reservationIdx, userIdx, theaterIdx, screenIdx, timetableIdx, reservationDate, reservationStatus, reservationSeatIdx, seatIdx, priceIdx,
-    movieTitle, moviePosterUrl, theaterName, screenName, timetableStartTime,customReservationIdx,paymentFinal;
+    movieTitle, moviePosterUrl, theaterName, screenName, timetableStartTime,customReservationIdx,paymentFinal, movieIdx;
+
+    public String getMovieIdx() {
+        return movieIdx;
+    }
+
+    public void setMovieIdx(String movieIdx) {
+        this.movieIdx = movieIdx;
+    }
 
     public String getPaymentFinal() {
         return paymentFinal;
