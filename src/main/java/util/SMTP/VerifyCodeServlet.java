@@ -35,20 +35,20 @@ public class VerifyCodeServlet extends HttpServlet {
 
             return;
         }
-            LocalDateTime now = LocalDateTime.now();
-            Duration duration = Duration.between(generatedTime, now);
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(generatedTime, now);
 
-            if(duration.toMinutes() > 5) {
-                session.removeAttribute("authCode");
-                session.removeAttribute("authCodeGeneratedTime");
-                response.getWriter().write("5분이 지나 인증번호가 만료되었습니다.");
-                return;
-            }
+        if(duration.toMinutes() > 5) {
+            session.removeAttribute("authCode");
+            session.removeAttribute("authCodeGeneratedTime");
+            response.getWriter().write("5분이 지나 인증번호가 만료되었습니다.");
+            return;
+        }
 
-            if(correctCode.equals(inputCode)) {
-                response.getWriter().write("인증 성공!");
-            } else {
-                response.getWriter().write("인증 실패!");
-            }
+        if(correctCode.equals(inputCode)) {
+            response.getWriter().write("인증 성공!");
+        } else {
+            response.getWriter().write("인증 실패!");
+        }
     }
 }

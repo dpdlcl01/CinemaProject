@@ -33,12 +33,12 @@ public class DeleteAccountAction implements Action {
                 response.sendRedirect("UserController?type=main");
                 return null;
             } else {
-                request.setAttribute("message", "회원탈퇴에 실패했습니다.");
-                return "/jsp/user/myPage/delResult/del_fail.jsp";
+                request.setAttribute("error", "회원탈퇴에 실패했습니다.");
+                return "./jsp/user/common/error.jsp";
             }
         } else {
-            request.setAttribute("message", "비밀번호가 일치하지 않습니다.");
-            return "/jsp/user/myPage/delResult/del_error.jsp";
+            request.setAttribute("error", "비밀번호가 일치하지 않습니다.");
+            return "./jsp/user/common/error.jsp";
         }
     }
 }

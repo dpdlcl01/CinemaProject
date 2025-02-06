@@ -52,8 +52,8 @@
       padding-bottom: 20px;
     }
     input{
-      width: 16px;
-      height: 16px;
+      width: 40px;
+      height: 20px;
     }
     #allAgreeLabel{
       font-size: 18px;
@@ -107,11 +107,7 @@
       height: 50px;
 
     }
-    .birth{
-      width: 40px;
-      text-align: center;
-      height: 25px;
-    }
+
     .inputValue{
       width: 150px;
       height: 25px;
@@ -168,213 +164,224 @@
       background-color: white;
       border-radius: 4px;
     }
+
+    #authpwd{
+      position: absolute;
+      left: 300px;
+      right: 10px;
+      top: 430px;
+    }
+
+    .inputshort {
+      width: 120px;
+    }
+
+    select {
+      padding: 5px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
 <form action="${pageContext.request.contextPath}/UserController" method="post">
   <input type="hidden" name="type" id="type"/>
-<div class="contents">
-  <h1>여기에 로고</h1>
+  <div class="contents">
+    <h1>여기에 로고</h1>
 
-  <article id="all">
-    <div id="step">
-      <p class="step">STEP1.본인인증</p>
-      <p class="step">STEP2.약관동의</p>
-      <p class="step">STEP3.정보입력</p>
-      <p class="step">STEP4.가입완료</p>
-    </div>
-
-
-
-    <div id="main0" style="display: none;">
-      <article id="main0Title">
-        <strong>회원가입을 위한 본인인증 단계입니다.</strong>
-        <p>이메일 인증을 완료해주세요</p>
-      </article>
-      <table>
-        <caption>이메일인증테이블</caption>
-        <colgroup>
-          <col width="120px">
-          <col width="350px">
-        </colgroup>
-
-        <tr>
-          <td><span>이름</span> </td>
-          <td><input type="text" id="userName" name="userName" class="inputValue"></td>
-        </tr>
-        <tr>
-          <td><span>이메일</span> </td>
-          <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
-            <span>@</span>
-            <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
-            <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
-        </tr>
-        <tr>
-          <td><span>인증번호</span> </td>
-          <td><input type="text" id="authcode" name="authcode" class="inputValue">
-            <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
-          <script>
-            // 인증번호 확인 AJAX 요청
-            function sendAuthCode() {
-              const emailPart1 = document.getElementById("emailpart1").value;
-              console.log(emailPart1);
-              const emailPart2 = document.getElementById("emailpart2").value;
-              console.log(emailPart2);
+    <article id="all">
+      <div id="step">
+        <p class="step">STEP1.본인인증</p>
+        <p class="step">STEP2.약관동의</p>
+        <p class="step">STEP3.정보입력</p>
+        <p class="step">STEP4.가입완료</p>
+      </div>
 
 
-              if (!emailPart1 || !emailPart2) {
-                alert("이메일을 입력해주세요.");
-                return;
-              }
 
-              const email = emailPart1 + "@" + emailPart2;
+      <div id="main0" style="display: none;">
+        <article id="main0Title">
+          <strong>회원가입을 위한 본인인증 단계입니다.</strong>
+          <p>이메일 인증을 완료해주세요</p>
+        </article>
+        <table>
+          <caption>이메일인증테이블</caption>
+          <colgroup>
+            <col width="120px">
+            <col width="350px">
+          </colgroup>
+          <tr>
+            <td><span>이름</span> </td>
+            <td><input type="text" id="userName" name="userName" class="inputValue"></td>
+          </tr>
+          <tr>
+            <td><span>이메일</span> </td>
+            <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
+              <span>@</span>
+              <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+              <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
+          </tr>
+          <tr>
+            <td><span>인증번호</span> </td>
+            <td><input type="text" id="authcode" name="authcode" class="inputValue">
+              <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
+            <script>
+              // 인증번호 확인 AJAX 요청
+              function sendAuthCode() {
+                const emailPart1 = document.getElementById("emailpart1").value;
+                console.log(emailPart1);
+                const emailPart2 = document.getElementById("emailpart2").value;
+                console.log(emailPart2);
 
-              const xhr = new XMLHttpRequest();
-              xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
-              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-              xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                  alert(xhr.responseText.trim());
+
+                if (!emailPart1 || !emailPart2) {
+                  alert("이메일을 입력해주세요.");
+                  return;
                 }
-              };
-              xhr.send("email=" + encodeURIComponent(email));
-            }
-          </script>
-        </tr>
 
-      </table>
-      <div id="nextDiv">
-        <button type="button" id="next" disabled  onclick="gotoMain2()">다음</button>
+                const email = emailPart1 + "@" + emailPart2;
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert(xhr.responseText.trim());
+                  }
+                };
+                xhr.send("email=" + encodeURIComponent(email));
+              }
+            </script>
+          </tr>
+        </table>
+        <div id="nextDiv">
+          <button type="button" id="next" disabled  onclick="gotoMain2()">다음</button>
+        </div>
+        <input type="hidden" id="user_Email" name="user_Email"/>
+        <input type="hidden" id="emailVerified" value=""/>
       </div>
-      <input type="hidden" id="user_Email" name="user_Email"/>
-      <input type="hidden" id="authcodecheck" value=""/>
-    </div>
 
 
-    <div id="main" class="default" style="display: block;">
-      <div>
-        <strong>약관동의 및 정보활용 동의</strong>
-      </div>
-      <div>
-        <span>메가박스 서비스 이용을 위한 약관에 동의해주세요</span>
-      </div>
-      <article id="firstHr">
-        <input type="checkbox" id="allAgree" onchange="essential()">
-        <label for="allAgree" id="allAgreeLabel" >필수항목 전체 동의</label>
-      </article>
+      <div id="main" class="default" style="display: block;">
+        <div>
+          <strong>약관동의 및 정보활용 동의</strong>
+        </div>
+        <div>
+          <span>메가박스 서비스 이용을 위한 약관에 동의해주세요</span>
+        </div>
+        <article id="firstHr">
+          <input type="checkbox" id="allAgree" onchange="essential()">
+          <label for="allAgree" id="allAgreeLabel" >필수항목 전체 동의</label>
+        </article>
 
-      <hr>
-      <div class="checkbox">
-        <input type="checkbox" id="serviceAgree" onchange="toggleButton()">
-        <label for="serviceAgree" class="essential">서비스 이용 약관 동의(필수)</label>
-      </div>
-      <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
-      <div class="checkbox">
-        <input type="checkbox" id="personalAgree" onchange="toggleButton()">
-        <label for="personalAgree" class="essential">개인정보 수집 및 이용 동의(필수)</label>
-      </div>
-      <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
-      <div class="checkbox">
-        <input type="checkbox" id="marketingAgree">
-        <label for="marketingAgree">마케팅 활용을 위한 개인정보 수집 이용 안내(선택)</label>
-      </div>
-      <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
-      <div class="checkbox">
-        <input type="checkbox" id="locationAgree">
-        <label for="locationAgree">위치기반서비스 이용 약관 동의(선택)</label>
-      </div>
-      <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
-      <div id="checkDiv">
-        <button type="button" id="check" disabled onclick="gotoMain0()">확인</button>
-      </div>
-    </div>
-  </article>
-
-  <div id="main2" style="display: none;">
-    <div>
-      <strong>회원님 안녕하세요</strong>
-      <p>회원 정보를 입력해주세요</p>
-    </div>
-
-    <div id="tableDiv">
-      <table>
-        <caption>회원정보입력테이블</caption>
-        <colgroup>
-          <col width="120px">
-          <col width="*">
-        </colgroup>
-        <tbody>
-        <tr>
-          <td class="bold">생년월일</td>
-          <td>
-            <input type="text" id="birthyear" name="birthyear" class="birth" value="2025">
-            <span>년</span>
-            <input type="text" id="birthmonth" name="birthmonth" class="birth" value="01">
-            <span>월</span>
-            <input type="text" id="birthday" name="birthday" class="birth" value="01">
-            <span>일</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td class="bold">휴대폰번호</td>
-          <td><input type="text" id="userPhone" name="userPhone" class="inputValue"></td>
-        </tr>
-
-        <tr>
-          <td class="bold">아이디</td>
-          <td>
-            <input type="text" id="userId" name="userId" class="inputValue" oninput="checkid()">
-            <span id="id_ok" class="id_ok" style="color:green; display:none;">사용 가능한 아이디입니다.</span>
-            <span id="id_already" class="id_already" style="color:red; display:none;">사용 불가능 가능한 아이디입니다.</span>
-          </td>
-        </tr>
-
-        <tr>
-          <td class="bold">비밀번호</td>
-          <td><input type="password" id="userPassword1" name="userPassword1" oninput="pwCheck()" class="inputValue"></td>
-        </tr>
-
-        <tr>
-          <td class="bold" >비밀번호확인</td>
-          <td><input type="password" id="userPassword2" name="userPassword2" oninput="pwCheck()" class="inputValue"></td>
-          <span id="authpwd">비밀번호를 입력하여 주세요.</span>
-        </tr>
-
-
-
-        </tbody>
-      </table>
-      <div id="box">
-        <p id="boxTitle">마케팅 활용을 위한 개인정보 수집 이용 안내(선택)</p>
         <hr>
-        <h5>수집목적</h5>
-        <p>고객맞춤형 상품 및 서비스 추천, 당사 신규 상품/서비스 안내 및 권유, 사은/할인 행사 등 각종 이벤트 정보 등의 안내 및 권유 </p>
-        <h5>수집항목</h5>
-        <p>이메일, 휴대폰번호, 주소, 생년월일, 선호영화관, 문자/이메일/앱푸쉬 정보수신동의여부, 서비스 이용기록, 포인트 적립 및 사용 정보, 접속로그 </p>
-        <h5>보유기간</h5>
-        <p>회원 탈퇴 시 혹은 이용 목적 달성 시 까지 </p>
-        <div class="radioContainer">
-          <input type="radio" id="agree" name="consent" value="agree">
-          <label for="agree">동의</label>
-          <input type="radio" id="disagree" name="consent" value="disagree">
-          <label for="disagree">미동의</label>
+        <div class="checkbox">
+          <input type="checkbox" id="serviceAgree" onchange="toggleButton()">
+          <label for="serviceAgree" class="essential">서비스 이용 약관 동의(필수)</label>
+        </div>
+        <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
+        <div class="checkbox">
+          <input type="checkbox" id="personalAgree" onchange="toggleButton()">
+          <label for="personalAgree" class="essential">개인정보 수집 및 이용 동의(필수)</label>
+        </div>
+        <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
+        <div class="checkbox">
+          <input type="checkbox" id="marketingAgree">
+          <label for="marketingAgree">마케팅 활용을 위한 개인정보 수집 이용 안내(선택)</label>
+        </div>
+        <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
+        <div class="checkbox">
+          <input type="checkbox" id="locationAgree">
+          <label for="locationAgree">위치기반서비스 이용 약관 동의(선택)</label>
+        </div>
+        <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요"></textarea>
+        <div id="checkDiv">
+          <button type="button" id="check" disabled onclick="gotoMain0()">확인</button>
         </div>
       </div>
-      <div id="registerDiv">
-        <button type="button" id="register" onclick="gotoMain3(this.form)">회원가입</button>
+    </article>
+
+    <div id="main2" style="display: none;">
+      <div>
+        <strong>회원님 안녕하세요.</strong>
+        <p>회원 정보를 입력해주세요</p>
       </div>
 
+      <div id="tableDiv">
+        <table>
+          <caption>회원정보입력테이블</caption>
+          <colgroup>
+            <col width="120px">
+            <col width="*">
+          </colgroup>
+          <tbody>
+          <tr>
+            <td class="bold">전화번호</td>
+            <td>
+              <span id="userPhone1">010</span>
+              <span>-</span>
+              <input type="text" id="userPhone2" name="userPhone2" width="40px" size="10" maxlength="4">
+              <span>-</span>
+              <input type="text" id="userPhone3" name="userPhone3" width="40px" size="10" maxlength="4">
+              <input type="hidden" id="userPhone" name="userPhone">
+            </td>
+          </tr>
+
+          <tr>
+            <td class="bold">아이디</td>
+            <td>
+              <input type="text" id="userId" name="userId" class="inputValue" oninput="checkid()">
+              <span id="id_ok" class="id_ok" style="color:green; display:none;">사용 가능한 아이디입니다.</span>
+              <span id="id_already" class="id_already" style="color:red; display:none;">사용 불가능 가능한 아이디입니다.</span>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="bold">비밀번호</td>
+            <td><input type="password" id="userPassword1" name="userPassword1" oninput="pwCheck()" class="inputValue"></td>
+          </tr>
+
+          <tr>
+            <td class="bold" >비밀번호확인</td>
+            <td><input type="password" id="userPassword2" name="userPassword2" oninput="pwCheck()" class="inputValue"></td>
+            <a id="authpwd">비밀번호를 입력하여 주세요.</a>
+          </tr>
+
+
+
+          </tbody>
+        </table>
+        <div id="box">
+          <p id="boxTitle">마케팅 활용을 위한 개인정보 수집 이용 안내(선택)</p>
+          <hr>
+          <h5>수집목적</h5>
+          <p>고객맞춤형 상품 및 서비스 추천, 당사 신규 상품/서비스 안내 및 권유, 사은/할인 행사 등 각종 이벤트 정보 등의 안내 및 권유 </p>
+          <h5>수집항목</h5>
+          <p>이메일, 휴대폰번호, 주소, 생년월일, 선호영화관, 문자/이메일/앱푸쉬 정보수신동의여부, 서비스 이용기록, 포인트 적립 및 사용 정보, 접속로그 </p>
+          <h5>보유기간</h5>
+          <p>회원 탈퇴 시 혹은 이용 목적 달성 시 까지 </p>
+          <div class="radioContainer">
+            <input type="radio" id="agree" name="consent" value="agree">
+            <label for="agree">동의</label>
+            <input type="radio" id="disagree" name="consent" value="disagree">
+            <label for="disagree">미동의</label>
+          </div>
+        </div>
+        <div id="registerDiv">
+          <button type="button" id="register" onclick="gotoMain3(this.form)">회원가입</button>
+        </div>
+
+      </div>
     </div>
-  </div>
 
   </div>
-</div>
+  </div>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
+
+
   const checkbox1 = document.getElementById('serviceAgree');
   const checkbox2 = document.getElementById('personalAgree');
   const checkbox = document.getElementById('allAgree');
@@ -453,14 +460,37 @@
   }
 
   function gotoMain3(frm){
-    let userPhone = $.trim($(".inputValue[name='userPhone']").val());
-    let userId = $.trim($(".inputValue[name='userId']").val());
+    let userPhone1 = document.getElementById("userPhone1").textContent.trim();
+    let userPhone2 = document.getElementById("userPhone2").value.trim();
+    let userPhone3 = document.getElementById("userPhone3").value.trim();
 
-    if(userPhone.length < 10) {
-      alert("핸드폰번호를 입력해주세요.");
-      $(".inputValue[name='userPhone']").val("").focus();
+    console.log("userPhone1:", userPhone1);
+    console.log("userPhone2:", userPhone2);
+    console.log("userPhone3:", userPhone3);
+
+    let fullPhone = userPhone1 + "-" + userPhone2 + "-" + userPhone3;
+
+    console.log("히든태그안에 들어갈 값 : "+fullPhone);
+
+    document.getElementById("userPhone").value = fullPhone;
+
+    console.log("히든 input 태그에 들어간 값 : " + document.getElementById("userPhone").value);
+
+    let userId = $.trim($(".inputValue[name='userId']").val());
+    let userPassword = $.trim($("#userPassword1").val());  // 비밀번호 값 가져오기
+
+    if (!userPhone2 || userPhone2.length !== 4) {
+      alert("핸드폰 번호의 가운데 네 자리를 정확히 입력해주세요.");
+      document.getElementById("userPhone2").focus();
       return false;
     }
+
+    if (!userPhone3 || userPhone3.length !== 4) {
+      alert("핸드폰 번호의 마지막 네 자리를 정확히 입력해주세요.");
+      document.getElementById("userPhone3").focus();
+      return false;
+    }
+
     if(userId.length < 3) {
       alert("아이디는 4글자 이상만 입력가능합니다.");
       $(".inputValue[name='userId']").val("").focus();
@@ -468,7 +498,7 @@
     }
     if(userPassword.length < 6) {
       alert("비밀번호는 6글자 이상만 입력가능합니다.");
-      $(".inputValue[name='userPassword']").val("").focus();
+      $("#userPassword1").val("").focus();
       return false;
     }
     document.getElementById("type").value = "register";
@@ -480,6 +510,7 @@
   function verifyAuthCode() {
     console.log("verifyAuthCode 호출.");
     const authCode = document.getElementById("authcode").value;
+    console.log("사용자 입력 인증 코드 : " + authCode);
 
     if (!authCode) {
       alert("인증번호를 입력해주세요.");
@@ -496,11 +527,11 @@
 
         if (response === "인증 성공!") {
           alert("인증에 성공했습니다!");
-          document.getElementById("authcodecheck").value = "success"; // 인증 성공 상태 저장
+          document.getElementById("emailVerified").value = "true"; // 인증 성공 상태 저장
           document.getElementById("next").disabled = false;
         } else {
           alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
-          document.getElementById("authcodecheck").value = ""; // 인증 실패 상태 초기화
+          document.getElementById("emailVerified").value = ""; // 인증 실패 상태 초기화
         }
       }
     };
@@ -520,24 +551,24 @@
     }
 
     $.ajax({
-      url:'/UserController?type=usercheckid',
+      url:'UserController?type=usercheckid',
       type:"post",
       data:{ userId: userId },
       success:function(response) {
         console.log("서버응답: ", response);
-          if(response.trim() === "0") {
-            $(".id_ok").show();
-            $(".id_already").hide();
-          } else {
-            $(".id_ok").hide();
-            $(".id_already").show();
-          }
-        },
+        if(response.trim() === "0") {
+          $(".id_ok").show();
+          $(".id_already").hide();
+        } else {
+          $(".id_ok").hide();
+          $(".id_already").show();
+        }
+      },
       error:function(){
-      alert("아이디검증 ajax 오류 발생.");
+        alert("아이디검증 ajax 오류 발생.");
       }
     });
-}
+  }
 
 </script>
 

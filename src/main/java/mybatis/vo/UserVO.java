@@ -1,8 +1,18 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class UserVO {
-    private String userIdx, userName, userId, userPassword, userEmail, userPhone,
+    private String userIdx, userName, userId, userAuthPassword, userPassword, userEmail, userPhone,
             userPoint, userGrade, userRegDate, userStatus;
+
+    public String getUserAuthPassword() {
+        return userAuthPassword;
+    }
+
+    public void setUserAuthPassword(String userAuthPassword) {
+        this.userAuthPassword = userAuthPassword;
+    }
 
     public String getUserIdx() {
         return userIdx;

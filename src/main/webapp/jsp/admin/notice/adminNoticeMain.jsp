@@ -1,287 +1,67 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
 <head>
-    <jsp:include page="../../user/common/head.jsp"/>
-
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 <style>
-    #top1 {
-        background-image: url("${pageContext.request.contextPath}/css/user/images/KangImg/my_info_topbg.png");
-        color: white;
-        background-repeat: no-repeat;
-        display: flex;
-        width: 840px;
-        height: 220px;
-        background-size: contain;
-    }
-
-    #top1 img {
-        width: 90px;
-        height: 90px;
-    }
-
-    #imgName {
-        display: flex;
-        padding-right: 30px;
-        width: 420px;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #imgName p {
-        font-size: 40px;
-        line-height: 10px;
-        padding-left: 30px;
-        margin: 30px 0;
-
-    }
-
-    #point {
-        display: flex;
-        padding-top: 30px;
-        margin-left: 50px;
-    }
-
-    #totalPoint {
-        font-size: 40px;
-    }
-
-    #point span, #point em {
-        padding-top: 10px;
-        padding-left: 10px;
-    }
-
-    #point em {
-        color: deepskyblue;
-        font-weight: 600;
-    }
-
-    #pointDiv {
-        position: relative;
-        height: 120px;
-    }
-
-    #bar {
-        width: 100%; /* 가로선을 전체 너비로 설정 */
-        height: 2px;
-        background-color: #666;
-        position: absolute;
-        top: 100px;
-        left: 50px;
-    }
-
-    /* 등급 진행 바 */
-    .level-list {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        list-style: none;
-        padding: 0;
-        margin: 20px 0 0 50px;
+    .admin-contents {
         width: 100%;
-        max-width: 600px;
-        position: relative;
+        min-height: 550px;
+    }
+    .page-util .inner-wrap {
+        max-width: 100%; !important;
+        padding: 20px 20px; !important;
     }
 
-    /* 등급 바의 연결선 */
-    .level-list::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: #666; /* 기본 선 색상 */
-        z-index: -1;
-        transform: translateY(-50%);
-    }
-
-    /* 각 등급을 나타내는 작은 동그라미 */
-    .level-item {
-        position: relative;
-        width: 12px; /* 작은 크기의 원 */
-        height: 12px;
-        background-color: #666;
-        border-radius: 50%;
-
-    }
-
-    /* 현재 활성화된 등급 */
-    .level-item.active {
-        background-color: #22C8F6; /* 하늘색 */
-        border: 2px solid white;
-    }
-
-    /* 등급 텍스트 */
-    .level-item span {
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        font-size: 12px;
-        text-align: center;
-    }
-
-    /* 말풍선 스타일 */
-    .tooltip {
-        background-color: #22C8F6;
-        color: #ffffff;
-        padding: 6px 12px;
-        /*margin-left: 110px;*/
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: bold;
-        position: absolute;
-        top: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-        white-space: nowrap;
-
-    }
-
-    /* 말풍선 꼬리 */
-    /*    .tooltip::after {
-            content: "";
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 6px;
-            border-style: solid;
-            border-color: #22C8F6 transparent transparent transparent;
-        }*/
-
-    #top2 {
-        display: flex;
-        width: 836px;
-        height: 140px;
-        background-color: #eeeeee;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-        margin-bottom: 50px;
-    }
-
-    .top2 {
-        width: 200px;
-        padding: 10px 20px 0;
-    }
-
-    .top2 > a {
-        display: block;
-        text-align: center;
-        color: #503396;
-        font-weight: 600;
-        padding-bottom: 10px;
-        text-decoration: none;
-    }
-
-    .top2 > div {
-        display: flex;
-        margin-left: 10px;
-    }
-
-    .top2 span {
-
-
-        width: 120px;
-    }
-
-    .top2 em {
-        text-align: right;
-        display: block;
-        font-weight: 600;
-    }
-
-    #myReserv {
-        display: flex;
-        width: 840px;
-        height: 140px;
-        margin-bottom: 50px;
-        align-items: center;
-        border-bottom: 1px solid #eeeeee;
-    }
-
-    #myReserv > img {
-        width: 70px;
-        height: 100px;
-    }
-
-    #reservInfo p {
-        margin: 0 30px;
-        width: 640px;
-    }
-
-    #reservInfo em {
-        color: #01738b;
-    }
-
-    #myReserv button {
-        background-color: white;
-        width: 74px;
-        height: 32px;
-    }
-
-    #h2 {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #666666;
-        width: 840px;
-    }
-
-    #h2 h2 {
+    #h2 h2{
         width: 760px;
     }
-
-    #h2 button {
-        height: 32px;
+    #h2 button{
+        height:32px ;
         width: 74px;
         border: none;
         background-color: white;
     }
 
-    .top2 span {
-        font-size: 14px;
-    }
-
-    #total {
-        display: none;
-    }
-
-    .myPage-container {
+    .myPage-container{
         display: flex;
 
     }
-
-    #contents {
-        margin-left: auto;
-        margin-right: auto;
-        width: 1100px;
+    #main{
+        width: 100%;
+        margin: 27px 40px 40px 40px;
+    }
+    #main h1{
+        font-size: 30px;
     }
 
-    #main {
-        margin: 50px 0 50px 50px;
-    }
 
-    .notice {
-        width: 840px;
-    }
 
     .noticeboard {
-        width: 100%;
+        margin-top: 20px;
+    }
+
+    .noticeboard.active {
+        display: block;
+    }
+
+    /* form 내의 요소들을 나란히 배치 */
+    #searchForm {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* 간격 설정 */
     }
 
     .search-bar-container {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
     }
 
     .search-bar-container .total-count {
@@ -301,21 +81,24 @@
     }
 
     .search-bar2 {
-        border-bottom: 1px solid #423e3e;
-        display: inline-block;
-        position: relative;
-        width: 200px;
+        flex: 1;               /* 부모 컨테이너의 남은 공간을 차지 */
+        max-width: 400px;      /* 최대 너비 */
+        min-width: 200px;      /* 최소 너비 */
         height: 30px;
+        position: relative;
+        border-bottom: 1px solid #423e3e;
     }
 
     .search-bar2 .input-text {
-        display: inline-block;
+        width: 100%;           /* 부모의 너비에 맞게 확장 */
         background-color: transparent;
         border: 0;
         color: #000;
         line-height: 25px;
         font-size: 16px;
         outline: none;
+        padding: 0 35px 0 5px; /* 버튼과 충돌 방지 */
+        box-sizing: border-box;
     }
 
     .search-bar2 .input-text:active {
@@ -324,16 +107,15 @@
     }
 
     .search-bar2 .btn {
-        display: block;
         width: 30px;
         height: 100%;
         position: absolute;
         right: 0;
         top: 0;
         font-size: 0;
-        line-height: 0;
         border: 0;
         background-color: transparent;
+        cursor: pointer;
     }
 
     .search-bar2 .btn:hover {
@@ -348,88 +130,152 @@
         vertical-align: middle;
     }
 
-    .notice h1 {
-        font-size: 30px;
-    }
-
     table {
         width: 100%;
+        /*height: 100%;*/
         border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 16px;
-        text-align: center;
-        border-top: 2px solid #000 !important;
+        margin-top: 10px;
     }
 
-    th, td {
-        padding: 12px 15px; /* 셀 안쪽 여백 추가 */
-        border-bottom: 1px solid #ddd !important;
-    }
-    td:nth-child(4) {
-        text-align: left;
+    table, th {
+        border-top: 2px solid #333;
+        border-bottom: 0;
     }
 
     th {
-        background-color: #f2f2f2; /* 헤더 배경색 */
+        text-align: center !important;
+    }
+
+
+    th, td {
+        padding: 15px;
+        text-align: center;
+
+    }
+
+    td {
+        border-top: 1px solid #ddd !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    /*제목 왼쪽 정렬 필요할 경우 */
+    td:nth-child(5) {
+        text-align: left;
+        padding-left: 15px;
+    }
+
+    td a {
+        color: inherit; /* 부모 요소의 색상을 따르도록 설정 */
+        text-decoration: none; /* 밑줄 제거 */
+    }
+
+
+    td a:hover {
+        color: #666;
+    }
+
+    th {
+        background-color: #f4f4f4;
         font-weight: bold;
     }
 
-    tr {
-        border-bottom: 1px solid #ddd; /* 행 간 구분선 */
-    }
-
-    tr:last-child {
-        border-bottom: none; /* 마지막 행 구분선 제거 */
+    /* 클릭 가능한 행 스타일 */
+    .clickable-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
     }
 
     tr:hover {
-        background-color: #f9f9f9; /* 마우스 오버 시 배경색 */
+        background-color: #f9f9f9;
     }
 
-    a{
-        color: inherit !important;
+    /* 페이지네이션 */
+    .pagination {
+        clear: both;
+        position: relative;
+        margin: 0 auto;
+        padding: 30px 0 0 0;
+        display: flex;
+        justify-content: center;
     }
 
-
-    .writeNotice {
-        float: right;
-        margin-top: 10px;
-        text-align: center;
+    .pagination .active {
         color: #fff;
-        background-color: #6a5acd;
+        background-color: #01738b;
+        border-color: #01738b;
+    }
+
+    .pagination .control, .pagination a, .pagination strong {
+        display: inline-block;
+        position: relative;
+        min-width: 32px;
+        height: 32px;
+        margin: 0 2px;
+        padding: 0 8px;
+        border: 1px solid #ebebeb;
         text-decoration: none;
+        line-height: 30px;
+        color: #333;
+        font-weight: 400;
+        vertical-align: middle;
+        border-radius: 4px;
+    }
+
+    .pagination .control.first {
+        background-position: 0 0;
+    }
+
+    .pagination .control.prev {
+        background-position: -32px 0;
+    }
+
+    .pagination .control.next {
+        background-position: -64px 0;
+    }
+
+    .pagination .control.last {
+        background-position: -96px 0;
+    }
+
+    .pagination .control {
+        overflow: hidden;
+        width: 32px;
+        height: 32px;
+        background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
+    }
+
+    .checkbox, .endNotice, .startNotice{
+        display: none;
+    }
+
+    .buttonGroup{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .endNotice, .selectNotice, .writeNotice, .startNotice{
+        background-color: #01738b;
+        color: #fff;
+        border: none;
         border-radius: 5px;
-        font-size: 14px;
+        outline: none;
+        box-shadow: none !important;
     }
-
-    .checkbox-column {
-        display: none;
-    }
-
-    .delete{
-        display: none;
+    .writeNotice{
+        margin-top: 10px;
     }
 
 </style>
 
 <body>
-<jsp:include page="../../user/common/header.jsp"/>
-<div class="contents">
-    <div class="page-util">
-        <div class="inner-wrap">
-            <div class="location">
-                <span>Home</span>
-                <a href="/booking" title="예매 페이지로 이동">이벤트</a>
-                <a href="/booking" title="빠른예매 페이지로 이동" class="pageUtila">진행중 이벤트</a>
-            </div>
-        </div>
-    </div>
+<%--  헤더  --%>
+<jsp:include page="../common/header.jsp"></jsp:include>
+<div class="admin-contents">
     <div class="total-main">
         <div class="myPage-container">
             <%--  사이드바  --%>
             <jsp:include page="../common/adminSideBar.jsp"></jsp:include>
             <%--  메인  --%>
-
 
             <div id="main">
                 <div class="notice">
@@ -437,8 +283,6 @@
                     <div id="announcement" class="noticeboard">
                         <div class="search-bar-container">
                             <div class="total-count">전체 ${requestScope.total}건</div>
-                            <button id="delete" class="delete">삭제</button>
-                            <button id="toggleSelect">선택</button>
                             <!-- 검색어 입력 섹션 -->
                             <form method="post" action="AdminController" class="search-bar">
                                 <input type="hidden" name="type" value="adBoard"/>
@@ -467,76 +311,94 @@
                                 </div>
                             </form>
                         </div>
+                        <div class="buttonGroup">
+                            <button id="toggleSelect" class="selectNotice">선택</button>
+                            <button id="startNotice" class="startNotice">게시</button>
+                            <button id="endNotice" class="endNotice">종료</button>
+                        </div>
 
 
                         <!-- 공지사항 테이블 -->
-                        <form id="deleteForm" method="post" action="AdminController">
-                            <input type="hidden" name="type" value="adWrite">
+                        <form id="endForm" method="post" action="AdminController">
+                            <input type="hidden" name="type" value="adWrite"/>
+                            <input type="hidden" name="actionType" value="end"/>
                             <table>
                                 <thead>
                                 <tr>
-                                    <th class="checkbox-column">
-                                        <input type="checkbox" id="selectAll">
+                                    <th class="checkbox">
+                                        <input type="checkbox" id="selectAll" class="selectAll"/>
                                     </th>
                                     <th>번호</th>
                                     <th>극장</th>
                                     <th>구분</th>
                                     <th>제목</th>
                                     <th>등록일</th>
+                                    <th>게시 상태</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:set var="pvo" value="${requestScope.page}"/>
-                                <c:forEach var="vo" items="${ar }" varStatus="vs">
+                                <c:forEach var="vo" items="${ar}" varStatus="vs">
+                                    <td class="checkbox">
+                                        <input type="checkbox" class="rowCheckbox" name="selectedNotice" value="${vo.boardIdx}"/>
+                                    </td>
                                     <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
-                                    <tr>
-                                        <%-- 체크박스 --%>
-                                            <td class="checkbox-column">
-                                                <input type="checkbox" class="row-checkbox" name="selectedNotice" value="${vo.boardIdx}">
-                                            </td>
-
-                                        <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index)+1 }</td>
+                                        <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index) + 1}</td>
                                         <c:if test="${vo.theaterName ne null}">
                                             <td>${vo.theaterName}</td>
                                         </c:if>
                                         <c:if test="${vo.theaterName eq null}">
                                             <td>메가박스</td>
                                         </c:if>
-                                        <td>공지</td>
+                                        <c:if test="${vo.boardType eq 'NOTICE'}">
+                                            <td>공지</td>
+                                        </c:if>
+                                        <c:if test="${vo.boardType eq 'EVENT'}">
+                                            <td>이벤트</td>
+                                        </c:if>
                                         <td>
-                                            <a href="AdminController?type=adView&boardIdx=${vo.boardIdx}">${vo.boardTitle}</a>
+                                            <a href="AdminController?type=adView&amp;boardIdx=${vo.boardIdx}">
+                                                    ${vo.boardTitle}
+                                            </a>
                                         </td>
                                         <td>${vo.boardRegDate.substring(0,10)}</td>
+                                        <c:if test="${vo.boardStatus eq '0'}">
+                                            <td>게시 중</td>
+                                        </c:if>
+                                        <c:if test="${vo.boardStatus eq '1'}">
+                                            <td>게시 예정</td>
+                                        </c:if>
+                                        <c:if test="${vo.boardStatus eq '2'}">
+                                            <td>게시 종료</td>
+                                        </c:if>
                                     </tr>
                                 </c:forEach>
-                                <c:if test="${ar eq null or fn:length(ar) eq 0 }">
+                                <c:if test="${ar eq null or fn:length(ar) eq 0}">
                                     <tr>
                                         <td colspan="5">현재 등록된 데이터가 없습니다.</td>
                                     </tr>
                                 </c:if>
-
                                 </tbody>
                             </table>
                         </form>
 
-                        <a href="AdminController?type=adWrite" class="writeNotice">글쓰기</a>
+                        <a href="jsp/admin/notice/adminNoticeWrite.jsp" class="writeNotice">글쓰기</a>
 
 
-
-                        <!-- 페이지네이션 -->
+                        <!--------------------- 페이지네이션 -------------------->
                         <nav class="pagination">
                             <c:if test="${requestScope.page ne null}">
-                                <c:set var="pvo" value="${requestScope.page}"/>
+                                <c:set var="pvo" value="${requestScope.page}" />
 
                                 <!-- << (맨 처음으로) -->
-                                <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
-                                    <a href="AdminController?type=adBoard&cPage=1&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                <c:if test="${pvo.startPage > 1 && pvo.totalPage > 10}">
+                                    <a href="AdminController?type=adBoard&amp;cPage=1&amp;keyword=${param.keyword}&amp;region=${param.region}&amp;theater=${param.theater}"
                                        class="control first" title="처음 페이지">&laquo;</a>
                                 </c:if>
 
                                 <!-- < (이전 페이지 블록) -->
                                 <c:if test="${pvo.startPage > 1}">
-                                    <a href="AdminController?type=adBoard&cPage=${pvo.startPage - pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                    <a href="AdminController?type=adBoard&amp;cPage=${pvo.startPage - pvo.pagePerBlock}&amp;keyword=${param.keyword}&amp;region=${param.region}&amp;theater=${param.theater}"
                                        class="control prev" title="이전 블록">&lt;</a>
                                 </c:if>
 
@@ -546,30 +408,28 @@
                                         <strong class="active">${st.index}</strong>
                                     </c:if>
                                     <c:if test="${st.index ne pvo.nowPage}">
-                                        <a href="AdminController?type=adBoard&cPage=${st.index}
-                                <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
-                                <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
-                                <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>"
-                                           title="${st.index}페이지 보기">
-                                                ${st.index}
-                                        </a>
-
+                                        <a href="AdminController?type=adBoard&amp;cPage=${st.index}
+                    <c:if test='${not empty param.keyword}'> &amp;keyword=${param.keyword}</c:if>
+                    <c:if test='${not empty param.region}'> &amp;region=${param.region}</c:if>
+                    <c:if test='${not empty param.theater}'> &amp;theater=${param.theater}</c:if>"
+                                           title="${st.index}페이지 보기">${st.index}</a>
                                     </c:if>
                                 </c:forEach>
 
                                 <!-- > (다음 페이지 블록) -->
                                 <c:if test="${pvo.endPage < pvo.totalPage}">
-                                    <a href="AdminController?type=adBoard&cPage=${pvo.startPage + pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                    <a href="AdminController?type=adBoard&amp;cPage=${pvo.startPage + pvo.pagePerBlock}&amp;keyword=${param.keyword}&amp;region=${param.region}&amp;theater=${param.theater}"
                                        class="control next" title="다음 블록">&gt;</a>
                                 </c:if>
 
                                 <!-- >> (맨 마지막으로) -->
                                 <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
-                                    <a href="AdminController?type=adBoard&cPage=${pvo.totalPage}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                                    <a href="AdminController?type=adBoard&amp;cPage=${pvo.totalPage}&amp;keyword=${param.keyword}&amp;region=${param.region}&amp;theater=${param.theater}"
                                        class="control last" title="마지막 페이지">&raquo;</a>
                                 </c:if>
                             </c:if>
                         </nav>
+
 
                     </div>
                 </div>
@@ -577,21 +437,7 @@
         </div>
     </div>
 </div>
-
-<jsp:include page="../../user/common/footer.jsp"/>
-
-<!-- 삭제 결과 메시지 표시 -->
-<c:if test="${param.msg == 'deleteSuccess'}">
-    <script>alert('선택한 공지사항이 삭제되었습니다.');</script>
-</c:if>
-<c:if test="${param.msg == 'deleteFail'}">
-    <script>alert('삭제에 실패했습니다. 다시 시도하세요.');</script>
-</c:if>
-<c:if test="${param.msg == 'noSelection'}">
-    <script>alert('삭제할 공지사항을 선택하세요.');</script>
-</c:if>
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // 지역별 극장 목록
     const theatersByRegion = {
@@ -644,8 +490,9 @@
 
     // 선택눌렀을때 체크박스
     document.getElementById('toggleSelect').addEventListener('click', function () {
-        const checkboxes = document.querySelectorAll('.checkbox-column');
-        const deleteButton = document.getElementById('delete');
+        const checkboxes = document.querySelectorAll('.checkbox');
+        const endButton = document.getElementById('endNotice');
+        const startButton = document.getElementById('startNotice');
 
         let isVisible = checkboxes[0].style.display === 'table-cell';
 
@@ -654,43 +501,125 @@
         });
 
         // 삭제 버튼도 선택 버튼과 함께 보이게/숨기게
-        deleteButton.style.display = isVisible ? 'none' : 'inline-block';
+        endButton.style.display = isVisible ? 'none' : 'inline-block';
+        startButton.style.display = isVisible ? 'none' : 'inline-block';
     });
 
     // 전체선택
     document.getElementById('selectAll').addEventListener('change', function () {
-        const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+        const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
         rowCheckboxes.forEach(checkbox => {
             checkbox.checked = this.checked;  // 전체 체크박스 상태에 따라 개별 체크박스 변경
         });
     });
 
-    // 삭제버튼 누를시
-    document.getElementById('delete').addEventListener('click', function () {
-        const selectedItems = document.querySelectorAll('.row-checkbox:checked');
-        if (selectedItems.length === 0) {
-            alert('삭제할 항목을 선택하세요.');
-            return;
-        }
+    // 종료버튼 누를시
+    $(document).ready(function () {
+        $("#endNotice").on("click", function () {
+            const selectedItems = $(".rowCheckbox:checked");
 
-        if (confirm('선택한 항목을 삭제하시겠습니까?')) {
-            const form = document.getElementById('deleteForm');
-            form.submit();  // 선택된 항목을 서버로 전송하여 삭제 요청
-        }
+            if (selectedItems.length === 0) {
+                alert("게시를 종료할 항목을 선택하세요.");
+                return;
+            }
+
+            if (!confirm("선택한 항목을 종료하시겠습니까?")) {
+                return;
+            }
+
+            let boardIdxList = [];
+            selectedItems.each(function () {
+                boardIdxList.push($(this).val());
+            });
+
+            $.ajax({
+                url: "AdminController",
+                type: "POST",
+                data: {
+                    type: "adWrite",
+                    actionType: "end",
+                    selectedNotice: boardIdxList.join(",")
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log("서버 응답:", response);
+
+                    if (response.success) {
+                        alert("선택한 항목이 종료되었습니다.");
+                        location.reload();
+                    } else {
+                        alert("종료에 실패했습니다.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX 요청 오류:", error);
+                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+        });
+    });
+
+    // 게시버튼 누를시
+    $(document).ready(function () {
+        $("#startNotice").on("click", function () {
+            const selectedItems = $(".rowCheckbox:checked");
+
+            if (selectedItems.length === 0) {
+                alert("게시할 항목을 선택하세요.");
+                return;
+            }
+
+            if (!confirm("선택한 항목을 게시하시겠습니까?")) {
+                return;
+            }
+
+            let boardIdxList = [];
+            selectedItems.each(function () {
+                boardIdxList.push($(this).val());
+            });
+
+            $.ajax({
+                url: "AdminController",
+                type: "POST",
+                data: {
+                    type: "adWrite",
+                    actionType: "start",
+                    selectedNotice: boardIdxList.join(",")
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log("서버 응답:", response);
+
+                    if (response.success) {
+                        alert("선택한 항목이 게시되었습니다.");
+                        location.reload();
+                    } else {
+                        alert("게시에 실패했습니다.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX 요청 오류:", error);
+                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+        });
     });
 
 
 
-    var total = ${requestScope.total};
-    document.addEventListener("DOMContentLoaded", function () {
-        if (total >= 13000 && total < 20000) {
-            document.getElementById("vip-item").classList.add("active");
-        }
-        if (total >= 20000) {
-            document.getElementById("vip-item").classList.add("active");
-            document.getElementById("vvip-item").classList.add("active");
+    window.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = urlParams.get("cPage");
+
+        // cPage가 없으면 1로 설정하고 페이지 새로고침
+        if (!currentPage) {
+            urlParams.set("cPage", "1");
+            const newUrl = window.location.pathname + "?" + urlParams.toString();
+            window.history.replaceState({}, "", newUrl);
         }
     });
+
+
 
 </script>
 </body>

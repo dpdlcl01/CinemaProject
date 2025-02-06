@@ -20,7 +20,7 @@ public class AddCartAction implements Action {
         request.setAttribute("ar",ar);
 
         String quant =request.getParameter("productQuant");
-        String idx= request.getParameter("productIdx");
+        String idx= request.getParameter("pIdx");
 
         // 로그인 여부 확인 및 사용자 정보 가져오기
         UserVO uservo = SessionUtil.getLoginUser(request);

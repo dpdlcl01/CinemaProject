@@ -63,27 +63,6 @@ public class BoardDAO {
         return ar;
     }
 
-    //저장
-    public static int add(String adminIdx, String theatherIdx, String boardType,
-                          String boardTitle, String boardContent, String boardRegDate) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("adminIdx", adminIdx);
-        map.put("theatherIdx", theatherIdx);
-        map.put("boardType", boardType);
-        map.put("boardTitle", boardTitle);
-        map.put("boardContent", boardContent);
-        map.put("boardRegDate", boardRegDate);
-
-        SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.insert("board.add", map);
-        if (cnt > 0)
-            ss.commit();
-        else
-            ss.rollback();
-        ss.close();
-        return cnt;
-    }
-
     //원하는 게시물 검색
     public static BoardVO getBoard(String boardId) {
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -138,32 +117,114 @@ public class BoardDAO {
         return nboard;
     }
 
-    // 단일 게시물 삭제
-    public static int deleteBoard(int boardIdx) {
+    //이벤트를 포함한 총 게시물 수를 반환
+    public static int getAllTotalCount(String keyword, String region, String theater) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.delete("board.deleteBoard", boardIdx);
-        if (cnt > 0) {
-            ss.commit();  // 삭제 성공 시 커밋
-        } else {
-            ss.rollback();  // 삭제 실패 시 롤백
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        // 검색어, 지역, 극장 조건이 있는 경우
+        if(keyword != null && !keyword.isEmpty()) {
+            map.put("keyword", keyword);
+        }
+        if(region != null && !region.isEmpty()) {
+            map.put("region", region);
+        }
+        if(theater != null && !theater.isEmpty()) {
+            map.put("theater", theater);
+        }
+
+        int cnt = ss.selectOne("board.totalAllCount", map);
+        ss.close();
+
+        return cnt;
+    }
+
+    // 이벤트를 포함한 목록
+    public static BoardVO[] getAllList(int begin, int end, String keyword, String region, String theater) {
+        BoardVO[] ar = null;
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("begin", begin);// String.valueOf(begin)
+        map.put("end", end);
+
+        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
+        if(keyword != null && !keyword.isEmpty()){
+            map.put("keyword", keyword);
+        }
+        if(region != null && !region.isEmpty()){
+            map.put("region", region);
+        }
+        if(theater != null && !theater.isEmpty()){
+            map.put("theater", theater);
+        }
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<BoardVO> list = ss.selectList("board.AllList", map);
+        if (list != null && !list.isEmpty()) {
+            ar = new BoardVO[list.size()];
+            list.toArray(ar);
+        }
+        ss.close();
+        return ar;
+    }
+
+    // 선택된 항목 종료
+    public static int endNotices(List<Integer> boardIdxList){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("board.endNotices", boardIdxList);
+
+        if(cnt > 0){
+            ss.commit();
+        } else{
+            ss.rollback();
         }
         ss.close();
         return cnt;
     }
 
-    // 여러 게시물 삭제
-    public static int deleteMultipleBoards(List<Integer> boardIdxList) {
+    // 선택된 항목 게시
+    public static int startNotices(List<Integer> boardIdxList){
         SqlSession ss = FactoryService.getFactory().openSession();
-        int cnt = ss.delete("board.deleteMultipleBoards", boardIdxList);
-        if (cnt > 0) {
-            ss.commit();  // 삭제 성공 시 커밋
-        } else {
-            ss.rollback();  // 삭제 실패 시 롤백
+        int cnt = ss.update("board.startNotices", boardIdxList);
+
+        if(cnt > 0){
+            ss.commit();
+        } else{
+            ss.rollback();
         }
         ss.close();
         return cnt;
     }
 
+    //theaterIdx 가져오기
+    public static String getTheaterIdx(String theater) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        String theaterIdx = ss.selectOne("board.getTheaterIdx", theater);
+        ss.close();
+        return theaterIdx;
+    }
+
+    //저장
+    public static int addNotice(String theaterIdx, String boardType,
+                          String boardTitle, String boardContent, String boardRegDate, String boardStatus) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("theaterIdx", theaterIdx);
+        map.put("boardType", boardType);
+        map.put("boardTitle", boardTitle);
+        map.put("boardContent", boardContent);
+        map.put("boardRegDate", boardRegDate);
+        map.put("boardStatus", boardStatus);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.insert("board.add", map);
+        if (cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+        return cnt;
+    }
 
 }
 

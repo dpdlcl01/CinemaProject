@@ -2,8 +2,10 @@ package action.admin.board;
 
 import action.Action;
 import mybatis.dao.BoardDAO;
+import mybatis.vo.AdminVO;
 import mybatis.vo.BoardVO;
 import util.Paging;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,15 @@ public class ListAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+        // 로그인 여부 확인 및 관리자 정보 가져오기
+        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
+
+        // adminvo가 null이면 로그인하지 않은 경우 - 관리자 페이지 전체 접근 불가능하므로 로그인 페이지로 전환
+        if (adminvo == null) {
+            return "AdminController?type=admin";
+        }
+
         // 페이징 처리를 위한 객체생성
         Paging page = new Paging(10, 10);
 
@@ -24,7 +35,7 @@ public class ListAction implements Action {
         String theater = request.getParameter("theater");
 
         // 총 게시물의 수를 구한다.
-        int totalCount = BoardDAO.getTotalCount("notice", keyword, region, theater);
+        int totalCount = BoardDAO.getAllTotalCount(keyword, region, theater);
         // 페이징 객체안에 총 게시물의 수를 저장하면서 전체페이지 수를 구한다.
         page.setTotalRecord(totalCount);// 이때 전체페이지수(totalPage)가 구해진다.
 
@@ -46,7 +57,7 @@ public class ListAction implements Action {
 
 
         // 게시판의 목록을 noticeMain.jsp에서 표현하기 위해 DB에서 원하는 자원들을 가져와야 한다.
-        BoardVO[] ar = BoardDAO.getList("notice", page.getBegin(), page.getEnd(), keyword, region, theater);
+        BoardVO[] ar = BoardDAO.getAllList(page.getBegin(), page.getEnd(), keyword, region, theater);
 
         // 가져온 자원들을 noticeMain.jsp에서 표현할 수 있도록 request에 저장해야 한다.
         request.setAttribute("ar", ar);

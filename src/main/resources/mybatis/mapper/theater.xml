@@ -4,6 +4,12 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="theater">
 
+    <select id="getTheater" parameterType="String" resultType="mybatis.vo.TheaterVO">
+        select theaterIdx,theaterName
+        from theater
+        where theaterRegion=#{theaterRegion};
+    </select>
+
     <select id="getTheaterInfo" resultType="mybatis.vo.TheaterVO">
         SELECT * FROM theater
     </select>
@@ -60,6 +66,23 @@
         WHERE b.boardType = 'NOTICE' AND b.boardStatus = 0 AND b.theaterIdx is not NULL
         ORDER BY b.boardRegDate DESC
         LIMIT 5
+    </select>
+
+    <!--극장 상영시간표 조회-->
+    <select id="getMovie" parameterType="map" resultType="mybatis.vo.TheaterMovieVO">
+        SELECT
+        s.screenName, m.movieTitle, m.movieIdx, m.movieGrade, m.movieTime, s.screenSeatCount, s.screenType,
+        s.screenIdx, t.timetableStartTime,
+        COUNT(CASE WHEN COALESCE(ts.seatStatus, 0) = 0 THEN 1 END) AS remainSeat,
+        DATE_FORMAT(t.timetableStartTime, '%H:%i') AS startTime, t.timetableIdx
+        FROM timetable t
+        INNER JOIN screen s ON t.screenIdx = s.screenIdx
+        INNER JOIN movie m ON t.movieIdx = m.movieIdx
+        INNER JOIN seat st ON s.screenIdx = st.screenIdx
+        LEFT JOIN seatStatus ts ON t.timetableIdx = ts.timetableIdx AND st.seatIdx = ts.seatIdx
+        WHERE t.theaterIdx = #{theaterIdx} AND DATE(t.timetableStartTime) = #{targetDate}
+        GROUP BY t.timetableIdx
+        ORDER BY t.timetableStartTime;
     </select>
 
 </mapper>

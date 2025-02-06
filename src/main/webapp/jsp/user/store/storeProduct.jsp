@@ -289,7 +289,7 @@
     <input type="hidden" name="productCategory" id="productCategory" value="${requestScope.pCategory}">
     <input type="hidden" name="productQuant" id="productQuant">
     <input type="hidden" name="productPrice" id="productPrice">
-    <input type="hidden" name="productIdx" id="productIdx" value="${requestScope.pIdx}">
+    <input type="hidden" name="pIdx" id="productIdx" value="${requestScope.pIdx}">
   </form>
 
   <article id="notice" title="알림">
@@ -323,7 +323,9 @@
         productQuant="1";
       }
       document.getElementById("productQuant").value=productQuant;
+      let Idx = document.getElementById("productIdx").value;
 
+      console.log(Idx);
       form0.action="${pageContext.request.contextPath}/UserController?type=cart";
 
 
@@ -344,6 +346,7 @@
       <%--${pageContext.request.contextPath}/UserController?type=payment--%>
       form0.action="${pageContext.request.contextPath}/UserController?type=payment";
 
+      console.log("현재 바이 함수가 실행되었습니다,.");
       form0.submit();
     }
     

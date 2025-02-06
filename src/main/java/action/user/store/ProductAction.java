@@ -21,6 +21,8 @@ public class ProductAction implements Action {
             String category = request.getParameter("pCategory");
             String idx = request.getParameter("pIdx");
             String price = request.getParameter("pPrice");
+            System.out.println(idx);
+
 
             if(category.equals("1")){
                 category = "굿즈";

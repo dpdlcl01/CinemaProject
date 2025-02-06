@@ -2,70 +2,69 @@ package mybatis.vo;
 
 public class PriceVO {
 
-    private String priceIdx;
-    private String screenType;
-    private String ageGroup;
-    private String dayOfWeek;
-    private String timeOfDay;
-    private String generalPrice;
+  private String priceIdx, screenType, ageGroup, dayOfWeek, timeOfDay, teenPrice, generalPrice, seatPrice;
 
-    public String getTeenPrice() {
-        return teenPrice;
-    }
+  public String getPriceIdx() {
+    return priceIdx;
+  }
 
-    public void setTeenPrice(String teenPrice) {
-        this.teenPrice = teenPrice;
-    }
+  public void setPriceIdx(String priceIdx) {
+    this.priceIdx = priceIdx;
+  }
 
-    public String getGeneralPrice() {
-        return generalPrice;
-    }
+  public String getScreenType() {
+    return screenType;
+  }
 
-    public void setGeneralPrice(String generalPrice) {
-        this.generalPrice = generalPrice;
-    }
+  public void setScreenType(String screenType) {
+    this.screenType = screenType;
+  }
 
-    private String teenPrice;
+  public String getAgeGroup() {
+    return ageGroup;
+  }
 
-    public String getPriceIdx() {
-        return priceIdx;
-    }
+  public void setAgeGroup(String ageGroup) {
+    this.ageGroup = ageGroup;
+  }
 
-    public void setPriceIdx(String priceIdx) {
-        this.priceIdx = priceIdx;
-    }
+  public String getDayOfWeek() {
+    return dayOfWeek;
+  }
 
-    public String getScreenType() {
-        return screenType;
-    }
+  public void setDayOfWeek(String dayOfWeek) {
+    this.dayOfWeek = dayOfWeek;
+  }
 
-    public void setScreenType(String screenType) {
-        this.screenType = screenType;
-    }
+  public String getTimeOfDay() {
+    return timeOfDay;
+  }
 
-    public String getAgeGroup() {
-        return ageGroup;
-    }
+  public void setTimeOfDay(String timeOfDay) {
+    this.timeOfDay = timeOfDay;
+  }
 
-    public void setAgeGroup(String ageGroup) {
-        this.ageGroup = ageGroup;
-    }
+  public String getTeenPrice() {
+    return teenPrice;
+  }
 
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
+  public void setTeenPrice(String teenPrice) {
+    this.teenPrice = teenPrice;
+  }
 
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
+  public String getGeneralPrice() {
+    return generalPrice;
+  }
 
-    public String getTimeOfDay() {
-        return timeOfDay;
-    }
+  public void setGeneralPrice(String generalPrice) {
+    this.generalPrice = generalPrice;
+  }
 
-    public void setTimeOfDay(String timeOfDay) {
-        this.timeOfDay = timeOfDay;
-    }
+  public String getSeatPrice() {
+    return seatPrice;
+  }
 
-
+  public void setSeatPrice(String seatPrice) {
+    this.seatPrice = seatPrice;
+  }
 }

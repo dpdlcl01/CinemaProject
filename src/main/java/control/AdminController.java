@@ -117,28 +117,41 @@ public class AdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
+
+        String acceptHeader = request.getHeader("Accept");
+        boolean isJsonRequest = acceptHeader != null && acceptHeader.contains("application/json");
+
+        if (isJsonRequest) {
+            response.setContentType("application/json;charset=utf-8");
+        } else {
+            response.setContentType("text/html;charset=utf-8");
+        }
 
         // type이라는 파라미터를 받기
         String type = request.getParameter("type");
 
         // 만약! type이 null이면 기본객체(DateAction)을 지정한다.
         if(type == null)
-            type = "main";
+            type = "admin";
 
         // type으로 받은 값이 actionMap의 key로 사용되고 있으며
         // actionMap으로부터 원하는 객체를 얻도록 한다.
         Action action = actionMap.get(type);
 
+        // AJAX 요청 여부 확인 (헤더에 "X-Requested-With: XMLHttpRequest"가 있으면 AJAX 요청임)
+        boolean isAjaxRequest = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+
+        // Action 실행 및 결과 반환
         String viewPath = action.execute(request, response);
 
-      // 이동할 때마다 type, viewPath를 알기 위한 print
-      System.out.println("type: " + type);
-      System.out.println("viewPath: " + viewPath);
+        // AJAX 요청일 경우, viewPath가 null이어도 추가 응답을 전송하지 않음
+        if (isAjaxRequest) {
+            return;  // JSON 응답 후 바로 종료
+        }
 
-        // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
-        if(viewPath == null){
-            response.sendRedirect("AdminController?type=main");
+        // 비 AJAX 요청에 대한 기존 처리
+        if (viewPath == null) {
+            response.sendRedirect("AdminController?type=admin");
         } else {
             //forward 준비
             RequestDispatcher disp = request.getRequestDispatcher(viewPath);

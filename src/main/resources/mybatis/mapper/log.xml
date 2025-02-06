@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="log">
+
+    <!-- 로그 데이터 삽입 -->
+    <select id="insertLog" parameterType="mybatis.vo.LogVO">
+        INSERT INTO log (logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue, logDate)
+        VALUES (#{logType}, #{adminIdx}, #{logTarget}, #{logInfo}, #{logPreValue}, #{logCurValue}, NOW())
+    </select>
+
+    <!-- 로그 조회 -->
+    <select id="getAllLogs" parameterType="map" resultType="mybatis.vo.LogVO">
+        SELECT *
+        FROM log
+        ORDER BY logIdx DESC
+        LIMIT #{begin, jdbcType=INTEGER}, #{end, jdbcType=INTEGER}
+    </select>
+
+    <!-- 총 게시물 수를 반환하는 기능 -->
+    <select id="getTotalCount" resultType="int">
+        select count(*)
+        from log
+    </select>
+</mapper>

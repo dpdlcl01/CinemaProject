@@ -4,8 +4,16 @@ import java.util.List;
 
 public class ReservationDetailVO {
 
-  private String reservationIdx, userName, timetableStartTime, timetableEndTime, movieTitle, theaterName, screenName;
-  private List<String> seatNumber; // 좌석 번호 리스트
+  private String reservationIdx, formattedReservationIdx, reservationDate, userName, timetableStartTime, timetableEndTime, movieTitle, moviePosterUrl, theaterName, screenName;
+  private List<SeatDetailVO> seats; // 좌석 목록
+
+  public String getReservationDate() {
+    return reservationDate;
+  }
+
+  public void setReservationDate(String reservationDate) {
+    this.reservationDate = reservationDate;
+  }
 
   public String getReservationIdx() {
     return reservationIdx;
@@ -15,12 +23,28 @@ public class ReservationDetailVO {
     this.reservationIdx = reservationIdx;
   }
 
+  public String getFormattedReservationIdx() {
+    return formattedReservationIdx;
+  }
+
+  public void setFormattedReservationIdx(String formattedReservationIdx) {
+    this.formattedReservationIdx = formattedReservationIdx;
+  }
+
   public String getUserName() {
     return userName;
   }
 
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+
+  public String getMoviePosterUrl() {
+    return moviePosterUrl;
+  }
+
+  public void setMoviePosterUrl(String moviePosterUrl) {
+    this.moviePosterUrl = moviePosterUrl;
   }
 
   public String getTimetableStartTime() {
@@ -63,11 +87,11 @@ public class ReservationDetailVO {
     this.screenName = screenName;
   }
 
-  public List<String> getSeatNumber() {
-    return seatNumber;
+  public List<SeatDetailVO> getSeats() {
+    return seats;
   }
 
-  public void setSeatNumber(List<String> seatNumber) {
-    this.seatNumber = seatNumber;
+  public void setSeats(List<SeatDetailVO> seats) {
+    this.seats = seats;
   }
 }

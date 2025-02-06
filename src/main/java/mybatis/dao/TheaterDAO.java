@@ -2,6 +2,7 @@ package mybatis.dao;
 
 import mybatis.service.FactoryService;
 import mybatis.vo.EventVO;
+import mybatis.vo.TheaterMovieVO;
 import org.apache.ibatis.session.SqlSession;
 import mybatis.vo.PriceVO;
 import mybatis.vo.TheaterVO;
@@ -12,6 +13,19 @@ import java.util.Map;
 
 public class TheaterDAO {
 
+    public static TheaterVO[] getTheater(String theaterRegion) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+
+        List<TheaterVO> list = ss.selectList("theater.getTheater", theaterRegion);
+        TheaterVO[] theaterVO = new TheaterVO[list.size()];
+        list.toArray(theaterVO);
+        ss.close();
+
+        return theaterVO;
+
+    }
+
     public static TheaterVO[] getTheaterInfo() {
         SqlSession ss = FactoryService.getFactory().openSession();
 
@@ -19,7 +33,6 @@ public class TheaterDAO {
         List<TheaterVO> list = ss.selectList("theater.getTheaterInfo");
         TheaterVO[] theaterVO = new TheaterVO[list.size()];
         list.toArray(theaterVO);
-//        System.out.println(theaterVO.length);
         ss.close();
 
         return theaterVO;
@@ -51,21 +64,17 @@ public class TheaterDAO {
 
         return favoriteTheaters;
     }
-
+    /*좌석 가격 가져오기 */
     public static PriceVO[] getPrice() {
         SqlSession ss = FactoryService.getFactory().openSession();
-
         List<PriceVO> list = ss.selectList("theater.getPrice");
-
 
         PriceVO[] priceVO = new PriceVO[list.size()];
         list.toArray(priceVO);
-
         ss.close();
-
         return priceVO;
     }
-
+    /* 이벤트 목록 가져오기*/
     public static EventVO[] getEvent() {
         SqlSession ss = FactoryService.getFactory().openSession();
         List<EventVO> list = ss.selectList("theater.getEvent");
@@ -75,6 +84,7 @@ public class TheaterDAO {
         return eventVO;
     }
 
+    /* 극장 공지사항 가져오기 */
     public static EventVO[] getNotice() {
         SqlSession ss = FactoryService.getFactory().openSession();
         List<EventVO> list = ss.selectList("theater.getNotice");
@@ -83,4 +93,23 @@ public class TheaterDAO {
         ss.close();
         return eventVO;
     }
+
+
+    public static TheaterMovieVO[] getMovie(String theaterIdx, String targetDate) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("theaterIdx", theaterIdx);
+        map.put("targetDate", targetDate);
+
+        List<TheaterMovieVO> list = ss.selectList("theater.getMovie", map);
+
+        TheaterMovieVO[] theaterMovieVO = new TheaterMovieVO[list.size()];
+        list.toArray(theaterMovieVO);
+
+        ss.close();
+
+        return theaterMovieVO;
+    }
+
 }

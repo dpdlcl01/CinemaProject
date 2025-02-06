@@ -3,6 +3,7 @@ package action.user.theater;
 import action.Action;
 import mybatis.dao.TheaterDAO;
 import mybatis.vo.PriceVO;
+import mybatis.vo.TheaterMovieVO;
 import mybatis.vo.TheaterVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ public class TheaterDetailAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String theaterIdx = request.getParameter("theaterIdx");
+        request.setAttribute("theaterIdx", theaterIdx);
 
         TheaterVO theater = TheaterDAO.getTheaterById(theaterIdx);
 

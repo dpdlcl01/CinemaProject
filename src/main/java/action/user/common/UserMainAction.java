@@ -16,6 +16,6 @@ public class UserMainAction implements Action {
         request.setAttribute("movieArray", movieArray);
 
         // main 화면 경로 반환
-        return "./jsp/user/common/userMain.jsp";
+        return "/jsp/user/common/userMain.jsp";
     }
 }

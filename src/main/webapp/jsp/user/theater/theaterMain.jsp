@@ -52,6 +52,8 @@
 
   ul.tabs li {
     flex: 1;
+    font-size: 15px;
+    font-weight: bold;
     text-align: center;
     padding: 10px 15px;
     cursor: pointer;
@@ -378,7 +380,7 @@
     <!-- 선호극장 -->
     <div class="my-fav-theater">
       <c:choose>
-        <c:when test="${not empty sessionScope.uservo}">
+        <c:when test="${not empty sessionScope.uservo and not empty favoriteTheater}">
           <%--세션에 uservo가 있으면--%>
           <span>${sessionScope.uservo.userName}님의 선호극장</span>
           <c:forEach var="theater" items="${favoriteTheater}">
@@ -388,7 +390,7 @@
           </c:forEach>
         </c:when>
         <c:otherwise>
-          <span>나의 선호극장 정보</span>
+          <span>&nbsp;</span>
         </c:otherwise>
       </c:choose>
       </div>
@@ -421,7 +423,7 @@
               </div>
               <!-- 이미지 영역 -->
               <div class="event-img">
-                <img src="${pageContext.request.contextPath}/css/user/images/event/${event.boardContent}" alt="이벤트 이미지">
+                <img src="${vo.boardContent}" alt="이벤트 이미지">
               </div>
             </div>
             </a>

@@ -1,6 +1,7 @@
 .res-main {
     width: 1100px;
     margin: 50px auto;
+    max-height: 550px;
 }
 
 .res-title {
@@ -10,7 +11,7 @@
 }
 
 .res-container {
-    max-height: 500px;
+    max-height: 550px;
     background: #fff;
 }
 
@@ -59,11 +60,8 @@
 }
 
 .date-navigation ul li.selected {
-    font-weight: bold;
-    text-decoration: underline;
-    color: blue; /* 선택된 날짜 강조 색상 */
+    font-weight: 800;
 }
-
 
 /* 메인 컨텐츠 */
 .content {
@@ -79,7 +77,7 @@
     border-radius: 10px;
     padding: 20px;
     background: #fff;
-    max-height: 500px;
+    max-height: 450px;
 }
 
 .content.div h2 {
@@ -103,13 +101,10 @@
     padding: 0;
     margin: 0;
     font-size: 15px;
-    height: 200px;
+    height: 380px;
     overflow-y: auto;
 }
-.theater-region-list {
-    height: 200px;
-    overflow-y: auto;
-}
+
 .content div li {
     padding: 10px;
     border-bottom: 1px solid #eee;
@@ -126,15 +121,101 @@
     border-bottom: none;
 }
 
+/* 극장 선택 시 스타일 */
+.theater-region-list a.selected {
+    background-color: #f0f8ff; /* 선택된 항목 배경색 */
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px;
+    display: inline-block;
+}
+
 /* 시간 섹션 */
 .time-selection p {
     max-height: 500px;
     text-align: center;
-    color: #666;
+    color: #999999;
     font-size: 0.9em;
 }
 .selected {
-    background-color: #f0f8ff; /* 선택된 항목의 배경색 */
+    background-color: #666666; /* 선택된 항목의 배경색 */
     font-weight: bold; /* 글자 굵게 */
-    border: 1px solid #00f; /* 선택된 항목 테두리 */
 }
+
+li.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
+}
+
+.disabled {
+    color: gray;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* 모달 */
+#reservation-login-btn {
+    display: none;
+}
+
+/*!* 다이얼로그 / 모달 *!*/
+/*.dialog-common .modal-header {*/
+/*    background-color: #503396; !* 타이틀 배경색 *!*/
+/*    color: white;             !* 텍스트 색상 *!*/
+/*    height: 50px;*/
+/*    border: 2px solid #503396;*/
+/*}*/
+
+/*#noMovieModal {*/
+/*    display: block;*/
+/*}*/
+
+/*.modal-content {*/
+/*    width: auto;*/
+/*}*/
+
+/*.modal-header {*/
+/*    height: 50px;*/
+/*}*/
+
+/*!* 모달 바디 스타일 *!*/
+/*.dialog-common .modal-body {*/
+/*    color: black;             !* 텍스트 색상 *!*/
+/*    font-size: 13px;          !* 적절한 폰트 크기 *!*/
+/*}*/
+
+/*#modalContent {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    height: 100%;*/
+/*}*/
+/*!* 모달 전체 크기 *!*/
+/*.btn-close {*/
+/*    height: auto;*/
+/*}*/
+
+/*.alert-body {*/
+/*    height: 200px !important;*/
+/*    width: auto;*/
+/*    display: flex;*/
+/*    text-align: center;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*!* 모달 하단 버튼 스타일 *!*/
+/*.dialog-common .btn-ok {*/
+/*    width: 80px;*/
+/*    height: 40px;*/
+/*    border: 1px solid #503396;*/
+/*    background-color: #503396;*/
+/*    color: white;*/
+/*    border-radius: 3px;*/
+/*    display: block;*/
+/*    margin: 20px auto 0; !* 중앙 정렬 및 위 여백 *!*/
+/*}*/
+
+/*!* 모달 닫기 버튼(기본 Bootstrap btn-close)을 숨기거나 스타일 조정 *!*/
+/*.dialog-common .btn-close {*/
+
+/*}*/

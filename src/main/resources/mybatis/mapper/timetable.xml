@@ -13,4 +13,5 @@
         AND t.movieIdx = #{movieIdx} AND DATE(t.timetableStartTime) = #{targetDate}
         ORDER BY t.timetableStartTime ASC
     </select>
+
 </mapper>

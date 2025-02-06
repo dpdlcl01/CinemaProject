@@ -25,7 +25,7 @@
                             <button type="submit" class="login-button btn btn-primary mt-3">로그인</button>
                         </form>
                         <div class="login-footer mt-3">
-                            <a href="${pageContext.request.contextPath}/UserController?type=findIdPw">ID/PW 찾기</a>
+                            <a href="${pageContext.request.contextPath}/UserController?type=goidfind">ID/PW 찾기</a>
                             <a href="${pageContext.request.contextPath}/UserController?type=register" class="ms-3">회원가입</a>
                             <a href="${pageContext.request.contextPath}/UserController?type=guestReservationCheck" class="ms-3 guest-booking-btn">비회원 예매확인</a>
                         </div>
@@ -33,7 +33,7 @@
                     <!-- 이미지 영역 -->
                     <div class="modal-body">
                         <div class="image-container text-center">
-                            <img src="https://mlink-cdn.netinsight.co.kr/2025/01/07/19941e9ce689d82066cd257a0711d97e.jpg" alt="이미지" class="img-fluid">
+                            <img src="https://img.megabox.co.kr/SharedImg/frontBanner/2025/02/03/Gj9RZJkAG1LyRddiMjE1yzQqxAakOdKw.jpg" alt="이미지" class="img-fluid">
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,7 @@
 <!-- head -->
 <head>
   <jsp:include page="../common/head.jsp"/>
+  <script src="https://js.tosspayments.com/v1"></script>
   <title>결제하기</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,6 +54,12 @@
   .payment-main{
     height: 750px;
   }
+  .hidden{
+    display: none;
+  }
+  .address{
+    width: 400px;
+  }
 </style>
 <body>
 <!-- header 영역 -->
@@ -81,13 +88,12 @@
           <div class="movie-details">
             <img id="pImg" src="${pageContext.request.contextPath}/css/user/images/KangImg/${requestScope.img}">
             <div class="movie-info">
-              <p class="movie-title">${requestScope.name}</p>
+              <p class="movie-title" id="productTitle">${requestScope.name}</p>
               <div id="categoryPrice">
                 <p class="movie-about">${requestScope.category}</p>
                 <span id="movie-detailsPrice">${requestScope.price}원</span>
               </div>
-
-              <p class="movie-about">${requestScope.quant}개</p>
+              <p class="movie-about" id="productQuant">${requestScope.quant}개</p>
             </div>
           </div>
         </div>
@@ -121,19 +127,25 @@
         </div>
         <div class="payment-choose-container">
           <div class="payment-check">
-            <h2>결제수단</h2>
+            <h2>배송지입력</h2><%--이부분에 배송지--%>
+            <br>
+            <br>
             <div class="payment-btn">
-              <button class="btn" id="card-btn">신용/체크카드</button>
-              <button class="btn" id="simple-btn">간편결제</button>
+              <label for="address">주소입력</label>
+              <input type="text" id="address" class="address">
+              <br>
+              <br>
+              <label for="addressDetails">상세주소</label>
+              <input type="text" id="addressDetails" class="address">
             </div>
             <%--  카드 결제 영역  --%>
             <div class="payment-card" id="payment-card">
-              <label for="card-company">카드사 선택</label>
+             <%-- <label for="card-company">카드사 선택</label>
               <select id="card-company" class="card-company">
                 <option value="현대카드">현대카드</option>
                 <option value="삼성카드">삼성카드</option>
                 <option value="신한카드">신한카드</option>
-              </select>
+              </select>--%>
             </div>
             <%--  간편결제 영역  --%>
             <div class="payment-simple" id="payment-simple" style="display: none;">
@@ -184,7 +196,7 @@
           </div>
           <div class="btn-group">
             <a href="#" class="button pre" id="pagePrevious" title="이전">이전</a>
-            <a href="${pageContext.request.contextPath}/UserController?type=paymentAPI" class="button active" id="pageNext" title="결제">결제</a>
+            <a href="#" class="button active" id="pageNext" title="결제" onclick="requestPayment()">결제</a>
           </div>
         </div>
       </div>
@@ -192,8 +204,40 @@
     </div>
   </div>
 </div>
+<div id="orderId" class="hidden">${requestScope.orderId}</div>
+<div id="pIdx" class="hidden">${requestScope.pIdx}</div>
+<div id="productImg" class="hidden">${requestScope.img}</div>
 <!-- script 영역 -->
 <script>
+  const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
+  let quant =document.getElementById("productQuant").innerHTML.trim();
+  let firstChar = quant.charAt(0);
+  let title = document.getElementById("productTitle").innerHTML.trim();
+  let image = document.getElementById("productImg").innerHTML.trim();
+
+  let totalPrice = parseInt(document.getElementsByClassName("payment-value final")[0].innerText.trim(), 10);
+
+
+  function requestPayment() {
+
+    let successUrl ="/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar;
+    console.log(image);
+    tossPayments.requestPayment('카드', { // 결제 수단 (예: 카드, 계좌이체 등)
+      amount: totalPrice, // 결제 금액 (예: 5000원)
+      orderId: document.getElementById("orderId").innerHTML, // 주문 ID (서버에서 생성해야 함)
+      orderName: document.getElementsByClassName("movie-title")[0].innerText, // 상품명
+      customerEmail: "abc@naver.com", // 고객 이메일
+      successUrl: window.location.origin + successUrl,
+      failUrl: window.location.origin + "/UserController?type=reservationPaymentFail", // 결제 실패 시 이동할 페이지
+    })
+            .catch(function (error) {
+              console.error(error);
+              alert("결제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+            });
+    return false;
+  }
+
+
   document.addEventListener("DOMContentLoaded", () => {
     // 카드 및 간편결제 버튼과 영역 가져오기
     const cardBtn = document.getElementById("card-btn");
