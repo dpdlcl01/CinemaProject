@@ -16,9 +16,9 @@
       <div class="location">
         <span>Home</span>
         <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-        <label>회원정보</label>
+        <label>마이페이지</label>
         <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-        <label>포인트</label>
+        <label>멤버십 포인트</label>
       </div>
     </div>
   </div>
