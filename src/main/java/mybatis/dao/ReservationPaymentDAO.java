@@ -13,6 +13,7 @@ public class ReservationPaymentDAO {
 
   // 유저의 쿠폰 리스트 조회
   public static List<CouponVO> userCouponList(String userIdx) {
+
     List<CouponVO> couponList = null;
 
     SqlSession ss = FactoryService.getFactory().openSession();
@@ -46,6 +47,7 @@ public class ReservationPaymentDAO {
   }
 
   public static boolean updateSeatStatus(String timetableIdx, String[] seatIdxList) {
+
     SqlSession ss = FactoryService.getFactory().openSession();
 
     try {
@@ -67,6 +69,7 @@ public class ReservationPaymentDAO {
 
   // 변경된 seatStatusIdx 값 받아오기
   public static String[] getUpdatedSeatStatusIdx(String timetableIdx, String[] seatIdxList) {
+
     SqlSession ss = FactoryService.getFactory().openSession();
 
     try {
@@ -145,6 +148,7 @@ public class ReservationPaymentDAO {
 
   // 유저 테이블 포인트 차감
   public static boolean updateUserPointUsage(String userIdx, String pointDiscount, double getPointValue) {
+
     SqlSession ss = FactoryService.getFactory().openSession();
 
     int getPoint = (int) getPointValue;
@@ -167,8 +171,9 @@ public class ReservationPaymentDAO {
     }
   }
 
-  // 포인트 테이블 포인트 사용내역 추가
+  // 포인트 테이블 포인트 사용내역, 적립내역 추가 추가
   public static boolean insertPointUsage(ReservationPointVO point) {
+
     SqlSession ss = FactoryService.getFactory().openSession();
 
     try {
@@ -186,6 +191,7 @@ public class ReservationPaymentDAO {
 
   // 쿠폰 사용시 쿠폰 stauts = 1 로 변경
   public static boolean updateCouponStatus(String couponIdx, String userIdx) {
+
     SqlSession ss = FactoryService.getFactory().openSession();
 
     try {
@@ -218,5 +224,23 @@ public class ReservationPaymentDAO {
     ss.close();
 
     return vo;
+  }
+
+  // 영화 관람 기록 추가
+  public static boolean insertWatchedMovie(WatchedMovieVO watchedMovie) {
+
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    try {
+      int result = ss.insert("reservationPayment.insertWatchedMovie", watchedMovie);
+      ss.commit();
+      return result > 0;
+    } catch (Exception e) {
+      e.printStackTrace();
+      ss.rollback();
+      return false;
+    } finally {
+      ss.close();
+    }
   }
 }

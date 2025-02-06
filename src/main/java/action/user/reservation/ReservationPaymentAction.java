@@ -50,6 +50,8 @@ public class ReservationPaymentAction implements Action {
     String studentCountStr = (String) session.getAttribute("studentCount");
     String adultPriceIdx = (String) session.getAttribute("adultPriceIdx");
     String studentPriceIdx = (String) session.getAttribute("studentPriceIdx");
+    String timetableStartTime = (String) session.getAttribute("timetableStartTime");
+    String movieIdx = (String) session.getAttribute("movieIdx");
 
     if (paymentKey == null || orderId == null || amount == null) {
       System.out.println("[오류] 요청 파라미터 부족");
@@ -133,7 +135,18 @@ public class ReservationPaymentAction implements Action {
 
     String paymentIdx = reservationPaymentVO.getPaymentIdx();
 
-    // 포인트 사용시 감소, 사용내역 추가, 포인트 결제금액의 5% 적립
+    // 관람한 영화 목록 저장 (watchedMovie 테이블 insert)
+    WatchedMovieVO watchedMovieVO = new WatchedMovieVO();
+
+    watchedMovieVO.setUserIdx(userIdx);
+    watchedMovieVO.setMovieIdx(movieIdx);
+    watchedMovieVO.setReservationIdx(reservationIdx);
+    watchedMovieVO.setScreenIdx(screenIdx);
+    watchedMovieVO.setWatchedDate(timetableStartTime);
+
+    boolean watchedMovieSaved = ReservationPaymentDAO.insertWatchedMovie(watchedMovieVO);
+
+    // 포인트 사용시 감소, 포인트 결제금액의 5% 적립
     if (Integer.parseInt(pointDiscount) > 0) {
       System.out.println("포인트 사용 ! pointDiscount:" + pointDiscount);
 
@@ -147,14 +160,24 @@ public class ReservationPaymentAction implements Action {
       boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointDiscount, getPointValue);
       System.out.println("pointUpdated:" + pointUpdated);
 
+      // 유저 포인트 사용기록, 적립기록 (point테이블에 insert)
       if (pointUpdated) {
         ReservationPointVO reservationPointVO = new ReservationPointVO();
+
+        // 사용기록
         reservationPointVO.setUserIdx(userIdx);
         reservationPointVO.setPaymentIdx(paymentIdx);
         reservationPointVO.setPointValue(pointDiscount);
+        reservationPointVO.setPointType("1");
 
         ReservationPaymentDAO.insertPointUsage(reservationPointVO);
-        System.out.println(reservationPointVO.getUserIdx());
+
+        // 적립기록
+        int getPoint = (int) getPointValue;
+        reservationPointVO.setPointValue(String.valueOf(getPoint));
+        reservationPointVO.setPointType("0");
+
+        ReservationPaymentDAO.insertPointUsage(reservationPointVO);
       }
     }
 

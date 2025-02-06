@@ -113,7 +113,7 @@
     #{userIdx},
     #{paymentIdx},
     NULL,
-    1,  <!-- 1: 포인트 사용 -->
+    #{pointType},  <!-- 1: 포인트 사용, 2: 포인트 적립 -->
     'PAYMENT',
     #{pointValue},
     NOW(),
@@ -191,5 +191,11 @@
       <result property="seatPrice" column="가격"/>
     </collection>
   </resultMap>
+
+  <!-- 관람한 영화 목록 -->
+  <insert id="insertWatchedMovie" parameterType="mybatis.vo.WatchedMovieVO">
+    INSERT INTO watchedMovie (userIdx, movieIdx, reservationIdx, screenIdx, watchedDate)
+    VALUES (#{userIdx}, #{movieIdx}, #{reservationIdx}, #{screenIdx}, #{watchedDate})
+  </insert>
 
 </mapper>

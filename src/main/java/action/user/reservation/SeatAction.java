@@ -80,6 +80,8 @@ public class SeatAction implements Action {
             request.setAttribute("studentCount", request.getParameter("studentCount"));
             request.setAttribute("totalAmount", request.getParameter("totalAmount"));
             request.setAttribute("movieIdx", request.getParameter("movieIdx"));
+            request.setAttribute("formattedDate", request.getParameter("formattedDate")); // 날짜
+            request.setAttribute("timetableStartTime", request.getParameter("timetableStartTime")); // 영화 시작 시간
 
             // 결제 페이지로 포워딩 (여기서는 payment.jsp로 직접 이동하는 예)
             return "./jsp/user/reservation/payment.jsp";
@@ -147,8 +149,6 @@ public class SeatAction implements Action {
         request.setAttribute("movieVO", movieVO);
         System.out.println(movieVO.getMovieIdx());
 
-        request.setAttribute("movieIdx", movieVO.getMovieIdx());
-
         // 극장 상세 정보 가져오기
         TheaterVO theaterVO = ReservationDAO.theaterDetailList(theaterIdx);
         request.setAttribute("theaterVO", theaterVO);
@@ -162,6 +162,7 @@ public class SeatAction implements Action {
 
             try {
                 Date startTime = inputFormat.parse(timetableVO.getTimetableStartTime());
+                request.setAttribute("timetableStartTime", inputFormat.format(startTime));
                 Date endTime = inputFormat.parse(timetableVO.getTimetableEndTime());
 
                 request.setAttribute("formattedDate", outputDateFormat.format(startTime)); // 날짜
