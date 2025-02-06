@@ -155,8 +155,8 @@
     </div>
 
     <div class="btnDiv">
-        <button class="paymentList">나의 구매내역</button>
-        <button class="myMega">나의 메가박스</button>
+        <button class="paymentList" onclick="myList()">나의 구매내역</button>
+        <button class="myMega" onclick="myMega()">나의 메가박스</button>
     </div>
 
 </div>
@@ -170,8 +170,11 @@
 
 
 <script>
-    function exe(){
-        location.href="${pageContext.request.contextPath}/UserController?type=store";
+    function myList(){
+        location.href="${pageContext.request.contextPath}/UserController?type=myPage";
+    }
+    function myMega(){
+        location.href="${pageContext.request.contextPath}/UserController?type=myReservation";
     }
 </script>
 </body>
