@@ -117,8 +117,6 @@ public class ReservationPaymentAction implements Action {
       pointDiscount = "0";
     }
 
-    String paymentStatus = "0";
-
     // 결제 정보 저장 (결제 테이블에 insert)
     ReservationPaymentVO reservationPaymentVO = new ReservationPaymentVO();
 
@@ -129,7 +127,7 @@ public class ReservationPaymentAction implements Action {
     reservationPaymentVO.setPaymentDiscount(paymentDiscount);
     reservationPaymentVO.setPaymentFinal(paymentFinal);
     reservationPaymentVO.setPaymentTransactionId(orderId);
-    reservationPaymentVO.setPaymentStatus(paymentStatus);
+    reservationPaymentVO.setPaymentStatus(pstatus);
 
     boolean paymentSaved = ReservationPaymentDAO.insertPayment(reservationPaymentVO, paymentDiscount);
 

@@ -79,6 +79,7 @@ public class SeatAction implements Action {
             request.setAttribute("adultCount", request.getParameter("adultCount"));
             request.setAttribute("studentCount", request.getParameter("studentCount"));
             request.setAttribute("totalAmount", request.getParameter("totalAmount"));
+            request.setAttribute("movieIdx", request.getParameter("movieIdx"));
 
             // 결제 페이지로 포워딩 (여기서는 payment.jsp로 직접 이동하는 예)
             return "./jsp/user/reservation/payment.jsp";
@@ -145,6 +146,8 @@ public class SeatAction implements Action {
         MovieVO movieVO = ReservationDAO.movieDetailList(movieIdx);
         request.setAttribute("movieVO", movieVO);
         System.out.println(movieVO.getMovieIdx());
+
+        request.setAttribute("movieIdx", movieVO.getMovieIdx());
 
         // 극장 상세 정보 가져오기
         TheaterVO theaterVO = ReservationDAO.theaterDetailList(theaterIdx);

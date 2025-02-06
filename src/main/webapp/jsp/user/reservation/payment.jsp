@@ -156,6 +156,7 @@
     session.setAttribute("finalAmount", request.getParameter("finalAmount"));
     session.setAttribute("adultPriceIdx", request.getParameter("adultPriceIdx"));
     session.setAttribute("studentPriceIdx", request.getParameter("studentPriceIdx"));
+    session.setAttribute("movieIdx", request.getParameter("movieIdx"));
 %>
 
 <script src="https://js.tosspayments.com/v1"></script>
