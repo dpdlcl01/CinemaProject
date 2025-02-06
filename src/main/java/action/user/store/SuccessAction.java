@@ -2,6 +2,7 @@ package action.user.store;
 
 import action.Action;
 import mybatis.dao.PaymentDAO;
+import mybatis.dao.ProductDAO;
 import mybatis.vo.PaymentVO;
 import mybatis.vo.UserVO;
 import org.json.JSONObject;
@@ -34,16 +35,35 @@ public class SuccessAction implements Action {
         String enteredPoints = request.getParameter("enteredPoints"); /*포인트 할인값*/
         String couponIdx =request.getParameter("couponIdx");
 
+        /*요청객체로 넘어온 이미지 이름 퀀트를 받아내자*/
+        String quant = request.getParameter("quant");
+        String img = request.getParameter("image");
+
+    /*   결제를 하고 난 뒤 퀀트의 수만큼 숫자를 줄이자
+         프로덕트DAO안에서 quant와 pIdx를 가지고 퀀트만큼 숫자 줄이기 1번
+         만약 남은 productStock이 0이되면 productStatus가 1이 되는 로직을 짜자*/
+        int updateCnt=ProductDAO.updateProductStock(pIdx,quant);
+
+
+
+
+
+       /*  결제를 할 때 할인금액을 적고 쿠폰을 사용하면 해당 idx에서 쿠폰을 사용완료 상태로 변경하자
+        */
+
+
+
+       /* 포인트 테이블에서 유저가 사용한 만큼 포인트를 줄이자.
+
+         결제 시 주문수량이 0이 되면 프로덕트 스테이터스를 1로 바꾸자*/
+
+
         System.out.println("totalDiscount"+totalDiscount);
         System.out.println("couponDiscount"+couponDiscount);
         System.out.println("enteredPoints"+enteredPoints);
         System.out.println("couponIdx"+couponIdx);
 
-        /*요청객체로 넘어온 이미지 이름 퀀트를 받아내자*/
-        String quant = request.getParameter("quant");
-        System.out.println("quant"+quant);
-        String img = request.getParameter("image");
-        System.out.println("pIdx:"+pIdx);
+
 
 
 
