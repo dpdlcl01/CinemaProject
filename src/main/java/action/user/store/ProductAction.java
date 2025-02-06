@@ -21,6 +21,7 @@ public class ProductAction implements Action {
             String category = request.getParameter("pCategory");
             String idx = request.getParameter("pIdx");
             String price = request.getParameter("pPrice");
+            String productStock = request.getParameter("productStock");
             System.out.println(idx);
 
 
@@ -33,6 +34,7 @@ public class ProductAction implements Action {
             }
 
             request.setAttribute("pCategory", category);
+            request.setAttribute("productStock", productStock);
             request.setAttribute("pName", pName);
             request.setAttribute("pImg", pImg);
             request.setAttribute("pIdx", idx);

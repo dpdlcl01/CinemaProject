@@ -188,7 +188,7 @@
         <article id="products1" class="main" >
             <c:forEach items="${requestScope.ar}" var="ar">
                 <div id="main1" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
-                     data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)" >
+                     data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" data-productStock="${ar.productStock}" onclick="goProduct(this)" >
                     <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
                     <hr>
                     <div class="info">
@@ -208,7 +208,8 @@
             <c:forEach items="${requestScope.ar}" var="ar">
                 <c:if test="${ar.productCategory eq '2'}">
                     <div id="main2" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
-                         data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
+                         data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" data-productStock="${ar.productStock}"
+                         onclick="goProduct(this)">
                         <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
                         <hr>
                         <div class="info">
@@ -229,7 +230,7 @@
             <c:forEach items="${requestScope.ar}" var="ar">
                 <c:if test="${ar.productCategory eq '1'}">
                     <div id="main3" class="card" data-productname="${ar.productName}" data-productimg="${ar.productImg}"
-                         data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" onclick="goProduct(this)">
+                         data-category="${ar.productCategory}" data-idx="${ar.productIdx}" data-price="${ar.productPrice}" data-productStock="${ar.productStock}" onclick="goProduct(this)">
                         <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${ar.productImg}">
                         <hr>
                         <div class="info">
@@ -252,6 +253,7 @@
         <input type="hidden" name="pCategory" id="pCategory">
         <input type="hidden" name="pIdx" id="pIdx">
         <input type="hidden" name="pPrice" id="pPrice">
+        <input type="hidden" name="productStock" id="productStock">
     </form>
 </div>
 <form id="form2" action="${pageContext.request.contextPath}/UserController?type=gocart" method="post">
@@ -270,6 +272,7 @@
         let category = vo.getAttribute("data-category");
         let idx = vo.getAttribute("data-idx");
         let price = vo.getAttribute("data-price");
+        let  productStock = vo.getAttribute("data-productStock");
 
 
 
@@ -278,6 +281,7 @@
         document.getElementById("pImg").value=pImg;
         document.getElementById("pIdx").value=idx;
         document.getElementById("pPrice").value=price;
+        document.getElementById("productStock").value=productStock;
 
         form1.submit();
 

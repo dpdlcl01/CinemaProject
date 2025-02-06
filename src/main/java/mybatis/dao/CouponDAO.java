@@ -9,6 +9,17 @@ import java.util.List;
 
 public class CouponDAO {
 
+    public static List<CouponVO> userCouponList(String userIdx) {
+        List<CouponVO> couponList = null;
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        couponList = ss.selectList("coupon.getUserCouponList", userIdx);
+
+        System.out.println(userIdx);
+        ss.close();
+        return couponList;
+    }
+
     public static int getTotalCount(String userIdx) {
         int totalCount = 0;
         SqlSession ss = FactoryService.getFactory().openSession();

@@ -227,10 +227,14 @@
               <p>구매일로부터 24개월 이내 사용 가능</p>
             </article>
           </div>
+
+
           <div class="info">
-            <p class="front">판매수량</p>
-            <p>1회 8개 구매가능</p>
+            <p class="front">남은수량</p>
+            <p>${requestScope.productStock}개</p>
           </div>
+
+
           <div class="info">
             <p class="front">구매 후 취소</p>
             <p>구매일로부터 10일 이내 취소 가능하며, 부분취소는 불가능합니다.</p>

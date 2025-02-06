@@ -29,21 +29,21 @@ public class SuccessAction implements Action {
         String orderId = request.getParameter("orderId");
         String amount = request.getParameter("amount"); // JSP에서 금액을 전달받아야 함
         String pIdx = request.getParameter("pIdx");
+        String totalDiscount = request.getParameter("totalDiscount"); /*총 할인값*/
+        String couponDiscount = request.getParameter("couponDiscount"); /*쿠폰할인값*/
+        String enteredPoints = request.getParameter("enteredPoints"); /*포인트 할인값*/
+        String couponIdx =request.getParameter("couponIdx");
+
+        System.out.println("totalDiscount"+totalDiscount);
+        System.out.println("couponDiscount"+couponDiscount);
+        System.out.println("enteredPoints"+enteredPoints);
+        System.out.println("couponIdx"+couponIdx);
+
         /*요청객체로 넘어온 이미지 이름 퀀트를 받아내자*/
         String quant = request.getParameter("quant");
-
+        System.out.println("quant"+quant);
         String img = request.getParameter("image");
         System.out.println("pIdx:"+pIdx);
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-
 
 
 
