@@ -144,12 +144,15 @@ public class ReservationPaymentDAO {
   }
 
   // 유저 테이블 포인트 차감
-  public static boolean updateUserPointUsage(String userIdx, String pointValue) {
+  public static boolean updateUserPointUsage(String userIdx, String pointDiscount, double getPointValue) {
     SqlSession ss = FactoryService.getFactory().openSession();
+
+    int getPoint = (int) getPointValue;
 
     try {
       Map<String, Object> params = new HashMap<>();
-      params.put("pointValue", pointValue);
+      params.put("pointValue", pointDiscount);
+      params.put("getPoint", getPoint);
       params.put("userIdx", userIdx);
 
       int result = ss.update("reservationPayment.updateUserPoint", params);

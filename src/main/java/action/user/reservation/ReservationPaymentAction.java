@@ -135,14 +135,18 @@ public class ReservationPaymentAction implements Action {
 
     String paymentIdx = reservationPaymentVO.getPaymentIdx();
 
-    // 포인트 사용시 감소, 사용내역 추가
+    // 포인트 사용시 감소, 사용내역 추가, 포인트 결제금액의 5% 적립
     if (Integer.parseInt(pointDiscount) > 0) {
       System.out.println("포인트 사용 ! pointDiscount:" + pointDiscount);
 
       System.out.println("pointCount:" + pointDiscount);
 
+      int finalPrice = Integer.parseInt(paymentFinal);
+
+      double getPointValue = finalPrice * 0.05;
+
       // 유저 포인트 감소
-      boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointDiscount);
+      boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointDiscount, getPointValue);
       System.out.println("pointUpdated:" + pointUpdated);
 
       if (pointUpdated) {
