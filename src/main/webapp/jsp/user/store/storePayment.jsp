@@ -240,10 +240,11 @@
       let discount = parseInt(selectedOption.getAttribute("data-discount")) || 0;
       let originalPrice = parseInt("${requestScope.price}", 10); // JSP에서 총 금액 가져오기
       let finalPrice;
-      couponIdx=selectedOption.value;
+      couponIdx = parseInt(selectedOption.value) || 0;
 
       // 첫 번째 옵션(기본 선택)인지 확인
       if (selectedOption.value === "") {
+        couponIdx=0;
         couponDiscount = 0;
         pointsInput.disabled = false; // 포인트 입력 다시 활성화
         document.getElementById("discountAmount").innerText = "0 원";
@@ -318,31 +319,33 @@
   var dropdown = document.getElementById("couponDropdown");
 
   // 특정 pIdx 값일 때만 couponIdx가 5인 옵션만 활성화
+  // 특정 pIdx 값일 때만 couponIdx가 5인 옵션만 활성화
   for (var i = 0; i < dropdown.options.length; i++) {
     var option = dropdown.options[i];
 
     // option의 value가 숫자인지 확인 (첫 번째 option은 "사용 가능한 쿠폰 선택"일 수도 있음)
     if (option.value && !isNaN(option.value)) {
-      couponIdx = parseInt(option.value);
+      var optionValue = parseInt(option.value);
 
-      // pIdx가 11 또는 12일 경우, couponIdx가 5인 경우만 활성화
+      // 특정 pIdx에 대해 쿠폰 활성화 여부 결정
       if (pIdx == 11 || pIdx == 12) {
-        if (couponIdx !== 6) {
-          option.disabled = true;  // 비활성화
+        if (optionValue !== 6) {
+          option.disabled = true; // 비활성화
         }
       }
       if (pIdx == 16 || pIdx == 17) {
-        if (couponIdx !== 5) {
-          option.disabled = true;  // 비활성화
+        if (optionValue !== 5) {
+          option.disabled = true; // 비활성화
         }
       }
       if (pIdx == 13 || pIdx == 14) {
-        if (couponIdx !== 7) {
-          option.disabled = true;  // 비활성화
+        if (optionValue !== 7) {
+          option.disabled = true; // 비활성화
         }
       }
     }
   }
+
 
   const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
   let quant =document.getElementById("productQuant").innerHTML.trim();

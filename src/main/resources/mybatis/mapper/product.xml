@@ -6,10 +6,11 @@
 
     <update id="updateProductStock" parameterType="map">
         UPDATE cinema_db.product
-        SET productStock = productStock - #{quant}
-        <if test="quant >= productStock">
-            , productStatus = 1
-        </if>
+        SET productStock = productStock - #{quant},
+        productStatus = CASE
+        WHEN productStock - #{quant} &lt;= 0 THEN 1
+        ELSE productStatus
+        END
         WHERE productIdx = #{pIdx}
     </update>
 

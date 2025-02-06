@@ -13,7 +13,6 @@ public class ProductDAO {
 
     public static int updateProductStock(String pIdx, String quant){
         SqlSession ss = FactoryService.getFactory().openSession();
-        System.out.println(pIdx+"pIdxpIdx");
 
         HashMap<String, Integer> map = new HashMap<>();
 

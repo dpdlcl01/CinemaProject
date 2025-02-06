@@ -8,6 +8,21 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CouponDAO {
+    public static int updateCoupon(String idx, String couponIdx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        HashMap<String, String> map =new HashMap<>();
+        map.put("couponIdx", couponIdx);
+        map.put("idx", idx);
+        int result = ss.update("coupon.updateCoupon", map);
+        if(result > 0){
+            ss.commit();
+        }else {
+            ss.rollback();
+        }
+        ss.close();
+        return result;
+
+    }
 
     public static List<CouponVO> userCouponList(String userIdx) {
         List<CouponVO> couponList = null;

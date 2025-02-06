@@ -1,6 +1,7 @@
 package action.user.store;
 
 import action.Action;
+import mybatis.dao.CouponDAO;
 import mybatis.dao.PaymentDAO;
 import mybatis.dao.ProductDAO;
 import mybatis.vo.PaymentVO;
@@ -39,6 +40,10 @@ public class SuccessAction implements Action {
         String quant = request.getParameter("quant");
         String img = request.getParameter("image");
 
+        UserVO userVO = SessionUtil.getLoginUser(request);
+        String idx = userVO.getUserIdx();
+
+
     /*   결제를 하고 난 뒤 퀀트의 수만큼 숫자를 줄이자
          프로덕트DAO안에서 quant와 pIdx를 가지고 퀀트만큼 숫자 줄이기 1번
          만약 남은 productStock이 0이되면 productStatus가 1이 되는 로직을 짜자*/
@@ -50,6 +55,7 @@ public class SuccessAction implements Action {
 
        /*  결제를 할 때 할인금액을 적고 쿠폰을 사용하면 해당 idx에서 쿠폰을 사용완료 상태로 변경하자
         */
+        int updateCoupon= CouponDAO.updateCoupon(idx,couponIdx);
 
 
 
