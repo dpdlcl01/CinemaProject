@@ -23,8 +23,9 @@
 .date-navigation {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 20px;
+    margin-left: 20px;
 }
 
 .date-navigation ul {
@@ -42,17 +43,31 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    margin: 0 20px 0 20px;
 }
 
 .date-navigation button:hover {
     background: #bbb;
 }
 
+/*.date-navigation ul li {*/
+/*    padding: 10px 15px;*/
+/*    background: #f9f9f9;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*}*/
+
 .date-navigation ul li {
-    padding: 10px 15px;
+    width: 65px;  /* 한자리, 두자리 숫자 모두 같은 크기 유지 */
+    height: 40px;
     background: #f9f9f9;
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
+    font-size: 15px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .date-navigation ul li:hover {
@@ -159,63 +174,19 @@ li.disabled {
     display: none;
 }
 
-/*!* 다이얼로그 / 모달 *!*/
-/*.dialog-common .modal-header {*/
-/*    background-color: #503396; !* 타이틀 배경색 *!*/
-/*    color: white;             !* 텍스트 색상 *!*/
-/*    height: 50px;*/
-/*    border: 2px solid #503396;*/
-/*}*/
+/* 선택 초기화 버튼 */
+#reset-selection {
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background: #ddd;
+    padding: 10px;
+    margin: 0;
+}
 
-/*#noMovieModal {*/
-/*    display: block;*/
-/*}*/
+.reset-button img {
+    width: 20px; /* 아이콘 크기 */
+    height: 20px;
+}
 
-/*.modal-content {*/
-/*    width: auto;*/
-/*}*/
-
-/*.modal-header {*/
-/*    height: 50px;*/
-/*}*/
-
-/*!* 모달 바디 스타일 *!*/
-/*.dialog-common .modal-body {*/
-/*    color: black;             !* 텍스트 색상 *!*/
-/*    font-size: 13px;          !* 적절한 폰트 크기 *!*/
-/*}*/
-
-/*#modalContent {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    height: 100%;*/
-/*}*/
-/*!* 모달 전체 크기 *!*/
-/*.btn-close {*/
-/*    height: auto;*/
-/*}*/
-
-/*.alert-body {*/
-/*    height: 200px !important;*/
-/*    width: auto;*/
-/*    display: flex;*/
-/*    text-align: center;*/
-/*    flex-direction: column;*/
-/*}*/
-
-/*!* 모달 하단 버튼 스타일 *!*/
-/*.dialog-common .btn-ok {*/
-/*    width: 80px;*/
-/*    height: 40px;*/
-/*    border: 1px solid #503396;*/
-/*    background-color: #503396;*/
-/*    color: white;*/
-/*    border-radius: 3px;*/
-/*    display: block;*/
-/*    margin: 20px auto 0; !* 중앙 정렬 및 위 여백 *!*/
-/*}*/
-
-/*!* 모달 닫기 버튼(기본 Bootstrap btn-close)을 숨기거나 스타일 조정 *!*/
-/*.dialog-common .btn-close {*/
-
-/*}*/

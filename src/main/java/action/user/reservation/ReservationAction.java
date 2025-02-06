@@ -41,12 +41,6 @@ public class ReservationAction implements Action {
             request.setAttribute("userMain_selectedMovieIdx", userMain_selectedMovieIdx);
             request.setAttribute("userMain_selectedDate", userMain_selectedDate);
 
-            // ✅ `movieIdx`가 있을 경우에만 `availableTheaters` 실행
-            if (userMain_selectedMovieIdx != null && !userMain_selectedDate.isEmpty()) {
-                List<TimetableVO> availableTheaters = ReservationDAO.getAvailableTheaters(userMain_selectedMovieIdx, userMain_selectedDate);
-                request.setAttribute("availableTheaters", availableTheaters);
-            }
-
             // 빠른 예매 화면 경로 반환
             return "./jsp/user/reservation/reservationMain.jsp";
         } else if ("subregions".equals(type)) {
@@ -103,7 +97,36 @@ public class ReservationAction implements Action {
                 e.printStackTrace();
             }
             return null;
+        }else if ("availableMovies".equals(type)) {
+            String theaterIdx = request.getParameter("theaterIdx");
+            String targetDate = request.getParameter("targetDate");
 
+            // `targetDate`가 없으면 오늘 날짜로 설정
+            if (targetDate == null || targetDate.isEmpty()) {
+                LocalDate today = LocalDate.now();
+                targetDate = today.toString(); // "yyyy-MM-dd" 형식
+            }
+
+            // DAO 호출하여 해당 극장에서 상영하는 영화 ID 목록 가져오기
+            List<Integer> availableMovies = ReservationDAO.getAvailableMovies(theaterIdx, targetDate);
+
+            try {
+                System.out.println("🔍 반환된 영화 리스트: " + new ObjectMapper().writeValueAsString(availableMovies));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+
+            // JSON 형식으로 응답 반환
+            response.setContentType("application/json;charset=utf-8");
+            try {
+                PrintWriter out = response.getWriter();
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.writeValue(out, availableMovies); // JSON으로 응답
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }else if ("timetable".equals(type)) {
             String theaterIdx = request.getParameter("theaterIdx");
             String movieIdx = request.getParameter("movieIdx");

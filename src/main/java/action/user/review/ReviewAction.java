@@ -19,8 +19,6 @@ public class ReviewAction implements Action {
         // 리뷰 작성
         int cnt = ReviewDAO.writeReview(userIdx, movieIdx, reviewRating, reviewContent);
 
-
-
         return "/jsp/user/movie/movieDetail.jsp";
     }
 }

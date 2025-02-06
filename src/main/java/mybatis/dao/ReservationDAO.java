@@ -76,6 +76,23 @@ public class ReservationDAO {
         return list;
     }
 
+    // 상영관 선택시 가능 영화 조회
+    public static List<Integer> getAvailableMovies(String theaterIdx, String targetDate) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        // 파라미터를 Map으로 생성
+        Map<String, Object> params = new HashMap<>();
+        params.put("theaterIdx", theaterIdx);
+        params.put("targetDate", targetDate);
+
+        // 쿼리 실행 (영화 ID 목록 반환)
+        List<Integer> movieList = ss.selectList("reservation.getAvailableMovies", params);
+
+        ss.close();
+        return movieList;
+    }
+
+
 
     // 특정 극장 및 날짜의 상영 시간표 조회
     public static TimetableVO[] allTimetable(String theaterIdx, String movieIdx, String targetDate) {
