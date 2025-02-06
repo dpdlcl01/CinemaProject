@@ -23,7 +23,7 @@
     </select>
 
     <select id="cancel" parameterType="String" resultType="mybatis.vo.ReservationVO" >
-        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate,r.customReservationIdx
+        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate, r.customReservationIdx
         ,m.movieTitle, m.moviePosterUrl,
         h.theaterName,
         s.screenName,
@@ -54,7 +54,7 @@
     </select>
 
     <select id="reservation" parameterType="String" resultType="mybatis.vo.ReservationVO" >
-        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate,r.customReservationIdx
+        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate, r.customReservationIdx
         ,m.movieTitle, m.moviePosterUrl,
         h.theaterName,
         s.screenName,

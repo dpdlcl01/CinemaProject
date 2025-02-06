@@ -11,23 +11,14 @@
             margin: 0;
         }
         .contents {
-            width: 1100px;
-            display: flex;
-            margin-left: auto;
-            margin-right: auto;
-            min-height: 590px;
-            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
         }
 
         .content1 {
-            width: 70%;
-            flex-grow: 1;
-            padding: 20px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 50px;
+            width: 850px;
         }
+
         .content1 h1 {
             font-size: 24px;
             margin-bottom: 20px;
@@ -53,6 +44,50 @@
         }
         .content1 table th {
             background-color: #f4f4f4;
+        }
+
+        button {
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            background-color: #503396 ;
+
+            width: 74px;
+            height: 32px;
+        }
+
+        button:hover {
+            color: #fff;
+            background-color: #01738b;
+        }
+
+        .table>:not(caption)>*>* {
+            padding: 0;
+        }
+
+        /*25.02.06 추가 스타일*/
+        #myReserv {
+            display: flex;
+            width: 840px;
+            height: 140px;
+            /*margin-bottom: 50px;*/
+            align-items: center;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        #myReserv>img {
+            border-radius: 5px;
+            width: 70px;
+            height: 100px;
+        }
+
+        #reservInfo p {
+            margin: 0 30px;
+            width: 640px;
+        }
+
+        #reservInfo em {
+            color: #01738b;
         }
     </style>
 </head>

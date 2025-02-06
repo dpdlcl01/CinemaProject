@@ -47,6 +47,8 @@
     <result property="movieTitle" column="movieTitle"/>
     <result property="theaterName" column="theaterName"/>
     <result property="timetableStartTime" column="screeningTime"/>
+    <result property="screenName" column="screenName"/>
+
 
     <!-- 좌석 정보를 리스트로 매핑 -->
     <collection property="seats" ofType="mybatis.vo.SeatDetailVO">
@@ -60,11 +62,14 @@
     SELECT
     r.reservationIdx AS reservationIdx,
     r.reservationDate AS reservationDate,
+    r. customReservationIdx AS formattedReservationIdx,
     m.movieTitle AS movieTitle,
+    m.moviePosterUrl AS moviePosterUrl,
     th.theaterName AS theaterName,
     t.timetableStartTime AS screeningTime,
     s.seatNumber AS seatNumber,
-    p.seatPrice AS seatPrice
+    p.seatPrice AS seatPrice,
+    sc.screenName AS screenName
     FROM
     reservation r
     JOIN
@@ -76,9 +81,13 @@
     JOIN
     reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
     JOIN
-    seat s ON rsm.seatIdx = s.seatIdx
+    seatStatus ss ON rsm.seatStatusIdx = ss.seatStatusIdx -- seatStatus 테이블과 조인
+    JOIN
+    seat s ON ss.seatIdx = s.seatIdx -- seatIdx 가져오기
     JOIN
     price p ON rsm.priceIdx = p.priceIdx
+    JOIN
+    screen sc on r.screenIdx = sc.screenIdx
     WHERE
     r.userIdx = #{userIdx}  AND r.reservationStatus = 1
     AND YEAR(r.reservationDate) = #{selectedYear}
@@ -91,9 +100,12 @@
   <resultMap id="cancelReservationResultMap" type="mybatis.vo.ReservationDetailVO">
     <id property="reservationIdx" column="reservationIdx"/>
     <result property="reservationDate" column="reservationDate"/>
+    <result property="formattedReservationIdx" column="formattedReservationIdx"/>
     <result property="movieTitle" column="movieTitle"/>
     <result property="theaterName" column="theaterName"/>
     <result property="timetableStartTime" column="screeningTime"/>
+    <result property="moviePosterUrl" column="moviePosterUrl"/>
+    <result property="screenName" column="screenName"/>
 
     <!-- 좌석 정보를 리스트로 매핑 -->
     <collection property="seats" ofType="mybatis.vo.SeatDetailVO">

@@ -57,7 +57,11 @@ public class MyCouponAction implements Action {
 
         // 전체 쿠폰 개수 조회
         int totalCount = CouponDAO.getTotalCount(userIdx);
+        if (totalCount == 0) {
+            totalCount = 1;  // 최소 1페이지를 설정
+        }
         page.setTotalRecord(totalCount); // 전체 레코드 수 설정 (이때 전체 페이지수 계산됨)
+        System.out.println("totalCount"+totalCount);
 
         // 현재 페이지 값 가져오기
         if (cPage == null) {

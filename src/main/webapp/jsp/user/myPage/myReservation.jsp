@@ -54,8 +54,12 @@
             display: block; /* active 클래스가 추가되면 표시 */
         }
 
+        .table>:not(caption)>*>* {
+            padding: 0;
+        }
+
         /*25.02.06 추가 스타일*/
-        #myReserv {
+        #myReserv, #myReserv1 {
             display: flex;
             width: 840px;
             height: 140px;
@@ -64,17 +68,18 @@
             border-bottom: 1px solid #eeeeee;
         }
 
-        #myReserv>img {
+        #myReserv>img, #myReserv1>img {
+            border-radius: 5px;
             width: 70px;
             height: 100px;
         }
 
-        #reservInfo p {
+        #reservInfo p, #reservInfo1 p {
             margin: 0 30px;
             width: 640px;
         }
 
-        #reservInfo em {
+        #reservInfo em, #reservInfo1 em {
             color: #01738b;
         }
 
@@ -189,7 +194,8 @@
 <%--                </tbody>--%>
 <%--            </table>--%>
 
-            <div>
+            <div id="reservationTable" class="table" style="<c:if test='${requestScope.reservationType eq "cancelTable"}'>display: none;</c:if>">
+
                 <c:if test="${requestScope.rvo ne null}">
                     <c:forEach items="${requestScope.rvo}" var="rvo" begin="0" end="5">
                         <div id="myReserv">
@@ -213,43 +219,68 @@
             </div>
 
             <!-- ✅ 취소내역 테이블 (초기에는 숨김) -->
-            <table id="cancelTable" class="table" style="<c:if test='${requestScope.reservationType ne "cancelTable"}'>display: none;</c:if>">
-                <thead>
-                <tr>
-                    <th>취소일시</th>
-                    <th>영화명</th>
-                    <th>극장</th>
-                    <th>상영일시</th>
-                    <th>취소금액</th>
-                </tr>
-                </thead>
-                <tbody>
+
+
+            <div id="cancelTable" class="table" style="<c:if test='${requestScope.reservationType ne "cancelTable"}'>display: none;</c:if>">
                 <c:choose>
                     <c:when test="${not empty requestScope.reservations}">
                         <c:forEach var="reservation" items="${requestScope.reservations}">
-                            <tr>
-                                <td>${reservation.reservationDate}</td>
-                                <td>${reservation.movieTitle}</td>
-                                <td>${reservation.theaterName}</td>
-                                <td>${reservation.timetableStartTime}</td>
-                                <td>
-                                    <c:set var="totalPrice" value="0"/>
-                                    <c:forEach var="seat" items="${reservation.seats}">
-                                        <c:set var="totalPrice" value="${totalPrice + seat.seatPrice}"/>
-                                    </c:forEach>
-                                        ${totalPrice} 원
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <div id="myReserv1">
+                            <img src="${reservation.moviePosterUrl}">
+                            <div id="reservInfo1">
+                                <p>결제일시: ${reservation.reservationDate}</p>
+                                <p><em>${reservation.formattedReservationIdx}</em><span>&nbsp;|&nbsp;${reservation.movieTitle}</span></p>
+                                <p>${reservation.theaterName}&nbsp;${reservation.screenName}</p>
+                                <p>${reservation.timetableStartTime}</p>
+                            </div>
+                        </div>
+                    </c:forEach>
                     </c:when>
                     <c:otherwise>
-                        <tr>
-                            <td colspan="5" style="text-align:center;">취소내역이 없습니다.</td>
-                        </tr>
+                        <div id="noResult">
+                            취소내역이 없습니다.
+                        </div>
                     </c:otherwise>
                 </c:choose>
-                </tbody>
-            </table>
+            </div>
+
+<%--            <table id="cancelTable" class="table" style="<c:if test='${requestScope.reservationType ne "cancelTable"}'>display: none;</c:if>">--%>
+<%--                <thead>--%>
+<%--                <tr>--%>
+<%--                    <th>취소일시</th>--%>
+<%--                    <th>영화명</th>--%>
+<%--                    <th>극장</th>--%>
+<%--                    <th>상영일시</th>--%>
+<%--                    <th>취소금액</th>--%>
+<%--                </tr>--%>
+<%--                </thead>--%>
+<%--                <tbody>--%>
+<%--                <c:choose>--%>
+<%--                    <c:when test="${not empty requestScope.reservations}">--%>
+<%--                        <c:forEach var="reservation" items="${requestScope.reservations}">--%>
+<%--                            <tr>--%>
+<%--                                <td>${reservation.reservationDate}</td>--%>
+<%--                                <td>${reservation.movieTitle}</td>--%>
+<%--                                <td>${reservation.theaterName}</td>--%>
+<%--                                <td>${reservation.timetableStartTime}</td>--%>
+<%--                                <td>--%>
+<%--                                    <c:set var="totalPrice" value="0"/>--%>
+<%--                                    <c:forEach var="seat" items="${reservation.seats}">--%>
+<%--                                        <c:set var="totalPrice" value="${totalPrice + seat.seatPrice}"/>--%>
+<%--                                    </c:forEach>--%>
+<%--                                        ${totalPrice} 원--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
+<%--                        </c:forEach>--%>
+<%--                    </c:when>--%>
+<%--                    <c:otherwise>--%>
+<%--                        <tr>--%>
+<%--                            <td colspan="5" style="text-align:center;">취소내역이 없습니다.</td>--%>
+<%--                        </tr>--%>
+<%--                    </c:otherwise>--%>
+<%--                </c:choose>--%>
+<%--                </tbody>--%>
+<%--            </table>--%>
         </div>
             <div class = "ongoinPurchase" style="display : none;">
         <div class="filter">
@@ -258,6 +289,8 @@
             </select>
             <button>조회</button>
         </div>
+
+
 
                 <table id="purchaseTable" class="table" style="<c:if test='${requestScope.reservationType ne "purchaseTable"}'>display: none;</c:if>">
                     <thead>

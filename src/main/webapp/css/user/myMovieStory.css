@@ -1,36 +1,3 @@
-*{
-    padding: 0;
-    margin: 0;
-}
-h2{
-    font-size: 30px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-
-li{
-    padding-bottom: 5px;
-}
-#wrap{
-    display: flex;
-
-}
-
-/* #myMega{
-   border-bottom: 2px solid #222222;
-   background-color: #222222;
-   border-radius: 4px;
-   color: #D3D3D3;
- }*/
-#myMega>a:hover{
-
-    color: gray;
-}
-/* .sidebar li>a:hover{
-   color: gray;
- }
-*/
 table{
     border-collapse: collapse;
     width: 720px;
@@ -51,54 +18,42 @@ table td{
 caption{
     text-indent: -9999px;
 }
-h3{
-    font-size: 19px;
-    padding-top: 20px;
-}
-#main,#passwordMain{
-    padding-left: 100px;
-    width: 800px;
-}
-#btnDiv>button, #lastBtnDiv>button{
-    width: 88px;
-    height: 46px;
-}
 
-table .normalBtn{
-    background-color: white;
-    border: 1px solid gray;
-    width: 120px;
-    height: 30px;
-    border-radius: 4px;
-    margin-left: 10px;
-}
-table input{
-    height: 25px;
-}
-i{
-    text-indent: -9999px;
-}
-.liWrap{
-    display: flex;
+/*#main,#passwordMain{*/
+/*    padding-left: 100px;*/
+/*    width: 800px;*/
+/*}*/
+/*#btnDiv>button, #lastBtnDiv>button{*/
+/*    width: 88px;*/
+/*    height: 46px;*/
+/*}*/
 
-}
+/*table .normalBtn{*/
+/*    background-color: white;*/
+/*    border: 1px solid gray;*/
+/*    width: 120px;*/
+/*    height: 30px;*/
+/*    border-radius: 4px;*/
+/*    margin-left: 10px;*/
+/*}*/
+/*table input{*/
+/*    height: 25px;*/
+/*}*/
+/*i{*/
+/*    !*text-indent: -9999px;*!*/
+/*}*/
+/*.liWrap{*/
+/*    display: flex;*/
 
-#main{
+/*}*/
+
+#main {
+    width: 100%;
     position: relative;
-    min-height: 800px;
+    /*min-height: 800px;*/
     padding: 0 0 80px 50px;
     background-color: #ffffff;
 }
-
-h1 {
-    margin-bottom: 20px;
-}
-
-
-li{
-    padding-bottom: 5px;
-}
-
 
 /* 전체 컨테이너 */
 .YearTabs-container {
@@ -108,21 +63,21 @@ li{
     margin: 20px 0;
 }
 
-/* 화살표 버튼 스타일 */
-.arrow {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/*!* 화살표 버튼 스타일 *!*/
+/*.arrow {*/
+/*    background: none;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*    padding: 5px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
 
-.arrow img {
-    width: 30px; /* 화살표 이미지 크기 */
-    height: 50px;
-}
+/*.arrow img {*/
+/*    width: 30px; !* 화살표 이미지 크기 *!*/
+/*    height: 50px;*/
+/*}*/
 
 
 /* 탭 컨테이너 */
@@ -279,21 +234,23 @@ li{
 }
 
 /*본영화*/
+
+.my-saw-movie {
+
+}
 .my-saw-movie ul {
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     margin-bottom: -20px;
 }
 
-.my-saw-movie ul li:nth-child(2n) {
-    float: right;
-}
 .my-saw-movie ul li {
     overflow: hidden;
     float: left;
     position: relative;
     width: auto;
     height: 230px;
-    margin: 0 0 20px 0;
     padding: 0;
     border-radius: 10px;
     border: 1px solid #eaeaea;
@@ -302,7 +259,7 @@ li{
 
 .my-saw-movie ul li .img {
     position: absolute;
-    left: 29px;
+    left: 15px;
     top: 30px;
     width: 90px;
     height: 130px;
@@ -313,11 +270,13 @@ li{
 .my-saw-movie ul li .img img {
     width: 100%;
     height: auto;
+    border-radius: 5px;
 }
 
 .my-saw-movie ul li .cont {
+    display: grid;
     min-height: 189px;
-    padding: 30px 49px 0 149px;
+    padding: 30px 30px 0 150px;
 }
 
 .ico-pencil {
@@ -357,6 +316,7 @@ a:link {
 }
 
 .my-saw-movie ul li .btn-group {
+    display: flex;
     overflow: hidden;
     position: relative;
     padding: 0 105px 0 0;
@@ -490,9 +450,124 @@ ol li{
     width: 230px;
 }
 #favorite{
-    width: 900px;
+    /*width: 900px;*/
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: -20px;
+    display: grid;
 }
-#favoriteLi{
-    margin-left: 30px;
+/*#favoriteLi{*/
+/*    margin-left: 30px;*/
+/*}*/
+.theater1 {
+    margin-top: 15px;
 }
 
+.theater1 span {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#main #section06 .cont-area .main-movie-list ol li {
+    overflow: hidden;
+    float: left;
+    position: relative;
+    width: auto;
+    height: auto;
+    padding: 0;
+}
+
+#main #section06 .cont-area .main-movie-list .movie-list-info img.poster {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+#main #section06 .cont-area .main-movie-list .movie-list-info img {
+    transition: all 0.2s ease-in-out;
+}
+
+#main #section06 .cont-area .main-movie-list .movie-list-info {
+    border-radius: 5px;
+    position: relative;
+    display: block;
+    width: 195px;
+    height: 281px;
+}
+
+
+
+.tit-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.movie-grade.age-all {
+    background-image: url(https://img.megabox.co.kr/static/pc/images/common/txt/ALL_46x46.png);
+    background-size: 23px 23px;
+}
+
+.movie-grade {
+    overflow: hidden;
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    margin: 0;
+    padding: 0;
+    text-indent: -9999px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.tit-area .tit {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 200px;
+    font-size: 1.2em;
+    color: #000;
+    line-height: 1.4;
+    margin: 5px 0;
+}
+
+#main #section06 .cont-area .main-movie-list .btn-util .btn-like {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80px;
+    height: 36px;
+    color: #503396;
+    border: 1px solid #ebebeb;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#main #section06 .cont-area .main-movie-list .btn-util {
+    width: 230px;
+    /* margin-top: 8px; */
+    position: relative;
+    padding: 0 0 0 85px;
+}
+
+#main #section06 .cont-area .main-movie-list .btn-util .case .btn1 {
+    color: #fff;
+    background-color: #503396;
+    border-radius: 4px;
+}
+
+#main #section06 .cont-area .main-movie-list .btn-util .case .button {
+    float: left;
+    text-align: center;
+    line-height: 36px;
+    width: 111px;
+}
+
+#main #section06  {
+    background-color: #fff;
+    padding: 5px;
+    margin-bottom: 20px;
+}

@@ -6,11 +6,7 @@
 <!-- head -->
 <head>
   <jsp:include page="../common/head.jsp"/>
-</head>
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/movieMain.css">
-<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">--%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myMovieStory.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myMovieStory.css">
 <style>
 
   *{
@@ -60,6 +56,7 @@
     display: block; /* active 클래스가 추가되면 표시 */
   }
 </style>
+</head>
 
 <body>
 <!-- header 영역 -->
@@ -76,117 +73,22 @@
   </div>
 </div>
 <div class="total-main">
-<!-- contents 영역 -->
 <div class="contents">
-  <article id="wrap">
-    <%--  사이드바  --%>
-    <jsp:include page="../common/sideBar.jsp"/>
+  <%--  사이드바  --%>
+  <jsp:include page="../common/sideBar.jsp"/>
+
+    <!-- contents 영역 -->
+    <div class="content1">
+      <!-- Page Title -->
+      <h1>나의 무비 스토리</h1>
+      <div class="tabs">
+        <div class="tab active" data-target="review">관람평</div>
+        <div class="tab" data-target="seeMovie">본영화</div>
+        <div class="tab" data-target="want">보고싶어</div>
+      </div>
     <div id="main">
-      <h2>나의 무비 스토리</h2>
-      <div>
-        <div class="tabs">
-          <div class="tab active" data-target="movieTimeline">무비타임라인</div>
-          <div class="tab" data-target="review">관람평</div>
-          <div class="tab" data-target="seeMovie">본영화</div>
-          <div class="tab" data-target="want">보고싶어</div>
-        </div>
-        <div id="movieTimeline" class="content active">
-          <div class="YearTabs-container">
-            <!-- 이전 화살표 버튼 -->
-            <button class="arrow prev" aria-label="Previous tab">
-              <img src="https://img.megabox.co.kr/static/pc/images/mypage/btn-timeline-prev.png" alt="Previous">
-            </button>
-            <!-- 탭 버튼들 -->
-            <div class="YearTabs">
-              <div class="YearTab" data-target="2022">2022</div>
-              <div class="YearTab" data-target="2023">2023</div>
-              <div class="YearTab" data-target="2024">2024</div>
-              <div class="YearTab active" data-target="2025">2025</div>
-            </div>
-
-            <!-- 다음 화살표 버튼 -->
-            <button class="arrow next" aria-label="Next tab">
-              <img src="https://img.megabox.co.kr/static/pc/images/mypage/btn-timeline-next.png" alt="Next">
-            </button>
-          </div>
-
-          <!-- 각 탭에 연결된 콘텐츠 -->
-          <div class="YearContents">
-            <div class="YearContent" id="2022">
-              <div class="my-timeline-list myTimeline" style="display: block;">
-                <ol>
-                  <li>
-                    <div class="date">
-                      <p>2022.08.13</p>
-                    </div>
-                    <ul class="movie">
-                      <li>
-                        <a href="#" title="헌트 상세보기" class="img">
-                          <img src="https://img.megabox.co.kr/SharedImg/2022/08/05/QDUC0cjm2bnWDCCQPYpQvelnoFe1CCfH_230.jpg" alt="헌트">
-                        </a>
-                        <div class="cont">
-                          <p class="label">본영화</p>
-                          <p class="tit"><a href="#" title="헌트 상세보기">헌트</a></p>
-                          <div class="theater">
-                            <p>수원남문</p>
-                            <p>컴포트 3관(리클라이너)</p>
-                            <p>2022.08.13(토) 13:40 (3회차)</p>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <div class="date">
-                      <p>2022.05.28</p>
-                    </div>
-                    <ul class="movie">
-                      <li>
-                        <a href="#" title="범죄도시 2 상세보기" class="img">
-                          <img src="https://img.megabox.co.kr/SharedImg/2022/05/23/oZfETtpEvKGpdY2JQo2Z6wFL0S4cpKy5_230.jpg" alt="범죄도시 2">
-                        </a>
-                        <div class="cont">
-                          <p class="label">본영화</p>
-                          <p class="tit"><a href="#" title="범죄도시 2 상세보기">범죄도시 2</a>
-                          </p><div class="theater">
-                          <p>수원남문</p>
-                          <p>컴포트 4관(리클라이너)</p>
-                          <p>2022.05.28(토) 18:30 (5회차)</p>
-                        </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                </ol>
-              </div>
-            </div>
-            <div class="YearContent" id="2023">
-              <div class="my-appraisal">
-                <ul>
-                  <li class="no-result">등록된 타임라인이 없습니다.</li>
-                </ul>
-              </div>
-            </div>
-            <div class="YearContent" id="2024">
-              <div class="my-appraisal">
-                <ul>
-                  <li class="no-result">등록된 타임라인이 없습니다.</li>
-                </ul>
-              </div>
-            </div>
-            <div class="YearContent" id="2025">
-              <div class="my-appraisal">
-                <ul>
-                  <li class="no-result">나의 무비타임라인을 만들어보세요!</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <%--여기서 rvo 받아서 아래 뿌려라--%>
-
-
         <div id="review" class="content">
           <div class="my-appraisal">
             <ul id="myAppraisal">
@@ -215,34 +117,24 @@
                   </div>
                 </li>
               </c:forEach>
-
-
             </ul>
           </div>
         </div>
 
         <div id="seeMovie" class="content">
-          <div class="mypage-infomation mt20" style="display: block;">
-            <ul class="dot-list mb20">
-              <li>극장에서 발권하신 티켓 바코드 하단의 거래번호를 통해 본 영화 등록을 하실 수 있습니다.</li>
-              <li>본영화는 관람한 인원수에 한해 등록이 가능합니다.</li>
-            </ul>
-            <div class="btn-group right" style="display: block;">
-              <a href="#" class="SeeMovieButton" title="본 영화 등록">본 영화 등록</a>
-            </div>
-          </div>
           <div class="my-saw-movie" style="display: block;">
             <ul id="mySawMovie">
               <c:forEach items="${requestScope.reserveVO}" var="res">
                 <li>
                   <p class="img posterImg">
-                    <img src="${res.moviePosterUrl}" alt="헌트">
-                  </p>    <div class="cont">
-                  <p class="tit"><a href="#" title="헌트 상세보기"></a></p>
-                  <div class="theater">
-                    <p></p>
-                    <p></p>
-                    <p></p>
+                    <img src="${res.moviePosterUrl}" alt="영화포스터">
+                  </p>
+                  <div class="cont">
+                  <div class="theater1">
+                    <span>${res.movieTitle}</span> <%--영화제목--%>
+                    <p>${res.theaterName}</p> <%--영화관--%>
+                    <p>${res.screenName}</p> <%--상영관--%>
+                    <p>${res.timetableStartTime}</p> <%--영화시간--%>
                   </div>
                 </div>
                   <div class="btn-group">
@@ -261,7 +153,7 @@
 
         <div id="want" class="content">
           <%--            <div class="my-appraisal">--%>
-          <section id="section05" class="section main-movie">
+          <section id="section06" class="section main-movie">
             <!-- cont-area -->
             <div class="cont-area">
               <div class="main-movie-list">
@@ -270,20 +162,20 @@
                     <li data-status="open" id="favoriteLi">
                       <!-- movie-list-info -->
                       <a href="#" class="movie-list-info" title="영화상세 보기">
-                        <img src="${fvo.moviePosterUrl}" alt="말할 수 없는 비밀" class="poster">
+                        <img src="${fvo.moviePosterUrl}" alt="영화포스터" class="poster">
                       </a>
                       <div class="tit-area">
                         <p class="movie-grade age-all">,</p>
-                        <p title="말할 수 없는 비밀" class="tit">${fvo.movieTitle}</p>
+                        <p title="영화제목" class="tit">${fvo.movieTitle}</p>
                       </div>
                       <!-- //movie-list-info -->
                       <!-- btn-util -->
                       <div class="btn-util">
                         <button type="button" class="button btn-like">
-                          <i class="far fa-heart"></i>1.2k
+                          <i class="far fa-heart"></i>
                         </button>
                         <div class="case">
-                          <a href="" class="button btn1" title="영화 예매하기">예매</a>
+                          <a href="${pageContext.request.contextPath}/UserController?type=reservation&movieIdx="${fvo.movieIdx} class="button btn1" title="영화 예매하기">예매</a>
                         </div>
                       </div>
                       <!-- //btn-util -->
@@ -296,7 +188,6 @@
         </div>
       </div>
     </div>
-  </article>
 </div>
 </div>
 
