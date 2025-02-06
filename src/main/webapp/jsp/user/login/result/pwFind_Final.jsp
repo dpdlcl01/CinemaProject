@@ -16,7 +16,7 @@
   }
 
 </style>
-<body onload="setTimeout(function() { location.href='/UserController'; }, 3000);">
+<body onload="setTimeout(function() { location.href='${pageContext.request.contextPath}/UserController'; }, 3000);">
 <jsp:include page="../../common/header.jsp"/>
 <div>
     <div id="main3">

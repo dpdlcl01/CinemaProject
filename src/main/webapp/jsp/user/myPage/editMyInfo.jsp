@@ -111,7 +111,7 @@
 <body>
 <!-- header 영역 -->
 <head>
-  <jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 </head>
 <div class="page-util">
   <div class="inner-wrap">
@@ -138,6 +138,7 @@
         UserVO uservo = (UserVO) session.getAttribute("uservo");
       %>
       <h3>기본 정보</h3>
+      <button onclick="window.location.href='${pageContext.request.contextPath}/UserController?type=deleteuser'">페이지 이동</button>
       <table>
         <caption>기본정보 테이블</caption>
         <colgroup>
@@ -183,75 +184,75 @@
       </div>
     </div>
 
-    <form id="passwordChangeForm" action="${pageContext.request.contextPath}/UserController?type=changepw" method="POST">
-      <div id="passwordMain">
-        <h2>비밀번호 변경</h2>
-        ${success}
-        <li>현재 비밀번호를 입력한 후 새로 사용할 비밀번호를 입력하세요.</li>
-        <h3>비밀번호</h3>
-        <table>
-          <caption>탈퇴 테이블</caption>
-          <colgroup>
-            <col width="150px" class="title">
-            <col width="*">
-          </colgroup>
-          <tbody>
-          <tr>
-            <td class="title">현재 비밀번호</td>
-            <td><input type="password" id="currentPassword" name="currentPassword"></td>
-          </tr>
-          <tr>
-            <td class="title">새 비밀번호</td>
-            <td>
-              <input type="password" id="newPassword" name="newPassword" oninput="pwCheck()" placeholder="8자리 이상 비밀번호를 설정해주세요.">
-              <span>※영문,숫자를 조합하여 8자리 이상으로 입력해주세요.</span>
-            </td>
-          </tr>
-          <tr>
-            <td class="title">새 비밀번호 확인</td>
-            <td>
-              <input type="password" id="newPassword2" name="newPassword2" oninput="pwCheck()" placeholder="위에서 입력한 비밀번호와 동일하게 작성하세요.">
-              <div id="authpwd" style="margin-top: 5px; font-size: 12px; color: red;">비밀번호를 입력하여 주세요.</div>
-            </td>
-            <script>
-              document.addEventListener("DOMContentLoaded", function () {
-                document.getElementById("changePasswordButton").addEventListener("click", function (event) {
-                  event.preventDefault();
+    <form id="passwordChangeForm" action="${pageContext.request.contextPath}/UserController?type=changepassword" method="POST">
+    <div id="passwordMain">
+      <h2>비밀번호 변경</h2>
+      ${success}
+      <li>현재 비밀번호를 입력한 후 새로 사용할 비밀번호를 입력하세요.</li>
+      <h3>비밀번호</h3>
+      <table>
+        <caption>탈퇴 테이블</caption>
+        <colgroup>
+          <col width="150px" class="title">
+          <col width="*">
+        </colgroup>
+        <tbody>
+        <tr>
+          <td class="title">현재 비밀번호</td>
+          <td><input type="password" id="currentPassword" name="currentPassword"></td>
+        </tr>
+        <tr>
+          <td class="title">새 비밀번호</td>
+          <td>
+            <input type="password" id="newPassword" name="newPassword" oninput="pwCheck()" placeholder="8자리 이상 비밀번호를 설정해주세요.">
+            <span>※영문,숫자를 조합하여 8자리 이상으로 입력해주세요.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="title">새 비밀번호 확인</td>
+          <td>
+            <input type="password" id="newPassword2" name="newPassword2" oninput="pwCheck()" placeholder="위에서 입력한 비밀번호와 동일하게 작성하세요.">
+            <div id="authpwd" style="margin-top: 5px; font-size: 12px; color: red;">비밀번호를 입력하여 주세요.</div>
+          </td>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              document.getElementById("changePasswordButton").addEventListener("click", function (event) {
+                event.preventDefault();
 
-                  const currentPassword = document.getElementById("currentPassword").value;
-                  const newPassword = document.getElementById("newPassword").value;
+                const currentPassword = document.getElementById("currentPassword").value;
+                const newPassword = document.getElementById("newPassword").value;
 
-                  $.ajax({
-                    url: "UserController?type=changepw",
-                    type: "POST",
-                    data: { currentPassword, newPassword },
-                    success: function (response) {
-                      if (response.status === "success") {
-                        alert(response.message);
-                      } else {
-                        alert(response.message);
-                      }
-                    },
-                    error: function () {
-                      alert("오류가 발생했습니다. 다시 시도해주세요.");
-                    },
-                  });
+                $.ajax({
+                  url: "${pageContext.request.contextPath}/UserController?type=changepassword",
+                  type: "POST",
+                  data: { currentPassword, newPassword },
+                  success: function (response) {
+                    if (response.status === "success") {
+                      alert(response.message);
+                    } else {
+                      alert(response.message);
+                    }
+                  },
+                  error: function () {
+                    alert("오류가 발생했습니다. 다시 시도해주세요.");
+                  },
                 });
               });
-            </script>
-          </tr>
-          </tbody>
-        </table>
-        <div id="lastElement">
-          <li>※생년월일, 전화번호 등 개인 정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 다른 사람이 쉽게 알아낼 수 있으니 사용을 자제해주세요.</li>
-          <li>※비밀번호는 3-6개월마다 꼭 바꿔주세요.</li>
-        </div>
-        <div id="lastBtnDiv">
-          <button type="button" class="lastBtn" onclick="returnMain()">취소</button>
-          <button type="button" class="lastBtn" id="changePasswordButton" name="changePasswordButton">변경</button>
-        </div>
-
+            });
+          </script>
+        </tr>
+        </tbody>
+      </table>
+      <div id="lastElement">
+        <li>※생년월일, 전화번호 등 개인 정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 다른 사람이 쉽게 알아낼 수 있으니 사용을 자제해주세요.</li>
+        <li>※비밀번호는 3-6개월마다 꼭 바꿔주세요.</li>
       </div>
+      <div id="lastBtnDiv">
+        <button type="button" class="lastBtn" onclick="returnMain()">취소</button>
+        <button type="button" class="lastBtn" id="changePasswordButton" name="changePasswordButton">변경</button>
+      </div>
+
+    </div>
     </form>
 
   </article>

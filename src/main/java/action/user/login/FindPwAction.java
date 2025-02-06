@@ -16,15 +16,9 @@ public class FindPwAction implements Action {
         String userName = request.getParameter("userName");
         String emailPart1 = request.getParameter("emailpart1");
         String emailPart2 = request.getParameter("emailpart2");
-        System.out.println("emailpart1 : " + emailPart1);
-        System.out.println("emailpart2 : " + emailPart2);
+        String newPassword = request.getParameter("newPassword"); // 새 비밀번호 입력받음
 
         String userEmail = emailPart1 + "@" + emailPart2;
-
-        System.out.println("FindPwAction 입력값 확인:");
-        System.out.println("userId: " + userId);
-        System.out.println("userName: " + userName);
-        System.out.println("userEmail: " + userEmail);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("userIdx", userIdx);
@@ -33,17 +27,21 @@ public class FindPwAction implements Action {
         params.put("userEmail", userEmail);
 
         try {
+            // 사용자 검증
             boolean isUserValid = RegisterDAO.validateUserForPasswordReset(params);
-
             if (isUserValid) {
-                System.out.println("FindPwAction success");
-                request.setAttribute("userId", userId);
-                request.setAttribute("userName", userName);
-                request.setAttribute("userEmail", userEmail);
-                request.setAttribute("userIdx", userIdx);
-                return "/jsp/user/login/result/pwFind_success.jsp";
+                // 새 비밀번호 설정
+                params.put("userPw", newPassword); // 새 비밀번호 추가
+                int updateResult = RegisterDAO.updatePassword(params);
+
+                if (updateResult > 0) {
+                    request.setAttribute("success", "비밀번호가 성공적으로 변경되었습니다.");
+                    return "/jsp/user/login/result/pwFind_success.jsp";
+                } else {
+                    request.setAttribute("error", "비밀번호 변경에 실패했습니다.");
+                    return "./jsp/user/common/error.jsp";
+                }
             } else {
-                System.out.println("FindPwAction : user not found.");
                 request.setAttribute("error", "사용자를 찾을 수 없습니다.");
                 return "./jsp/user/common/error.jsp";
             }
