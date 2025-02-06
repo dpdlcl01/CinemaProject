@@ -31,6 +31,7 @@
         SELECT *
         FROM user
         WHERE userId = #{userId}
+        AND userStatus = 0
     </select>
 
     <!-- 관리자 검증 -->

@@ -7,6 +7,7 @@ import mybatis.dao.MyPageDAO;
 import mybatis.vo.LogVO;
 import mybatis.vo.UserVO;
 import org.mindrot.jbcrypt.BCrypt;
+import util.LogUtil;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,13 +31,14 @@ public class ChangePasswordAction implements Action {
         UserVO user = SessionUtil.getLoginUser(request);
 
         if (user == null) {
-            System.out.println("로그인된 사용자가 아닙니다.");
+            System.out.println("need login..");
             request.setAttribute("status", "unauthorized");
             request.setAttribute("message", "로그인이 필요합니다.");
             return "./jsp/user/myPage/ajax/ajaxResponse.jsp";
         }
 
         String userId = user.getUserId();
+        String userIdx = user.getUserIdx();
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
 
@@ -44,7 +46,7 @@ public class ChangePasswordAction implements Action {
         boolean isPasswordValid = MyPageDAO.checkPassword(userId, currentPassword);
         System.out.println(isPasswordValid);
         if (!isPasswordValid) {
-            System.out.println("현재 비밀번호가 일치하지 않습니다.");
+            System.out.println("not same nowpassword.");
             request.setAttribute("status", "invalid_password");
             request.setAttribute("message", "현재 비밀번호가 일치하지 않습니다.");
             return "./jsp/user/myPage/ajax/ajaxResponse.jsp";
@@ -57,35 +59,30 @@ public class ChangePasswordAction implements Action {
 
 
         if (isUpdated) {
-            AdminDAO adminDAO = new AdminDAO();
-//            logChange(adminDAO, , "사용자 비밀번호 변경", currentPassword, hashedPassword);
+            String logType = "1";
+            String logTarget = "userIdx : "+ userIdx;
 
-            System.out.println("비밀번호 변경 성공");
+            System.out.println("Logutil entry.");
+            LogUtil.logChanges(
+                    logType,
+                    null,
+                    "userIdx : " + userIdx,
+                    "비밀번호 변경",
+                    null,
+                    null
+            );
+            System.out.println("LogUtil exit");
+
+            System.out.println("success");
             request.setAttribute("status", "success");
             request.setAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
+
         } else {
-            System.out.println("비밀번호 변경 실패");
+            System.out.println("failed");
             request.setAttribute("status", "fail");
             request.setAttribute("message", "비밀번호 변경에 실패하였습니다.");
         }
 
         return "./jsp/user/myPage/ajax/ajaxResponse.jsp";
-    }
-    private void logChange(AdminDAO adminDAO, int adminIdx, String target, String preValue, String curValue) {
-        if ((preValue == null && curValue == null) || (preValue != null && preValue.equals(curValue))) {
-            return;
-        }
-
-        LogVO log = new LogVO();
-        log.setLogType("1"); // 사용자
-//        log.setAdminIdx(String.valueOf(adminIdx)); 세션을 통해서 저장할때 해당코드 사용.
-        log.setAdminIdx(null); // 사용자의 활동은 null로 표기.
-//        log.setLogTarget("userIdx: " + userIdx);
-        log.setLogPreValue(preValue != null ? preValue : "없음");
-        log.setLogCurValue(curValue != null ? curValue : "없음");
-        log.setLogInfo(target + " 수정");
-
-        boolean logInserted = adminDAO.insertLog(log);
-        System.out.println("로그 입력 시도: " + logInserted);
     }
 }

@@ -3,6 +3,7 @@ package action.user.register;
 import action.Action;
 import mybatis.dao.UserDAO;
 import mybatis.vo.UserVO;
+import util.LogUtil;
 import util.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -18,8 +19,9 @@ public class DeleteAccountAction implements Action {
 
         // 로그인 여부 확인 및 사용자 정보 가져오기
         UserVO uservo = SessionUtil.getLoginUser(request);
+
         if (uservo == null) {
-            return "UserController?type=main";
+            return "/UserController?type=main";
         }
 
         String userId = uservo.getUserId();
@@ -32,7 +34,7 @@ public class DeleteAccountAction implements Action {
             throw new RuntimeException(e);
         }
 
-        System.out.println("entry");
+        System.out.println("DeleteAccountAction entry..");
 
         // 비밀번호 검증
         boolean isPasswordCorrect = UserDAO.checkPassword(userId, userPassword);
@@ -42,10 +44,22 @@ public class DeleteAccountAction implements Action {
         if (isPasswordCorrect) {
             // 사용자 상태 업데이트
             boolean isDeleted = UserDAO.updateUserStatus(userId);
-
+            String logType = "1";
+            String userIdx = uservo.getUserIdx();
             if (isDeleted) {
+                System.out.println("LogUtil entry..");
+                LogUtil.logChanges(
+                        logType,
+                        null,
+                        "userIdx : " + userIdx,
+                        "회원 탈퇴",
+                        null,
+                        null
+                );
+                System.out.println("LogUtil exit..");
+
                 request.getSession().invalidate(); // 세션 무효화
-                response.sendRedirect("UserController?type=main");
+                response.sendRedirect("./jsp/user/myPage/del_result.jsp");
                 return null;
             } else {
                 request.setAttribute("error", "회원탈퇴에 실패했습니다.");

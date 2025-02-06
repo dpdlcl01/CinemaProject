@@ -18,6 +18,25 @@
             min-height: 100vh;
         }
 
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            border-bottom: 2px solid #ccc;
+        }
+        .tab {
+            padding: 10px 0;
+            width: 150px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 16px;
+        }
+        .tab.active {
+            border-bottom: 2px solid #6a5acd;
+            color: #6a5acd;
+        }
+
         .container {
             width: 600px;
             min-height: 100vh; /* 화면 꽉 차게 */
@@ -127,8 +146,12 @@
             <p>${error}</p>
         </div>
     </c:if>
+    <div class="tabs">
+        <a href="${pageContext.request.contextPath}/UserController?type=movefindid" class="tab active">아이디 찾기</a>
+        <a href="${pageContext.request.contextPath}/UserController?type=movefindpw" class="tab">비밀번호 찾기</a>
+    </div>
+
     <form action="${pageContext.request.contextPath}/UserController?type=findid" method="POST">
-        <input type="hidden" id="type" name="type"/>
         <input type="hidden" id="userEmail" name="userEmail"/>
         <table>
             <tr>
@@ -136,13 +159,13 @@
                 <td><input type="text" class="inputshort" name="userName" id="userName" placeholder="이름"></td>
             </tr>
             <tr>
-                <td><label for="emailpart1">이메일</label></td>
+                <td><label for="emailPart1">이메일</label></td>
                 <td>
                     <div class="email-container">
-                        <input type="text" id="emailpart1" name="emailpart1" class="inputshort">
+                        <input type="text" id="emailPart1" name="emailPart1" class="inputshort">
                         <span>@</span>
-                        <input type="text" id="emailpart2" name="emailpart2" class="inputshort" disabled>
-                        <select name="emailDomain" id="emailDomain" title="이메일 선택" class="email_address">
+                        <input type="text" id="emailPart2" name="emailPart2" class="inputEmail" disabled>
+                        <select name="emailDomain2" id="emailDomain" title="이메일 선택" class="email_address">
                             <option value="" disabled selected>선택하세요</option>
                             <option value="naver.com">naver.com</option>
                             <option value="gmail.com">gmail.com</option>
@@ -168,7 +191,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const domain = document.getElementById("emailDomain");
-        const emailpart2input = document.getElementById("emailpart2");
+        const emailpart2input = document.getElementById("emailPart2");
+        console.log("emailpart2 : " + emailpart2input);
 
         domain.addEventListener("change", function () {
             const selectedValue = this.value;
@@ -187,8 +211,8 @@
         event.preventDefault(); // 기본 동작 방지
 
         let userName = document.getElementById("userName").value.trim();
-        let emailPart1 = document.getElementById("emailpart1").value.trim();
-        let emailPart2 = document.getElementById("emailpart2").value.trim();
+        let emailPart1 = document.getElementById("emailPart1").value.trim();
+        let emailPart2 = document.getElementById("emailPart2").value.trim();
         const userEmail = document.getElementById("userEmail");
 
         // 이메일 조합
@@ -210,8 +234,6 @@
             return false;
         }
 
-        // type 값 설정
-        document.getElementById("type").value = "findid";
 
         // 폼 제출
         frm.submit();

@@ -21,6 +21,24 @@
             align-items: flex-start;
             min-height: 100vh;
         }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            border-bottom: 2px solid #ccc;
+        }
+        .tab {
+            padding: 10px 0;
+            width: 150px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 16px;
+        }
+        .tab.active {
+            border-bottom: 2px solid #6a5acd;
+            color: #6a5acd;
+        }
         .container {
             width: 600px;
             min-height: 100vh; /* 화면 꽉 차게 */
@@ -166,8 +184,13 @@
             <p>${error}</p>
         </div>
     </c:if>
-
+    <div class="tabs">
+        <a href="${pageContext.request.contextPath}/UserController?type=movefindid" class="tab">아이디 찾기</a>
+        <a href="${pageContext.request.contextPath}/UserController?type=movefindpw" class="tab active">비밀번호 찾기</a>
+    </div>
     <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST">
+        <input type="hidden" id="type" name="type"/>
+        <input type="hidden" id="userEmail" name="userEmail"/>
         <table>
             <tr>
                 <td>아이디</td>
@@ -297,6 +320,7 @@
         const userName = document.getElementById("userName").value.trim();
         const emailPart1 = document.getElementById("emailpart1").value.trim();
         const emailPart2 = document.getElementById("emailpart2").value.trim();
+        userEmail.value = emailPart1 + "@" + emailPart2;
         const authCode = document.getElementById("authcode").value.trim();
         const authcodecheck = document.getElementById("authcodecheck").value.trim();
 

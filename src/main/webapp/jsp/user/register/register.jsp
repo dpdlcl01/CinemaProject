@@ -218,7 +218,15 @@
             <td><span>이메일</span> </td>
             <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
               <span>@</span>
-              <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
+              <input type="text" id="emailpart2" name="emailpart2" class="inputEmail" disabled>
+              <select name="emailDomain2" id="emailDomain" title="이메일 선택" class="email_address">
+                <option value="" disabled selected>선택하세요</option>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="daum.net">daum.net</option>
+                <option value="nate.com">nate.com</option>
+                <option value="direct">직접입력</option>
+              </select>
               <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
           </tr>
           <tr>
@@ -380,6 +388,23 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const domain = document.getElementById("emailDomain");
+    const emailpart2input = document.getElementById("emailpart2");
+
+    domain.addEventListener("change", function () {
+      const selectedValue = this.value;
+      if(this.value === "direct") {
+        emailpart2input.disabled = false;
+        emailpart2input.value = "";
+        emailpart2input.placeholder = "도메인 입력";
+      } else {
+        emailpart2input.disabled = true;
+        emailpart2input.value = selectedValue;
+      }
+    })
+  })
+
 
 
   const checkbox1 = document.getElementById('serviceAgree');

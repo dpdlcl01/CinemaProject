@@ -17,6 +17,33 @@ public class LogUtil {
             log.setLogInfo(info);
             log.setLogPreValue(preValue);
             log.setLogCurValue(curValue);
+
+            //디버깅용
+            System.out.println("LogType" + logType);
+            System.out.println("AdminIdx" + adminIdx);
+            System.out.println("Target" + target);
+            System.out.println("Info" + info);
+            System.out.println("PreValue" + preValue);
+            System.out.println("CurValue" + curValue);
+
+            LogDAO.insertLog(log);
+        } else {
+            LogVO log = new LogVO();
+            log.setLogType(logType);
+            log.setAdminIdx(adminIdx);
+            log.setLogTarget(target);
+            log.setLogInfo(info);
+            log.setLogPreValue(preValue);
+            log.setLogCurValue(curValue);
+
+            //디버깅용
+            System.out.println("LogType" + logType);
+            System.out.println("AdminIdx" + adminIdx);
+            System.out.println("Target" + target);
+            System.out.println("Info" + info);
+            System.out.println("PreValue" + preValue);
+            System.out.println("CurValue" + curValue);
+
             LogDAO.insertLog(log);
         }
     }

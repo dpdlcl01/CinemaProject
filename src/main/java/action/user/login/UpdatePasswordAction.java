@@ -5,6 +5,7 @@ import mybatis.dao.MyPageDAO;
 import mybatis.dao.RegisterDAO;
 import mybatis.vo.UserVO;
 import org.mindrot.jbcrypt.BCrypt;
+import util.LogUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +42,19 @@ public class UpdatePasswordAction implements Action {
 
         System.out.println("result : " + result);
         if (result > 0) {
+            String logType = "1";
+            String logTarget = "userId : "+ userId;
+
+            System.out.println("Logutil entry.");
+            LogUtil.logChanges(
+                    logType,
+                    null,
+                    "userId : " + userId,
+                    "비밀번호 찾기",
+                    null,
+                    null
+            );
+            System.out.println("LogUtil exit");
             System.out.println("UpdatePasswordAction success");
             return "/jsp/user/login/result/pwFind_Final.jsp";
         } else {

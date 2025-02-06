@@ -66,23 +66,4 @@ public class ChangePwAction implements Action {
         return "./jsp/user/myPage/ajax/ajaxResponse.jsp";
 
     }
-
-    private void logChange(AdminDAO adminDAO, int adminIdx, String target, String preValue, String curValue) {
-        if ((preValue == null && curValue == null) || (preValue != null && preValue.equals(curValue))) {
-            return;
-        }
-
-        LogVO log = new LogVO();
-        log.setLogType("1"); // 사용자
-//        log.setAdminIdx(String.valueOf(adminIdx)); 세션을 통해서 저장할때 해당코드 사용.
-        log.setAdminIdx("NULL"); // 사용자의 활동은 null로 표기.
-        log.setLogTarget(target);
-        log.setLogPreValue(preValue != null ? preValue : "없음");
-        log.setLogCurValue(curValue != null ? curValue : "없음");
-        log.setLogInfo(target + " 수정");
-
-        boolean logInserted = adminDAO.insertLog(log);
-        System.out.println("로그 입력 시도: " + logInserted);
-    }
-
 }
