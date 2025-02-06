@@ -3,8 +3,10 @@ package action.user.store;
 import action.Action;
 import mybatis.dao.CouponDAO;
 import mybatis.dao.PaymentDAO;
+import mybatis.dao.PointDAO;
 import mybatis.dao.ProductDAO;
 import mybatis.vo.PaymentVO;
+import mybatis.vo.PointVO;
 import mybatis.vo.UserVO;
 import org.json.JSONObject;
 
@@ -55,13 +57,18 @@ public class SuccessAction implements Action {
 
        /*  결제를 할 때 할인금액을 적고 쿠폰을 사용하면 해당 idx에서 쿠폰을 사용완료 상태로 변경하자
         */
-        int updateCoupon= CouponDAO.updateCoupon(idx,couponIdx);
+        if(couponIdx.equals("0")){
+            int updateCoupon= CouponDAO.updateCoupon(idx,couponIdx);
+        }
 
 
 
-       /* 포인트 테이블에서 유저가 사용한 만큼 포인트를 줄이자.
 
-         결제 시 주문수량이 0이 되면 프로덕트 스테이터스를 1로 바꾸자*/
+
+
+
+
+
 
 
         System.out.println("totalDiscount"+totalDiscount);
@@ -112,7 +119,10 @@ public class SuccessAction implements Action {
 
 
 
+        /* 포인트 테이블에서 유저가 사용한 만큼 포인트를 줄이자.*/
+        /*결제 시 포인트 추가하는 로직도 필요합니다*/
 
+        int updatePoint = PointDAO.updatePoint(idx, Integer.parseInt(enteredPoints),confirmResponse.getInt("totalAmount"));
 
 
         pvo.setPaymentQuantiy(quant);

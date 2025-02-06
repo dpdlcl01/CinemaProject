@@ -8,6 +8,22 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PointDAO {
+
+    public static int updatePoint(String userIdx, int point, int totalPrice) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("userIdx", Integer.parseInt(userIdx));
+        map.put("point", point);
+        map.put("addpoint", (int)(totalPrice*0.1));
+        int cnt = ss.update("point.updatePoint",map);
+        if(cnt > 0) {
+            ss.commit();
+        }else {
+            ss.rollback();
+        }
+        ss.close();
+        return cnt;
+    }
     // 사용자 포인트 조회
     public static PointVO[] getList(String userIdx, int begin, int end) {
         PointVO[] ar = null;

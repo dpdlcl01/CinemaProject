@@ -3,6 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="point">
+
+    <update id="updatePoint" parameterType="map">
+        UPDATE user
+        SET userPoint = userPoint - #{point} + #{addpoint}
+        WHERE userIdx = #{userIdx}
+    </update>
+
+
     <!--  사용자 포인트 조회  -->
     <select id="userPoint" parameterType="map" resultType="mybatis.vo.PointVO">
         SELECT pointIdx, userIdx, pointType,
