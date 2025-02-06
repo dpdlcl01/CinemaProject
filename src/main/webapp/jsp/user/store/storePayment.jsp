@@ -92,7 +92,7 @@
             <div class="movie-info">
               <p class="movie-title" id="productTitle">${requestScope.name}</p>
               <div id="categoryPrice">
-                <p class="movie-about">${requestScope.category}원</p>
+                <p class="movie-about">${requestScope.category}</p>
                 <span id="movie-detailsPrice">${requestScope.price}원</span>
               </div>
               <p class="movie-about" id="productQuant">${requestScope.quant}개</p>
@@ -186,7 +186,7 @@
             <div class="amount-box">
               <div class="payment-row">
                 <p class="payment-label">금액</p>
-                <p class="payment-label">${requestScope.price}</p>
+                <p class="payment-label">${requestScope.price}원</p>
               </div>
             </div>
             <div class="payment-divider">
@@ -280,16 +280,32 @@
 
     // 포인트 입력 시 실시간 업데이트
     pointsInput.addEventListener("input", function () {
-       enteredPoints = parseInt(pointsInput.value, 10) || 0;
+      enteredPoints = parseInt(pointsInput.value, 10) || 0;
 
       // 사용자가 보유한 포인트보다 많이 입력하면 보유 포인트 한도로 조정
       if (enteredPoints > userPoint) {
         enteredPoints = userPoint;
-        pointsInput.value = enteredPoints; // 입력값 수정
       }
 
-      // 총 할인 금액 계산 (쿠폰 + 포인트)
-       totalDiscount = couponDiscount + enteredPoints;
+      // 입력된 포인트가 상품 금액을 초과하면 상품 금액으로 제한
+      if (enteredPoints > originalPrice) {
+        enteredPoints = originalPrice;
+      }
+
+      // 총 할인 금액 계산 (쿠폰 할인 + 포인트 사용)
+      totalDiscount = couponDiscount + enteredPoints;
+
+      //  총 할인 금액이 상품 가격을 초과하면 조정
+      if (totalDiscount > originalPrice) {
+        totalDiscount = originalPrice;
+
+        // 포인트 사용 금액을 조정하여 총 할인 금액이 초과되지 않도록 설정
+        enteredPoints = originalPrice - couponDiscount;
+        if (enteredPoints < 0) enteredPoints = 0; // 음수가 되지 않도록 보장
+      }
+
+      // 조정된 값을 다시 입력 필드에 반영
+      pointsInput.value = enteredPoints;
 
       // 할인 금액 업데이트
       discountAmountEl.innerText = totalDiscount + " 원";
@@ -297,8 +313,9 @@
       // 최종 결제 금액 업데이트 (음수가 되지 않도록 최소값 0 설정)
       let finalPrice = Math.max(originalPrice - totalDiscount, 0);
       finalPriceEl.innerText = finalPrice + " 원";
-      totalPrice=finalPrice;
+      totalPrice = finalPrice;
     });
+
 
     // 최종 결제 금액 업데이트 함수
     function updateFinalPrice() {
@@ -319,32 +336,33 @@
   var dropdown = document.getElementById("couponDropdown");
 
   // 특정 pIdx 값일 때만 couponIdx가 5인 옵션만 활성화
-  // 특정 pIdx 값일 때만 couponIdx가 5인 옵션만 활성화
+  // 모든 쿠폰을 기본적으로 비활성화
+  for (var i = 0; i < dropdown.options.length; i++) {
+    var option = dropdown.options[i];
+    if (option.value && !isNaN(option.value)) {
+      option.disabled = true; // 기본적으로 비활성화
+    }
+  }
+
+  // 특정 pIdx 값일 때만 해당 쿠폰 활성화
   for (var i = 0; i < dropdown.options.length; i++) {
     var option = dropdown.options[i];
 
-    // option의 value가 숫자인지 확인 (첫 번째 option은 "사용 가능한 쿠폰 선택"일 수도 있음)
     if (option.value && !isNaN(option.value)) {
       var optionValue = parseInt(option.value);
 
-      // 특정 pIdx에 대해 쿠폰 활성화 여부 결정
-      if (pIdx == 11 || pIdx == 12) {
-        if (optionValue !== 6) {
-          option.disabled = true; // 비활성화
-        }
+      if ((pIdx == 11 || pIdx == 12) && optionValue === 6) {
+        option.disabled = false; // 활성화
       }
-      if (pIdx == 16 || pIdx == 17) {
-        if (optionValue !== 5) {
-          option.disabled = true; // 비활성화
-        }
+      if ((pIdx == 16 || pIdx == 17) && optionValue === 5) {
+        option.disabled = false; // 활성화
       }
-      if (pIdx == 13 || pIdx == 14) {
-        if (optionValue !== 7) {
-          option.disabled = true; // 비활성화
-        }
+      if ((pIdx == 13 || pIdx == 14) && optionValue === 7) {
+        option.disabled = false; // 활성화
       }
     }
   }
+
 
 
   const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
