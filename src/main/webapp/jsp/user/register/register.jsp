@@ -167,9 +167,9 @@
 
     #authpwd{
       position: absolute;
-      left: 300px;
+      left: 690px;
       right: 10px;
-      top: 430px;
+      top: 433px;
     }
 
     .inputshort {
@@ -179,6 +179,15 @@
     select {
       padding: 5px;
       font-size: 14px;
+    }
+
+    /* ajax에서 표기해주는 부분 text 컬러표기 */
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
     }
   </style>
 </head>
@@ -338,21 +347,21 @@
           <tr>
             <td class="bold">아이디</td>
             <td>
-              <input type="text" id="userId" name="userId" class="inputValue" oninput="checkid()">
-              <span id="id_ok" class="id_ok" style="color:green; display:none;">사용 가능한 아이디입니다.</span>
-              <span id="id_already" class="id_already" style="color:red; display:none;">사용 불가능 가능한 아이디입니다.</span>
+              <input type="text" id="userId" name="userId" class="inputValue" placeholder="8자리 이상 영문숫자조합." oninput="checkid()">
+              <button type="button" id="checkIdBtn">중복확인</button>
+              <div class="message" id="idCheckMessage"></div>
             </td>
           </tr>
 
           <tr>
             <td class="bold">비밀번호</td>
-            <td><input type="password" id="userPassword1" name="userPassword1" oninput="pwCheck()" class="inputValue"></td>
+            <td><input type="password" id="userPassword1" name="userPassword1" placeholder="" oninput="pwCheck()" class="inputValue"></td>
           </tr>
 
           <tr>
             <td class="bold" >비밀번호확인</td>
             <td><input type="password" id="userPassword2" name="userPassword2" oninput="pwCheck()" class="inputValue"></td>
-            <a id="authpwd">비밀번호를 입력하여 주세요.</a>
+            <a id="authpwd">비밀번호 8자리 이상 영문을 포함해 입력해주세요.</a>
           </tr>
 
 
@@ -475,10 +484,25 @@
 
   function pwCheck(){
     const authPwd = document.getElementById('authpwd');
-    if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
+    const password1 = document.getElementById('userPassword1').value;
+    const password2 = document.getElementById('userPassword2').value;
+
+    const numberOnly = /^\d+$/;
+
+
+    if(numberOnly.test(password1)) {
+      authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다."
+      authPwd.style.color = "red";
+    }
+    else if (document.getElementById('userPassword1').value.length <= 7){
+      authPwd.innerText = "비밀번호 8자리 이상이여야합니다."
+      authPwd.style.color = "red";
+    }
+    else if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
       authPwd.innerText = '비밀번호가 일치합니다.';
       authPwd.style.color = 'green';
-    } else {
+    }
+    else {
       authPwd.innerText = '비밀번호가 불일치합니다.';
       authPwd.style.color = 'red';
     }
@@ -489,17 +513,12 @@
     let userPhone2 = document.getElementById("userPhone2").value.trim();
     let userPhone3 = document.getElementById("userPhone3").value.trim();
 
-    console.log("userPhone1:", userPhone1);
-    console.log("userPhone2:", userPhone2);
-    console.log("userPhone3:", userPhone3);
+    const userIdInput = document.getElementById("userId");
+    const userPasswordInput = document.getElementById("userPassword");
 
     let fullPhone = userPhone1 + "-" + userPhone2 + "-" + userPhone3;
 
-    console.log("히든태그안에 들어갈 값 : "+fullPhone);
-
     document.getElementById("userPhone").value = fullPhone;
-
-    console.log("히든 input 태그에 들어간 값 : " + document.getElementById("userPhone").value);
 
     let userId = $.trim($(".inputValue[name='userId']").val());
     let userPassword = $.trim($("#userPassword1").val());  // 비밀번호 값 가져오기
@@ -516,16 +535,19 @@
       return false;
     }
 
-    if(userId.length < 3) {
-      alert("아이디는 4글자 이상만 입력가능합니다.");
+
+    if(userId.length < 7) {
+      alert("아이디는 8글자 이상만 입력가능합니다.");
       $(".inputValue[name='userId']").val("").focus();
       return false;
     }
-    if(userPassword.length < 6) {
-      alert("비밀번호는 6글자 이상만 입력가능합니다.");
+
+    if(userPassword.length < 7) {
+      alert("비밀번호는 8글자 이상만 입력가능합니다.");
       $("#userPassword1").val("").focus();
       return false;
     }
+
     document.getElementById("type").value = "register";
     frm.submit();
 
@@ -565,35 +587,50 @@
 
 
 
-  function checkid() {
-    console.log("checkid 이벤트 호출")
-    const userId = $("#userId").val();
+  $(document).ready(function () {
+    $("#checkIdBtn").on("click", function () {
+      const userId = $("#userId").val().trim();
 
-    if(!userId){
-      $(".id_ok").hide();
-      $(".id_already").hide();
-      return;
-    }
-
-    $.ajax({
-      url:'UserController?type=usercheckid',
-      type:"post",
-      data:{ userId: userId },
-      success:function(response) {
-        console.log("서버응답: ", response);
-        if(response.trim() === "0") {
-          $(".id_ok").show();
-          $(".id_already").hide();
-        } else {
-          $(".id_ok").hide();
-          $(".id_already").show();
-        }
-      },
-      error:function(){
-        alert("아이디검증 ajax 오류 발생.");
+      // 입력값 검증
+      if (userId === "") {
+        $("#idCheckMessage").removeClass("success").addClass("error").text("아이디를 입력해주세요.");
+        return;
       }
+
+      // AJAX 요청
+      $.ajax({
+        url: 'UserController?type=usercheckid', // 서버 URL
+        type: "POST", // HTTP 메서드
+        data: { userId: userId }, // 전송 데이터
+        dataType: "json", // 응답 데이터 타입
+        success: function (response) {
+          console.log("서버 응답:", response);
+
+          const messageElement = $("#idCheckMessage");
+          messageElement.removeClass("success error");
+
+          if (response.status === "success") {
+            // 사용 가능한 아이디
+            messageElement
+                    .addClass("success")
+                    .text(response.message);
+          } else {
+            // 중복된 아이디
+            messageElement
+                    .addClass("error")
+                    .text(response.message);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("AJAX 오류 발생:", status, error);
+          $("#idCheckMessage")
+                  .removeClass("success")
+                  .addClass("error")
+                  .text("아이디 검증 중 오류가 발생했습니다.");
+        }
+      });
     });
-  }
+  });
 
 </script>
 

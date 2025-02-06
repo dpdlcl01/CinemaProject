@@ -32,9 +32,14 @@ public class RegisterDAO {
 
 
     public boolean UserIdCheck(String userId) {
-        SqlSession ss = FactoryService.getFactory().openSession();
-        int count = ss.selectOne("register.useridcheck_search", userId);
-        return count > 0;
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            Integer count = ss.selectOne("register.useridcheck_search", userId);
+            return count != null && count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public boolean emailCheck(String userEmail) {

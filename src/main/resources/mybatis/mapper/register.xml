@@ -8,7 +8,7 @@
         VALUES (#{userName}, #{userId}, #{userPassword}, #{userEmail}, #{userPhone}, #{userPoint}, #{userGrade}, now(), #{userStatus});
     </insert>
 
-    <select id="useridcheck_search" parameterType="String" resultType="int">
+    <select id="useridcheck_search" parameterType="String" resultType="Integer">
         SELECT COUNT(*) FROM user WHERE userId = #{userId}
     </select>
 

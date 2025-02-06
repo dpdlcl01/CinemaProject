@@ -3,6 +3,7 @@ package action.user.register;
 import action.Action;
 import mybatis.dao.RegisterDAO;
 import org.mindrot.jbcrypt.BCrypt;
+import util.LogUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,6 +62,17 @@ public class RegisterAction implements Action {
             int result = RegisterDAO.userInsert(map);
             System.out.println(result);
             if (result > 0) {
+                String logType = "1";
+                    System.out.println("LogUtil entry..");
+                    LogUtil.logChanges(
+                            logType,
+                            null,
+                            "userId : " + userId,
+                            "회원가입",
+                            null,
+                            null
+                    );
+                    System.out.println("LogUtil exit..");
                 request.setAttribute("userName", userName);
                 System.out.println("s");
                 return register_suc; // 성공 페이지 반환
