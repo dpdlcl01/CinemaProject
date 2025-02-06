@@ -42,9 +42,9 @@ public class SuccessAction implements Action {
         String quant = request.getParameter("quant");
         String img = request.getParameter("image");
 
-        UserVO userVO = SessionUtil.getLoginUser(request);
-        String idx = userVO.getUserIdx();
 
+        UserVO uservo = SessionUtil.getLoginUser(request);
+        String userIdx = uservo.getUserIdx();
 
     /*   결제를 하고 난 뒤 퀀트의 수만큼 숫자를 줄이자
          프로덕트DAO안에서 quant와 pIdx를 가지고 퀀트만큼 숫자 줄이기 1번
@@ -57,8 +57,8 @@ public class SuccessAction implements Action {
 
        /*  결제를 할 때 할인금액을 적고 쿠폰을 사용하면 해당 idx에서 쿠폰을 사용완료 상태로 변경하자
         */
-        if(couponIdx.equals("0")){
-            int updateCoupon= CouponDAO.updateCoupon(idx,couponIdx);
+        if(!couponIdx.equals("0")){
+            int updateCoupon= CouponDAO.updateCoupon(userIdx,couponIdx);
         }
 
 
@@ -107,8 +107,7 @@ public class SuccessAction implements Action {
         }
 
         PaymentVO pvo = new PaymentVO();
-        UserVO uservo = SessionUtil.getLoginUser(request);
-        String userIdx = uservo.getUserIdx();
+
         String paymentType;
         if (pIdx != null && !pIdx.trim().isEmpty()) {
             paymentType = "2";
@@ -122,14 +121,15 @@ public class SuccessAction implements Action {
         /* 포인트 테이블에서 유저가 사용한 만큼 포인트를 줄이자.*/
         /*결제 시 포인트 추가하는 로직도 필요합니다*/
 
-        int updatePoint = PointDAO.updatePoint(idx, Integer.parseInt(enteredPoints),confirmResponse.getInt("totalAmount"));
+        int updatePoint = PointDAO.updatePoint(userIdx, Integer.parseInt(enteredPoints),confirmResponse.getInt("totalAmount"));
 
 
         pvo.setPaymentQuantiy(quant);
         pvo.setProductIdx(pIdx);
         pvo.setUserIdx(userIdx);
         pvo.setPaymentType(paymentType);
-        pvo.setPaymentTotal(String.valueOf(confirmResponse.getInt("totalAmount")));
+        pvo.setPaymentTotal(String.valueOf(confirmResponse.getInt("totalAmount")+Integer.parseInt(totalDiscount)));
+        pvo.setPaymentDiscount(totalDiscount);
         pvo.setPaymentFinal(String.valueOf(confirmResponse.getInt("totalAmount")));
         pvo.setPaymentTransactionId(confirmResponse.getString("orderId"));
         pvo.setPaymentMethod(confirmResponse.getString("method"));
