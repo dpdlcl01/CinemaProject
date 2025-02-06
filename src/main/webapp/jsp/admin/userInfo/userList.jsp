@@ -1,21 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<% System.out.println("userList: " + request.getAttribute("userList")); %>
 <!Doctype html>
 <html lang="ko">
 <head>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 <style>
     .admin-contents {
         width: 100%;
         min-height: 550px;
     }
+
     .page-util .inner-wrap {
         max-width: 100%; !important;
         padding: 20px 20px; !important;
@@ -43,8 +42,6 @@
         font-size: 30px;
     }
 
-
-
     .noticeboard {
         margin-top: 20px;
     }
@@ -53,11 +50,23 @@
         display: block;
     }
 
-    /* form 내의 요소들을 나란히 배치 */
+    /* 검색 폼 요소를 가로로 나란히 배치 */
     #searchForm {
         display: flex;
         align-items: center;
-        gap: 10px; /* 간격 설정 */
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* 검색 대상 및 필터 요소 스타일 */
+    #searchForm select,
+    #searchForm input[type="month"] {
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        flex-shrink: 0;
+        width: auto;
     }
 
     .search-bar-container {
@@ -71,10 +80,11 @@
         font-size: 16px;
     }
 
+    /* 검색 바 컨테이너 */
     .search-bar {
         display: flex;
-        justify-content: flex-end;
         align-items: center;
+        flex-wrap: nowrap;
         gap: 10px;
     }
 
@@ -121,15 +131,36 @@
         cursor: pointer;
     }
 
-    .search-bar2 .btn:hover {
-        background-color: #0056b3;
-    }
+    /*    .search-bar2 .btn:hover {
+            background-color: #0056b3;
+        }*/
 
     .search-bar2 .btn .ico-search {
         display: inline-block;
         width: 18px;
         height: 18px;
         background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+        vertical-align: middle;
+    }
+
+    /* 초기화 아이콘 스타일 */
+    .search-bar2 .btn-reset {
+        position: absolute;
+        right: 30px; /* 검색 버튼 옆에 위치 */
+        top: 0;
+        width: 30px;
+        height: 100%;
+        border: 0;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .ico-reset {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-image: url("${pageContext.request.contextPath}/css/user/images/reload.png");
+        background-size: contain;
         vertical-align: middle;
     }
 
@@ -214,7 +245,7 @@
         position: relative;
         min-width: 32px;
         height: 32px;
-        margin: 0;
+        margin: 0 2px;
         padding: 0 8px;
         border: 1px solid #ebebeb;
         text-decoration: none;
@@ -225,17 +256,101 @@
         border-radius: 4px;
     }
 
+    .pagination .control.first {
+        background-position: 0 0;
+    }
+
+    .pagination .control.prev {
+        background-position: -32px 0;
+    }
+
     .pagination .control.next {
-        margin-left: 5px;
         background-position: -64px 0;
+    }
+
+    .pagination .control.last {
+        background-position: -96px 0;
     }
 
     .pagination .control {
         overflow: hidden;
         width: 32px;
         height: 32px;
-        background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
+        background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
     }
+    #userModal {
+        width: 480px;
+        padding: 10px;
+    }
+
+    #userModal .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    #userModal .info-section {
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #userModal .field-row {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #userModal .field-row label {
+        width: 140px;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    #userModal .field-row input[type="text"],
+    #userModal .field-row input[type="email"],
+    #userModal .field-row select {
+        flex: 1;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /* 수정 가능한 필드 */
+    #userModal input:not([readonly]),
+    #userModal select {
+        background-color: white;
+    }
+
+    /* 읽기 전용 필드 */
+    #userModal input[readonly] {
+        background-color: #f4f4f4;
+        color: #888;
+    }
+
+    /* 버튼 스타일 */
+    #userModal button {
+        margin-top: 20px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        background-color: #01738b;
+        color: white;
+        cursor: pointer;
+    }
+
+    #userModal button:hover {
+        background-color: #005f6b;
+    }
+
 </style>
 
 <body>
@@ -253,25 +368,63 @@
         <div id="title">
             <div id="announcement" class="noticeboard">
                 <div class="search-bar-container">
-                    <div class="total-count">전체 ${paging.totalRecord}건</div>
-                    <form method="get" action="${pageContext.request.contextPath}/AdminController?type=userlist">
-                        <input type="hidden" name="type" value="userlist"/>
-                        <select name="userType">
-                            <option value="all" ${param.userType eq 'all' ? 'selected' : ''}>전체</option>
-                            <option value="member" ${param.userType eq 'member' ? 'selected' : ''}>회원</option>
-                            <option value="non-member" ${param.userType eq 'non-member' ? 'selected' : ''}>비회원</option>
-                        </select>
-                        <select id="searchType" name="searchType">
-                            <option value="name" ${param.searchType == 'name' ? 'selected' : ''}>이름</option>
-                            <option value="id" ${param.searchType == 'id' ? 'selected' : ''}>아이디</option>
-                            <option value="grade" ${param.searchType == 'grade' ? 'selected' : ''}>등급</option>
-                        </select>
-                        <input type="text" name="searchKeyword" value="${param.searchKeyword}" placeholder="검색어 입력">
-                        <input type="hidden" name="searchType" value="${searchType}">
-                        <button type="submit">검색</button>
-                    </form>
-                </div>
+                    <div class="total-count">전체 ${requestScope.totalCount}건</div>
 
+                    <div class="search-bar">
+                        <form id="searchForm" action="AdminController" method="get">
+                            <input type="hidden" name="type" value="userlist" />
+
+                            <!-- 가입 기간 검색 -->
+                            <label for="userJoinMonth">가입월:</label>
+                            <input type="month" id="userJoinMonth" name="userJoinMonth" style="padding: 5px;" value="${param.userJoinMonth}" />
+
+                            <!-- 사용자 상태 선택 -->
+                            <select id="userStatus" name="userStatus">
+                                <option value="">사용자 상태 (전체)</option>
+                                <option value="0" ${param.userStatus == '0' ? 'selected' : ''}>활성</option>
+                                <option value="1" ${param.userStatus == '1' ? 'selected' : ''}>탈퇴</option>
+                                <option value="null" ${param.userStatus == 'null' ? 'selected' : ''}>비회원</option>
+                            </select>
+
+                            <!-- 사용자 등급 선택 -->
+                            <select id="userGradeSelect" name="userGrade">
+                                <option value="">회원 등급 (전체)</option>
+                                <option value="BASIC" ${param.userGrade == 'BASIC' ? 'selected' : ''}>BASIC</option>
+                                <option value="VIP" ${param.userGrade == 'VIP' ? 'selected' : ''}>VIP</option>
+                                <option value="VVIP" ${param.userGrade == 'VVIP' ? 'selected' : ''}>VVIP</option>
+                            </select>
+
+                            <!-- 검색 대상 선택 -->
+                            <select id="searchType" name="searchType">
+                                <option value="all" ${param.searchType == 'all' ? 'selected' : ''}>검색 대상 (전체)</option>
+                                <option value="name" ${param.searchType == 'name' ? 'selected' : ''}>이름</option>
+                                <option value="id" ${param.searchType == 'id' ? 'selected' : ''}>아이디</option>
+                                <option value="email" ${param.searchType == 'email' ? 'selected' : ''}>이메일</option>
+                                <option value="phone" ${param.searchType == 'phone' ? 'selected' : ''}>전화번호</option>
+                            </select>
+
+                            <!-- 검색어 입력 필드 -->
+                            <div class="search-bar2">
+                                <input type="text" name="searchKeyword" placeholder="검색어를 입력해주세요." class="input-text"
+                                       value="${fn:escapeXml(param.searchKeyword)}" />
+                                <button type="submit" class="btn" title="검색">
+                                    <i class="ico-search"></i> 검색
+                                </button>
+                            </div>
+
+                            <!-- 초기화 버튼 (아이콘) -->
+                            <button type="button" class="btn btn-reset" title="검색 조건 초기화" onclick="resetUserSearch()">
+                                <i class="ico-reset"></i>
+                            </button>
+                        </form>
+                        <script>
+                            function resetUserSearch() {
+                                document.querySelector('#searchForm').reset();  // 폼 초기화
+                                location.href = 'AdminController?type=userlist';  // 초기화 후 기본 목록 페이지로 이동
+                            }
+                        </script>
+                    </div>
+                </div>
                 <table>
                     <thead>
                     <tr>
@@ -280,164 +433,250 @@
                         <th>아이디</th>
                         <th>이메일</th>
                         <th>전화번호</th>
-                        <th>포인트</th>
+                        <th>보유 포인트</th>
                         <th>등급</th>
                         <th>상태</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="user" items="${users}" varStatus="status">
-                        <tr class="clickable-row">
-                            <input type="hidden" name="userIdx" class="userIdx" value="${user.userIdx}">
+                    <c:set var="pvo" value="${requestScope.page}"/>
+                    <c:forEach var="uvo" items="${userArray }" varStatus="status">
+                        <tr class="clickable-row" data-id="${uvo.userIdx}">
                             <td>${(paging.nowPage - 1) * paging.numPerPage + status.index + 1}</td>
-                            <td>${user.userName}</td>
-                            <td>${user.userId}</td>
-                            <td>${user.userEmail}</td>
-                            <td>${user.userPhone}</td>
-                            <td>${user.userPoint}</td>
-                            <td>${user.userGrade}</td>
-                            <td>${user.userStatus}</td>
-                            <td><button class="btn btn-primary edit-btn" data-toggle="modal" data-target="#editModal" data-id="${user.userIdx}">수정</button></td>                        </tr>
+                            <td>${uvo.userName}</td>
+                            <td>${uvo.userId}</td>
+                            <td>${uvo.userEmail}</td>
+                            <td>${uvo.userPhone}</td>
+                            <td>${uvo.userPoint}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${uvo.userGrade == 'BASIC'}"><span class="user-grade grade-basic">BASIC</span></c:when>
+                                    <c:when test="${uvo.userGrade == 'VIP'}"><span class="user-grade grade-vip">VIP</span></c:when>
+                                    <c:when test="${uvo.userGrade == 'VVIP'}"><span class="user-grade grade-vvip">VVIP</span></c:when>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${uvo.userStatus == 0}"><span class="user-status active">활성</span></c:when>
+                                    <c:when test="${uvo.userStatus == 1}"><span class="user-status inactive">탈퇴</span></c:when>
+                                    <c:otherwise><span class="user-status non-member">비회원</span></c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
                     </c:forEach>
 
-                    <c:if test="${fn:length(users) == 0}">
-                        <tr><td colspan="9">사용자가 없습니다.</td></tr>
+                    <c:if test="${userArray eq null or fn:length(userArray) eq 0 }">
+                        <tr><td colspan="8">사용자가 없습니다.</td></tr>
                     </c:if>
                     </tbody>
                 </table>
 
+                <!--------------------- 페이지네이션 --------------------->
                 <nav class="pagination">
-                    <c:if test="${paging.nowPage > 1}">
-                        <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${paging.nowPage - 1}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="prev">이전</a>
-                    </c:if>
+                    <c:if test="${requestScope.page ne null}">
+                        <c:set var="pvo" value="${requestScope.page}" />
 
-                    <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="pageNum">
-                        <c:choose>
-                            <c:when test="${pageNum == paging.nowPage}">
-                                <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${pageNum}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="current">${pageNum}</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${pageNum}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}">${pageNum}</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
+                        <!-- 첫 페이지로 이동 버튼 -->
+                        <c:if test="${pvo.startPage > 1}">
+                            <a href="AdminController?type=userlist&cPage=1&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&userJoinMonth=${param.userJoinMonth}&userStatus=${param.userStatus}&userGrade=${param.userGrade}"
+                               class="control first" title="처음 페이지"></a>
+                        </c:if>
 
-                    <c:if test="${paging.nowPage < paging.totalPage}">
-                        <a href="${pageContext.request.contextPath}/AdminController?type=userlist&cPage=${paging.nowPage + 1}&userType=${param.userType}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}" class="next">다음</a>
+                        <!-- 이전 페이지 블록으로 이동 버튼 -->
+                        <c:if test="${pvo.startPage > 1}">
+                            <a href="AdminController?type=userlist&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&userJoinMonth=${param.userJoinMonth}&userStatus=${param.userStatus}&userGrade=${param.userGrade}"
+                               class="control prev" title="이전 블록"></a>
+                        </c:if>
+
+                        <!-- 페이지 번호 목록 -->
+                        <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="st">
+                            <c:if test="${st.index eq pvo.nowPage}">
+                                <strong class="active">${st.index}</strong>
+                            </c:if>
+                            <c:if test="${st.index ne pvo.nowPage}">
+                                <a href="AdminController?type=userlist&cPage=${st.index}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&userJoinMonth=${param.userJoinMonth}&userStatus=${param.userStatus}&userGrade=${param.userGrade}"
+                                   title="${st.index}페이지 보기">${st.index}</a>
+                            </c:if>
+                        </c:forEach>
+
+                        <!-- 다음 페이지 블록으로 이동 버튼 -->
+                        <c:if test="${pvo.endPage < pvo.totalPage}">
+                            <a href="AdminController?type=userlist&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&userJoinMonth=${param.userJoinMonth}&userStatus=${param.userStatus}&userGrade=${param.userGrade}"
+                               class="control next" title="다음 블록"></a>
+                        </c:if>
+
+                        <!-- 마지막 페이지로 이동 버튼 -->
+                        <c:if test="${pvo.endPage < pvo.totalPage}">
+                            <a href="AdminController?type=userlist&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&userJoinMonth=${param.userJoinMonth}&userStatus=${param.userStatus}&userGrade=${param.userGrade}"
+                               class="control last" title="마지막 페이지"></a>
+                        </c:if>
                     </c:if>
                 </nav>
+                <!--------------------- 페이지네이션 --------------------->
 
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <script>
-                    $(document).ready(function () {
-                        $(".edit-btn").click(function () {
-                            var userIdx = $(this).data("id");
-                            console.log("userIdx = " + userIdx);
-
-                            $.ajax({
-                                url: "${pageContext.request.contextPath}/AdminController?type=getuser",
-                                type: "GET",
-                                data: { userIdx: userIdx },
-                                dataType: "json",
-                                headers: { "Accept": "application/json" },
-                                success: function (response) {
-                                    if (response.error) {
-                                        alert("오류 발생: " + response.error);
-                                        return;
-                                    }
-                                    $("#userIdx").val(response.userIdx);
-                                    $("#userName").val(response.userName);
-                                    $("#userEmail").val(response.userEmail);
-                                    $("#userPhone").val(response.userPhone);
-                                    $("#userPoint").val(response.userPoint);
-                                    $("#userGrade").val(response.userGrade);
-                                    $("#editUserModal").modal("show");
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error("AJAX 오류:", xhr.responseText);
-                                    alert("서버와의 통신 중 문제가 발생했습니다.");
-                                }
-                            });
-                        });
-
-
-                        $("#updateUserForm").submit(function (event) {
-                            event.preventDefault(); // 폼 기본 제출 방지
-
-                            $.ajax({
-                                url: "${pageContext.request.contextPath}/AdminController?type=updateuser",
-                                type: "POST",
-                                data: $("#updateUserForm").serialize(), // 폼 데이터 직렬화
-                                dataType: "json",
-                                headers: {
-                                    "Accept": "application/json"
-                                },
-                                success: function (response) {
-                                    if (response.error) {
-                                        console.error("업데이트 실패:", response.error);
-                                        alert("사용자 정보 업데이트 중 오류 발생: " + response.error);
-                                        return;
-                                    }
-
-                                    alert("사용자 정보가 성공적으로 업데이트되었습니다.");
-                                    $("#editUserModal").modal("hide");
-                                    location.reload(); // 페이지 새로고침
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error("AJAX 오류 발생!");
-                                    console.error("응답 상태:", xhr.status);
-                                    console.error("응답 메시지:", xhr.responseText);
-                                    alert("업데이트에 실패했습니다. 콘솔을 확인하세요.");
-                                }
-                            });
-                        });
-                    });
-
-                </script>
 
                 <!-- 수정 모달 -->
-                <div id="editUserModal" class="modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">사용자 정보 수정</h5>
-                                <button type="button" id="ModalCloseButton" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                <div id="userModal" class="dialog-common" title="사용자 상세 정보" style="display: none;">
+                    <div class="modal-body">
+                        <div class="info-section">
+                            <!-- 사용자 고유 ID (읽기 전용) -->
+                            <div class="field-row">
+                                <label>사용자 고유 ID:</label>
+                                <input type="text" id="userIdx" readonly />
                             </div>
-                            <div class="modal-body">
-                                <form id="updateUserForm">
-                                    <input type="hidden" id="userIdx" name="userIdx">
-                                    <div class="form-group">
-                                        <label>이름</label>
-                                        <input type="text" class="form-control" id="userName" name="userName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>전화번호</label>
-                                        <input type="text" class="form-control" id="userPhone" name="userPhone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>포인트</label>
-                                        <input type="number" class="form-control" id="userPoint" name="userPoint">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>등급</label>
-                                        <input type="text" class="form-control" id="userGrade" name="userGrade">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">저장</button>
-                                </form>
+
+                            <!-- 이름 (수정 가능) -->
+                            <div class="field-row">
+                                <label>이름:</label>
+                                <input type="text" id="userName" />
+                            </div>
+
+                            <!-- 로그인 ID (읽기 전용) -->
+                            <div class="field-row">
+                                <label>로그인 ID:</label>
+                                <input type="text" id="userId" readonly />
+                            </div>
+
+                            <!-- 이메일 (읽기 전용) -->
+                            <div class="field-row">
+                                <label>이메일:</label>
+                                <input type="email" id="userEmail" readonly />
+                            </div>
+
+                            <!-- 연락처 (수정 가능) -->
+                            <div class="field-row">
+                                <label>연락처:</label>
+                                <input type="text" id="userPhone" />
+                            </div>
+
+                            <!-- 보유 포인트 (수정 가능) -->
+                            <div class="field-row">
+                                <label>보유 포인트:</label>
+                                <input type="text" id="userPoint" />
+                            </div>
+
+                            <!-- 회원 등급 (수정 가능) -->
+                            <div class="field-row">
+                                <label>회원 등급:</label>
+                                <select id="userGrade">
+                                    <option value="BASIC">BASIC</option>
+                                    <option value="VIP">VIP</option>
+                                    <option value="VVIP">VVIP</option>
+                                </select>
+                            </div>
+
+                            <!-- 가입일 (읽기 전용) -->
+                            <div class="field-row">
+                                <label>가입일:</label>
+                                <input type="text" id="userRegDate" readonly />
+                            </div>
+
+                            <!-- 사용자 상태 (읽기 전용) -->
+                            <div class="field-row">
+                                <label>사용자 상태:</label>
+                                <input type="text" id="userStatus1" readonly />
                             </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
+
+            <!-- jQuery 및 jQuery UI 추가 -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    // 사용자 데이터 로드 함수
+                    function loadUserData(userIdx) {
+                        $.ajax({
+                            url: "AdminController?type=getuser&userIdx=" + userIdx,
+                            method: "GET",
+                            dataType: "json",
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            },
+                            success: function(response) {
+                                if (response.error) {
+                                    alert("오류 발생: " + response.error);
+                                    return;
+                                }
+
+                                // 기본 정보 채우기
+                                $("#userIdx").val(response.userIdx);
+                                $("#userId").val(response.userId);
+                                $("#userName").val(response.userName);
+                                $("#userEmail").val(response.userEmail);
+                                $("#userPhone").val(response.userPhone);
+                                $("#userPoint").val(response.userPoint);
+                                $("#userGrade").val(response.userGrade);
+                                $("#userRegDate").val(response.userRegDate);
+
+                                // 모달 창 열기
+                                $("#userModal").dialog("open");
+                            },
+                            error: function(xhr, status, error) {
+                                console.error("AJAX 오류:", xhr.responseText);
+                                alert("사용자 정보를 불러오는 데 실패했습니다.");
+                            }
+                        });
+                    }
+
+                    // jQuery UI 모달 초기화
+                    $("#userModal").dialog({
+                        autoOpen: false,
+                        modal: true,
+                        width: 600,
+                        classes: {
+                            "ui-dialog": "dialog-common"
+                        },
+                        buttons: {
+                            "저장": function() {
+                                // 폼 데이터 수집 및 AJAX 요청 전송
+                                const formData = $("#updateUserForm").serialize();
+
+                                $.ajax({
+                                    url: "AdminController?type=updateuser&userIdx=" + userIdx,
+                                    type: "POST",
+                                    data: formData,
+                                    dataType: "json",
+                                    headers: {
+                                        "X-Requested-With": "XMLHttpRequest"
+                                    },
+                                    success: function(response) {
+                                        if (response.error) {
+                                            alert("업데이트 실패: " + response.error);
+                                            return;
+                                        }
+
+                                        alert("사용자 정보가 업데이트되었습니다.");
+                                        $("#userModal").dialog("close");
+                                        location.reload();  // 페이지 새로고침
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("AJAX 오류 발생:", error);
+                                        alert("업데이트에 실패했습니다.");
+                                    }
+                                });
+                            },
+                            "취소": function() {
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+
+                    // 사용자 목록 <tr> 클릭 이벤트 설정
+                    $(".clickable-row").on("click", function() {
+                        const userIdx = $(this).data("id");
+
+                        // 사용자 데이터 로드 후 모달 열기
+                        loadUserData(userIdx);
+                    });
+                });
+            </script>
         </div>
     </div>
-
-<script>
-    document.getElementById('ModalCloseButton').addEventListener("click", function () {
-        $('#editUserModal').modal('hide');
-    });
-</script>
 </body>
 </html>

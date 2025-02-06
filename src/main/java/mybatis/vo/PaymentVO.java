@@ -3,7 +3,15 @@ package mybatis.vo;
 public class PaymentVO {
     private String paymentIdx, userIdx, paymentType, reservationIdx, productIdx,
             paymentMethod, paymentTotal, paymentDiscount, paymentFinal,
-            paymentTransactionId, paymentApprovalNumber, paymentDate,paymentQuantiy, paymentStatus,productName;
+            paymentTransactionId, paymentApprovalNumber, paymentDate,paymentQuantiy, paymentStatus,productName, userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getProductName() {
         return productName;

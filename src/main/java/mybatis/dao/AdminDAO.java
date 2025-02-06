@@ -21,38 +21,51 @@ public class AdminDAO {
         return ar;
     }
 
-    public static int getTotalUserCount(String searchType, String searchKeyword, String userType) {
-        try (SqlSession ss = FactoryService.getFactory().openSession()) {
-            Map<String, Object> params = new HashMap<>();
-            params.put("userType", userType);
-            params.put("searchType", searchType);
-            params.put("searchKeyword", searchKeyword);
-            return ss.selectOne("admin.getTotalUserCount", params);
-        } catch (Exception e) {
-            System.out.println("getTotalUserCount 오류 발생: " + e.getMessage());
-            e.printStackTrace();
-            return 0;
-        }
+    // 전체 사용자 수 반환 (검색 조건에 따라)
+    public static int getTotalUserCount(String searchType, String searchKeyword,
+                                        String userJoinMonth, String userStatus, String userGrade) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("searchKeyword", searchKeyword);
+        map.put("userJoinMonth", userJoinMonth);
+        map.put("userStatus", userStatus);
+        map.put("userGrade", userGrade);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int count = ss.selectOne("admin.getTotalUserCount", map);
+        ss.close();
+
+        return count;
     }
 
-    public static List<UserVO> getUsersByPage(int begin, int numPerPage, String searchType, String searchKeyword, String userType) {
-        try (SqlSession ss = FactoryService.getFactory().openSession()) {
-            Map<String, Object> params = new HashMap<>();
-            params.put("begin", begin);
-            params.put("numPerPage", numPerPage);
-            params.put("userType", userType);
-            params.put("searchType", searchType);
-            params.put("searchKeyword", searchKeyword);
-            return ss.selectList("admin.getUsersByPage", params);
-        } catch (Exception e) {
-            System.out.println("getUsersByPage 오류 발생: " + e.getMessage());
-            e.printStackTrace();
-            return null;
+    // 사용자 목록 반환 (페이징 및 검색 조건 포함)
+    public static UserVO[] getUsersByPage(String searchType, String searchKeyword,
+                                          String userJoinMonth, String userStatus, String userGrade,
+                                          int begin, int end) {
+        UserVO[] userArray = null;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("searchKeyword", searchKeyword);
+        map.put("userJoinMonth", userJoinMonth);
+        map.put("userStatus", userStatus);
+        map.put("userGrade", userGrade);
+        map.put("begin", begin);
+        map.put("end", end);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<UserVO> list = ss.selectList("admin.getUsersByPage", map);
+        if (list != null && !list.isEmpty()) {
+            userArray = new UserVO[list.size()];
+            list.toArray(userArray);
         }
+        ss.close();
+
+        return userArray;
     }
 
 
-    public UserVO getUserById(int userIdx) {
+    public UserVO getUserById(String userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
         UserVO user = null;
 

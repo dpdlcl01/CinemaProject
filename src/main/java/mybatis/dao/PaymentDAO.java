@@ -11,10 +11,52 @@ import java.util.Map;
 
 public class PaymentDAO {
 
+    // 관리자 화면에서 전체 결제 내역 개수 반환
+    public static int countPayments(String searchType, String searchValue, String paymentMonth, String paymentStatus, String paymentType) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("searchValue", searchValue);
+        map.put("paymentMonth", paymentMonth);
+        map.put("paymentStatus", paymentStatus);
+        map.put("paymentType", paymentType);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int count = ss.selectOne("payment.countPayments", map);
+        ss.close();
+
+        return count;
+    }
+
+    // 결제 내역 목록 반환
+    public static PaymentVO[] getPaymentList(String searchType, String searchValue, String paymentMonth, String paymentStatus, String paymentType, int begin, int end) {
+        PaymentVO[] paymentArray = null;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("searchValue", searchValue);
+        map.put("paymentMonth", paymentMonth);
+        map.put("paymentStatus", paymentStatus);
+        map.put("paymentType", paymentType);
+        map.put("begin", begin);
+        map.put("end", end);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<PaymentVO> list = ss.selectList("payment.getPaymentList", map);
+        if (list != null && !list.isEmpty()) {
+            paymentArray = new PaymentVO[list.size()];
+            list.toArray(paymentArray);
+        }
+        ss.close();
+
+        return paymentArray;
+    }
 
 
 
-    public static int getTotalPaymentCount() {
+
+
+
+/*    public static int getTotalPaymentCount() {
         SqlSession ss = null;
         int count = 0;
         try {
@@ -39,7 +81,7 @@ public class PaymentDAO {
             if (ss != null) ss.close();
         }
         return payments;
-    }
+    }*/
 
     public static PaymentVO[] searchPayment(String userId){
         SqlSession ss = FactoryService.getFactory().openSession();

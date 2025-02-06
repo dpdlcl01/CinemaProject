@@ -50,6 +50,28 @@
         display: block;
     }
 
+    /* 검색 폼 요소를 가로로 나란히 배치 */
+    #searchForm {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* 검색 대상 및 필터 요소 스타일 */
+    #searchForm select,
+    #searchForm input[type="month"] {
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        flex-shrink: 0;
+        width: auto;
+    }
+
+
+
+
     .search-bar-container {
         display: flex;
         justify-content: space-between;
@@ -61,10 +83,11 @@
         font-size: 16px;
     }
 
+    /* 검색 바 컨테이너 */
     .search-bar {
         display: flex;
-        justify-content: flex-end;
         align-items: center;
+        flex-wrap: nowrap;
         gap: 10px;
     }
 
@@ -74,21 +97,24 @@
     }
 
     .search-bar2 {
-        border-bottom: 1px solid #423e3e;
-        display: inline-block;
-        position: relative;
-        width: 200px;
+        flex: 1;               /* 부모 컨테이너의 남은 공간을 차지 */
+        max-width: 400px;      /* 최대 너비 */
+        min-width: 200px;      /* 최소 너비 */
         height: 30px;
+        position: relative;
+        border-bottom: 1px solid #423e3e;
     }
 
     .search-bar2 .input-text {
-        display: inline-block;
+        width: 100%;           /* 부모의 너비에 맞게 확장 */
         background-color: transparent;
         border: 0;
         color: #000;
         line-height: 25px;
         font-size: 16px;
         outline: none;
+        padding: 0 35px 0 5px; /* 버튼과 충돌 방지 */
+        box-sizing: border-box;
     }
 
     .search-bar2 .input-text:active {
@@ -97,27 +123,47 @@
     }
 
     .search-bar2 .btn {
-        display: block;
         width: 30px;
         height: 100%;
         position: absolute;
         right: 0;
         top: 0;
         font-size: 0;
-        line-height: 0;
         border: 0;
         background-color: transparent;
+        cursor: pointer;
     }
 
-    .search-bar2 .btn:hover {
-        background-color: #0056b3;
-    }
+    /*    .search-bar2 .btn:hover {
+            background-color: #0056b3;
+        }*/
 
     .search-bar2 .btn .ico-search {
         display: inline-block;
         width: 18px;
         height: 18px;
         background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+        vertical-align: middle;
+    }
+
+    /* 초기화 아이콘 스타일 */
+    .search-bar2 .btn-reset {
+        position: absolute;
+        right: 30px; /* 검색 버튼 옆에 위치 */
+        top: 0;
+        width: 30px;
+        height: 100%;
+        border: 0;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .ico-reset {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-image: url("${pageContext.request.contextPath}/css/user/images/reload.png");
+        background-size: contain;
         vertical-align: middle;
     }
 
@@ -150,10 +196,10 @@
     }
 
     /* 제목 왼쪽 정렬 필요할 경우 */
-/*    td:nth-child(4) {
-        text-align: left;
-        padding-left: 15px;
-    }*/
+    /*    td:nth-child(4) {
+            text-align: left;
+            padding-left: 15px;
+        }*/
 
     td a {
         color: inherit; /* 부모 요소의 색상을 따르도록 설정 */
@@ -180,6 +226,7 @@
     .clickable-row:hover {
         background-color: #f0f0f0;
     }
+
 
     /* 페이지네이션 */
     .pagination {
@@ -253,105 +300,158 @@
         <div id="title">
             <div id="announcement" class="noticeboard">
                 <div class="search-bar-container">
-                    <div class="total-count">전체 ${fn:length(requestScope.ar)}건</div>
+                    <div class="total-count">전체 ${requestScope.totalCount}건</div>
                     <!-- 검색어 입력 섹션 -->
                     <div class="search-bar">
-                    <%--    <select>
-                            <option>지역 선택</option>
-                            <option>서울</option>
-                            <option>경기</option>
-                            <option>인천</option>
-                            <option>부산</option>
-                        </select>
-                        <select>
-                            <option>극장 선택</option>
-                            <option>코엑스</option>
-                            <option>미사강변</option>
-                            <option>안성스타필드</option>
-                        </select>--%>
-                        <div class="search-bar2">
-                            <input type="text" placeholder="회원 id를 입력하세요" title="사용자 검색" class="input-text">
-                            <button class="btn" id="searchBtn">
-                                <i class="ico-search"></i>
-                                검색
+                        <form id="searchForm" action="AdminController" method="get">
+                            <input type="hidden" name="type" value="paymentList" />
+
+                            <!-- 결제일 월별 검색 -->
+                            <label for="paymentMonth">결제일:</label>
+                            <input type="month" id="paymentMonth" name="paymentMonth" style="padding: 5px;"
+                                   value="${param.paymentMonth}" />
+
+                            <!-- 결제 상태 선택 -->
+                            <select id="paymentStatus" name="paymentStatus">
+                                <option value="">결제 상태 (전체)</option>
+                                <option value="0" ${param.paymentStatus == '0' ? 'selected' : ''}>결제 완료</option>
+                                <option value="1" ${param.paymentStatus == '1' ? 'selected' : ''}>결제 대기</option>
+                                <option value="2" ${param.paymentStatus == '2' ? 'selected' : ''}>결제 취소</option>
+                            </select>
+
+                            <!-- 결제 종류 선택 -->
+                            <select id="paymentType" name="paymentType">
+                                <option value="">결제 종류 (전체)</option>
+                                <option value="1" ${param.paymentType == '1' ? 'selected' : ''}>영화 예매</option>
+                                <option value="2" ${param.paymentType == '2' ? 'selected' : ''}>상품 구매</option>
+                            </select>
+
+                            <!-- 검색 대상 선택 -->
+                            <select id="searchType" name="searchType">
+                                <option value="all" ${param.searchType == 'all' ? 'selected' : ''}>검색 대상 (전체)</option>
+                                <option value="user" ${param.searchType == 'user' ? 'selected' : ''}>사용자 ID</option>
+                                <option value="transactionId" ${param.searchType == 'transactionId' ? 'selected' : ''}>거래 ID</option>
+                                <option value="reservation" ${param.searchType == 'reservation' ? 'selected' : ''}>예매 ID</option>
+                                <option value="product" ${param.searchType == 'product' ? 'selected' : ''}>상품 ID</option>
+                            </select>
+
+                            <!-- 검색어 입력 필드 -->
+                            <div class="search-bar2">
+                                <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." class="input-text"
+                                       value="${fn:escapeXml(param.searchValue)}" />
+                                <button type="submit" class="btn" title="검색">
+                                    <i class="ico-search"></i> 검색
+                                </button>
+                            </div>
+
+                            <!-- 초기화 버튼 (아이콘) -->
+                            <button type="button" class="btn btn-reset" title="검색 조건 초기화" onclick="resetSearch()">
+                                <i class="ico-reset"></i>
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // 초기화 버튼 클릭 시 폼 리셋 후 페이지 이동
+                        function resetSearch() {
+                            document.querySelector('#searchForm').reset();
+                            location.href = 'AdminController?type=paymentList';  // 초기화 후 기본 페이지로 이동
+                        }
+
+                        document.querySelector('.btn-reset').addEventListener('click', resetSearch);
+                    });
+                </script>
+
 
                 <!-- 영화 정보 테이블 -->
                 <table>
                     <thead>
                     <tr>
-                        <th>유저idx</th>
-                        <th>예매정보</th>
-                        <th>상품정보</th>
-                        <th>수량</th>
-                        <th>결제방식</th>
-                        <th>결제금액</th>
-                        <th>할인금액</th>
-                        <th>최종금액</th>
-                        <th>결제번호</th>
-                        <th>결제날짜</th>
-                        <th>결제상태</th>
+                        <th>결제 ID</th>
+                        <th>사용자 ID</th>
+                        <th>결제 종류</th>
+                        <th>결제 방식</th>
+                        <th>실제 결제 금액</th>
+                        <th>결제 상태</th>
+                        <th>결제일</th>
                     </tr>
                     </thead>
                     <tbody>
-
-                    <c:forEach items="${requestScope.ar}" var="ar">
-
-
-                        <tr class="clickable-row">
-                            <td>${ar.userIdx}</td>
-                            <td>${ar.reservationIdx}</td>
-                            <td>${ar.productName}</td>
-                            <td>${ar.paymentQuantiy}</td>
-                            <td>${ar.paymentMethod}</td>
-                            <td>${ar.paymentTotal}</td>
-                            <td>${ar.paymentDiscount}</td>
-                            <td>${ar.paymentFinal}</td>
-                            <td>${ar.paymentTransactionId}</td>
-                            <td>${ar.paymentDate}</td>
-                            <td>${ar.paymentStatus}</td>
-
+                    <c:forEach items="${requestScope.paymentArray}" var="payment">
+                        <tr class="clickable-row" data-payment-id="${payment.paymentIdx}">
+                            <td>${payment.paymentIdx}</td>
+                            <td>${payment.userId}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${payment.paymentType == 1}">영화 예매</c:when>
+                                    <c:when test="${payment.paymentType == 2}">상품 구매</c:when>
+                                </c:choose>
+                            </td>
+                            <td>${payment.paymentMethod}</td>
+                            <td>${payment.paymentFinal} 원</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${payment.paymentStatus == 0}">완료</c:when>
+                                    <c:when test="${payment.paymentStatus == 1}">대기</c:when>
+                                    <c:when test="${payment.paymentStatus == 2}">취소</c:when>
+                                </c:choose>
+                            </td>
+                            <td>${payment.paymentDate.substring(0, 16)}</td>
                         </tr>
                     </c:forEach>
-                    <c:if test="${empty requestScope.ar}">
+                    <c:if test="${empty requestScope.paymentArray}">
                         <tr>
-                            <td colspan="11">현재 등록된 데이터가 없습니다.</td>
+                            <td colspan="7">현재 등록된 데이터가 없습니다.</td>
                         </tr>
                     </c:if>
-
-
-
                     </tbody>
                 </table>
 
-                <!--------------------- 페이지네이션 -------------------->
+
+                <!--------------------- 페이지네이션 --------------------->
                 <nav class="pagination">
-                    <c:if test="${cPage > 1}">
-                        <a href="AdminController?type=paymentList&cPage=1" class="control first"></a>
-                        <a href="AdminController?type=paymentList&cPage=${cPage - 1}" class="control prev"></a>
-                    </c:if>
+                    <c:if test="${requestScope.page ne null}">
+                        <c:set var="pvo" value="${requestScope.page}" />
 
-                    <c:forEach begin="1" end="${totalPage}" var="pageNum">
-                        <c:choose>
-                            <c:when test="${pageNum == cPage}">
-                                <strong class="active">${pageNum}</strong>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="AdminController?type=paymentList&cPage=${pageNum}">${pageNum}</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
+                        <!-- << (맨 처음으로) -->
+                        <c:if test="${pvo.startPage > 1}">
+                            <a href="AdminController?type=paymentList&cPage=1&searchType=${param.searchType}&searchValue=${param.searchValue}&paymentMonth=${param.paymentMonth}&paymentStatus=${param.paymentStatus}&paymentType=${param.paymentType}"
+                               class="control first" title="처음 페이지"></a>
+                        </c:if>
 
-                    <c:if test="${cPage < totalPage}">
-                        <a href="AdminController?type=paymentList&cPage=${cPage + 1}" class="control next"></a>
-                        <a href="AdminController?type=paymentList&cPage=${totalPage}" class="control last"></a>
+                        <!-- < (이전 페이지 블록) -->
+                        <c:if test="${pvo.startPage > 1}">
+                            <a href="AdminController?type=paymentList&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}&paymentMonth=${param.paymentMonth}&paymentStatus=${param.paymentStatus}&paymentType=${param.paymentType}"
+                               class="control prev" title="이전 블록"></a>
+                        </c:if>
+
+                        <!-- 페이지 번호 -->
+                        <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="st">
+                            <c:if test="${st.index eq pvo.nowPage}">
+                                <strong class="active">${st.index}</strong>
+                            </c:if>
+                            <c:if test="${st.index ne pvo.nowPage}">
+                                <a href="AdminController?type=paymentList&cPage=${st.index}&searchType=${param.searchType}&searchValue=${param.searchValue}&paymentMonth=${param.paymentMonth}&paymentStatus=${param.paymentStatus}&paymentType=${param.paymentType}"
+                                   title="${st.index}페이지 보기">${st.index}</a>
+                            </c:if>
+                        </c:forEach>
+
+                        <!-- > (다음 페이지 블록) -->
+                        <c:if test="${pvo.endPage < pvo.totalPage}">
+                            <a href="AdminController?type=paymentList&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}&paymentMonth=${param.paymentMonth}&paymentStatus=${param.paymentStatus}&paymentType=${param.paymentType}"
+                               class="control next" title="다음 블록"></a>
+                        </c:if>
+
+                        <!-- >> (맨 마지막으로) -->
+                        <c:if test="${pvo.endPage < pvo.totalPage}">
+                            <a href="AdminController?type=paymentList&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchValue=${param.searchValue}&paymentMonth=${param.paymentMonth}&paymentStatus=${param.paymentStatus}&paymentType=${param.paymentType}"
+                               class="control last" title="마지막 페이지"></a>
+                        </c:if>
                     </c:if>
                 </nav>
+                <!--------------------- 페이지네이션 --------------------->
 
-                <!--------------------- 페이지네이션 -------------------->
 
             </div>
         </div>
@@ -360,65 +460,5 @@
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function() {
-        let currentPage = 1; // 현재 페이지 (초기값 1)
-
-        function undefinedToWhitespace(value) {
-            return (value !== undefined && value !== null && value !== "") ? value : '&nbsp;';
-        }
-
-
-
-        $("#searchBtn").on("click", function() {
-            let userId = $(".input-text").val().trim();  // 입력된 회원 ID 가져오기
-
-            if (userId === "") {
-                alert("회원 ID를 입력하세요.");
-                return;
-            }
-
-            $.ajax({
-                type: "GET",
-                url: "${pageContext.request.contextPath}/AdminController?type=paymentIdSearch",
-                data: { userId: userId },  // 요청 데이터
-                dataType: "json",  // JSON 형식으로 응답 받기
-                success: function(response) {
-                    console.log("응답 데이터:", response);
-
-                    let tbody = $("table tbody");
-                    tbody.empty();  // 기존 테이블 데이터 삭제
-
-                    if (response.length === 0) {
-                        tbody.append('<tr><td colspan="11">해당 회원의 결제 내역이 없습니다.</td></tr>');
-                    } else {
-                        response.forEach(function(ar) {
-                            let row =  '<tr class="clickable-row">' +
-                                '<td>' + undefinedToWhitespace(ar.userIdx) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.reservationIdx) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.productName) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentQuantiy) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentMethod) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentTotal) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentDiscount) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentFinal) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentTransactionId) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentDate) + '</td>' +
-                                '<td>' + undefinedToWhitespace(ar.paymentStatus) + '</td>' +
-                                '</tr>';
-                            tbody.append(row);
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("오류 발생:", error);
-                    alert("검색 중 오류가 발생했습니다. 다시 시도해주세요.");
-                }
-            });
-        });
-    });
-
-
-</script>
 </body>
 </html>
