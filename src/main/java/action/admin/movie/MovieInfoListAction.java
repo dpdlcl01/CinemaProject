@@ -28,12 +28,15 @@ public class MovieInfoListAction implements Action {
         Paging page = new Paging(10, 10);
 
 
-        // 검색 기준, 검색어를 파라미터로 받기
+        // 검색 조건 파라미터 수집
         String searchType = request.getParameter("searchType");
         String searchValue = request.getParameter("searchValue");
+        String searchMonth = request.getParameter("searchMonth");    // 개봉월 검색 조건
+        String movieStatus = request.getParameter("movieStatus");    // 영화 상태 검색 조건
+        String movieGrade = request.getParameter("movieGrade");      // 관람 등급 검색 조건
 
         // 총 게시물의 수를 구한다.
-        int totalCount = MovieDAO.adminMovieCount(searchType, searchValue);
+        int totalCount = MovieDAO.adminMovieCount(searchType, searchValue, searchMonth, movieStatus, movieGrade);
 
 
 
@@ -53,7 +56,10 @@ public class MovieInfoListAction implements Action {
         }
 
         // DB에서 원하는 자원들을 가져와야 한다.
-        MovieVO[] movieArray = MovieDAO.adminMovieList(searchType, searchValue, page.getBegin(), page.getEnd());
+        MovieVO[] movieArray = MovieDAO.adminMovieList(
+                searchType, searchValue, searchMonth, movieStatus, movieGrade,
+                page.getBegin(), page.getEnd()
+        );
 
         // request에 저장해야 한다.
         request.setAttribute("totalCount", totalCount);

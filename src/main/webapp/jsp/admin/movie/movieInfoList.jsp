@@ -51,12 +51,27 @@
         display: block;
     }
 
-    /* form 내의 요소들을 나란히 배치 */
+    /* 검색 폼 요소를 가로로 나란히 배치 */
     #searchForm {
         display: flex;
         align-items: center;
-        gap: 10px; /* 간격 설정 */
+        flex-wrap: wrap;
+        gap: 10px;
     }
+
+    /* 검색 대상 및 필터 요소 스타일 */
+    #searchForm select,
+    #searchForm input[type="month"] {
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        flex-shrink: 0;
+        width: auto;
+    }
+
+
+
 
     .search-bar-container {
         display: flex;
@@ -69,10 +84,11 @@
         font-size: 16px;
     }
 
+    /* 검색 바 컨테이너 */
     .search-bar {
         display: flex;
-        justify-content: flex-end;
         align-items: center;
+        flex-wrap: nowrap;
         gap: 10px;
     }
 
@@ -119,15 +135,36 @@
         cursor: pointer;
     }
 
-    .search-bar2 .btn:hover {
+/*    .search-bar2 .btn:hover {
         background-color: #0056b3;
-    }
+    }*/
 
     .search-bar2 .btn .ico-search {
         display: inline-block;
         width: 18px;
         height: 18px;
         background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+        vertical-align: middle;
+    }
+
+    /* 초기화 아이콘 스타일 */
+    .search-bar2 .btn-reset {
+        position: absolute;
+        right: 30px; /* 검색 버튼 옆에 위치 */
+        top: 0;
+        width: 30px;
+        height: 100%;
+        border: 0;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .ico-reset {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-image: url("${pageContext.request.contextPath}/css/user/images/reload.png");
+        background-size: contain;
         vertical-align: middle;
     }
 
@@ -326,40 +363,74 @@
             <div id="announcement" class="noticeboard">
                 <div class="search-bar-container">
                     <div class="total-count">전체 ${requestScope.totalCount}건</div>
-                    <!-- 검색어 입력 섹션 -->
+
+                    <!-- 검색어 입력 및 필터 섹션 -->
                     <div class="search-bar">
-                        <%--<select>
-                            <option>지역 선택</option>
-                            <option>서울</option>
-                            <option>경기</option>
-                            <option>인천</option>
-                            <option>부산</option>
-                        </select>--%>
                         <form id="searchForm" action="AdminController" method="get">
                             <input type="hidden" name="type" value="movieInfoList" />
-                            <select id="searchType" name="searchType">
-                                <option value="-1">::선택::</option>
-                                <option value="0">제목</option>
-                                <option value="1">장르</option>
-                                <option value="2">감독</option>
-                                <option value="3">배우</option>
-                                <option value="4">정보</option>
+
+                            <!-- 개봉일 월별 검색 -->
+                            <label for="searchMonth">개봉월:</label>
+                            <input type="month" id="searchMonth" name="searchMonth" style="padding: 5px;"
+                                   value="${param.searchMonth}" />
+
+                            <!-- 영화 상태 선택 -->
+                            <select id="movieStatus" name="movieStatus">
+                                <option value="">영화 상태 (전체)</option>
+                                <option value="0" ${param.movieStatus == '0' ? 'selected' : ''}>개봉</option>
+                                <option value="1" ${param.movieStatus == '1' ? 'selected' : ''}>개봉 예정</option>
+                                <option value="2" ${param.movieStatus == '2' ? 'selected' : ''}>종료</option>
                             </select>
+
+                            <!-- 영화 관람 등급 선택 -->
+                            <select id="movieGrade" name="movieGrade">
+                                <option value="">관람 등급 (전체)</option>
+                                <option value="ALL" ${param.movieGrade == 'ALL' ? 'selected' : ''}>전체 관람가</option>
+                                <option value="12" ${param.movieGrade == '12' ? 'selected' : ''}>12세 이상 관람가</option>
+                                <option value="15" ${param.movieGrade == '15' ? 'selected' : ''}>15세 이상 관람가</option>
+                                <option value="19" ${param.movieGrade == '19' ? 'selected' : ''}>청소년 관람 불가</option>
+                            </select>
+
+                            <!-- 검색 대상 선택 -->
+                            <select id="searchType" name="searchType">
+                                <option value="all" ${param.searchType == 'all' ? 'selected' : ''}>검색 대상 (전체)</option>
+                                <option value="title" ${param.searchType == 'title' ? 'selected' : ''}>영화 제목</option>
+                                <option value="director" ${param.searchType == 'director' ? 'selected' : ''}>감독</option>
+                                <option value="actor" ${param.searchType == 'actor' ? 'selected' : ''}>배우</option>
+                                <option value="genre" ${param.searchType == 'genre' ? 'selected' : ''}>장르</option>
+                                <option value="nation" ${param.searchType == 'nation' ? 'selected' : ''}>제작 국가</option>
+                            </select>
+
+                            <!-- 검색어 입력 필드 -->
                             <div class="search-bar2">
-                                <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." class="input-text" />
-                                <button type="submit" class="btn">
+                                <input type="text" name="searchValue" placeholder="검색어를 입력해주세요." class="input-text"
+                                       value="${fn:escapeXml(param.searchValue)}" />
+                                <button type="submit" class="btn" title="검색">
                                     <i class="ico-search"></i> 검색
                                 </button>
                             </div>
+
+                            <!-- 초기화 버튼 (아이콘) -->
+                            <button type="button" class="btn btn-reset" title="검색 조건 초기화" onclick="resetSearch()">
+                                <i class="ico-reset"></i>
+                            </button>
                         </form>
+                        <script>
+                            function resetSearch() {
+                                document.querySelector('#searchForm').reset();  // 폼 초기화
+                                location.href = 'AdminController?type=movieInfoList';  // 초기화 후 기본 목록 페이지로 이동
+                            }
+                        </script>
+
                     </div>
                 </div>
+
 
                 <!-- 영화 정보 테이블 -->
                 <table>
                     <thead>
                     <tr>
-                        <th>순위</th>
+                        <th>번호</th>
                         <th>제목</th>
                         <th>예매율</th>
                         <th>상영시간</th>
@@ -405,7 +476,7 @@
                     </c:forEach>
                     <c:if test="${movieArray eq null or fn:length(movieArray) eq 0 }">
                         <tr>
-                            <td colspan="5">현재 등록된 데이터가 없습니다.</td>
+                            <td colspan="7">현재 등록된 데이터가 없습니다.</td>
                         </tr>
                     </c:if>
 
@@ -414,20 +485,20 @@
 
 
 
-                <!--------------------- 페이지네이션 -------------------->
+                <!--------------------- 페이지네이션 --------------------->
                 <nav class="pagination">
                     <c:if test="${requestScope.page ne null}">
                         <c:set var="pvo" value="${requestScope.page}" />
 
                         <!-- << (맨 처음으로) -->
                         <c:if test="${pvo.startPage > 1}">
-                            <a href="AdminController?type=movieInfoList&cPage=1&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                            <a href="AdminController?type=movieInfoList&cPage=1&searchType=${param.searchType}&searchValue=${param.searchValue}&searchMonth=${param.searchMonth}&movieStatus=${param.movieStatus}&movieGrade=${param.movieGrade}"
                                class="control first" title="처음 페이지"></a>
                         </c:if>
 
                         <!-- < (이전 페이지 블록) -->
                         <c:if test="${pvo.startPage > 1}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}&searchMonth=${param.searchMonth}&movieStatus=${param.movieStatus}&movieGrade=${param.movieGrade}"
                                class="control prev" title="이전 블록"></a>
                         </c:if>
 
@@ -437,25 +508,26 @@
                                 <strong class="active">${st.index}</strong>
                             </c:if>
                             <c:if test="${st.index ne pvo.nowPage}">
-                                <a href="AdminController?type=movieInfoList&cPage=${st.index}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                                <a href="AdminController?type=movieInfoList&cPage=${st.index}&searchType=${param.searchType}&searchValue=${param.searchValue}&searchMonth=${param.searchMonth}&movieStatus=${param.movieStatus}&movieGrade=${param.movieGrade}"
                                    title="${st.index}페이지 보기">${st.index}</a>
                             </c:if>
                         </c:forEach>
 
                         <!-- > (다음 페이지 블록) -->
                         <c:if test="${pvo.endPage < pvo.totalPage}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchValue=${param.searchValue}&searchMonth=${param.searchMonth}&movieStatus=${param.movieStatus}&movieGrade=${param.movieGrade}"
                                class="control next" title="다음 블록"></a>
                         </c:if>
 
                         <!-- >> (맨 마지막으로) -->
                         <c:if test="${pvo.endPage < pvo.totalPage}">
-                            <a href="AdminController?type=movieInfoList&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchValue=${param.searchValue}"
+                            <a href="AdminController?type=movieInfoList&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchValue=${param.searchValue}&searchMonth=${param.searchMonth}&movieStatus=${param.movieStatus}&movieGrade=${param.movieGrade}"
                                class="control last" title="마지막 페이지"></a>
                         </c:if>
                     </c:if>
                 </nav>
-                <!--------------------- 페이지네이션 -------------------->
+                <!--------------------- 페이지네이션 --------------------->
+
 
             </div>
         </div>
