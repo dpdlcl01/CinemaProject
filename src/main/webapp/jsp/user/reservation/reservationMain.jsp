@@ -83,25 +83,30 @@
         let userMain_selectedMovieIdx = "${userMain_selectedMovieIdx}";
         let userMain_selectedDate = "${userMain_selectedDate}";
 
-        // 영화 선택 표시
-        let movieElements = document.querySelectorAll(".movie-list li");
-        movieElements.forEach((li) => {
-            if (li.getAttribute("data-movie-id") === userMain_selectedMovieIdx) {
-                li.classList.add("selected");
-            }
-        });
-
-        // 날짜 선택 표시
-        let dateElements = document.querySelectorAll("#date-list li");
-        dateElements.forEach((li) => {
-            if (li.dataset.date === userMain_selectedDate) {
-                li.classList.add("selected");
-            }
-        });
-
-        // ✅ 🎯 자동으로 availableTheaters 실행
+        // ✅ 영화와 날짜가 전달되었다면 자동으로 availableTheaters 실행
         if (userMain_selectedMovieIdx) {
-            updateTheaterList(userMain_selectedMovieIdx);
+            console.log("🎯 자동 실행 - 선택된 영화 ID:", userMain_selectedMovieIdx, " 선택된 날짜:", userMain_selectedDate);
+
+            // UI에서 영화 선택 스타일 적용
+            let movieElements = document.querySelectorAll(".movie-list li");
+            movieElements.forEach((li) => {
+                if (li.getAttribute("data-movie-id") === userMain_selectedMovieIdx) {
+                    li.classList.add("selected");
+                }
+            });
+
+            // 날짜 선택 스타일 적용
+            let dateElements = document.querySelectorAll("#date-list li");
+            dateElements.forEach((li) => {
+                if (li.dataset.date === userMain_selectedDate) {
+                    li.classList.add("selected");
+                }
+            });
+
+            // ✅ availableTheaters 자동 실행을 약간의 지연 후 실행 (setTimeout 활용)
+            setTimeout(() => {
+                updateTheaterList(userMain_selectedMovieIdx);
+            }, 100); // 0.1초 지연 후 실행 (DOM 안정화 후 실행)
         }
 
         // 지역 관련 변수
