@@ -239,6 +239,7 @@
     .ui-dialog{
         padding: 0;
         font-weight: 600;
+        height: 300px;
     }
     .ui-dialog #btnDiv2{
         margin: auto;
@@ -403,7 +404,7 @@
                                     <img src="${rvo.moviePosterUrl}">
                                     <div id="reservInfo">
                                         <p>결제일시: ${rvo.reservationDate}</p>
-                                        <p><em>${rvo.customReservationIdx}-예매번호</em><span>|${rvo.movieTitle}</span></p>
+                                        <p><em>${rvo.customReservationIdx}</em><span>|${rvo.movieTitle}</span></p>
                                         <p>${rvo.theaterName} ${rvo.screenName}</p>
                                         <p>${rvo.timetableStartTime}</p>
                                     </div>
@@ -626,6 +627,7 @@
         // 해당 버튼과 같은 div 내의 숨겨진 input 값 가져오기 siblings 같은 부모요소를 가진 형제요소 중 클래스가 idx인 것을 선택
 
         $('#notice').dialog({
+            height: 250,
             modal: true,
             title: "예매 취소 확인",
             closeText: "닫기",

@@ -3,6 +3,18 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservation">
+
+    <update id="cancelReservation" parameterType="String">
+        UPDATE reservation r
+        INNER JOIN payment p ON r.reservationIdx = p.reservationIdx
+        SET r.reservationStatus = 1,
+        p.paymentStatus = 1,
+        p.paymentCancelDate = NOW()
+        WHERE r.reservationIdx = #{reservationIdx}
+    </update>
+
+
+
     <!--  예매 메인 > 좌석 선택으로 넘어갈 때  -->
     <insert id="insertReservation" parameterType="Map">
         INSERT INTO reservation *

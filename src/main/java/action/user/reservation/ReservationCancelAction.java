@@ -12,9 +12,13 @@ public class ReservationCancelAction implements Action {
 
         String idx = request.getParameter("reservationIdx");
 
+        int cancelCnt = ReservationDAO.cancelReservation(idx);
+
         int cnt = ReservationDAO.updateReservation(idx);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
+        System.out.println("cancelCnt:"+cancelCnt);
 
         try {
             PrintWriter out = response.getWriter();
