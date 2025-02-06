@@ -14,7 +14,14 @@
 
 <!-- header 영역 -->
 <jsp:include page="header.jsp"/>
+<%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
+<%
+    String todayDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    request.setAttribute("todayDate", todayDate);
 
+    // 터미널(서버 콘솔)에 출력
+    System.out.println("🚀 [DEBUG] 오늘 날짜: " + todayDate);
+%>
 <main id="main">
     <!-- section01 -->
     <section id="section01" class="section main-movie">
@@ -37,7 +44,7 @@
                     <c:if test="${requestScope.movieArray ne null }">
                     <c:forEach var="mvo" items="${requestScope.movieArray }" varStatus="st">
                     <li>
-                        <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx }" class="movie-list-info" title="영화상세 보기">
+                        <a href="UserController?type=movieDetail&movieIdx=${mvo.movieIdx}" class="movie-list-info" title="영화상세 보기">
                             <p class="rank">${st.index+1 }</p>
                             <img src="${mvo.moviePosterUrl }" alt="${mvo.movieTitle }" class="poster">
                             <div class="wrap">
@@ -53,7 +60,8 @@
                                 <i class="far fa-heart"></i>${mvo.movieLikes }
                             </button>
                             <div class="case">
-                                <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="button btn1" title="영화 예매하기">예매</a>
+                                <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx}&date=${todayDate}"
+                                   class="button btn1" title="영화 예매하기">예매</a>
                             </div>
                         </div>
                         <!-- //btn-util -->

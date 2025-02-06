@@ -33,6 +33,20 @@ public class ReservationAction implements Action {
             Map<String, Integer> theaters = ReservationDAO.theaterRegion();
             request.setAttribute("theaters", theaters);
 
+            // ✅ URL에서 `movieIdx`, `date` 가져오기 (없으면 `null` 또는 `""`)
+            String userMain_selectedMovieIdx = request.getParameter("movieIdx");
+            String userMain_selectedDate = request.getParameter("date");
+
+            // ✅ JSP에서 사용할 수 있도록 변수명 변경하여 저장
+            request.setAttribute("userMain_selectedMovieIdx", userMain_selectedMovieIdx);
+            request.setAttribute("userMain_selectedDate", userMain_selectedDate);
+
+            // ✅ `movieIdx`가 있을 경우에만 `availableTheaters` 실행
+            if (userMain_selectedMovieIdx != null && !userMain_selectedDate.isEmpty()) {
+                List<TimetableVO> availableTheaters = ReservationDAO.getAvailableTheaters(userMain_selectedMovieIdx, userMain_selectedDate);
+                request.setAttribute("availableTheaters", availableTheaters);
+            }
+
             // 빠른 예매 화면 경로 반환
             return "./jsp/user/reservation/reservationMain.jsp";
         } else if ("subregions".equals(type)) {
@@ -55,7 +69,7 @@ public class ReservationAction implements Action {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return null; // 추가적인 리다이렉션이나 포워딩 없이 종료
+            return null;
         }else if ("availableTheaters".equals(type)) {
             String movieIdx = request.getParameter("movieIdx");
             String targetDate = request.getParameter("targetDate");
@@ -109,6 +123,28 @@ public class ReservationAction implements Action {
                 e.printStackTrace();
             }
             return null;
+        } else if ("quickReservation".equals(type)) {
+            // 영화 데이터를 DAO에서 가져옴
+            MovieVO[] movies = ReservationDAO.movieList();
+            request.setAttribute("movies", movies);
+
+            // 전체 극장 리스트 가져오기
+            Map<String, Integer> theaters = ReservationDAO.theaterRegion();
+            request.setAttribute("theaters", theaters);
+
+            // ✅ URL에서 `movieIdx`, `date` 가져오기 (없으면 `null` 또는 `""`)
+            String userMain_selectedMovieIdx = request.getParameter("movieIdx");
+            String userMain_selectedDate = request.getParameter("date");
+
+            // ✅ JSP에서 사용할 수 있도록 변수명 변경하여 저장
+            request.setAttribute("userMain_selectedMovieIdx", userMain_selectedMovieIdx);
+            request.setAttribute("userMain_selectedDate", userMain_selectedDate);
+
+            // ✅ `movieIdx`가 있을 경우에만 `availableTheaters` 실행
+            if (userMain_selectedMovieIdx != null && !userMain_selectedDate.isEmpty()) {
+                List<TimetableVO> availableTheaters = ReservationDAO.getAvailableTheaters(userMain_selectedMovieIdx, userMain_selectedDate);
+                request.setAttribute("availableTheaters", availableTheaters);
+            }
         }
         return null;
     }

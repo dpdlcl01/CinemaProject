@@ -73,9 +73,36 @@
 <!-- 예매 로그인 모달 창 -->
 <jsp:include page="../login/reservationLoginModal.jsp"/>
 <!-- (임시 버튼) -->
+<c:set var="userMain_selectedMovieIdx" value="${userMain_selectedMovieIdx}" />
+<c:set var="userMain_selectedDate" value="${userMain_selectedDate}" />
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         var contextPath = "${pageContext.request.contextPath}";
+
+        // 변수명 변경
+        let userMain_selectedMovieIdx = "${userMain_selectedMovieIdx}";
+        let userMain_selectedDate = "${userMain_selectedDate}";
+
+        // 영화 선택 표시
+        let movieElements = document.querySelectorAll(".movie-list li");
+        movieElements.forEach((li) => {
+            if (li.getAttribute("data-movie-id") === userMain_selectedMovieIdx) {
+                li.classList.add("selected");
+            }
+        });
+
+        // 날짜 선택 표시
+        let dateElements = document.querySelectorAll("#date-list li");
+        dateElements.forEach((li) => {
+            if (li.dataset.date === userMain_selectedDate) {
+                li.classList.add("selected");
+            }
+        });
+
+        // ✅ 🎯 자동으로 availableTheaters 실행
+        if (userMain_selectedMovieIdx) {
+            updateTheaterList(userMain_selectedMovieIdx);
+        }
 
         // 지역 관련 변수
         const regionLinks = document.querySelectorAll(".region-link");
