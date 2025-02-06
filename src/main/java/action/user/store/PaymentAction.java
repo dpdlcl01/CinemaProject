@@ -45,7 +45,12 @@ public class PaymentAction implements Action {
 
 
         System.out.println("productCategory"+category);
-
+        
+        if(category.equals("1")){
+            category="굿즈";
+        }else if(category.equals("2")){
+            category="스낵";
+        }
 
         System.out.println("paymentaction:"+pIdx);
 

@@ -177,6 +177,7 @@
             <input type="hidden" name="productImg" id="productImg" value="${ar.productImg}" >
             <input type="hidden" name="productName" id="productName" value="${ar.productName}">
             <input type="hidden" name="productPrice" id="productPrice" value="${ar.productPrice*ar.total_quant}">
+            <input type="hidden" name="productCategory" id="productCategory" value="${ar.productCategory}">
             <button type="submit" id="changeQuantBtn" >변경</button>
           </form>
         </td>

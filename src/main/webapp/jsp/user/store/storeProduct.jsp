@@ -255,7 +255,7 @@
 
           </article>
           <div id="btnDiv">
-            <a href="#" id="present" onclick="dialog()">장바구니</a>
+            <a href="#" id="present" onclick="addCart()">장바구니</a>
             <a href="#" id="buy" onclick="buy()">구매</a>
           </div>
 
@@ -301,7 +301,7 @@
      장바구니에 담았습니다.
     </p>
     <div id="btnDiv2" class="ui-btn-div">
-      <button type="button" onclick="addCart()"> 확인 </button>
+      <button type="button" > 확인 </button>
     </div>
   </article>
 
@@ -314,18 +314,35 @@
     form0=document.getElementById("form0");
     let productPrice;
     let productQuant;
+    let productStock=${requestScope.productStock};
+    const ppp=${requestScope.pPrice};
+
+    function validateQuantity() {
+      if (typeof productQuant === "undefined") {
+        productQuant = "1";
+      }
+
+      if (productQuant > productStock) {
+        alert("주문수량이 남은수량보다 많습니다");
+
+        pQuant.value = 1;
+        productQuant = pQuant.value;
+        productPrice = ppp;
+        price.innerHTML = productPrice;
+
+        return false; // 🚨 유효성 검사 실패 시 false 반환
+      }
+
+      return true; // ✅ 유효성 검사 통과 시 true 반환
+    }
 
 
-    function dialog() {
+    function addCart() {
+
+      if (!validateQuantity()) return;
       $('#notice').dialog({
         modal: true, // 모달 설정
       });
-    }
-
-    function addCart() {
-      if (typeof productQuant === "undefined") {
-        productQuant="1";
-      }
       document.getElementById("productQuant").value=productQuant;
       let Idx = document.getElementById("productIdx").value;
 
@@ -338,12 +355,13 @@
     }
 
     function buy() {
-      if (typeof productQuant === "undefined") {
-        productQuant="1";
-      }
+
+      if (!validateQuantity()) return;
       if (typeof productPrice === "undefined") {
         productPrice=document.getElementById("priceEm").innerHTML;
       }
+      /*남은 수량보다 프로덕트 퀀트가 크면 리턴*/
+
       document.getElementById("productQuant").value=productQuant;
       document.getElementById("productPrice").value=productPrice;
 

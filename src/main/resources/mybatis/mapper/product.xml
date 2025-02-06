@@ -27,7 +27,7 @@
 
     <select id="selectCart" parameterType="String" resultType="mybatis.vo.CartVO">
         SELECT
-        p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,
+        p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,p.productCategory,
         SUM(c.quantity) AS total_quant
         FROM cart c INNER JOIN product p ON c.productIdx = p.productIdx
         WHERE c.userIdx = #{idx}
