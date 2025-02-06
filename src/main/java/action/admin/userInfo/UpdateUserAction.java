@@ -31,10 +31,13 @@ public class UpdateUserAction implements Action {
 
         int userIdx = Integer.parseInt(request.getParameter("userIdx"));
         String userName = request.getParameter("userName");
-        String userEmail = request.getParameter("userEmail");
         String userPhone = request.getParameter("userPhone");
         String userPoint = request.getParameter("userPoint");
         String userGrade = request.getParameter("userGrade");
+
+        if (userPoint == null || userPoint.trim().isEmpty()) {
+            userPoint = "0";
+        }
 
         AdminDAO adminDAO = new AdminDAO();
         UserVO existingUser = adminDAO.getUserById(String.valueOf(userIdx));
@@ -42,7 +45,6 @@ public class UpdateUserAction implements Action {
         UserVO user = new UserVO();
         user.setUserIdx(String.valueOf(userIdx));
         user.setUserName(userName);
-        user.setUserEmail(userEmail);
         user.setUserPhone(userPhone);
         user.setUserPoint(userPoint);
         user.setUserGrade(userGrade);

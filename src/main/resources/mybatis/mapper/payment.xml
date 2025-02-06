@@ -54,17 +54,16 @@
 
     <!-- 결제 내역 목록 반환 (동적 쿼리) -->
     <select id="getPaymentList" resultType="mybatis.vo.PaymentVO" parameterType="java.util.Map">
-        SELECT * FROM (
-        SELECT @RN:=@RN+1 AS rnum, p.*, u.userId
+        SELECT p.*, u.userId
         FROM payment p
         LEFT JOIN user u ON p.userIdx = u.userIdx
         <trim prefix="WHERE" prefixOverrides="AND | OR">
             <!-- 조건 없는 경우 전체 데이터를 반환 -->
             <if test="(paymentStatus == null or paymentStatus == '') and
-              (paymentType == null or paymentType == '') and
-              (searchType == null or searchType == 'all') and
-              (paymentMonth == null or paymentMonth == '')">
-                1 = 1  <!-- 조건이 없으면 항상 참인 조건 추가 -->
+                  (paymentType == null or paymentType == '') and
+                  (searchType == null or searchType == 'all') and
+                  (paymentMonth == null or paymentMonth == '')">
+                1 = 1
             </if>
             <!-- 검색 대상 조건 처리 -->
             <if test="searchType != null and searchType != 'all' and searchValue != null and searchValue != ''">
@@ -87,23 +86,26 @@
             <if test="paymentStatus != null and paymentStatus != ''">
                 AND p.paymentStatus = #{paymentStatus}
             </if>
-
             <!-- 결제 종류 검색 조건 -->
             <if test="paymentType != null and paymentType != ''">
                 AND p.paymentType = #{paymentType}
             </if>
-
             <!-- 결제 월 검색 조건 -->
             <if test="paymentMonth != null and paymentMonth != ''">
                 AND DATE_FORMAT(p.paymentDate, '%Y-%m') = #{paymentMonth}
             </if>
         </trim>
         ORDER BY p.paymentDate DESC
-        ) temp, (SELECT @RN:=0) init
-        WHERE temp.rnum BETWEEN #{begin} AND #{end}
+        LIMIT #{begin}, #{limit}
     </select>
 
 
+
+    <!-- 결제 idx를 받아서 해당 결제 정보 반환 -->
+    <select id="getPaymentByIdx" parameterType="String" resultType="mybatis.vo.PaymentVO">
+        SELECT * FROM payment
+        WHERE paymentIdx = #{paymentIdx}
+    </select>
 
 
     <select id="getTotalCount" resultType="int">

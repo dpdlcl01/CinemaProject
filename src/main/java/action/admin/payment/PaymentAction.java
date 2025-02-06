@@ -50,10 +50,14 @@ public class PaymentAction implements Action {
             // 더불어 시작페이지와 끝페이지 값도 구해진다.
         }
 
+        // LIMIT에 사용할 값을 명시적으로 설정
+        int begin = (page.getNowPage() - 1) * page.getNumPerPage();  // 0부터 시작
+        int limit = page.getNumPerPage();                            // 페이지 크기
+
         // 결제 내역 리스트 가져오기
         PaymentVO[] paymentArray = PaymentDAO.getPaymentList(
                 searchType, searchValue, paymentMonth, paymentStatus, paymentType,
-                page.getBegin(), page.getEnd()
+                begin, limit
         );
 
         // 결과 데이터를 request에 저장

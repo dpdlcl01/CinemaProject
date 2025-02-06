@@ -118,7 +118,7 @@ CREATE TABLE price (
     screenType TINYINT(1) NOT NULL COMMENT '상영관 유형 (1: COMFORT, 2: VIP, 3: DOLBY, 4: 4DX, 5: IMAX)',
     ageGroup TINYINT(1) NOT NULL COMMENT '연령대 (1: 성인, 2: 청소년)',
     dayOfWeek TINYINT(1) NOT NULL COMMENT '요일 (1: 주중, 2: 주말)',
-    timeOfDay TINYINT(1) NOT NULL COMMENT '시간대 (1: 조조 및 심야, 2: 일반)',
+    timeOfDay TINYINT(1) NOT NULL COMMENT '시간대 (1: 조조, 2: 일반)',
     seatPrice INT(7) NOT NULL COMMENT '좌석 가격'
 ) COMMENT='좌석 가격 정보를 관리하는 테이블';
 
@@ -210,13 +210,14 @@ CREATE TABLE payment (
     reservationIdx BIGINT COMMENT '예매 고유 ID (영화 결제인 경우에만 사용)',
     productIdx BIGINT COMMENT '상품 고유 ID (상품 결제인 경우에만 사용)',
     paymentQuantity INT(5) NOT NULL COMMENT '결제 대상 수량 (영화 티켓 수량 또는 상품 수량)',
-    paymentMethod VARCHAR(10) NOT NULL COMMENT '결제 방식 (CARD, NAVER, KAKAO, TOSS 등)',
+    paymentMethod VARCHAR(10) NOT NULL COMMENT '결제 방식 (카드, 간편 결제 등)',
     paymentTotal INT(7) NOT NULL COMMENT '결제 금액 (할인 전 금액)',
     paymentDiscount INT(7) DEFAULT 0 COMMENT '포인트, 쿠폰 등 할인 금액',
     paymentFinal INT(7) NOT NULL COMMENT '실제 결제 금액',
     paymentTransactionId VARCHAR(50) COMMENT '결제 API에서 제공하는 고유 거래 ID',
     paymentDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '결제일',
-    paymentStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '결제 상태 (0: 완료, 1: 대기, 2: 취소)',
+    paymentCancelDate DATETIME COMMENT '결제 취소일',
+    paymentStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '결제 상태 (0: 완료, 1: 취소)',
     FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
     FOREIGN KEY (reservationIdx) REFERENCES reservation(reservationIdx) ON DELETE CASCADE,
     FOREIGN KEY (productIdx) REFERENCES product(productIdx) ON DELETE CASCADE
@@ -230,7 +231,7 @@ CREATE TABLE point (
     paymentIdx BIGINT COMMENT '결제 고유 ID (결제 관련 포인트인 경우에만 사용)',
     reviewIdx BIGINT COMMENT '리뷰 고유 ID (리뷰 관련 포인트인 경우에만 사용)',
     pointType TINYINT NOT NULL COMMENT '포인트 종류 (0: 적립, 1: 사용)',
-    pointSource VARCHAR(10) COMMENT '포인트 출처 (예: "PAYMENT", "REVIEW", "EVENT")',
+    pointSource VARCHAR(10) COMMENT '포인트 출처 (예: "PAYMENT", "REVIEW")',
     pointValue INT NOT NULL COMMENT '변동된 포인트 값',
     pointDate DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '포인트 변동 일시',
     pointStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '포인트 상태 (0: 정상, 1: 취소)',

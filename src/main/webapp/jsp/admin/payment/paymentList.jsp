@@ -1,12 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!Doctype html>
 <html lang="ko">
 <head>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 <style>
     .admin-contents {
@@ -283,7 +285,88 @@
         background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
     }
 
+    .modal-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* 테이블 스타일 */
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0;
+        margin-bottom: 5px;
+        background-color: #fff;
+    }
+
+    .info-table caption {
+        font-weight: bold;
+        font-size: 18px;
+        text-align: left;
+        padding: 10px 0;
+        color: #333;
+        margin-bottom: 10px;
+        caption-side: top; /* 제목이 테이블 위에 위치하도록 설정 */
+    }
+
+    .info-table th,
+    .info-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .info-table th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+        color: #555;
+        width: 30%;
+    }
+
+    .info-table td {
+        background-color: #fff;
+        color: #333;
+        font-weight: normal;
+    }
+
+    /* 강조 텍스트 스타일 */
+    #transactionId {
+        color: #01738b;
+    }
+
+    /* 최종 결제 및 취소 금액 색상 */
+    #paymentFinal {
+        color: #01738b;
+    }
+
+    #cancelAmount {
+        color: #dc3545; /* 빨간색 */
+    }
+
+    /* 섹션 간격 */
+    .section-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
+    }
+
+
+
+    /* 테이블 행 클릭 스타일 */
+    .clickable-payment-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .clickable-payment-row:hover {
+        background-color: #f0f0f0;
+    }
 </style>
+
 
 <body>
 <%--  헤더  --%>
@@ -315,8 +398,7 @@
                             <select id="paymentStatus" name="paymentStatus">
                                 <option value="">결제 상태 (전체)</option>
                                 <option value="0" ${param.paymentStatus == '0' ? 'selected' : ''}>결제 완료</option>
-                                <option value="1" ${param.paymentStatus == '1' ? 'selected' : ''}>결제 대기</option>
-                                <option value="2" ${param.paymentStatus == '2' ? 'selected' : ''}>결제 취소</option>
+                                <option value="1" ${param.paymentStatus == '1' ? 'selected' : ''}>결제 취소</option>
                             </select>
 
                             <!-- 결제 종류 선택 -->
@@ -363,8 +445,7 @@
                     });
                 </script>
 
-
-                <!-- 영화 정보 테이블 -->
+                <!-- 결제 정보 테이블 -->
                 <table>
                     <thead>
                     <tr>
@@ -372,9 +453,9 @@
                         <th>사용자 ID</th>
                         <th>결제 종류</th>
                         <th>결제 방식</th>
-                        <th>실제 결제 금액</th>
+                        <th>최종 결제금액</th>
                         <th>결제 상태</th>
-                        <th>결제일</th>
+                        <th>결제일시</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -389,7 +470,9 @@
                                 </c:choose>
                             </td>
                             <td>${payment.paymentMethod}</td>
-                            <td>${payment.paymentFinal} 원</td>
+                            <td>
+                                <fmt:formatNumber value="${payment.paymentFinal}" pattern="###,###" />원
+                            </td>
                             <td>
                                 <c:choose>
                                     <c:when test="${payment.paymentStatus == 0}">완료</c:when>
@@ -397,7 +480,7 @@
                                     <c:when test="${payment.paymentStatus == 2}">취소</c:when>
                                 </c:choose>
                             </td>
-                            <td>${payment.paymentDate.substring(0, 16)}</td>
+                            <td>${payment.paymentDate}</td>
                         </tr>
                     </c:forEach>
                     <c:if test="${empty requestScope.paymentArray}">
@@ -452,6 +535,92 @@
                 </nav>
                 <!--------------------- 페이지네이션 --------------------->
 
+                <div id="paymentModal" class="dialog-common" title="결제 내역 상세 정보" style="display: none;">
+                    <div class="modal-body">
+
+                        <!-- 구매 정보 섹션 -->
+                        <table class="info-table">
+                            <caption class="section-title">구매 정보</caption>
+                            <tbody id="movieSection" style="display: none;">
+                            <tr>
+                                <th>영화 제목</th>
+                                <td colspan="3" id="movieTitle"></td>
+                            </tr>
+                            <tr>
+                                <th>극장 / 상영관</th>
+                                <td id="theaterName"></td>
+                                <td colspan="2" id="screenName"></td>
+                            </tr>
+                            <tr>
+                                <th>상영일시</th>
+                                <td colspan="3" id="showDateTime"></td>
+                            </tr>
+                            <tr>
+                                <th>예매 수량 / 좌석 번호</th>
+                                <td id="ticketQuantity"></td>
+                                <td colspan="2" id="seatNumbers"></td>
+                            </tr>
+                            </tbody>
+
+                            <tbody id="productSection" style="display: none;">
+                            <tr>
+                                <th>상품명</th>
+                                <td id="productName"></td>
+                            </tr>
+                            <tr>
+                                <th>구매 수량</th>
+                                <td id="productQuantity"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- 결제 정보 섹션 -->
+                        <table class="info-table">
+                            <caption class="section-title">결제 정보</caption>
+                            <tbody>
+                            <tr>
+                                <th>결제 고유 ID</th>
+                                <td id="transactionId"></td>
+                            </tr>
+                            <tr>
+                                <th>결제 금액</th>
+                                <td id="paymentTotal"></td>
+                            </tr>
+                            <tr>
+                                <th>할인 금액</th>
+                                <td id="paymentDiscount"></td>
+                            </tr>
+                            <tr>
+                                <th>최종 결제 금액</th>
+                                <td id="paymentFinal"></td>
+                            </tr>
+                            <tr>
+                                <th>결제 방식</th>
+                                <td id="paymentMethod"></td>
+                            </tr>
+                            <tr>
+                                <th>결제일</th>
+                                <td id="paymentDate"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- 취소 정보 섹션 -->
+                        <table class="info-table" id="cancelSection" style="display: none;">
+                            <caption class="section-title">취소 정보</caption>
+                            <tbody>
+                            <tr>
+                                <th>취소 금액</th>
+                                <td id="cancelAmount"></td>
+                            </tr>
+                            <tr>
+                                <th>취소일</th>
+                                <td id="cancelDate"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -460,5 +629,98 @@
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<!-- jQuery 모달 초기화 스크립트 -->
+<script>
+    $(document).ready(function() {
+        function loadPaymentData(paymentIdx) {
+            $.ajax({
+                url: "AdminController?type=paymentDetail&paymentIdx=" + paymentIdx,
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    // 공통 정보 설정
+                    $("#transactionId").text(response.paymentTransactionId);
+
+                    // 결제 유형에 따라 정보 표시
+                    if (response.paymentType == 1) {
+                        $("#movieSection").show();
+                        $("#productSection").hide();
+                        $("#movieTitle").text(response.movieTitle || "정보 없음");
+                        $("#theaterName").text(response.theaterName || "정보 없음");
+                        $("#screenName").text(response.screenName || "정보 없음");
+                        $("#showDateTime").text(response.showDateTime || "정보 없음");
+                        $("#seatNumbers").text(response.seatNumbers || "정보 없음");
+                        $("#ticketQuantity").text(response.paymentQuantity + "매");
+                    } else {
+                        $("#productSection").show();
+                        $("#movieSection").hide();
+                        $("#productName").text(response.productName || "정보 없음");
+                        $("#productQuantity").text(response.paymentQuantity + "개");
+                    }
+
+                    // 결제 정보 설정
+                    $("#paymentTotal").text(formatCurrency(response.paymentTotal, "원"));
+                    $("#paymentDiscount").text(formatCurrency(response.paymentDiscount, "원", true));  // 할인은 음수 표시
+                    $("#paymentFinal").text(formatCurrency(response.paymentFinal, "원"));
+                    $("#paymentMethod").text(response.paymentMethod || "정보 없음");
+                    $("#paymentDate").text(response.paymentDate || "정보 없음");
+
+                    // 결제 상태에 따라 취소 정보 표시
+                    if (response.paymentStatus == 1) {
+                        $("#cancelSection").show();
+                        $("#cancelAmount").text("- " + (response.paymentFinal ?? 0).toLocaleString() + " 원");
+                        $("#cancelDate").text(response.paymentCancelDate || "정보 없음");
+                    } else {
+                        $("#cancelSection").hide();
+                    }
+
+                    // 모달 열기
+                    $("#paymentModal").dialog("open");
+                },
+                error: function() {
+                    alert("결제 정보를 불러오는 데 실패했습니다.");
+                }
+            });
+        }
+
+        // jQuery UI 모달 초기화
+        $("#paymentModal").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 600,
+            classes: {
+                "ui-dialog": "dialog-common"
+            },
+            buttons: {
+                "확인": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        // 결제 목록 행 클릭 이벤트 설정
+        $(".clickable-row").on("click", function() {
+            const paymentIdx = $(this).data("payment-id");
+
+            // 결제 데이터 로드 후 모달 열기
+            loadPaymentData(paymentIdx);
+        });
+
+
+        // 가격 포맷 함수
+        function formatCurrency(amount, unit, isDiscount = false) {
+            const num = Number(amount);  // 숫자로 변환
+            if (isNaN(num)) return "정보 없음";  // 변환 실패 시 처리
+
+            // 할인 금액이 0보다 크면 '-' 추가, 아니면 그대로 표시
+            const formattedAmount = isDiscount && num > 0 ? "- " + num.toLocaleString() : num.toLocaleString();
+
+            return formattedAmount + " " + unit;
+        }
+
+    });
+
+</script>
 </body>
 </html>

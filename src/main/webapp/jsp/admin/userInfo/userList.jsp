@@ -515,70 +515,67 @@
                 <!--------------------- 페이지네이션 --------------------->
 
 
-                <!-- 수정 모달 -->
+                <!-- 수정 모달 내용 -->
                 <div id="userModal" class="dialog-common" title="사용자 상세 정보" style="display: none;">
-                    <div class="modal-body">
+                    <form id="updateUserForm">
+                        <div class="modal-body">
                         <div class="info-section">
-                            <!-- 사용자 고유 ID (읽기 전용) -->
-                            <div class="field-row">
-                                <label>사용자 고유 ID:</label>
-                                <input type="text" id="userIdx" readonly />
-                            </div>
+                                <!-- 사용자 고유 ID (읽기 전용) -->
+                                <div class="field-row">
+                                    <label>사용자 고유 ID:</label>
+                                    <input type="text" id="userIdx" readonly />
+                                </div>
 
-                            <!-- 이름 (수정 가능) -->
-                            <div class="field-row">
-                                <label>이름:</label>
-                                <input type="text" id="userName" />
-                            </div>
+                                <!-- 이름 (수정 가능) -->
+                                <div class="field-row">
+                                    <label>이름:</label>
+                                    <input type="text" name="userName" id="userName" />
+                                </div>
 
-                            <!-- 로그인 ID (읽기 전용) -->
-                            <div class="field-row">
-                                <label>로그인 ID:</label>
-                                <input type="text" id="userId" readonly />
-                            </div>
+                                <!-- 로그인 ID (읽기 전용) -->
+                                <div class="field-row">
+                                    <label>로그인 ID:</label>
+                                    <input type="text" id="userId" readonly />
+                                </div>
 
-                            <!-- 이메일 (읽기 전용) -->
-                            <div class="field-row">
-                                <label>이메일:</label>
-                                <input type="email" id="userEmail" readonly />
-                            </div>
+                                <!-- 이메일 (읽기 전용) -->
+                                <div class="field-row">
+                                    <label>이메일:</label>
+                                    <input type="email" id="userEmail" readonly />
+                                </div>
 
-                            <!-- 연락처 (수정 가능) -->
-                            <div class="field-row">
-                                <label>연락처:</label>
-                                <input type="text" id="userPhone" />
-                            </div>
+                                <!-- 연락처 (수정 가능) -->
+                                <div class="field-row">
+                                    <label>연락처:</label>
+                                    <input type="text" name="userPhone" id="userPhone" />
+                                </div>
 
-                            <!-- 보유 포인트 (수정 가능) -->
-                            <div class="field-row">
-                                <label>보유 포인트:</label>
-                                <input type="text" id="userPoint" />
-                            </div>
+                                <!-- 보유 포인트 (수정 가능) -->
+                                <div class="field-row">
+                                    <label>보유 포인트:</label>
+                                    <input type="text" name="userPoint" id="userPoint" />
+                                </div>
 
-                            <!-- 회원 등급 (수정 가능) -->
-                            <div class="field-row">
-                                <label>회원 등급:</label>
-                                <select id="userGrade">
-                                    <option value="BASIC">BASIC</option>
-                                    <option value="VIP">VIP</option>
-                                    <option value="VVIP">VVIP</option>
-                                </select>
-                            </div>
+                                <!-- 회원 등급 (수정 가능) -->
+                                <div class="field-row">
+                                    <label>회원 등급:</label>
+                                    <select name="userGrade" id="userGrade">
+                                        <option value="BASIC">BASIC</option>
+                                        <option value="VIP">VIP</option>
+                                        <option value="VVIP">VVIP</option>
+                                    </select>
+                                </div>
 
-                            <!-- 가입일 (읽기 전용) -->
-                            <div class="field-row">
-                                <label>가입일:</label>
-                                <input type="text" id="userRegDate" readonly />
-                            </div>
-
-                            <!-- 사용자 상태 (읽기 전용) -->
-                            <div class="field-row">
-                                <label>사용자 상태:</label>
-                                <input type="text" id="userStatus1" readonly />
-                            </div>
+                                <!-- 가입일 (읽기 전용) -->
+                                <div class="field-row">
+                                    <label>가입일:</label>
+                                    <input type="text" id="userRegDate" readonly />
+                                </div>
                         </div>
                     </div>
+                    </form>
                 </div>
+
 
 
             </div>
@@ -589,11 +586,19 @@
 
             <script>
                 $(document).ready(function() {
+                    let selectedUserIdx = null;  // 전역 변수로 설정
+
                     // 사용자 데이터 로드 함수
                     function loadUserData(userIdx) {
+                        selectedUserIdx = userIdx;  // 전역 변수에 값 저장
+
                         $.ajax({
-                            url: "AdminController?type=getuser&userIdx=" + userIdx,
+                            url: "AdminController",
                             method: "GET",
+                            data: {
+                                type: "getuser",
+                                userIdx: userIdx
+                            },
                             dataType: "json",
                             headers: {
                                 "X-Requested-With": "XMLHttpRequest"
@@ -607,12 +612,15 @@
                                 // 기본 정보 채우기
                                 $("#userIdx").val(response.userIdx);
                                 $("#userId").val(response.userId);
-                                $("#userName").val(response.userName);
                                 $("#userEmail").val(response.userEmail);
-                                $("#userPhone").val(response.userPhone);
-                                $("#userPoint").val(response.userPoint);
-                                $("#userGrade").val(response.userGrade);
                                 $("#userRegDate").val(response.userRegDate);
+                                $("#userStatus").val(response.userStatus);
+
+                                // 변경 가능한 정보 채우기
+                                $("[name='userName']").val(response.userName);
+                                $("[name='userPhone']").val(response.userPhone);
+                                $("[name='userPoint']").val(response.userPoint);
+                                $("[name='userGrade']").val(response.userGrade);
 
                                 // 모달 창 열기
                                 $("#userModal").dialog("open");
@@ -638,9 +646,9 @@
                                 const formData = $("#updateUserForm").serialize();
 
                                 $.ajax({
-                                    url: "AdminController?type=updateuser&userIdx=" + userIdx,
+                                    url: "AdminController",
                                     type: "POST",
-                                    data: formData,
+                                    data: formData + "&type=updateuser&userIdx=" + selectedUserIdx,
                                     dataType: "json",
                                     headers: {
                                         "X-Requested-With": "XMLHttpRequest"
@@ -675,6 +683,7 @@
                         loadUserData(userIdx);
                     });
                 });
+
             </script>
         </div>
     </div>
