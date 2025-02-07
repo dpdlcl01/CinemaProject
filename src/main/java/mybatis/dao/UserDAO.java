@@ -3,6 +3,7 @@ package mybatis.dao;
 import mybatis.service.FactoryService;
 import mybatis.vo.UserVO;
 import org.apache.ibatis.session.SqlSession;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,26 +12,26 @@ public class UserDAO {
 
     public static boolean checkPassword(String userId, String userPassword) {
         SqlSession ss = FactoryService.getFactory().openSession();
+
         try {
-            Map<String, String> params = new HashMap<>();
-            params.put("userId", userId);
-            params.put("userPassword", userPassword);
+            // 데이터베이스에서 암호화된 비밀번호 가져오기
+            String hashedPassword = ss.selectOne("user.getPasswordByUserId", userId);
+            System.out.println("DAO: hashedPassword = " + hashedPassword);
 
-            System.out.println("DAO: userId = " + userId);
-            System.out.println("DAO: userPassword = " + userPassword);
-
-            int count = ss.selectOne("user.checkPassword", params);
-
-            System.out.println("DAO: SQL Result Count = " + count);
-
-            return count == 1;
+            // BCrypt로 입력된 비밀번호와 비교
+            if (hashedPassword != null) {
+                return BCrypt.checkpw(userPassword, hashedPassword);
+            }
+            return false;
         } finally {
             ss.close();
         }
     }
 
+    // 사용자 상태 업데이트
     public static boolean updateUserStatus(String userId) {
         SqlSession ss = FactoryService.getFactory().openSession();
+
         try {
             int result = ss.update("user.updateUserStatus", userId);
             ss.commit();
@@ -40,8 +41,10 @@ public class UserDAO {
         }
     }
 
+    // 사용자 정보 조회 (필요 시 사용)
     public static UserVO getUserById(String userId) {
-        SqlSession ss = FactoryService.getFactory().openSession(); // SqlSession 열기
+        SqlSession ss = FactoryService.getFactory().openSession();
+
         try {
             return ss.selectOne("user.getUserById", userId);
         } finally {
@@ -49,3 +52,4 @@ public class UserDAO {
         }
     }
 }
+
