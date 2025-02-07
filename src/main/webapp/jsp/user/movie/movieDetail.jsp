@@ -744,7 +744,7 @@
             success: function(res) {
                 if (res.success) {
                     // 찜하기 성공 시 UI 업데이트
-                    const likeCountSpan = document.getElementById(`wantsee-${movieIdx}`);
+                    const likeCountSpan = document.getElementById("wantsee-" + movieIdx);
                     likeCountSpan.textContent = res.newLikeCount; // 새로운 찜하기 수로 업데이트
                 } else {
                     alert(res.message || "찜하기에 실패했습니다.");

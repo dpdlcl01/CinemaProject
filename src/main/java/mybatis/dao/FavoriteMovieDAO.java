@@ -36,9 +36,7 @@ public class FavoriteMovieDAO {
         int cnt = ss.delete("favoriteMovie.removeFavorite", map);
         if (cnt > 0) {
             ss.commit();
-            System.out.println("삭제 성공: userIdx = " + userIdx + ", movieIdx = " + movieIdx);
         } else {
-            System.out.println("삭제 실패: userIdx = " + userIdx + ", movieIdx = " + movieIdx);
             ss.rollback();
         }
         ss.close();
