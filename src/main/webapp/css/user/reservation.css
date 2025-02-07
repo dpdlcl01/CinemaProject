@@ -43,6 +43,8 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    height: 40px;
+    width: 35px;
     margin: 0 20px 0 20px;
 }
 
@@ -50,15 +52,8 @@
     background: #bbb;
 }
 
-/*.date-navigation ul li {*/
-/*    padding: 10px 15px;*/
-/*    background: #f9f9f9;*/
-/*    border-radius: 5px;*/
-/*    cursor: pointer;*/
-/*}*/
-
 .date-navigation ul li {
-    width: 65px;  /* 한자리, 두자리 숫자 모두 같은 크기 유지 */
+    width: 65px;
     height: 40px;
     background: #f9f9f9;
     border-radius: 5px;
@@ -176,13 +171,13 @@ li.disabled {
 
 /* 선택 초기화 버튼 */
 #reset-selection {
-    background: none;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     background: #ddd;
     padding: 10px;
     margin: 0;
+    width: 40px;
 }
 
 .reset-button img {
