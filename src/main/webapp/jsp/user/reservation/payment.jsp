@@ -206,6 +206,11 @@
         inputValue = userPoints;
       }
 
+      if (finalPrice === 0) {
+        userPoints = 0;
+        pointsInput.disabled = false;
+      }
+
       pointDiscount = inputValue;
       pointsInput.value = inputValue;
 
@@ -225,10 +230,16 @@
 
       // 결제 금액이 0원일 경우 포인트 입력창 비활성화
       if (finalPrice === 0) {
+        // 쿠폰 선택 해제 및 비활성화
+        couponDropdown.selectedIndex = 0;
+        couponDropdown.disabled = true;
+        discountValue = 0; // 쿠폰 할인 초기화
+
         pointsInput.value = 0;
         pointsInput.disabled = true;
         pointDiscount = 0;
       } else {
+        couponDropdown.disabled = false;
         pointsInput.disabled = false;
       }
     }

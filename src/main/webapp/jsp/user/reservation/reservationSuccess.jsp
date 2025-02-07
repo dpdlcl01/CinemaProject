@@ -194,11 +194,11 @@
             </div>
         </div>
 
-        <!-- ✅ 버튼을 검은 배경 밑에 위치 -->
-        <div id="btnDiv">
-            <button type="button">교환권 출력</button>
-            <button type="button">예매내역</button>
-        </div>
+<%--        <!-- ✅ 버튼을 검은 배경 밑에 위치 -->--%>
+<%--        <div id="btnDiv">--%>
+<%--            <button type="button">교환권 출력</button>--%>
+<%--            <button type="button">예매내역</button>--%>
+<%--        </div>--%>
     </c:forEach>
 
     <div id="lastElement">
