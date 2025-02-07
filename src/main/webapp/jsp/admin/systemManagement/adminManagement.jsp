@@ -283,7 +283,8 @@
         padding: 10px;
     }
 
-    #adminModal .modal-body {
+    #adminModal .modal-body,
+    #adminAddModal .modal-body {
         display: flex;
         justify-content: center;
         align-items: flex-start;
@@ -291,7 +292,8 @@
         padding: 20px;
     }
 
-    #adminModal .info-section {
+    #adminModal .info-section,
+    #adminAddModal .info-section {
         width: 100%;
         max-width: 450px;
         margin: 0 auto;
@@ -300,14 +302,16 @@
         gap: 15px;
     }
 
-    #adminModal .field-row {
+    #adminModal .field-row,
+    #adminAddModal .field-row {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         gap: 10px;
     }
 
-    #adminModal .field-row label {
+    #adminModal .field-row label,
+    #adminAddModal .field-row label {
         width: 140px;
         font-weight: bold;
         text-align: right;
@@ -315,7 +319,10 @@
 
     #adminModal .field-row input[type="text"],
     #adminModal .field-row input[type="email"],
-    #adminModal .field-row select {
+    #adminModal .field-row select,
+    #adminAddModal .field-row input[type="text"],
+    #adminAddModal .field-row input[type="email"],
+    #adminAddModal .field-row select {
         flex: 1;
         padding: 6px;
         border: 1px solid #ccc;
@@ -325,18 +332,22 @@
 
     /* 수정 가능한 필드 */
     #adminModal input:not([readonly]),
-    #adminModal select {
+    #adminModal select,
+    #adminAddModal input:not([readonly]),
+    #adminAddModal select {
         background-color: white;
     }
 
     /* 읽기 전용 필드 */
-    #adminModal input[readonly] {
+    #adminModal input[readonly],
+    #adminAddModal input[readonly] {
         background-color: #f4f4f4;
         color: #888;
     }
 
     /* 버튼 스타일 */
-    #adminModal button {
+    #adminModal button,
+    #adminAddModal button {
         margin-top: 20px;
         padding: 8px 12px;
         font-size: 14px;
@@ -347,9 +358,11 @@
         cursor: pointer;
     }
 
-    #adminModal button:hover {
+    #adminModal button:hover,
+    #adminAddModal button:hover {
         background-color: #005f6b;
     }
+
 
 </style>
 
@@ -371,6 +384,8 @@
                             <div class="total-count">전체 ${requestScope.totalCount}건</div>
 
                             <div class="search-bar">
+                                <button type="button" class="addAdmin">관리자 추가</button>
+
                                 <form id="searchForm" action="AdminController" method="get">
                                     <input type="hidden" name="type" value="adminlist" />
 
@@ -498,39 +513,81 @@
 
                         <!-- 수정 모달 -->
                         <div id="adminModal" class="dialog-common" title="관리자 상세 정보" style="display: none;">
-                            <div class="modal-body">
-                                <div class="info-section">
-                                    <!-- 사용자 고유 ID (읽기 전용) -->
-                                    <div class="field-row">
-                                        <label>관리자 고유 ID:</label>
-                                        <input type="text" id="adminIdx" readonly />
-                                    </div>
+                            <form id="updateAdminForm">
+                                <div class="modal-body">
+                                    <div class="info-section">
+                                        <!-- 관리자 고유 ID(읽기 전용) -->
+                                        <div class="field-row">
+                                            <label>관리자 고유 ID:</label>
+                                            <input type="text" id="adminIdx" name="adminIdx" readonly />
+                                        </div>
 
-                                    <!-- 로그인 ID (읽기 전용) -->
-                                    <div class="field-row">
-                                        <label>로그인 ID:</label>
-                                        <input type="text" id="adminId" readonly />
-                                    </div>
+                                        <!-- 로그인 ID -->
+                                        <div class="field-row">
+                                            <label>로그인 ID:</label>
+                                            <input type="text" id="adminId" name="adminId" />
+                                        </div>
 
-                                    <!-- 관리자 등급 (수정 가능) -->
-                                    <div class="field-row">
-                                        <label>관리자 등급:</label>
-                                        <select id="adminLevel">
-                                            <option value="SUPER">SUPER</option>
-                                            <option value="MANAGER">MANAGER</option>
-                                        </select>
-                                    </div>
+                                        <!-- 관리자 등급 (수정 가능) -->
+                                        <div class="field-row">
+                                            <label>관리자 등급:</label>
+                                            <select id="adminLevel" name="adminLevel">
+                                                <option value="SUPER">SUPER</option>
+                                                <option value="MANAGER">MANAGER</option>
+                                            </select>
+                                        </div>
 
-                                    <!-- 사용자 상태 (읽기 전용) -->
-                                    <div class="field-row">
-                                        <label>관리자 상태:</label>
-                                        <input type="text" id="adminStatus" readonly />
+                                        <!-- 관리자 상태 -->
+                                        <div class="field-row">
+                                            <label>관리자 상태:</label>
+                                            <input type="text" id="adminStatus" name="adminStatus" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
 
+                        <!-- 추가 모달 -->
+                        <div id="adminAddModal" class="dialog-common" title="관리자 추가" style="display: none;">
+                            <form id="addAdminForm">
+                                <div class="modal-body">
+                                    <div class="info-section">
+                                        <!-- 관리자 고유 ID (자동 지정) -->
+                                        <div class="field-row">
+                                            <label>관리자 고유 ID:</label>
+                                            <input type="text" id="adminIdx1" name="adminIdx" readonly value="자동으로 지정됩니다."/>
+                                        </div>
 
+                                        <!-- 로그인 ID -->
+                                        <div class="field-row">
+                                            <label>로그인 ID:</label>
+                                            <input type="text" id="adminId1" name="adminId" />
+                                        </div>
+
+                                        <!-- 패스워드 PW -->
+                                        <div class="field-row">
+                                            <label>패스워드 PW:</label>
+                                            <input type="text" id="adminPW1" name="adminPassword" />
+                                        </div>
+
+                                        <!-- 관리자 등급 (수정 가능) -->
+                                        <div class="field-row">
+                                            <label>관리자 등급:</label>
+                                            <select id="adminLevel1" name="adminLevel">
+                                                <option value="SUPER">SUPER</option>
+                                                <option value="MANAGER">MANAGER</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- 관리자 상태 (기본값 1) -->
+                                        <div class="field-row">
+                                            <label>관리자 상태:</label>
+                                            <input type="text" id="adminStatus1" name="adminStatus" readonly value="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <!-- jQuery 및 jQuery UI 추가 -->
@@ -539,11 +596,19 @@
 
                     <script>
                       $(document).ready(function() {
+                        let selectedAdminIdx = null; // 전역 변수로 설정
+
                         // 사용자 데이터 로드 함수
                         function loadUserData(adminIdx) {
+                          selectedAdminIdx = adminIdx;
+
                           $.ajax({
-                            url: "AdminController?type=getAdmin&adminIdx=" + adminIdx,
+                            url: "AdminController",
                             method: "GET",
+                            data: {
+                              type: "getAdmin",
+                              adminIdx: adminIdx
+                            },
                             dataType: "json",
                             headers: {
                               "X-Requested-With": "XMLHttpRequest"
@@ -559,6 +624,11 @@
                               $("#adminId").val(response.adminId);
                               $("#adminLevel").val(response.adminLevel);
                               $("#adminStatus").val(response.adminStatus);
+
+                              // 변경 가능한 정보 채우기
+                              $("[name='adminId']").val(response.adminId);
+                              $("[name='adminLevel']").val(response.adminLevel);
+                              $("[name='adminStatus']").val(response.adminStatus);
 
                               // 모달 창 열기
                               $("#adminModal").dialog("open");
@@ -580,13 +650,19 @@
                           },
                           buttons: {
                             "저장": function() {
-                              // 폼 데이터 수집 및 AJAX 요청 전송
-                              const formData = $("#updateUserForm").serialize();
+
+                              // 폼을 배열로 만들어서 String으로 변환
+                              let formDataArray = $("#updateAdminForm").serializeArray();
+                              formDataArray.push({ name: "type", value: "updateAdmin" });
+                              formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
+
+                              // .param 사용하여 배열을 String으로
+                              let formDataString = $.param(formDataArray);
 
                               $.ajax({
-                                url: "AdminController?type=updateuser&userIdx=" + userIdx,
+                                url: "AdminController",
                                 type: "POST",
-                                data: formData,
+                                data: formDataString,
                                 dataType: "json",
                                 headers: {
                                   "X-Requested-With": "XMLHttpRequest"
@@ -613,6 +689,55 @@
                           }
                         });
 
+                        // jQuery UI 모달 초기화
+                        $("#adminAddModal").dialog({
+                          autoOpen: false,
+                          modal: true,
+                          width: 600,
+                          classes: {
+                            "ui-dialog": "dialog-common"
+                          },
+                          buttons: {
+                            "저장": function() {
+
+                              // 폼을 배열로 만들어서 String으로 변환
+                              let formDataArray = $("#addAdminForm").serializeArray();
+                              formDataArray.push({ name: "type", value: "addAdmin" });
+                              formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
+
+                              // .param 사용하여 배열을 String으로
+                              let formDataString = $.param(formDataArray);
+
+                              $.ajax({
+                                url: "AdminController",
+                                type: "POST",
+                                data: formDataString,
+                                dataType: "json",
+                                headers: {
+                                  "X-Requested-With": "XMLHttpRequest"
+                                },
+                                success: function(response) {
+                                  if (response.error) {
+                                    alert("관리자 추가 실패: " + response.error);
+                                    return;
+                                  }
+
+                                  alert("사용자 정보가 추가되었습니다.");
+                                  $("#adminAddModal").dialog("close");
+                                  location.reload();  // 페이지 새로고침
+                                },
+                                error: function(xhr, status, error) {
+                                  console.error("AJAX 오류 발생:", error);
+                                  alert("관리자 추가에 실패했습니다.");
+                                }
+                              });
+                            },
+                            "취소": function() {
+                              $(this).dialog("close");
+                            }
+                          }
+                        });
+
                         // 사용자 목록 <tr> 클릭 이벤트 설정
                         $(".clickable-row").on("click", function() {
                           const adminIdx = $(this).data("id");
@@ -620,6 +745,12 @@
                           // 사용자 데이터 로드 후 모달 열기
                           loadUserData(adminIdx);
                         });
+
+                        $(".addAdmin").on("click", function() {
+                          // 모달 창 열기
+                          $("#adminAddModal").dialog("open");
+                        });
+
                       });
                     </script>
                 </div>

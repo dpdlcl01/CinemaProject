@@ -60,7 +60,7 @@ public class AdminManagementDAO {
     try {
       vo = ss.selectOne("adminManagement.getAdminByIdx", adminIdx);
       if (vo == null) {
-        System.out.println("DB에서 해당 userIdx(" + adminIdx + ")를 찾을 수 없습니다.");
+        System.out.println("DB에서 해당 adminIdx(" + adminIdx + ")를 찾을 수 없습니다.");
       } else {
         System.out.println("DB에서 가져온 사용자 정보: " + vo.toString());
       }
@@ -72,5 +72,35 @@ public class AdminManagementDAO {
     }
 
     return vo;
+  }
+
+  public static boolean updateAdmin(AdminVO adminVO) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    try {
+      int cnt = ss.update("adminManagement.updateAdmin", adminVO);
+      ss.commit();
+      return cnt > 0;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    } finally {
+      ss.close();
+    }
+  }
+
+  public static boolean insertAdmin(AdminVO adminVO) {
+    SqlSession ss = FactoryService.getFactory().openSession();
+
+    try {
+      int cnt = ss.insert("adminManagement.insertAdmin", adminVO);
+      ss.commit();
+      return cnt > 0;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    } finally {
+      ss.close();
+    }
   }
 }

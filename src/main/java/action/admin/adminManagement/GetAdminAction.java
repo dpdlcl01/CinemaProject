@@ -24,8 +24,11 @@ public class GetAdminAction implements Action {
     }
 
     String adminIdx = request.getParameter("adminIdx");
+    System.out.println("adminIdx = " + adminIdx);
 
     AdminVO admin = AdminManagementDAO.getAdminByIdx(adminIdx);
+    System.out.println("adminIdx = " + admin.getAdminIdx());
+
     // Jackson을 사용하여 JSON 변환
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(admin);
