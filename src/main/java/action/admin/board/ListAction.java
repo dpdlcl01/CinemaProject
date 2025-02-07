@@ -35,7 +35,7 @@ public class ListAction implements Action {
         String theater = request.getParameter("theater");
 
         // 총 게시물의 수를 구한다.
-        int totalCount = BoardDAO.getAllTotalCount(keyword, region, theater);
+        int totalCount = BoardDAO.getAllTotalCount(bType, keyword, region, theater);
         // 페이징 객체안에 총 게시물의 수를 저장하면서 전체페이지 수를 구한다.
         page.setTotalRecord(totalCount);// 이때 전체페이지수(totalPage)가 구해진다.
 
@@ -48,7 +48,7 @@ public class ListAction implements Action {
 
         if (cPage == null || cPage.trim().isEmpty()) {
             page.setNowPage(1);
-        }else {
+        } else {
             int nowPage = Integer.parseInt(cPage.trim());// "2" --> 2
             page.setNowPage(nowPage);// 이때 !!!!
             // 게시물을 추출할 때 사용되는 begin과 end가 구해지고,
@@ -57,7 +57,7 @@ public class ListAction implements Action {
 
 
         // 게시판의 목록을 noticeMain.jsp에서 표현하기 위해 DB에서 원하는 자원들을 가져와야 한다.
-        BoardVO[] ar = BoardDAO.getAllList(page.getBegin(), page.getEnd(), keyword, region, theater);
+        BoardVO[] ar = BoardDAO.getAllList(bType, page.getBegin(), page.getEnd(), keyword, region, theater);
 
         // 가져온 자원들을 noticeMain.jsp에서 표현할 수 있도록 request에 저장해야 한다.
         request.setAttribute("ar", ar);

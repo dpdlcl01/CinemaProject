@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
@@ -11,18 +11,22 @@
 
 <style>
     .page-util .inner-wrap {
-        max-width: 100%; !important;
-        padding: 20px 20px; !important;
+        max-width: 100%;
+    !important;
+        padding: 20px 20px;
+    !important;
     }
 
-    .myPage-container{
+    .myPage-container {
         display: flex;
 
     }
-    #main{
+
+    #main {
         width: 100%;
         margin: 27px 40px 40px 40px;
     }
+
     .view {
         width: 840px;
     }
@@ -36,14 +40,14 @@
     }
 
     .notice-title {
-        font-size: 20px;
+        font-size: 21px;
         font-weight: bold;
         margin-bottom: 20px;
         margin-top: 20px;
     }
 
     .notice-info {
-        font-size: 12px;
+        font-size: 14px;
         color: #888;
         margin-bottom: 20px;
     }
@@ -73,7 +77,7 @@
         vertical-align: middle;
     }
 
-    a{
+    a {
         color: inherit !important;
     }
 
@@ -112,15 +116,28 @@
                     <h1 class="notice-title">${board.boardTitle}</h1>
                     <div class="notice-info">
                         <span>영화관: <c:if test="${board.theaterName ne null}">
-                        <td>${board.theaterName}</td>
-                    </c:if>
+                            <td>${board.theaterName}</td>
+                        </c:if>
                         <c:if test="${board.theaterName eq null}">
                             <td>메가박스</td>
-                        </c:if></span> | <span>구분: 공지</span> |
+                        </c:if></span> |
+                        <span>구분:
+                            <c:if test="${board.boardType eq 'NOTICE'}">
+                                <td>공지</td>
+                            </c:if>
+                            <c:if test="${board.boardType eq 'EVENT'}">
+                                <td>이벤트</td>
+                            </c:if>
+                        </span> |
                         <span>등록일: ${board.boardRegDate}</span>
+                        <button>수정</button>
                     </div>
                     <div class="notice-content">
-                        ${board.boardContent}
+                        <c:if test="${board.boardType eq 'EVENT'}">
+                            <img src="${board.boardContent}"/>
+                        </c:if><c:if test="${board.boardType ne 'EVENT'}">
+                        ${board.boardContent}"
+                    </c:if>
                     </div>
                     <table class="navigation-table">
                         <colgroup>
@@ -136,6 +153,7 @@
                                 <c:choose>
                                     <c:when test="${not empty nboard}">
                                         <a href="AdminController?type=adView&boardIdx=${nboard.boardIdx}
+                        <c:if test='${not empty param.bType}'> &amp;bType=${param.bType}</c:if>
                         <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
                         <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
                         <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>">

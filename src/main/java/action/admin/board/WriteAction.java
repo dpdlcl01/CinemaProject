@@ -2,7 +2,8 @@ package action.admin.board;
 
 import action.Action;
 import mybatis.dao.BoardDAO;
-import mybatis.vo.BoardVO;
+import mybatis.vo.AdminVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,16 @@ public class WriteAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
+        // 로그인 여부 확인 및 관리자 정보 가져오기
+        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
+
+        // adminvo가 null이면 로그인하지 않은 경우 - 관리자 페이지 전체 접근 불가능하므로 로그인 페이지로 전환
+        if (adminvo == null) {
+            return "AdminController?type=admin";
+        }
+
+        String adminIdx = adminvo.getAdminIdx();
+
         String actionType = request.getParameter("actionType");
         String[] selectedNotices = request.getParameterValues("selectedNotice");
 
@@ -25,7 +36,7 @@ public class WriteAction implements Action {
             try {
                 List<Integer> boardIdxList = new ArrayList<>();
                 for (String noticeId : selectedNotices) {
-                      boardIdxList.add(Integer.parseInt(noticeId));
+                    boardIdxList.add(Integer.parseInt(noticeId));
                 }
 
                 int result = BoardDAO.endNotices(boardIdxList);
@@ -63,7 +74,7 @@ public class WriteAction implements Action {
         String boardType = request.getParameter("boardType");
         String boardStatus = request.getParameter("boardStatus");
         String boardContent = request.getParameter("content");
-        String boardRegDate = String.valueOf(System.currentTimeMillis()); // 저장 시간 (현재 시간)
+        String boardExpDate = request.getParameter("expDate");
 
         String theaterIdx = BoardDAO.getTheaterIdx(theater);
 
@@ -72,7 +83,8 @@ public class WriteAction implements Action {
             return "/jsp/admin/notice/adminNoticeWrite.jsp";
         }
 
-        int result = BoardDAO.addNotice(theaterIdx, boardType, boardTitle, boardContent, boardRegDate, boardStatus);
+        int result = BoardDAO.addNotice(adminIdx, theaterIdx, boardType, boardTitle, boardContent,
+                boardExpDate, boardStatus);
 
         if (result > 0) {
             request.setAttribute("msg", "공지사항이 등록되었습니다.");
