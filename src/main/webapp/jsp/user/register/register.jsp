@@ -3,8 +3,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <jsp:include page="../common/head.jsp"/>
   <style>
     *{
@@ -167,9 +170,9 @@
 
     #authpwd{
       position: absolute;
-      left: 300px;
+      left: 690px;
       right: 10px;
-      top: 430px;
+      top: 433px;
     }
 
     .inputshort {
@@ -179,6 +182,15 @@
     select {
       padding: 5px;
       font-size: 14px;
+    }
+
+    /* ajax에서 표기해주는 부분 text 컬러표기 */
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
     }
   </style>
 </head>
@@ -218,39 +230,86 @@
             <td><span>이메일</span> </td>
             <td><input type="text" id="emailpart1" name="emailpart1" class="inputEmail">
               <span>@</span>
-              <input type="text" id="emailpart2" name="emailpart2" class="inputEmail">
-              <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
+              <input type="text" id="emailpart2" name="emailpart2" class="inputEmail" disabled>
+              <select name="emailDomain2" id="emailDomain" title="이메일 선택" class="email_address">
+                <option value="" disabled selected>선택하세요</option>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="daum.net">daum.net</option>
+                <option value="nate.com">nate.com</option>
+                <option value="direct">직접입력</option>
+              </select>
+              <div id="emailResult"></div>
+              <button type="button" id="Cnum" onclick="sendAuthCode('checkDuplicate')">인증번호받기</button> </td>
           </tr>
           <tr>
             <td><span>인증번호</span> </td>
             <td><input type="text" id="authcode" name="authcode" class="inputValue">
-              <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
+              <button type="button" id="validateEmailButton" name="validateEmailButton" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
             <script>
-              // 인증번호 확인 AJAX 요청
               function sendAuthCode() {
-                const emailPart1 = document.getElementById("emailpart1").value;
-                console.log(emailPart1);
-                const emailPart2 = document.getElementById("emailpart2").value;
-                console.log(emailPart2);
-
+                const emailPart1 = document.getElementById("emailpart1").value.trim();
+                const emailPart2 = document.getElementById("emailpart2").value.trim();
 
                 if (!emailPart1 || !emailPart2) {
-                  alert("이메일을 입력해주세요.");
+                  showModal("이메일을 입력해주세요.");
                   return;
                 }
 
                 const email = emailPart1 + "@" + emailPart2;
 
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                  if (xhr.readyState === 4 && xhr.status === 200) {
-                    alert(xhr.responseText.trim());
+                if (!email) {
+                  showModal("이메일을 입력해주세요.");
+                  return;
+                }
+
+                $.ajax({
+                  type: "POST",
+                  url: "${pageContext.request.contextPath}/EmailServlet", // EmailServlet URL
+                  data: {
+                    actionType: "validateUser",
+                    email: email
+                  },
+                  success: function (response) {
+                    if (response.status === "success") {
+                      showModal(response.message); // 성공 메시지 표시
+                    } else {
+                      showModal(response.message); // 오류 메시지 표시
+                    }
+                  },
+                  error: function () {
+                    showModal("서버 통신 중 오류가 발생했습니다.");
                   }
-                };
-                xhr.send("email=" + encodeURIComponent(email));
+                });
               }
+
+              // const userName = document.getElementById("userName").value;
+              //
+              // const actionType = userName ? "validateUser" : "register";
+
+
+              <%--  const xhr = new XMLHttpRequest();--%>
+              <%--  xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);--%>
+              <%--  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");--%>
+              <%--  xhr.onreadystatechange = function () {--%>
+              <%--    if (xhr.readyState === 4 && xhr.status === 200) {--%>
+              <%--      const response = JSON.parse(xhr.responseText)--%>
+              <%--      showModal(response.message);--%>
+              <%--    }--%>
+              <%--  };--%>
+
+              <%--  const params = "email=" + encodeURIComponent(email) +--%>
+              <%--          "&userName=" + encodeURIComponent(userName) +--%>
+              <%--          "&actionType=" + encodeURIComponent(actionType);--%>
+
+              <%--  console.log("email:", email);--%>
+              <%--  console.log("userName:", userName);--%>
+              <%--  console.log("actionType:", actionType);--%>
+
+              <%--  // xhr.send("email=" + encodeURIComponent(email));--%>
+              <%--  xhr.send(params);--%>
+              <%--}--%>
+
             </script>
           </tr>
         </table>
@@ -330,21 +389,21 @@
           <tr>
             <td class="bold">아이디</td>
             <td>
-              <input type="text" id="userId" name="userId" class="inputValue" oninput="checkid()">
-              <span id="id_ok" class="id_ok" style="color:green; display:none;">사용 가능한 아이디입니다.</span>
-              <span id="id_already" class="id_already" style="color:red; display:none;">사용 불가능 가능한 아이디입니다.</span>
+              <input type="text" id="userId" name="userId" class="inputValue" placeholder="8자리 이상 영문숫자조합." oninput="checkid()">
+              <button type="button" id="checkIdBtn">중복확인</button>
+              <div class="message" id="idCheckMessage"></div>
             </td>
           </tr>
 
           <tr>
             <td class="bold">비밀번호</td>
-            <td><input type="password" id="userPassword1" name="userPassword1" oninput="pwCheck()" class="inputValue"></td>
+            <td><input type="password" id="userPassword1" name="userPassword1" placeholder="" oninput="pwCheck()" class="inputValue"></td>
           </tr>
 
           <tr>
             <td class="bold" >비밀번호확인</td>
             <td><input type="password" id="userPassword2" name="userPassword2" oninput="pwCheck()" class="inputValue"></td>
-            <a id="authpwd">비밀번호를 입력하여 주세요.</a>
+            <a id="authpwd">비밀번호 8자리 이상 영문을 포함해 입력해주세요.</a>
           </tr>
 
 
@@ -376,10 +435,45 @@
 
   </div>
   </div>
+
 </form>
+
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 200px; max-height: 200px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">알림</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const domain = document.getElementById("emailDomain");
+    const emailpart2input = document.getElementById("emailpart2");
+
+    domain.addEventListener("change", function () {
+      const selectedValue = this.value;
+      if(this.value === "direct") {
+        emailpart2input.disabled = false;
+        emailpart2input.value = "";
+        emailpart2input.placeholder = "도메인 입력";
+      } else {
+        emailpart2input.disabled = true;
+        emailpart2input.value = selectedValue;
+      }
+    })
+  })
+
 
 
   const checkbox1 = document.getElementById('serviceAgree');
@@ -430,12 +524,12 @@
     emailPart2 = $.trim(emailPart2);
 
     if (userName.length < 1) {
-      alert("이름을 입력하세요.");
+      showModal("이름을 입력하세요.");
       $(".inputValue[name='userName']").val("").focus();
       return;
     }
     if (emailPart1.length < 1 || emailPart2.length < 1) {
-      alert("이메일을 입력하세요.");
+      showModal("이메일을 입력하세요.");
       $(".inputEmail[name='emailpart1']").val("").focus();
       return;
     }
@@ -448,14 +542,25 @@
     document.getElementById('main2').style.display = 'block';
   }
 
-  function pwCheck(){
+  function pwCheck() {
     const authPwd = document.getElementById('authpwd');
-    if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
-      authPwd.innerText = '비밀번호가 일치합니다.';
-      authPwd.style.color = 'green';
+    const password1 = document.getElementById('userPassword1').value;
+    const password2 = document.getElementById('userPassword2').value;
+
+    const numberOnly = /^\d+$/;
+
+    if (numberOnly.test(password1)) {
+      authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다.";
+      authPwd.style.color = "red";
+    } else if (password1.length < 7) {
+      authPwd.innerText = "비밀번호는 8자리 이상이여야 합니다.";
+      authPwd.style.color = "red";
+    } else if (password1 === password2) {
+      authPwd.innerText = "비밀번호가 일치합니다.";
+      authPwd.style.color = "green";
     } else {
-      authPwd.innerText = '비밀번호가 불일치합니다.';
-      authPwd.style.color = 'red';
+      authPwd.innerText = "비밀번호가 불일치합니다.";
+      authPwd.style.color = "red";
     }
   }
 
@@ -464,43 +569,41 @@
     let userPhone2 = document.getElementById("userPhone2").value.trim();
     let userPhone3 = document.getElementById("userPhone3").value.trim();
 
-    console.log("userPhone1:", userPhone1);
-    console.log("userPhone2:", userPhone2);
-    console.log("userPhone3:", userPhone3);
+    const userIdInput = document.getElementById("userId");
+    const userPasswordInput = document.getElementById("userPassword");
 
     let fullPhone = userPhone1 + "-" + userPhone2 + "-" + userPhone3;
 
-    console.log("히든태그안에 들어갈 값 : "+fullPhone);
-
     document.getElementById("userPhone").value = fullPhone;
-
-    console.log("히든 input 태그에 들어간 값 : " + document.getElementById("userPhone").value);
 
     let userId = $.trim($(".inputValue[name='userId']").val());
     let userPassword = $.trim($("#userPassword1").val());  // 비밀번호 값 가져오기
 
     if (!userPhone2 || userPhone2.length !== 4) {
-      alert("핸드폰 번호의 가운데 네 자리를 정확히 입력해주세요.");
+      showModal("핸드폰 번호의 가운데 네 자리를 정확히 입력해주세요.");
       document.getElementById("userPhone2").focus();
       return false;
     }
 
     if (!userPhone3 || userPhone3.length !== 4) {
-      alert("핸드폰 번호의 마지막 네 자리를 정확히 입력해주세요.");
+      showModal("핸드폰 번호의 마지막 네 자리를 정확히 입력해주세요.");
       document.getElementById("userPhone3").focus();
       return false;
     }
 
-    if(userId.length < 3) {
-      alert("아이디는 4글자 이상만 입력가능합니다.");
+
+    if(userId.length < 7) {
+      showModal("아이디는 8글자 이상만 입력가능합니다.");
       $(".inputValue[name='userId']").val("").focus();
       return false;
     }
-    if(userPassword.length < 6) {
-      alert("비밀번호는 6글자 이상만 입력가능합니다.");
+
+    if(userPassword.length < 7) {
+      showModal("비밀번호는 8글자 이상만 입력가능합니다.");
       $("#userPassword1").val("").focus();
       return false;
     }
+
     document.getElementById("type").value = "register";
     frm.submit();
 
@@ -513,7 +616,7 @@
     console.log("사용자 입력 인증 코드 : " + authCode);
 
     if (!authCode) {
-      alert("인증번호를 입력해주세요.");
+      showModal("인증번호를 입력해주세요.");
       return;
     }
 
@@ -526,11 +629,11 @@
         const response = xhr.responseText.trim();
 
         if (response === "인증 성공!") {
-          alert("인증에 성공했습니다!");
+          showModal("인증에 성공했습니다!");
           document.getElementById("emailVerified").value = "true"; // 인증 성공 상태 저장
           document.getElementById("next").disabled = false;
         } else {
-          alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+          showModal("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
           document.getElementById("emailVerified").value = ""; // 인증 실패 상태 초기화
         }
       }
@@ -540,34 +643,58 @@
 
 
 
-  function checkid() {
-    console.log("checkid 이벤트 호출")
-    const userId = $("#userId").val();
+  $(document).ready(function () {
+    $("#checkIdBtn").on("click", function () {
+      const userId = $("#userId").val().trim();
 
-    if(!userId){
-      $(".id_ok").hide();
-      $(".id_already").hide();
-      return;
-    }
-
-    $.ajax({
-      url:'UserController?type=usercheckid',
-      type:"post",
-      data:{ userId: userId },
-      success:function(response) {
-        console.log("서버응답: ", response);
-        if(response.trim() === "0") {
-          $(".id_ok").show();
-          $(".id_already").hide();
-        } else {
-          $(".id_ok").hide();
-          $(".id_already").show();
-        }
-      },
-      error:function(){
-        alert("아이디검증 ajax 오류 발생.");
+      // 입력값 검증
+      if (userId === "") {
+        $("#idCheckMessage").removeClass("success").addClass("error").text("아이디를 입력해주세요.");
+        return;
       }
+
+      // AJAX 요청
+      $.ajax({
+        url: 'UserController?type=usercheckid', // 서버 URL
+        type: "POST", // HTTP 메서드
+        data: { userId: userId }, // 전송 데이터
+        dataType: "json", // 응답 데이터 타입
+        success: function (response) {
+          console.log("서버 응답:", response);
+
+          const messageElement = $("#idCheckMessage");
+          messageElement.removeClass("success error");
+
+          if (response.status === "success") {
+            // 사용 가능한 아이디
+            messageElement
+                    .addClass("success")
+                    .text(response.message);
+          } else {
+            // 중복된 아이디
+            messageElement
+                    .addClass("error")
+                    .text(response.message);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("AJAX 오류 발생:", status, error);
+          $("#idCheckMessage")
+                  .removeClass("success")
+                  .addClass("error")
+                  .text("아이디 검증 중 오류가 발생했습니다.");
+        }
+      });
     });
+  });
+
+  function showModal(message) {
+
+    document.querySelector('#alertModal .modal-body').textContent = message;
+
+    // Bootstrap Modal 표시
+    const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+    alertModal.show();
   }
 
 </script>

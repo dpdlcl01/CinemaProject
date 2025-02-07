@@ -50,7 +50,7 @@ public class MyPageDAO {
         if(list==null || list.size()==0){
             return null;
         }
-       FavoriteTheaterVO[] favorite = new FavoriteTheaterVO[list.size()];
+        FavoriteTheaterVO[] favorite = new FavoriteTheaterVO[list.size()];
         list.toArray(favorite);
         ss.close();
         return favorite;

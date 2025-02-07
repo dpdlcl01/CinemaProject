@@ -6,7 +6,7 @@
 <!-- head -->
 <head>
   <jsp:include page="../common/head.jsp"/>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myMovieStory.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/myMovieStory.css?v=1.0">
 <style>
 
   *{
@@ -161,7 +161,7 @@
                   <c:forEach items="${requestScope.fvo}" var="fvo">
                     <li data-status="open" id="favoriteLi">
                       <!-- movie-list-info -->
-                      <a href="#" class="movie-list-info" title="영화상세 보기">
+                      <a href="${pageContext.request.contextPath}/UserController?type=movieDetail&movieIdx=${fvo.movieIdx}" class="movie-list-info" title="영화상세 보기">
                         <img src="${fvo.moviePosterUrl}" alt="영화포스터" class="poster">
                       </a>
                       <div class="tit-area">

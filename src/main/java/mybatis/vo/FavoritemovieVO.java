@@ -9,15 +9,7 @@ public class FavoritemovieVO {
     String movieGenre;
     String movieTime;
     String moviePosterUrl;
-    String movieLikes;
-
-    public String getMovieLikes() {
-        return movieLikes;
-    }
-
-    public void setMovieLikes(String movieLikes) {
-        this.movieLikes = movieLikes;
-    }
+    String movieGrade;
 
     public String getMovieGrade() {
         return movieGrade;
@@ -27,7 +19,15 @@ public class FavoritemovieVO {
         this.movieGrade = movieGrade;
     }
 
-    String movieGrade;
+    public String getMovieLikes() {
+        return movieLikes;
+    }
+
+    public void setMovieLikes(String movieLikes) {
+        this.movieLikes = movieLikes;
+    }
+
+    String movieLikes;
 
     public String getFavoriteMovieIdx() {
         return favoriteMovieIdx;

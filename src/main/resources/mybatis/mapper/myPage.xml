@@ -81,6 +81,16 @@
         SELECT userPassword FROM user WHERE userId = #{userId}
     </select>
 
+    <select id="getUser2" parameterType="string" resultType="mybatis.vo.UserVO">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <select id="getPasswordHash" parameterType="string" resultType="string">
+        SELECT userPassword
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
     <update id="updatePassword" parameterType="map">
         UPDATE user
         SET userPassword = #{newPassword}

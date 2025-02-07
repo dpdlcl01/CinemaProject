@@ -89,36 +89,7 @@
     padding: 0;
     margin: 0;
   }
-  .sidebar{
-    width: 200px;
-    border-radius: 6px;
-    height: 360px;
-    margin-top: 15px;
-    margin-right: 50px;
 
-  }
-  .sidebar>ul{
-    border-right:1px solid #222222;
-    border-left:1px solid #222222;
-    border-radius: 6px;
-  }
-  .sidebar a{
-    display: flex;
-
-    padding-top: 15px;
-    padding-bottom: 10px;
-    text-decoration: none;
-    text-indent: 20px;
-    line-height: 30px;
-    font-weight: bolder;
-
-  }
-  .sidebar li>a{
-
-    font-size: 14px;
-    width: 180px;
-    color: #222222;
-  }
   #myMega{
     border-bottom: 2px solid #222222;
     background-color: #222222;
@@ -146,9 +117,35 @@
   .td1{
     background-color: #F5F5F5;
   }
+
   i{
     text-indent: -9999px;
   }
+
+  #main button {
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-color: #503396;
+    /*width: 60px;*/
+    height: 25px;
+    /*margin-left: 10px;*/
+  }
+
+  #passwordBtn{
+    margin-left: 0
+  }
+
+  button:hover {
+    color: #fff;
+    background-color: #01738b;
+  }
+
+  button#cancel {
+    width: 80px;
+  }
+
 </style>
 <body>
 <!-- header 영역 -->
@@ -172,9 +169,9 @@
 <div class="contents">
   <article id="wrap">
     <%--  사이드바  --%>
-    <jsp:include page="../common/sideBar.jsp"/>
+<%--    <jsp:include page="../common/sideBar.jsp"/>--%>
     <div id="main">
-      <h2>회원탈퇴</h2>
+      <h1>회원탈퇴</h1>
       <p class="warning">[주의] 메가박스 회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
       <p class="title">1. 30일간 회원 재가입이 불가능합니다.</p>
       <li>회원 탈퇴 후, 30일 경과 후 재가입할 수 있습니다.</li>

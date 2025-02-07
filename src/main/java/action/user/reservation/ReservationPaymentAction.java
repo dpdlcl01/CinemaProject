@@ -30,6 +30,9 @@ public class ReservationPaymentAction implements Action {
       return "UserController?type=login";
     }
 
+    System.out.println("유저이메일"+uservo.getUserEmail());
+    System.out.println("세션유저idx"+uservo.getUserIdx());
+
     HttpSession session = request.getSession();
 
     String paymentKey = request.getParameter("paymentKey");

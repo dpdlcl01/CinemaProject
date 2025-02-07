@@ -9,6 +9,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>아이디/비밀번호 찾기</title>
     <style>
         body {
@@ -20,6 +23,24 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            border-bottom: 2px solid #ccc;
+        }
+        .tab {
+            padding: 10px 0;
+            width: 150px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 16px;
+        }
+        .tab.active {
+            border-bottom: 2px solid #6a5acd;
+            color: #6a5acd;
         }
         .container {
             width: 600px;
@@ -166,8 +187,13 @@
             <p>${error}</p>
         </div>
     </c:if>
-
+    <div class="tabs">
+        <a href="${pageContext.request.contextPath}/UserController?type=movefindid" class="tab">아이디 찾기</a>
+        <a href="${pageContext.request.contextPath}/UserController?type=movefindpw" class="tab active">비밀번호 찾기</a>
+    </div>
     <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST">
+        <input type="hidden" id="type" name="type"/>
+        <input type="hidden" id="userEmail" name="userEmail"/>
         <table>
             <tr>
                 <td>아이디</td>
@@ -184,7 +210,7 @@
                         <input type="text" id="emailpart1" name="emailpart1" class="inputshort">
                         <span>@</span>
                         <input type="text" id="emailpart2" name="emailpart2" class="inputshort" disabled>
-                        <select name="emailDomain" id="emailDomain" title="이메일 선택" class="email_address">
+                        <select name="emailDomain2" id="emailDomain" title="이메일 선택" class="email_address">
                             <option value="" disabled selected>선택하세요</option>
                             <option value="naver.com">naver.com</option>
                             <option value="gmail.com">gmail.com</option>
@@ -193,6 +219,45 @@
                             <option value="direct">직접입력</option>
                         </select>
                         <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button>
+                        <script>
+                            function sendAuthCode() {
+                                const emailPart1 = document.getElementById("emailpart1").value.trim();
+                                const emailPart2 = document.getElementById("emailpart2").value.trim();
+                                const userName = document.getElementById("userName").value.trim();
+                                const userId = document.getElementById("userId").value.trim();
+
+                                const email = emailPart1 + "@" + emailPart2;
+
+                                if (!emailPart1 || !emailPart2) {
+                                    showModal("이메일을 입력해주세요.");
+                                    return;
+                                }
+
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "${pageContext.request.contextPath}/EmailServlet", // EmailServlet URL
+                                    data: {
+                                        actionType: "findPassword", // 비밀번호 찾기 요청
+                                        userName: userName,
+                                        email: email,
+                                        userId: userId
+                                    },
+                                    success: function (response) {
+                                        if (response.status === "success") {
+                                            showModal(response.message); // 성공 메시지 표시
+                                        } else {
+                                            showModal(response.message); // 오류 메시지 표시
+                                        }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error("AJAX Error:", status, error);
+                                        console.error("Response Text:", xhr.responseText);
+                                        alert("서버 통신 중 오류가 발생했습니다.");
+                                    }
+                                });
+                            }
+                        </script>
                     </div>
                 </td>
             </tr>
@@ -201,47 +266,38 @@
                 <td><span>인증번호</span> </td>
                 <td>
                     <div class="auth-container">
-                    <input type="text" id="authcode" name="authcode" class="inputValue"/>
-                    <input type="hidden" id="authcodecheck" name="authcodecheck" value=""/>
-                    <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button>
-                </div>
+                        <input type="text" id="authcode" name="authcode" class="inputValue"/>
+                        <input type="hidden" id="authcodecheck" name="authcodecheck" value=""/>
+                        <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button>
+                    </div>
                 </td>
-                <script>
-                    function sendAuthCode() {
-                        const emailPart1 = document.getElementById("emailpart1").value;
-                        console.log(emailPart1);
-                        const emailPart2 = document.getElementById("emailpart2").value;
-                        console.log(emailPart2);
-
-
-                        if (!emailPart1 || !emailPart2) {
-                            alert("이메일을 입력해주세요.");
-                            return;
-                        }
-
-                        const email = emailPart1 + "@" + emailPart2;
-
-                        const xhr = new XMLHttpRequest();
-                        xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                alert(xhr.responseText.trim());
-                            }
-                        };
-                        xhr.send("email=" + encodeURIComponent(email));
-                    }
-                </script>
             </tr>
         </table>
         <div class="pwrecovery">
-        <button type="submit" onclick="gotosumbit(event, this.form)">비밀번호 찾기</button>
+            <button type="submit" onclick="gotosumbit(event, this.form)">비밀번호 찾기</button>
         </div>
     </form>
 
     <div class="note">
         * 본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 이용 또는 저장되지 않습니다.
     </div>
+
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 200px; max-height: 200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalLabel">알림</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -266,7 +322,7 @@
         const authCode = document.getElementById("authcode").value;
 
         if (!authCode) {
-            alert("인증번호를 입력해주세요.");
+            showModal("인증번호를 입력해주세요.");
             return;
         }
 
@@ -279,10 +335,10 @@
                 const response = xhr.responseText.trim();
 
                 if (response === "인증 성공!") {
-                    alert("인증에 성공했습니다!");
+                    showModal("인증에 성공했습니다!");
                     document.getElementById("authcodecheck").value = "success";
                 } else {
-                    alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+                    showModal("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
                     document.getElementById("authcodecheck").value = "";
                 }
             }
@@ -297,45 +353,55 @@
         const userName = document.getElementById("userName").value.trim();
         const emailPart1 = document.getElementById("emailpart1").value.trim();
         const emailPart2 = document.getElementById("emailpart2").value.trim();
+        userEmail.value = emailPart1 + "@" + emailPart2;
         const authCode = document.getElementById("authcode").value.trim();
         const authcodecheck = document.getElementById("authcodecheck").value.trim();
 
         if (!userId || userId.length < 3) {
-            alert("아이디를 입력해주세요.");
+            showModal("아이디를 입력해주세요.");
             document.getElementById("userId").focus();
             return false;
         }
 
         if (!userName || userName.length < 1) {
-            alert("이름을 입력해주세요.");
+            showModal("이름을 입력해주세요.");
             document.getElementById("userName").focus();
             return false;
         }
 
         if (!emailPart1 || emailPart1.length < 3) {
-            alert("이메일 아이디를 입력해주세요.");
+            showModal("이메일 아이디를 입력해주세요.");
             document.getElementById("emailpart1").focus();
             return false;
         }
 
         if (!emailPart2 || emailPart2.length < 7) {
-            alert("이메일 도메인을 선택하거나 입력해주세요.");
+            showModal("이메일 도메인을 선택하거나 입력해주세요.");
             document.getElementById("emailpart2").focus();
             return false;
         }
 
         if (!authCode) {
-            alert("인증번호를 입력해주세요.");
+            showModal("인증번호를 입력해주세요.");
             document.getElementById("authcode").focus();
             return false;
         }
 
         if(authcodecheck !== "success") {
-            alert("인증완료를 진행해주세요.");
+            showModal("인증완료를 진행해주세요.");
             return false;
         }
 
         frm.submit();
+    }
+
+    function showModal(message) {
+
+        document.querySelector('#alertModal .modal-body').textContent = message;
+
+        // Bootstrap Modal 표시
+        const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+        alertModal.show();
     }
 </script>
 </body>

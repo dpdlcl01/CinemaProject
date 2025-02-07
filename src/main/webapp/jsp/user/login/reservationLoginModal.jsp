@@ -185,6 +185,8 @@
         }
 
         .custom-info-box-table button {
+            height: 32px;
+            width: 80px;
             padding: 6px 10px;
             background-color: #6a5acd;
             color: white;
@@ -318,8 +320,9 @@
                                     <td>이메일</td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <input type="text" id="userEmail" class="form-control input-size" placeholder="'-' 없이 입력">
-                                            <button class="btn btn-outline-primary">인증요청</button>
+                                            <input type="text" id="userEmail" name="userEmail" class="form-control input-size" placeholder="이메일">
+                                            <button class="btn btn-outline-primary" onclick="sendAuthCode()">인증요청</button>
+                                            <input type="hidden" id="authcodecheck" value="1">
                                         </div>
                                     </td>
                                 </tr>
@@ -327,8 +330,37 @@
                                     <td>인증번호</td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <input type="text" class="form-control" placeholder="인증번호">
-                                            <span class="text-danger" style="font-size: 12px;">3:00</span>
+<%--                                            <input type="text" class="form-control" placeholder="인증번호">--%>
+                                                <input type="text" id="authcode" class="form-control" name="authcode" placeholder="인증번호">
+                                                <button type="button" onclick="verifyAuthCode()">인증확인</button>
+                                                <script>
+                                                    function sendAuthCode() {
+                                                        const emailPart1 = document.getElementById("userEmail").value;
+                                                        console.log("이메일파트:"+emailPart1);
+                                                        // const emailPart2 = document.getElementById("emailpart2").value;
+                                                        // console.log(emailPart2);
+
+
+                                                        if (emailPart1 === "") {
+                                                            alert("이메일을 입력해주세요.");
+                                                            return;  // 이메일이 없으면 함수 종료
+                                                        }
+
+
+                                                        const email = emailPart1
+
+                                                        const xhr = new XMLHttpRequest();
+                                                        xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
+                                                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                                                        xhr.onreadystatechange = function () {
+                                                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                                                alert(xhr.responseText.trim());
+                                                            }
+                                                        };
+                                                        xhr.send("email=" + encodeURIComponent(email));
+                                                    }
+                                                </script>
+<%--                                            <span class="text-danger" style="font-size: 12px;">3:00</span>--%>
                                         </div>
                                     </td>
                                 </tr>
@@ -357,7 +389,7 @@
                                 정보 수집에 동의하지 않을 경우, 비회원 예매 서비스를 이용할 수 없습니다.
                             </p>
                             <div class="text-center mt-3">
-                                <button class="btn btn-primary" id="nonMember">확인</button>
+                                <button class="btn btn-primary" id="nonMember" disabled>확인</button>
                             </div>
                         </div>
                     </div>
@@ -367,6 +399,40 @@
     </div>
 </div>
 <script>
+    function verifyAuthCode() {
+        console.log("verifyAuthCode 호출.");
+        const authCode = document.getElementById("authcode").value;
+
+        if (!authCode) {
+            alert("인증번호를 입력해주세요.");
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = xhr.responseText.trim();
+
+                if (response === "인증 성공!") {
+                    alert("인증에 성공했습니다!");
+                    document.getElementById("authcodecheck").value = "0";
+                    document.getElementById("nonMember").disabled = false;
+                } else {
+                    alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+                    document.getElementById("nonMember").value = "1";
+                }
+            }
+        };
+        xhr.send("authCode=" + encodeURIComponent(authCode));
+    }
+
+    function userStatus_drop(frm){
+        frm.submit();
+    }
+
     document.getElementById("loginForm1").addEventListener("submit", function(event) {
         event.preventDefault();  // 폼 제출 기본 동작 방지
 

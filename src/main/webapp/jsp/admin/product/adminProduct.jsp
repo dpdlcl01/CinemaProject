@@ -242,8 +242,8 @@
           <%-- 테이블 추가 --%>
           <table>
             <colgroup>
-              <col style="width: 50px;">   <!-- 상품 ID -->
-              <col style="width: 100px;">  <!-- 카테고리 -->
+              <col style="width: 60px;">   <!-- 상품 ID -->
+              <col style="width: 90px;">  <!-- 카테고리 -->
               <col style="width: 220px;">  <!-- 상품명 -->
               <col style="width: 300px;">  <!-- 상품설명 -->
               <col style="width: 220px;">  <!-- 상품이미지 -->
