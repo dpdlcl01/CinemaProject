@@ -13,47 +13,45 @@ public class FindPwAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String type = request.getParameter("type");
-        if(type.equals("movefindpw")) {
+
+        if (type.equals("movefindpw")) {
             return "./jsp/user/login/findPw.jsp";
-        } else if(type.equals("findpw")) {
-            String userIdx = request.getParameter("userIdx");
-            String userId = request.getParameter("userId");
-            String userName = request.getParameter("userName");
-            String emailPart1 = request.getParameter("emailpart1");
-            System.out.println("emailpart1:" + emailPart1);
-            String emailPart2 = request.getParameter("emailpart2");
-            System.out.println("emailpart2:" + emailPart2);
-            String newPassword = request.getParameter("newPassword"); // 새 비밀번호 입력받음
-
-            String userEmail = request.getParameter("userEmail");
-            System.out.println("userEmail : " + userEmail);
-
+        } else if (type.equals("findpw")) {
+            // 요청 파라미터를 HashMap에 저장
             HashMap<String, String> params = new HashMap<>();
-            params.put("userIdx", userIdx);
-            params.put("userId", userId);
-            params.put("userName", userName);
-            params.put("userEmail", userEmail);
+            params.put("userIdx", request.getParameter("userIdx"));
+            params.put("userId", request.getParameter("userId"));
+            params.put("userName", request.getParameter("userName"));
+            params.put("userEmail", request.getParameter("userEmail"));
+
+            // HashMap에서 값 추출
+            String userName = params.get("userName");
+            String userEmail = params.get("userEmail");
+            String userId = params.get("userId");
 
             try {
-                // 사용자 검증
-                boolean isUserValid = RegisterDAO.validateUserForPasswordReset(params);
+                // DAO 객체 생성
+                RegisterDAO registerDAO = new RegisterDAO();
+
+                // 개별 값을 전달하여 메서드 호출
+                boolean isUserValid = registerDAO.validateUserForPasswordReset(userName, userEmail, userId);
+
                 if (isUserValid) {
-                    // 새 비밀번호 설정
+                    // 비밀번호 변경 로직
+                    String newPassword = request.getParameter("newPassword");
                     params.put("userPw", newPassword); // 새 비밀번호 추가
+
                     int updateResult = RegisterDAO.updatePassword(params);
 
                     if (updateResult > 0) {
-                        String logType = "1";
-                        System.out.println("LogUtil entry..");
                         LogUtil.logChanges(
-                                logType,
+                                "1",
                                 null,
                                 "userId : " + userId,
                                 "비밀번호 찾기",
                                 null,
                                 null
                         );
-                        System.out.println("LogUtil exit..");
                         request.setAttribute("success", "비밀번호가 성공적으로 변경되었습니다.");
                         return "/jsp/user/login/result/pwFind_success.jsp";
                     } else {

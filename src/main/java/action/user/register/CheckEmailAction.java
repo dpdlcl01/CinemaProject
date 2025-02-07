@@ -27,11 +27,14 @@ public class CheckEmailAction implements Action {
 
         // 이메일 중복 여부 확인
         RegisterDAO dao = new RegisterDAO();
-        boolean isDuplicate = dao.emailCheck(email);
-        if (isDuplicate) {
-            out.write("{\"status\":\"error\", \"message\":\"이미 사용 중인 이메일입니다.\"}");
-            return "./jsp/user/register/reg_Result/ajax.jsp";
-        }
+//        String existingEmail = dao.getEmailIfExists(email);
+
+//        System.out.println("debug existingEmail = " + existingEmail);
+//
+//        if (existingEmail != null && !existingEmail.isEmpty()) {
+//            out.write("{\"status\":\"error\", \"message\":\"이미 사용 중인 이메일입니다.\"}");
+//            return "./jsp/user/register/reg_Result/ajax.jsp";
+//        }
 
         // 인증번호 생성 및 전송
         String authCode = generateAuthCode();

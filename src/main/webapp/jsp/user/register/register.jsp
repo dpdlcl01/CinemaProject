@@ -240,38 +240,76 @@
                 <option value="direct">직접입력</option>
               </select>
               <div id="emailResult"></div>
-              <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button> </td>
+              <button type="button" id="Cnum" onclick="sendAuthCode('checkDuplicate')">인증번호받기</button> </td>
           </tr>
           <tr>
             <td><span>인증번호</span> </td>
             <td><input type="text" id="authcode" name="authcode" class="inputValue">
-              <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
-            <div id="responseMessage" name="responseMessage"></div>
+            <button type="button" id="validateEmailButton" name="validateEmailButton" class="tableButton" onclick="verifyAuthCode()">인증 확인</button> </td>
             <script>
               function sendAuthCode() {
-                const emailPart1 = document.getElementById("emailpart1").value;
-                console.log(emailPart1);
-                const emailPart2 = document.getElementById("emailpart2").value;
-                console.log(emailPart2);
-
+                const emailPart1 = document.getElementById("emailpart1").value.trim();
+                const emailPart2 = document.getElementById("emailpart2").value.trim();
 
                 if (!emailPart1 || !emailPart2) {
-                  showModal("이메일을 입력해주세요.");
+                  alert("이메일을 입력해주세요.");
                   return;
                 }
 
                 const email = emailPart1 + "@" + emailPart2;
 
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                  if (xhr.readyState === 4 && xhr.status === 200) {
-                    showModal(xhr.responseText.trim());
+                if (!email) {
+                  alert("이메일을 입력해주세요.");
+                  return;
+                }
+
+                $.ajax({
+                  type: "POST",
+                  url: "${pageContext.request.contextPath}/EmailServlet", // EmailServlet URL
+                  data: {
+                    actionType: "validateUser",
+                    email: email
+                  },
+                  success: function (response) {
+                    if (response.status === "success") {
+                      alert(response.message); // 성공 메시지 표시
+                    } else {
+                      alert(response.message); // 오류 메시지 표시
+                    }
+                  },
+                  error: function () {
+                    alert("서버 통신 중 오류가 발생했습니다.");
                   }
-                };
-                xhr.send("email=" + encodeURIComponent(email));
+                });
               }
+
+                // const userName = document.getElementById("userName").value;
+                //
+                // const actionType = userName ? "validateUser" : "register";
+
+
+                <%--  const xhr = new XMLHttpRequest();--%>
+                <%--  xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);--%>
+                <%--  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");--%>
+                <%--  xhr.onreadystatechange = function () {--%>
+                <%--    if (xhr.readyState === 4 && xhr.status === 200) {--%>
+                <%--      const response = JSON.parse(xhr.responseText)--%>
+                <%--      showModal(response.message);--%>
+                <%--    }--%>
+                <%--  };--%>
+
+                <%--  const params = "email=" + encodeURIComponent(email) +--%>
+                <%--          "&userName=" + encodeURIComponent(userName) +--%>
+                <%--          "&actionType=" + encodeURIComponent(actionType);--%>
+
+                <%--  console.log("email:", email);--%>
+                <%--  console.log("userName:", userName);--%>
+                <%--  console.log("actionType:", actionType);--%>
+
+                <%--  // xhr.send("email=" + encodeURIComponent(email));--%>
+                <%--  xhr.send(params);--%>
+                <%--}--%>
+
             </script>
           </tr>
         </table>

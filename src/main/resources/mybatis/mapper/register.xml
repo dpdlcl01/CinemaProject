@@ -16,8 +16,12 @@
         SELECT userId FROM user WHERE username = #{userName} AND userEmail = #{userEmail}
     </select>
 
-    <select id="checkemail" resultType="int">
+    <select id="getEmailIfExists" resultType="int" parameterType="String">
         SELECT COUNT(*) FROM user WHERE userEmail = #{userEmail}
+    </select>
+
+    <select id="checkUserValidation" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM user WHERE userName = #{userName} AND userEmail = #{userEmail}
     </select>
 
     <select id="finduserid_email" parameterType="Map" resultType="boolean">
