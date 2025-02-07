@@ -30,7 +30,6 @@
         VALUES (#{timetableIdx}, #{seatStatus}, #{seatIdx}, NOW())
     </insert>
 
-
     <!-- 만료된 예약 삭제 SQL (예약 상태가 2이고, reservedTime과 현재 시간 차이가 10분 이상인 경우 삭제) -->
     <delete id="deleteExpiredReservations" parameterType="map">
         DELETE FROM seatStatus

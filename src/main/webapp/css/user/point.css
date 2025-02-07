@@ -1,17 +1,109 @@
-body {
+* {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
-
-.total-main {
+/*margin: 50px auto;*/
+#contents {
     width: 1100px;
-    margin: 50px auto;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 590px;
+    margin-bottom: 20px;
+    /*background: #fff;*/
+    /*padding: 20px;*/
+}
+.tit {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.point-present-condition {
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+.summary {
+    background: #222;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+}
+.mainpoint {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+}
+.subpoint {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.oval {
+    background: #333;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    flex: 1;
+    margin: 0 5px;
+}
+.tit-year {
+    font-size: 18px;
+    font-weight: bold;
+}
+.board-list-search {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+.btn-period .btn {
+    background: #ddd;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.btn-period .btn.on {
+    background: #007bff;
+    color: white;
+}
+.date input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.board-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.board-list th {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+}
+.board-list td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+.a-c {
+    text-align: center;
+    font-size: 14px;
+    color: #777;
 }
 
 .myPoint-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 0.3fr 1fr;
 }
 
 /* 사이드바 */
@@ -49,31 +141,31 @@ body {
     color: gray;
 }
 
-/* 메인 */
-.main-content {
-    width: 850px;
-}
-.section {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-}
-.section h1 {
-    margin-bottom: 30px;
-    font-size: 24px;
-}
-.section h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-}
+/*!* 메인 *!*/
+/*.main-content {*/
+/*    width: 850px;*/
+/*}*/
+/*.section {*/
+/*    background-color: #fff;*/
+/*    padding: 20px;*/
+/*    margin-bottom: 20px;*/
+/*    border-radius: 5px;*/
+/*}*/
+/*.section h1 {*/
+/*    margin-bottom: 30px;*/
+/*    font-size: 24px;*/
+/*}*/
+/*.section h2 {*/
+/*    font-size: 18px;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+/*table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    margin-top: 20px;*/
+/*}*/
+/*table th, table td {*/
+/*    border: 1px solid #ddd;*/
+/*    padding: 10px;*/
+/*    text-align: center;*/
+/*}*/

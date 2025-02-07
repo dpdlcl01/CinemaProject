@@ -12,128 +12,198 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/point.css"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
-<div id="contents">
-  <div class="page-util">
-    <div class="page-util">
-      <div class="inner-wrap">
-        <div class="location">
-          <span>Home</span>
-          <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-          <label>회원정보</label>
-          <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
-          <label>포인트</label>
+<div class="page-util">
+  <div class="inner-wrap">
+    <div class="location">
+      <span>Home</span>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>회원정보</label>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>포인트</label>
+    </div>
+  </div>
+</div>
+<div>
+  <div id="contents">
+    <%--  사이드바  --%>
+    <jsp:include page="../common/sideBar.jsp"/>
+    <div class="total-main">
+      <h1>포인트 이용내역</h1>
+      <div class="myPoint-container">
+        <div class="point-present-condition">
+          <div class="summary">
+            <p class="tit">사용가능 포인트</p>
+            <div class="mainpoint">2,000 P</div>
+            <div class="subpoint">
+              <div class="oval">
+                <p class="tit">적립예정</p>
+                <p class="point">0 P</p>
+              </div>
+              <div class="oval">
+                <p class="tit">당월소멸예정</p>
+                <p class="point">0 P</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="this-year">
+            <p class="tit-year">VIP 선정 누적 포인트 현황</p>
+            <table>
+              <tr><td>매표</td><td>2,000</td></tr>
+              <tr><td>매점</td><td>0</td></tr>
+              <tr><td>이벤트(VIP등급대상)</td><td>0</td></tr>
+            </table>
+            <div class="sum">2,000 P</div>
+          </div>
+        </div>
+
+        <h3 class="tit mt40">이용내역 조회</h3>
+        <ul class="dot-list">
+          <li>하단 내역은 상영일 및 구매일 기준이며, 해당일 익일(+1) 에 사용 가능 포인트로 전환됩니다.</li>
+        </ul>
+
+        <div class="board-list-search">
+          <div class="btn-period">
+            <button type="button" class="btn on">1주일</button>
+            <button type="button" class="btn">1개월</button>
+            <button type="button" class="btn">3개월</button>
+            <button type="button" class="btn">6개월</button>
+          </div>
+          <div class="date">
+            <input type="text" placeholder="yyyy.mm.dd">
+            <span>~</span>
+            <input type="text" placeholder="yyyy.mm.dd">
+            <button type="button" class="button gray-line">조회</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="board-list">
+            <thead>
+            <tr>
+              <th>일자</th>
+              <th>구분</th>
+              <th>내용</th>
+              <th>지점</th>
+              <th>포인트</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td colspan="5" class="a-c">조회된 내역이 없습니다</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-  <div class="total-main">
-    <div class="myPoint-container">
-      <%--  사이드바  --%>
-      <jsp:include page="../common/sideBar.jsp"/>
-      <!-- 메인 콘텐츠 -->
-      <main class="main-content">
-        <%
-          UserVO user = (UserVO) session.getAttribute("loggedInUser");
-        %>
-        <!-- 멤버십 포인트 섹션 -->
-        <section class="section">
-          <h1>멤버십 포인트</h1>
-          <p>보유하신 멤버십 포인트 내역입니다.<br>포인트는 다양한 혜택으로 사용 가능합니다.</p>
-
-          <!-- 사용자 정보 -->
-          <table>
-            <thead>
-            <tr><th>항목</th><th>정보</th></tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>등급</td>
-              <td>${loggedInUser.userGrade}</td>
-            </tr>
-            <tr>
-              <td>사용 가능 포인트</td>
-              <td>${userPoints}P</td>
-            </tr>
-            <tr>
-              <td colspan="2" id="vipStatus">
-                <c:choose>
-                  <c:when test="${loggedInUser.userGrade eq 'Basic'}">
-                    VIP 등급까지 <span id="pointsToVIP"></span>P 필요합니다.
-                  </c:when>
-                  <c:when test="${loggedInUser.userGrade eq 'VIP'}">
-                    VVIP 등급까지 <span id="pointsToVVIP"></span>P 필요합니다.
-                  </c:when>
-                  <c:otherwise>
-                    최고 등급입니다.
-                  </c:otherwise>
-                </c:choose>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </section>
-
-        <!-- 이용 내역 -->
-        <section class="section">
-          <h2>포인트 이용 내역 조회</h2>
-
-          <!-- 조회 폼 -->
-          <form id="search-form" action="${pageContext.request.contextPath}/UserController?type=myPoint" method="get">
-            <label for="start-date">조회기간 </label>
-            <input type="date" id="start-date" name="startDate" value="${param.startDate != null ? param.startDate : '2025-01-01'}">
-            ~
-            <input type="date" id="end-date" name="endDate" value="${param.endDate != null ? param.endDate : '2025-12-31'}">
-            <button type="button" id="searchButton">조회</button>
-            <button type="button" id="totalButton">전체</button>
-          </form>
-
-          <!-- 조회 결과 -->
-          <table id="pointTable" class="history-table">
-            <thead>
-            <tr><th>일자</th><th>구분</th><th>내용</th><th>포인트 변동</th></tr>
-            </thead>
-            <tbody>
-            <c:choose>
-              <c:when test="${not empty pointList}">
-                <c:forEach var="point" items="${pointList}">
-                  <tr>
-                    <td>${point.pointDate}</td>
-                    <td>
-                      <c:choose>
-                        <c:when test="${point.pointType == '0'}">적립</c:when>
-                        <c:when test="${point.pointType == '1'}">사용</c:when>
-                        <c:otherwise>만료</c:otherwise>
-                      </c:choose>
-                    </td>
-                    <td>${point.pointSource}</td>
-                    <td>
-                      <c:choose>
-                        <c:when test="${point.pointType == '0'}">+ ${point.pointValue}P</c:when>
-                        <c:when test="${point.pointType == '1'}">- ${point.pointValue}P</c:when>
-                        <c:otherwise>- ${point.pointValue}P</c:otherwise>
-                      </c:choose>
-                    </td>
-                  </tr>
-                </c:forEach>
-              </c:when>
-              <c:otherwise>
-                <tr><td colspan="4">조회된 내역이 없습니다.</td></tr>
-              </c:otherwise>
-            </c:choose>
-            </tbody>
-          </table>
-        </section>
-
-        <!-- 기타 안내 -->
-        <section class="section">
-          <h2>안내 사항</h2>
-          <p>• 멤버십 포인트는 영화 예매 및 매점 구매 시 적립됩니다.<br>• 적립된 포인트는 이벤트 참여 및 할인 혜택으로 사용 가능합니다.</p>
-        </section>
-
-      </main>
-    </div>
-  </div>
 </div>
+
+
+      <!-- 메인 콘텐츠 -->
+<%--      <main class="main-content">--%>
+<%--        <%--%>
+<%--          UserVO user = (UserVO) session.getAttribute("loggedInUser");--%>
+<%--        %>--%>
+<%--        <!-- 멤버십 포인트 섹션 -->--%>
+<%--        <section class="section">--%>
+<%--          <h1>멤버십 포인트</h1>--%>
+<%--          <p>보유하신 멤버십 포인트 내역입니다.<br>포인트는 다양한 혜택으로 사용 가능합니다.</p>--%>
+
+<%--          <!-- 사용자 정보 -->--%>
+<%--          <table>--%>
+<%--            <thead>--%>
+<%--            <tr><th>항목</th><th>정보</th></tr>--%>
+<%--            </thead>--%>
+<%--            <tbody>--%>
+<%--            <tr>--%>
+<%--              <td>등급</td>--%>
+<%--              <td>${loggedInUser.userGrade}</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>사용 가능 포인트</td>--%>
+<%--              <td>${userPoints}P</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td colspan="2" id="vipStatus">--%>
+<%--                <c:choose>--%>
+<%--                  <c:when test="${loggedInUser.userGrade eq 'Basic'}">--%>
+<%--                    VIP 등급까지 <span id="pointsToVIP"></span>P 필요합니다.--%>
+<%--                  </c:when>--%>
+<%--                  <c:when test="${loggedInUser.userGrade eq 'VIP'}">--%>
+<%--                    VVIP 등급까지 <span id="pointsToVVIP"></span>P 필요합니다.--%>
+<%--                  </c:when>--%>
+<%--                  <c:otherwise>--%>
+<%--                    최고 등급입니다.--%>
+<%--                  </c:otherwise>--%>
+<%--                </c:choose>--%>
+<%--              </td>--%>
+<%--            </tr>--%>
+<%--            </tbody>--%>
+<%--          </table>--%>
+<%--        </section>--%>
+
+<%--        <!-- 이용 내역 -->--%>
+<%--        <section class="section">--%>
+<%--          <h2>포인트 이용 내역 조회</h2>--%>
+
+<%--          <!-- 조회 폼 -->--%>
+<%--          <form id="search-form" action="${pageContext.request.contextPath}/UserController?type=myPoint" method="get">--%>
+<%--            <label for="start-date">조회기간 </label>--%>
+<%--            <input type="date" id="start-date" name="startDate" value="${param.startDate != null ? param.startDate : '2025-01-01'}">--%>
+<%--            ~--%>
+<%--            <input type="date" id="end-date" name="endDate" value="${param.endDate != null ? param.endDate : '2025-12-31'}">--%>
+<%--            <button type="button" id="searchButton">조회</button>--%>
+<%--            <button type="button" id="totalButton">전체</button>--%>
+<%--          </form>--%>
+
+<%--          <!-- 조회 결과 -->--%>
+<%--          <table id="pointTable" class="history-table">--%>
+<%--            <thead>--%>
+<%--            <tr><th>일자</th><th>구분</th><th>내용</th><th>포인트 변동</th></tr>--%>
+<%--            </thead>--%>
+<%--            <tbody>--%>
+<%--            <c:choose>--%>
+<%--              <c:when test="${not empty pointList}">--%>
+<%--                <c:forEach var="point" items="${pointList}">--%>
+<%--                  <tr>--%>
+<%--                    <td>${point.pointDate}</td>--%>
+<%--                    <td>--%>
+<%--                      <c:choose>--%>
+<%--                        <c:when test="${point.pointType == '0'}">적립</c:when>--%>
+<%--                        <c:when test="${point.pointType == '1'}">사용</c:when>--%>
+<%--                        <c:otherwise>만료</c:otherwise>--%>
+<%--                      </c:choose>--%>
+<%--                    </td>--%>
+<%--                    <td>${point.pointSource}</td>--%>
+<%--                    <td>--%>
+<%--                      <c:choose>--%>
+<%--                        <c:when test="${point.pointType == '0'}">+ ${point.pointValue}P</c:when>--%>
+<%--                        <c:when test="${point.pointType == '1'}">- ${point.pointValue}P</c:when>--%>
+<%--                        <c:otherwise>- ${point.pointValue}P</c:otherwise>--%>
+<%--                      </c:choose>--%>
+<%--                    </td>--%>
+<%--                  </tr>--%>
+<%--                </c:forEach>--%>
+<%--              </c:when>--%>
+<%--              <c:otherwise>--%>
+<%--                <tr><td colspan="4">조회된 내역이 없습니다.</td></tr>--%>
+<%--              </c:otherwise>--%>
+<%--            </c:choose>--%>
+<%--            </tbody>--%>
+<%--          </table>--%>
+<%--        </section>--%>
+
+<%--        <!-- 기타 안내 -->--%>
+<%--        <section class="section">--%>
+<%--          <h2>안내 사항</h2>--%>
+<%--          <p>• 멤버십 포인트는 영화 예매 및 매점 구매 시 적립됩니다.<br>• 적립된 포인트는 이벤트 참여 및 할인 혜택으로 사용 가능합니다.</p>--%>
+<%--        </section>--%>
+
+<%--      </main>--%>
+</div>
+
 
 <jsp:include page="../common/footer.jsp"/>
 <script>
@@ -246,6 +316,5 @@
     }
   });
 </script>
-
 </body>
 </html>

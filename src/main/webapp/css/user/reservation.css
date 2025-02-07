@@ -71,6 +71,7 @@
 
 .date-navigation ul li.selected {
     font-weight: 800;
+    border: 1px solid black;
 }
 
 /* 메인 컨텐츠 */
