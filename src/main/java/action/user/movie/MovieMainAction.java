@@ -3,7 +3,11 @@ package action.user.movie;
 import action.Action;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.dao.MovieDAO;
+import mybatis.dao.MyMovieStoryDAO;
+import mybatis.vo.FavoritemovieVO;
 import mybatis.vo.MovieVO;
+import mybatis.vo.UserVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +21,16 @@ public class MovieMainAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         try {
+            // 특정 사용자의 선호영화목록을 배열로 받기
+            UserVO uservo = SessionUtil.getLoginUser(request);
+            FavoritemovieVO[] favoriteArray = null;
+            if(uservo != null){
+                String userIdx = uservo.getUserIdx();
+                favoriteArray = MyMovieStoryDAO.getFavoritemovie(userIdx);
+            }
+            request.setAttribute("favoriteArray", favoriteArray);
+
+
             String offsetParam = request.getParameter("offset");
             String pageSizeParam = request.getParameter("pageSize");
             String statusParam = request.getParameter("status");

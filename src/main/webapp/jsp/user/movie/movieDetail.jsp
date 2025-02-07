@@ -293,6 +293,24 @@
             cursor: pointer;
         }
 
+        .icon-heart {
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 15px;
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-line.png");
+            background-position: 0 0;
+            background-repeat: no-repeat;
+        }
+
+        .icon-heart.liked {
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-on.png");
+        }
+
+        .movie-detail-page .movie-detail-cont .btn-util .btn:hover .icon-heart {
+            background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-on.png");
+        }
+
     </style>
 
 </head>
@@ -746,6 +764,15 @@
                     // 찜하기 성공 시 UI 업데이트
                     const likeCountSpan = document.getElementById("wantsee-" + movieIdx);
                     likeCountSpan.textContent = res.newLikeCount; // 새로운 찜하기 수로 업데이트
+
+                    // 아이콘 상태 업데이트: liked 클래스 추가/제거
+                    const iconHeart = likeCountSpan.previousElementSibling; // <i class="icon-heart"> 찾기
+                    if (res.liked) {
+                        iconHeart.classList.add("liked"); // 찜하기 상태로 변경
+                    } else {
+                        iconHeart.classList.remove("liked"); // 찜하기 해제 상태로 변경
+                    }
+
                 } else {
                     alert(res.message || "찜하기에 실패했습니다.");
                 }

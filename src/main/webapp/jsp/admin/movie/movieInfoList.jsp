@@ -168,6 +168,13 @@
         vertical-align: middle;
     }
 
+    .movie-title-cell {
+        max-width: 200px;  /* 원하는 너비로 조정 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     table {
         width: 100%;
         /*height: 100%;*/
@@ -445,8 +452,16 @@
                         <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
                         <tr class="clickable-row" data-movie-idx="${vo.movieIdx}">
                             <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index)+1 }</td>
-                            <td>${vo.movieTitle}</td>
-
+                            <td class="movie-title-cell" title="${vo.movieTitle}">
+                                <c:choose>
+                                    <c:when test="${fn:length(vo.movieTitle) > 20}">
+                                        ${fn:substring(vo.movieTitle, 0, 20)}...
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${vo.movieTitle}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                             <td>
                                 <c:if test="${vo.movieRank ne null}">
                                     ${vo.movieReservationRate }%

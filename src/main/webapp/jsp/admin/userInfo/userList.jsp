@@ -571,6 +571,12 @@
                                     <label>가입일:</label>
                                     <input type="text" id="userRegDate" readonly />
                                 </div>
+
+                            <!-- 회원 상태 (읽기 전용) -->
+                            <div class="field-row">
+                                <label>회원 상태:</label>
+                                <input type="text" id="userStatus1" readonly />
+                            </div>
                         </div>
                     </div>
                     </form>
@@ -614,7 +620,10 @@
                                 $("#userId").val(response.userId);
                                 $("#userEmail").val(response.userEmail);
                                 $("#userRegDate").val(response.userRegDate);
-                                $("#userStatus").val(response.userStatus);
+
+                                // userStatus1 값을 변환하여 표시
+                                const statusText = response.userStatus == 0 ? "활성" : "탈퇴";
+                                $("#userStatus1").val(statusText);
 
                                 // 변경 가능한 정보 채우기
                                 $("[name='userName']").val(response.userName);

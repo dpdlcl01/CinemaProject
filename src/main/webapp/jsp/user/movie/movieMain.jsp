@@ -363,7 +363,7 @@
                         '</div>' +
                         '<div class="btn-util">' +
                         '<button type="button" class="button btn-like" onclick="loginCheck(' + movie.movieIdx + ')">' +
-                        '<i class="far fa-heart"></i>' +
+                        '<i class="far fa-heart ' + (movie.liked ? 'liked' : '') + '"></i>' +  // liked 상태에 따라 클래스 추가
                         '<span title="보고싶어 한 명수" id="wantsee-' + movie.movieIdx + '">' + movie.movieLikes + '</span>' +
                         '</button>' +
                         '<div class="case">' +
