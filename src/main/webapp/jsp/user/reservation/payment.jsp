@@ -222,15 +222,29 @@
       formDiscountAmount.value = discountValue + pointDiscount;
       formFinalAmount.value = finalPrice;
       formCouponIdx.value = couponIdx || ""; // 폼에 쿠폰 ID 저장
+
+      // 결제 금액이 0원일 경우 포인트 입력창 비활성화
+      if (finalPrice === 0) {
+        pointsInput.value = 0;
+        pointsInput.disabled = true;
+        pointDiscount = 0;
+      } else {
+        pointsInput.disabled = false;
+      }
     }
 
     // 🔹 Toss Payments 결제 요청
     paymentButton.addEventListener("click", function () {
       let finalPaymentAmount = parseInt(finalAmountElement.textContent.replace(/,/g, ""), 10);
 
-      if (finalPaymentAmount <= 0) {
+      if (finalPaymentAmount < 0) {
         alert("최종 결제 금액이 0원이므로 결제할 수 없습니다.");
         return;
+      }
+
+      if (finalPaymentAmount === 0) {
+
+        window.location.href = "/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx
       }
 
       const tossPayments = TossPayments("test_ck_AQ92ymxN34Zmb2DLJyJOrajRKXvd");

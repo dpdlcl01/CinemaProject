@@ -22,7 +22,7 @@ public class LogAction implements Action {
       return "AdminController?type=admin";
     }
 
-    // 페이징 처리를 위한 객체 생성 (페이지당 5개, 블록당 3개)
+    // 페이징 처리를 위한 객체 생성 (페이지당 10개, 블록당 5개)
     Paging page = new Paging(10, 5);
 
     // 총 게시물 개수를 먼저 가져와야 함
@@ -39,7 +39,7 @@ public class LogAction implements Action {
     }
 
     // `begin`과 `end`가 null이면 기본값을 설정
-    int begin = page.getBegin();
+    int begin = page.getBegin() - 1;
     int end = page.getNumPerPage();
 
     if (begin <= 0) begin = 0;
