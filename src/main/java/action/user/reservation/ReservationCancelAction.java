@@ -30,12 +30,10 @@ public class ReservationCancelAction implements Action {
         response.setCharacterEncoding("UTF-8");
 
 
-        int delSeat = SeatDAO.delSeat(idx);
-        System.out.println("cancelCnt:"+cancelCnt);
+
 
         /*이 예매번호를 가지고 포인트 테이블을 찾아서 바꾸자*/
 
-        //해당 함수 디버깅
         int updatePoint = PointDAO.deletePoint(idx);
         System.out.println("updatePoint:"+updatePoint);
 
@@ -44,7 +42,8 @@ public class ReservationCancelAction implements Action {
 
 
         /*이 예매번호를 가지고 좌석 테이블을 찾아서 바꾸자*/
-
+        int delSeat = SeatDAO.delSeat(idx);
+        System.out.println("cancelCnt:"+cancelCnt);
 
         System.out.println("delSeat:"+delSeat);
 
