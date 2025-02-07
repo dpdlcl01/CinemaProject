@@ -16,6 +16,7 @@ import java.io.IOException;
 public class DeleteAccountAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("deleteAccountAction entry..");
 
         // 로그인 여부 확인 및 사용자 정보 가져오기
         UserVO uservo = SessionUtil.getLoginUser(request);
@@ -25,16 +26,16 @@ public class DeleteAccountAction implements Action {
         }
 
         String userId = uservo.getUserId();
-        String userPassword = request.getParameter("userPassword");
+        System.out.println("userID = " + userId);
+        String userPassword = request.getParameter("userPassword11");
+        System.out.println("userPassword = " + userPassword);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("./jsp/user/mypage/deleteAccount.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("DeleteAccountAction entry..");
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("./jsp/user/mypage/deleteAccount.jsp");
+//        try {
+//            dispatcher.forward(request, response);
+//        } catch (ServletException e) {
+//            throw new RuntimeException(e);
+//        }
 
         // 비밀번호 검증
         boolean isPasswordCorrect = UserDAO.checkPassword(userId, userPassword);
@@ -42,8 +43,10 @@ public class DeleteAccountAction implements Action {
 
 
         if (isPasswordCorrect) {
+
             // 사용자 상태 업데이트
             boolean isDeleted = UserDAO.updateUserStatus(userId);
+
             String logType = "1";
             String userIdx = uservo.getUserIdx();
             if (isDeleted) {
@@ -59,15 +62,15 @@ public class DeleteAccountAction implements Action {
                 System.out.println("LogUtil exit..");
 
                 request.getSession().invalidate(); // 세션 무효화
-                response.sendRedirect("./jsp/user/myPage/del_result.jsp");
+
                 return null;
             } else {
                 request.setAttribute("error", "회원탈퇴에 실패했습니다.");
-                return "./jsp/user/common/error.jsp";
+                return null;
             }
                 } else {
             request.setAttribute("error", "비밀번호가 일치하지 않습니다.");
-            return "./jsp/user/common/error.jsp";
+            return null;
         }
     }
 }

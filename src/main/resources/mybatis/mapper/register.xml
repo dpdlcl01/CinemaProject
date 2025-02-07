@@ -31,6 +31,20 @@
         and userId = #{userId}
     </select>
 
+    <select id="getPasswordHashByEmail" parameterType="string" resultType="string">
+        SELECT userPassword
+        FROM user
+        WHERE userEmail = #{email}
+    </select>
+
+    <select id="validateForPasswordReset" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        WHERE userName = #{userName}
+        AND userEmail = #{userEmail}
+        AND userId = #{userId}
+    </select>
+
     <update id="updateUserPassword" parameterType="Map">
         UPDATE user
         SET userPassword = #{newPassword}

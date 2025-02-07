@@ -74,6 +74,9 @@ public class RegisterDAO {
         try (SqlSession ss = FactoryService.getFactory().openSession()) {
             String storedHash = ss.selectOne("register.getPasswordHashByEmail", email);
             return storedHash != null && BCrypt.checkpw(inputPassword, storedHash); // BCrypt 검증
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

@@ -212,7 +212,6 @@
         <tr>
           <td class="title">현재 비밀번호</td>
           <td><input type="password" id="currentPassword" name="currentPassword"></td>
-          <div id="authpwd2" style="margin-top: 5px; font-size: 12px; color: red;">비밀번호를 입력하여 주세요.</div>
         </tr>
         <tr>
           <td class="title">새 비밀번호</td>
@@ -316,29 +315,24 @@
   function pwCheck() {
     const currentPassword = document.getElementById('currentPassword').value;
     const authPwd = document.getElementById('authpwd');
-    const authPwd2 = document.getElementById('authpwd2');
     const password1 = document.getElementById('newPassword').value;
     const password2 = document.getElementById('newPassword2').value;
 
-      const numberOnly = /^\d+$/;
+    const numberOnly = /^\d+$/;
 
-
-      if(numberOnly.test(password1)) {
-        authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다."
-        authPwd.style.color = "red";
-      }
-      else if (document.getElementById('userPassword1').value.length <= 7){
-        authPwd.innerText = "비밀번호 8자리 이상이여야합니다."
-        authPwd.style.color = "red";
-      }
-      else if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
-        authPwd.innerText = '비밀번호가 일치합니다.';
-        authPwd.style.color = 'green';
-      }
-      else {
-        authPwd.innerText = '비밀번호가 불일치합니다.';
-        authPwd.style.color = 'red';
-      }
+    if (numberOnly.test(password1)) {
+      authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다.";
+      authPwd.style.color = "red";
+    } else if (password1.length < 7) {
+      authPwd.innerText = "비밀번호는 8자리 이상이여야 합니다.";
+      authPwd.style.color = "red";
+    } else if (password1 === password2) {
+      authPwd.innerText = "비밀번호가 일치합니다.";
+      authPwd.style.color = "green";
+    } else {
+      authPwd.innerText = "비밀번호가 불일치합니다.";
+      authPwd.style.color = "red";
+    }
   }
   function showModal(message) {
 

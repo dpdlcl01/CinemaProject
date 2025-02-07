@@ -152,12 +152,12 @@
                 authPwd.style.color = "red";
                 gosub.disabled = true;
             }
-            else if (document.getElementById('userPassword1').value.length <= 7){
+            else if (document.getElementById('newPassword').value.length <= 7){
                 authPwd.innerText = "비밀번호 8자리 이상이여야합니다."
                 authPwd.style.color = "red";
                 gosub.disabled = true;
             }
-            else if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
+            else if (document.getElementById('newPassword').value === document.getElementById('newPassword2').value) {
                 authPwd.innerText = '비밀번호가 일치합니다.';
                 authPwd.style.color = 'green';
                 gosub.disabled = false;

@@ -204,7 +204,7 @@
         <tr>
           <input type="hidden" name="userId" value="${sessionScope.userId}">
           <td>비밀번호</td>
-          <td><input type="password" id="userPassword" name="userPassword"></td>
+          <td><input type="password" id="userPassword11" name="userPassword11"></td>
         </tr>
         <tr>
           <td>이메일</td>
@@ -231,28 +231,44 @@
             <button type="button" onclick="verifyAuthCode()">인증확인</button>
             <script>
               function sendAuthCode() {
-                const emailPart1 = document.getElementById("emailpart1").value;
-                console.log(emailPart1);
-                const emailPart2 = document.getElementById("emailpart2").value;
-                console.log(emailPart2);
-
-
-                if (!emailPart1 || !emailPart2) {
-                  alert("이메일을 입력해주세요.");
-                  return;
-                }
+                const emailPart1 = document.getElementById("emailpart1").value.trim();
+                const emailPart2 = document.getElementById("emailpart2").value.trim();
+                console.log(document.getElementById("userPassword11"));
+                console.log(document.getElementById("userPassword11").value);
+                const userPassword = document.getElementById("userPassword11").value.trim();
 
                 const email = emailPart1 + "@" + emailPart2;
 
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                  if (xhr.readyState === 4 && xhr.status === 200) {
-                    alert(xhr.responseText.trim());
+                if (!emailPart1 || !emailPart2) {
+                  showModal("이메일을 입력해주세요.");
+                  return;
+                }
+
+                if(!userPassword11) {
+                  showModal("기존 비밀번호를 입력하세요.")
+                }
+                console.log(userPassword11);
+                $.ajax({
+                  type: "POST",
+                  url: "${pageContext.request.contextPath}/EmailServlet", // EmailServlet URL
+                  data: {
+                    actionType: "deleteAccount", // 비밀번호 찾기 요청
+                    email: email,
+                    userPassword: userPassword
+                  },
+                  success: function (response) {
+                    if (response.status === "success") {
+                      showModal(response.message); // 성공 메시지 표시
+                    } else {
+                      showModal(response.message); // 오류 메시지 표시
+                    }
+                  },
+                  error: function (xhr, status, error) {
+                    console.error("AJAX Error:", status, error);
+                    console.error("Response Text:", xhr.responseText);
+                    showModal("서버 통신 중 오류가 발생했습니다.");
                   }
-                };
-                xhr.send("email=" + encodeURIComponent(email));
+                });
               }
             </script>
           </td>
@@ -261,7 +277,8 @@
       </table>
       <div id="btnDiv">
         <button id="cancel">취소</button>
-        <button id="go" onclick="userStatus_drop(this.form)">탈퇴</button>
+        <button id="go">탈퇴</button>
+<%--        onclick="userStatus_drop(this.form)"--%>
       </div>
     </div>
 <c:if test="${not empty message}">
@@ -270,6 +287,22 @@
   </article>
 </div>
 </form>
+
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 200px; max-height: 200px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">알림</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- footer 영역 -->
 <jsp:include page="../common/footer.jsp"/>
 
@@ -297,7 +330,7 @@
     const authCode = document.getElementById("authcode").value;
 
     if (!authCode) {
-      alert("인증번호를 입력해주세요.");
+      showModal("인증번호를 입력해주세요.");
       return;
     }
 
@@ -310,11 +343,11 @@
         const response = xhr.responseText.trim();
 
         if (response === "인증 성공!") {
-          alert("인증에 성공했습니다!");
+          showModal("인증에 성공했습니다!");
           document.getElementById("authcodecheck").value = "0";
           document.getElementById("go").disabled = false;
         } else {
-          alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+          showModal("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
           document.getElementById("authcodecheck").value = "1";
         }
       }
@@ -322,8 +355,13 @@
     xhr.send("authCode=" + encodeURIComponent(authCode));
   }
 
-  function userStatus_drop(frm){
-    frm.submit();
+  function showModal(message) {
+
+    document.querySelector('#alertModal .modal-body').textContent = message;
+
+    // Bootstrap Modal 표시
+    const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+    alertModal.show();
   }
 </script>
 </body>

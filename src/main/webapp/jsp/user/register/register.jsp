@@ -252,14 +252,14 @@
                 const emailPart2 = document.getElementById("emailpart2").value.trim();
 
                 if (!emailPart1 || !emailPart2) {
-                  alert("이메일을 입력해주세요.");
+                  showModal("이메일을 입력해주세요.");
                   return;
                 }
 
                 const email = emailPart1 + "@" + emailPart2;
 
                 if (!email) {
-                  alert("이메일을 입력해주세요.");
+                  showModal("이메일을 입력해주세요.");
                   return;
                 }
 
@@ -272,13 +272,13 @@
                   },
                   success: function (response) {
                     if (response.status === "success") {
-                      alert(response.message); // 성공 메시지 표시
+                      showModal(response.message); // 성공 메시지 표시
                     } else {
-                      alert(response.message); // 오류 메시지 표시
+                      showModal(response.message); // 오류 메시지 표시
                     }
                   },
                   error: function () {
-                    alert("서버 통신 중 오류가 발생했습니다.");
+                    showModal("서버 통신 중 오류가 발생했습니다.");
                   }
                 });
               }
@@ -542,31 +542,27 @@
     document.getElementById('main2').style.display = 'block';
   }
 
-  function pwCheck(){
-    const authPwd = document.getElementById('authpwd');
-    const password1 = document.getElementById('userPassword1').value;
-    const password2 = document.getElementById('userPassword2').value;
+    function pwCheck() {
+      const authPwd = document.getElementById('authpwd');
+      const password1 = document.getElementById('userPassword1').value;
+      const password2 = document.getElementById('userPassword2').value;
 
-    const numberOnly = /^\d+$/;
+      const numberOnly = /^\d+$/;
 
-
-    if(numberOnly.test(password1)) {
-      authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다."
-      authPwd.style.color = "red";
+      if (numberOnly.test(password1)) {
+        authPwd.innerText = "비밀번호에는 최소 영문 1글자가 포함되야합니다.";
+        authPwd.style.color = "red";
+      } else if (password1.length < 7) {
+        authPwd.innerText = "비밀번호는 8자리 이상이여야 합니다.";
+        authPwd.style.color = "red";
+      } else if (password1 === password2) {
+        authPwd.innerText = "비밀번호가 일치합니다.";
+        authPwd.style.color = "green";
+      } else {
+        authPwd.innerText = "비밀번호가 불일치합니다.";
+        authPwd.style.color = "red";
+      }
     }
-    else if (document.getElementById('userPassword1').value.length <= 7){
-      authPwd.innerText = "비밀번호 8자리 이상이여야합니다."
-      authPwd.style.color = "red";
-    }
-    else if (document.getElementById('userPassword1').value === document.getElementById('userPassword2').value) {
-      authPwd.innerText = '비밀번호가 일치합니다.';
-      authPwd.style.color = 'green';
-    }
-    else {
-      authPwd.innerText = '비밀번호가 불일치합니다.';
-      authPwd.style.color = 'red';
-    }
-  }
 
   function gotoMain3(frm){
     let userPhone1 = document.getElementById("userPhone1").textContent.trim();

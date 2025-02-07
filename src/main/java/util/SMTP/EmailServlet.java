@@ -27,6 +27,7 @@ public class EmailServlet extends HttpServlet {
         String userName = request.getParameter("userName");
         String userId = request.getParameter("userId");
         String userPassword = request.getParameter("userPassword");
+        System.out.println("password input : " + userPassword);
 
         PrintWriter out = response.getWriter();
 
@@ -70,6 +71,9 @@ public class EmailServlet extends HttpServlet {
 
                 case "deleteAccount": // 회원탈퇴 - 이메일과 비밀번호 검증
                     if (!dao.isPasswordValid(email, userPassword)) {
+                        System.out.println("deleteAccount entry");
+                        System.out.println(email);
+                        System.out.println(userPassword);
                         out.write("{\"status\":\"error\", \"message\":\"일치하는 값이 없습니다.\"}");
                     } else {
                         sendVerificationEmail(email, request);

@@ -9,6 +9,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>아이디/비밀번호 찾기</title>
     <style>
         body {
@@ -216,6 +219,45 @@
                             <option value="direct">직접입력</option>
                         </select>
                         <button type="button" id="Cnum" onclick="sendAuthCode()">인증번호받기</button>
+                        <script>
+                        function sendAuthCode() {
+                        const emailPart1 = document.getElementById("emailpart1").value.trim();
+                        const emailPart2 = document.getElementById("emailpart2").value.trim();
+                        const userName = document.getElementById("userName").value.trim();
+                        const userId = document.getElementById("userId").value.trim();
+
+                        const email = emailPart1 + "@" + emailPart2;
+
+                        if (!emailPart1 || !emailPart2) {
+                        showModal("이메일을 입력해주세요.");
+                        return;
+                        }
+
+
+                        $.ajax({
+                                type: "POST",
+                                url: "${pageContext.request.contextPath}/EmailServlet", // EmailServlet URL
+                                data: {
+                                    actionType: "findPassword", // 비밀번호 찾기 요청
+                                    userName: userName,
+                                    email: email,
+                                    userId: userId
+                                },
+                                success: function (response) {
+                                    if (response.status === "success") {
+                                        showModal(response.message); // 성공 메시지 표시
+                                    } else {
+                                        showModal(response.message); // 오류 메시지 표시
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                console.error("AJAX Error:", status, error);
+                                console.error("Response Text:", xhr.responseText);
+                                    alert("서버 통신 중 오류가 발생했습니다.");
+                                }
+                            });
+                        }
+                        </script>
                     </div>
                 </td>
             </tr>
@@ -229,32 +271,6 @@
                     <button type="button" class="tableButton" onclick="verifyAuthCode()">인증 확인</button>
                 </div>
                 </td>
-                <script>
-                    function sendAuthCode() {
-                        const emailPart1 = document.getElementById("emailpart1").value;
-                        console.log(emailPart1);
-                        const emailPart2 = document.getElementById("emailpart2").value;
-                        console.log(emailPart2);
-
-
-                        if (!emailPart1 || !emailPart2) {
-                            showModal("이메일을 입력해주세요.");
-                            return;
-                        }
-
-                        const email = emailPart1 + "@" + emailPart2;
-
-                        const xhr = new XMLHttpRequest();
-                        xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                showModal(xhr.responseText.trim());
-                            }
-                        };
-                        xhr.send("email=" + encodeURIComponent(email));
-                    }
-                </script>
             </tr>
         </table>
         <div class="pwrecovery">
