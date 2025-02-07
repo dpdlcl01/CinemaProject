@@ -9,6 +9,21 @@ import java.util.List;
 
 public class PointDAO {
 
+    public static int deletePoint(String rIdx){
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.delete("point.deletePoint",rIdx);
+        if(cnt > 0) {
+            ss.commit();
+        }else {
+            ss.rollback();
+        }
+        System.out.println("delete point success");
+         cnt = ss.selectOne("point.selectPoint",rIdx);
+
+        ss.close();
+        return cnt;
+    }
+
     public static int updatePoint(String userIdx, int point, int totalPrice) {
         SqlSession ss = FactoryService.getFactory().openSession();
         HashMap<String, Integer> map = new HashMap<>();
