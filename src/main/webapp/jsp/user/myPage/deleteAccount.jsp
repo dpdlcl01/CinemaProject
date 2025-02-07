@@ -201,7 +201,7 @@
         <tr>
           <input type="hidden" name="userId" value="${sessionScope.userId}">
           <td>비밀번호</td>
-          <td><input type="password" id="userPassword" name="userPassword"></td>
+          <td><input type="password" id="userPassword11" name="userPassword11"></td>
         </tr>
         <tr>
           <td>이메일</td>
@@ -224,6 +224,8 @@
                 console.log(emailPart1);
                 const emailPart2 = document.getElementById("emailpart2").value;
                 console.log(emailPart2);
+                const userPassword = document.getElementById("userPassword11").value.trim();
+                console.log(userPassword);
 
 
                 if (!emailPart1 || !emailPart2) {
