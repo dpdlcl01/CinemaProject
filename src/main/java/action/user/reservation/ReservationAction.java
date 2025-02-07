@@ -11,6 +11,8 @@ import mybatis.vo.TimetableVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,14 @@ public class ReservationAction implements Action {
             // 전체 극장 리스트 가져오기
             Map<String, Integer> theaters = ReservationDAO.theaterRegion();
             request.setAttribute("theaters", theaters);
+
+            // ✅ URL에서 `movieIdx`, `date` 가져오기 (없으면 `null` 또는 `""`)
+            String userMain_selectedMovieIdx = request.getParameter("movieIdx");
+            String userMain_selectedDate = request.getParameter("date");
+
+            // ✅ JSP에서 사용할 수 있도록 변수명 변경하여 저장
+            request.setAttribute("userMain_selectedMovieIdx", userMain_selectedMovieIdx);
+            request.setAttribute("userMain_selectedDate", userMain_selectedDate);
 
             // 빠른 예매 화면 경로 반환
             return "./jsp/user/reservation/reservationMain.jsp";
@@ -53,14 +63,23 @@ public class ReservationAction implements Action {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return null; // 추가적인 리다이렉션이나 포워딩 없이 종료
+            return null;
         }else if ("availableTheaters".equals(type)) {
-
             String movieIdx = request.getParameter("movieIdx");
-            List<TimetableVO> timetableVOList = ReservationDAO.getAvailableTheaters(movieIdx);
+            String targetDate = request.getParameter("targetDate");
 
-            // 🚨 디버깅용 콘솔 출력
-            System.out.println("🔍 movieIdx: " + movieIdx);
+            Map<String, Object> params = new HashMap<>();
+            params.put("movieIdx", movieIdx);
+            params.put("targetDate", targetDate);
+
+            // `targetDate`가 없으면 오늘 날짜로 설정
+            if (targetDate == null || targetDate.isEmpty()) {
+                LocalDate today = LocalDate.now();
+                targetDate = today.toString(); // "yyyy-MM-dd" 형식
+            }
+
+            List<TimetableVO> timetableVOList = ReservationDAO.getAvailableTheaters(movieIdx, targetDate);
+
             try {
                 System.out.println("🔍 반환된 극장 리스트: " + new ObjectMapper().writeValueAsString(timetableVOList));
             } catch (JsonProcessingException e) {
@@ -72,14 +91,42 @@ public class ReservationAction implements Action {
             try {
                 PrintWriter out = response.getWriter();
                 ObjectMapper mapper = new ObjectMapper();
-                System.out.println(new ObjectMapper().writeValueAsString(timetableVOList));
                 mapper.writeValue(out, timetableVOList); // JSON으로 응답
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
+        }else if ("availableMovies".equals(type)) {
+            String theaterIdx = request.getParameter("theaterIdx");
+            String targetDate = request.getParameter("targetDate");
 
+            // `targetDate`가 없으면 오늘 날짜로 설정
+            if (targetDate == null || targetDate.isEmpty()) {
+                LocalDate today = LocalDate.now();
+                targetDate = today.toString(); // "yyyy-MM-dd" 형식
+            }
+
+            // DAO 호출하여 해당 극장에서 상영하는 영화 ID 목록 가져오기
+            List<Integer> availableMovies = ReservationDAO.getAvailableMovies(theaterIdx, targetDate);
+
+            try {
+                System.out.println("🔍 반환된 영화 리스트: " + new ObjectMapper().writeValueAsString(availableMovies));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+
+            // JSON 형식으로 응답 반환
+            response.setContentType("application/json;charset=utf-8");
+            try {
+                PrintWriter out = response.getWriter();
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.writeValue(out, availableMovies); // JSON으로 응답
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }else if ("timetable".equals(type)) {
             String theaterIdx = request.getParameter("theaterIdx");
             String movieIdx = request.getParameter("movieIdx");
@@ -87,8 +134,6 @@ public class ReservationAction implements Action {
 
             // DAO 호출
             TimetableVO[] timetables = ReservationDAO.allTimetable(theaterIdx, movieIdx, targetDate);
-//            System.out.println("DAO에서 반환된 timetables: " + timetables);
-
             // JSON 형식으로 응답 반환
             response.setContentType("application/json;charset=utf-8");
             try {
@@ -101,6 +146,28 @@ public class ReservationAction implements Action {
                 e.printStackTrace();
             }
             return null;
+        } else if ("quickReservation".equals(type)) {
+            // 영화 데이터를 DAO에서 가져옴
+            MovieVO[] movies = ReservationDAO.movieList();
+            request.setAttribute("movies", movies);
+
+            // 전체 극장 리스트 가져오기
+            Map<String, Integer> theaters = ReservationDAO.theaterRegion();
+            request.setAttribute("theaters", theaters);
+
+            // ✅ URL에서 `movieIdx`, `date` 가져오기 (없으면 `null` 또는 `""`)
+            String userMain_selectedMovieIdx = request.getParameter("movieIdx");
+            String userMain_selectedDate = request.getParameter("date");
+
+            // ✅ JSP에서 사용할 수 있도록 변수명 변경하여 저장
+            request.setAttribute("userMain_selectedMovieIdx", userMain_selectedMovieIdx);
+            request.setAttribute("userMain_selectedDate", userMain_selectedDate);
+
+            // ✅ `movieIdx`가 있을 경우에만 `availableTheaters` 실행
+            if (userMain_selectedMovieIdx != null && !userMain_selectedDate.isEmpty()) {
+                List<TimetableVO> availableTheaters = ReservationDAO.getAvailableTheaters(userMain_selectedMovieIdx, userMain_selectedDate);
+                request.setAttribute("availableTheaters", availableTheaters);
+            }
         }
         return null;
     }

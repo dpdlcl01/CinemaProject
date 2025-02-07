@@ -9,6 +9,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/MyInfo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/Reservation.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common/main.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common/userMain.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/footer.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/login/reservationLoginModal.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/login" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/login/testModal.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/login" />

@@ -631,9 +631,6 @@
     }
   });
 
-
-  // closeSeatLimitModal.addEventListener('click', hideSeatLimitModal);
-  // modalCancelButton.addEventListener('click', hideSeatCancelModal);
 </script>
 
 <!-- footer 영역 -->

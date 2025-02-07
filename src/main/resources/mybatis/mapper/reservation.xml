@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservation">
     <!--  예매 메인 > 좌석 선택으로 넘어갈 때  -->
     <insert id="insertReservation" parameterType="Map">
@@ -30,33 +30,46 @@
         ORDER BY t.timetableStartTime ASC
     </select>
 
-    <select id="getAvailableTheaters" parameterType="String" resultType="mybatis.vo.TimetableVO">
-        SELECT DISTINCT t.theaterIdx, t.theaterName, t.theaterRegion
+    <!--  영화 선택 후 극장 필터링  -->
+    <select id="getAvailableTheaters" parameterType="map" resultType="mybatis.vo.TimetableVO">
+        SELECT tt.movieIdx, t.theaterIdx, t.theaterName, t.theaterRegion
         FROM timetable tt
         JOIN theater t ON tt.theaterIdx = t.theaterIdx
         WHERE tt.movieIdx = #{movieIdx}
+        AND DATE(tt.timetableStartTime) = #{targetDate}
+        GROUP BY tt.movieIdx, t.theaterIdx, t.theaterName, t.theaterRegion
     </select>
 
-  <!--  영화 정보 상세 조회 (seat)  -->
-  <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">
-    SELECT *
-    FROM movie
-    WHERE movieIdx = #{movieIdx}
-  </select>
+    <!--  극장 선택 후 영화 필터링  -->
+    <select id="getAvailableMovies" parameterType="map" resultType="int">
+        SELECT DISTINCT m.movieIdx
+        FROM timetable tt
+        JOIN movie m ON tt.movieIdx = m.movieIdx
+        WHERE tt.theaterIdx = #{theaterIdx}
+        AND DATE(tt.timetableStartTime) = #{targetDate}
+    </select>
 
-  <!--  영화 시간 정보 상세 조회 (seat)  -->
-  <select id="timetableDetail" parameterType="String" resultType="mybatis.vo.TimetableVO">
-    SELECT *
-    FROM timetable
-    WHERE timetableIdx = #{timetableIdx}
-  </select>
 
-  <!--  극장 정보 상세 조회 (seat)  -->
-  <select id="theaterDetail" parameterType="String" resultType="mybatis.vo.TheaterVO">
-    SELECT *
-    FROM theater
-    WHERE theaterIdx = #{theaterIdx}
-  </select>
+    <!--  영화 정보 상세 조회 (seat)  -->
+    <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
+    <!--  영화 시간 정보 상세 조회 (seat)  -->
+    <select id="timetableDetail" parameterType="String" resultType="mybatis.vo.TimetableVO">
+        SELECT *
+        FROM timetable
+        WHERE timetableIdx = #{timetableIdx}
+    </select>
+
+    <!--  극장 정보 상세 조회 (seat)  -->
+    <select id="theaterDetail" parameterType="String" resultType="mybatis.vo.TheaterVO">
+        SELECT *
+        FROM theater
+        WHERE theaterIdx = #{theaterIdx}
+    </select>
 
   <update id="updateReservation" parameterType="String">
     UPDATE reservation
