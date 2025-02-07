@@ -4,6 +4,12 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="point">
 
+    <insert id="insertPoint" parameterType="map">
+        insert into point(userIdx, paymentIdx, pointType, pointSource, pointValue, pointDate, pointStatus)
+        values(#{userIdx}, #{paymentIdx}, 0, 'PAYMENT', #{pointSource}, now(), '0');
+    </insert>
+
+
     <update id="updatePoint" parameterType="map">
         UPDATE user
         SET userPoint = userPoint - #{point} + #{addpoint}

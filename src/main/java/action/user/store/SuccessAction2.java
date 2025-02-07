@@ -66,7 +66,7 @@ public class SuccessAction2 implements Action {
         pvo.setPaymentStatus("0");
 
 
-        int cnt= PaymentDAO.insertPayment(pvo);
+        int cnt=PaymentDAO.insertPayment(pvo,0,Integer.parseInt(userIdx));
         request.setAttribute("quant", quant);
         request.setAttribute("img", img);
         request.setAttribute("totalAmount", pvo.getPaymentTotal());

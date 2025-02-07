@@ -225,6 +225,7 @@
   let couponDiscount = 0; // 쿠폰 할인 금액
   let couponIdx=0;
   let originalPrice = parseInt("${requestScope.price}", 10);
+  let ordername=document.getElementsByClassName("movie-title")[0].innerText;
   document.addEventListener("DOMContentLoaded", function () {
     const pointsInput = document.getElementById("points-input"); // 포인트 입력 필드
     const discountAmountEl = document.getElementById("discountAmount"); // 할인 금액 표시 요소
@@ -374,18 +375,20 @@
   let totalPrice = parseInt(document.getElementsByClassName("payment-value final")[0].innerText.trim(), 10);
 
   function requestPayment() {
-    let successUrl ="/CinemaProject/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&totalDiscount="+totalDiscount
+
+
+    let successUrl ="/CinemaProject_war/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&totalDiscount="+totalDiscount
             +"&enteredPoints="+enteredPoints
             +"&couponDiscount="+couponDiscount
             +"&couponIdx="+couponIdx;
 
     if(totalPrice===0){
-      location.href=window.location.origin + "/CinemaProject/UserController?type=success0&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&enteredPoints="+enteredPoints
+      location.href=window.location.origin + "/CinemaProject_war/UserController?type=success0&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&enteredPoints="+enteredPoints
               +"&couponDiscount="+couponDiscount
               +"&couponIdx="+couponIdx
               +"&totalDiscount="+totalDiscount
-              +"&amount="+originalPrice;
-              +"&ordername="+document.getElementsByClassName("movie-title")[0].innerText;
+              +"&amount="+originalPrice
+              +"&ordername="+ordername;
 
               return ;
 

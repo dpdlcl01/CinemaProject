@@ -51,15 +51,26 @@ public class PaymentDAO {
     }
 
 
-    public static int insertPayment(PaymentVO vo) {
+    public static int insertPayment(PaymentVO vo,int totalAmount,int userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("payment.insertPayment", vo);
 
         if (cnt > 0) {
             ss.commit();
-
-        }else{
+        } else {
             ss.rollback();
+        }
+        if(totalAmount>0){
+
+        int paymentIdx = Integer.parseInt(vo.getPaymentIdx());// 자동 증가된 paymentIdx 가져오기
+
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put("paymentIdx",paymentIdx);
+        map.put("pointSource",(int)(totalAmount*0.1));
+        map.put("userIdx",userIdx);
+
+        cnt = ss.insert("point.insertPoint", map);
+        ss.commit();
         }
 
         ss.close();

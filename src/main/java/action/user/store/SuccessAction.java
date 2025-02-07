@@ -52,9 +52,6 @@ public class SuccessAction implements Action {
         int updateCnt=ProductDAO.updateProductStock(pIdx,quant);
 
 
-
-
-
        /*  결제를 할 때 할인금액을 적고 쿠폰을 사용하면 해당 idx에서 쿠폰을 사용완료 상태로 변경하자
         */
         if(!couponIdx.equals("0")){
@@ -63,22 +60,10 @@ public class SuccessAction implements Action {
 
 
 
-
-
-
-
-
-
-
-
         System.out.println("totalDiscount"+totalDiscount);
         System.out.println("couponDiscount"+couponDiscount);
         System.out.println("enteredPoints"+enteredPoints);
         System.out.println("couponIdx"+couponIdx);
-
-
-
-
 
 
         if (paymentKey == null || orderId == null || amount == null) {
@@ -135,16 +120,17 @@ public class SuccessAction implements Action {
         pvo.setPaymentMethod(confirmResponse.getString("method"));
         pvo.setPaymentStatus(pstatus);/*던일때 받아서 바꾸기 */
         /*pvo.setPaymentStatus(confirmResponse.getString("status"));*/
+/// ////////////////////////////////////////////////
+        int cnt=PaymentDAO.insertPayment(pvo,confirmResponse.getInt("totalAmount"),Integer.parseInt(userIdx));
 
-        int cnt=PaymentDAO.insertPayment(pvo);
+        System.out.println("cnt:"+cnt);
+        /// ///////////////////////////////////////
         request.setAttribute("quant", quant);
         request.setAttribute("img", img);
         request.setAttribute("totalAmount", pvo.getPaymentTotal());
         request.setAttribute("orderName", confirmResponse.getString("orderName"));
 
-        /*String paymentDiscount = confirmResponse.getString(""); 할인 생기면 여기서 해결하자*/
 
-        /*여기서ㅏ DAO 호출해서 DB에 저장하자.*/
 
 
         ////////////////////////////////////
