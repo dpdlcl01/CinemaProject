@@ -27,6 +27,7 @@ public class MyPointAction implements Action {
         // 사용자 포인트 조회
         String userIdx = uservo.getUserIdx();
         PointVO[] pointList = PointDAO.getList(userIdx, 0, 10); // 첫 10개 포인트 조회
+        PointVO pointData = PointDAO.getUserPointBySource(userIdx);
 
         // 포인트 계산
         int availablePoints = PointDAO.availablePoints(userIdx);
@@ -40,6 +41,7 @@ public class MyPointAction implements Action {
         request.setAttribute("pointList", pointList);
         request.setAttribute("userPoints", availablePoints);
         request.setAttribute("userVIPPoints", vipPoints);
+        request.setAttribute("pointData", pointData);
 
         String type = request.getParameter("type");
         System.out.println("MyPointAction 호출됨: type=" + type);

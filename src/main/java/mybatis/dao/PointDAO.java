@@ -27,6 +27,19 @@ public class PointDAO {
         return ar;
     }
 
+    // paymentSource별로 포인트 조회
+    public static PointVO getUserPointBySource(String userIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        PointVO pointVO = null;
+
+        try {
+            pointVO = ss.selectOne("point.userPointBySource", userIdx);
+        } finally {
+            ss.close();
+        }
+        return pointVO;
+    }
+
     // 사용 가능 포인트 계산
     public static int availablePoints(String userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();

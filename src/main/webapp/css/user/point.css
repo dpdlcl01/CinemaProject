@@ -1,79 +1,138 @@
-body {
+* {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
-
-.total-main {
+#contents {
     width: 1100px;
-    margin: 50px auto;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 590px;
+    margin-bottom: 20px;
+}
+/* 보유 포인트 상단 */
+.main-content h1 {
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+.point-section {
+    display: flex;
+    flex-direction: row;
+    background: #fff;
+    padding: 0; !important;
+    border: 1px solid #999;
+    border-radius: 9px;
+}
+.point-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 20px;
+    width: 300px;
+    height: 250px;
+}
+.summary {
+    background: #333;
+    color: white;
+    padding: 20px;
+    border-radius: 8px 0 0 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.tit {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.mainpoint {
+    font-size: 50px;
+    font-weight: 500;
+    text-align: center;
+    color: #339eb2;
+}
+.this-year{
+    background: white;
+    border-radius: 8px;
+    width: 500px;
+    margin-left: 20px;
+}
+.tit-year {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    margin: 15px 0 15px 0;
+
+}
+.this-year table {
+    width: 500px;
+}
+.td-title{
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+.td-content{
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: right;
+}
+.sum {
+    font-weight: bold;
+    text-align: right;
+    font-size: 18px;
+    color: #339eb2;
+    margin-top: 10px;
+}
+
+/* 조회 테이블 */
+.point-table {
+    margin-top: 50px;
+}
+.point-table h1 {
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+.board-list-search {
+    margin-top: 10px;
+}
+.btn-period .btn {
+    background: #f1f1f1;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.btn-period .btn.on {
+    background: #339eb2;
+    color: white;
+}
+.board-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.board-list th {
+    background: #339eb2;
+    color: white;
+    padding: 10px;
+}
+.board-list td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+.a-c {
+    text-align: center;
+    font-size: 14px;
+    color: #777;
 }
 
 .myPoint-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-}
-
-/* 사이드바 */
-.sidebar{
-    width: 200px;
-    border-radius: 6px;
-    height: 360px;
-}
-.sidebar-title {
-    font-size: 23px;
-    border-bottom: 2px solid #222222;
-    padding: 0 0 10px 0;
-}
-.sidebar a{
-    display: flex;
-    color: #222222;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-decoration: none;
-    text-indent: 20px;
-    line-height: 30px;
-    font-weight: bolder;
-}
-.sidebar li>a{
-    font-size: 14px;
-    width: 180px;
-}
-.sidebar li{
-    border-bottom: 1px solid #222222;
-}
-.sidebar-title>a:hover{
-    color: gray;
-}
-.sidebar li>a:hover{
-    color: gray;
-}
-
-/* 메인 */
-.main-content {
-    width: 850px;
-}
-.section {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-}
-.section h1 {
-    margin-bottom: 30px;
-    font-size: 24px;
-}
-.section h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
 }

@@ -13,6 +13,17 @@
         LIMIT #{begin}, #{end}
     </select>
 
+    <!-- 구매 종류별 포인트 조회 -->
+    <select id="userPointBySource" parameterType="string" resultType="mybatis.vo.PointVO">
+        SELECT userIdx,
+        SUM(CASE WHEN pointSource = 'PAYMENT' THEN pointValue ELSE 0 END) AS paymentTotal,
+        SUM(CASE WHEN pointSource = 'STORE' THEN pointValue ELSE 0 END) AS storeTotal,
+        SUM(CASE WHEN pointSource = 'REVIEW' THEN pointValue ELSE 0 END) AS reviewTotal,
+        SUM(pointValue) AS totalPoints
+        FROM point
+        WHERE userIdx = #{userIdx} AND pointStatus = 0
+    </select>
+
     <!-- 사용 가능 포인트 계산 -->
     <select id="availablePoints" parameterType="string" resultType="int">
         SELECT SUM(
