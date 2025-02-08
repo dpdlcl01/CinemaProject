@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dashboard">
+
+  <!-- 예매율 상위 top10 영화 -->
+  <select id="getTop5MoviesByRes" resultType="map">
+    SELECT movieTitle, movieReservationRate
+    FROM movie
+    WHERE movieReservationRate IS NOT NULL
+    ORDER BY movieReservationRate DESC
+    LIMIT 10
+  </select>
+
+  <!-- 극장별 총매출 -->
+  <select id="getTotalRevenueByTheater" resultType="map">
+    SELECT
+    t.theaterName,
+    SUM(p.paymentFinal) AS totalRevenue
+    FROM payment p
+    JOIN reservation r ON p.reservationIdx = r.reservationIdx
+    JOIN theater t ON r.theaterIdx = t.theaterIdx
+    WHERE p.paymentStatus = 0
+    AND r.reservationStatus = 0
+    GROUP BY t.theaterName
+    ORDER BY totalRevenue DESC
+    LIMIT 10
+  </select>
+
+  <!-- 월별 사용자별 예매 내역 수 추이 -->
+  <select id="getMonthlyActiveUsers" resultType="map">
+    SELECT
+    DATE_FORMAT(reservationDate, '%Y-%m') AS month,  -- '2025-02' 형식
+    COUNT(DISTINCT userIdx) AS userCount  -- 한 달에 중복되지 않는 사용자 수
+    FROM reservation
+    WHERE reservationStatus = 0  -- 활성화된 예약만 포함
+    GROUP BY DATE_FORMAT(reservationDate, '%Y-%m')
+    ORDER BY month ASC;
+  </select>
+
+</mapper>
