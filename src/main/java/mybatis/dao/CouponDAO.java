@@ -10,6 +10,19 @@ import java.util.Map;
 
 public class CouponDAO {
 
+    public static int insertCouponForUserGrade(Map<String, String> map) {
+
+        SqlSession ss = FactoryService.getFactory().openSession(true);
+
+        System.out.println("insertCouponForUserGrade:" + map);
+        int result = ss.insert("coupon.insertCouponForUserGrade", map);
+
+        ss.close();
+
+
+        return result;
+    }
+
     public static int insertCoupon(Map<String, Object> couponData) {
      SqlSession ss = FactoryService.getFactory().openSession(true);
 
