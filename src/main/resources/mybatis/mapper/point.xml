@@ -22,7 +22,7 @@
 
     <insert id="insertPoint" parameterType="map">
         insert into point(userIdx, paymentIdx, pointType, pointSource, pointValue, pointDate, pointStatus)
-        values(#{userIdx}, #{paymentIdx}, 0, 'PAYMENT', #{pointSource}, now(), '0');
+        values(#{userIdx}, #{paymentIdx}, 0, 'STORE', #{pointSource}, now(), '0');
     </insert>
 
 
