@@ -32,20 +32,55 @@ public class RegisterDAO {
 
 
     public boolean UserIdCheck(String userId) {
-        SqlSession ss = FactoryService.getFactory().openSession();
-        int count = ss.selectOne("register.useridcheck_search", userId);
-        return count > 0;
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            Integer count = ss.selectOne("register.useridcheck_search", userId);
+            return count != null && count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
-    public boolean emailCheck(String userEmail) {
-        SqlSession ss = FactoryService.getFactory().openSession();
-
-        int count = ss.selectOne("register.checkemail", userEmail);
-
-        System.out.println("이메일 조회 결과 : " + count);
-
-        return count > 0;
+    public boolean getEmailIfExists(String userEmail) {
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            Integer count = ss.selectOne("register.getEmailIfExists", userEmail);
+            return count != null && count > 0;
+        }
     }
+
+    public boolean isUserValid(String userName, String userEmail) {
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("userName", userName);
+            params.put("userEmail", userEmail);
+            Integer count = ss.selectOne("register.checkUserValidation", params);
+            return count != null && count > 0;
+        }
+    }
+
+    public boolean validateUserForPasswordReset(String userName, String userEmail, String userId) {
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("userName", userName);
+            params.put("userEmail", userEmail);
+            params.put("userId", userId);
+            Integer count = ss.selectOne("register.validateForPasswordReset", params);
+            return count != null && count > 0;
+        }
+    }
+
+    public boolean isPasswordValid(String email, String inputPassword) {
+        try (SqlSession ss = FactoryService.getFactory().openSession()) {
+            String storedHash = ss.selectOne("register.getPasswordHashByEmail", email);
+            return storedHash != null && BCrypt.checkpw(inputPassword, storedHash); // BCrypt 검증
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 
     public static String UserIdFind(Map<String, String> params) {
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -60,13 +95,7 @@ public class RegisterDAO {
         return result;
     }
 
-    public static boolean validateUserForPasswordReset(Map<String, String> params) {
-        SqlSession ss = FactoryService.getFactory().openSession();
-        boolean count = ss.selectOne("register.finduserid_email", params);
-        System.out.println("검증결과 : " + count);
-        ss.close();
-        return count;
-    }
+
 
     public static int updatePassword(HashMap<String, String> params) {
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -83,19 +112,4 @@ public class RegisterDAO {
                 ss.close();
         }
     }
-    public boolean insertLog(LogVO log) {
-        System.out.println("insertLog 실행됨: " + log);
-        SqlSession ss = FactoryService.getFactory().openSession();
-
-        int result = ss.insert("insertlog", log);
-
-        if (result > 0) {
-            ss.commit();
-        }
-
-        System.out.println("로그 INSERT 결과: " + result);
-        return result > 0;
-    }
 }
-
-

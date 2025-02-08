@@ -95,7 +95,7 @@
 
         button:hover {
             color: #fff;
-            background-color: #01738b;
+            background-color: #3D2775
         }
 
         #notice {
@@ -149,73 +149,32 @@
             </div>
 
             <!-- ✅ 예매내역 테이블 -->
-<%--            <table id="reservationTable" class="table" style="<c:if test='${requestScope.reservationType eq "cancelTable"}'>display: none;</c:if>">--%>
-<%--                <thead>--%>
-<%--                <tr>--%>
-<%--                    <th>예매번호</th>--%>
-<%--                    <th>영화명</th>--%>
-<%--                    <th>극장</th>--%>
-<%--                    <th>상영일시</th>--%>
-<%--                    <th>좌석</th>--%>
-<%--                    <th>결제금액</th>--%>
-<%--                </tr>--%>
-<%--                </thead>--%>
-<%--                <tbody>--%>
-<%--                <c:choose>--%>
-<%--                    <c:when test="${not empty requestScope.reservations}">--%>
-<%--                        <c:forEach var="reservation" items="${requestScope.reservations}">--%>
-<%--                            <tr>--%>
-<%--                                <td>${reservation.formattedReservationIdx}</td>--%>
-<%--                                <td>${reservation.movieTitle}</td>--%>
-<%--                                <td>${reservation.theaterName}</td>--%>
-<%--                                <td>${reservation.timetableStartTime}</td>--%>
-<%--                                <td>--%>
-<%--                                    <c:forEach var="seat" items="${reservation.seats}" varStatus="status">--%>
-<%--                                        ${seat.seatNumber}--%>
-<%--                                        <c:if test="${!status.last}">, </c:if>--%>
-<%--                                    </c:forEach>--%>
-<%--                                </td>--%>
-<%--                                <td>--%>
-<%--                                    <c:set var="totalPrice" value="0"/>--%>
-<%--                                    <c:forEach var="seat" items="${reservation.seats}">--%>
-<%--                                        <c:set var="totalPrice" value="${totalPrice + seat.seatPrice}"/>--%>
-<%--                                    </c:forEach>--%>
-<%--                                        ${totalPrice} 원--%>
-<%--                                </td>--%>
-<%--                            </tr>--%>
-<%--                        </c:forEach>--%>
-<%--                    </c:when>--%>
-<%--                    <c:otherwise>--%>
-<%--                        <tr>--%>
-<%--                            <td colspan="6" style="text-align:center;">예매내역이 없습니다.</td>--%>
-<%--                        </tr>--%>
-<%--                    </c:otherwise>--%>
-<%--                </c:choose>--%>
-<%--                </tbody>--%>
-<%--            </table>--%>
 
-            <div id="reservationTable" class="table" style="<c:if test='${requestScope.reservationType eq "cancelTable"}'>display: none;</c:if>">
 
-                <c:if test="${requestScope.rvo ne null}">
-                    <c:forEach items="${requestScope.rvo}" var="rvo" begin="0" end="5">
-                        <div id="myReserv">
-                            <img src="${rvo.moviePosterUrl}">
-                            <div id="reservInfo">
-                                <p>결제일시: ${rvo.reservationDate}</p>
-                                <p><em>${rvo.customReservationIdx}</em><span>&nbsp;|&nbsp;${rvo.movieTitle}</span></p>
-                                <p>${rvo.theaterName} ${rvo.screenName}</p>
-                                <p>${rvo.timetableStartTime}</p>
+            <div id="reservationTable" class="table" style="<c:if test='${requestScope.reservationType eq "reservationTable"}'>display: none;</c:if>">
+
+                <c:choose>
+                    <c:when test="${not empty requestScope.reservations}">
+                        <c:forEach var="reservation" items="${requestScope.reservations}">
+                            <div id="myReserv">
+                                <img src="${reservation.moviePosterUrl}">
+                                <div id="reservInfo">
+                                    <p>결제일시: ${reservation.reservationDate}</p>
+                                    <p><em>${reservation.formattedReservationIdx}</em><span>&nbsp;|&nbsp;${reservation.movieTitle}</span></p>
+                                    <p>${reservation.theaterName}&nbsp;${reservation.screenName}</p>
+                                    <p>${reservation.timetableStartTime}</p>
+                                </div>
+                                <button type="button" class="reservCancel">취소</button>
+                                <input type="hidden" class="reservationIdx" value="${reservation.reservationIdx}"></input>
                             </div>
-                            <button type="button" class="reservCancel">취소</button>
-                            <input type="hidden" class="reservationIdx" value="${rvo.reservationIdx}"></input>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div id="noResult">
+                            예매내역이 없습니다.
                         </div>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${requestScope.rvo eq null}">
-                    <div id="noResult">
-                        예매 내역이 없습니다
-                    </div>
-                </c:if>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <!-- ✅ 취소내역 테이블 (초기에는 숨김) -->

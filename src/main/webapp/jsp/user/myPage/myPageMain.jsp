@@ -189,7 +189,7 @@
         display: flex;
         width: 840px;
         height: 140px;
-        margin-bottom: 50px;
+        margin-bottom: 10px;
         align-items: center;
         border-bottom: 1px solid #eeeeee;
     }
@@ -205,7 +205,7 @@
         color: #01738b;
     }
     #myReserv button{
-        background-color: white;
+        /*background-color: white;*/
         width: 74px;
         height: 32px;
     }
@@ -288,6 +288,21 @@
         width: 200px;
         margin: 0 auto 0 auto;
         padding-left: 20px;
+    }
+
+    button {
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        background-color: #503396 ;
+
+        width: 74px;
+        height: 32px;
+    }
+
+    button:hover {
+        color: #fff;
+        background-color: #3D2775;
     }
 
 

@@ -27,7 +27,7 @@
 
         /* Header */
         .custom-dialog-header {
-            background-color: #6a5acd;
+            background-color: #503396;
             color: white;
             padding: 15px;
             font-size: 18px;
@@ -49,13 +49,13 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            color: #6a5acd;
+            color: #503396;
             border-bottom: 2px solid transparent;
         }
 
         .custom-tab.active {
             color: #000;
-            border-bottom: 2px solid #6a5acd;
+            border-bottom: 2px solid #3D2775;
         }
 
         /* Content */
@@ -83,7 +83,7 @@
         }
 
         .custom-login-container button {
-            background-color: #6a5acd;
+            background-color: #503396;
             color: white;
             border: none;
             border-radius: 5px;
@@ -91,7 +91,7 @@
         }
 
         .custom-login-container button:hover {
-            background-color: #5a4cad;
+            background-color: #3D2775;
         }
 
         .custom-login-footer {
@@ -101,7 +101,7 @@
 
         .custom-login-footer a {
             margin: 0 5px;
-            color: #6a5acd;
+            color: #503396;
             text-decoration: none;
         }
 
@@ -184,11 +184,15 @@
             background-color: white; /* Input만 흰색 배경 */
         }
 
+        .custom-info-box-table input#authcode{
+            width: 130px;
+        }
+
         .custom-info-box-table button {
             height: 32px;
             width: 80px;
             padding: 6px 10px;
-            background-color: #6a5acd;
+            background-color: #503396;
             color: white;
             border: none;
             border-radius: 5px;
@@ -197,7 +201,7 @@
         }
 
         .custom-info-box-table button:hover {
-            background-color: #5a4cad;
+            background-color: #3D2775;
         }
 
         /* 오른쪽 정보 박스 */
@@ -245,7 +249,7 @@
 
         .custom-submit-button-container button {
             padding: 8px 16px;
-            background-color: #6a5acd;
+            background-color: #503396;
             color: white;
             border: none;
             border-radius: 5px;
@@ -254,7 +258,7 @@
         }
 
         .custom-submit-button-container button:hover {
-            background-color: #5a4cad;
+            background-color: #3D2775
         }
 
         .btn-primary {
@@ -263,6 +267,20 @@
 
         .input-size {
             width: 130px !important;
+        }
+
+        h5 {
+            color: #fff;
+        }
+
+        h3{
+            h3 {
+                font-size: 18px;
+                color: #5a3dd2;
+                /* border-bottom: 2px solid #5a3dd2; */
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -349,15 +367,20 @@
 
                                                         const email = emailPart1
 
-                                                        const xhr = new XMLHttpRequest();
-                                                        xhr.open("POST", "${pageContext.request.contextPath}/EmailServlet", true);
-                                                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                                                        xhr.onreadystatechange = function () {
-                                                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                                                alert(xhr.responseText.trim());
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "${pageContext.request.contextPath}/EmailServlet",
+                                                            data: {
+                                                                actionType: "validateUser",
+                                                                email: email
+                                                            },
+                                                            success: function (response) {
+                                                                showLoginNoticeModal(response.message);
+                                                            },
+                                                            error: function (response) {
+                                                                showLoginNoticeModal("서버 통신 중 오류가 발생했습니다.");
                                                             }
-                                                        };
-                                                        xhr.send("email=" + encodeURIComponent(email));
+                                                        });
                                                     }
                                                 </script>
 <%--                                            <span class="text-danger" style="font-size: 12px;">3:00</span>--%>

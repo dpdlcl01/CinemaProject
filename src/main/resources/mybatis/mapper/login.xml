@@ -15,7 +15,7 @@
 
     <!-- 비회원 정보 조회 -->
     <select id="nonMemberCheck" parameterType="Map" resultType="mybatis.vo.UserVO">
-        SELECT userName, userEmail, userAuthPassword, userStatus
+        SELECT *
         FROM user
         WHERE userName = #{userName} AND userEmail = #{userEmail} AND userStatus IS NULL
     </select>

@@ -283,6 +283,9 @@ caption{
     text-decoration: none;
     background-color: transparent;
 }
+.my-saw-movie ul li .btn-group .btn:hover {
+    color: #fff;
+}
 a:link {
     color: #444;
     text-decoration: none;
@@ -341,17 +344,18 @@ a:link {
 }
 
 .my-saw-movie ul li .btn-group .btn.review:hover {
-    background-color: #01738b;
-    border-color: #01738b
+    background-color: #503396;
+    border-color: #503396
 }
 
 .my-saw-movie ul li .btn-group .btn.del:hover {
-    background-color: #01738b;
-    border-color: #01738b
+    background-color: #503396;
+    border-color: #503396
 }
 
 
 .mypage-infomation .btn-group {
+    color: #fff;
     position: absolute;
     top: 0;
     right: 0;
@@ -550,6 +554,12 @@ ol li{
 #main #section06 .cont-area .main-movie-list .btn-util .case .btn1 {
     color: #fff;
     background-color: #503396;
+    border-radius: 4px;
+}
+
+#main #section06 .cont-area .main-movie-list .btn-util .case .btn1:hover {
+    color: #fff;
+    background-color: #3D2775;
     border-radius: 4px;
 }
 

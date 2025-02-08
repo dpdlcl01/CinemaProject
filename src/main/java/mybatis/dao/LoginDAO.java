@@ -25,7 +25,7 @@ public class LoginDAO {
         return cnt > 0;
     }
 
-    // 비회원 로그인 검증
+    // 비회원 정보조회
     public static UserVO nonMembercheck(String userName, String userEmail) {
         SqlSession ss = FactoryService.getFactory().openSession();
 

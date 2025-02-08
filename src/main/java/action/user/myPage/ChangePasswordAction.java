@@ -34,13 +34,16 @@ public class ChangePasswordAction implements Action {
             System.out.println("need login..");
             request.setAttribute("status", "unauthorized");
             request.setAttribute("message", "로그인이 필요합니다.");
-            return "./jsp/user/myPage/ajax/ajaxResponse.jsp";
+            return "/jsp/user/myPage/ajax/ajaxResponse.jsp";
         }
 
         String userId = user.getUserId();
         String userIdx = user.getUserIdx();
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
+
+        System.out.println("유저아이디"+userId);
+        System.out.println("유저패스워드"+currentPassword);
 
 
         boolean isPasswordValid = MyPageDAO.checkPassword(userId, currentPassword);
@@ -49,7 +52,7 @@ public class ChangePasswordAction implements Action {
             System.out.println("not same nowpassword.");
             request.setAttribute("status", "invalid_password");
             request.setAttribute("message", "현재 비밀번호가 일치하지 않습니다.");
-            return "./jsp/user/myPage/ajax/ajaxResponse.jsp";
+            return "/jsp/user/myPage/ajax/ajaxResponse.jsp";
         }
 
         String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
@@ -71,6 +74,7 @@ public class ChangePasswordAction implements Action {
                     null,
                     null
             );
+
             System.out.println("LogUtil exit");
 
             System.out.println("success");
@@ -83,6 +87,6 @@ public class ChangePasswordAction implements Action {
             request.setAttribute("message", "비밀번호 변경에 실패하였습니다.");
         }
 
-        return "./jsp/user/myPage/ajax/ajaxResponse.jsp";
+        return "/jsp/user/myPage/ajax/ajaxResponse.jsp";
     }
 }

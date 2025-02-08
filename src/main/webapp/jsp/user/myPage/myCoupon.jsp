@@ -8,7 +8,7 @@
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/coupon.css?v=2.0"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/coupon.css?v=3.0"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div class="page-util">
@@ -32,9 +32,8 @@
             <!-- 메인 -->
             <div class="main-content">
                 <!-- Section Header -->
+                <h1>메가박스/제휴쿠폰</h1>
                 <div class="section">
-                    <h1>메가박스/제휴쿠폰</h1>
-
                     <!-- Information -->
                     <p>• 보유하신 쿠폰 내역입니다.<br>• 각 쿠폰 별 사용 방법이 다르니 사용 전 상세 쿠폰정보를 확인바랍니다.</p>
 

@@ -7,7 +7,7 @@
   <jsp:include page="../common/head.jsp"/>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/point.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/point.css?v=1.0"/>
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div id="contents">
@@ -28,12 +28,12 @@
       <jsp:include page="../common/sideBar.jsp"/>
       <!-- 메인 콘텐츠 -->
       <main class="main-content">
+        <h1>멤버십 포인트</h1>
         <%
           UserVO user = (UserVO) session.getAttribute("loggedInUser");
         %>
         <!-- 멤버십 포인트 섹션 -->
         <section class="section">
-          <h1>멤버십 포인트</h1>
           <p>보유하신 멤버십 포인트 내역입니다.<br>포인트는 다양한 혜택으로 사용 가능합니다.</p>
 
           <!-- 사용자 정보 -->

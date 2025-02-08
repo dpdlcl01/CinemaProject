@@ -53,9 +53,15 @@ body {
 .main-content {
     width: 850px;
 }
+
+.main-content h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
 .section {
     background-color: #fff;
-    padding: 20px;
+    /*padding: 20px;*/
     margin-bottom: 20px;
     border-radius: 5px;
 }
@@ -76,4 +82,18 @@ table th, table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
+}
+
+button {
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-color: #503396 ;
+    width: 74px;
+    height: 32px;
+}
+
+button:hover {
+    color: #fff;
+    background-color: #3D2775;
 }

@@ -11,6 +11,7 @@
     r.reservationDate AS reservationDate,
     CONCAT(DATE_FORMAT(r.reservationDate, '%Y%m%d'), '-', LPAD(r.reservationIdx, 4, '0')) AS formattedReservationIdx,
     m.movieTitle AS movieTitle,
+    m.moviePosterUrl AS moviePosterUrl,
     th.theaterName AS theaterName,
     t.timetableStartTime AS screeningTime,
     s.seatNumber AS seatNumber,
@@ -48,6 +49,7 @@
     <result property="theaterName" column="theaterName"/>
     <result property="timetableStartTime" column="screeningTime"/>
     <result property="screenName" column="screenName"/>
+    <result property="moviePosterUrl" column="moviePosterUrl"/>
 
 
     <!-- 좌석 정보를 리스트로 매핑 -->

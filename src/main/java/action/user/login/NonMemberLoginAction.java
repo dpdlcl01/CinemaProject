@@ -33,11 +33,15 @@ public class NonMemberLoginAction implements Action {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
+        // 추가가 성공했으면 DB에서 해당 정보를 불러와 세션에 저장
         if (addResult) {
-            // 추가가 성공했으면 DB에서 해당 정보를 불러와 세션에 저장
-            UserVO uservo = new UserVO();
-            uservo.setUserName(userName);
-            uservo.setUserEmail(userEmail);
+            UserVO uservo = LoginDAO.nonMembercheck(userName, userEmail);
+            System.out.println("유저idx:"+uservo.getUserIdx());
+            System.out.println("유저이름"+uservo.getUserName());
+            System.out.println("유저이메일"+uservo.getUserEmail());
+//            uservo.setUserIdx(userIdx);
+//            uservo.setUserName(userName);
+//            uservo.setUserEmail(userEmail);
             session.setAttribute("uservo", uservo);  // 세션에 비회원 정보 저장
 
             out.write("{\"success\": true}");

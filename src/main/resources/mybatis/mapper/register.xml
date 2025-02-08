@@ -8,7 +8,7 @@
         VALUES (#{userName}, #{userId}, #{userPassword}, #{userEmail}, #{userPhone}, #{userPoint}, #{userGrade}, now(), #{userStatus});
     </insert>
 
-    <select id="useridcheck_search" parameterType="String" resultType="int">
+    <select id="useridcheck_search" parameterType="String" resultType="Integer">
         SELECT COUNT(*) FROM user WHERE userId = #{userId}
     </select>
 
@@ -16,8 +16,12 @@
         SELECT userId FROM user WHERE username = #{userName} AND userEmail = #{userEmail}
     </select>
 
-    <select id="checkemail" resultType="int">
+    <select id="getEmailIfExists" resultType="int" parameterType="String">
         SELECT COUNT(*) FROM user WHERE userEmail = #{userEmail}
+    </select>
+
+    <select id="checkUserValidation" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM user WHERE userName = #{userName} AND userEmail = #{userEmail}
     </select>
 
     <select id="finduserid_email" parameterType="Map" resultType="boolean">
@@ -25,6 +29,20 @@
         WHERE username = #{userName}
         and userEmail = #{userEmail}
         and userId = #{userId}
+    </select>
+
+    <select id="getPasswordHashByEmail" parameterType="string" resultType="string">
+        SELECT userPassword
+        FROM user
+        WHERE userEmail = #{email}
+    </select>
+
+    <select id="validateForPasswordReset" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        WHERE userName = #{userName}
+        AND userEmail = #{userEmail}
+        AND userId = #{userId}
     </select>
 
     <update id="updateUserPassword" parameterType="Map">
