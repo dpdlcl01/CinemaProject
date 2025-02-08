@@ -103,10 +103,10 @@ public class MyPageDAO {
         return uvo;
     }
 
-    public static String[] getFavorite(String idx) {
+    public static FavoriteTheaterVO[] getFavorite(String idx) {
         SqlSession ss = FactoryService.getFactory().openSession();
-        List<String> list = ss.selectList("myPage.favorite", idx);
-        String[] favorite = new String[list.size()];
+        List<FavoriteTheaterVO> list = ss.selectList("myPage.favorite", idx);
+        FavoriteTheaterVO[] favorite = new FavoriteTheaterVO[list.size()];
         list.toArray(favorite);
         ss.close();
         return favorite;

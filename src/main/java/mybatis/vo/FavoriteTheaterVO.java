@@ -1,7 +1,7 @@
 package mybatis.vo;
 
 public class FavoriteTheaterVO {
-    String favoriteTheaterIdx, userIdx, theaterIdx,theaterName;
+    String favoriteTheaterIdx, userIdx, theaterIdx, theaterName;
 
     public String getTheaterName() {
         return theaterName;

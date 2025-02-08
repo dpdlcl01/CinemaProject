@@ -273,14 +273,8 @@
             color: #fff;
         }
 
-        h3{
-            h3 {
-                font-size: 18px;
-                color: #5a3dd2;
-                /* border-bottom: 2px solid #5a3dd2; */
-                padding-bottom: 10px;
-                margin-bottom: 20px;
-            }
+        h3 {
+            border-bottom: 0 !important;
         }
     </style>
 </head>
@@ -354,16 +348,12 @@
                                                 <script>
                                                     function sendAuthCode() {
                                                         const emailPart1 = document.getElementById("userEmail").value;
-                                                        console.log("이메일파트:"+emailPart1);
-                                                        // const emailPart2 = document.getElementById("emailpart2").value;
-                                                        // console.log(emailPart2);
-
+                                                        // console.log("이메일파트:"+emailPart1);
 
                                                         if (emailPart1 === "") {
                                                             alert("이메일을 입력해주세요.");
                                                             return;  // 이메일이 없으면 함수 종료
                                                         }
-
 
                                                         const email = emailPart1
 

@@ -81,7 +81,7 @@
     cursor: pointer;
   }
   table button:hover {
-    background-color: #01738b;
+    background-color: #3D2775;
   }
   #btnDiv {
     text-align: center;
@@ -111,7 +111,7 @@
     color: white;
   }
   #go:hover {
-    background-color: #01738b;
+    background-color: #3D2775;
   }
 
 
@@ -244,9 +244,10 @@
           </tr>
           </tbody>
         </table>
-        <div id="btnDiv" disabled="">
+        <div id="btnDiv">
           <button id="cancel">취소</button>
-          <button id="go">탈퇴</button>
+          <button id="go" disabled>탈퇴</button>
+
           <%--        onclick="userStatus_drop(this.form)"--%>
         </div>
       </div>

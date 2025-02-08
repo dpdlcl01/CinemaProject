@@ -31,7 +31,7 @@ public class MyPageAction implements Action {
 
         UserVO uvo = MyPageDAO.getUser(id);
         FavoriteTheaterVO[] fvo= MyPageDAO.getFavoriteTheater(idx);
-        String[] far= MyPageDAO.getFavorite(idx);
+        FavoriteTheaterVO[] far= MyPageDAO.getFavorite(idx);
         int rNum = MyPageDAO.reviewNum(idx);
         int fNum = MyPageDAO.favoriteNum(idx);
         int wNum = MyPageDAO.watchMovieNum(idx);

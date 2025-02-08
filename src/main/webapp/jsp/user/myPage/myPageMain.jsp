@@ -152,6 +152,8 @@
 
     #top2{
         display: flex;
+        gap: 100px;
+        justify-content: center;
         width: 836px;
         height: 140px;
         background-color: #eeeeee;
@@ -225,7 +227,11 @@
         background-color: white;
     }
     .top1 span{
-        font-size: 14px;
+        text-align: center;
+        color: #503396;
+        font-weight: 600;
+        padding-bottom: 10px;
+        text-decoration: none;
     }
     .top2 span{
         font-size: 14px;
@@ -303,6 +309,14 @@
     button:hover {
         color: #fff;
         background-color: #3D2775;
+    }
+
+    .fv {
+        display: flex;
+        justify-content: space-between;
+    }
+    .fv>p{
+        font-size: 14px;
     }
 
 
@@ -391,14 +405,15 @@
                                 <em>${requestScope.fNum}</em>
                             </div>
                         </div>
-                        <div id="2" class="top1">
-                            <a href="#">선호하는 극장</a>
-                            <div>
-                                <c:forEach var="fvo" items="${requestScope.far}">
-                                    <p>${fvo}</p>
-                                </c:forEach>
-                            </div>
 
+                        <div id="2" class="top1">
+                            <div class="fv">
+                            <span>선호하는 극장</span>
+                            <a href="#" style="font-weight: bold">&gt;</a>
+                            </div>
+                                <c:forEach var="fvo" items="${requestScope.far}">
+                                    <p><a href="${pageContext.request.contextPath}/UserController?type=theaterDetail&theaterIdx=${fvo.theaterIdx}">${fvo.theaterName}</a></p>
+                                </c:forEach>
                         </div>
                         <div id="3" class="top2">
                             <a href="${pageContext.request.contextPath}/UserController?type=myReservation">구매내역 바로가기</a><%--구매내역 테이블과 이너조인--%>
