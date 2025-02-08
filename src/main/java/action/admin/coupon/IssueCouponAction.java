@@ -3,6 +3,8 @@ package action.admin.coupon;
 import action.Action;
 import com.google.gson.Gson;
 import mybatis.dao.CouponDAO;
+import mybatis.vo.AdminVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import java.util.Map;
 
 public class IssueCouponAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
 
         String couponIdx = request.getParameter("couponIdx");
         String userGrade = request.getParameter("userGrade");

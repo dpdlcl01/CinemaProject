@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
 import mybatis.dao.LogDAO;
+import mybatis.vo.AdminVO;
 import mybatis.vo.LogVO;
+import util.SessionUtil;
 
 public class AddCouponAction implements Action {
 
@@ -27,7 +29,8 @@ public class AddCouponAction implements Action {
         couponData.put("couponRegDate", request.getParameter("couponRegDate"));
         couponData.put("couponExpDate", request.getParameter("couponExpDate"));
 
-
+        AdminVO avo = SessionUtil.getLoginAdmin(request);
+        String idx = avo.getAdminIdx();
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
@@ -37,6 +40,7 @@ public class AddCouponAction implements Action {
 
             if (result > 0) {
                 LogVO lvo = new LogVO();
+                lvo.setAdminIdx(idx);
                 lvo.setLogType("0");
                 lvo.setLogTarget("couponIdx"+String.valueOf(result));
                 lvo.setLogInfo("coupon생성");

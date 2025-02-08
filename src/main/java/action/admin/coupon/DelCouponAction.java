@@ -4,7 +4,9 @@ import action.Action;
 import com.google.gson.Gson;
 import mybatis.dao.CouponDAO;
 import mybatis.dao.LogDAO;
+import mybatis.vo.AdminVO;
 import mybatis.vo.LogVO;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +21,8 @@ public class DelCouponAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String couponIdx= request.getParameter("couponIdx");
-
+        AdminVO avo = SessionUtil.getLoginAdmin(request);
+        String idx = avo.getAdminIdx();
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
@@ -27,6 +30,7 @@ public class DelCouponAction implements Action {
 
             if (cnt > 0) {
                 LogVO lvo = new LogVO();
+                lvo.setAdminIdx(idx);
                 lvo.setLogType("0");
                 lvo.setLogTarget("couponIdx"+couponIdx);
                 lvo.setLogInfo("coupon삭제");
