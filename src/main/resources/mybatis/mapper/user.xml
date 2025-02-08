@@ -20,7 +20,12 @@
         SET userStatus = 1
         WHERE userId = #{userId}
     </update>
+
     <select id="getUserById" parameterType="String" resultType="mybatis.vo.UserVO">
         SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <select id="getEmailByUserId" parameterType="String" resultType="String">
+        SELECT userEmail FROM user WHERE userId = #{userId}
     </select>
 </mapper>

@@ -232,7 +232,7 @@
 
                 const currentPassword = document.getElementById("currentPassword").value;
                 const newPassword = document.getElementById("newPassword").value;
-
+                const newPassword2 = document.getElementById("newPassword2").value;
                 $.ajax({
                   url: "${pageContext.request.contextPath}/UserController?type=changepassword",
                   type: "POST",
@@ -240,8 +240,14 @@
                   success: function (response) {
                     if (response.status === "success") {
                       showModal(response.message);
+                      document.getElementById("currentPassword").value = "";
+                      document.getElementById("newPassword").value = "";
+                      document.getElementById("newPassword2").value = "";
                     } else {
                       showModal(response.message);
+                      document.getElementById("currentPassword").value = "";
+                      document.getElementById("newPassword").value = "";
+                      document.getElementById("newPassword2").value = "";
                     }
                   },
                   error: function () {

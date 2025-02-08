@@ -28,6 +28,18 @@ public class UserDAO {
         }
     }
 
+    public static boolean checkEmail(String userId, String userEmail) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            // 데이터베이스에서 이메일 가져오기
+            String dbEmail = ss.selectOne("user.getEmailByUserId", userId);
+            System.out.println("DAO: dbEmail = " + dbEmail);
+            return dbEmail != null && dbEmail.equals(userEmail);
+        } finally {
+            ss.close();
+        }
+    }
+
     // 사용자 상태 업데이트
     public static boolean updateUserStatus(String userId) {
         SqlSession ss = FactoryService.getFactory().openSession();

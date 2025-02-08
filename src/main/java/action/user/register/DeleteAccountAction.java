@@ -29,20 +29,19 @@ public class DeleteAccountAction implements Action {
         System.out.println("userID = " + userId);
         String userPassword = request.getParameter("userPassword11");
         System.out.println("userPassword = " + userPassword);
+        String Email1 = request.getParameter("emailpart1");
+        String Email2 = request.getParameter("emailpart2");
+        String userEmail = Email1 + "@" + Email2;
 
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("./jsp/user/mypage/deleteAccount.jsp");
-//        try {
-//            dispatcher.forward(request, response);
-//        } catch (ServletException e) {
-//            throw new RuntimeException(e);
-//        }
 
         // 비밀번호 검증
         boolean isPasswordCorrect = UserDAO.checkPassword(userId, userPassword);
         System.out.println("isPasswordCorrect : " + isPasswordCorrect);
 
+        // 이메일 검증
+        boolean isEmailCorrect = UserDAO.checkEmail(userId, userEmail);
 
-        if (isPasswordCorrect) {
+        if (isPasswordCorrect && isEmailCorrect) {
 
             // 사용자 상태 업데이트
             boolean isDeleted = UserDAO.updateUserStatus(userId);
@@ -65,12 +64,16 @@ public class DeleteAccountAction implements Action {
 
                 return null;
             } else {
-                request.setAttribute("error", "회원탈퇴에 실패했습니다.");
-                return null;
+                if (!isPasswordCorrect) {
+                    request.setAttribute("error", "비밀번호가 일치하지 않습니다.");
+                    return null;
+                }
+                if (!isEmailCorrect) {
+                    request.setAttribute("error", "가입하실 때 입력하신 이메일과 다릅니다.");
+                    return null;
+                }
             }
-                } else {
-            request.setAttribute("error", "비밀번호가 일치하지 않습니다.");
-            return null;
         }
+        return null ;
     }
 }
