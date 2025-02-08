@@ -6,9 +6,14 @@ import mybatis.dao.CouponDAO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
+import mybatis.dao.LogDAO;
+import mybatis.vo.LogVO;
 
 public class AddCouponAction implements Action {
 
@@ -22,12 +27,23 @@ public class AddCouponAction implements Action {
         couponData.put("couponRegDate", request.getParameter("couponRegDate"));
         couponData.put("couponExpDate", request.getParameter("couponExpDate"));
 
+
         Map<String, Object> responseMap = new HashMap<>();
 
         try {
             int result = CouponDAO.insertCoupon(couponData);
 
+            System.out.println("result:"+result);
+
             if (result > 0) {
+                LogVO lvo = new LogVO();
+                lvo.setLogType("0");
+                lvo.setLogTarget("couponIdx"+String.valueOf(result));
+                lvo.setLogInfo("coupon생성");
+                lvo.setLogCurValue(request.getParameter("couponName"));
+                lvo.setLogDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                LogDAO.insertLog(lvo);
+
                 responseMap.put("success", true);
             } else {
                 responseMap.put("success", false);

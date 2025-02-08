@@ -3,10 +3,14 @@ package action.admin.coupon;
 import action.Action;
 import com.google.gson.Gson;
 import mybatis.dao.CouponDAO;
+import mybatis.dao.LogDAO;
+import mybatis.vo.LogVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +26,14 @@ public class DelCouponAction implements Action {
             int cnt = CouponDAO.delCoupon(couponIdx); // 쿠폰 삭제 실행
 
             if (cnt > 0) {
+                LogVO lvo = new LogVO();
+                lvo.setLogType("0");
+                lvo.setLogTarget("couponIdx"+couponIdx);
+                lvo.setLogInfo("coupon삭제");
+                lvo.setLogPreValue(request.getParameter("couponName"));
+                lvo.setLogDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                LogDAO.insertLog(lvo);
+
                 responseMap.put("success", true);
             } else {
                 responseMap.put("success", false);

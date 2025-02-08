@@ -199,6 +199,18 @@
         text-align: right;
         margin-right: 50px;
     }
+    #addCoupon label, #addCoupon input{
+        margin-bottom: 8px;
+    }
+    #issueCoupon label{
+        width: 64px;
+    }
+    #issueCoupon select{
+        width: 186px;
+    }
+    #issueCoupon label, #issueCoupon select{
+        margin-top: 20px;
+    }
 </style>
 
 <body>
@@ -269,7 +281,7 @@
                                     비활성
                                 </c:if></td>
                                 <td>
-                                    <button class="deletBtn" data-id="${cvo.couponIdx}">
+                                    <button class="deletBtn" data-id="${cvo.couponIdx}" data-name="${cvo.couponName}">
                                         삭제
                                     </button>
                                 </td>
@@ -304,12 +316,14 @@
     </form>
 </div>
 <div id="issueCoupon">
-  <label>유저등급</label>
+  <label for="selectGrade">유저등급</label>
   <select id="selectGrade">
     <option value="BASIC">BASIC</option>
     <option value="VIP">VIP</option>
     <option value="VVIP">VVIP</option>
   </select>
+    <br>
+    <label for="selectCoupon">쿠폰명</label>
   <select id="selectCoupon">
     <c:forEach items="${requestScope.cvo}" var="cvo">
       <option value="${cvo.couponIdx}">${cvo.couponName}</option>
@@ -329,6 +343,9 @@
         modal: true, // 배경 클릭 방지
         width: 350,
         height: 250,
+          open: function(event, ui) {
+              $(".ui-dialog-titlebar-close", $(this).parent()).hide(); // X 버튼 숨기기
+          },
         buttons: {
           "확인": function () {
             issueCoupon(); // 쿠폰 발급 AJAX 요청 실행
@@ -377,6 +394,9 @@
             modal: true, // 배경 클릭 방지
             width: 400,
             height: 400,
+            open: function(event, ui) {
+                $(".ui-dialog-titlebar-close", $(this).parent()).hide(); // X 버튼 숨기기
+            },
             buttons: {
                 "추가": function () {
                     addCoupon(); // 추가 버튼 클릭 시 함수 실행
@@ -450,7 +470,7 @@
 
         $(".deletBtn").on("click", function () {
             let couponIdx = $(this).data("id"); // 삭제할 쿠폰 ID 가져오기
-
+            let couponName= $(this).data("name");
             if (!confirm("정말 삭제하시겠습니까?")) {
                 return; // 사용자가 취소하면 요청을 보내지 않음
             }
@@ -458,7 +478,7 @@
             $.ajax({
                 url: "${pageContext.request.contextPath}/AdminController?type=couponDel",
                 type: "POST",
-                data: {couponIdx: couponIdx}, // JSON이 아닌 일반 form 형식으로 전송
+                data: {couponIdx: couponIdx,couponName:couponName}, // JSON이 아닌 일반 form 형식으로 전송
                 dataType: "json", // JSON 응답을 기대
                 success: function (data) {
                     if (data.success) {

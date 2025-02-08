@@ -24,12 +24,24 @@ public class CouponDAO {
     }
 
     public static int insertCoupon(Map<String, Object> couponData) {
-     SqlSession ss = FactoryService.getFactory().openSession(true);
+        try (SqlSession ss = FactoryService.getFactory().openSession(true)) { // ✅ 자동 커밋
+            int result = ss.insert("coupon.insertCoupon", couponData);
+            System.out.println("couponIdx (Before Cast): " + couponData.get("couponIdx")); // ✅ Object 타입 확인
 
+            // ✅ 안전한 타입 변환
+            Object idxObj = couponData.get("couponIdx");
+            if (idxObj instanceof Number) {
+                result = ((Number) idxObj).intValue(); // ✅ `Integer`, `Long`, `BigDecimal` 등 변환 가능
+            } else {
+                result = -1; // ❌ 변환 실패 시 기본값 설정
+            }
 
-            return ss.insert("coupon.insertCoupon", couponData);
-
+            System.out.println("couponIdx (After Cast): " + result); // ✅ 변환 후 확인
+            return result;
+        }
     }
+
+
     public static int delCoupon(String couponIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
         int result = ss.delete("coupon.updateStatus", couponIdx);

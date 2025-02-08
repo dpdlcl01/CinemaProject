@@ -13,7 +13,7 @@
     </insert>
 
 
-    <insert id="insertCoupon" parameterType="map">
+    <insert id="insertCoupon" parameterType="map" useGeneratedKeys="true" keyProperty="couponIdx">
         INSERT INTO coupon (couponName, couponInfo, couponType, couponValue, couponRegDate, couponExpDate, couponStatus)
         VALUES (#{couponName}, #{couponInfo}, #{couponType}, #{couponValue}, #{couponRegDate}, #{couponExpDate}, 0)
     </insert>
