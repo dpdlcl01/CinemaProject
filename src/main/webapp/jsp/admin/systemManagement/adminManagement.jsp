@@ -103,7 +103,8 @@
     }
 
     .search-bar2 .input-text {
-        width: 100%;           /* 부모의 너비에 맞게 확장 */
+        width: 100%;
+        height: 25px;
         background-color: transparent;
         border: 0;
         color: #000;
@@ -134,6 +135,9 @@
     /*    .search-bar2 .btn:hover {
             background-color: #0056b3;
         }*/
+    .search-bar2 .btn:hover {
+        background-color: #0056b3;
+    }
 
     .search-bar2 .btn .ico-search {
         display: inline-block;
@@ -153,6 +157,20 @@
         border: 0;
         background-color: transparent;
         cursor: pointer;
+    }
+
+    .btn-reset {
+        background-color: #f5f5f5; /* 연한 회색 */
+        border: 1px solid #d1d1d1; /* 테두리 회색 */
+        border-radius: 4px; /* 둥근 모서리 */
+        cursor: pointer;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .ico-reset {
@@ -384,7 +402,7 @@
                             <div class="total-count">전체 ${requestScope.totalCount}건</div>
 
                             <div class="search-bar">
-                                <button type="button" class="addAdmin">관리자 추가</button>
+                                <button type="button" class="btn-reset addAdmin">관리자 추가</button>
 
                                 <form id="searchForm" action="AdminController" method="get">
                                     <input type="hidden" name="type" value="adminlist" />
@@ -419,9 +437,7 @@
                                     </div>
 
                                     <!-- 초기화 버튼 (아이콘) -->
-                                    <button type="button" class="btn btn-reset" title="검색 조건 초기화" onclick="resetUserSearch()">
-                                        <i class="ico-reset"></i>
-                                    </button>
+                                    <button type="button" class="btn-reset" title="검색 조건 초기화" onclick="resetUserSearch()">초기화</button>
                                 </form>
                                 <script>
                                   function resetUserSearch() {
@@ -444,7 +460,7 @@
                             <c:set var="pvo" value="${requestScope.page}"/>
                             <c:forEach var="avo" items="${requestScope.adminArray}" varStatus="status">
                                 <tr class="clickable-row" data-id="${avo.adminIdx}">
-                                    <td>${(paging.nowPage - 1) * paging.numPerPage + status.index + 1}</td>
+                                    <td>${avo.adminIdx}</td>
                                     <td>${avo.adminId}</td>
                                     <td>
                                         <c:choose>

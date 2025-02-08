@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
   <title>관리자 화면</title>
@@ -49,6 +50,13 @@
 
     ul li a:hover {
         color: #007bff;
+    }
+
+    .disabled-link {
+        color: #b0b0b0 !important; /* 회색 글씨 */
+        pointer-events: none; /* 클릭 비활성화 */
+        text-decoration: none; /* 밑줄 제거 */
+        cursor: default;
     }
 </style>
 
@@ -101,8 +109,26 @@
 
     <h2 class="dashboard">시스템 관리</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/AdminController?type=adminlist">권한 관리</a></li>
-        <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement">사용자 활동 로그 관리</a></li>
+        <li>
+            <c:choose>
+                <c:when test="${sessionScope.adminvo.adminLevel eq 'SUPER'}">
+                    <a href="${pageContext.request.contextPath}/AdminController?type=adminlist">권한 관리</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="disabled-link">권한 관리</a>
+                </c:otherwise>
+            </c:choose>
+        </li>
+        <li>
+            <c:choose>
+                <c:when test="${sessionScope.adminvo.adminLevel eq 'SUPER'}">
+                    <a href="${pageContext.request.contextPath}/AdminController?type=logManagement">사용자 활동 로그 관리</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="disabled-link">사용자 활동 로그 관리</a>
+                </c:otherwise>
+            </c:choose>
+        </li>
     </ul>
 </div>
 </body>

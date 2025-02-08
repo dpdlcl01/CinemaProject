@@ -125,7 +125,7 @@
                   <div class="card mb-4">
                       <div class="card-header">
                           <i class="fas fa-chart-line me-1"></i>
-                          사용자수 추이 (월별)
+                          월별 사용자수 추이
                       </div>
                       <div class="card-body">
                           <canvas id="salesChart" width="100%" height=440"></canvas>
