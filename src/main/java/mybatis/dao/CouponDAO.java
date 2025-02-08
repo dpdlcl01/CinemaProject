@@ -6,8 +6,37 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CouponDAO {
+
+    public static int insertCoupon(Map<String, Object> couponData) {
+     SqlSession ss = FactoryService.getFactory().openSession(true);
+
+
+            return ss.insert("coupon.insertCoupon", couponData);
+
+    }
+    public static int delCoupon(String couponIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int result = ss.delete("coupon.updateStatus", couponIdx);
+        if(result > 0){
+            ss.commit();
+        }else{
+            ss.rollback();
+        }
+
+        ss.close();
+        return result;
+    }
+
+    public static List<CouponVO> getCouponList() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<CouponVO> list = ss.selectList("coupon.list");
+        ss.close();
+        return list;
+    }
+
     public static int updateCoupon(String idx, String couponIdx){
         SqlSession ss = FactoryService.getFactory().openSession();
         HashMap<String, String> map =new HashMap<>();

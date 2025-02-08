@@ -197,7 +197,7 @@
     </h2>
     <div id="collapseEight" class="accordion-collapse collapse">
       <div class="accordion-body">
-        <p>       <a href="#">쿠폰 관리</a></p>
+        <p><a href="${pageContext.request.contextPath}/AdminController?type=coupon">쿠폰 관리</a></p>
         <p style="margin-bottom: 0">   <a href="#">리뷰 관리</a></p>
 
 

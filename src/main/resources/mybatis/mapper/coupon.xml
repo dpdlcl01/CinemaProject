@@ -3,6 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coupon">
+
+    <insert id="insertCoupon" parameterType="map">
+        INSERT INTO coupon (couponName, couponInfo, couponType, couponValue, couponRegDate, couponExpDate, couponStatus)
+        VALUES (#{couponName}, #{couponInfo}, #{couponType}, #{couponValue}, #{couponRegDate}, #{couponExpDate}, 0)
+    </insert>
+
+    <update id="updateStatus" parameterType="String">
+        update coupon
+        set couponStatus=1
+        where couponIdx=#{couponIdx}
+    </update>
+
+    <select id="list" resultType="mybatis.vo.CouponVO">
+        select *
+        from coupon
+        where couponStatus=0
+        order by couponType ASC
+    </select>
+
     <update id="updateCoupon" parameterType="map">
         UPDATE couponUserMapping
         SET couponUserStatus = 1
