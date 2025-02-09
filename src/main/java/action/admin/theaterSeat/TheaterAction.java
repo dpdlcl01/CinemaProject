@@ -2,8 +2,11 @@ package action.admin.theaterSeat;
 
 import action.Action;
 import mybatis.dao.AdminDAO;
+import mybatis.dao.TheaterManagementDAO;
 import mybatis.vo.AdminVO;
 import mybatis.vo.LogVO;
+import mybatis.vo.TheaterManagementVO;
+import util.Paging;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,18 +27,30 @@ public class TheaterAction implements Action {
             return "AdminController?type=admin";
         }
 
-        // 극장 리스트 가져오기 (List<Map<String, String>>)
-        List<Map<String, String>> theaterList = AdminDAO.getTheaterList();
+        Paging page = new Paging(10, 5);
 
-        // 콘솔 출력 (데이터 확인용)
-        System.out.println("=== 극장 리스트 출력 시작 ===");
-        for (Map<String, String> theater : theaterList) {
-            System.out.println(theater);
+        int totalRecord = TheaterManagementDAO.getTheaterScreenListCount();
+        page.setTotalRecord(totalRecord);
+
+        String cPage = request.getParameter("cPage");
+        if (cPage == null) {
+          page.setNowPage(1);
+        } else {
+         int nowPage = Integer.parseInt(cPage);
+          page.setNowPage(nowPage);
         }
-        System.out.println("=== 극장 리스트 출력 끝 ===");
 
-        // JSP에 데이터 전달
-        request.setAttribute("theaterList", theaterList);
+      // `begin`과 `end`가 null이면 기본값을 설정
+      int begin = page.getBegin() - 1;
+      int end = page.getNumPerPage();
+
+      if (begin <= 0) begin = 0;
+      if (end <= 0) end = 10; // 기본값 설정
+
+      TheaterManagementVO[] ar = TheaterManagementDAO.getTheaterScreenList(begin, end);
+      request.setAttribute("ar", ar);
+      request.setAttribute("page", page);
+      request.setAttribute("totalCount", totalRecord);
 
         return "/jsp/admin/theaterManagement/theaterManage.jsp";
     }

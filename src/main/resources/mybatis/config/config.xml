@@ -45,5 +45,6 @@
         <mapper resource="mybatis/mapper/admin.xml"/>
         <mapper resource="mybatis/mapper/adminManagement.xml"/>
         <mapper resource="mybatis/mapper/dashboard.xml"/>
+        <mapper resource="mybatis/mapper/theaterManagement.xml"/>
     </mappers>
 </configuration>

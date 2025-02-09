@@ -78,7 +78,7 @@
 
     <h2 class="dashboard">상영 관리</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/AdminController?type=theaterManage">극장, 상영관 관리</a></li>
+        <li><a href="${pageContext.request.contextPath}/AdminController?type=theaterList">극장, 상영관 관리</a></li>
         <li><a href="${pageContext.request.contextPath}/AdminController?type=seatManage">상영관 좌석 관리</a></li>
     </ul>
 

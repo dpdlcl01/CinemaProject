@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="theaterManagement">
+
+  <!-- 극장과 상영관 정보를 가져오는 쿼리 -->
+  <select id="getTheaterScreenList" parameterType="map" resultType="mybatis.vo.TheaterManagementVO">
+    SELECT
+    t.theaterRegion,
+    t.theaterName,
+    t.theaterStatus,
+    s.screenName,
+    s.screenSeatCount,
+    s.screenType,
+    s.screenStatus
+    FROM cinema_db.theater t
+    JOIN cinema_db.screen s ON t.theaterIdx = s.theaterIdx
+    LIMIT #{begin, jdbcType=INTEGER}, #{end, jdbcType=INTEGER}
+  </select>
+
+  <!-- 전체 극장과 상영관 개수를 구하는 쿼리 -->
+  <select id="getTheaterScreenCount" resultType="int">
+    SELECT COUNT(*)
+    FROM cinema_db.theater t
+    JOIN cinema_db.screen s ON t.theaterIdx = s.theaterIdx;
+  </select>
+
+  <!-- 검색 + 페이징 적용 -->
+  <select id="searchTheaterScreenList" parameterType="map" resultType="mybatis.vo.TheaterManagementVO">
+    SELECT
+    t.theaterRegion,
+    t.theaterName,
+    t.theaterStatus,
+    s.screenName,
+    s.screenSeatCount,
+    s.screenType,
+    s.screenStatus
+    FROM cinema_db.theater t
+    JOIN cinema_db.screen s ON t.theaterIdx = s.theaterIdx
+    WHERE 1=1
+    <if test="searchType == 'theaterRegion' and searchKeyword != null and searchKeyword != ''">
+      AND theaterRegion LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+    <if test="searchType == 'theaterName' and searchKeyword != null and searchKeyword != ''">
+      AND theaterName LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <!-- 총 개수 -->
+  <select id="searchTheaterScreenCount" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM cinema_db.theater t
+    JOIN cinema_db.screen s ON t.theaterIdx = s.theaterIdx
+    WHERE 1=1
+    <if test="searchType == 'theaterRegion' and searchKeyword != null and searchKeyword != ''">
+      AND theaterRegion LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+    <if test="searchType == 'theaterName' and searchKeyword != null and searchKeyword != ''">
+      AND theaterName LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+  </select>
+
+</mapper>
