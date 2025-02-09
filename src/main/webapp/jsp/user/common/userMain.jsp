@@ -57,8 +57,10 @@
                         <!-- //movie-list-info -->
                         <!-- btn-util -->
                         <div class="btn-util">
-                            <button type="button" class="button btn-like">
-                                <i class="far fa-heart"></i>${mvo.movieLikes }
+                            <button type="button" class="button btn-like" onclick="loginCheck(${mvo.movieIdx})">
+                                <i class="far fa-heart"></i><span title="보고싶어 한 명수" id="wantsee-${mvo.movieIdx}">
+                                        ${mvo.movieLikes}
+                                </span>
                             </button>
                             <div class="case">
                                 <a href="UserController?type=reservation&movieIdx=${mvo.movieIdx }" class="button btn1" title="영화 예매하기">예매</a>
@@ -254,8 +256,86 @@
     </section>
     <!-- //section04 -->
 </main>
+<!-- 로그인 필요 알림 다이얼로그 -->
+<div id="loginNoticeDialog" title="알림" class="dialog-common">
+    <p>로그인 후 이용 가능한 서비스입니다.</p>
+    <div class="ui-btn-div">
+        <button type="button" onclick="closeDialog('loginNoticeDialog')">확인</button>
+    </div>
+</div>
 <!-- footer 영역 -->
 <jsp:include page="footer.jsp"/>
     <script src="${pageContext.request.contextPath}/js/userMain.js"></script>
+<script>
+    // 다이얼로그 초기화
+    $(document).ready(function () {
+        $("#loginNoticeDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width: 400
+        });
+    });
+
+    // 다이얼로그 열기 함수
+    function openDialog(dialogId) {
+        $("#" + dialogId).dialog("open");
+    }
+
+    // 다이얼로그 닫기 함수
+    function closeDialog(dialogId) {
+        const dialogElement = $("#" + dialogId);
+
+        if (dialogElement.hasClass("ui-dialog-content")) {
+            dialogElement.dialog("close");
+        } else {
+            dialogElement.hide();
+        }
+    }
+
+    // 로그인 여부가 필요한 찜하기 버튼의 경우 로그인 체크 액션을 호출하여
+    // 로그인 여부를 비동기식으로 판단하고, 이후 다시 비동기식으로 찜하기를 적용한다.
+    function loginCheck(movieIdx) {
+        // 1. 비동기로 로그인 체크
+        $.ajax({
+            url: 'UserController?type=loginCheck',
+            type: 'POST',
+            dataType: 'json',
+            success: function (res) {
+                if (res.login) {
+                    // 2. 로그인된 상태 → 찜하기 로직 호출
+                    updateMovieLike(movieIdx);
+                } else {
+                    // 3. 로그인되지 않은 상태 → 로그인 모달 창 띄우기
+                    openDialog("loginNoticeDialog"); // 로그인 알림 다이얼로그 열기
+                }
+            }
+        });
+    }
+
+    // 로그인된 상태라면 찜하기 버튼을 클릭할 때
+    // 이미 찜했는지 여부를 확인 후 [선호 영화로 추가 및 숫자 1 증가] 또는 [선호 영화에서 삭제 및 숫자 1 감소]
+    function updateMovieLike(movieIdx) {
+        // 로그인된 상태에서 찜하기 처리
+        $.ajax({
+            url: 'UserController?type=movieLikes',
+            type: 'POST',
+            data: { movieIdx: movieIdx },
+            dataType: 'json',
+            success: function(res) {
+                if (res.success) {
+                    // 찜하기 성공 시 UI 업데이트
+                    const likeCountSpan = document.getElementById("wantsee-" + movieIdx);
+                    likeCountSpan.textContent = res.newLikeCount; // 새로운 찜하기 수로 업데이트
+                } else {
+                    alert(res.message || "찜하기에 실패했습니다.");
+                }
+            },
+            error: function() {
+                alert("찜하기 처리 중 오류가 발생했습니다.");
+            }
+        });
+    }
+</script>
 </body>
 </html>

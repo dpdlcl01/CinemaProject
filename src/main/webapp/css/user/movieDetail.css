@@ -82,7 +82,7 @@ body {
     padding: 15px 0 0 0;
 }
 
-.icon-heart {
+/*.icon-heart {
     display: inline-block;
     vertical-align: middle;
     width: 17px;
@@ -94,7 +94,7 @@ body {
 
 .movie-detail-page .movie-detail-cont .btn-util .btn:hover .icon-heart {
     background-image: url("https://img.megabox.co.kr/static/pc/images/common/ico/ico-heart-on.png");
-}
+}*/
 
 .movie-detail-page .movie-detail-cont .btn-util .btn:hover {
     color: #000;

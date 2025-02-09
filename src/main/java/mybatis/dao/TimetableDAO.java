@@ -12,7 +12,58 @@ import java.util.Map;
 
 public class TimetableDAO {
 
-    // 전체 상영 시간표 수 가져오기
+    // 관리자 페이지 상영 시간표 개수 조회
+    public static int countTimetables(String screeningDate, String theaterIdx, String screenIdx, String searchValue) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("screeningDate", screeningDate);
+        map.put("theaterIdx", theaterIdx);
+        map.put("screenIdx", screenIdx);
+        map.put("movieTitle", searchValue);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.selectOne("adminTimetable.countTimetables", map);
+        ss.close();
+        return cnt;
+    }
+
+    // 상영 시간표 목록 조회
+    public static TimetableVO[] getTimetableList(String screeningDate, String theaterIdx, String screenIdx,
+                                                 String searchValue, int begin, int end) {
+        TimetableVO[] timetableArray = null;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("screeningDate", screeningDate);
+        map.put("theaterIdx", theaterIdx);
+        map.put("screenIdx", screenIdx);
+        map.put("movieTitle", searchValue);
+        map.put("begin", begin);
+        map.put("end", end);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<TimetableVO> tList = ss.selectList("adminTimetable.getTimetableList", map);
+        if (tList != null && !tList.isEmpty()) {
+            timetableArray = new TimetableVO[tList.size()];
+            tList.toArray(timetableArray);
+        }
+
+        return timetableArray;
+    }
+
+    // 극장과 상영관 정보 조회 메서드
+    public static List<Map<String, Object>> getTheatersWithScreens() {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        // 쿼리 실행 - 극장과 상영관 정보 조인
+        List<Map<String, Object>> theatersWithScreens = ss.selectList("adminTimetable.getTheatersWithScreens");
+
+        ss.close();
+        return theatersWithScreens;
+    }
+
+
+
+
+/*    // 전체 상영 시간표 수 가져오기
     public static int getTimetableCount() {
         SqlSession ss = FactoryService.getFactory().openSession();
         int count = ss.selectOne("adminTimetable.getTimetableCount");
@@ -54,7 +105,7 @@ public class TimetableDAO {
         }
         ss.close();
         return timetableArray;
-    }
+    }*/
 
 
 

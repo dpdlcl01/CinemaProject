@@ -1,9 +1,20 @@
 package mybatis.vo;
 
+import java.util.List;
+
 public class TheaterVO {
     private String theaterIdx, theaterName, theaterRegion, theaterAddress,
             theaterInfo, theaterImageUrl, theaterScreenCount, theaterRegDate, theaterStatus;
 
+    private List<ScreenVO> screenList;  // 극장에 속한 상영관 리스트
+
+    public List<ScreenVO> getScreenList() {
+        return screenList;
+    }
+
+    public void setScreenList(List<ScreenVO> screenList) {
+        this.screenList = screenList;
+    }
 
     public String getTheaterIdx() {
         return theaterIdx;

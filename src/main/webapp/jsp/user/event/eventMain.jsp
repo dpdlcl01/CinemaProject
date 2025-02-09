@@ -171,7 +171,7 @@
                   '<img src="' + event.boardContent + '" alt="이벤트 이미지">' +
                   '</div>' +
                   '<div class="event-details">' +
-                  '<a href="/UserController?type=eventdetail&boardIdx=' + event.boardIdx + '" class="event-title">' +
+                  '<a href="${pageContext.request.contextPath}/UserController?type=eventdetail&boardIdx=' + event.boardIdx + '" class="event-title">' +
                   event.boardTitle +
                   '</a>' +
                   '<p class="event-meta">' + event.boardRegDate + ' ~ ' + event.boardExpDate + '</p>' +

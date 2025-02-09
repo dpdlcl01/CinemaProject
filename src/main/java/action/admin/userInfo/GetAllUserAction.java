@@ -24,48 +24,43 @@ public class GetAllUserAction implements Action {
             return "AdminController?type=admin";
         }
 
-        String userType = request.getParameter("userType");
-        String searchType = request.getParameter("searchType");
-        String searchKeyword = request.getParameter("searchKeyword");
+        // 페이징 처리를 위한 객체 생성
+        Paging page = new Paging(10, 10);
 
-        if (searchType == null || searchType.isEmpty()) {
-            searchType = "";
-        }
-        if (searchKeyword == null || searchKeyword.isEmpty()) {
-            searchKeyword = "";
-        }
-        if (userType == null || userType.isEmpty()) {
-            userType = "all";
-        }
+        // 검색 조건 파라미터 수집
+        String searchType = request.getParameter("searchType");       // 검색 대상 (이름, 아이디 등)
+        String searchKeyword = request.getParameter("searchKeyword"); // 검색어
+        String userJoinMonth = request.getParameter("userJoinMonth"); // 가입월
+        String userStatus = request.getParameter("userStatus");       // 사용자 상태
+        String userGrade = request.getParameter("userGrade");         // 회원 등급
 
-        Paging paging = new Paging(10, 5);
-        int totalCount = AdminDAO.getTotalUserCount(searchType, searchKeyword, userType);
-        paging.setTotalRecord(totalCount);
+        int totalCount = AdminDAO.getTotalUserCount(searchType, searchKeyword, userJoinMonth, userStatus, userGrade);
 
+        // 페이징 객체에 총 사용자 수 설정
+        page.setTotalRecord(totalCount);
+
+        // 현재 페이지 값을 파라미터로 받아 설정
         String cPage = request.getParameter("cPage");
-        if (cPage == null || cPage.isEmpty()) {
-            paging.setNowPage(1);
+        if (cPage == null) {
+            page.setNowPage(1);
         } else {
-            try {
-                paging.setNowPage(Integer.parseInt(cPage));
-            } catch (NumberFormatException e) {
-                paging.setNowPage(1);
-            }
+            int nowPage = Integer.parseInt(cPage);
+            page.setNowPage(nowPage);
         }
 
-        int begin = (paging.getNowPage() - 1) * paging.getNumPerPage();
-        if (begin < 0) begin = 0; // 음수 방지
+        // DB에서 사용자 정보를 가져온다.
+        UserVO[] userArray = AdminDAO.getUsersByPage(
+                searchType, searchKeyword, userJoinMonth, userStatus, userGrade,
+                page.getBegin(), page.getEnd()
+        );
 
-        List<UserVO> users = AdminDAO.getUsersByPage(begin, paging.getNumPerPage(), searchType, searchKeyword, userType);
+        // request에 필요한 데이터 저장
+        request.setAttribute("totalCount", totalCount);
+        request.setAttribute("userArray", userArray);
+        request.setAttribute("page", page);
+        request.setAttribute("cPage", cPage);
 
-
-        request.setAttribute("users", users);
-        request.setAttribute("paging", paging);
-        request.setAttribute("searchType", searchType);
-        request.setAttribute("searchKeyword", searchKeyword);
-        request.setAttribute("userType", userType);
-
-//        return "/jsp/admin/userList.jsp?type=userlist";
+        // JSP 페이지 경로 반환
         return "/jsp/admin/userInfo/userList.jsp";
     }
 }

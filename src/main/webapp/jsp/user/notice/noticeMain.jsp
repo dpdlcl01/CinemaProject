@@ -129,6 +129,7 @@
         }
 
 
+        /* 페이지네이션 */
         .pagination {
             clear: both;
             position: relative;
@@ -149,7 +150,7 @@
             position: relative;
             min-width: 32px;
             height: 32px;
-            margin: 0;
+            margin: 0 2px;
             padding: 0 8px;
             border: 1px solid #ebebeb;
             text-decoration: none;
@@ -160,22 +161,27 @@
             border-radius: 4px;
         }
 
+        .pagination .control.first {
+            background-position: 0 0;
+        }
+
+        .pagination .control.prev {
+            background-position: -32px 0;
+        }
+
         .pagination .control.next {
-            margin-left: 5px;
             background-position: -64px 0;
+        }
+
+        .pagination .control.last {
+            background-position: -96px 0;
         }
 
         .pagination .control {
             overflow: hidden;
             width: 32px;
             height: 32px;
-            background: url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-paging.png) no-repeat 0 0;
-        }
-
-        .event-thumbnail img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
+            background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
         }
     </style>
 </head>
@@ -268,46 +274,44 @@
                 <c:set var="pvo" value="${requestScope.page}" />
 
                 <!-- << (맨 처음으로) -->
-                <c:if test="${pvo.nowPage > 1 && pvo.totalPage > 10}">
+                <c:if test="${pvo.startPage > 1}">
                     <a href="UserController?type=board&cPage=1&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
-                       class="control first" title="처음 페이지">&laquo;</a>
+                       class="control first" title="처음 페이지"></a>
                 </c:if>
 
                 <!-- < (이전 페이지 블록) -->
                 <c:if test="${pvo.startPage > 1}">
                     <a href="UserController?type=board&cPage=${pvo.startPage - pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
-                       class="control prev" title="이전 블록">&lt;</a>
+                       class="control prev" title="이전 블록"></a>
                 </c:if>
 
                 <!-- 페이지 번호 -->
                 <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="st">
-                    <c:if test="${st.index eq pvo.nowPage}">
-                        <strong class="active">${st.index}</strong>
-                    </c:if>
-                    <c:if test="${st.index ne pvo.nowPage}">
-                        <a href="UserController?type=board&cPage=${st.index}
-                                <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
-                                <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
-                                <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>" title="${st.index}페이지 보기">
-                        ${st.index}
-                        </a>
-
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${st.index eq pvo.nowPage}">
+                            <strong class="active">${st.index}</strong>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="UserController?type=board&cPage=${st.index}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
+                               title="${st.index}페이지 보기">${st.index}</a>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
 
                 <!-- > (다음 페이지 블록) -->
                 <c:if test="${pvo.endPage < pvo.totalPage}">
                     <a href="UserController?type=board&cPage=${pvo.startPage + pvo.pagePerBlock}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
-                       class="control next" title="다음 블록">&gt;</a>
+                       class="control next" title="다음 블록"></a>
                 </c:if>
 
                 <!-- >> (맨 마지막으로) -->
-                <c:if test="${pvo.nowPage < pvo.totalPage && pvo.totalPage > 10}">
+                <c:if test="${pvo.endPage < pvo.totalPage}">
                     <a href="UserController?type=board&cPage=${pvo.totalPage}&keyword=${param.keyword}&region=${param.region}&theater=${param.theater}"
-                       class="control last" title="마지막 페이지">&raquo;</a>
+                       class="control last" title="마지막 페이지"></a>
                 </c:if>
             </c:if>
         </nav>
+
 
     </div>
 </div>

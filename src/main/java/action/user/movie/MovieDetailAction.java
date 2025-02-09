@@ -4,11 +4,15 @@ import action.Action;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.dao.MovieDAO;
+import mybatis.dao.MyMovieStoryDAO;
 import mybatis.dao.ReviewDAO;
 import mybatis.service.TmdbService;
+import mybatis.vo.FavoritemovieVO;
 import mybatis.vo.MovieVO;
 import mybatis.vo.ReviewVO;
+import mybatis.vo.UserVO;
 import util.Paging;
+import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +32,7 @@ public class MovieDetailAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
 
         // movieIdx 파라미터 받기
         String movieIdx = request.getParameter("movieIdx");

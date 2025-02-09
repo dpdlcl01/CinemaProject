@@ -29,11 +29,8 @@ public class MovieLikesAction implements Action {
         String userIdx = uservo.getUserIdx();
         String movieIdx = request.getParameter("movieIdx");
 
-        System.out.println("userIdx"+userIdx);
-
-
         // 이미 찜한 영화인지 확인
-        boolean isFavorite = FavoriteMovieDAO.isFavorite(userIdx, movieIdx);
+        boolean isFavorite = FavoriteMovieDAO.isFavorite(movieIdx, userIdx);
 
         String message;
         if (isFavorite) {
@@ -56,7 +53,6 @@ public class MovieLikesAction implements Action {
                 ", \"newLikeCount\": " + newLikeCount +
                 ", \"movieIdx\": \"" + movieIdx + "\"" +
                 ", \"message\": \"" + message + "\"}");
-
 
         return null; // 비동기 요청이므로 JSP로 포워딩하지 않음
     }

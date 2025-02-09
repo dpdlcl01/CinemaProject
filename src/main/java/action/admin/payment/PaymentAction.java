@@ -4,6 +4,7 @@ import action.Action;
 import mybatis.dao.PaymentDAO;
 import mybatis.vo.AdminVO;
 import mybatis.vo.PaymentVO;
+import util.Paging;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,26 +22,49 @@ public class PaymentAction implements Action {
             return "AdminController?type=admin";
         }
 
-        // 현재 페이지 (cPage 파라미터가 없으면 기본값 1)
-        int cPage = 1;
-        String pageParam = request.getParameter("cPage");
-        if (pageParam != null) {
-            cPage = Integer.parseInt(pageParam);
+        // 페이징 객체 생성
+        Paging page = new Paging(20, 10);
+
+        // 검색 조건 파라미터 수집
+        String searchType = request.getParameter("searchType");  // 검색 대상 (사용자 ID, 거래 ID, 예매 ID, 상품 ID 등)
+        String searchValue = request.getParameter("searchValue");  // 검색어
+        String paymentMonth = request.getParameter("paymentMonth");  // 결제 월
+        String paymentStatus = request.getParameter("paymentStatus");  // 결제 상태
+        String paymentType = request.getParameter("paymentType");  // 결제 종류
+
+        // 총 결제 내역 수 가져오기
+        int totalCount = PaymentDAO.countPayments(searchType, searchValue, paymentMonth, paymentStatus, paymentType);
+
+        // 페이징 객체안에 총 게시물의 수를 저장하면서 전체페이지 수를 구한다.
+        page.setTotalRecord(totalCount);// 이때 전체페이지수(totalPage)가 구해진다.
+
+        // 현재페이지 값을 파라미터로 받아보자!
+        String cPage = request.getParameter("cPage");
+
+        if (cPage == null)
+            page.setNowPage(1);
+        else {
+            int nowPage = Integer.parseInt(cPage);// "2" --> 2
+            page.setNowPage(nowPage);// 이때 !!!!
+            // 게시물을 추출할 때 사용되는 begin과 end가 구해지고,
+            // 더불어 시작페이지와 끝페이지 값도 구해진다.
         }
 
-        int numPerPage = 10; // 한 페이지당 10개씩 출력
+        // LIMIT에 사용할 값을 명시적으로 설정
+        int begin = (page.getNowPage() - 1) * page.getNumPerPage();  // 0부터 시작
+        int limit = page.getNumPerPage();                            // 페이지 크기
 
-        // 전체 데이터 개수 가져오기
-        int totalData = PaymentDAO.getTotalPaymentCount();
-        int totalPage = (int) Math.ceil((double) totalData / numPerPage); // 총 페이지 수 계산
+        // 결제 내역 리스트 가져오기
+        PaymentVO[] paymentArray = PaymentDAO.getPaymentList(
+                searchType, searchValue, paymentMonth, paymentStatus, paymentType,
+                begin, limit
+        );
 
-        // 현재 페이지에 해당하는 데이터 가져오기
-        List<PaymentVO> paymentList = PaymentDAO.getPaymentListByPage(cPage, numPerPage);
-
-        // JSP로 데이터 전달
-        request.setAttribute("ar", paymentList);
+        // 결과 데이터를 request에 저장
+        request.setAttribute("totalCount", totalCount);
+        request.setAttribute("paymentArray", paymentArray);
+        request.setAttribute("page", page);
         request.setAttribute("cPage", cPage);
-        request.setAttribute("totalPage", totalPage);
 
         return "/jsp/admin/payment/paymentList.jsp";
     }

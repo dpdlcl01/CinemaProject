@@ -111,60 +111,97 @@
     <select id="adminMovieCount" resultType="int" parameterType="java.util.Map">
         SELECT COUNT(*)
         FROM movie
-        <if test="searchType != null and searchType >= 0">
-            <trim prefix="WHERE">
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="searchType != null and searchType != 'all' and searchValue != null and searchValue != ''">
                 <choose>
-                    <when test="searchType == 0">
+                    <when test="searchType == 'title'">
                         movieTitle LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 1">
+                    <when test="searchType == 'genre'">
                         movieGenre LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 2">
+                    <when test="searchType == 'director'">
                         movieDirector LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 3">
+                    <when test="searchType == 'actor'">
                         movieActors LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 4">
-                        movieInfo LIKE CONCAT('%', #{searchValue}, '%')
+                    <when test="searchType == 'nation'">
+                        movieNation LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
                 </choose>
-            </trim>
-        </if>
+            </if>
+
+            <!-- 개봉월 검색 조건 -->
+            <if test="searchMonth != null and searchMonth != ''">
+                AND DATE_FORMAT(movieDate, '%Y-%m') = #{searchMonth}
+            </if>
+
+            <!-- 영화 상태 검색 조건 -->
+            <if test="movieStatus != null and movieStatus != ''">
+                AND movieStatus = #{movieStatus}
+            </if>
+
+            <!-- 관람 등급 검색 조건 -->
+            <if test="movieGrade != null and movieGrade != ''">
+                AND movieGrade = #{movieGrade}
+            </if>
+        </trim>
     </select>
+
 
 
     <!--  관리자 화면의 영화 목록 표현 (동적 쿼리) -->
     <select id="adminMovieList" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
-        SELECT * FROM(
-        SELECT @RN:=@RN+1 AS rnum, a.* FROM(
-        SELECT * FROM movie
-        <if test="searchType != null and searchType >= 0">
-            <trim prefix="WHERE">
+        SELECT * FROM (
+        SELECT @RN:=@RN+1 AS rnum, a.*
+        FROM (
+        SELECT *
+        FROM movie
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 대상 조건 처리 -->
+            <if test="searchType != null and searchType != 'all' and searchValue != null and searchValue != ''">
                 <choose>
-                    <when test="searchType == 0">
+                    <when test="searchType == 'title'">
                         movieTitle LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 1">
+                    <when test="searchType == 'genre'">
                         movieGenre LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 2">
+                    <when test="searchType == 'director'">
                         movieDirector LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 3">
+                    <when test="searchType == 'actor'">
                         movieActors LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
-                    <when test="searchType == 4">
-                        movieInfo LIKE CONCAT('%', #{searchValue}, '%')
+                    <when test="searchType == 'nation'">
+                        movieNation LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
                 </choose>
-            </trim>
-        </if>
+            </if>
+
+            <!-- 개봉월 검색 조건 -->
+            <if test="searchMonth != null and searchMonth != ''">
+                AND DATE_FORMAT(movieDate, '%Y-%m') = #{searchMonth}
+            </if>
+
+            <!-- 영화 상태 검색 조건 -->
+            <if test="movieStatus != null and movieStatus != ''">
+                AND movieStatus = #{movieStatus}
+            </if>
+
+            <!-- 관람 등급 검색 조건 -->
+            <if test="movieGrade != null and movieGrade != ''">
+                AND movieGrade = #{movieGrade}
+            </if>
+        </trim>
+
         ORDER BY movieReservationRate DESC
         ) a, (SELECT @RN:=0) b
-        ) c WHERE c.rnum BETWEEN #{begin} AND #{end}
+        ) c
+        WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
+
 
 
     <!-- 관리자 영화 상세 정보 수정 -->
