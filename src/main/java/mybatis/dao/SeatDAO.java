@@ -10,6 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 public class SeatDAO {
+    public static int delSeat(String seatIdx) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int result = ss.delete("seat.delSeat", seatIdx);
+        if(result > 0) {
+            ss.commit();
+        }else {
+
+            ss.rollback();
+        }
+        ss.close();
+        return result;
+
+    }
 
     // 특정 상영관의 사용 가능한 좌석 목록 조회
     public static SeatVO[] getAllSeats(String screenIdx, String timetableIdx) {

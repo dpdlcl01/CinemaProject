@@ -4,6 +4,16 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 
+    <update id="updateProductStock" parameterType="map">
+        UPDATE cinema_db.product
+        SET productStock = productStock - #{quant},
+        productStatus = CASE
+        WHEN productStock - #{quant} &lt;= 0 THEN 1
+        ELSE productStatus
+        END
+        WHERE productIdx = #{pIdx}
+    </update>
+
     <select id="total" resultType="mybatis.vo.ProductVO">
         select *
         from product
@@ -17,7 +27,7 @@
 
     <select id="selectCart" parameterType="String" resultType="mybatis.vo.CartVO">
         SELECT
-        p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,
+        p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,p.productCategory,
         SUM(c.quantity) AS total_quant
         FROM cart c INNER JOIN product p ON c.productIdx = p.productIdx
         WHERE c.userIdx = #{idx}

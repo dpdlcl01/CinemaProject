@@ -24,4 +24,10 @@
     <select id="getUserById" parameterType="String" resultType="mybatis.vo.UserVO">
         SELECT * FROM user WHERE userId = #{userId}
     </select>
+
+    <update id="updatePoint" parameterType="map">
+        UPDATE user
+        SET userPoint = userPoint + #{point}
+        WHERE userIdx = #{userIdx}
+    </update>
 </mapper>

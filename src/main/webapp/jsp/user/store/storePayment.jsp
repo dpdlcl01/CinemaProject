@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: ham
@@ -58,8 +59,9 @@
     display: none;
   }
   .address{
-    width: 400px;
+    width: 650px;
   }
+
 </style>
 <body>
 <!-- header 영역 -->
@@ -104,10 +106,16 @@
           <div class="discount-coupons">
             <div class="coupon-title">
               <span id="cupon">할인/쿠폰</span>
+
               <select id="couponDropdown" class="coupon-dropdown">
-                <%--                                <option value="">사용 가능한 쿠폰 선택</option>--%>
-                <option>사용 가능한 쿠폰 선택</option>
+                <option value="" data-discount="r">사용 가능한 쿠폰 선택</option>
+                <c:forEach items="${requestScope.couponVO}" var="couponVO">
+                  <option value="${couponVO.couponIdx}" data-discount="${couponVO.couponValue}">
+                      ${couponVO.couponName}
+                  </option>
+                </c:forEach>
               </select>
+
             </div>
           </div>
           <div class="discount-points">
@@ -115,7 +123,7 @@
               <h2>포인트 사용</h2>
               <div class="points-have">
                 <span>보유</span>
-                <span class="points">9,330원</span>
+                <span class="points">${requestScope.userPoint}원</span>
               </div>
             </div>
             <div class="points-input-area">
@@ -127,16 +135,19 @@
         </div>
         <div class="payment-choose-container">
           <div class="payment-check">
-            <h2>배송지입력</h2><%--이부분에 배송지--%>
-            <br>
-            <br>
+
             <div class="payment-btn">
+              <c:if test="${requestScope.category eq '굿즈'}">
+                <h2>배송지입력</h2><%--이부분에 배송지--%>
+                <br>
+                <br>
               <label for="address">주소입력</label>
-              <input type="text" id="address" class="address">
+              <input type="text" id="address" class="address" placeholder ="서울시 강남구 테헤란로 132">
               <br>
               <br>
               <label for="addressDetails">상세주소</label>
-              <input type="text" id="addressDetails" class="address">
+              <input type="text" id="addressDetails" class="address" placeholder ="한독빌딩 8층 쌍용교육센터">
+              </c:if>
             </div>
             <%--  카드 결제 영역  --%>
             <div class="payment-card" id="payment-card">
@@ -150,7 +161,7 @@
             <%--  간편결제 영역  --%>
             <div class="payment-simple" id="payment-simple" style="display: none;">
               <label>간편결제 선택</label>
-              <div class="payment-simple-radio">
+       <%--       <div class="payment-simple-radio">
                 <input type="radio" id="toss" name="simple-payment" value="toss" class="simple-payment">
                 <label for="toss" class="simple-payment-label">토스페이</label>
                 <input type="radio" id="naver" name="simple-payment" value="naver" class="simple-payment">
@@ -161,7 +172,7 @@
                 <label for="payco" class="simple-payment-label">페이코</label>
                 <input type="radio" id="kbpay" name="simple-payment" value="kbpay" class="simple-payment">
                 <label for="kbpay" class="simple-payment-label">KB PAY</label>
-              </div>
+              </div>--%>
             </div>
 
           </div>
@@ -175,7 +186,7 @@
             <div class="amount-box">
               <div class="payment-row">
                 <p class="payment-label">금액</p>
-                <p class="payment-label">${requestScope.price}</p>
+                <p class="payment-label">${requestScope.price}원</p>
               </div>
             </div>
             <div class="payment-divider">
@@ -183,11 +194,11 @@
             </div>
             <div class="discount-box">
               <p class="payment-label">할인적용</p>
-              <p class="payment-value">0 원</p>
+              <p class="payment-value" id="discountAmount">0 원</p>
             </div>
             <div class="payment-row final-amount">
               <p class="payment-label">최종결제금액</p>
-              <p class="payment-value final">${requestScope.price}원</p>
+              <p class="payment-value final" id="finalPrice">${requestScope.price}원</p>
             </div>
             <div class="payment-row payment-used">
               <p class="payment-label">결제수단</p>
@@ -209,6 +220,152 @@
 <div id="productImg" class="hidden">${requestScope.img}</div>
 <!-- script 영역 -->
 <script>
+  let totalDiscount=0;
+  let enteredPoints=0;
+  let couponDiscount = 0; // 쿠폰 할인 금액
+  let couponIdx=0;
+  let originalPrice = parseInt("${requestScope.price}", 10);
+  let ordername=document.getElementsByClassName("movie-title")[0].innerText;
+  document.addEventListener("DOMContentLoaded", function () {
+    const pointsInput = document.getElementById("points-input"); // 포인트 입력 필드
+    const discountAmountEl = document.getElementById("discountAmount"); // 할인 금액 표시 요소
+    const finalPriceEl = document.getElementById("finalPrice"); // 최종 결제 금액 표시 요소
+    const userPoint = parseInt("${requestScope.userPoint}", 10); // 사용자가 보유한 포인트
+
+
+
+
+    // 쿠폰 선택 시 할인 적용
+
+    document.getElementById("couponDropdown").addEventListener("change", function() {
+      var selectedOption = this.options[this.selectedIndex];
+      let discount = parseInt(selectedOption.getAttribute("data-discount")) || 0;
+      let finalPrice;
+      couponIdx = parseInt(selectedOption.value) || 0;
+
+      // 첫 번째 옵션(기본 선택)인지 확인
+      if (selectedOption.value === "") {
+        couponIdx=0;
+        couponDiscount = 0;
+        pointsInput.disabled = false; // 포인트 입력 다시 활성화
+        document.getElementById("discountAmount").innerText = "0 원";
+        document.getElementById("finalPrice").innerText = originalPrice + " 원";
+        updateFinalPrice();
+        return;
+      }
+
+      // 기본적으로 포인트 입력 가능하도록 설정
+      pointsInput.disabled = false;
+
+      // 할인 값이 0이거나 빈 값이면 전체 금액 할인 적용
+      if (discount === 0) {
+        discount = originalPrice;
+        couponDiscount = discount; // 쿠폰 할인 값 저장
+        pointsInput.disabled = true; // 포인트 입력 비활성화
+      } else {
+        couponDiscount = discount; // 선택된 쿠폰 할인 값 저장
+      }
+
+      // 할인 적용 금액 업데이트
+      document.getElementById("discountAmount").innerText = discount + " 원";
+
+      // 최종 결제 금액 업데이트
+      finalPrice = originalPrice - discount;
+      document.getElementById("finalPrice").innerText = finalPrice + " 원";
+
+      // 결제 금액 및 할인 금액 최종 업데이트
+      updateFinalPrice();
+    });
+
+
+
+    // 포인트 입력 시 실시간 업데이트
+    pointsInput.addEventListener("input", function () {
+      enteredPoints = parseInt(pointsInput.value, 10) || 0;
+
+      // 사용자가 보유한 포인트보다 많이 입력하면 보유 포인트 한도로 조정
+      if (enteredPoints > userPoint) {
+        enteredPoints = userPoint;
+      }
+
+      // 입력된 포인트가 상품 금액을 초과하면 상품 금액으로 제한
+      if (enteredPoints > originalPrice) {
+        enteredPoints = originalPrice;
+      }
+
+      // 총 할인 금액 계산 (쿠폰 할인 + 포인트 사용)
+      totalDiscount = couponDiscount + enteredPoints;
+
+      //  총 할인 금액이 상품 가격을 초과하면 조정
+      if (totalDiscount > originalPrice) {
+        totalDiscount = originalPrice;
+
+        // 포인트 사용 금액을 조정하여 총 할인 금액이 초과되지 않도록 설정
+        enteredPoints = originalPrice - couponDiscount;
+        if (enteredPoints < 0) enteredPoints = 0; // 음수가 되지 않도록 보장
+      }
+
+      // 조정된 값을 다시 입력 필드에 반영
+      pointsInput.value = enteredPoints;
+
+      // 할인 금액 업데이트
+      discountAmountEl.innerText = totalDiscount + " 원";
+
+      // 최종 결제 금액 업데이트 (음수가 되지 않도록 최소값 0 설정)
+      let finalPrice = Math.max(originalPrice - totalDiscount, 0);
+      finalPriceEl.innerText = finalPrice + " 원";
+      totalPrice = finalPrice;
+    });
+
+
+    // 최종 결제 금액 업데이트 함수
+    function updateFinalPrice() {
+      let enteredPoints = parseInt(pointsInput.value, 10) || 0;
+      totalDiscount = couponDiscount + enteredPoints;
+      discountAmountEl.innerText = totalDiscount + " 원";
+      let finalPrice = Math.max(originalPrice - totalDiscount, 0);
+      finalPriceEl.innerText = finalPrice + " 원";
+      totalPrice=finalPrice;
+    }
+  });
+
+
+  // pIdx 값을 가져오기 (JSP에서 requestScope 값을 JavaScript로 전달)
+  var pIdx = ${requestScope.pIdx};
+
+  // select 요소 가져오기
+  var dropdown = document.getElementById("couponDropdown");
+
+  // 특정 pIdx 값일 때만 couponIdx가 5인 옵션만 활성화
+  // 모든 쿠폰을 기본적으로 비활성화
+  for (var i = 0; i < dropdown.options.length; i++) {
+    var option = dropdown.options[i];
+    if (option.value && !isNaN(option.value)) {
+      option.disabled = true; // 기본적으로 비활성화
+    }
+  }
+
+  // 특정 pIdx 값일 때만 해당 쿠폰 활성화
+  for (var i = 0; i < dropdown.options.length; i++) {
+    var option = dropdown.options[i];
+
+    if (option.value && !isNaN(option.value)) {
+      var optionValue = parseInt(option.value);
+
+      if ((pIdx == 11 || pIdx == 12) && optionValue === 6) {
+        option.disabled = false; // 활성화
+      }
+      if ((pIdx == 16 || pIdx == 17) && optionValue === 5) {
+        option.disabled = false; // 활성화
+      }
+      if ((pIdx == 13 || pIdx == 14) && optionValue === 7) {
+        option.disabled = false; // 활성화
+      }
+    }
+  }
+
+
+
   const tossPayments = TossPayments("test_ck_24xLea5zVARRXDQbeYRYrQAMYNwW");
   let quant =document.getElementById("productQuant").innerHTML.trim();
   let firstChar = quant.charAt(0);
@@ -217,10 +374,27 @@
 
   let totalPrice = parseInt(document.getElementsByClassName("payment-value final")[0].innerText.trim(), 10);
 
-
   function requestPayment() {
 
-    let successUrl ="/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar;
+
+    let successUrl ="/CinemaProject_war/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&totalDiscount="+totalDiscount
+            +"&enteredPoints="+enteredPoints
+            +"&couponDiscount="+couponDiscount
+            +"&couponIdx="+couponIdx;
+
+    if(totalPrice===0){
+      location.href=window.location.origin + "/CinemaProject_war/UserController?type=success0&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&enteredPoints="+enteredPoints
+              +"&couponDiscount="+couponDiscount
+              +"&couponIdx="+couponIdx
+              +"&totalDiscount="+totalDiscount
+              +"&amount="+originalPrice
+              +"&ordername="+ordername;
+
+              return ;
+
+    }
+
+
     console.log(image);
     tossPayments.requestPayment('카드', { // 결제 수단 (예: 카드, 계좌이체 등)
       amount: totalPrice, // 결제 금액 (예: 5000원)

@@ -10,6 +10,18 @@ import java.util.Map;
 
 public class UserDAO {
 
+    public static int updatePoint(String userIdx, String point) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        HashMap<String,String> map = new HashMap<>();
+        map.put("userIdx", userIdx);
+        map.put("point", point);
+
+        int result = ss.update("user.updatePoint", map);
+        ss.commit();
+        ss.close();
+        return result;
+    }
+
     public static boolean checkPassword(String userId, String userPassword) {
         SqlSession ss = FactoryService.getFactory().openSession();
 

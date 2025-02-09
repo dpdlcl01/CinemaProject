@@ -3,6 +3,36 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="point">
+
+    <select id="selectPoint" parameterType="String" resultType="int">
+        SELECT p.pointValue
+        FROM point p
+        JOIN payment pay ON p.paymentIdx = pay.paymentIdx
+        WHERE pay.reservationIdx = #{reservationIdx}
+    </select>
+
+
+    <update id="deletePoint" parameterType="String">
+        UPDATE point p
+        JOIN payment pay ON p.paymentIdx = pay.paymentIdx
+        SET p.pointStatus = 1
+        WHERE pay.reservationIdx = #{reservationIdx}
+    </update>
+
+
+    <insert id="insertPoint" parameterType="map">
+        insert into point(userIdx, paymentIdx, pointType, pointSource, pointValue, pointDate, pointStatus)
+        values(#{userIdx}, #{paymentIdx}, 0, 'STORE', #{pointSource}, now(), '0');
+    </insert>
+
+
+    <update id="updatePoint" parameterType="map">
+        UPDATE user
+        SET userPoint = userPoint - #{point} + #{addpoint}
+        WHERE userIdx = #{userIdx}
+    </update>
+
+
     <!--  사용자 포인트 조회  -->
     <select id="userPoint" parameterType="map" resultType="mybatis.vo.PointVO">
         SELECT pointIdx, userIdx, pointType,

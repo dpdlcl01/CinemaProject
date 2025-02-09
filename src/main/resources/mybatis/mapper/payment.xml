@@ -24,17 +24,18 @@
         WHERE u.userId = #{userName};
     </select>
 
-    <insert id="insertPayment" parameterType="mybatis.vo.PaymentVO">
+    <insert id="insertPayment" parameterType="mybatis.vo.PaymentVO" useGeneratedKeys="true" keyProperty="paymentIdx">
         INSERT INTO payment (
-        userIdx, paymentType,productIdx,paymentQuantiy, paymentMethod,
+        userIdx, paymentType, productIdx, paymentQuantiy, paymentMethod,
         paymentTotal, paymentDiscount, paymentFinal, paymentTransactionId,
         paymentDate, paymentStatus
         ) VALUES (
-        #{userIdx}, #{paymentType},#{productIdx},#{paymentQuantiy}, #{paymentMethod},
-        #{paymentTotal}, #{paymentDiscount},#{paymentFinal}, #{paymentTransactionId},
+        #{userIdx}, #{paymentType}, #{productIdx}, #{paymentQuantiy}, #{paymentMethod},
+        #{paymentTotal}, #{paymentDiscount}, #{paymentFinal}, #{paymentTransactionId},
         NOW(), #{paymentStatus}
         )
     </insert>
+
     <select id="totalSelect" resultType="mybatis.vo.PaymentVO">
         SELECT p.*, r.productName
         FROM payment p

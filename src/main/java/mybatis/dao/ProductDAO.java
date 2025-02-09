@@ -5,9 +5,28 @@ import mybatis.vo.LogVO;
 import mybatis.vo.ProductVO;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductDAO {
+
+
+    public static int updateProductStock(String pIdx, String quant){
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        map.put("quant", Integer.parseInt(quant));
+        map.put("pIdx", Integer.parseInt(pIdx));
+      int cnt=ss.update("product.updateProductStock",map);
+      if(cnt>0){
+          ss.commit();
+      }else {
+          ss.rollback();
+      }
+      ss.close();
+      return cnt;
+    }
 
      public static ProductVO[] gettotal(){
         SqlSession ss = FactoryService.getFactory().openSession();

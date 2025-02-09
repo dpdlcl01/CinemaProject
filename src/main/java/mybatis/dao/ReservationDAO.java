@@ -13,6 +13,20 @@ import java.util.Map;
 
 public class ReservationDAO {
 
+    public static int cancelReservation(String ridx){
+        SqlSession ss =FactoryService.getFactory().openSession();
+        int cnt = ss.update("reservation.cancelReservation", ridx);
+        if(cnt>0){
+            ss.commit();
+
+        }else {
+            ss.rollback();
+        }
+        ss.close();
+
+        return cnt;
+    }
+
     public static int updateReservation(String ridx){
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt =ss.update("reservation.updateReservation", ridx);

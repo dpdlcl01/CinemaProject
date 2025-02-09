@@ -1,8 +1,12 @@
 package action.user.store;
 
 import action.Action;
+import mybatis.dao.CouponDAO;
 import mybatis.dao.PaymentDAO;
+import mybatis.dao.PointDAO;
+import mybatis.dao.ProductDAO;
 import mybatis.vo.PaymentVO;
+import mybatis.vo.PointVO;
 import mybatis.vo.UserVO;
 import org.json.JSONObject;
 
@@ -29,23 +33,37 @@ public class SuccessAction implements Action {
         String orderId = request.getParameter("orderId");
         String amount = request.getParameter("amount"); // JSP에서 금액을 전달받아야 함
         String pIdx = request.getParameter("pIdx");
+        String totalDiscount = request.getParameter("totalDiscount"); /*총 할인값*/
+        String couponDiscount = request.getParameter("couponDiscount"); /*쿠폰할인값*/
+        String enteredPoints = request.getParameter("enteredPoints"); /*포인트 할인값*/
+        String couponIdx =request.getParameter("couponIdx");
+
         /*요청객체로 넘어온 이미지 이름 퀀트를 받아내자*/
         String quant = request.getParameter("quant");
-
         String img = request.getParameter("image");
-        System.out.println("pIdx:"+pIdx);
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
-        /*다시 db가서 이미지 받아오기 */
+
+
+        UserVO uservo = SessionUtil.getLoginUser(request);
+        String userIdx = uservo.getUserIdx();
+
+    /*   결제를 하고 난 뒤 퀀트의 수만큼 숫자를 줄이자
+         프로덕트DAO안에서 quant와 pIdx를 가지고 퀀트만큼 숫자 줄이기 1번
+         만약 남은 productStock이 0이되면 productStatus가 1이 되는 로직을 짜자*/
+        int updateCnt=ProductDAO.updateProductStock(pIdx,quant);
+
+
+       /*  결제를 할 때 할인금액을 적고 쿠폰을 사용하면 해당 idx에서 쿠폰을 사용완료 상태로 변경하자
+        */
+        if(!couponIdx.equals("0")){
+            int updateCoupon= CouponDAO.updateCoupon(userIdx,couponIdx);
+        }
 
 
 
+        System.out.println("totalDiscount"+totalDiscount);
+        System.out.println("couponDiscount"+couponDiscount);
+        System.out.println("enteredPoints"+enteredPoints);
+        System.out.println("couponIdx"+couponIdx);
 
 
         if (paymentKey == null || orderId == null || amount == null) {
@@ -74,8 +92,7 @@ public class SuccessAction implements Action {
         }
 
         PaymentVO pvo = new PaymentVO();
-        UserVO uservo = SessionUtil.getLoginUser(request);
-        String userIdx = uservo.getUserIdx();
+
         String paymentType;
         if (pIdx != null && !pIdx.trim().isEmpty()) {
             paymentType = "2";
@@ -86,29 +103,34 @@ public class SuccessAction implements Action {
 
 
 
+        /* 포인트 테이블에서 유저가 사용한 만큼 포인트를 줄이자.*/
+        /*결제 시 포인트 추가하는 로직도 필요합니다*/
 
+        int updatePoint = PointDAO.updatePoint(userIdx, Integer.parseInt(enteredPoints),confirmResponse.getInt("totalAmount"));
 
 
         pvo.setPaymentQuantiy(quant);
         pvo.setProductIdx(pIdx);
         pvo.setUserIdx(userIdx);
         pvo.setPaymentType(paymentType);
-        pvo.setPaymentTotal(String.valueOf(confirmResponse.getInt("totalAmount")));
+        pvo.setPaymentTotal(String.valueOf(confirmResponse.getInt("totalAmount")+Integer.parseInt(totalDiscount)));
+        pvo.setPaymentDiscount(totalDiscount);
         pvo.setPaymentFinal(String.valueOf(confirmResponse.getInt("totalAmount")));
         pvo.setPaymentTransactionId(confirmResponse.getString("orderId"));
         pvo.setPaymentMethod(confirmResponse.getString("method"));
         pvo.setPaymentStatus(pstatus);/*던일때 받아서 바꾸기 */
         /*pvo.setPaymentStatus(confirmResponse.getString("status"));*/
+/// ////////////////////////////////////////////////
+        int cnt=PaymentDAO.insertPayment(pvo,confirmResponse.getInt("totalAmount"),Integer.parseInt(userIdx));
 
-        int cnt=PaymentDAO.insertPayment(pvo);
+        System.out.println("cnt:"+cnt);
+        /// ///////////////////////////////////////
         request.setAttribute("quant", quant);
         request.setAttribute("img", img);
         request.setAttribute("totalAmount", pvo.getPaymentTotal());
         request.setAttribute("orderName", confirmResponse.getString("orderName"));
 
-        /*String paymentDiscount = confirmResponse.getString(""); 할인 생기면 여기서 해결하자*/
 
-        /*여기서ㅏ DAO 호출해서 DB에 저장하자.*/
 
 
         ////////////////////////////////////
