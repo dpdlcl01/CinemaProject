@@ -3,27 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin">
-    <select id="getTheaterList" resultType="hashmap">
-        SELECT t.theaterRegion AS theaterRegion, t.theaterName AS theaterName, s.screenName AS screenName,
-        CASE s.screenType
-        WHEN 1 THEN 'COMFORT'
-        WHEN 2 THEN 'VIP'
-        WHEN 3 THEN 'DOLBY'
-        WHEN 4 THEN '4DX'
-        WHEN 5 THEN 'IMAX'
-        END AS screenType,
-        m.movieTitle AS movieTitle,
-        DATE(tt.timetableStartTime) AS date,
-        TIME(tt.timetableStartTime) AS startTime,
-        TIME(tt.timetableEndTime) AS endTime,
-        s.screenSeatCount AS totalSeats
-        FROM theater t
-        JOIN screen s ON t.theaterIdx = s.theaterIdx
-        JOIN timetable tt ON s.screenIdx = tt.screenIdx
-        JOIN movie m ON tt.movieIdx = m.movieIdx
-        ORDER BY t.theaterRegion, t.theaterName, s.screenName, tt.timetableStartTime
-    </select>
-
     <select id="getUsersByPage" parameterType="map" resultType="mybatis.vo.UserVO">
         SELECT *
         FROM user

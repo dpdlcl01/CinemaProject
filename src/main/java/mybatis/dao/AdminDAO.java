@@ -9,13 +9,4 @@ import java.util.Map;
 
 public class AdminDAO {
 
-    public static List<Map<String,String>> getTheaterList() {
-
-        SqlSession ss = FactoryService.getFactory().openSession();
-
-        List<Map<String,String>> ar = ss.selectList("admin.getTheaterList");
-
-        ss.close();
-        return ar;
-    }
 }

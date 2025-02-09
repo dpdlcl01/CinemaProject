@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/Admission-Ticket.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/admin/theaterManagement/theaterManage.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/admin/theaterManagement" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/MyInfo.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/Reservation.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common/main.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/user/common" />
