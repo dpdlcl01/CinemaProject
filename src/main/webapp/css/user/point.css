@@ -13,7 +13,7 @@
 }
 /* 보유 포인트 상단 */
 .main-content h1 {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-size: 24px;
 }
 .point-section {
@@ -89,6 +89,10 @@
 }
 
 /* 조회 테이블 */
+.board-list-search {
+    display: flex;
+    justify-content: space-between;
+}
 .point-table {
     margin-top: 50px;
 }
@@ -96,10 +100,7 @@
     margin-bottom: 30px;
     font-size: 24px;
 }
-.board-list-search {
-    margin-top: 10px;
-}
-.btn-period .btn {
+.btn-period .btn, #search-form .btn {
     background: #f1f1f1;
     border: none;
     padding: 8px 12px;
@@ -111,21 +112,36 @@
     background: #339eb2;
     color: white;
 }
+/* 날짜 검색 */
+#month {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
 .board-list {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: fixed;
 }
 .board-list th {
     background: #339eb2;
     color: white;
     padding: 10px;
+    text-align: center;
 }
 .board-list td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
+.board-list tbody tr td {
+    table-layout: fixed;
+    white-space: nowrap;
+}
+
 .a-c {
     text-align: center;
     font-size: 14px;
@@ -135,4 +151,10 @@
 .myPoint-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
+}
+
+/* 페이징 */
+.pagination {
+    display: flex;
+    justify-content: center;
 }

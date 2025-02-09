@@ -5,21 +5,67 @@
 <mapper namespace="point">
     <!--  사용자 포인트 조회  -->
     <select id="userPoint" parameterType="map" resultType="mybatis.vo.PointVO">
-        SELECT pointIdx, userIdx, pointType,
-        pointSource, pointValue, pointDate, pointStatus
+        SELECT pointIdx, userIdx, pointType, pointSource, pointValue, pointDate, pointStatus
         FROM point
         WHERE userIdx = #{userIdx}
         ORDER BY pointDate DESC
-        LIMIT #{begin}, #{end}
+        LIMIT #{numPerPage} OFFSET #{startIdx}
     </select>
+
+    <!-- 필터링된 포인트 개수 조회 -->
+    <select id="filteredCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM point
+        WHERE userIdx = #{userIdx}
+        AND pointDate BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <!-- 사용자 포인트 총 개수 조회 -->
+    <select id="userPointCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM point WHERE userIdx = #{userIdx}
+    </select>
+
+    <!-- 전체 포인트 내역 조회 -->
+    <select id="getAllPointList" parameterType="map" resultType="mybatis.vo.PointVO">
+        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus
+        FROM point
+        WHERE userIdx = #{userIdx}
+        ORDER BY pointDate DESC
+    </select>
+
+    <!-- 특정 기간 포인트 조회 (페이징 적용) -->
+    <select id="getPointListByRange" parameterType="map" resultType="mybatis.vo.PointVO">
+        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus
+        FROM point
+        WHERE userIdx = #{userIdx}
+        AND pointDate BETWEEN #{startDate} AND #{endDate}
+        ORDER BY pointDate DESC
+        LIMIT #{numPerPage} OFFSET #{startIdx}
+    </select>
+
+    <!-- 특정 기간 포인트 조회 (페이징 적용X) -->
+    <select id="getPointListByRangeNoPaging" parameterType="map" resultType="mybatis.vo.PointVO">
+        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus
+        FROM point
+        WHERE userIdx = #{userIdx}
+        AND pointDate BETWEEN #{startDate} AND #{endDate}
+        ORDER BY pointDate DESC
+    </select>
+
+    <!--    <select id="getPointListByRange" parameterType="map" resultType="mybatis.vo.PointVO">-->
+<!--        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus-->
+<!--        FROM point-->
+<!--        WHERE userIdx = #{userIdx}-->
+<!--        AND pointDate BETWEEN #{startDate} AND #{endDate}-->
+<!--        ORDER BY pointDate DESC-->
+<!--    </select>-->
 
     <!-- 구매 종류별 포인트 조회 -->
     <select id="userPointBySource" parameterType="string" resultType="mybatis.vo.PointVO">
         SELECT userIdx,
-        SUM(CASE WHEN pointSource = 'PAYMENT' THEN pointValue ELSE 0 END) AS paymentTotal,
-        SUM(CASE WHEN pointSource = 'STORE' THEN pointValue ELSE 0 END) AS storeTotal,
-        SUM(CASE WHEN pointSource = 'REVIEW' THEN pointValue ELSE 0 END) AS reviewTotal,
-        SUM(pointValue) AS totalPoints
+        SUM(CASE WHEN pointSource = 'PAYMENT' AND pointType = 0 THEN pointValue ELSE 0 END) AS paymentTotal,
+        SUM(CASE WHEN pointSource = 'STORE' AND pointType = 0 THEN pointValue ELSE 0 END) AS storeTotal,
+        SUM(CASE WHEN pointSource = 'REVIEW' AND pointType = 0 THEN pointValue ELSE 0 END) AS reviewTotal,
+        SUM(CASE WHEN pointType = 0 THEN pointValue ELSE 0 END) AS totalPoints
         FROM point
         WHERE userIdx = #{userIdx} AND pointStatus = 0
     </select>
@@ -42,15 +88,6 @@
         SELECT SUM(pointValue)
         FROM point
         WHERE userIdx = #{userIdx} AND pointType = 0 AND pointStatus = 0; <!-- 적립된 포인트만 계산 -->
-    </select>
-
-    <!--  기간별 포인트 이용 내역 조회  -->
-    <select id="getPointList" parameterType="map" resultType="mybatis.vo.PointVO">
-        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus
-        FROM point
-        WHERE userIdx = #{userIdx}
-        AND pointDate BETWEEN CONCAT(#{startDate}, ' 00:00:00') AND CONCAT(#{endDate}, ' 23:59:59')
-        ORDER BY pointDate DESC
     </select>
 
 </mapper>
