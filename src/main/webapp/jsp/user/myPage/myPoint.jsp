@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/point.css"/>
 <body>
+<div id="modalOverlay" class="modal-overlay"></div>
 <jsp:include page="../common/header.jsp"/>
 <div class="page-util">
   <div class="inner-wrap">
@@ -67,7 +68,7 @@
 
         <%-- 이용 내역 테이블 --%>
         <div class="point-table">
-          <h1 class="tit mt40">이용내역 조회</h1>
+          <h1 class="tit-mt40">이용내역 조회</h1>
           <div class="board-list-search">
             <div class="btn-period">
               <button type="button" class="btn">1주일</button>
@@ -127,38 +128,107 @@
             </table>
 
             <!-- Pagination -->
-            <c:if test="${page.totalPage > 1}">
-              <nav class="pagination">
-                <c:if test="${page.nowPage > 1}">
-                  <a href="UserController?type=myPoint&cPage=1" class="control first">&laquo;</a>
-                  <a href="UserController?type=myPoint&cPage=${page.nowPage - 1}" class="control prev">&lt;</a>
+            <!-- Pagination -->
+            <nav class="pagination">
+              <c:if test="${requestScope.page ne null}">
+                <c:set var="pvo" value="${requestScope.page}" />
+
+                <!-- << (맨 처음으로) -->
+                <c:if test="${pvo.nowPage > 1}">
+                  <a href="UserController?type=myPoint&cPage=1" class="control first" title="처음 페이지">&laquo;</a>
                 </c:if>
 
-                <c:forEach begin="${page.startPage}" end="${page.endPage}" var="i">
+                <!-- < (이전 페이지) -->
+                <c:if test="${pvo.nowPage > 1}">
+                  <a href="UserController?type=myPoint&cPage=${pvo.nowPage - 1}" class="control prev" title="이전 페이지">&lt;</a>
+                </c:if>
+
+                <!-- 페이지 번호 -->
+                <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" var="i">
                   <c:choose>
-                    <c:when test="${i eq page.nowPage}">
+                    <c:when test="${i eq pvo.nowPage}">
                       <strong class="active">${i}</strong>
                     </c:when>
                     <c:otherwise>
-                      <a href="UserController?type=myPoint&cPage=${i}">${i}</a>
+                      <a href="UserController?type=myPoint&cPage=${i}" title="${i}페이지 보기">${i}</a>
                     </c:otherwise>
                   </c:choose>
                 </c:forEach>
 
-                <c:if test="${page.nowPage < page.totalPage}">
-                  <a href="UserController?type=myPoint&cPage=${page.nowPage + 1}" class="control next">&gt;</a>
-                  <a href="UserController?type=myPoint&cPage=${page.totalPage}" class="control last">&raquo;</a>
+                <!-- > (다음 페이지) -->
+                <c:if test="${pvo.nowPage < pvo.totalPage}">
+                  <a href="UserController?type=myPoint&cPage=${pvo.nowPage + 1}" class="control next" title="다음 페이지">&gt;</a>
                 </c:if>
-              </nav>
-            </c:if>
+
+                <!-- >> (맨 마지막으로) -->
+                <c:if test="${pvo.nowPage < pvo.totalPage}">
+                  <a href="UserController?type=myPoint&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지">&raquo;</a>
+                </c:if>
+              </c:if>
+            </nav>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <jsp:include page="../common/footer.jsp"/>
+<!-- 좌석 선택 초과 알림 모달 -->
+<section class="alert-popup" id="selectMonthModal">
+  <div class="wrap">
+    <header class="layer-header">
+      <h3 class="tit">알림</h3>
+    </header>
+    <div class="layer-con">
+      <p class="txt-common" id="selectMonthMessage">선택 가능한 좌석 수를 초과했습니다.</p>
+      <div class="modal-btn-group">
+        <button type="button" class="modal-btn purple confirm" id="closeSelectMonthModal">확인</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  //좌석 초과 모달 요소 가져오기
+  const selectMonthModal = document.getElementById('selectMonthModal');
+  const closeSelectMonthModal = document.getElementById('closeSelectMonthModal');
+  const modalConfirmButton = selectMonthModal.querySelector('.confirm');
+  const modalOverlay = document.getElementById("modalOverlay"); // 오버레이 요소 가져오기
+
+  // 모달 보이기 / 숨기기 함수
+  function showModal(modal) {
+    modal.style.display = "block";
+    modalOverlay.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideModal(modal) {
+    modal.style.display = "none";
+    modalOverlay.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  // 좌석 초과 모달 보이기 함수
+  function showSelectMonthModal(message) {
+    document.getElementById('selectMonthMessage').textContent = message;
+    showModal(selectMonthModal);
+  }
+
+  // 좌석 선택 초과 모달 닫기 이벤트
+  closeSelectMonthModal.addEventListener("click", () => hideModal(selectMonthModal));
+
+  // 배경 클릭 시 모달 닫기 방지
+  selectMonthModal.addEventListener("click", (event) => {
+    if (event.target === selectMonthModal) {
+      event.stopPropagation();
+    }
+  });
+
+  selectMonthModal.addEventListener("click", (event) => {
+    if (event.target === selectMonthModal) {
+      event.stopPropagation();
+    }
+  });
+</script>
 <script>
   $(document).ready(function () {
     var contextPath = "${pageContext.request.contextPath}";
@@ -167,7 +237,7 @@
     $("#searchButton").click(function () {
       var selectedMonth = $("#month").val(); // YYYY-MM 형식
       if (!selectedMonth) {
-        alert("조회할 월을 선택하세요!");
+        showSelectMonthModal("조회할 월을 선택해주세요!");
         return;
       }
 

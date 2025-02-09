@@ -605,7 +605,7 @@
 
   // 좌석 초과 모달 보이기 함수
   function showSeatLimitModal(message) {
-    document.getElementById('seatLimitModal').textContent = message;
+    document.getElementById('seatLimitMessage').textContent = message;
     showModal(seatLimitModal);
   }
 
