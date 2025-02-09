@@ -429,7 +429,6 @@
                             </div>
                         </div>
 
-
                         <table>
                             <thead>
                             <tr>
@@ -526,7 +525,7 @@
                                         <!-- 극장 고유 ID -->
                                         <div class="field-row">
                                             <label>극장 고유 ID:</label>
-                                            <input type="text" id="theaterIdx" name="theaterIdx" />
+                                            <input type="text" id="theaterIdx" name="theaterIdx" readonly />
                                         </div>
 
                                         <!-- 극장명 -->
@@ -600,244 +599,15 @@
 <%--                                </div>--%>
 <%--                            </form>--%>
 <%--                        </div>--%>
-
-                        <!-- jQuery 및 jQuery UI 추가 -->
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-                        <script>
-                            $(document).ready(function() {
-                                let selectedTheaterIdx = null; // 전역 변수로 설정
-
-                                // 테이블 행 클릭 시 극장 정보 수정 모달 열기
-                                $(".clickable-row").on("click", function() {
-                                    // data 속성 값 읽기
-                                    let theaterIdx = $(this).data("id");
-                                    let theaterName = $(this).data("theatername");
-                                    let theaterRegion = $(this).data("theaterregion");
-                                    let theaterStatus = $(this).data("theaterstatus");
-                                    let screenStatus = $(this).data("screenstatus");
-
-                                    // 전역 변수에 저장
-                                    selectedTheaterIdx = theaterIdx;
-
-                                    // 모달 필드에 값 채우기
-                                    $("#theaterIdx").val(theaterIdx);
-                                    $("#theaterName").val(theaterName);
-                                    $("#theaterRegion").val(theaterRegion);
-                                    $("#theaterStatus").val(theaterStatus);
-                                    $("#screenStatus").val(screenStatus);
-
-                                    // 모달 열기
-                                    $("#theaterModal").dialog("open");
-                                });
-
-                                // jQuery UI 모달 초기화 (극장 수정 모달)
-                                $("#theaterModal").dialog({
-                                    autoOpen: false,
-                                    modal: true,
-                                    resizable: false,
-                                    draggable: false,
-                                    width: 600,
-                                    classes: {
-                                        "ui-dialog": "dialog-common"
-                                    },
-                                    buttons: {
-                                        "저장": function() {
-                                            // 수정 폼 데이터 직렬화 및 AJAX 요청 전송
-                                            let formData = $("#updateTheaterForm").serialize();
-                                            // 업데이트 요청 시 type 파라미터를 updateTheater로 전달
-                                            $.ajax({
-                                                url: "AdminController",
-                                                type: "POST",
-                                                data: formData + "&type=updateTheater",
-                                                dataType: "json",
-                                                headers: {
-                                                    "X-Requested-With": "XMLHttpRequest"
-                                                },
-                                                success: function(response) {
-                                                    if (response.error) {
-                                                        alert("업데이트 실패: " + response.error);
-                                                        return;
-                                                    }
-                                                    alert("극장 정보가 업데이트되었습니다.");
-                                                    $("#theaterModal").dialog("close");
-                                                    location.reload();
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error("AJAX 오류 발생:", error);
-                                                    alert("업데이트에 실패했습니다.");
-                                                }
-                                            });
-                                        },
-                                        "취소": function() {
-                                            $(this).dialog("close");
-                                        }
-                                    }
-                                });
-                            });
-
-                                //     // 사용자 데이터 로드 함수
-                                // function loadUserData(adminIdx) {
-                                //     selectedAdminIdx = adminIdx;
-                                //
-                                //     $.ajax({
-                                //         url: "AdminController",
-                                //         method: "GET",
-                                //         data: {
-                                //             type: "getAdmin",
-                                //             adminIdx: adminIdx
-                                //         },
-                                //         dataType: "json",
-                                //         headers: {
-                                //             "X-Requested-With": "XMLHttpRequest"
-                                //         },
-                                //         success: function(response) {
-                                //             if (response.error) {
-                                //                 alert("오류 발생: " + response.error);
-                                //                 return;
-                                //             }
-                                //
-                                //             // 기본 정보 채우기
-                                //             $("#adminIdx").val(response.adminIdx);
-                                //             $("#adminId").val(response.adminId);
-                                //             $("#adminLevel").val(response.adminLevel);
-                                //             $("#adminStatus").val(response.adminStatus);
-                                //
-                                //             // 변경 가능한 정보 채우기
-                                //             $("[name='adminId']").val(response.adminId);
-                                //             $("[name='adminLevel']").val(response.adminLevel);
-                                //             $("[name='adminStatus']").val(response.adminStatus);
-                                //
-                                //             // 모달 창 열기
-                                //             $("#adminModal").dialog("open");
-                                //         },
-                                //         error: function(xhr, status, error) {
-                                //             console.error("AJAX 오류:", xhr.responseText);
-                                //             alert("사용자 정보를 불러오는 데 실패했습니다.");
-                                //         }
-                                //     });
-                                // }
-
-                                // // jQuery UI 모달 초기화
-                                // $("#adminModal").dialog({
-                                //     autoOpen: false,
-                                //     modal: true,
-                                //     width: 600,
-                                //     classes: {
-                                //         "ui-dialog": "dialog-common"
-                                //     },
-                                //     buttons: {
-                                //         "저장": function() {
-                                //
-                                //             // 폼을 배열로 만들어서 String으로 변환
-                                //             let formDataArray = $("#updateAdminForm").serializeArray();
-                                //             formDataArray.push({ name: "type", value: "updateAdmin" });
-                                //             formDataArray.push({ name: "adminIdx", value: selectedTheaterIdx });
-                                //
-                                //             // .param 사용하여 배열을 String으로
-                                //             let formDataString = $.param(formDataArray);
-                                //
-                                //             $.ajax({
-                                //                 url: "AdminController",
-                                //                 type: "POST",
-                                //                 data: formDataString,
-                                //                 dataType: "json",
-                                //                 headers: {
-                                //                     "X-Requested-With": "XMLHttpRequest"
-                                //                 },
-                                //                 success: function(response) {
-                                //                     if (response.error) {
-                                //                         alert("업데이트 실패: " + response.error);
-                                //                         return;
-                                //                     }
-                                //
-                                //                     alert("사용자 정보가 업데이트되었습니다.");
-                                //                     $("#adminModal").dialog("close");
-                                //                     location.reload();  // 페이지 새로고침
-                                //                 },
-                                //                 error: function(xhr, status, error) {
-                                //                     console.error("AJAX 오류 발생:", error);
-                                //                     alert("업데이트에 실패했습니다.");
-                                //                 }
-                                //             });
-                                //         },
-                                //         "취소": function() {
-                                //             $(this).dialog("close");
-                                //         }
-                                //     }
-                                // });
-                                //
-                                // // jQuery UI 모달 초기화
-                                // $("#adminAddModal").dialog({
-                                //     autoOpen: false,
-                                //     modal: true,
-                                //     width: 600,
-                                //     classes: {
-                                //         "ui-dialog": "dialog-common"
-                                //     },
-                                //     buttons: {
-                                //         "저장": function() {
-                                //
-                                //             // 폼을 배열로 만들어서 String으로 변환
-                                //             let formDataArray = $("#addAdminForm").serializeArray();
-                                //             formDataArray.push({ name: "type", value: "addAdmin" });
-                                //             formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
-                                //
-                                //             // .param 사용하여 배열을 String으로
-                                //             let formDataString = $.param(formDataArray);
-                                //
-                                //             $.ajax({
-                                //                 url: "AdminController",
-                                //                 type: "POST",
-                                //                 data: formDataString,
-                                //                 dataType: "json",
-                                //                 headers: {
-                                //                     "X-Requested-With": "XMLHttpRequest"
-                                //                 },
-                                //                 success: function(response) {
-                                //                     if (response.error) {
-                                //                         alert("관리자 추가 실패: " + response.error);
-                                //                         return;
-                                //                     }
-                                //
-                                //                     alert("사용자 정보가 추가되었습니다.");
-                                //                     $("#adminAddModal").dialog("close");
-                                //                     location.reload();  // 페이지 새로고침
-                                //                 },
-                                //                 error: function(xhr, status, error) {
-                                //                     console.error("AJAX 오류 발생:", error);
-                                //                     alert("관리자 추가에 실패했습니다.");
-                                //                 }
-                                //             });
-                                //         },
-                                //         "취소": function() {
-                                //             $(this).dialog("close");
-                                //         }
-                                //     }
-                                // });
-                                //
-                                // // 사용자 목록 <tr> 클릭 이벤트 설정
-                                // $(".clickable-row").on("click", function() {
-                                //     const adminIdx = $(this).data("id");
-                                //
-                                //     // 사용자 데이터 로드 후 모달 열기
-                                //     loadUserData(adminIdx);
-                                // });
-                                //
-                                // $(".addAdmin").on("click", function() {
-                                //     // 모달 창 열기
-                                //     $("#adminAddModal").dialog("open");
-                                // })
-
-                        </script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<!-- jQuery 및 jQuery UI 추가 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     // function searchTheater() {
     //     let keyword = document.getElementById("searchKeyword").value.trim();
@@ -855,11 +625,243 @@
     //     let queryString = queryParams.toString();
     //     window.location.href = baseUrl + "?" + queryString;
     // }
-
     function resetSearch() {
-        let baseUrl = window.location.origin + "/AdminController?type=theaterManage";
-        window.location.href = baseUrl;
+      let baseUrl = window.location.origin + "/AdminController?type=theaterManage";
+      window.location.href = baseUrl;
     }
+
+
+</script>
+<script>
+  $(document).ready(function() {
+    let selectedTheaterIdx = null; // 전역 변수 설정
+
+    // 이벤트 위임 방식으로 테이블 행 클릭 시 데이터 로드
+    $(document).on("click", ".clickable-row", function() {
+      console.log("Row clicked!"); // 디버깅 로그 확인
+
+      // data 속성 값 읽기
+      let theaterIdx = $(this).data("id");
+      let theaterName = $(this).data("theatername");
+      let theaterRegion = $(this).data("theaterregion");
+      let theaterStatus = $(this).data("theaterstatus");
+      let screenStatus = $(this).data("screenstatus");
+
+      console.log("Theater IDX:", theaterIdx); // 값이 올바르게 읽히는지 확인
+      console.log("Theater Status:", theaterStatus);
+      console.log("Screen Status:", screenStatus);
+
+      // 전역 변수에 저장
+      selectedTheaterIdx = theaterIdx;
+
+      // 모달 필드에 값 채우기
+      $("#theaterIdx").val(theaterIdx);
+      $("#theaterName").val(theaterName);
+      $("#theaterRegion").val(theaterRegion);
+      $("#theaterStatus").val(theaterStatus).change(); // select 박스 값 변경
+      $("#screenStatus").val(screenStatus).change();
+
+      // 모달 열기
+      $("#theaterModal").dialog("open");
+    });
+
+    // jQuery UI 모달 초기화 (극장 수정 모달)
+    $("#theaterModal").dialog({
+      autoOpen: false,
+      modal: true,
+      resizable: false,
+      draggable: false,
+      width: 600,
+      classes: {
+        "ui-dialog": "dialog-common"
+      },
+      buttons: {
+        "저장": function() {
+          // 수정 폼 데이터 직렬화 및 AJAX 요청 전송
+          let formData = $("#updateTheaterForm").serialize();
+          $.ajax({
+            url: "AdminController",
+            type: "POST",
+            data: formData + "&type=updateTheater",
+            dataType: "json",
+            headers: {
+              "X-Requested-With": "XMLHttpRequest"
+            },
+            success: function(response) {
+              if (response.error) {
+                alert("업데이트 실패: " + response.error);
+                return;
+              }
+              alert("극장 정보가 업데이트되었습니다.");
+              $("#theaterModal").dialog("close");
+              location.reload();
+            },
+            error: function(xhr, status, error) {
+              console.error("AJAX 오류 발생:", error);
+              alert("업데이트에 실패했습니다.");
+            }
+          });
+        },
+        "취소": function() {
+          $(this).dialog("close");
+        }
+      }
+    });
+  });
+
+
+  //     // 사용자 데이터 로드 함수
+  // function loadUserData(adminIdx) {
+  //     selectedAdminIdx = adminIdx;
+  //
+  //     $.ajax({
+  //         url: "AdminController",
+  //         method: "GET",
+  //         data: {
+  //             type: "getAdmin",
+  //             adminIdx: adminIdx
+  //         },
+  //         dataType: "json",
+  //         headers: {
+  //             "X-Requested-With": "XMLHttpRequest"
+  //         },
+  //         success: function(response) {
+  //             if (response.error) {
+  //                 alert("오류 발생: " + response.error);
+  //                 return;
+  //             }
+  //
+  //             // 기본 정보 채우기
+  //             $("#adminIdx").val(response.adminIdx);
+  //             $("#adminId").val(response.adminId);
+  //             $("#adminLevel").val(response.adminLevel);
+  //             $("#adminStatus").val(response.adminStatus);
+  //
+  //             // 변경 가능한 정보 채우기
+  //             $("[name='adminId']").val(response.adminId);
+  //             $("[name='adminLevel']").val(response.adminLevel);
+  //             $("[name='adminStatus']").val(response.adminStatus);
+  //
+  //             // 모달 창 열기
+  //             $("#adminModal").dialog("open");
+  //         },
+  //         error: function(xhr, status, error) {
+  //             console.error("AJAX 오류:", xhr.responseText);
+  //             alert("사용자 정보를 불러오는 데 실패했습니다.");
+  //         }
+  //     });
+  // }
+
+  // // jQuery UI 모달 초기화
+  // $("#adminModal").dialog({
+  //     autoOpen: false,
+  //     modal: true,
+  //     width: 600,
+  //     classes: {
+  //         "ui-dialog": "dialog-common"
+  //     },
+  //     buttons: {
+  //         "저장": function() {
+  //
+  //             // 폼을 배열로 만들어서 String으로 변환
+  //             let formDataArray = $("#updateAdminForm").serializeArray();
+  //             formDataArray.push({ name: "type", value: "updateAdmin" });
+  //             formDataArray.push({ name: "adminIdx", value: selectedTheaterIdx });
+  //
+  //             // .param 사용하여 배열을 String으로
+  //             let formDataString = $.param(formDataArray);
+  //
+  //             $.ajax({
+  //                 url: "AdminController",
+  //                 type: "POST",
+  //                 data: formDataString,
+  //                 dataType: "json",
+  //                 headers: {
+  //                     "X-Requested-With": "XMLHttpRequest"
+  //                 },
+  //                 success: function(response) {
+  //                     if (response.error) {
+  //                         alert("업데이트 실패: " + response.error);
+  //                         return;
+  //                     }
+  //
+  //                     alert("사용자 정보가 업데이트되었습니다.");
+  //                     $("#adminModal").dialog("close");
+  //                     location.reload();  // 페이지 새로고침
+  //                 },
+  //                 error: function(xhr, status, error) {
+  //                     console.error("AJAX 오류 발생:", error);
+  //                     alert("업데이트에 실패했습니다.");
+  //                 }
+  //             });
+  //         },
+  //         "취소": function() {
+  //             $(this).dialog("close");
+  //         }
+  //     }
+  // });
+  //
+  // // jQuery UI 모달 초기화
+  // $("#adminAddModal").dialog({
+  //     autoOpen: false,
+  //     modal: true,
+  //     width: 600,
+  //     classes: {
+  //         "ui-dialog": "dialog-common"
+  //     },
+  //     buttons: {
+  //         "저장": function() {
+  //
+  //             // 폼을 배열로 만들어서 String으로 변환
+  //             let formDataArray = $("#addAdminForm").serializeArray();
+  //             formDataArray.push({ name: "type", value: "addAdmin" });
+  //             formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
+  //
+  //             // .param 사용하여 배열을 String으로
+  //             let formDataString = $.param(formDataArray);
+  //
+  //             $.ajax({
+  //                 url: "AdminController",
+  //                 type: "POST",
+  //                 data: formDataString,
+  //                 dataType: "json",
+  //                 headers: {
+  //                     "X-Requested-With": "XMLHttpRequest"
+  //                 },
+  //                 success: function(response) {
+  //                     if (response.error) {
+  //                         alert("관리자 추가 실패: " + response.error);
+  //                         return;
+  //                     }
+  //
+  //                     alert("사용자 정보가 추가되었습니다.");
+  //                     $("#adminAddModal").dialog("close");
+  //                     location.reload();  // 페이지 새로고침
+  //                 },
+  //                 error: function(xhr, status, error) {
+  //                     console.error("AJAX 오류 발생:", error);
+  //                     alert("관리자 추가에 실패했습니다.");
+  //                 }
+  //             });
+  //         },
+  //         "취소": function() {
+  //             $(this).dialog("close");
+  //         }
+  //     }
+  // });
+  //
+  // // 사용자 목록 <tr> 클릭 이벤트 설정
+  // $(".clickable-row").on("click", function() {
+  //     const adminIdx = $(this).data("id");
+  //
+  //     // 사용자 데이터 로드 후 모달 열기
+  //     loadUserData(adminIdx);
+  // });
+  //
+  // $(".addAdmin").on("click", function() {
+  //     // 모달 창 열기
+  //     $("#adminAddModal").dialog("open");
+  // })
 
 </script>
 

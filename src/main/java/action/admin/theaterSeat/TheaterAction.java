@@ -50,7 +50,6 @@ public class TheaterAction implements Action {
 
         // 페이징된 데이터 가져오기
         TheaterVO[] theaterList = TheaterAdminDAO.getTheaterList(offset, limit);
-        request.setAttribute("ar", theaterList);
         request.setAttribute("page", page);
         request.setAttribute("totalCount", totalRecord);
 

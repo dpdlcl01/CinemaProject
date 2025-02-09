@@ -117,11 +117,11 @@
     <!-- 검색 + 페이징 적용 -->
     <select id="searchTheater" parameterType="map" resultType="mybatis.vo.TheaterVO">
         SELECT
-        t.theaterIdx,
-        t.theaterRegion,
-        t.theaterName,
-        s.screenIdx,
-        s.screenName,
+        t.theaterIdx AS theaterIdx,
+        t.theaterRegion AS theaterRegion,
+        t.theaterName AS theaterName,
+        s.screenIdx AS screenIdx,
+        s.screenName AS screenName,
         s.screenStatus AS screenStatus,
         CASE s.screenType
         WHEN 1 THEN 'COMFORT'
@@ -185,10 +185,12 @@
     <!-- 극장 정보 및 좌석 현황 조회 -->
     <select id="getTheaterList" parameterType="map" resultType="mybatis.vo.TheaterVO">
         SELECT
+        t.theaterIdx AS theaterIdx,
         t.theaterRegion AS theaterRegion,
         t.theaterName AS theaterName,
         s.screenName AS screenName,
         s.screenStatus AS screenStatus,
+        t.theaterStatus AS theaterStatus,
         CASE s.screenType
         WHEN 1 THEN 'COMFORT'
         WHEN 2 THEN 'VIP'
