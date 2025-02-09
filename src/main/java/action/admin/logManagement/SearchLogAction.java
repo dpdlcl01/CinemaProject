@@ -24,7 +24,6 @@ public class SearchLogAction implements Action {
     }
 
     String type = request.getParameter("type");
-    System.out.println("🔹 Received type: " + type);  // 디버깅 로그 추가
 
     // 페이징 처리를 위한 객체 생성 (페이지당 10개, 블록당 5개)
     Paging page = new Paging(10, 5);

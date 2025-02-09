@@ -441,8 +441,6 @@
     let baseUrl = window.location.origin + "/AdminController";
     let queryString = queryParams.toString(); // 자동으로 `&`을 처리
 
-    console.log("🔹 Redirecting to:", baseUrl + "?" + queryString); // 디버깅용 로그
-
     window.location.href = baseUrl + "?" + queryString; // 최종 URL 적용
   }
 
