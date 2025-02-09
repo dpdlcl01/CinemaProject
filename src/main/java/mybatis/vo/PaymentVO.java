@@ -2,8 +2,59 @@ package mybatis.vo;
 
 public class PaymentVO {
     private String paymentIdx, userIdx, paymentType, reservationIdx, productIdx,
-            paymentMethod, paymentTotal, paymentDiscount, paymentFinal,
-            paymentTransactionId, paymentApprovalNumber, paymentDate,paymentQuantiy, paymentStatus,productName, userId;
+            paymentMethod, paymentTotal, paymentDiscount, paymentFinal, paymentCancelDate,
+            paymentTransactionId, paymentDate, paymentQuantity, paymentStatus, productName, userId;
+
+    // 결제 조회를 위한 영화 섹션 정보
+    private String movieTitle, theaterName, screenName, showTime, seatNumbers;
+
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
+    }
+
+    public String getTheaterName() {
+        return theaterName;
+    }
+
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
+    }
+
+    public String getSeatNumbers() {
+        return seatNumbers;
+    }
+
+    public void setSeatNumbers(String seatNumbers) {
+        this.seatNumbers = seatNumbers;
+    }
+
+    public String getPaymentCancelDate() {
+        return paymentCancelDate;
+    }
+
+    public void setPaymentCancelDate(String paymentCancelDate) {
+        this.paymentCancelDate = paymentCancelDate;
+    }
 
     public String getUserId() {
         return userId;
@@ -21,12 +72,12 @@ public class PaymentVO {
         this.productName = productName;
     }
 
-    public String getPaymentQuantiy() {
-        return paymentQuantiy;
+    public String getPaymentQuantity() {
+        return paymentQuantity;
     }
 
-    public void setPaymentQuantiy(String paymentQuantiy) {
-        this.paymentQuantiy = paymentQuantiy;
+    public void setPaymentQuantity(String paymentQuantity) {
+        this.paymentQuantity = paymentQuantity;
     }
 
     public String getPaymentIdx() {
@@ -107,14 +158,6 @@ public class PaymentVO {
 
     public void setPaymentTransactionId(String paymentTransactionId) {
         this.paymentTransactionId = paymentTransactionId;
-    }
-
-    public String getPaymentApprovalNumber() {
-        return paymentApprovalNumber;
-    }
-
-    public void setPaymentApprovalNumber(String paymentApprovalNumber) {
-        this.paymentApprovalNumber = paymentApprovalNumber;
     }
 
     public String getPaymentDate() {

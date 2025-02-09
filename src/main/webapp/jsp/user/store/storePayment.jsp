@@ -377,13 +377,13 @@
   function requestPayment() {
 
 
-    let successUrl ="/CinemaProject_war/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&totalDiscount="+totalDiscount
+    let successUrl ="${pageContext.request.contextPath}/UserController?type=success&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&totalDiscount="+totalDiscount
             +"&enteredPoints="+enteredPoints
             +"&couponDiscount="+couponDiscount
             +"&couponIdx="+couponIdx;
 
     if(totalPrice===0){
-      location.href=window.location.origin + "/CinemaProject_war/UserController?type=success0&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&enteredPoints="+enteredPoints
+      location.href=window.location.origin + "${pageContext.request.contextPath}/UserController?type=success0&pIdx=${pIdx}&image="+image+"&quant="+firstChar+"&enteredPoints="+enteredPoints
               +"&couponDiscount="+couponDiscount
               +"&couponIdx="+couponIdx
               +"&totalDiscount="+totalDiscount
@@ -402,7 +402,7 @@
       orderName: document.getElementsByClassName("movie-title")[0].innerText, // 상품명
       customerEmail: "abc@naver.com", // 고객 이메일
       successUrl: window.location.origin + successUrl,
-      failUrl: window.location.origin + "/UserController?type=reservationPaymentFail", // 결제 실패 시 이동할 페이지
+      failUrl: window.location.origin + "${pageContext.request.contextPath}/UserController?type=reservationPaymentFail", // 결제 실패 시 이동할 페이지
     })
             .catch(function (error) {
               console.error(error);

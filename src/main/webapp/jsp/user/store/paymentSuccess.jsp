@@ -105,8 +105,10 @@
     <div class="inner-wrap">
         <div class="location">
             <span>Home</span>
-            <span>스토어</span>
-            <span>결제완료</span>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>스토어</label>
+            <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+            <label>결제완료</label>
         </div>
     </div>
 </div>
@@ -156,7 +158,7 @@
 
     <div class="btnDiv">
         <button class="paymentList" onclick="myList()">나의 구매내역</button>
-        <button class="myMega" onclick="myMega()">나의 메가박스</button>
+        <button class="myMega" onclick="myMega()">마이페이지</button>
     </div>
 
 </div>
@@ -171,10 +173,10 @@
 
 <script>
     function myList(){
-        location.href="${pageContext.request.contextPath}/UserController?type=myPage";
+        location.href="${pageContext.request.contextPath}/UserController?type=myReservation&reservationType=purchaseTable";
     }
     function myMega(){
-        location.href="${pageContext.request.contextPath}/UserController?type=myReservation";
+        location.href="${pageContext.request.contextPath}/UserController?type=myPage";
     }
 </script>
 </body>

@@ -274,7 +274,7 @@
 
       if (finalPaymentAmount === 0) {
 
-        window.location.href = "/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx
+        window.location.href = "${pageContext.request.contextPath}/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx
       }
 
       const tossPayments = TossPayments("test_ck_AQ92ymxN34Zmb2DLJyJOrajRKXvd");
@@ -284,8 +284,8 @@
         orderId: "ORDER-" + new Date().getTime(),
         orderName: "${movieTitle}",
         customerEmail: "${sessionScope.uservo.userEmail}",
-        successUrl: window.location.origin + "/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx,
-        failUrl: window.location.origin + "/UserController?type=reservationPaymentFail"
+        successUrl: window.location.origin + "${pageContext.request.contextPath}/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx,
+        failUrl: window.location.origin + "${pageContext.request.contextPath}/UserController?type=reservationPaymentFail"
       }).then((result) => {
         console.log("결제 성공, 폼 제출 시작"); // 디버깅 추가
 

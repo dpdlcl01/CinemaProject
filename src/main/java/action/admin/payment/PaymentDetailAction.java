@@ -24,8 +24,14 @@ public class PaymentDetailAction implements Action {
         String adminIdx = adminvo.getAdminIdx();
 
         String paymentIdx = request.getParameter("paymentIdx");
+        String paymentType = request.getParameter("paymentType");
 
-        PaymentVO pvo = PaymentDAO.getPaymentByIdx(paymentIdx);
+        PaymentVO pvo = null;
+        if ("2".equals(paymentType)) {
+            pvo = PaymentDAO.getProductPaymentByIdx(paymentIdx);
+        } else {
+            pvo = PaymentDAO.getPaymentByIdx(paymentIdx);
+        }
 
         // Jackson을 사용하여 JSON 변환
         ObjectMapper mapper = new ObjectMapper();

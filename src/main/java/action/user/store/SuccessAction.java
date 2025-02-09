@@ -102,14 +102,13 @@ public class SuccessAction implements Action {
 
 
 
-
         /* 포인트 테이블에서 유저가 사용한 만큼 포인트를 줄이자.*/
         /*결제 시 포인트 추가하는 로직도 필요합니다*/
 
         int updatePoint = PointDAO.updatePoint(userIdx, Integer.parseInt(enteredPoints),confirmResponse.getInt("totalAmount"));
 
 
-        pvo.setPaymentQuantiy(quant);
+        pvo.setPaymentQuantity(quant);
         pvo.setProductIdx(pIdx);
         pvo.setUserIdx(userIdx);
         pvo.setPaymentType(paymentType);

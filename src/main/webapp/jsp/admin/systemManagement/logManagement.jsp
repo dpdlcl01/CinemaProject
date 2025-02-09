@@ -438,7 +438,7 @@
       queryParams.append("searchKeyword", keyword); // searchKeyword 추가
     }
 
-    let baseUrl = window.location.origin + "/AdminController";
+    let baseUrl = window.location.origin + "${pageContext.request.contextPath}/AdminController";
     let queryString = queryParams.toString(); // 자동으로 `&`을 처리
 
     console.log("🔹 Redirecting to:", baseUrl + "?" + queryString); // 디버깅용 로그
@@ -448,7 +448,7 @@
 
 
   function resetSearch() {
-    let baseUrl = window.location.origin + "/AdminController?type=logManagement";
+    let baseUrl = window.location.origin + "${pageContext.request.contextPath}/AdminController?type=logManagement";
     window.location.href = baseUrl;
   }
 

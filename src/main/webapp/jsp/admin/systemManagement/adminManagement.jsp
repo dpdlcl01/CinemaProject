@@ -406,7 +406,7 @@
                                 <button type="button" class="btn-reset addAdmin">관리자 추가</button>
 
                                 <form id="searchForm" action="AdminController" method="get">
-                                    <input type="hidden" name="type" value="adminlist" />
+                                    <input type="hidden" name="type" value="adminList" />
 
                                     <!-- 사용자 상태 선택 -->
                                     <select id="userStatus" name="adminStatus">
@@ -491,13 +491,13 @@
 
                                 <!-- 첫 페이지로 이동 버튼 -->
                                 <c:if test="${pvo.startPage > 1}">
-                                    <a href="AdminController?type=adminlist&cPage=1&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
+                                    <a href="AdminController?type=adminList&cPage=1&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
                                        class="control first" title="처음 페이지"></a>
                                 </c:if>
 
                                 <!-- 이전 페이지 블록으로 이동 버튼 -->
                                 <c:if test="${pvo.startPage > 1}">
-                                    <a href="AdminController?type=adminlist&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
+                                    <a href="AdminController?type=adminList&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
                                        class="control prev" title="이전 블록"></a>
                                 </c:if>
 
@@ -507,20 +507,20 @@
                                         <strong class="active">${st.index}</strong>
                                     </c:if>
                                     <c:if test="${st.index ne pvo.nowPage}">
-                                        <a href="AdminController?type=adminlist&cPage=${st.index}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
+                                        <a href="AdminController?type=adminList&cPage=${st.index}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
                                            title="${st.index}페이지 보기">${st.index}</a>
                                     </c:if>
                                 </c:forEach>
 
                                 <!-- 다음 페이지 블록으로 이동 버튼 -->
                                 <c:if test="${pvo.endPage < pvo.totalPage}">
-                                    <a href="AdminController?type=adminlist&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
+                                    <a href="AdminController?type=adminList&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
                                        class="control next" title="다음 블록"></a>
                                 </c:if>
 
                                 <!-- 마지막 페이지로 이동 버튼 -->
                                 <c:if test="${pvo.endPage < pvo.totalPage}">
-                                    <a href="AdminController?type=adminlist&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
+                                    <a href="AdminController?type=adminList&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}&adminStatus=${param.adminStatus}&adminLevel=${param.adminLevel}"
                                        class="control last" title="마지막 페이지"></a>
                                 </c:if>
                             </c:if>
@@ -605,6 +605,7 @@
                                             <select id="adminStatus1" name="adminStatus" disabled>
                                                 <option value="0" selected>활성</option>
                                             </select>
+                                            <input type="hidden" id="adminStatus2" name="adminStatus" value="0" />
                                         </div>
                                     </div>
                                 </div>
@@ -695,7 +696,7 @@
                                                     return;
                                                 }
 
-                                                alert("사용자 정보가 업데이트되었습니다.");
+                                                alert("관리자 정보가 업데이트되었습니다.");
                                                 $("#adminModal").dialog("close");
                                                 location.reload();  // 페이지 새로고침
                                             },

@@ -152,6 +152,14 @@ public class ReservationPaymentAction implements Action {
     reservationPaymentVO.setPaymentTransactionId(orderId);
     reservationPaymentVO.setPaymentStatus(pstatus);
 
+    // 추가: 총 매수(티켓 수) 계산
+    // 예를 들어, 성인 수와 학생 수의 합계를 총 티켓 수로 사용
+    int totalTickets = 0;
+    if (adultCountStr != null && studentCountStr != null) {
+      totalTickets = Integer.parseInt(adultCountStr) + Integer.parseInt(studentCountStr);
+    }
+    reservationPaymentVO.setPaymentQuantity(String.valueOf(totalTickets));
+
     boolean paymentSaved = ReservationPaymentDAO.insertPayment(reservationPaymentVO, paymentDiscount);
 
     String paymentIdx = reservationPaymentVO.getPaymentIdx();

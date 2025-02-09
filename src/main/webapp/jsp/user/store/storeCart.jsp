@@ -126,8 +126,10 @@
   <div class="inner-wrap">
     <div class="location">
       <span>Home</span>
-      <span>스토어</span>
-      <span>장바구니</span>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>스토어</label>
+      <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+      <label>장바구니</label>
     </div>
   </div>
 </div>

@@ -54,7 +54,7 @@ public class SuccessAction2 implements Action {
         }
 
 
-        pvo.setPaymentQuantiy(quant);
+        pvo.setPaymentQuantity(quant);
         pvo.setProductIdx(pIdx);
         pvo.setUserIdx(userIdx);
         pvo.setPaymentType(paymentType);

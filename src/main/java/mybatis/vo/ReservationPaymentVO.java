@@ -2,7 +2,16 @@ package mybatis.vo;
 
 public class ReservationPaymentVO {
 
-  private String paymentIdx, userIdx, paymentType, reservationIdx, paymentMethod, paymentTotal, paymentDiscount, paymentFinal, paymentTransactionId, paymentDate, paymentCancelDate, paymentStatus;
+  private String paymentIdx, userIdx, paymentType, reservationIdx, paymentMethod, paymentTotal, paymentQuantity,
+          paymentDiscount, paymentFinal, paymentTransactionId, paymentDate, paymentCancelDate, paymentStatus;
+
+  public String getPaymentQuantity() {
+    return paymentQuantity;
+  }
+
+  public void setPaymentQuantity(String paymentQuantity) {
+    this.paymentQuantity = paymentQuantity;
+  }
 
   public String getPaymentIdx() {
     return paymentIdx;

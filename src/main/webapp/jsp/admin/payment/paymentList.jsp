@@ -148,25 +148,19 @@
         vertical-align: middle;
     }
 
-    /* 초기화 아이콘 스타일 */
-    .search-bar2 .btn-reset {
-        position: absolute;
-        right: 30px; /* 검색 버튼 옆에 위치 */
-        top: 0;
-        width: 30px;
-        height: 100%;
-        border: 0;
-        background-color: transparent;
+    /* 초기화 버튼 스타일 */
+    .btn-reset {
+        background-color: #f5f5f5; /* 연한 회색 */
+        border: 1px solid #d1d1d1; /* 테두리 회색 */
+        border-radius: 4px; /* 둥근 모서리 */
         cursor: pointer;
-    }
-
-    .ico-reset {
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        background-image: url("${pageContext.request.contextPath}/css/user/images/reload.png");
-        background-size: contain;
-        vertical-align: middle;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     table {
@@ -426,10 +420,8 @@
                                 </button>
                             </div>
 
-                            <!-- 초기화 버튼 (아이콘) -->
-                            <button type="button" class="btn btn-reset" title="검색 조건 초기화" onclick="resetSearch()">
-                                <i class="ico-reset"></i>
-                            </button>
+                            <!-- 초기화 버튼 -->
+                            <button type="button" class="btn-reset" title="검색 조건 초기화" onclick="resetSearch()">초기화</button>
                         </form>
                     </div>
                 </div>
@@ -460,7 +452,7 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${requestScope.paymentArray}" var="payment">
-                        <tr class="clickable-row" data-payment-id="${payment.paymentIdx}">
+                        <tr class="clickable-row" data-payment-id="${payment.paymentIdx}" data-payment-type="${payment.paymentType}">
                             <td>${payment.paymentIdx}</td>
                             <td>${payment.userId}</td>
                             <td>
@@ -476,8 +468,7 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${payment.paymentStatus == 0}">완료</c:when>
-                                    <c:when test="${payment.paymentStatus == 1}">대기</c:when>
-                                    <c:when test="${payment.paymentStatus == 2}">취소</c:when>
+                                    <c:when test="${payment.paymentStatus == 1}">취소</c:when>
                                 </c:choose>
                             </td>
                             <td>${payment.paymentDate}</td>
@@ -633,9 +624,9 @@
 <!-- jQuery 모달 초기화 스크립트 -->
 <script>
     $(document).ready(function() {
-        function loadPaymentData(paymentIdx) {
+        function loadPaymentData(paymentIdx, paymentType) {
             $.ajax({
-                url: "AdminController?type=paymentDetail&paymentIdx=" + paymentIdx,
+                url: "AdminController?type=paymentDetail&paymentIdx=" + paymentIdx + "&paymentType=" + paymentType,
                 method: "GET",
                 dataType: "json",
                 success: function(response) {
@@ -649,7 +640,7 @@
                         $("#movieTitle").text(response.movieTitle || "정보 없음");
                         $("#theaterName").text(response.theaterName || "정보 없음");
                         $("#screenName").text(response.screenName || "정보 없음");
-                        $("#showDateTime").text(response.showDateTime || "정보 없음");
+                        $("#showDateTime").text(response.showTime || "정보 없음");
                         $("#seatNumbers").text(response.seatNumbers || "정보 없음");
                         $("#ticketQuantity").text(response.paymentQuantity + "매");
                     } else {
@@ -702,10 +693,11 @@
         // 결제 목록 행 클릭 이벤트 설정
         $(".clickable-row").on("click", function() {
             const paymentIdx = $(this).data("payment-id");
+            const paymentType = $(this).data("payment-type");
 
-            // 결제 데이터 로드 후 모달 열기
-            loadPaymentData(paymentIdx);
+            loadPaymentData(paymentIdx, paymentType);
         });
+
 
 
         // 가격 포맷 함수

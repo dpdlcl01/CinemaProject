@@ -65,6 +65,16 @@ public class PaymentDAO {
     }
 
 
+    // 결제 idx를 받아서 상품 결제 상세 정보 가져오기 (관리자 결제 상세 조회)
+    public static PaymentVO getProductPaymentByIdx(String paymentIdx){
+        PaymentVO pvo = null;
+        SqlSession ss = FactoryService.getFactory().openSession();
+        pvo = ss.selectOne("payment.getProductPaymentByIdx", paymentIdx);
+        ss.close();
+        return pvo;
+    }
+
+
 
     public static int insertPayment(PaymentVO vo,int totalAmount,int userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
