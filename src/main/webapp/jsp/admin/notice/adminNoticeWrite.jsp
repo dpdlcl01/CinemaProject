@@ -151,6 +151,8 @@
                         <option value="">게시 상태 선택</option>
                         <option value="0" ${board.boardStatus eq '0' ? 'selected' : ''}>게시</option>
                         <option value="1" ${board.boardStatus eq '1' ? 'selected' : ''}>임시</option>
+                        <option value="2" ${board.boardStatus eq '2' ? 'selected' : ''}>종료</option>
+
                     </select>
 
 
