@@ -79,6 +79,9 @@ public class SeatAction implements Action {
             request.setAttribute("adultCount", request.getParameter("adultCount"));
             request.setAttribute("studentCount", request.getParameter("studentCount"));
             request.setAttribute("totalAmount", request.getParameter("totalAmount"));
+            request.setAttribute("movieIdx", request.getParameter("movieIdx"));
+            request.setAttribute("formattedDate", request.getParameter("formattedDate")); // 날짜
+            request.setAttribute("timetableStartTime", request.getParameter("timetableStartTime")); // 영화 시작 시간
 
             // 결제 페이지로 포워딩 (여기서는 payment.jsp로 직접 이동하는 예)
             return "./jsp/user/reservation/payment.jsp";
@@ -159,6 +162,7 @@ public class SeatAction implements Action {
 
             try {
                 Date startTime = inputFormat.parse(timetableVO.getTimetableStartTime());
+                request.setAttribute("timetableStartTime", inputFormat.format(startTime));
                 Date endTime = inputFormat.parse(timetableVO.getTimetableEndTime());
 
                 request.setAttribute("formattedDate", outputDateFormat.format(startTime)); // 날짜

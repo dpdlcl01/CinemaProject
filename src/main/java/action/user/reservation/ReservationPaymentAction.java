@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
+import java.util.UUID;
 
 public class ReservationPaymentAction implements Action {
 
@@ -53,27 +54,37 @@ public class ReservationPaymentAction implements Action {
     String studentCountStr = (String) session.getAttribute("studentCount");
     String adultPriceIdx = (String) session.getAttribute("adultPriceIdx");
     String studentPriceIdx = (String) session.getAttribute("studentPriceIdx");
+    String timetableStartTime = (String) session.getAttribute("timetableStartTime");
+    String movieIdx = (String) session.getAttribute("movieIdx");
 
-    if (paymentKey == null || orderId == null || amount == null) {
-      System.out.println("[오류] 요청 파라미터 부족");
-      String error = "결제 중 오류가 발생했습니다.";
-      request.setAttribute("error", error);
-      response.sendRedirect("./jsp/user/reservation/reservationPaymentFail.jsp");
-      return null;
+    // 결제 최종 금액이 0원일 경우 Toss API 호출 생략
+    JSONObject confirmResponse = new JSONObject();
+    String pstatus = "0"; // 기본값 (결제 성공)
+
+
+    if (!"0".equals(paymentFinal)) {
+      if (paymentKey == null || orderId == null || amount == null) {
+        System.out.println("[오류] 요청 파라미터 부족");
+        response.sendRedirect("./jsp/user/reservation/reservationPaymentFail.jsp");
+        return null;
+      }
+
+      // Toss 결제 승인 요청
+      confirmResponse = confirmPayment(paymentKey, orderId, amount);
+      System.out.println("[결제 승인 응답] " + confirmResponse.toString());
+
+      if (confirmResponse.has("error")) {
+        response.sendRedirect("./jsp/user/reservation/reservationPaymentFail.jsp");
+        return null;
+      }
+
+      // 결제 상태 확인
+      String status = confirmResponse.getString("status");
+      pstatus = status.equals("DONE") ? "0" : "1";
+    } else {
+      System.out.println("[INFO] 결제 금액이 0원이므로 Toss API 호출 없이 결제 성공 처리");
+      confirmResponse.put("method", "FREE"); // 무료 결제 처리
     }
-
-    // Toss 결제 승인 요청
-    JSONObject confirmResponse = confirmPayment(paymentKey, orderId, amount);
-    System.out.println("[결제 승인 응답] " + confirmResponse.toString());
-
-    if (confirmResponse.has("error")) {
-      response.sendRedirect("./jsp/user/reservation/reservationPaymentFail.jsp");
-      return null;
-    }
-
-    // 결제 상태 확인
-    String status = confirmResponse.getString("status");
-    String pstatus = status.equals("DONE") ? "0" : "1";
 
     // 예약 테이블 insert
     String userIdx = uservo.getUserIdx();
@@ -120,7 +131,9 @@ public class ReservationPaymentAction implements Action {
       pointDiscount = "0";
     }
 
-    String paymentStatus = "0";
+    if (paymentFinal.equals("0")) {
+      orderId = "order-"+ UUID.randomUUID().toString();
+    }
 
     // 결제 정보 저장 (결제 테이블에 insert)
     ReservationPaymentVO reservationPaymentVO = new ReservationPaymentVO();
@@ -132,30 +145,55 @@ public class ReservationPaymentAction implements Action {
     reservationPaymentVO.setPaymentDiscount(paymentDiscount);
     reservationPaymentVO.setPaymentFinal(paymentFinal);
     reservationPaymentVO.setPaymentTransactionId(orderId);
-    reservationPaymentVO.setPaymentStatus(paymentStatus);
+    reservationPaymentVO.setPaymentStatus(pstatus);
 
     boolean paymentSaved = ReservationPaymentDAO.insertPayment(reservationPaymentVO, paymentDiscount);
 
     String paymentIdx = reservationPaymentVO.getPaymentIdx();
 
-    // 포인트 사용시 감소, 사용내역 추가
+    // 관람한 영화 목록 저장 (watchedMovie 테이블 insert)
+    WatchedMovieVO watchedMovieVO = new WatchedMovieVO();
+
+    watchedMovieVO.setUserIdx(userIdx);
+    watchedMovieVO.setMovieIdx(movieIdx);
+    watchedMovieVO.setReservationIdx(reservationIdx);
+    watchedMovieVO.setScreenIdx(screenIdx);
+    watchedMovieVO.setWatchedDate(timetableStartTime);
+
+    boolean watchedMovieSaved = ReservationPaymentDAO.insertWatchedMovie(watchedMovieVO);
+
+    // 포인트 사용시 감소, 포인트 결제금액의 5% 적립
     if (Integer.parseInt(pointDiscount) > 0) {
       System.out.println("포인트 사용 ! pointDiscount:" + pointDiscount);
 
       System.out.println("pointCount:" + pointDiscount);
 
+      int finalPrice = Integer.parseInt(paymentFinal);
+
+      double getPointValue = finalPrice * 0.05;
+
       // 유저 포인트 감소
-      boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointDiscount);
+      boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointDiscount, getPointValue);
       System.out.println("pointUpdated:" + pointUpdated);
 
-      if (pointUpdated) {
+      // 유저 포인트 사용기록, 적립기록 (point테이블에 insert)
+      if (pointUpdated & !paymentFinal.equals("0")) {
         ReservationPointVO reservationPointVO = new ReservationPointVO();
+
+        // 사용기록
         reservationPointVO.setUserIdx(userIdx);
         reservationPointVO.setPaymentIdx(paymentIdx);
         reservationPointVO.setPointValue(pointDiscount);
+        reservationPointVO.setPointType("1");
 
         ReservationPaymentDAO.insertPointUsage(reservationPointVO);
-        System.out.println(reservationPointVO.getUserIdx());
+
+        // 적립기록
+        int getPoint = (int) getPointValue;
+        reservationPointVO.setPointValue(String.valueOf(getPoint));
+        reservationPointVO.setPointType("0");
+
+        ReservationPaymentDAO.insertPointUsage(reservationPointVO);
       }
     }
 

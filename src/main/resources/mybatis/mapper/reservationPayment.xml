@@ -94,7 +94,7 @@
   <!-- 결제 후 포인트 차감 및 기록 -->
   <update id="updateUserPoint" parameterType="map">
     UPDATE user
-    SET userPoint = userPoint - #{pointValue}
+    SET userPoint = userPoint - #{pointValue} + #{getPoint}
     WHERE userIdx = #{userIdx}
   </update>
 
@@ -113,7 +113,7 @@
     #{userIdx},
     #{paymentIdx},
     NULL,
-    1,  <!-- 1: 포인트 사용 -->
+    #{pointType},  <!-- 1: 포인트 사용, 2: 포인트 적립 -->
     'PAYMENT',
     #{pointValue},
     NOW(),
@@ -192,5 +192,10 @@
     </collection>
   </resultMap>
 
+  <!-- 관람한 영화 목록 -->
+  <insert id="insertWatchedMovie" parameterType="mybatis.vo.WatchedMovieVO">
+    INSERT INTO watchedMovie (userIdx, movieIdx, reservationIdx, screenIdx, watchedDate)
+    VALUES (#{userIdx}, #{movieIdx}, #{reservationIdx}, #{screenIdx}, #{watchedDate})
+  </insert>
 
 </mapper>

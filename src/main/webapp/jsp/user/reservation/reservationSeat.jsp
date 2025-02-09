@@ -534,9 +534,11 @@
             <input type="hidden" name="theaterIdx" value="${theaterIdx}" />
             <input type="hidden" name="adultPriceIdx" value="${adultPriceIdx}" />
             <input type="hidden" name="studentPriceIdx" value="${studentPriceIdx}" />
-            <input type="hidden" name="adultCount" id="hiddenAdultCount" value="0">
-            <input type="hidden" name="studentCount" id="hiddenStudentCount" value="0">
-            <input type="hidden" name="totalAmount" id="hiddenTotalAmount" value="0">
+            <input type="hidden" name="movieIdx" value="${movieIdx}" />
+            <input type="hidden" name="timetableStartTime" value="${timetableStartTime}" />
+            <input type="hidden" name="adultCount" id="hiddenAdultCount" value="0"/>
+            <input type="hidden" name="studentCount" id="hiddenStudentCount" value="0"/>
+            <input type="hidden" name="totalAmount" id="hiddenTotalAmount" value="0"/>
 
             <div id="seatHiddenContainer"></div>
           </form>

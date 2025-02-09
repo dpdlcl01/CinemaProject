@@ -19,71 +19,7 @@
         max-width: 100%; !important;
         padding: 20px 20px; !important;
     }
-    #top1 img{
-        width: 90px;
-        height: 90px;
-    }
-    #imgName p{
-        font-size: 40px;
-        line-height: 10px;
-        padding-left: 30px;
-        margin: 30px 0;
 
-    }
-    #point span, #point em{
-        padding-top: 10px;
-        padding-left: 10px;
-    }
-    #point em{
-        color: deepskyblue;
-        font-weight: 600;
-    }
-    /* 등급 텍스트 */
-    .level-item span {
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: white;
-        font-size: 12px;
-        text-align: center;
-    }
-    .top2>a{
-        display: block;
-        text-align: center;
-        color: #503396;
-        font-weight: 600;
-        padding-bottom: 10px;
-        text-decoration: none;
-    }
-    .top2>div{
-        display: flex;
-        margin-left: 10px;
-    }
-    .top2 span{
-        width: 120px;
-    }
-    .top2 em{
-        text-align: right;
-        display: block;
-        font-weight: 600;
-    }
-    #myReserv>img{
-        width: 70px;
-        height: 100px;
-    }
-    #reservInfo p{
-        margin: 0 30px;
-        width: 640px;
-    }
-    #reservInfo em{
-        color: #01738b;
-    }
-    #myReserv button{
-        background-color: white;
-        width: 74px;
-        height: 32px;
-    }
     #h2 h2{
         width: 760px;
     }
@@ -93,9 +29,7 @@
         border: none;
         background-color: white;
     }
-    .top2 span{
-        font-size: 14px;
-    }
+
     .myPage-container{
         display: flex;
 
@@ -107,79 +41,254 @@
     #main h1{
         font-size: 30px;
     }
-    table th {
-        border: 1px solid #ccc;
-        background-color: #dddddd;
-        color: #1e1e1e;
+    .btn-reset {
+        background-color: #f5f5f5; /* 연한 회색 */
+        border: 1px solid #d1d1d1; /* 테두리 회색 */
+        border-radius: 4px; /* 둥근 모서리 */
+        cursor: pointer;
+        padding: 6px 12px;
+        font-size: 14px;
         font-weight: bold;
-        padding: 12px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    table tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
+
+    .noticeboard {
+        margin-top: 20px;
     }
 
-    /* 테이블 호버 효과 */
-    table tbody tr:hover {
-        background-color: #f1f1f1;
-        transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+    .noticeboard.active {
+        display: block;
     }
 
-    /* 테이블 셀 스타일 */
-    table td {
-        padding: 12px;
-        border: 1px solid #ddd; /* 테두리 색상 */
+    /* form 내의 요소들을 나란히 배치 */
+    #searchForm {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* 간격 설정 */
     }
 
-    /* 입력 필드와 셀렉트 박스 스타일 */
-    #title td input, #title td select {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 8px;
+    .search-bar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-bar-container .total-count {
+        font-size: 16px;
+    }
+
+    .search-bar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search-bar label {
+        display: flex;
+        align-items: center;
+        gap: 5px; /* 텍스트와 입력 필드 사이 간격 */
+        font-size: 14px;
+        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    }
+
+    .search-bar2 {
+        flex: 1;               /* 부모 컨테이너의 남은 공간을 차지 */
+        max-width: 400px;      /* 최대 너비 */
+        min-width: 200px;      /* 최소 너비 */
+        height: 30px;
+        position: relative;
+        display: flex;
+        border-bottom: 1px solid #423e3e;
+    }
+
+    .search-bar2 .input-text {
+        width: 100%;           /* 부모의 너비에 맞게 확장 */
+        height: 25px;
+        background-color: transparent;
+        border: 0;
+        color: #000;
+        line-height: 25px;
+        font-size: 16px;
+        outline: none;
+        padding: 0 35px 0 5px; /* 버튼과 충돌 방지 */
+        box-sizing: border-box;
+    }
+    /* 🔄 수정: 날짜 입력, 셀렉트 박스, 검색 필드 높이 동일하게 설정 */
+    .search-bar input[type="date"],
+    .search-bar select {
+        height: 30px;   /* 🔄 높이를 40px로 통일 */
+        padding: 6px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        vertical-align: middle; /* 🔹 추가: 요소 수직 정렬 */
+    }
+
+    .search-bar2 .input-text:active {
+        border: 0;
+        outline: none;
+    }
+
+    .search-bar2 .btn {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 0;
+        border: 0;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .search-bar2 .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .search-bar2 .btn .ico-search {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-search-white.png);
+        vertical-align: middle;
+    }
+
+    table {
         width: 100%;
-        text-align: center;
-        transition: border-color 0.3s ease;
+        /*height: 100%;*/
+        border-collapse: collapse;
+        margin-top: 20px;
     }
+
+    table, th {
+        border-top: 2px solid #333;
+        border-bottom: 0;
+    }
+
+    th {
+        text-align: center !important;
+    }
+
 
     th, td {
-        font-size: 13px;
-        padding: 8px;
+        padding: 15px;
         text-align: center;
+
     }
+
     td {
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd !important;
+        border-bottom: 1px solid #ddd !important;
     }
+
+    td a {
+        color: inherit; /* 부모 요소의 색상을 따르도록 설정 */
+        text-decoration: none; /* 밑줄 제거 */
+    }
+
+
     td a:hover {
         color: #666;
     }
+
     th {
         background-color: #f4f4f4;
         font-weight: bold;
     }
 
-    table tfoot ol.paging {
-        list-style:none;
+    /* 클릭 가능한 행 스타일 */
+    .clickable-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
     }
 
-    table tfoot ol.paging li {
-        float:left;
-        margin-right:8px;
+    /* 마우스를 가져갔을 때 배경색 변경 */
+    .clickable-row:hover {
+        background-color: #f0f0f0;
     }
 
-    table tfoot ol.paging li a {
-        display:block;
-        padding:3px 7px;
-        border:1px solid #00B3DC;
-        color:#2f313e;
-        font-weight:bold;
+
+    /* 페이지네이션 */
+    .pagination {
+        clear: both;
+        position: relative;
+        margin: 0 auto;
+        padding: 30px 0 0 0;
+        display: flex;
+        justify-content: center;
     }
 
-    table tfoot ol.paging li a:hover {
-        background:#00B3DC;
-        color:white;
-        font-weight:bold;
+    .pagination .active {
+        color: #fff;
+        background-color: #01738b;
+        border-color: #01738b;
     }
+
+    .pagination .control, .pagination a, .pagination strong {
+        display: inline-block;
+        position: relative;
+        min-width: 32px;
+        height: 32px;
+        margin: 0 2px;
+        padding: 0 8px;
+        border: 1px solid #ebebeb;
+        text-decoration: none;
+        line-height: 30px;
+        color: #333;
+        font-weight: 400;
+        vertical-align: middle;
+        border-radius: 4px;
+    }
+
+    .pagination .control.first {
+        background-position: 0 0;
+    }
+
+    .pagination .control.prev {
+        background-position: -32px 0;
+    }
+
+    .pagination .control.next {
+        background-position: -64px 0;
+    }
+
+    .pagination .control.last {
+        background-position: -96px 0;
+    }
+
+    .pagination .control {
+        overflow: hidden;
+        width: 32px;
+        height: 32px;
+        background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
+    }
+
+    .poster-section img {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .field-group label {
+        width: 48%;
+    }
+
+    .field-group input {
+        width: 48%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
 </style>
 
 <body>
@@ -194,103 +303,156 @@
 
             <div id="main">
                 <h1>사용자 로그 관리</h1>
-
-                <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    <input type="text" id="searchKeyword" placeholder="검색어 입력" style="padding: 5px; width: 200px;">
-
-                    <input type="month" id="searchMonth" style="padding: 5px;">
-
-                    <button onclick="searchLogs()" style="padding: 5px 10px;">검색</button>
-                    <button onclick="resetSearch()" style="padding: 5px 10px; background-color: red; color: white;">초기화</button>
-                </div>
-
                 <div id="title">
-                    <table border="1" width="100%" style="border-collapse: collapse; text-align: center;">
-                        <thead>
-                        <tr style="background-color: #f2f2f2;">
-                            <th style="width: 5%;">번호</th>
-                            <th style="width: 8%;">로그 유형</th>
-                            <th style="width: 8%;">관리자 ID</th>
-                            <th style="width: 12%;">대상</th>
-                            <th style="width: 15%;">로그 정보</th>
-                            <th style="width: 19%;">이전 값</th>
-                            <th style="width: 19%;">변경 후 값</th>
-                            <th style="width: 14%;">날짜</th>
-                            <th style="width: 10%;">관리</th>  <!-- 수정 및 삭제 버튼 -->
-                        </tr>
-                        </thead>
+                    <!-- 검색 폼 -->
+                    <div id="announcement" class="noticeboard">
+                        <div class="search-bar-container">
+                            <div class="total-count">전체 ${requestScope.totalCount}건</div>
 
-                        <tfoot>
+                            <div class="search-bar">
+                                <label>시작일: <input type="date" id="startDate" name="startDate" value="${startDate}"></label>
+                                <label>종료일: <input type="date" id="endDate" name="endDate" value="${endDate}" style="padding: 5px;"></label>
+
+                                <!-- 검색 유형 선택 -->
+                                <select id="searchType" name="searchType">
+                                    <option value="" <c:if test="${searchType == ''}">selected</c:if>>검색 유형 선택</option>
+                                    <option value="logInfo" <c:if test="${searchType == 'logInfo'}">selected</c:if>>로그 정보</option>
+                                    <option value="logTarget" <c:if test="${searchType == 'logTarget'}">selected</c:if>>로그 대상</option>
+                                </select>
+
+                                <div class="search-bar2">
+                                    <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력" value="${searchKeyword}" class="input-text">
+
+                                    <button class="btn" title="검색" onclick="searchLogs()">
+                                        <i class="ico-search"></i> 검색
+                                    </button>
+                                </div>
+
+                                <button type="button" class="btn-reset" title="검색 조건 초기화" onclick="resetSearch()">초기화</button>
+                            </div>
+                        </div>
+
+
+                        <table>
+                            <thead>
                             <tr>
-                                <td colspan="7">
-                                    <ol class="paging">
-                                        <c:if test="${requestScope.page ne null}">
-                                            <c:set var="pvo" value="${requestScope.page}"/>
-                                            <c:if test="${pvo.startPage < pvo.pagePerBlock}">
-                                                <li class="disable">&lt;</li>
-                                            </c:if>
-                                            <c:if test="${pvo.startPage >= pvo.pagePerBlock}">
-                                                <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement&cPage=${pvo.startPage - pvo.pagePerBlock}">&lt;</a></li>
-                                            </c:if>
-                                            <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="status">
-                                                <c:if test="${status.index eq pvo.nowPage}">
-                                                    <li class="now">${status.index}</li>
-                                                </c:if>
-                                                <c:if test="${status.index ne pvo.nowPage}">
-                                                    <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement=list&cPage=${status.index}">${status.index}</a></li>
-                                                </c:if>
-                                            </c:forEach>
-                                            <c:if test="${pvo.endPage < pvo.totalPage}">
-                                                <li><a href="${pageContext.request.contextPath}/AdminController?type=logManagement&cPage=${pvo.startPage+pvo.pagePerBlock}">&gt;</a></li>
-                                            </c:if>
-                                            <c:if test="${pvo.endPage >= pvo.totalPage}">
-                                                <li class="disable">&gt;</li>
-                                            </c:if>
-                                        </c:if>
-                                    </ol>
-                                </td>
+                                <th style="width: 5%;">번호</th>
+                                <th style="width: 8%;">로그 유형</th>
+                                <th style="width: 8%;">관리자 ID</th>
+                                <th style="width: 12%;">대상</th>
+                                <th style="width: 15%;">로그 정보</th>
+                                <th style="width: 19%;">이전 값</th>
+                                <th style="width: 19%;">변경 후 값</th>
+                                <th style="width: 14%;">날짜</th>
                             </tr>
-                        </tfoot>
+                            </thead>
 
-                        <tbody>
-                        <c:choose>
-                            <c:when test="${empty ar}">
-                                <tr>
-                                    <td colspan="9" style="text-align: center; color: red;">로그 데이터가 없습니다.</td>
-                                </tr>
-                            </c:when>
-                            <c:otherwise>
-                                <c:forEach var="log" items="${ar}">
+                            <tbody>
+                            <c:choose>
+                                <c:when test="${empty ar}">
                                     <tr>
-                                        <td>${log.logIdx}</td>
-                                        <td>${log.logType}</td>
-                                        <td>${log.adminIdx}</td>
-                                        <td>${log.logTarget}</td>
-                                        <td>${log.logInfo}</td>
-                                        <td>${log.logPreValue}</td>
-                                        <td>${log.logCurValue}</td>
-                                        <td>${log.logDate}</td>
-                                        <td>
-                                            <button onclick="editLog(${log.logIdx})">수정</button>
-                                            <button onclick="deleteLog(${log.logIdx})" style="color: red;">삭제</button>
-                                        </td>
+                                        <td colspan="8">로그 데이터가 없습니다.</td>
                                     </tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="log" items="${ar}">
+                                        <tr>
+                                            <td>${log.logIdx}</td>
+                                            <td>${log.logType}</td>
+                                            <td>${log.adminIdx}</td>
+                                            <td>${log.logTarget}</td>
+                                            <td>${log.logInfo}</td>
+                                            <td>${log.logPreValue}</td>
+                                            <td>${log.logCurValue}</td>
+                                            <td>${log.logDate}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                            </tbody>
+                        </table>
+
+                        <!--------------------- 페이지네이션 --------------------->
+                        <nav class="pagination">
+                            <c:if test="${requestScope.page ne null}">
+                                <c:set var="pvo" value="${requestScope.page}" />
+
+                                <!-- 첫 페이지로 이동 버튼 -->
+                                <c:if test="${pvo.startPage > 1}">
+                                    <a href="AdminController?type=logSearch&cPage=1&startDate=${param.startDate}&endDate=${param.endDate}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control first" title="처음 페이지"></a>
+                                </c:if>
+
+                                <!-- 이전 페이지 블록으로 이동 버튼 -->
+                                <c:if test="${pvo.startPage > 1}">
+                                    <a href="AdminController?type=logSearch&cPage=${pvo.startPage - pvo.pagePerBlock}&startDate=${param.startDate}&endDate=${param.endDate}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control prev" title="이전 블록"></a>
+                                </c:if>
+
+                                <!-- 페이지 번호 목록 -->
+                                <c:forEach begin="${pvo.startPage}" end="${pvo.endPage}" varStatus="st">
+                                    <c:if test="${st.index eq pvo.nowPage}">
+                                        <strong class="active">${st.index}</strong>
+                                    </c:if>
+                                    <c:if test="${st.index ne pvo.nowPage}">
+                                        <a href="AdminController?type=logSearch&cPage=${st.index}&startDate=${param.startDate}&endDate=${param.endDate}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                           title="${st.index}페이지 보기">${st.index}</a>
+                                    </c:if>
                                 </c:forEach>
-                            </c:otherwise>
-                        </c:choose>
-                        </tbody>
-                    </table>
+
+                                <!-- 다음 페이지 블록으로 이동 버튼 -->
+                                <c:if test="${pvo.endPage < pvo.totalPage}">
+                                    <a href="AdminController?type=logSearch&cPage=${pvo.startPage + pvo.pagePerBlock}&startDate=${param.startDate}&endDate=${param.endDate}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control next" title="다음 블록"></a>
+                                </c:if>
+
+                                <!-- 마지막 페이지로 이동 버튼 -->
+                                <c:if test="${pvo.endPage < pvo.totalPage}">
+                                    <a href="AdminController?type=logSearch&cPage=${pvo.totalPage}&startDate=${param.startDate}&endDate=${param.endDate}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control last" title="마지막 페이지"></a>
+                                </c:if>
+                            </c:if>
+                        </nav>
+                        <!--------------------- 페이지네이션 --------------------->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
-<%--<jsp:include page="../../user/common/footer.jsp"/>--%>
-
 <script>
+  function searchLogs() {
+    let keyword = document.getElementById("searchKeyword").value.trim();
+    let startDate = document.getElementById("startDate").value;
+    let endDate = document.getElementById("endDate").value;
+    let searchType = document.getElementById("searchType").value;
+
+    let queryParams = new URLSearchParams(); // URL 파라미터 객체 생성
+    queryParams.append("type", "logSearch"); // type=logSearch 추가
+
+    if (startDate) queryParams.append("startDate", startDate);
+    if (endDate) queryParams.append("endDate", endDate);
+    if (searchType && keyword) {
+      queryParams.append("searchType", searchType); // searchType 추가
+      queryParams.append("searchKeyword", keyword); // searchKeyword 추가
+    }
+
+    let baseUrl = window.location.origin + "/AdminController";
+    let queryString = queryParams.toString(); // 자동으로 `&`을 처리
+
+    console.log("🔹 Redirecting to:", baseUrl + "?" + queryString); // 디버깅용 로그
+
+    window.location.href = baseUrl + "?" + queryString; // 최종 URL 적용
+  }
+
+
+  function resetSearch() {
+    let baseUrl = window.location.origin + "/AdminController?type=logManagement";
+    window.location.href = baseUrl;
+  }
 
 </script>
+
 </body>
 </html>

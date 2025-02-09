@@ -156,6 +156,8 @@
     session.setAttribute("finalAmount", request.getParameter("finalAmount"));
     session.setAttribute("adultPriceIdx", request.getParameter("adultPriceIdx"));
     session.setAttribute("studentPriceIdx", request.getParameter("studentPriceIdx"));
+    session.setAttribute("movieIdx", request.getParameter("movieIdx"));
+    session.setAttribute("timetableStartTime", request.getParameter("timetableStartTime"));
 %>
 
 <script src="https://js.tosspayments.com/v1"></script>
@@ -178,6 +180,7 @@
     let totalAmount = parseInt("${totalAmount}", 10);
     let oneTicketPrice = Math.floor(totalAmount / (${adultCount} + ${studentCount}));
 
+    let totalDiscount = 0;
     let discountValue = 0;
     let pointDiscount = 0;
     let couponIdx = null; // 쿠폰 ID 저장 변수 추가
@@ -193,6 +196,15 @@
         discountValue = oneTicketPrice;
       }
 
+      // 쿠폰을 적용했을 때 할인 금액이 결제 금액보다 커지면 포인트 초기화
+      if (discountValue >= totalAmount) {
+        pointDiscount = 0;
+        pointsInput.value = 0;
+        pointsInput.disabled = true; // 포인트 입력 불가능
+      } else {
+        pointsInput.disabled = false; // 정상적인 경우 다시 활성화
+      }
+
       updateFinalPrice();
     });
 
@@ -200,8 +212,20 @@
     pointsInput.addEventListener("input", function () {
       let inputValue = parseInt(pointsInput.value, 10) || 0;
 
+      // 사용자가 보유한 포인트보다 많이 입력하면 보유 포인트 한도로 조정
       if (inputValue > userPoints) {
         inputValue = userPoints;
+      }
+
+      // 입력된 포인트가 예매 금액을 초과하면 예매 금액으로 제한
+      if (inputValue > totalAmount) {
+        inputValue = totalAmount;
+      }
+
+      // 쿠폰 할인 이후, 최종 금액을 초과하는 포인트 입력 방지
+      if (discountValue + inputValue > totalAmount) {
+        inputValue = totalAmount - discountValue;
+        if (inputValue < 0) inputValue = 0; // 음수 방지
       }
 
       pointDiscount = inputValue;
@@ -220,15 +244,37 @@
       formDiscountAmount.value = discountValue + pointDiscount;
       formFinalAmount.value = finalPrice;
       formCouponIdx.value = couponIdx || ""; // 폼에 쿠폰 ID 저장
+
+      // 할인 금액이 결제 금액을 초과하는 경우 포인트 자동 초기화
+      if (discountValue + pointDiscount > totalAmount) {
+        pointDiscount = totalAmount - discountValue;
+        if (pointDiscount < 0) pointDiscount = 0; // 음수가 되지 않도록
+        pointsInput.value = pointDiscount;
+      }
+
+      // 결제 금액이 0원일 경우 포인트 입력창 비활성화
+      if (finalPrice === 0) {
+
+        pointsInput.value = 0;
+        pointsInput.disabled = true;
+        pointDiscount = 0;
+      } else {
+        pointsInput.disabled = false;
+      }
     }
 
     // 🔹 Toss Payments 결제 요청
     paymentButton.addEventListener("click", function () {
       let finalPaymentAmount = parseInt(finalAmountElement.textContent.replace(/,/g, ""), 10);
 
-      if (finalPaymentAmount <= 0) {
+      if (finalPaymentAmount < 0) {
         alert("최종 결제 금액이 0원이므로 결제할 수 없습니다.");
         return;
+      }
+
+      if (finalPaymentAmount === 0) {
+
+        window.location.href = "/UserController?type=reservationPaymentSuccess&paymentTotal=" + totalAmount + "&paymentDiscount=" + (discountValue + pointDiscount) + "&pointDiscount=" + pointDiscount + "&paymentFinal=" + finalPaymentAmount + "&couponIdx=" + couponIdx
       }
 
       const tossPayments = TossPayments("test_ck_AQ92ymxN34Zmb2DLJyJOrajRKXvd");
