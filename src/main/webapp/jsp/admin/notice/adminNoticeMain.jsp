@@ -309,7 +309,7 @@
 
             <div id="main">
                 <div class="notice">
-                    <h1>공지사항</h1>
+                    <h1>게시판 목록</h1>
                     <div id="announcement" class="noticeboard">
                         <div class="search-bar-container">
                             <div class="total-count">전체 ${requestScope.total}건</div>

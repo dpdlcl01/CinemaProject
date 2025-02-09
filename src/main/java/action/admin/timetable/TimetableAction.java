@@ -24,11 +24,15 @@ public class TimetableAction implements Action {
         PrintWriter out = response.getWriter();
 
         try {
-            // 각 순위 범위에 따라 상영 시간표 생성
-            //createTop5Timetable();
-            createTop10Timetable();
-            createTop20Timetable();
-            createRemainingTimetable();
+            // 파라미터 값 가져오기
+            int scheduleDays = Integer.parseInt(request.getParameter("scheduleDays"));
+            int schedulePeriod = Integer.parseInt(request.getParameter("schedulePeriod"));
+
+            // 각 순위 범위에 따라 상영 시간표 생성 (파라미터로 받은 값 사용)
+            createTop5Timetable(scheduleDays, schedulePeriod);
+/*            createTop10Timetable(scheduleDays, schedulePeriod);
+            createTop20Timetable(scheduleDays, schedulePeriod);
+            createRemainingTimetable(scheduleDays, schedulePeriod);*/
 
             out.write("{\"success\": true, \"message\": \"상영 시간표가 성공적으로 생성되었습니다.\"}");
         } catch (Exception e) {
@@ -41,17 +45,17 @@ public class TimetableAction implements Action {
 
 
     // 1~5위 영화 시간표 생성
-    private void createTop5Timetable() {
+    private void createTop5Timetable(int startOffset, int daysToGenerate) {
         List<MovieVO> mList = TimetableDAO.getMoviesByRange(5, 0);
         List<String> theaterIdxList = TimetableDAO.getAllTheaterIdx();
 
         String[] screenTypes = {"5", "4", "3", "2", "1"};
-        generateTimetable(mList, theaterIdxList, screenTypes, 7, 2, 6, true);
+        generateTimetable(mList, theaterIdxList, screenTypes, startOffset, daysToGenerate, 6, true);
     }
 
 
     // 6~10위 영화 시간표 생성
-    private void createTop10Timetable() {
+    private void createTop10Timetable(int startOffset, int daysToGenerate) {
         List<MovieVO> mList = TimetableDAO.getMoviesByRange(5, 5);
 
         // 그룹 A 설정
@@ -61,32 +65,32 @@ public class TimetableAction implements Action {
         String[] screenTypesB = {"8", "10"};  // 그룹 B 상영관 (7위, 9위 영화)
 
         // 그룹 A의 시간표 생성
-        generateTimetable(mList, getGroupTheaters("A"), screenTypesA, 7, 2, 6, false);
+        generateTimetable(mList, getGroupTheaters("A"), screenTypesA, startOffset, daysToGenerate, 6, false);
 
         // 그룹 B의 시간표 생성
-        generateTimetable(mList, getGroupTheaters("B"), screenTypesB, 7, 2, 6, false);
+        generateTimetable(mList, getGroupTheaters("B"), screenTypesB, startOffset, daysToGenerate, 6, false);
     }
 
 
     // 11~20위 영화 시간표 생성
-    private void createTop20Timetable() {
+    private void createTop20Timetable(int startOffset, int daysToGenerate) {
         List<MovieVO> mList = TimetableDAO.getMoviesByRange(10, 10);
 
         // 그룹 A 설정: 남은 상영관 6관, 9관
         String[] screenTypesA = {"6", "9"};
-        generateTimetable(mList.subList(0, 5), getGroupTheaters("A"), screenTypesA, 7, 2, 3, false);
+        generateTimetable(mList.subList(0, 5), getGroupTheaters("A"), screenTypesA, startOffset, daysToGenerate, 3, false);
 
         // 그룹 B 설정: 남은 상영관 6관, 7관, 9관
         String[] screenTypesB = {"6", "7", "9"};
-        generateTimetable(mList.subList(5, mList.size()), getGroupTheaters("B"), screenTypesB, 7, 2, 3, false);
+        generateTimetable(mList.subList(5, mList.size()), getGroupTheaters("B"), screenTypesB, startOffset, daysToGenerate, 3, false);
     }
 
 
     // 나머지 순위 영화 시간표 생성
-    private void createRemainingTimetable() {
+    private void createRemainingTimetable(int startOffset, int daysToGenerate) {
         List<MovieVO> mList = TimetableDAO.getMoviesByRange(60, 20);
         String[] screenTypes = {"6", "7", "9"};
-        generateTimetable(mList, TimetableDAO.getAllTheaterIdx(), screenTypes, 7, 2, 1, false);
+        generateTimetable(mList, TimetableDAO.getAllTheaterIdx(), screenTypes, startOffset, daysToGenerate, 1, false);
     }
 
 

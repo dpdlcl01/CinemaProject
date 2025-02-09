@@ -382,7 +382,7 @@
             <%--  메인  --%>
 
             <div id="main">
-                <h1>극장, 상영관 관리</h1>
+                <h1>극장/상영관 목록</h1>
                 <div id="title">
                     <!-- 검색 폼 -->
                     <div id="announcement" class="noticeboard">

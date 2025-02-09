@@ -236,7 +236,7 @@
       <div id="main">
         <div id="title">
           <div id="store">
-            <h3>상품관리</h3>
+            <h3>상품 목록</h3>
             <button id="addBtn" type="button" onclick="showAddProductForm()">새 상품 추가</button>
           </div>
           <%-- 테이블 추가 --%>

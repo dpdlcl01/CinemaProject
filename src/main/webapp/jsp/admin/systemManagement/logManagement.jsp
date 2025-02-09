@@ -302,7 +302,7 @@
             <%--  메인  --%>
 
             <div id="main">
-                <h1>사용자 로그 관리</h1>
+                <h1>로그 목록</h1>
                 <div id="title">
                     <!-- 검색 폼 -->
                     <div id="announcement" class="noticeboard">

@@ -359,7 +359,7 @@
       <%--  메인  --%>
 
       <div id="main">
-        <h1>영화 정보 관리</h1>
+        <h1>영화 목록</h1>
         <div id="title">
             <div id="announcement" class="noticeboard">
                 <div class="search-bar-container">

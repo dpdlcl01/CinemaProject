@@ -373,7 +373,7 @@
       <%--  메인  --%>
 
       <div id="main">
-        <h1>결제 내역 조회</h1>
+        <h1>결제 내역 목록</h1>
         <div id="title">
             <div id="announcement" class="noticeboard">
                 <div class="search-bar-container">

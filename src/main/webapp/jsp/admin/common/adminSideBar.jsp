@@ -83,12 +83,12 @@
 
     <h2 class="dashboard">상품 관리</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/AdminController?type=product">상품 추가/수정</a></li>
+        <li><a href="${pageContext.request.contextPath}/AdminController?type=product">상품 정보 관리</a></li>
     </ul>
 
     <h2 class="dashboard">결제 관리</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/AdminController?type=paymentList">결제내역 조회</a></li>
+        <li><a href="${pageContext.request.contextPath}/AdminController?type=paymentList">결제 내역 관리</a></li>
     </ul>
 
     <h2 class="dashboard">게시판 관리</h2>
@@ -98,7 +98,7 @@
 
     <h2 class="dashboard">쿠폰 관리</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/AdminController?type=coupon">쿠폰 추가/발급</a></li>
+        <li><a href="${pageContext.request.contextPath}/AdminController?type=coupon">쿠폰 정보 관리</a></li>
     </ul>
 
     <h2 class="dashboard">시스템 관리</h2>

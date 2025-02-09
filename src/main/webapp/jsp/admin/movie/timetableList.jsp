@@ -162,6 +162,21 @@
         justify-content: center;
     }
 
+    /* 초기화 버튼 스타일 */
+    .btn-add {
+        background-color: #f5f5f5; /* 연한 회색 */
+        border: 1px solid #d1d1d1; /* 테두리 회색 */
+        border-radius: 4px; /* 둥근 모서리 */
+        cursor: pointer;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .movie-title-cell {
         max-width: 200px;  /* 원하는 너비로 조정 */
         white-space: nowrap;
@@ -285,6 +300,70 @@
         height: 32px;
         background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
     }
+
+    #scheduleModal .info-text {
+        font-size: 12px;
+        color: #666;
+        line-height: 1.5;
+        font-weight: normal; /* 글씨 굵기 문제 해결 */
+        text-align: left; /* 설명 텍스트 왼쪽 정렬 */
+        margin: 10px 0 0 0;
+    }
+
+
+    #scheduleModal .info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+        width: 100%;
+    }
+
+    #scheduleModal .field-row {
+        display: flex;
+        justify-content: flex-start; /* 중앙 정렬 제거 */
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+    }
+
+    #scheduleModal .field-row label {
+        width: 140px; /* 일정 너비 지정 */
+        font-weight: normal; /* 굵기 설정 변경 */
+        text-align: right; /* 오른쪽 정렬 */
+    }
+
+    #scheduleModal .field-row input[type="number"] {
+        flex: 1;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    #scheduleModal .update-button {
+        display: inline-block;
+        padding: 15px 14px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        color: white;
+        background-color: #339eb2;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    #scheduleModal .update-button:hover {
+        background-color: #005f6b;
+    }
+
+    .loading-message {
+        font-size: 12px;
+        color: #01738b;
+        margin-left: 10px;  /* 버튼 옆에 여백 추가 */
+        white-space: nowrap;
+    }
 </style>
 
 <body>
@@ -299,19 +378,19 @@
         <jsp:include page="../common/adminSideBar.jsp"></jsp:include>
 
         <div id="main">
-            <h1>상영 시간표 관리</h1>
+            <h1>상영 시간표 목록</h1>
             <div id="title">
                 <div id="announcement" class="noticeboard">
                     <!-- 검색 및 필터링 -->
                     <div class="search-bar-container">
                         <div class="total-count">전체 ${requestScope.totalCount}건</div>
-                        <button id="generateTimetableBtn">상영 시간표 자동 생성</button>
 
                         <!-- 검색어 입력 및 필터 섹션 -->
                         <div class="search-bar">
                             <form id="searchForm" action="AdminController" method="get">
                                 <input type="hidden" name="type" value="timetableList" />
 
+                                <button type="button" id="generateTimetableBtn" class="btn-add">상영 시간표 생성</button>
                                 <!-- 상영일 필터 -->
                                 <label for="screeningDate">상영일:</label>
                                 <input type="date" id="screeningDate" name="screeningDate" style="padding: 5px;"
@@ -508,6 +587,39 @@
                 </nav>
                 <!--------------------- 페이지네이션 --------------------->
 
+                <!-- 상영 시간표 생성 모달 -->
+                <div id="scheduleModal" title="상영 시간표 생성">
+                    <form id="scheduleForm">
+                        <div class="info-section">
+                            <!-- 영화 예매율 업데이트 버튼 및 메시지 -->
+                            <div class="field-row">
+                                <button type="button" id="updateBookingRateBtn" class="update-button">
+                                    영화 업데이트
+                                </button>
+                                <span id="loadingMessage" class="loading-message" style="display: none;"></span>
+                            </div>
+
+
+                            <!-- 상영 시간표 생성 정보 -->
+                            <div class="field-row">
+                                <label for="scheduleDays">몇 일 후:</label>
+                                <input type="number" id="scheduleDays" name="scheduleDays" min="1" value="7" />
+                            </div>
+
+                            <div class="field-row">
+                                <label for="schedulePeriod">생성 일수:</label>
+                                <input type="number" id="schedulePeriod" name="schedulePeriod" min="1" max="7" value="2" />
+                            </div>
+
+                            <!-- 규칙 설명 -->
+                            <p class="info-text">
+                                * 상영 시간표는 현재 예매율 순위에 따라 자동 생성됩니다.<br>
+                                * 상영 시간대는 9:00, 11:30, 14:00, 16:30, 19:00, 21:30으로 고정됩니다.<br>
+                                * 하루에 최대 90개의 영화가 상영됩니다.
+                            </p>
+                        </div>
+                    </form>
+                </div>
 
             </div>
             </div>
@@ -520,29 +632,143 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
-        // 상영 시간표 자동 생성 버튼 클릭 이벤트
-        $("#generateTimetableBtn").on("click", function() {
-            if (confirm("2일치 상영 시간표를 생성하시겠습니까?")) {
-                $.ajax({
-                    url: "AdminController?type=generateTimetable",
-                    method: "POST",
-                    success: function(response) {
-                        alert(response.message);
-                        location.reload();  // 새로고침하여 업데이트된 데이터 확인
-                    },
-                    error: function() {
-                        alert("상영 시간표 생성 중 오류가 발생했습니다.");
-                    }
-                });
+        // 모달 초기화
+        $("#scheduleModal").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 500,
+            classes: {
+                "ui-dialog": "dialog-common"
+            },
+            buttons: {
+                "생성": function() {
+                    const scheduleDays = $("#scheduleDays").val();
+                    const schedulePeriod = $("#schedulePeriod").val();
+
+                    // 상영 시간표 생성 Ajax 요청
+                    $.ajax({
+                        url: "AdminController?type=generateTimetable",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            scheduleDays: scheduleDays,
+                            schedulePeriod: schedulePeriod
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                alert("상영 시간표가 성공적으로 생성되었습니다.");
+                                $("#scheduleModal").dialog("close");
+                                location.reload();  // 새로고침하여 업데이트된 데이터 확인
+                            } else {
+                                alert("상영 시간표 생성 중 오류가 발생했습니다: " + response.message);
+                            }
+                        },
+                        error: function() {
+                            alert("상영 시간표 생성 요청에 실패했습니다.");
+                        }
+                    });
+                },
+                "취소": function() {
+                    $(this).dialog("close");
+                }
             }
         });
 
-        // 극장 선택 필터링
+        $("#generateTimetableBtn").on("click", function(event) {
+            event.preventDefault();  // 기본 동작 방지
+            $("#scheduleModal").dialog("open");
+        });
+
+
+        let updateInterval;
+
+        // 영화 예매율 업데이트 버튼 이벤트
+        $("#updateBookingRateBtn").on("click", function(event) {
+            event.preventDefault();  // 기본 동작 방지
+
+            // 로딩 메시지 표시 및 상태 업데이트 시작
+            showLoadingMessage("영화 예매율을 업데이트 중입니다...");
+            startStatusPolling();
+
+            // 영화 예매율 업데이트 Ajax 요청
+            $.ajax({
+                url: "AdminController?type=dbUpdate",
+                type: "POST",
+                dataType: "json",
+                success: function(response) {
+                    if (response.success) {
+                        // 성공 메시지는 마지막 상태 메시지에서 처리하므로 별도로 alert 호출하지 않음
+                    } else {
+                        showErrorMessage("업데이트 중 오류가 발생했습니다: " + response.message);
+                    }
+                    hideLoadingMessage();
+                },
+                error: function() {
+                    stopStatusPolling();
+                    hideLoadingMessage();
+                    showErrorMessage("영화 예매율 업데이트 요청에 실패했습니다.");
+                }
+            });
+        });
+
+        // 상태 메시지 주기적 요청 (Polling)
+        function startStatusPolling() {
+            updateInterval = setInterval(fetchUpdateStatus, 2000);  // 2초마다 상태 확인
+        }
+
+        function stopStatusPolling() {
+            clearInterval(updateInterval);
+        }
+
+        function fetchUpdateStatus() {
+            $.ajax({
+                url: "AdminController?type=updateStatus",
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    if (response.statusMessage) {
+                        $("#loadingMessage").text(response.statusMessage);  // 서버에서 받은 상태 메시지 표시
+
+                        // 상태 메시지가 '업데이트가 완료되었습니다.'인 경우 폴링 중단
+                        if (response.statusMessage === "영화 데이터 업데이트가 완료되었습니다.") {
+                            stopStatusPolling();  // 폴링 중단
+                            $("#loadingMessage").text(response.statusMessage);  // 메시지 그대로 유지
+                        }
+                    }
+                },
+                error: function() {
+                    console.warn("상태 업데이트 중 오류 발생");
+                }
+            });
+        }
+
+        // 로딩 메시지 표시 함수
+        function showLoadingMessage(message) {
+            $("#loadingMessage").text(message).show();
+        }
+
+        // 로딩 메시지 숨김 함수
+        function hideLoadingMessage() {
+            $("#loadingMessage").hide();
+        }
+
+        // 성공 메시지 표시 함수
+        function showSuccessMessage(message) {
+            alert(message);
+        }
+
+        // 오류 메시지 표시 함수
+        function showErrorMessage(message) {
+            alert(message);
+        }
+
+        // 극장 선택 필터링 이벤트
         $("#theaterSelect").on("change", function() {
             const selectedTheater = $(this).val();
-            location.href = "AdminController?type=timetableList&theaterIdx=" + selectedTheater ;
+            location.href = "AdminController?type=timetableList&theaterIdx=" + selectedTheater;
         });
     });
+
 </script>
 </body>
 </html>

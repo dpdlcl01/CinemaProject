@@ -224,7 +224,7 @@
             <%--  메인  --%>
 
             <div id="main">
-                <h1>쿠폰 관리</h1>
+                <h1>쿠폰 목록</h1>
 
 
                 <div class="addBtnDiv">

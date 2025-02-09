@@ -14,15 +14,25 @@ import util.WebDriverUtil;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DbUpdateAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+        response.setContentType("application/json;charset=UTF-8");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpSession session = request.getSession();
+        UpdateStatusAction statusAction = new UpdateStatusAction();
+
         try {
             // `ServletContext` 가져오기
             ServletContext context = request.getServletContext();
@@ -36,6 +46,9 @@ public class DbUpdateAction implements Action {
             int maxMovies = 90; // 가져올 영화 데이터 최대 개수
             int count = 0;
 
+            // 영화 정보 업데이트 시작 메시지 설정
+            statusAction.updateStatusMessage(session, "영화 데이터 업데이트 시작...");
+
             for (WebElement row : rows) {
                 if (count >= maxMovies)
                     break; // 최대 90개까지만 처리
@@ -47,6 +60,9 @@ public class DbUpdateAction implements Action {
                         String movieCd = tdList.get(1).findElement(By.tagName("a"))
                                 .getAttribute("onclick").split("'")[3]; // 영화 코드
                         String movieTitle = tdList.get(1).getText(); // 영화 제목
+
+                        // 상태 메시지 업데이트
+                        statusAction.updateStatusMessage(session, "현재 처리 중인 영화: " + movieTitle);
 
                         String movieRank = tdList.get(0).getText(); // 예매 순위
                         String reservationRate = tdList.get(3).getText().replace("%", "").trim(); // 예매율
@@ -97,6 +113,7 @@ public class DbUpdateAction implements Action {
             }
 
             // 이번 크롤링에서 업데이트되지 않은 영화 처리 (예매순위, 예매율, 누적관객수 NULL 처리)
+            statusAction.updateStatusMessage(session, "업데이트되지 않은 영화 데이터 NULL 처리 중...");
             for (String existingMovieCd : existingMovieCodes) {
                 if (!updatedMovieCodes.contains(existingMovieCd)) {
                     int result = MovieDAO.nullifyMovieReservationInfo(existingMovieCd);
@@ -106,18 +123,31 @@ public class DbUpdateAction implements Action {
                 }
             }
 
-            // DB 저장 로직 추가 가능
-            System.out.println("총 처리된 영화 데이터 수: " + updatedMovieCodes.size());
+            // 최종 메시지 설정
+            statusAction.updateStatusMessage(session, "영화 데이터 업데이트가 완료되었습니다.");
+            session.setAttribute("finalStatusMessage", "영화 데이터 업데이트가 완료되었습니다.");  // 상태 메시지 유지용
+
+            resultMap.put("success", true);
+            resultMap.put("message", "총 처리된 영화 데이터 수: " + updatedMovieCodes.size());
 
         } catch (Exception e) {
+            statusAction.updateStatusMessage(session, "영화 데이터 업데이트 중 오류 발생.");
             System.out.println("크롤러 또는 데이터 처리 중 전체 오류 발생: " + e.getMessage());
-            e.printStackTrace();
+            resultMap.put("success", false);
+            resultMap.put("message", "영화 정보 업데이트 중 오류가 발생했습니다.");
         } finally {
             // WebDriver 종료
             WebDriverUtil.quitDriver();
         }
 
-        return "/jsp/admin/common/dashboard.jsp";
+        try {
+            // 응답을 JSON으로 변환하여 전송
+            mapper.writeValue(response.getWriter(), resultMap);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;  // JSON 응답 후 별도 페이지 이동 없음
     }
 
 
@@ -243,6 +273,5 @@ public class DbUpdateAction implements Action {
         }
         return "ALL";
     }
-
 
 }
