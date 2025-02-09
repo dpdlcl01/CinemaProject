@@ -108,23 +108,6 @@
     </select>
 
 
-    <select id="getTotalCount" resultType="int">
-        SELECT COUNT(*) FROM payment;
-    </select>
-
-    <select id="selectByPage" parameterType="map" resultType="mybatis.vo.PaymentVO">
-        SELECT * FROM payment
-        ORDER BY paymentDate DESC
-        LIMIT #{limit} OFFSET #{offset};
-    </select>
-
-    <select id="searchSelect" parameterType="String" resultType="mybatis.vo.PaymentVO">
-        SELECT p.*, r.productName
-        FROM user u
-        INNER JOIN payment p ON u.userIdx = p.userIdx
-        LEFT JOIN product r ON p.productIdx = r.productIdx
-        WHERE u.userId = #{userName};
-    </select>
 
     <insert id="insertPayment" parameterType="mybatis.vo.PaymentVO" useGeneratedKeys="true" keyProperty="paymentIdx">
         INSERT INTO payment (

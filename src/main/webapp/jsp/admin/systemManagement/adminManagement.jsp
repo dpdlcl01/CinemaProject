@@ -358,7 +358,8 @@
 
     /* 읽기 전용 필드 */
     #adminModal input[readonly],
-    #adminAddModal input[readonly] {
+    #adminAddModal input[readonly],
+    #adminAddModal #adminStatus1 {
         background-color: #f4f4f4;
         color: #888;
     }
@@ -440,10 +441,10 @@
                                     <button type="button" class="btn-reset" title="검색 조건 초기화" onclick="resetUserSearch()">초기화</button>
                                 </form>
                                 <script>
-                                  function resetUserSearch() {
-                                    document.querySelector('#searchForm').reset();  // 폼 초기화
-                                    location.href = 'AdminController?type=adminList';  // 초기화 후 기본 목록 페이지로 이동
-                                  }
+                                    function resetUserSearch() {
+                                        document.querySelector('#searchForm').reset();  // 폼 초기화
+                                        location.href = 'AdminController?type=adminList';  // 초기화 후 기본 목록 페이지로 이동
+                                    }
                                 </script>
                             </div>
                         </div>
@@ -556,7 +557,10 @@
                                         <!-- 관리자 상태 -->
                                         <div class="field-row">
                                             <label>관리자 상태:</label>
-                                            <input type="text" id="adminStatus" name="adminStatus" />
+                                            <select id="adminStatus" name="adminStatus">
+                                                <option value="0">활성</option>
+                                                <option value="1">탈퇴</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -598,7 +602,9 @@
                                         <!-- 관리자 상태 (기본값 1) -->
                                         <div class="field-row">
                                             <label>관리자 상태:</label>
-                                            <input type="text" id="adminStatus1" name="adminStatus" readonly value="0"/>
+                                            <select id="adminStatus1" name="adminStatus" disabled>
+                                                <option value="0" selected>활성</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -611,163 +617,163 @@
                     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
                     <script>
-                      $(document).ready(function() {
-                        let selectedAdminIdx = null; // 전역 변수로 설정
+                        $(document).ready(function() {
+                            let selectedAdminIdx = null; // 전역 변수로 설정
 
-                        // 사용자 데이터 로드 함수
-                        function loadUserData(adminIdx) {
-                          selectedAdminIdx = adminIdx;
+                            // 사용자 데이터 로드 함수
+                            function loadUserData(adminIdx) {
+                                selectedAdminIdx = adminIdx;
 
-                          $.ajax({
-                            url: "AdminController",
-                            method: "GET",
-                            data: {
-                              type: "getAdmin",
-                              adminIdx: adminIdx
-                            },
-                            dataType: "json",
-                            headers: {
-                              "X-Requested-With": "XMLHttpRequest"
-                            },
-                            success: function(response) {
-                              if (response.error) {
-                                alert("오류 발생: " + response.error);
-                                return;
-                              }
+                                $.ajax({
+                                    url: "AdminController",
+                                    method: "GET",
+                                    data: {
+                                        type: "getAdmin",
+                                        adminIdx: adminIdx
+                                    },
+                                    dataType: "json",
+                                    headers: {
+                                        "X-Requested-With": "XMLHttpRequest"
+                                    },
+                                    success: function(response) {
+                                        if (response.error) {
+                                            alert("오류 발생: " + response.error);
+                                            return;
+                                        }
 
-                              // 기본 정보 채우기
-                              $("#adminIdx").val(response.adminIdx);
-                              $("#adminId").val(response.adminId);
-                              $("#adminLevel").val(response.adminLevel);
-                              $("#adminStatus").val(response.adminStatus);
+                                        // 기본 정보 채우기
+                                        $("#adminIdx").val(response.adminIdx);
+                                        $("#adminId").val(response.adminId);
+                                        $("#adminLevel").val(response.adminLevel);
+                                        $("#adminStatus").val(response.adminStatus);
 
-                              // 변경 가능한 정보 채우기
-                              $("[name='adminId']").val(response.adminId);
-                              $("[name='adminLevel']").val(response.adminLevel);
-                              $("[name='adminStatus']").val(response.adminStatus);
+                                        // 변경 가능한 정보 채우기
+                                        $("[name='adminId']").val(response.adminId);
+                                        $("[name='adminLevel']").val(response.adminLevel);
+                                        $("[name='adminStatus']").val(response.adminStatus);
 
-                              // 모달 창 열기
-                              $("#adminModal").dialog("open");
-                            },
-                            error: function(xhr, status, error) {
-                              console.error("AJAX 오류:", xhr.responseText);
-                              alert("사용자 정보를 불러오는 데 실패했습니다.");
+                                        // 모달 창 열기
+                                        $("#adminModal").dialog("open");
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("AJAX 오류:", xhr.responseText);
+                                        alert("사용자 정보를 불러오는 데 실패했습니다.");
+                                    }
+                                });
                             }
-                          });
-                        }
 
-                        // jQuery UI 모달 초기화
-                        $("#adminModal").dialog({
-                          autoOpen: false,
-                          modal: true,
-                          width: 600,
-                          classes: {
-                            "ui-dialog": "dialog-common"
-                          },
-                          buttons: {
-                            "저장": function() {
-
-                              // 폼을 배열로 만들어서 String으로 변환
-                              let formDataArray = $("#updateAdminForm").serializeArray();
-                              formDataArray.push({ name: "type", value: "updateAdmin" });
-                              formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
-
-                              // .param 사용하여 배열을 String으로
-                              let formDataString = $.param(formDataArray);
-
-                              $.ajax({
-                                url: "AdminController",
-                                type: "POST",
-                                data: formDataString,
-                                dataType: "json",
-                                headers: {
-                                  "X-Requested-With": "XMLHttpRequest"
+                            // jQuery UI 모달 초기화
+                            $("#adminModal").dialog({
+                                autoOpen: false,
+                                modal: true,
+                                width: 600,
+                                classes: {
+                                    "ui-dialog": "dialog-common"
                                 },
-                                success: function(response) {
-                                  if (response.error) {
-                                    alert("업데이트 실패: " + response.error);
-                                    return;
-                                  }
+                                buttons: {
+                                    "저장": function() {
 
-                                  alert("사용자 정보가 업데이트되었습니다.");
-                                  $("#adminModal").dialog("close");
-                                  location.reload();  // 페이지 새로고침
-                                },
-                                error: function(xhr, status, error) {
-                                  console.error("AJAX 오류 발생:", error);
-                                  alert("업데이트에 실패했습니다.");
+                                        // 폼을 배열로 만들어서 String으로 변환
+                                        let formDataArray = $("#updateAdminForm").serializeArray();
+                                        formDataArray.push({ name: "type", value: "updateAdmin" });
+                                        formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
+
+                                        // .param 사용하여 배열을 String으로
+                                        let formDataString = $.param(formDataArray);
+
+                                        $.ajax({
+                                            url: "AdminController",
+                                            type: "POST",
+                                            data: formDataString,
+                                            dataType: "json",
+                                            headers: {
+                                                "X-Requested-With": "XMLHttpRequest"
+                                            },
+                                            success: function(response) {
+                                                if (response.error) {
+                                                    alert("업데이트 실패: " + response.error);
+                                                    return;
+                                                }
+
+                                                alert("사용자 정보가 업데이트되었습니다.");
+                                                $("#adminModal").dialog("close");
+                                                location.reload();  // 페이지 새로고침
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error("AJAX 오류 발생:", error);
+                                                alert("업데이트에 실패했습니다.");
+                                            }
+                                        });
+                                    },
+                                    "취소": function() {
+                                        $(this).dialog("close");
+                                    }
                                 }
-                              });
-                            },
-                            "취소": function() {
-                              $(this).dialog("close");
-                            }
-                          }
-                        });
+                            });
 
-                        // jQuery UI 모달 초기화
-                        $("#adminAddModal").dialog({
-                          autoOpen: false,
-                          modal: true,
-                          width: 600,
-                          classes: {
-                            "ui-dialog": "dialog-common"
-                          },
-                          buttons: {
-                            "저장": function() {
-
-                              // 폼을 배열로 만들어서 String으로 변환
-                              let formDataArray = $("#addAdminForm").serializeArray();
-                              formDataArray.push({ name: "type", value: "addAdmin" });
-                              formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
-
-                              // .param 사용하여 배열을 String으로
-                              let formDataString = $.param(formDataArray);
-
-                              $.ajax({
-                                url: "AdminController",
-                                type: "POST",
-                                data: formDataString,
-                                dataType: "json",
-                                headers: {
-                                  "X-Requested-With": "XMLHttpRequest"
+                            // jQuery UI 모달 초기화
+                            $("#adminAddModal").dialog({
+                                autoOpen: false,
+                                modal: true,
+                                width: 600,
+                                classes: {
+                                    "ui-dialog": "dialog-common"
                                 },
-                                success: function(response) {
-                                  if (response.error) {
-                                    alert("관리자 추가 실패: " + response.error);
-                                    return;
-                                  }
+                                buttons: {
+                                    "저장": function() {
 
-                                  alert("사용자 정보가 추가되었습니다.");
-                                  $("#adminAddModal").dialog("close");
-                                  location.reload();  // 페이지 새로고침
-                                },
-                                error: function(xhr, status, error) {
-                                  console.error("AJAX 오류 발생:", error);
-                                  alert("관리자 추가에 실패했습니다.");
+                                        // 폼을 배열로 만들어서 String으로 변환
+                                        let formDataArray = $("#addAdminForm").serializeArray();
+                                        formDataArray.push({ name: "type", value: "addAdmin" });
+                                        formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
+
+                                        // .param 사용하여 배열을 String으로
+                                        let formDataString = $.param(formDataArray);
+
+                                        $.ajax({
+                                            url: "AdminController",
+                                            type: "POST",
+                                            data: formDataString,
+                                            dataType: "json",
+                                            headers: {
+                                                "X-Requested-With": "XMLHttpRequest"
+                                            },
+                                            success: function(response) {
+                                                if (response.error) {
+                                                    alert("관리자 추가 실패: " + response.error);
+                                                    return;
+                                                }
+
+                                                alert("사용자 정보가 추가되었습니다.");
+                                                $("#adminAddModal").dialog("close");
+                                                location.reload();  // 페이지 새로고침
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error("AJAX 오류 발생:", error);
+                                                alert("관리자 추가에 실패했습니다.");
+                                            }
+                                        });
+                                    },
+                                    "취소": function() {
+                                        $(this).dialog("close");
+                                    }
                                 }
-                              });
-                            },
-                            "취소": function() {
-                              $(this).dialog("close");
-                            }
-                          }
+                            });
+
+                            // 사용자 목록 <tr> 클릭 이벤트 설정
+                            $(".clickable-row").on("click", function() {
+                                const adminIdx = $(this).data("id");
+
+                                // 사용자 데이터 로드 후 모달 열기
+                                loadUserData(adminIdx);
+                            });
+
+                            $(".addAdmin").on("click", function() {
+                                // 모달 창 열기
+                                $("#adminAddModal").dialog("open");
+                            });
+
                         });
-
-                        // 사용자 목록 <tr> 클릭 이벤트 설정
-                        $(".clickable-row").on("click", function() {
-                          const adminIdx = $(this).data("id");
-
-                          // 사용자 데이터 로드 후 모달 열기
-                          loadUserData(adminIdx);
-                        });
-
-                        $(".addAdmin").on("click", function() {
-                          // 모달 창 열기
-                          $("#adminAddModal").dialog("open");
-                        });
-
-                      });
                     </script>
                 </div>
             </div>

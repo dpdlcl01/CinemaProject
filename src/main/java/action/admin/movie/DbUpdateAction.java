@@ -117,7 +117,7 @@ public class DbUpdateAction implements Action {
             WebDriverUtil.quitDriver();
         }
 
-        return "/jsp/admin/common/Dashboard.jsp";
+        return "/jsp/admin/common/dashboard.jsp";
     }
 
 

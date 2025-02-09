@@ -36,6 +36,6 @@ public class DashboardAction implements Action {
       request.setAttribute("monthlyActiveUsers", monthlyActiveUsers);
 
       // main 화면 경로 반환
-      return "./jsp/admin/common/Dashboard.jsp";
+      return "./jsp/admin/common/dashboard.jsp";
     }
 }

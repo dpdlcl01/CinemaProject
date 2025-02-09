@@ -65,6 +65,48 @@ public class AdminDAO {
     }
 
 
+    // 전체 사용자 수 반환 (검색 조건에 따라)
+    public static int getTotalGuestCount(String searchType, String searchKeyword,
+                                        String userJoinMonth) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("searchKeyword", searchKeyword);
+        map.put("userJoinMonth", userJoinMonth);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int count = ss.selectOne("admin.getTotalGuestCount", map);
+        ss.close();
+
+        return count;
+    }
+
+    // 사용자 목록 반환 (페이징 및 검색 조건 포함)
+    public static UserVO[] getGuestsByPage(String searchType, String searchKeyword,
+                                          String userJoinMonth, int begin, int end) {
+        UserVO[] userArray = null;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("searchKeyword", searchKeyword);
+        map.put("userJoinMonth", userJoinMonth);
+        map.put("begin", begin);
+        map.put("end", end);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        List<UserVO> list = ss.selectList("admin.getGuestsByPage", map);
+        if (list != null && !list.isEmpty()) {
+            userArray = new UserVO[list.size()];
+            list.toArray(userArray);
+        }
+        ss.close();
+
+        return userArray;
+    }
+
+
+
+
+
     public UserVO getUserById(String userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
         UserVO user = null;

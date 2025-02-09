@@ -53,10 +53,15 @@
                 AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
             </if>
 
-            <!-- 사용자 상태 검색 조건 -->
-            <if test="userStatus != null and userStatus != ''">
-                AND userStatus = #{userStatus}
-            </if>
+            <!-- 사용자 상태 검색 조건: 회원만 기본적으로 나오게 함 -->
+            <choose>
+                <when test="userStatus != null and userStatus != ''">
+                    AND userStatus = #{userStatus}
+                </when>
+                <otherwise>
+                    AND userStatus IS NOT NULL
+                </otherwise>
+            </choose>
 
             <!-- 사용자 등급 검색 조건 -->
             <if test="userGrade != null and userGrade != ''">
@@ -98,10 +103,15 @@
                 AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
             </if>
 
-            <!-- 사용자 상태 검색 조건 -->
-            <if test="userStatus != null and userStatus != ''">
-                AND userStatus = #{userStatus}
-            </if>
+            <!-- 사용자 상태 검색 조건: 회원만 기본적으로 나오게 함 -->
+            <choose>
+                <when test="userStatus != null and userStatus != ''">
+                    AND userStatus = #{userStatus}
+                </when>
+                <otherwise>
+                    AND userStatus IS NOT NULL
+                </otherwise>
+            </choose>
 
             <!-- 사용자 등급 검색 조건 -->
             <if test="userGrade != null and userGrade != ''">
@@ -115,7 +125,67 @@
         WHERE c.rnum BETWEEN #{begin} AND #{end}
     </select>
 
+    <!-- 관리자 화면의 비회원 수 반환 (동적 쿼리) -->
+    <select id="getTotalGuestCount" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 조건 처리 -->
+            <if test="searchType != null and searchType != 'all' and searchKeyword != null and searchKeyword != ''">
+                <choose>
+                    <when test="searchType == 'name'">
+                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'email'">
+                        userEmail LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
 
+            <!-- 등록월 검색 조건 -->
+            <if test="userJoinMonth != null and userJoinMonth != ''">
+                AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
+            </if>
+
+            AND userStatus IS NULL
+        </trim>
+    </select>
+
+
+
+    <!-- 관리자 화면의 비회원 목록 반환 (동적 쿼리) -->
+    <select id="getGuestsByPage" resultType="mybatis.vo.UserVO" parameterType="java.util.Map">
+        SELECT * FROM (
+        SELECT @RN := @RN + 1 AS rnum, a.*
+        FROM (
+        SELECT userIdx, userName, userId, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 조건 처리 -->
+            <if test="(searchType != null and searchType != 'all') and (searchKeyword != null and searchKeyword != '')">
+                <choose>
+                    <when test="searchType == 'name'">
+                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'email'">
+                        userEmail LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 등록월 검색 조건 -->
+            <if test="userJoinMonth != null and userJoinMonth != ''">
+                AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
+            </if>
+
+            AND userStatus IS NULL
+        </trim>
+
+        ORDER BY userIdx DESC
+        ) a, (SELECT @RN := 0) b
+        ) c
+        WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
 
 
     <select id="getUserById" parameterType="String" resultType="mybatis.vo.UserVO">

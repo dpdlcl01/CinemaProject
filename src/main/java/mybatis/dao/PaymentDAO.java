@@ -66,44 +66,6 @@ public class PaymentDAO {
 
 
 
-
-/*    public static int getTotalPaymentCount() {
-        SqlSession ss = null;
-        int count = 0;
-        try {
-            ss = FactoryService.getFactory().openSession();
-            count = ss.selectOne("payment.getTotalCount");
-        } finally {
-            if (ss != null) ss.close();
-        }
-        return count;
-    }
-
-    public static List<PaymentVO> getPaymentListByPage(int cPage, int numPerPage) {
-        SqlSession ss = null;
-        List<PaymentVO> payments = new ArrayList<>();
-        try {
-            ss = FactoryService.getFactory().openSession();
-            Map<String, Object> params = new HashMap<>();
-            params.put("offset", (cPage - 1) * numPerPage);
-            params.put("limit", numPerPage);
-            payments = ss.selectList("payment.selectByPage", params);
-        } finally {
-            if (ss != null) ss.close();
-        }
-        return payments;
-    }*/
-
-    public static PaymentVO[] searchPayment(String userId){
-        SqlSession ss = FactoryService.getFactory().openSession();
-        List<PaymentVO> list = ss.selectList("payment.searchSelect",userId);
-        ss.close();
-        PaymentVO[] ar = new PaymentVO[list.size()];
-        list.toArray(ar);
-        return ar;
-    }
-
-
     public static int insertPayment(PaymentVO vo,int totalAmount,int userIdx) {
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("payment.insertPayment", vo);

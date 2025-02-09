@@ -383,7 +383,6 @@
                                 <option value="">사용자 상태 (전체)</option>
                                 <option value="0" ${param.userStatus == '0' ? 'selected' : ''}>활성</option>
                                 <option value="1" ${param.userStatus == '1' ? 'selected' : ''}>탈퇴</option>
-                                <option value="null" ${param.userStatus == 'null' ? 'selected' : ''}>비회원</option>
                             </select>
 
                             <!-- 사용자 등급 선택 -->
@@ -442,7 +441,7 @@
                     <c:set var="pvo" value="${requestScope.page}"/>
                     <c:forEach var="uvo" items="${userArray }" varStatus="status">
                         <tr class="clickable-row" data-id="${uvo.userIdx}">
-                            <td>${(paging.nowPage - 1) * paging.numPerPage + status.index + 1}</td>
+                            <td>${(pvo.nowPage - 1) * pvo.numPerPage + status.index + 1}</td>
                             <td>${uvo.userName}</td>
                             <td>${uvo.userId}</td>
                             <td>${uvo.userEmail}</td>
@@ -459,7 +458,6 @@
                                 <c:choose>
                                     <c:when test="${uvo.userStatus == 0}"><span class="user-status active">활성</span></c:when>
                                     <c:when test="${uvo.userStatus == 1}"><span class="user-status inactive">탈퇴</span></c:when>
-                                    <c:otherwise><span class="user-status non-member">비회원</span></c:otherwise>
                                 </c:choose>
                             </td>
                         </tr>

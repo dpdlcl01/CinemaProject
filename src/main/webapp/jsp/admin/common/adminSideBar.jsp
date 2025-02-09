@@ -67,7 +67,7 @@
     <h2 class="dashboard">사용자 관리</h2>
     <ul>
         <li><a href="${pageContext.request.contextPath}/AdminController?type=userlist">회원 정보 관리</a></li>
-        <li><a href="#">비회원 정보 관리</a></li>
+        <li><a href="${pageContext.request.contextPath}/AdminController?type=guestList">비회원 정보 관리</a></li>
     </ul>
 
     <h2 class="dashboard">영화 관리</h2>
