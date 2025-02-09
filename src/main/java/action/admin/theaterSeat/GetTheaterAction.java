@@ -38,7 +38,7 @@ public class GetTheaterAction implements Action {
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter().write(json);
 
-        return "null";
+        return null;
     }
 }
 

@@ -38,5 +38,6 @@
         <mapper resource="mybatis/mapper/favoriteMovie.xml"/>
         <mapper resource="mybatis/mapper/admin.xml"/>
         <mapper resource="mybatis/mapper/theaterManagement.xml"/>
+        <mapper resource="mybatis/mapper/log.xml"/>
     </mappers>
 </configuration>

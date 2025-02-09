@@ -89,4 +89,17 @@ public class TheaterManagementDAO {
 
         return vo;
     }
+
+    // 업데이트
+    public static boolean updateTheater(TheaterManagementVO vo) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            int updatedRows = ss.update("updateTheater", vo);
+            ss.commit();
+            return updatedRows > 0;  // 성공 여부 반환
+        } finally {
+            ss.close();
+        }
+    }
+
 }

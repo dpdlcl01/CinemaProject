@@ -19,5 +19,6 @@ public class LogUtil {
             log.setLogCurValue(curValue);
             LogDAO.insertLog(log);
         }
+        System.out.println("로그실행");
     }
 }

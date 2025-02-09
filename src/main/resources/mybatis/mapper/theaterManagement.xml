@@ -83,4 +83,11 @@
         WHERE t.theaterIdx = #{theaterIdx}
         AND s.screenIdx = #{screenIdx}
     </select>
+
+    <!--  상영관 업데이트  -->
+    <update id="updateTheater" parameterType="mybatis.vo.TheaterManagementVO">
+        UPDATE screen
+        SET screenStatus = #{screenStatus}
+        WHERE screenIdx = #{screenIdx}
+    </update>
 </mapper>
