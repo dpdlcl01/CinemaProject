@@ -26,6 +26,10 @@ public class ViewAction implements Action {
         // 기본키 boardIdx값을 파라미터로 받기, bType , cPage, ....
         String boardIdx = request.getParameter("boardIdx");
 
+        if (boardIdx != null) {
+            boardIdx = boardIdx.trim();
+        }
+
         int currentBoardIdx = Integer.parseInt(boardIdx);
 
         String keyword = request.getParameter("keyword");

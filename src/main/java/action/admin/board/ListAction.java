@@ -55,9 +55,11 @@ public class ListAction implements Action {
             // 더불어 시작페이지와 끝페이지 값도 구해진다.
         }
 
+        int start = page.getBegin() - 1;
+
 
         // 게시판의 목록을 noticeMain.jsp에서 표현하기 위해 DB에서 원하는 자원들을 가져와야 한다.
-        BoardVO[] ar = BoardDAO.getAllList(bType, page.getBegin(), page.getEnd(), keyword, region, theater);
+        BoardVO[] ar = BoardDAO.getAllList(bType, start, page.getNumPerPage(), keyword, region, theater);
 
         // 가져온 자원들을 noticeMain.jsp에서 표현할 수 있도록 request에 저장해야 한다.
         request.setAttribute("ar", ar);

@@ -54,10 +54,10 @@
 
     <!-- 기본키를 인자로 받아서 원하는 게시물 검색 -->
     <select id="getBoard" parameterType="String" resultType="mybatis.vo.BoardVO">
-        SELECT b.* , t.theaterName
+        SELECT b.* , t.theaterName, t.theaterRegion AS theaterRegion
         FROM board b
         LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
-        WHERE boardIdx = #{idx} and boardStatus = 0
+        WHERE boardIdx = #{idx}
     </select>
 
     <!-- 이전글(현재 boardIdx보다 작은값 중에서 가장 큰 값)-->
@@ -121,8 +121,6 @@
 
     <!-- 이벤트를 포함한 목록 -->
     <select id="AllList" resultType="mybatis.vo.BoardVO" parameterType="Map">
-        SELECT * FROM (
-        SELECT @RN := @RN + 1 AS rnum, a.* FROM (
         SELECT b.*, t.theaterName
         FROM board b
         LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
@@ -149,9 +147,7 @@
         </where>
 
         ORDER BY b.boardIdx DESC
-        ) a
-        ) c, (SELECT @RN := 0) b
-        WHERE c.rnum BETWEEN #{begin} AND #{end}
+        LIMIT #{start}, #{limit}
     </select>
 
     <!-- (이벤트를 포함한) 이전글(현재 boardIdx보다 작은값 중에서 가장 큰 값)-->
@@ -217,8 +213,16 @@
         </foreach>
     </update>
 
+    <delete id="deleteNotices" parameterType="java.util.List">
+        DELETE From board
+        WHERE boardIdx IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
     <!-- theaterIdx 찾기 -->
-    <select id="getTheaterIdxByName" parameterType="string" resultType="int">
+    <select id="getTheaterIdx" parameterType="string" resultType="String">
         SELECT theaterIdx FROM theater WHERE theaterName = #{theater}
     </select>
 
@@ -227,9 +231,21 @@
         INSERT INTO board(adminIdx, theaterIdx, boardType,
         boardTitle, boardContent, boardRegDate, boardExpDate, boardStatus)
         VALUES(#{adminIdx}, #{theaterIdx}, #{boardType},
-        #{boardTitle}, #{boardContent}, NOW(), #{boardExpDate}, #{boardStatus}
+        #{boardTitle}, #{boardContent}, NOW(), #{boardExpDate}, #{boardStatus})
     </insert>
 
+    <!-- 수정 -->
+    <update id="update" parameterType="Map">
+        UPDATE board
+        SET
+        theaterIdx = #{theaterIdx},
+        boardType = #{boardType},
+        boardTitle = #{boardTitle},
+        boardContent = #{boardContent},
+        boardExpDate = #{boardExpDate},
+        boardStatus = #{boardStatus}
+        WHERE boardIdx = #{boardIdx}
+    </update>
 </mapper>
 
 

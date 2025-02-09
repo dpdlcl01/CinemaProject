@@ -77,6 +77,22 @@
         background-color: #005f73;
     }
 
+    #endDate {
+        width: 120px;
+        height: 26px;
+        font-size: 14px;
+    }
+
+    .change{
+        background-color: #01738b;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        box-shadow: none !important;
+        margin-top: 10px;
+
+    }
 
 </style>
 
@@ -90,59 +106,74 @@
             <jsp:include page="../common/adminSideBar.jsp"></jsp:include>
             <%--  메인  --%>
             <div id="main">
-                <h1>공지사항 작성</h1>
-                <form id="noticeForm" action="AdminController" method="post">
+                <c:if test="${not empty param.boardIdx}">
+                    <c:set var="board" value="${requestScope.board}"/>
+                </c:if>
+                <h1>${empty board ? "게시물 작성" : "게시물 수정"}</h1>
+                <form id="noticeForm" action="${pageContext.request.contextPath}/AdminController" method="post">
                     <input type="hidden" name="type" value="adWrite">
+                    <c:if test="${not empty board.boardIdx}">
+                        <input type="hidden" name="boardIdx" value="${board.boardIdx}">
+                    </c:if>
                     <input type="hidden" name="boardRegDate" id="boardRegDate">
                     <div class="notice-form">
                         <label for="title">제목</label>
-                        <input type="text" id="title" name="title" required>
+                        <input type="text" id="title" name="title" required value="${not empty board ? board.boardTitle : ''}">
                     </div>
 
                     <select id="region" name="region" onchange="updateTheaters()">
                         <option value="">지역 선택</option>
-                        <option value="서울" ${param.region == '서울' ? 'selected' : ''}>서울</option>
-                        <option value="경기" ${param.region == '경기' ? 'selected' : ''}>경기</option>
-                        <option value="인천" ${param.region == '인천' ? 'selected' : ''}>인천</option>
-                        <option value="대전/충청/세종" ${param.region == '대전/충청/세종' ? 'selected' : ''}>대전/충청/세종
-                        </option>
-                        <option value="부산/대구/경상" ${param.region == '부산/대구/경상' ? 'selected' : ''}>부산/대구/경상
-                        </option>
-                        <option value="광주/전라" ${param.region == '광주/전라' ? 'selected' : ''}>광주/전라</option>
-                        <option value="강원" ${param.region == '강원' ? 'selected' : ''}>강원</option>
+                        <option value="서울" ${board.theaterRegion eq '서울' ? 'selected' : ''}>서울</option>
+                        <option value="경기" ${board.theaterRegion eq '경기' ? 'selected' : ''}>경기</option>
+                        <option value="인천" ${board.theaterRegion eq '인천' ? 'selected' : ''}>인천</option>
+                        <option value="대전/충청/세종" ${board.theaterRegion eq '대전/충청/세종' ? 'selected' : ''}>대전/충청/세종</option>
+                        <option value="부산/대구/경상" ${board.theaterRegion eq '부산/대구/경상' ? 'selected' : ''}>부산/대구/경상</option>
+                        <option value="광주/전라" ${board.theaterRegion eq '광주/전라' ? 'selected' : ''}>광주/전라</option>
+                        <option value="강원" ${board.theaterRegion eq '강원' ? 'selected' : ''}>강원</option>
                     </select>
-                    <select id="theater" name="theater">
+
+                    <select id="theater" name="theater" data-selected="${board.theaterName}">
                         <option value="">극장 선택</option>
+                        <c:if test="${not empty board.theaterName}">
+                            <option value="${board.theaterName}" selected>${board.theaterName}</option>
+                        </c:if>
                     </select>
-                    <select id="board" name="boardStatus">
+
+
+
+                    <select id="board" name="boardType" required>
                         <option value="">종류 선택</option>
-                        <option value="NOTICE">공지</option>
-                        <option value="EVENT">이벤트</option>
+                        <option value="NOTICE" ${board.boardType eq 'NOTICE' ? 'selected' : ''}>공지</option>
+                        <option value="EVENT" ${board.boardType eq 'EVENT' ? 'selected' : ''}>이벤트</option>
                     </select>
-                    <select id="type" name="boardType">
+
+                    <select id="type" name="boardStatus" required>
                         <option value="">게시 상태 선택</option>
-                        <option value="0">게시</option>
-                        <option value="1">임시</option>
+                        <option value="0" ${board.boardStatus eq '0' ? 'selected' : ''}>게시</option>
+                        <option value="1" ${board.boardStatus eq '1' ? 'selected' : ''}>임시</option>
                     </select>
+
+
+                    <input type="text" id="endDate" name="endDate" readonly placeholder="게시 종료일 선택"
+                           value="${not empty board.boardExpDate ? board.boardExpDate : ''}">
+
+
 
                     <div class="notice-form">
                         <label for="content">내용</label>
-                        <textarea id="content" name="content" rows="10" required></textarea>
-                    </div>
-
-                    <div class="notice-form">
-                        <label for="file">첨부 파일</label>
-                        <input type="file" id="file" name="file">
+                        <textarea id="content" name="content" rows="10" required>${not empty board ? board.boardContent : ""}</textarea>
                     </div>
 
                     <div class="noticeForm">
-                        <button type="submit">등록</button>
+                        <button type="submit" class="change">${empty board ? "등록" : "수정"}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
     // 지역별 극장 목록
     const theatersByRegion = {
@@ -158,6 +189,7 @@
     function updateTheaters() {
         const regionSelect = document.getElementById('region');  // 지역 선택 드롭다운
         const theaterSelect = document.getElementById('theater');  // 극장 선택 드롭다운
+        const selectedTheater = theaterSelect.getAttribute("data-selected");
 
         const selectedRegion = regionSelect.value;  // 선택된 지역 값 (예: '서울')
 
@@ -173,10 +205,43 @@
                 const option = document.createElement('option'); // <option> 태그 생성
                 option.value = theaterName;                     // <option value="theaterName">
                 option.textContent = theaterName;               // <option value="theaterName">theaterName</option>
+                if (selectedTheater && theaterName === selectedTheater) {
+                    option.selected = true;
+                }
                 theaterSelect.appendChild(option);              // 드롭다운에 추가
             });
         }
     }
+
+    $(document).ready(function () {
+        const today = new Date();
+        const maxDate = new Date();
+        maxDate.setFullYear(today.getFullYear() + 1); // 오늘부터 1년 후까지 선택 가능
+
+        // jQuery UI Datepicker 설정
+        $("#endDate").datepicker({
+            dateFormat: "yy-mm-dd", // 날짜 형식 지정 (YYYY-MM-DD)
+            minDate: today,         // 최소 날짜 (오늘)
+            maxDate: maxDate,       // 최대 날짜 (오늘 + 1년)
+            changeMonth: true,      // 월 선택 가능
+            changeYear: true        // 연도 선택 가능
+        });
+        $("#endDate").on("focus", function () {
+            $(this).val(""); // 사용자가 클릭하면 날짜 초기화
+        });
+
+
+        // 폼 제출 시 선택하지 않은 값은 null 처리
+        $("#noticeForm").submit(function () {
+            if (!$("#endDate").val()) {
+                $("#endDate").removeAttr("name"); // 선택 안 하면 name 제거 (null 전달)
+            }
+            if (!$("#endTime").val()) {
+                $("#endTime").removeAttr("name"); // 선택 안 하면 name 제거 (null 전달)
+            }
+        });
+    });
+
 
 </script>
 </body>

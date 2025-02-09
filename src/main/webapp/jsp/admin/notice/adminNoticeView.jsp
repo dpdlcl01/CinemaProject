@@ -94,6 +94,17 @@
         border-radius: 5px;
         font-size: 14px;
     }
+
+    .change{
+        background-color: #01738b;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        box-shadow: none !important;
+        margin-top: 10px;
+
+    }
 </style>
 
 <body>
@@ -130,15 +141,20 @@
                             </c:if>
                         </span> |
                         <span>등록일: ${board.boardRegDate}</span>
-                        <button>수정</button>
+                        <form action="${pageContext.request.contextPath}/AdminController" method="get">
+                            <input type="hidden" name="type" value="adEdit">
+                            <input type="hidden" name="boardIdx" value="${board.boardIdx}">
+                            <button type="submit" class="change">수정</button>
+                        </form>
                     </div>
                     <div class="notice-content">
                         <c:if test="${board.boardType eq 'EVENT'}">
                             <img src="${board.boardContent}"/>
                         </c:if><c:if test="${board.boardType ne 'EVENT'}">
-                        ${board.boardContent}"
+                        ${board.boardContent}
                     </c:if>
                     </div>
+
                     <table class="navigation-table">
                         <colgroup>
                             <col width="20%">
@@ -153,7 +169,7 @@
                                 <c:choose>
                                     <c:when test="${not empty nboard}">
                                         <a href="AdminController?type=adView&boardIdx=${nboard.boardIdx}
-                        <c:if test='${not empty param.bType}'> &amp;bType=${param.bType}</c:if>
+                        <c:if test='${not empty param.bType}'> &bType=${param.bType}</c:if>
                         <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
                         <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
                         <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>">
@@ -173,6 +189,7 @@
                                 <c:choose>
                                     <c:when test="${not empty pboard}">
                                         <a href="AdminController?type=adView&boardIdx=${pboard.boardIdx}
+                            <c:if test='${not empty param.bType}'> &bType=${param.bType}</c:if>
                             <c:if test='${not empty param.keyword}'> &keyword=${param.keyword}</c:if>
                             <c:if test='${not empty param.region}'> &region=${param.region}</c:if>
                             <c:if test='${not empty param.theater}'> &theater=${param.theater}</c:if>">
@@ -187,8 +204,11 @@
                         </tr>
                         </tbody>
                     </table>
-                    <form action="AdminController" method="get">
+                    <form action="AdminController" method="post">
                         <input type="hidden" name="type" value="adBoard"/>
+                        <c:if test='${not empty param.bType}'>
+                            <input type="hidden" name="bType" value="${param.bType}"/>
+                        </c:if>
                         <c:if test='${not empty param.keyword}'>
                             <input type="hidden" name="keyword" value="${param.keyword}"/>
                         </c:if>

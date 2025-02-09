@@ -249,7 +249,7 @@
         background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
     }
 
-    .checkbox, .endNotice, .startNotice {
+    .checkbox, .endNotice, .startNotice, .deleteNotice {
         display: none;
     }
 
@@ -259,7 +259,7 @@
         align-items: center;
     }
 
-    .endNotice, .selectNotice, .writeNotice, .startNotice {
+    .endNotice, .selectNotice, .writeNotice, .startNotice, .deleteNotice{
         background-color: #01738b;
         color: #fff;
         border: none;
@@ -275,8 +275,12 @@
         align-items: center;
     }
 
-    .writeNotice {
-        margin-top: 5px;
+    .writeNotice{
+        margin-top: 10px;
+    }
+
+    .writeNotice a{
+        color: #fff;
     }
 
     .noticeBt, .eventBt, .allBt {
@@ -354,6 +358,7 @@
                             <button id="toggleSelect" class="selectNotice">선택</button>
                             <button id="startNotice" class="startNotice">게시</button>
                             <button id="endNotice" class="endNotice">종료</button>
+                            <button id="deleteNotice" class="deleteNotice">삭제</button>
                         </div>
 
 
@@ -397,10 +402,15 @@
                                         <td>이벤트</td>
                                     </c:if>
                                     <td>
-                                        <a href="AdminController?type=adView&amp;boardIdx=${vo.boardIdx}">
+                                        <a href="AdminController?type=adView&amp;boardIdx=${vo.boardIdx}
+                                            <c:if test='${not empty param.bType}'> &amp;bType=${param.bType}</c:if>
+                                            <c:if test='${not empty param.keyword}'> &amp;keyword=${param.keyword}</c:if>
+                                            <c:if test='${not empty param.region}'> &amp;region=${param.region}</c:if>
+                                            <c:if test='${not empty param.theater}'> &amp;theater=${param.theater}</c:if>">
                                                 ${vo.boardTitle}
                                         </a>
                                     </td>
+
                                     <td>${vo.boardRegDate.substring(0,10)}</td>
                                     <c:if test="${vo.boardStatus eq '0'}">
                                         <td>게시 중</td>
@@ -421,9 +431,10 @@
                                 </tbody>
                             </table>
                         </form>
-
-                        <a href="jsp/admin/notice/adminNoticeWrite.jsp" class="writeNotice">글쓰기</a>
-
+                        <form method="post" action="AdminController">
+                            <input type="hidden" name="type" value="adNewWrite"/>
+                            <button type="submit" class="writeNotice">글쓰기</button>
+                        </form>
 
                         <!--------------------- 페이지네이션 -------------------->
                         <nav class="pagination">
@@ -534,6 +545,7 @@
         const checkboxes = document.querySelectorAll('.checkbox');
         const endButton = document.getElementById('endNotice');
         const startButton = document.getElementById('startNotice');
+        const deleteButton = document.getElementById('deleteNotice');
 
         let isVisible = checkboxes[0].style.display === 'table-cell';
 
@@ -544,6 +556,7 @@
         // 삭제 버튼도 선택 버튼과 함께 보이게/숨기게
         endButton.style.display = isVisible ? 'none' : 'inline-block';
         startButton.style.display = isVisible ? 'none' : 'inline-block';
+        deleteButton.style.display = isVisible ? 'none' : 'inline-block';
     });
 
     // 전체선택
@@ -554,97 +567,67 @@
         });
     });
 
-    // 종료버튼 누를시
     $(document).ready(function () {
+        function updateNoticeStatus(actionType, message) {
+            const selectedItems = $(".rowCheckbox:checked");
+
+            if (selectedItems.length === 0) {
+                alert(message + "할 항목을 선택하세요.");
+                return;
+            }
+
+            if (!confirm("선택한 항목을 " + message + "하시겠습니까?")) {
+                return;
+            }
+
+            let boardIdxList = [];
+            selectedItems.each(function () {
+                boardIdxList.push($(this).val());
+            });
+
+            $.ajax({
+                url: "AdminController",
+                type: "POST",
+                data:{
+                    type: "adWrite",
+                    actionType: actionType,
+                    selectedNotice: boardIdxList
+                },
+                traditional: true,
+                dataType: "json",
+                success: function (response) {
+                    console.log("서버 응답:", response);
+
+                    if (response.success) {
+                        alert("선택한 항목이 " + message + "되었습니다.");
+                        location.reload();
+                    } else {
+                        alert(message + "에 실패했습니다.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX 요청 오류:", error);
+                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+        }
+
+        // 종료 버튼 클릭 시
         $("#endNotice").on("click", function () {
-            const selectedItems = $(".rowCheckbox:checked");
-
-            if (selectedItems.length === 0) {
-                alert("게시를 종료할 항목을 선택하세요.");
-                return;
-            }
-
-            if (!confirm("선택한 항목을 종료하시겠습니까?")) {
-                return;
-            }
-
-            let boardIdxList = [];
-            selectedItems.each(function () {
-                boardIdxList.push($(this).val());
-            });
-
-            $.ajax({
-                url: "AdminController",
-                type: "POST",
-                data: {
-                    type: "adWrite",
-                    actionType: "end",
-                    selectedNotice: boardIdxList.join(",")
-                },
-                dataType: "json",
-                success: function (response) {
-                    console.log("서버 응답:", response);
-
-                    if (response.success) {
-                        alert("선택한 항목이 종료되었습니다.");
-                        location.reload();
-                    } else {
-                        alert("종료에 실패했습니다.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("AJAX 요청 오류:", error);
-                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-                }
-            });
+            updateNoticeStatus("end", "종료");
         });
-    });
 
-    // 게시버튼 누를시
-    $(document).ready(function () {
+        // 게시 버튼 클릭 시
         $("#startNotice").on("click", function () {
-            const selectedItems = $(".rowCheckbox:checked");
+            updateNoticeStatus("start", "게시");
+        });
 
-            if (selectedItems.length === 0) {
-                alert("게시할 항목을 선택하세요.");
-                return;
-            }
-
-            if (!confirm("선택한 항목을 게시하시겠습니까?")) {
-                return;
-            }
-
-            let boardIdxList = [];
-            selectedItems.each(function () {
-                boardIdxList.push($(this).val());
-            });
-
-            $.ajax({
-                url: "AdminController",
-                type: "POST",
-                data: {
-                    type: "adWrite",
-                    actionType: "start",
-                    selectedNotice: boardIdxList.join(",")
-                },
-                dataType: "json",
-                success: function (response) {
-                    console.log("서버 응답:", response);
-
-                    if (response.success) {
-                        alert("선택한 항목이 게시되었습니다.");
-                        location.reload();
-                    } else {
-                        alert("게시에 실패했습니다.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("AJAX 요청 오류:", error);
-                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-                }
-            });
+        // 삭제 버튼 클릭 시
+        $("#deleteNotice").on("click", function () {
+            updateNoticeStatus("delete", "삭제")
         });
     });
+
 
 
     window.addEventListener("DOMContentLoaded", function () {

@@ -148,8 +148,8 @@ public class BoardDAO {
         BoardVO[] ar = null;
 
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("begin", begin);// String.valueOf(begin)
-        map.put("end", end);
+        map.put("start", begin);// String.valueOf(begin)
+        map.put("limit", end);
 
         if (bType != null && !bType.isEmpty()) {
             map.put("bType", bType);
@@ -253,6 +253,19 @@ public class BoardDAO {
         return cnt;
     }
 
+    public static int deleteNotices(List<Integer> boardIdxList) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.update("board.deleteNotices", boardIdxList);
+
+        if (cnt > 0) {
+            ss.commit();
+        } else {
+            ss.rollback();
+        }
+        ss.close();
+        return cnt;
+    }
+
     //theaterIdx 가져오기
     public static String getTheaterIdx(String theater) {
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -275,6 +288,28 @@ public class BoardDAO {
 
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("board.add", map);
+        if (cnt > 0)
+            ss.commit();
+        else
+            ss.rollback();
+        ss.close();
+        return cnt;
+    }
+
+    //수정
+    public static int updateNotice(String boardIdx, String theaterIdx, String boardType, String boardTitle,
+                                String boardContent, String boardExpDate, String boardStatus) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("boardIdx", boardIdx);
+        map.put("theaterIdx", theaterIdx);
+        map.put("boardType", boardType);
+        map.put("boardTitle", boardTitle);
+        map.put("boardContent", boardContent);
+        map.put("boardExpDate", boardExpDate);
+        map.put("boardStatus", boardStatus);
+
+        SqlSession ss = FactoryService.getFactory().openSession();
+        int cnt = ss.insert("board.update", map);
         if (cnt > 0)
             ss.commit();
         else
