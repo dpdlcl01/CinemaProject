@@ -114,50 +114,68 @@ public class UserController extends HttpServlet {
     }
 
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
+        // 인코딩 및 기본 Content-Type 설정
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
 
-        request.setCharacterEncoding("utf-8");
-
+        // Accept 헤더에 따른 Content-Type 재설정 (JSON 요청인 경우)
         String acceptHeader = request.getHeader("Accept");
         boolean isJsonRequest = acceptHeader != null && acceptHeader.contains("application/json");
-
         if (isJsonRequest) {
             response.setContentType("application/json;charset=utf-8");
         } else {
             response.setContentType("text/html;charset=utf-8");
         }
 
-        // type이라는 파라미터를 받기
+        // type 파라미터 처리: null 또는 공백이면 기본값 "main"으로 지정
         String type = request.getParameter("type");
-
-        // 만약! type이 null이면 기본객체(MainAction)을 지정한다.
-        if(type == null)
+        if (type == null || type.trim().isEmpty()) {
             type = "main";
+        }
 
-        // type으로 받은 값이 actionMap의 key로 사용되고 있으며
-        // actionMap으로부터 원하는 객체를 얻도록 한다.
+        // actionMap에서 type에 해당하는 Action 객체 획득
         Action action = actionMap.get(type);
-
-        String viewPath = action.execute(request, response);
-
-        // 이동할 때마다 type, viewPath를 알기 위한 print
-        System.out.println("type: " + type);
-        System.out.println("viewPath: " + viewPath);
-
-        // viewPath가 null이면 현재 컨트롤러를 sendRedirect로 다시 호출하도록 하자!
-        if (viewPath == null) {
+        if (action == null) {
+            System.out.println("유효하지 않은 type 요청: " + type);
             if (!response.isCommitted()) {
                 response.sendRedirect("UserController?type=main");
             }
             return;
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
-        dispatcher.forward(request, response);
+        // Action 실행 및 viewPath 반환
+        String viewPath = action.execute(request, response);
+
+        // 디버깅용 로그
+        System.out.println("type: " + type);
+        System.out.println("viewPath: " + viewPath);
+
+        // AJAX 요청 여부 판단 (X-Requested-With 헤더)
+        boolean isAjaxRequest = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
+
+        // viewPath가 null인 경우 처리
+        if (viewPath == null) {
+            if (!response.isCommitted()) {
+                if (isAjaxRequest) {
+                    return;  // JSON 응답이 완료되었으면 추가 처리 없이 종료
+                } else {
+                    // 일반 요청인 경우 기본 페이지로 리다이렉트
+                    response.sendRedirect("UserController?type=main");
+                }
+            }
+            return;
+        }
+
+        // viewPath가 null이 아니고, response가 아직 커밋되지 않았다면 해당 경로로 포워딩
+        if (!response.isCommitted()) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+            dispatcher.forward(request, response);
+        }
     }
+
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
