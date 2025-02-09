@@ -86,7 +86,7 @@
             font-size: 16px;
             background-color: #503396;
             border-radius: 4px;
-            color: #4a4a4a; /* 버튼 글자색 */
+            color: #fff;
             border: none; /* 테두리 제거 */
             margin-bottom: 10px; /* 버튼 아래 여백 */
         }
@@ -142,6 +142,7 @@
                         <input type="text" id="emailpart1" name="emailpart1" class="inputshort">
                         <span>@</span>
                         <input type="text" id="emailpart2" name="emailpart2" class="inputshort" disabled>
+                        <input type="hidden" id="hiddenEmailPart2" name="hiddenEmailPart2"/>
                         <select name="emailDomain" id="emailDomain" title="이메일 선택" class="email_address">
                             <option value="" disabled selected>선택하세요</option>
                             <option value="naver.com">naver.com</option>
@@ -169,6 +170,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         const domain = document.getElementById("emailDomain");
         const emailpart2input = document.getElementById("emailpart2");
+        const hiddenEmailPart2 = document.getElementById("hiddenEmailPart2");
 
         domain.addEventListener("change", function () {
             const selectedValue = this.value;
@@ -180,6 +182,9 @@
                 emailpart2input.disabled = true;
                 emailpart2input.value = selectedValue;
             }
+
+            // 항상 hidden 필드에 값 복사
+            hiddenEmailPart2.value = emailpart2input.value;
         })
     })
 
@@ -189,10 +194,11 @@
         let userName = document.getElementById("userName").value.trim();
         let emailPart1 = document.getElementById("emailpart1").value.trim();
         let emailPart2 = document.getElementById("emailpart2").value.trim();
+        let hiddenEmailPart2 = document.getElementById("hiddenEmailPart2").value.trim();
         const userEmail = document.getElementById("userEmail");
 
         // 이메일 조합
-        userEmail.value = emailPart1 + "@" + emailPart2;
+        userEmail.value = emailPart1 + "@" + hiddenEmailPart2;
 
         // 입력값 검증
         if (!userName || userName.length < 1) {
@@ -205,7 +211,7 @@
             return false;
         }
 
-        if (!emailPart2 || emailPart2.length < 3) {
+        if (!hiddenEmailPart2 || hiddenEmailPart2.length < 3) {
             alert("이메일 두 번째 칸을 선택하거나 입력해주세요.");
             return false;
         }

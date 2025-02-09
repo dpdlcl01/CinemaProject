@@ -12,16 +12,9 @@ public class FindIdAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userName = request.getParameter("userName");
         String emailpart1 = request.getParameter("emailpart1");
-        String emailpart2 = request.getParameter("emailpart2");
-
-        System.out.println("emailpart1 : " + emailpart1);
-        System.out.println("emailpart2 : " + emailpart2);
+        String emailpart2 = request.getParameter("hiddenEmailPart2");
 
         String userEmail = emailpart1 + "@" + emailpart2;
-
-
-        System.out.println("userName : " + userName);
-        System.out.println("조합된 userEmail : " + userEmail);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("userName", userName);
