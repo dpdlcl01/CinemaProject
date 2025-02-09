@@ -596,6 +596,7 @@
             selectSreenIdx = screenIdx;
 
             $.ajax({
+                // 왜안될까
                 // url: "AdminController?type=getTheater",
                 url: "${pageContext.request.contextPath}/AdminController?type=getTheater",
                 method: "GET",
