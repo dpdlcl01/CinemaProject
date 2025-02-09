@@ -5,12 +5,9 @@
 <html lang="ko">
 <head>
     <%--  <jsp:include page="../../user/common/head.jsp"/>--%>
-
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<!-- jQuery UI 기본 테마 CSS 추가 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
     .admin-contents {
@@ -56,7 +53,6 @@
         align-items: center;
         justify-content: center;
     }
-
 
     .noticeboard {
         margin-top: 20px;
@@ -291,7 +287,7 @@
         border-radius: 4px;
     }
 
-    /*  모달  */
+    /* 모달 */
     #theaterModal .modal-body,
     #theaterAddModal .modal-body {
         display: flex;
@@ -309,37 +305,6 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-    }
-
-    #theaterModal .field-row,
-    #theaterAddModal .field-row {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 10px;
-    }
-
-
-    #theaterModal .field-row label,
-    #theaterAddModal .field-row label {
-        width: 140px;
-        font-weight: bold;
-        text-align: right;
-    }
-
-    /* 수정 가능한 필드 */
-    #theaterModal input:not([readonly]),
-    #theaterModal select,
-    #theaterAddModal input:not([readonly]),
-    #theaterAddModal select {
-        background-color: white;
-    }
-
-    /* 읽기 전용 필드 */
-    #theaterModal input[readonly],
-    #theaterAddModal input[readonly] {
-        background-color: #f4f4f4;
-        color: #888;
     }
 
     #theaterModal .field-row,
@@ -370,6 +335,22 @@
         box-sizing: border-box;
     }
 
+    /* 수정 가능한 필드 */
+    #theaterModal input:not([readonly]),
+    #theaterModal select,
+    #theaterAddModal input:not([readonly]),
+    #theaterAddModal select {
+        background-color: white;
+    }
+
+    /* 읽기 전용 필드 */
+    #theaterModal input[readonly],
+    #theaterAddModal input[readonly] {
+        background-color: #f4f4f4;
+        color: #888;
+    }
+
+    /* 버튼 스타일 */
     #theaterModal button,
     #theaterAddModal button {
         margin-top: 20px;
@@ -400,31 +381,30 @@
             <%--  메인  --%>
 
             <div id="main">
-                <h1>극장 / 상영관 관리</h1>
+                <h1>극장, 상영관 관리</h1>
                 <div id="title">
                     <!-- 검색 폼 -->
                     <div id="announcement" class="noticeboard">
                         <div class="search-bar-container">
                             <div class="total-count">전체 ${requestScope.totalCount}건</div>
-                            <div class="search-bar">
-                                <!-- 검색 유형 선택 -->
-                                <form id="searchForm" action="AdminController" method="get">
-                                    <input type="hidden" name="type" value="searchTheater"/>
-                                    <select id="searchType" name="searchType">
-                                        <option value="" ${empty searchType ? 'selected' : ''}>검색 유형 선택</option>
-                                        <option value="region" ${searchType == 'region' ? 'selected' : ''}>지역</option>
-                                        <option value="theater" ${searchType == 'theater' ? 'selected' : ''}>상영관</option>
-                                        <option value="screen" ${searchType == 'screen' ? 'selected' : ''}>스크린 이름</option>
-                                        <option value="screenType" ${searchType == 'screenType' ? 'selected' : ''}>상영관 유형</option>
-                                    </select>
-                                    <div class="search-bar2">
-                                        <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력" value="${searchKeyword}" class="input-text">
 
-                                        <button class="btn" title="검색" onclick="searchLogs()">
-                                            <i class="ico-search"></i> 검색
-                                        </button>
-                                    </div>
-                                </form>
+                            <div class="search-bar">
+
+                                <!-- 검색 유형 선택 -->
+                                <select id="searchType" name="searchType">
+                                    <option value="" <c:if test="${searchType == ''}">selected</c:if>>검색 유형 선택</option>
+                                    <option value="theaterRegion" <c:if test="${searchType == 'theaterRegion'}">selected</c:if>>지역</option>
+                                    <option value="theaterName" <c:if test="${searchType == 'theaterName'}">selected</c:if>>극장 이름</option>
+                                </select>
+
+                                <div class="search-bar2">
+                                    <input type="text" id="searchKeyword" name="searchKeyword" placeholder="검색어 입력" value="${searchKeyword}" class="input-text">
+
+                                    <button class="btn" title="검색" onclick="searchTheaters()">
+                                        <i class="ico-search"></i> 검색
+                                    </button>
+                                </div>
+
                                 <button type="button" class="btn-reset" title="검색 조건 초기화" onclick="resetSearch()">초기화</button>
                             </div>
                         </div>
@@ -433,40 +413,73 @@
                         <table>
                             <thead>
                             <tr>
-                                <th style="width: 7%;">지역</th>
-                                <th style="width: 7%;">상영관</th>
-                                <th style="width: 13%;">스크린 이름</th>
-                                <th style="width: 8%;">상영관 유형</th>
-                                <th style="width: 10%;">날짜</th>
-                                <th style="width: 10%;">시작 시간</th>
-                                <th style="width: 10%;">종료시간</th>
-                                <th style="width: 11%;">잔여 좌석 / 총좌석</th>
+                                <th style="width: 5%;">지역</th>
+                                <th style="width: 10%;">극장 이름</th>
+                                <th style="width: 20%;">스크린 이름</th>
+                                <th style="width: 20%;">스크린 유형</th>
+                                <th style="width: 10%;">스크린 좌석수</th>
+                                <th style="width: 10%;">극장 상태</th>
+                                <th style="width: 10%;">스크린 상태</th>
                             </tr>
                             </thead>
 
                             <tbody>
                             <c:choose>
-                                <c:when test="${empty theaterList}">
+                                <c:when test="${empty ar}">
                                     <tr>
-                                        <td colspan="8">상영관 데이터가 없습니다.</td>
+                                        <td colspan="7">관련 데이터가 없습니다. (현재 ar 값: ${ar})</td>
                                     </tr>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach var="theater" items="${theaterList}">
+                                    <c:forEach var="theater" items="${ar}">
                                         <tr class="clickable-row"
-                                            data-id="${theater.theaterIdx}"
-                                            data-theatername="${theater.theaterName}"
-                                            data-theaterregion="${theater.theaterRegion}"
-                                            data-theaterstatus="${theater.theaterStatus}"
-                                            data-screenstatus="${theater.screenStatus}">
+                                            data-theateridx="${theater.theaterIdx}"
+                                            data-screenidx="${theater.screenIdx}"
+                                            data-region="${theater.theaterRegion}"
+                                            data-name="${theater.theaterName}"
+                                            data-screen-name="${theater.screenName}"
+                                            data-theater-status="${theater.theaterStatus}"
+                                            data-screen-status="${theater.screenStatus}">
+                                            <!-- 테이블 셀들 -->
+
+<%--                                        <tr class="clickable-row" data-theaterIdx="${theater.theaterIdx}" data-screenIdx="${theater.screenIdx}">--%>
                                             <td>${theater.theaterRegion}</td>
                                             <td>${theater.theaterName}</td>
                                             <td>${theater.screenName}</td>
-                                            <td>${theater.screenType}</td>
-                                            <td>${theater.date}</td>
-                                            <td>${theater.startTime}</td>
-                                            <td>${theater.endTime}</td>
-                                            <td>${theater.remainingSeats}/${theater.totalSeats}</td>
+
+                                            <!-- screenType 변환 -->
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${theater.screenType == 1}">COMFORT</c:when>
+                                                    <c:when test="${theater.screenType == 2}">VIP</c:when>
+                                                    <c:when test="${theater.screenType == 3}">DOLBY</c:when>
+                                                    <c:when test="${theater.screenType == 4}">4DX</c:when>
+                                                    <c:when test="${theater.screenType == 5}">IMAX</c:when>
+                                                    <c:otherwise>Unknown</c:otherwise>
+                                                </c:choose>
+                                            </td>
+
+                                            <td>${theater.screenSeatCount}</td>
+
+                                            <!-- theaterStatus 변환 -->
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${theater.theaterStatus == 0}">운영</c:when>
+                                                    <c:when test="${theater.theaterStatus == 1}">점검</c:when>
+                                                    <c:when test="${theater.theaterStatus == 2}">폐쇄</c:when>
+                                                    <c:otherwise>Unknown</c:otherwise>
+                                                </c:choose>
+                                            </td>
+
+                                            <!-- screenStatus 변환 -->
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${theater.screenStatus == 0}">운영</c:when>
+                                                    <c:when test="${theater.screenStatus == 1}">점검</c:when>
+                                                    <c:when test="${theater.screenStatus == 2}">폐쇄</c:when>
+                                                    <c:otherwise>Unknown</c:otherwise>
+                                                </c:choose>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </c:otherwise>
@@ -481,12 +494,14 @@
 
                                 <!-- 첫 페이지로 이동 버튼 -->
                                 <c:if test="${pvo.startPage > 1}">
-                                    <a href="AdminController?type=theaterManage&cPage=1" class="control first" title="처음 페이지"></a>
+                                    <a href="AdminController?type=theaterSearch&cPage=1&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control first" title="처음 페이지"></a>
                                 </c:if>
 
                                 <!-- 이전 페이지 블록으로 이동 버튼 -->
                                 <c:if test="${pvo.startPage > 1}">
-                                    <a href="AdminController?type=theaterManage&cPage=${pvo.startPage - pvo.pagePerBlock}" class="control prev" title="이전 블록"></a>
+                                    <a href="AdminController?type=theaterSearch&cPage=${pvo.startPage - pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control prev" title="이전 블록"></a>
                                 </c:if>
 
                                 <!-- 페이지 번호 목록 -->
@@ -495,61 +510,63 @@
                                         <strong class="active">${st.index}</strong>
                                     </c:if>
                                     <c:if test="${st.index ne pvo.nowPage}">
-                                        <a href="AdminController?type=theaterManage&cPage=${st.index}" title="${st.index}페이지 보기">${st.index}</a>
+                                        <a href="AdminController?type=theaterSearch&cPage=${st.index}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                           title="${st.index}페이지 보기">${st.index}</a>
                                     </c:if>
                                 </c:forEach>
 
                                 <!-- 다음 페이지 블록으로 이동 버튼 -->
                                 <c:if test="${pvo.endPage < pvo.totalPage}">
-                                    <a href="AdminController?type=theaterManage&cPage=${pvo.startPage + pvo.pagePerBlock}" class="control next" title="다음 블록"></a>
+                                    <a href="AdminController?type=theaterSearch&cPage=${pvo.startPage + pvo.pagePerBlock}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control next" title="다음 블록"></a>
                                 </c:if>
 
                                 <!-- 마지막 페이지로 이동 버튼 -->
                                 <c:if test="${pvo.endPage < pvo.totalPage}">
-                                    <a href="AdminController?type=theaterManage&cPage=${pvo.totalPage}" class="control last" title="마지막 페이지"></a>
+                                    <a href="AdminController?type=theaterSearch&cPage=${pvo.totalPage}&searchType=${param.searchType}&searchKeyword=${param.searchKeyword}"
+                                       class="control last" title="마지막 페이지"></a>
                                 </c:if>
                             </c:if>
                         </nav>
                         <!--------------------- 페이지네이션 --------------------->
                         <!-- 수정 모달 -->
-                        <div id="theaterModal" class="dialog-common" title="극장 / 상영관 상세 정보" style="display: none;">
-                            <form id="updateAdminForm">
+                        <div id="theaterModal" class="dialog-common" title="극장, 상영관 상제 정보" style="display: none;">
+                            <form id="updateTheaterForm">
                                 <div class="modal-body">
                                     <div class="info-section">
-
                                         <!-- 지역 -->
                                         <div class="field-row">
                                             <label>지역:</label>
-                                            <input type="text" id="theaterRegion" name="theaterRegion" />
+                                            <input type="text" id="theaterRegion" name="theaterRegion" readonly />
                                         </div>
 
-                                        <!-- 극장 고유 ID -->
+                                        <!-- 극장 이름 -->
                                         <div class="field-row">
-                                            <label>극장 고유 ID:</label>
-                                            <input type="text" id="theaterIdx" name="theaterIdx" />
-                                        </div>
-
-                                        <!-- 극장명 -->
-                                        <div class="field-row">
-                                            <label>상영관:</label>
+                                            <label>극장 이름:</label>
                                             <input type="text" id="theaterName" name="theaterName" />
                                         </div>
 
-                                        <!-- 극장 상태 (0: 운영 중, 1: 점검, 2: 폐쇄) -->
+                                        <!-- 스크린 이름 -->
+                                        <div class="field-row">
+                                            <label>스크린 이름:</label>
+                                            <input type="text" id="screenName" name="screenName" />
+                                        </div>
+
+                                        <!-- 극장 상태 -->
                                         <div class="field-row">
                                             <label>극장 상태:</label>
                                             <select id="theaterStatus" name="theaterStatus">
-                                                <option value="0">운영 중</option>
+                                                <option value="0">운영</option>
                                                 <option value="1">점검</option>
                                                 <option value="2">폐쇄</option>
                                             </select>
                                         </div>
 
-                                        <!-- 상영관 상태 (0: 운영 중, 1: 점검, 2: 폐쇄) -->
+                                        <!-- 스크린 상태 (수정가능) -->
                                         <div class="field-row">
-                                            <label>상영관 상태:</label>
+                                            <label>스크린 상태:</label>
                                             <select id="screenStatus" name="screenStatus">
-                                                <option value="0">운영 중</option>
+                                                <option value="0">운영</option>
                                                 <option value="1">점검</option>
                                                 <option value="2">폐쇄</option>
                                             </select>
@@ -558,306 +575,194 @@
                                 </div>
                             </form>
                         </div>
-
-<%--                        <!-- 추가 모달 -->--%>
-<%--                        <div id="theaterModal" class="dialog-common" title="극장 / 상영관 상세 정보" style="display: none;">--%>
-<%--                            <form id="addAdminForm">--%>
-<%--                                <div class="modal-body">--%>
-<%--                                    <div class="info-section">--%>
-<%--                                        <!-- 관리자 고유 ID (자동 지정) -->--%>
-<%--                                        <div class="field-row">--%>
-<%--                                            <label>관리자 고유 ID:</label>--%>
-<%--                                            <input type="text" id="adminIdx1" name="adminIdx" readonly value="자동으로 지정됩니다."/>--%>
-<%--                                        </div>--%>
-
-<%--                                        <!-- 로그인 ID -->--%>
-<%--                                        <div class="field-row">--%>
-<%--                                            <label>로그인 ID:</label>--%>
-<%--                                            <input type="text" id="adminId1" name="adminId" />--%>
-<%--                                        </div>--%>
-
-<%--                                        <!-- 패스워드 PW -->--%>
-<%--                                        <div class="field-row">--%>
-<%--                                            <label>패스워드 PW:</label>--%>
-<%--                                            <input type="text" id="adminPW1" name="adminPassword" />--%>
-<%--                                        </div>--%>
-
-<%--                                        <!-- 관리자 등급 (수정 가능) -->--%>
-<%--                                        <div class="field-row">--%>
-<%--                                            <label>관리자 등급:</label>--%>
-<%--                                            <select id="adminLevel1" name="adminLevel">--%>
-<%--                                                <option value="SUPER">SUPER</option>--%>
-<%--                                                <option value="MANAGER">MANAGER</option>--%>
-<%--                                            </select>--%>
-<%--                                        </div>--%>
-
-<%--                                        <!-- 관리자 상태 (기본값 1) -->--%>
-<%--                                        <div class="field-row">--%>
-<%--                                            <label>관리자 상태:</label>--%>
-<%--                                            <input type="text" id="adminStatus1" name="adminStatus" readonly value="0"/>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                            </form>--%>
-<%--                        </div>--%>
-
-                        <!-- jQuery 및 jQuery UI 추가 -->
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-                        <script>
-                            $(document).ready(function() {
-                                let selectedTheaterIdx = null; // 전역 변수로 설정
-
-                                // 테이블 행 클릭 시 극장 정보 수정 모달 열기
-                                $(".clickable-row").on("click", function() {
-                                    // data 속성 값 읽기
-                                    let theaterIdx = $(this).data("id");
-                                    let theaterName = $(this).data("theatername");
-                                    let theaterRegion = $(this).data("theaterregion");
-                                    let theaterStatus = $(this).data("theaterstatus");
-                                    let screenStatus = $(this).data("screenstatus");
-
-                                    // 전역 변수에 저장
-                                    selectedTheaterIdx = theaterIdx;
-
-                                    // 모달 필드에 값 채우기
-                                    $("#theaterIdx").val(theaterIdx);
-                                    $("#theaterName").val(theaterName);
-                                    $("#theaterRegion").val(theaterRegion);
-                                    $("#theaterStatus").val(theaterStatus);
-                                    $("#screenStatus").val(screenStatus);
-
-                                    // 모달 열기
-                                    $("#theaterModal").dialog("open");
-                                });
-
-                                // jQuery UI 모달 초기화 (극장 수정 모달)
-                                $("#theaterModal").dialog({
-                                    autoOpen: false,
-                                    modal: true,
-                                    resizable: false,
-                                    draggable: false,
-                                    width: 600,
-                                    classes: {
-                                        "ui-dialog": "dialog-common"
-                                    },
-                                    buttons: {
-                                        "저장": function() {
-                                            // 수정 폼 데이터 직렬화 및 AJAX 요청 전송
-                                            let formData = $("#updateTheaterForm").serialize();
-                                            // 업데이트 요청 시 type 파라미터를 updateTheater로 전달
-                                            $.ajax({
-                                                url: "AdminController",
-                                                type: "POST",
-                                                data: formData + "&type=updateTheater",
-                                                dataType: "json",
-                                                headers: {
-                                                    "X-Requested-With": "XMLHttpRequest"
-                                                },
-                                                success: function(response) {
-                                                    if (response.error) {
-                                                        alert("업데이트 실패: " + response.error);
-                                                        return;
-                                                    }
-                                                    alert("극장 정보가 업데이트되었습니다.");
-                                                    $("#theaterModal").dialog("close");
-                                                    location.reload();
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error("AJAX 오류 발생:", error);
-                                                    alert("업데이트에 실패했습니다.");
-                                                }
-                                            });
-                                        },
-                                        "취소": function() {
-                                            $(this).dialog("close");
-                                        }
-                                    }
-                                });
-                            });
-
-                                //     // 사용자 데이터 로드 함수
-                                // function loadUserData(adminIdx) {
-                                //     selectedAdminIdx = adminIdx;
-                                //
-                                //     $.ajax({
-                                //         url: "AdminController",
-                                //         method: "GET",
-                                //         data: {
-                                //             type: "getAdmin",
-                                //             adminIdx: adminIdx
-                                //         },
-                                //         dataType: "json",
-                                //         headers: {
-                                //             "X-Requested-With": "XMLHttpRequest"
-                                //         },
-                                //         success: function(response) {
-                                //             if (response.error) {
-                                //                 alert("오류 발생: " + response.error);
-                                //                 return;
-                                //             }
-                                //
-                                //             // 기본 정보 채우기
-                                //             $("#adminIdx").val(response.adminIdx);
-                                //             $("#adminId").val(response.adminId);
-                                //             $("#adminLevel").val(response.adminLevel);
-                                //             $("#adminStatus").val(response.adminStatus);
-                                //
-                                //             // 변경 가능한 정보 채우기
-                                //             $("[name='adminId']").val(response.adminId);
-                                //             $("[name='adminLevel']").val(response.adminLevel);
-                                //             $("[name='adminStatus']").val(response.adminStatus);
-                                //
-                                //             // 모달 창 열기
-                                //             $("#adminModal").dialog("open");
-                                //         },
-                                //         error: function(xhr, status, error) {
-                                //             console.error("AJAX 오류:", xhr.responseText);
-                                //             alert("사용자 정보를 불러오는 데 실패했습니다.");
-                                //         }
-                                //     });
-                                // }
-
-                                // // jQuery UI 모달 초기화
-                                // $("#adminModal").dialog({
-                                //     autoOpen: false,
-                                //     modal: true,
-                                //     width: 600,
-                                //     classes: {
-                                //         "ui-dialog": "dialog-common"
-                                //     },
-                                //     buttons: {
-                                //         "저장": function() {
-                                //
-                                //             // 폼을 배열로 만들어서 String으로 변환
-                                //             let formDataArray = $("#updateAdminForm").serializeArray();
-                                //             formDataArray.push({ name: "type", value: "updateAdmin" });
-                                //             formDataArray.push({ name: "adminIdx", value: selectedTheaterIdx });
-                                //
-                                //             // .param 사용하여 배열을 String으로
-                                //             let formDataString = $.param(formDataArray);
-                                //
-                                //             $.ajax({
-                                //                 url: "AdminController",
-                                //                 type: "POST",
-                                //                 data: formDataString,
-                                //                 dataType: "json",
-                                //                 headers: {
-                                //                     "X-Requested-With": "XMLHttpRequest"
-                                //                 },
-                                //                 success: function(response) {
-                                //                     if (response.error) {
-                                //                         alert("업데이트 실패: " + response.error);
-                                //                         return;
-                                //                     }
-                                //
-                                //                     alert("사용자 정보가 업데이트되었습니다.");
-                                //                     $("#adminModal").dialog("close");
-                                //                     location.reload();  // 페이지 새로고침
-                                //                 },
-                                //                 error: function(xhr, status, error) {
-                                //                     console.error("AJAX 오류 발생:", error);
-                                //                     alert("업데이트에 실패했습니다.");
-                                //                 }
-                                //             });
-                                //         },
-                                //         "취소": function() {
-                                //             $(this).dialog("close");
-                                //         }
-                                //     }
-                                // });
-                                //
-                                // // jQuery UI 모달 초기화
-                                // $("#adminAddModal").dialog({
-                                //     autoOpen: false,
-                                //     modal: true,
-                                //     width: 600,
-                                //     classes: {
-                                //         "ui-dialog": "dialog-common"
-                                //     },
-                                //     buttons: {
-                                //         "저장": function() {
-                                //
-                                //             // 폼을 배열로 만들어서 String으로 변환
-                                //             let formDataArray = $("#addAdminForm").serializeArray();
-                                //             formDataArray.push({ name: "type", value: "addAdmin" });
-                                //             formDataArray.push({ name: "adminIdx", value: selectedAdminIdx });
-                                //
-                                //             // .param 사용하여 배열을 String으로
-                                //             let formDataString = $.param(formDataArray);
-                                //
-                                //             $.ajax({
-                                //                 url: "AdminController",
-                                //                 type: "POST",
-                                //                 data: formDataString,
-                                //                 dataType: "json",
-                                //                 headers: {
-                                //                     "X-Requested-With": "XMLHttpRequest"
-                                //                 },
-                                //                 success: function(response) {
-                                //                     if (response.error) {
-                                //                         alert("관리자 추가 실패: " + response.error);
-                                //                         return;
-                                //                     }
-                                //
-                                //                     alert("사용자 정보가 추가되었습니다.");
-                                //                     $("#adminAddModal").dialog("close");
-                                //                     location.reload();  // 페이지 새로고침
-                                //                 },
-                                //                 error: function(xhr, status, error) {
-                                //                     console.error("AJAX 오류 발생:", error);
-                                //                     alert("관리자 추가에 실패했습니다.");
-                                //                 }
-                                //             });
-                                //         },
-                                //         "취소": function() {
-                                //             $(this).dialog("close");
-                                //         }
-                                //     }
-                                // });
-                                //
-                                // // 사용자 목록 <tr> 클릭 이벤트 설정
-                                // $(".clickable-row").on("click", function() {
-                                //     const adminIdx = $(this).data("id");
-                                //
-                                //     // 사용자 데이터 로드 후 모달 열기
-                                //     loadUserData(adminIdx);
-                                // });
-                                //
-                                // $(".addAdmin").on("click", function() {
-                                //     // 모달 창 열기
-                                //     $("#adminAddModal").dialog("open");
-                                // })
-
-                        </script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- jQuery 및 jQuery UI 추가 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 <script>
-    // function searchTheater() {
-    //     let keyword = document.getElementById("searchKeyword").value.trim();
-    //     let searchType = document.getElementById("searchType").value;
+    $(document).ready(function() {
+        let selectTheaterIdx = null; // 전역 변수로 설정
+        let selectSreenIdx = null;
 
-    //     let queryParams = new URLSearchParams();
-    //     // type을 "theaterManage"로 설정하여 극장 검색 Action이 호출되도록 함
-    //     queryParams.append("type", "theaterManage");
-    //     if (searchType && keyword) {
-    //         queryParams.append("searchType", searchType);
-    //         queryParams.append("searchKeyword", keyword);
-    //     }
-    //     // 필요한 경우 다른 파라미터(예: cPage, startDate, endDate 등)도 추가할 수 있음
-    //     let baseUrl = window.location.origin + "/AdminController";
-    //     let queryString = queryParams.toString();
-    //     window.location.href = baseUrl + "?" + queryString;
-    // }
+        // 사용자 데이터 로드 함수
+        function loadUserData(theaterIdx, screenIdx) {
+            selectTheaterIdx = theaterIdx;
+            selectSreenIdx = screenIdx;
+
+            $.ajax({
+                // url: "AdminController?type=getTheater",
+                url: "${pageContext.request.contextPath}/AdminController?type=getTheater",
+                method: "GET",
+                data: {
+                    // type: "getTheater",
+                    theaterIdx: theaterIdx,
+                    screenIdx: screenIdx
+                },
+                dataType: "json",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                success: function(response) {
+                    if (response.error) {
+                        alert("오류 발생: " + response.error);
+                        return;
+                    }
+
+                    // 기본 정보 채우기
+                    $("#theaterRegion").val(response.theaterRegion);
+                    $("#theaterName").val(response.theaterName);
+                    $("#screenName").val(response.screenName);
+                    $("#theaterStatus").val(response.theaterStatus);
+                    $("#screenStatus").val(response.screenStatus);
+
+                    // 변경 가능한 정보 채우기
+                    $("[name='screenStatus']").val(response.screenStatus);
+
+                    // 모달 창 열기
+                    $("#theaterModal").dialog("open");
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX 오류:", xhr.responseText);
+                    alert("사용자 정보를 불러오는 데 실패했습니다.");
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            // dialog 위젯 초기화 (autoOpen: false 설정)
+            $("#theaterModal").dialog({
+                autoOpen: false,
+                modal: true,
+                width: 600,
+                buttons: {
+                    "저장": function() {
+                        // 저장 관련 로직 추가
+                    },
+                    "취소": function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+        // jQuery UI 모달 초기화
+        // $("#theaterModall").dialog({
+        //     autoOpen: false,
+        //     modal: true,
+        //     width: 600,
+        //     classes: {
+        //         "ui-dialog": "dialog-common"
+        //     },
+        //     buttons: {
+        //         "저장": function() {
+        //
+        //             // 폼을 배열로 만들어서 String으로 변환
+        //             let formDataArray = $("#updateTheaterForm").serializeArray();
+        //             formDataArray.push({ name: "type", value: "updateTheater" });
+        //             formDataArray.push({ name: "theaterIdx", value: selectTheaterIdx });
+        //             formDataArray.push({ name: "screenIdx", value: selectSreenIdx });
+        //
+        //             // .param 사용하여 배열을 String으로
+        //             let formDataString = $.param(formDataArray);
+        //
+        //             $.ajax({
+        //                 url: "AdminController",
+        //                 type: "POST",
+        //                 data: formDataString,
+        //                 dataType: "json",
+        //                 headers: {
+        //                     "X-Requested-With": "XMLHttpRequest"
+        //                 },
+        //                 success: function(response) {
+        //                     if (response.error) {
+        //                         alert("업데이트 실패: " + response.error);
+        //                         return;
+        //                     }
+        //
+        //                     alert("사용자 정보가 업데이트되었습니다.");
+        //                     $("#adminModal").dialog("close");
+        //                     location.reload();  // 페이지 새로고침
+        //                 },
+        //                 error: function(xhr, status, error) {
+        //                     console.error("AJAX 오류 발생:", error);
+        //                     alert("업데이트에 실패했습니다.");
+        //                 }
+        //             });
+        //         },
+        //         "취소": function() {
+        //             $(this).dialog("close");
+        //         }
+        //     }
+        // });
+        // 사용자 목록 <tr> 클릭 이벤트 설정
+        $(".clickable-row").on("click", function() {
+            let row = $(this);
+            $("#theaterRegion").val(row.data("region"));
+            $("#theaterName").val(row.data("name"));
+            $("#screenName").val(row.data("screen-name"));
+            $("#theaterStatus").val(row.data("theater-status"));
+            $("#screenStatus").val(row.data("screen-status"));
+
+            // 만약 jQuery UI Dialog를 사용한다면, 미리 초기화한 후 열기
+            $("#theaterModal").dialog("open");
+            loadUserData(theaterIdx, screenIdx);
+        });
+
+        // $(".clickable-row").on("click", function() {
+        //     console.log("TR 클릭 이벤트 실행됨!"); // ✅ 클릭 확인 로그 추가
+        //
+        //     const theaterIdx = $(this).attr("data-theateridx");
+        //     const screenIdx = $(this).attr("data-screenidx");
+        //
+        //     console.log("theaterIdx:", theaterIdx, "screenIdx:", screenIdx); // ✅ 값 확인
+        //
+        //     // 사용자 데이터 로드 후 모달 열기
+        //     loadUserData(theaterIdx, screenIdx);
+        // });
+
+        // $(".clickable-row").on("click", function() {
+        //     console.log("TR 클릭 이벤트 실행됨!"); // ✅ 클릭 확인 로그 추가
+        //     const theaterIdx = $(this).data("theaterIdx");
+        //     const screenIdx = $(this).data("screenIdx");
+        //
+        //     console.log("theaterIdx:", theaterIdx, "screenIdx:", screenIdx); // ✅ 값 확인
+        //
+        //     // 사용자 데이터 로드 후 모달 열기
+        //     loadUserData(theaterIdx, screenIdx);
+        // });
+
+        // $(".addAdmin").on("click", function() {
+        //     // 모달 창 열기
+        //     $("#adminAddModal").dialog("open");
+        // });
+
+    });
+
+    function searchTheaters() {
+        let keyword = document.getElementById("searchKeyword").value.trim();
+        let searchType = document.getElementById("searchType").value;
+
+        let queryParams = new URLSearchParams(); // URL 파라미터 객체 생성
+        queryParams.append("type", "theaterSearch"); // type=logSearch 추가
+
+        if (searchType && keyword) {
+            queryParams.append("searchType", searchType); // searchType 추가
+            queryParams.append("searchKeyword", keyword); // searchKeyword 추가
+        }
+
+        let baseUrl = window.location.origin + "/AdminController";
+        let queryString = queryParams.toString(); // 자동으로 `&`을 처리
+
+        window.location.href = baseUrl + "?" + queryString; // 최종 URL 적용
+    }
 
     function resetSearch() {
-        let baseUrl = window.location.origin + "/AdminController?type=theaterManage";
+        let baseUrl = window.location.origin + "/AdminController?type=theaterList";
         window.location.href = baseUrl;
     }
 

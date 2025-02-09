@@ -1,16 +1,18 @@
 package action.admin.theaterSeat;
 
 import action.Action;
-import mybatis.dao.SeatDAO;
-import mybatis.dao.TheaterAdminDAO;
+import mybatis.dao.AdminDAO;
+import mybatis.dao.TheaterManagementDAO;
 import mybatis.vo.AdminVO;
-import mybatis.vo.SeatVO;
-import mybatis.vo.TheaterVO;
+import mybatis.vo.LogVO;
+import mybatis.vo.TheaterManagementVO;
 import util.Paging;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 public class TheaterAction implements Action {
 
@@ -25,14 +27,11 @@ public class TheaterAction implements Action {
 //            return "AdminController?type=admin";
 //        }
 
-        // 페이징 처리를 위한 객체 생성 (페이지당 10개, 블록당 5개)
         Paging page = new Paging(10, 5);
 
-        // 총 게시물 개수를 먼저 가져와야 함
-        int totalRecord = TheaterAdminDAO.getTotalCount();
-        page.setTotalRecord(totalRecord); // 전체 게시물 개수를 먼저 설정해야 totalPage가 계산됨
+        int totalRecord = TheaterManagementDAO.getTheaterScreenListCount();
+        page.setTotalRecord(totalRecord);
 
-        // 현재 페이지 값 설정
         String cPage = request.getParameter("cPage");
         if (cPage == null) {
             page.setNowPage(1);
@@ -42,20 +41,16 @@ public class TheaterAction implements Action {
         }
 
         // `begin`과 `end`가 null이면 기본값을 설정
-        int offset = page.getBegin() - 1;
-        int limit = page.getNumPerPage();
+        int begin = page.getBegin() - 1;
+        int end = page.getNumPerPage();
 
-        if (offset <= 0) offset = 0;
-        if (limit <= 0) limit = 10; // 기본값 설정
+        if (begin <= 0) begin = 0;
+        if (end <= 0) end = 10; // 기본값 설정
 
-        // 페이징된 데이터 가져오기
-        TheaterVO[] theaterList = TheaterAdminDAO.getTheaterList(offset, limit);
-        request.setAttribute("ar", theaterList);
+        TheaterManagementVO[] ar = TheaterManagementDAO.getTheaterScreenList(begin, end);
+        request.setAttribute("ar", ar);
         request.setAttribute("page", page);
         request.setAttribute("totalCount", totalRecord);
-
-        // JSP에 데이터 전달
-        request.setAttribute("theaterList", theaterList);
 
         return "/jsp/admin/theaterManagement/theaterManage.jsp";
     }

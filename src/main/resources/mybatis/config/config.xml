@@ -37,6 +37,6 @@
         <mapper resource="mybatis/mapper/point.xml"/>
         <mapper resource="mybatis/mapper/favoriteMovie.xml"/>
         <mapper resource="mybatis/mapper/admin.xml"/>
-        <mapper resource="mybatis/mapper/reservationPayment.xml"/>
+        <mapper resource="mybatis/mapper/theaterManagement.xml"/>
     </mappers>
 </configuration>
