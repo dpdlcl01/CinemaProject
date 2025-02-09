@@ -4,6 +4,7 @@ import action.Action;
 import mybatis.dao.BoardDAO;
 import mybatis.vo.AdminVO;
 import mybatis.vo.BoardVO;
+import util.LogUtil;
 import util.SessionUtil;
 
 import javax.servlet.ServletException;
@@ -25,6 +26,8 @@ public class WriteAction implements Action {
         if (adminvo == null) {
             return "AdminController?type=admin";
         }
+        String oldBoardIdx = request.getParameter("boardIdx");
+        BoardVO oldNotice = BoardDAO.getBoard(oldBoardIdx);
 
         String adminIdx = adminvo.getAdminIdx();
 
@@ -94,17 +97,6 @@ public class WriteAction implements Action {
         String boardIdx = request.getParameter("boardIdx");
 
 
-        /*int boardIdx = 0;
-
-        if (boardIdxStr != null && !boardIdxStr.trim().isEmpty()) { // null 및 빈 문자열 체크
-            try {
-                boardIdx = Integer.parseInt(boardIdxStr);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                boardIdx = 0;
-            }
-        }*/
-
         String boardTitle = request.getParameter("title");
         String theater = request.getParameter("theater");
         String boardType = request.getParameter("boardType");
@@ -116,6 +108,7 @@ public class WriteAction implements Action {
         String theaterIdx = BoardDAO.getTheaterIdx(theater);
 
         int result = 0;
+
         if(boardIdx == null || boardIdx.isEmpty()) {
             result = BoardDAO.addNotice(adminIdx, theaterIdx, boardType, boardTitle, boardContent,
                     boardExpDate, boardStatus);
@@ -124,6 +117,23 @@ public class WriteAction implements Action {
                     boardExpDate, boardStatus);
             request.getSession().setAttribute("loginAdmin", adminvo);
             request.getRequestDispatcher("/AdminController?type=adView&boardIdx=" + boardIdx).forward(request, response);
+        }
+
+        if (result == 2) {
+            String logType = "0"; // 관리자 관련 로그이므로 0 지정
+            String logTarget = "boardIdx:"+boardIdx; // 로그 대상 idx
+
+            LogUtil.logChanges(logType, adminIdx, logTarget, "boardTitle 수정", oldNotice.getBoardTitle(), boardTitle); // 게시물 제목
+            LogUtil.logChanges(logType, adminIdx, logTarget, "boardContent 수정", oldNotice.getBoardContent(), boardContent); // 게시물 내용
+            LogUtil.logChanges(logType, adminIdx, logTarget, "boardExpDate 수정", oldNotice.getBoardExpDate(), boardExpDate); // 종료 날짜
+            LogUtil.logChanges(logType, adminIdx, logTarget, "boardStatus 수정", oldNotice.getBoardStatus(), boardStatus); // 게시물 상태
+            LogUtil.logChanges(logType, adminIdx, logTarget, "theaterIdx 수정", oldNotice.getTheaterIdx(), theaterIdx); //  극장
+
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("{\"message\": \"Movie updated successfully\"}");
+        } else {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\": \"Failed to update movie\"}");
         }
 
 

@@ -16,7 +16,6 @@ public class BoardDAO {
         HashMap<String, Object> map = new HashMap<>();
         map.put("bType", bType);
 
-        // 검색어, 지역, 극장 조건이 있는 경우
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -39,10 +38,9 @@ public class BoardDAO {
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("bType", bType);
-        map.put("begin", begin);// String.valueOf(begin)
+        map.put("begin", begin);
         map.put("end", end);
 
-        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -77,7 +75,6 @@ public class BoardDAO {
         map.put("bType", bType);
         map.put("boardIdx", boardIdx);
 
-        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -100,7 +97,6 @@ public class BoardDAO {
         map.put("bType", bType);
         map.put("boardIdx", boardIdx);
 
-        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -117,6 +113,8 @@ public class BoardDAO {
         return nboard;
     }
 
+    //------------------관리자--------------------
+
     //이벤트를 포함한 총 게시물 수를 반환
     public static int getAllTotalCount(String bType, String keyword, String region, String theater) {
         SqlSession ss = FactoryService.getFactory().openSession();
@@ -126,7 +124,6 @@ public class BoardDAO {
         if (bType != null && !bType.isEmpty()) {
             map.put("bType", bType);
         }
-        // 검색어, 지역, 극장 조건이 있는 경우
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -154,7 +151,6 @@ public class BoardDAO {
         if (bType != null && !bType.isEmpty()) {
             map.put("bType", bType);
         }
-        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -164,7 +160,6 @@ public class BoardDAO {
         if (theater != null && !theater.isEmpty()) {
             map.put("theater", theater);
         }
-
         SqlSession ss = FactoryService.getFactory().openSession();
         List<BoardVO> list = ss.selectList("board.AllList", map);
         if (list != null && !list.isEmpty()) {
@@ -183,7 +178,6 @@ public class BoardDAO {
         if (bType != null && !bType.isEmpty()) {
             map.put("bType", bType);
         }
-        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -208,7 +202,6 @@ public class BoardDAO {
         if (bType != null && !bType.isEmpty()) {
             map.put("bType", bType);
         }
-        // 검색어, 지역, 극장 값이 있을 때만 Map에 추가
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
         }
@@ -253,6 +246,7 @@ public class BoardDAO {
         return cnt;
     }
 
+    // 선택된 항목 삭제
     public static int deleteNotices(List<Integer> boardIdxList) {
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.update("board.deleteNotices", boardIdxList);
@@ -277,6 +271,8 @@ public class BoardDAO {
     //저장
     public static int addNotice(String adminIdx, String theaterIdx, String boardType, String boardTitle,
                                 String boardContent, String boardExpDate, String boardStatus) {
+        int add = 0;
+
         HashMap<String, String> map = new HashMap<>();
         map.put("adminIdx", adminIdx);
         map.put("theaterIdx", theaterIdx);
@@ -288,17 +284,20 @@ public class BoardDAO {
 
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("board.add", map);
-        if (cnt > 0)
+        if (cnt > 0) {
             ss.commit();
-        else
+            add = 1;
+        }else
             ss.rollback();
         ss.close();
-        return cnt;
+        return add;
     }
 
     //수정
     public static int updateNotice(String boardIdx, String theaterIdx, String boardType, String boardTitle,
                                 String boardContent, String boardExpDate, String boardStatus) {
+        int update = 0;
+
         HashMap<String, Object> map = new HashMap<>();
         map.put("boardIdx", boardIdx);
         map.put("theaterIdx", theaterIdx);
@@ -310,12 +309,13 @@ public class BoardDAO {
 
         SqlSession ss = FactoryService.getFactory().openSession();
         int cnt = ss.insert("board.update", map);
-        if (cnt > 0)
+        if (cnt > 0) {
             ss.commit();
-        else
+            update = 2;
+        }else
             ss.rollback();
         ss.close();
-        return cnt;
+        return update;
     }
 
 }
