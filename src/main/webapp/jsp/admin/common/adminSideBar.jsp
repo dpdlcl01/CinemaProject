@@ -106,7 +106,7 @@
         <li>
             <c:choose>
                 <c:when test="${sessionScope.adminvo.adminLevel eq 'SUPER'}">
-                    <a href="${pageContext.request.contextPath}/AdminController?type=adminlist">관리자 권한 관리</a>
+                    <a href="${pageContext.request.contextPath}/AdminController?type=adminList">관리자 권한 관리</a>
                 </c:when>
                 <c:otherwise>
                     <a class="disabled-link">권한 관리</a>
