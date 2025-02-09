@@ -6,11 +6,11 @@
     <select id="getTheaterList" resultType="hashmap">
         SELECT t.theaterRegion AS theaterRegion, t.theaterName AS theaterName, s.screenName AS screenName,
         CASE s.screenType
-            WHEN 1 THEN 'COMFORT'
-            WHEN 2 THEN 'VIP'
-            WHEN 3 THEN 'DOLBY'
-            WHEN 4 THEN '4DX'
-            WHEN 5 THEN 'IMAX'
+        WHEN 1 THEN 'COMFORT'
+        WHEN 2 THEN 'VIP'
+        WHEN 3 THEN 'DOLBY'
+        WHEN 4 THEN '4DX'
+        WHEN 5 THEN 'IMAX'
         END AS screenType,
         m.movieTitle AS movieTitle,
         DATE(tt.timetableStartTime) AS date,
@@ -21,6 +21,86 @@
         JOIN screen s ON t.theaterIdx = s.theaterIdx
         JOIN timetable tt ON s.screenIdx = tt.screenIdx
         JOIN movie m ON tt.movieIdx = m.movieIdx
-        ORDER BY t.theaterRegion, t.theaterName, s.screenName, tt.timetableStartTime;
+        ORDER BY t.theaterRegion, t.theaterName, s.screenName, tt.timetableStartTime
     </select>
+
+    <select id="getUsersByPage" parameterType="map" resultType="mybatis.vo.UserVO">
+        SELECT *
+        FROM user
+        <where>
+            <if test="userType == 'member'">
+                userId IS NOT NULL
+            </if>
+            <if test="userType == 'non-member'">
+                userId IS NULL
+            </if>
+
+            <if test="searchKeyword != null and searchKeyword != ''">
+                <choose>
+                    <when test="searchType == 'name'">
+                        AND userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'id'">
+                        AND userId LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'grade'">
+                        AND userGrade LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY userIdx DESC
+        LIMIT #{begin}, #{numPerPage}
+    </select>
+
+    <select id="getTotalUserCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        <where>
+            <if test="userType != null and userType != ''">
+                <choose>
+                    <when test="userType == 'member'">
+                        userId IS NOT NULL
+                    </when>
+                    <when test="userType == 'non-member'">
+                        userId IS NULL
+                    </when>
+                </choose>
+            </if>
+
+            <if test="searchKeyword != null and searchKeyword != ''">
+                <choose>
+                    <when test="searchType == 'name'">
+                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'id'">
+                        userId LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'grade'">
+                        userGrade LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getUserById" parameterType="int" resultType="mybatis.vo.UserVO">
+        SELECT * FROM user WHERE userIdx = #{userIdx}
+    </select>
+
+    <update id="updateuser" parameterType="mybatis.vo.UserVO">
+        UPDATE user
+        SET
+        userName = #{userName},
+        userPhone = #{userPhone},
+        userPoint = #{userPoint},
+        userGrade = #{userGrade}
+        WHERE userIdx = #{userIdx};
+    </update>
+
+    <insert id="insertlog" parameterType="mybatis.vo.LogVO">
+        INSERT INTO log(logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue, logDate)
+        VALUES (#{logType}, #{adminIdx}, #{logTarget}, #{logInfo}, #{logPreValue}, #{logCurValue}, now())
+    </insert>
 </mapper>

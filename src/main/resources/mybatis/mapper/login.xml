@@ -2,17 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="login">
+
     <select id="usercheck" resultType="int">
         SELECT COUNT(*)
         FROM user
         WHERE userId = #{userId}
         AND userPassword = #{userPassword}
+        AND userStatus = 0
     </select>
 
     <!-- 비회원 정보 조회 -->
     <select id="nonMemberCheck" parameterType="Map" resultType="mybatis.vo.UserVO">
-        SELECT userName, userEmail, userAuthPassword, userStatus
+        SELECT *
         FROM user
         WHERE userName = #{userName} AND userEmail = #{userEmail} AND userStatus IS NULL
     </select>
@@ -23,9 +26,36 @@
         VALUES (#{userName}, #{userAuthPassword}, #{userEmail}, now(), NULL);
     </insert>
 
+    <!--일반회원 조회-->
     <select id="getUserInfo" parameterType="map" resultType="mybatis.vo.UserVO">
         SELECT *
         FROM user
-        WHERE userID = #{userId}
+        WHERE userId = #{userId}
+        AND userStatus = 0
     </select>
+
+    <!-- 관리자 검증 -->
+    <select id="adminCheck" resultType="int">
+        SELECT COUNT(*)
+        FROM admin
+        WHERE adminId = #{adminId}
+        AND adminPassword = #{adminPassword}
+        AND adminStatus = 0
+    </select>
+
+    <!-- 로그인한 관리자 정보 가져오기 -->
+    <select id="getAdminInfo" parameterType="map" resultType="mybatis.vo.AdminVO">
+        SELECT *
+        FROM admin
+        WHERE adminId = #{adminId}
+    </select>
+
+    <!--비회원 조회-->
+    <select id="getNonUserInfo" parameterType="map" resultType="mybatis.vo.UserVO">
+        SELECT *
+        FROM user
+        WHERE userEmail = #{userEmail}
+    </select>
+
+
 </mapper>

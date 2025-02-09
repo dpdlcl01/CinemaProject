@@ -4,6 +4,16 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 
+    <update id="updateProductStock" parameterType="map">
+        UPDATE cinema_db.product
+        SET productStock = productStock - #{quant},
+        productStatus = CASE
+        WHEN productStock - #{quant} &lt;= 0 THEN 1
+        ELSE productStatus
+        END
+        WHERE productIdx = #{pIdx}
+    </update>
+
     <select id="total" resultType="mybatis.vo.ProductVO">
         select *
         from product
@@ -17,7 +27,7 @@
 
     <select id="selectCart" parameterType="String" resultType="mybatis.vo.CartVO">
         SELECT
-        p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,
+        p.productIdx, p.productName, p.productPrice, p.productRegDate, p.productStatus, p.productImg,p.productCategory,
         SUM(c.quantity) AS total_quant
         FROM cart c INNER JOIN product p ON c.productIdx = p.productIdx
         WHERE c.userIdx = #{idx}
@@ -29,4 +39,36 @@
         FROM cart
         WHERE userIdx=#{userIdx} and productIdx=#{productIdx}
     </delete>
+
+    <!--관리자 기능-->
+    <!--전체 상품 조회-->
+    <select id="selectAll" parameterType="String" resultType="mybatis.vo.ProductVO">
+        SELECT * FROM product
+    </select>
+
+    <select id="selectById" parameterType="String" resultType="mybatis.vo.ProductVO">
+        SELECT * FROM product
+        WHERE productIdx = #{productIdx}
+    </select>
+
+    <!-- 상품 정보 수정 -->
+    <update id="updateProduct" parameterType="mybatis.vo.ProductVO">
+        UPDATE product
+        SET
+        productCategory = #{productCategory},
+        productName = #{productName},
+        productInfo = #{productInfo},
+        productPrice = #{productPrice},
+        productStock = #{productStock},
+        productStatus = #{productStatus},
+        productImg = #{productImg}
+        WHERE productIdx = #{productIdx}
+    </update>
+
+    <!--상품추가-->
+    <insert id="addProduct" parameterType="mybatis.vo.ProductVO">
+        INSERT INTO product (productCategory, productName, productInfo, productPrice, productStock, productImg, productRegDate, productStatus)
+        VALUES (#{productCategory}, #{productName}, #{productInfo}, #{productPrice}, #{productStock}, #{productImg}, NOW(), #{productStatus});
+    </insert>
+
 </mapper>
