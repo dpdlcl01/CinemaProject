@@ -88,10 +88,11 @@
 
         table {
             width: 100%;
-            /*height: 100%;*/
             border-collapse: collapse;
             margin-top: 20px;
+            border-top: 2px solid #000;
         }
+
 
         table, th {
             border-top: 2px solid #333;
@@ -113,13 +114,18 @@
             padding-left: 15px;
         }
 
-        td a:hover {
-            color: #666;
+        tr:hover {
+            background-color: #f9f9f9;
         }
 
         th {
             background-color: #f4f4f4;
             font-weight: bold;
+            border-bottom: 1px solid #ddd; /* 헤더 아래 얇은 선 */
+        }
+
+        a {
+            color: inherit;
         }
 
 

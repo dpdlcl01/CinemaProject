@@ -21,8 +21,14 @@ public class ViewAction implements Action {
             return "AdminController?type=admin";
         }
 
+        String bType = request.getParameter("bType");
+
         // 기본키 boardIdx값을 파라미터로 받기, bType , cPage, ....
         String boardIdx = request.getParameter("boardIdx");
+
+        if (boardIdx != null) {
+            boardIdx = boardIdx.trim();
+        }
 
         int currentBoardIdx = Integer.parseInt(boardIdx);
 
@@ -32,8 +38,8 @@ public class ViewAction implements Action {
 
         // 위의 기본키는 DB로부터 원하는 게시물을 검색하기 위해 받았다.
         BoardVO bo = BoardDAO.getBoard(boardIdx);
-        BoardVO pbo = BoardDAO.getPreviousBoard("notice",boardIdx, keyword, region, theater);
-        BoardVO nbo = BoardDAO.getNextBoard("notice",boardIdx, keyword, region, theater);
+        BoardVO pbo = BoardDAO.getAllPreviousBoard(bType, boardIdx, keyword, region, theater);
+        BoardVO nbo = BoardDAO.getAllNextBoard(bType, boardIdx, keyword, region, theater);
 
 
         request.setAttribute("board", bo);

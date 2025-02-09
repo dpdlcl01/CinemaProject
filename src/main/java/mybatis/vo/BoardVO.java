@@ -3,7 +3,15 @@ package mybatis.vo;
 public class BoardVO {
     private String boardIdx, adminIdx, theaterIdx, boardType,
             boardTitle, boardContent, boardRegDate,
-            boardExpDate, boardStatus, theaterName;
+            boardExpDate, boardStatus, theaterName, theaterRegion;
+
+    public String getTheaterRegion() {
+        return theaterRegion;
+    }
+
+    public void setTheaterRegion(String theaterRegion) {
+        this.theaterRegion = theaterRegion;
+    }
 
     public String getTheaterName() {
         return theaterName;

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
 <html lang="ko">
@@ -14,33 +14,38 @@
         width: 100%;
         min-height: 550px;
     }
+
     .page-util .inner-wrap {
-        max-width: 100%; !important;
-        padding: 20px 20px; !important;
+        max-width: 100%;
+    !important;
+        padding: 20px 20px;
+    !important;
     }
 
-    #h2 h2{
+    #h2 h2 {
         width: 760px;
     }
-    #h2 button{
-        height:32px ;
+
+    #h2 button {
+        height: 32px;
         width: 74px;
         border: none;
         background-color: white;
     }
 
-    .myPage-container{
+    .myPage-container {
         display: flex;
 
     }
-    #main{
+
+    #main {
         width: 100%;
         margin: 27px 40px 40px 40px;
     }
-    #main h1{
+
+    #main h1 {
         font-size: 30px;
     }
-
 
 
     .noticeboard {
@@ -62,7 +67,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
     }
 
     .search-bar-container .total-count {
@@ -82,16 +86,16 @@
     }
 
     .search-bar2 {
-        flex: 1;               /* 부모 컨테이너의 남은 공간을 차지 */
-        max-width: 400px;      /* 최대 너비 */
-        min-width: 200px;      /* 최소 너비 */
+        flex: 1; /* 부모 컨테이너의 남은 공간을 차지 */
+        max-width: 400px; /* 최대 너비 */
+        min-width: 200px; /* 최소 너비 */
         height: 30px;
         position: relative;
         border-bottom: 1px solid #423e3e;
     }
 
     .search-bar2 .input-text {
-        width: 100%;           /* 부모의 너비에 맞게 확장 */
+        width: 100%; /* 부모의 너비에 맞게 확장 */
         background-color: transparent;
         border: 0;
         color: #000;
@@ -135,7 +139,7 @@
         width: 100%;
         /*height: 100%;*/
         border-collapse: collapse;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     table, th {
@@ -159,11 +163,11 @@
         border-bottom: 1px solid #ddd !important;
     }
 
-     /*제목 왼쪽 정렬 필요할 경우 */
-        td:nth-child(4) {
-            text-align: left;
-            padding-left: 15px;
-        }
+    /*제목 왼쪽 정렬 필요할 경우 */
+    td:nth-child(5) {
+        text-align: left;
+        padding-left: 15px;
+    }
 
     td a {
         color: inherit; /* 부모 요소의 색상을 따르도록 설정 */
@@ -186,20 +190,8 @@
         transition: background-color 0.2s ease;
     }
 
-    /* 마우스를 가져갔을 때 배경색 변경 */
-    .clickable-row:hover {
-        background-color: #f0f0f0;
-    }
-
-    .writeNotice {
-        float: right;
-        margin-top: 10px;
-        text-align: center;
-        color: #fff;
-        background-color: #6a5acd;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 14px;
+    tr:hover {
+        background-color: #f9f9f9;
     }
 
     /* 페이지네이션 */
@@ -257,6 +249,52 @@
         background: url('${pageContext.request.contextPath}/css/user/images/btn-paging.png') no-repeat 0 0;
     }
 
+    .checkbox, .endNotice, .startNotice, .deleteNotice {
+        display: none;
+    }
+
+    .buttonGroup {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .endNotice, .selectNotice, .writeNotice, .startNotice, .deleteNotice{
+        background-color: #01738b;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    .switch {
+        margin-right: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .writeNotice{
+        margin-top: 10px;
+    }
+
+    .writeNotice a{
+        color: #fff;
+    }
+
+    .noticeBt, .eventBt, .allBt {
+        width: 100px;
+        background-color: #fff;
+        border-radius: 5px;
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+    }
+
+
 </style>
 
 <body>
@@ -275,52 +313,81 @@
                     <div id="announcement" class="noticeboard">
                         <div class="search-bar-container">
                             <div class="total-count">전체 ${requestScope.total}건</div>
-                            <!-- 검색어 입력 섹션 -->
-                            <form method="post" action="AdminController" class="search-bar">
-                                <input type="hidden" name="type" value="adBoard"/>
-                                <select id="region" name="region" onchange="updateTheaters()">
-                                    <option value="">지역 선택</option>
-                                    <option value="서울" ${param.region == '서울' ? 'selected' : ''}>서울</option>
-                                    <option value="경기" ${param.region == '경기' ? 'selected' : ''}>경기</option>
-                                    <option value="인천" ${param.region == '인천' ? 'selected' : ''}>인천</option>
-                                    <option value="대전/충청/세종" ${param.region == '대전/충청/세종' ? 'selected' : ''}>대전/충청/세종
-                                    </option>
-                                    <option value="부산/대구/경상" ${param.region == '부산/대구/경상' ? 'selected' : ''}>부산/대구/경상
-                                    </option>
-                                    <option value="광주/전라" ${param.region == '광주/전라' ? 'selected' : ''}>광주/전라</option>
-                                    <option value="강원" ${param.region == '강원' ? 'selected' : ''}>강원</option>
-                                </select>
-                                <select id="theater" name="theater">
-                                    <option value="">극장 선택</option>
-                                </select>
-                                <div class="search-bar2">
-                                    <input type="text" name="keyword" placeholder="검색어를 입력해주세요." title="공지사항 검색"
-                                           class="input-text" value="${param.keyword}"/>
-                                    <button class="btn">
-                                        <i class="ico-search"></i>
-                                        검색
-                                    </button>
+                            <div class="flex">
+                                <div class="switch">
+                                    <form method="post" action="AdminController" class="switch">
+                                        <input type="hidden" name="type" value="adBoard"/>
+                                        <button type="submit" class="allBt">전체</button>
+                                        <button type="submit" name="bType" value="NOTICE" class="noticeBt">공지</button>
+                                        <button type="submit" name="bType" value="EVENT" class="eventBt">이벤트</button>
+                                    </form>
                                 </div>
-                            </form>
+                                <!-- 검색어 입력 섹션 -->
+                                <form method="post" action="AdminController" class="search-bar">
+                                    <input type="hidden" name="type" value="adBoard"/>
+                                    <select id="region" name="region" onchange="updateTheaters()">
+                                        <option value="">지역 선택</option>
+                                        <option value="서울" ${param.region == '서울' ? 'selected' : ''}>서울</option>
+                                        <option value="경기" ${param.region == '경기' ? 'selected' : ''}>경기</option>
+                                        <option value="인천" ${param.region == '인천' ? 'selected' : ''}>인천</option>
+                                        <option value="대전/충청/세종" ${param.region == '대전/충청/세종' ? 'selected' : ''}>
+                                            대전/충청/세종
+                                        </option>
+                                        <option value="부산/대구/경상" ${param.region == '부산/대구/경상' ? 'selected' : ''}>
+                                            부산/대구/경상
+                                        </option>
+                                        <option value="광주/전라" ${param.region == '광주/전라' ? 'selected' : ''}>광주/전라
+                                        </option>
+                                        <option value="강원" ${param.region == '강원' ? 'selected' : ''}>강원</option>
+                                    </select>
+                                    <select id="theater" name="theater">
+                                        <option value="">극장 선택</option>
+                                    </select>
+                                    <div class="search-bar2">
+                                        <input type="text" name="keyword" placeholder="검색어를 입력해주세요." title="공지사항 검색"
+                                               class="input-text" value="${param.keyword}"/>
+                                        <button class="btn">
+                                            <i class="ico-search"></i>
+                                            검색
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="buttonGroup">
+                            <button id="toggleSelect" class="selectNotice">선택</button>
+                            <button id="startNotice" class="startNotice">게시</button>
+                            <button id="endNotice" class="endNotice">종료</button>
+                            <button id="deleteNotice" class="deleteNotice">삭제</button>
                         </div>
 
 
                         <!-- 공지사항 테이블 -->
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>극장</th>
-                                <th>구분</th>
-                                <th>제목</th>
-                                <th>등록일</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:set var="pvo" value="${requestScope.page}"/>
-                            <c:forEach var="vo" items="${ar}" varStatus="vs">
-                                <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
-                                <tr class="clickable-row" data-board-idx="${vo.boardIdx}">
+                        <form id="endForm" method="post" action="AdminController">
+                            <input type="hidden" name="type" value="adWrite"/>
+                            <input type="hidden" name="actionType" value="end"/>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="checkbox">
+                                        <input type="checkbox" id="selectAll" class="selectAll"/>
+                                    </th>
+                                    <th>번호</th>
+                                    <th>극장</th>
+                                    <th>구분</th>
+                                    <th>제목</th>
+                                    <th>등록일</th>
+                                    <th>게시 상태</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:set var="pvo" value="${requestScope.page}"/>
+                                <c:forEach var="vo" items="${ar}" varStatus="vs">
+                                    <td class="checkbox">
+                                        <input type="checkbox" class="rowCheckbox" name="selectedNotice"
+                                               value="${vo.boardIdx}"/>
+                                    </td>
+                                    <%-- 페이지가 바뀌면 pvo가 바뀌므로 vo도 새롭게 들어와서 vs도 다시 0부터 시작 --%>
                                     <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index) + 1}</td>
                                     <c:if test="${vo.theaterName ne null}">
                                         <td>${vo.theaterName}</td>
@@ -328,30 +395,51 @@
                                     <c:if test="${vo.theaterName eq null}">
                                         <td>메가박스</td>
                                     </c:if>
-                                    <td>공지</td>
+                                    <c:if test="${vo.boardType eq 'NOTICE'}">
+                                        <td>공지</td>
+                                    </c:if>
+                                    <c:if test="${vo.boardType eq 'EVENT'}">
+                                        <td>이벤트</td>
+                                    </c:if>
                                     <td>
-                                        <a href="AdminController?type=adView&amp;boardIdx=${vo.boardIdx}">
+                                        <a href="AdminController?type=adView&amp;boardIdx=${vo.boardIdx}
+                                            <c:if test='${not empty param.bType}'> &amp;bType=${param.bType}</c:if>
+                                            <c:if test='${not empty param.keyword}'> &amp;keyword=${param.keyword}</c:if>
+                                            <c:if test='${not empty param.region}'> &amp;region=${param.region}</c:if>
+                                            <c:if test='${not empty param.theater}'> &amp;theater=${param.theater}</c:if>">
                                                 ${vo.boardTitle}
                                         </a>
                                     </td>
-                                    <td>${vo.boardRegDate.substring(0,10)}</td>
-                                </tr>
-                            </c:forEach>
-                            <c:if test="${ar eq null or fn:length(ar) eq 0}">
-                                <tr>
-                                    <td colspan="5">현재 등록된 데이터가 없습니다.</td>
-                                </tr>
-                            </c:if>
-                            </tbody>
-                        </table>
 
-                        <a href=""/>
-                        <button>글쓰기</button>
+                                    <td>${vo.boardRegDate.substring(0,10)}</td>
+                                    <c:if test="${vo.boardStatus eq '0'}">
+                                        <td>게시 중</td>
+                                    </c:if>
+                                    <c:if test="${vo.boardStatus eq '1'}">
+                                        <td>게시 예정</td>
+                                    </c:if>
+                                    <c:if test="${vo.boardStatus eq '2'}">
+                                        <td>게시 종료</td>
+                                    </c:if>
+                                    </tr>
+                                </c:forEach>
+                                <c:if test="${ar eq null or fn:length(ar) eq 0}">
+                                    <tr>
+                                        <td colspan="5">현재 등록된 데이터가 없습니다.</td>
+                                    </tr>
+                                </c:if>
+                                </tbody>
+                            </table>
+                        </form>
+                        <form method="post" action="AdminController">
+                            <input type="hidden" name="type" value="adNewWrite"/>
+                            <button type="submit" class="writeNotice">글쓰기</button>
+                        </form>
 
                         <!--------------------- 페이지네이션 -------------------->
                         <nav class="pagination">
                             <c:if test="${requestScope.page ne null}">
-                                <c:set var="pvo" value="${requestScope.page}" />
+                                <c:set var="pvo" value="${requestScope.page}"/>
 
                                 <!-- << (맨 처음으로) -->
                                 <c:if test="${pvo.startPage > 1 && pvo.totalPage > 10}">
@@ -372,6 +460,7 @@
                                     </c:if>
                                     <c:if test="${st.index ne pvo.nowPage}">
                                         <a href="AdminController?type=adBoard&amp;cPage=${st.index}
+                    <c:if test='${not empty param.bType}'> &amp;bType=${param.bType}</c:if>
                     <c:if test='${not empty param.keyword}'> &amp;keyword=${param.keyword}</c:if>
                     <c:if test='${not empty param.region}'> &amp;region=${param.region}</c:if>
                     <c:if test='${not empty param.theater}'> &amp;theater=${param.theater}</c:if>"
@@ -400,6 +489,7 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // 지역별 극장 목록
     const theatersByRegion = {
@@ -449,6 +539,110 @@
             }
         }
     };
+
+    // 선택눌렀을때 체크박스
+    document.getElementById('toggleSelect').addEventListener('click', function () {
+        const checkboxes = document.querySelectorAll('.checkbox');
+        const endButton = document.getElementById('endNotice');
+        const startButton = document.getElementById('startNotice');
+        const deleteButton = document.getElementById('deleteNotice');
+
+        let isVisible = checkboxes[0].style.display === 'table-cell';
+
+        checkboxes.forEach(checkbox => {
+            checkbox.style.display = isVisible ? 'none' : 'table-cell';
+        });
+
+        // 삭제 버튼도 선택 버튼과 함께 보이게/숨기게
+        endButton.style.display = isVisible ? 'none' : 'inline-block';
+        startButton.style.display = isVisible ? 'none' : 'inline-block';
+        deleteButton.style.display = isVisible ? 'none' : 'inline-block';
+    });
+
+    // 전체선택
+    document.getElementById('selectAll').addEventListener('change', function () {
+        const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+        rowCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;  // 전체 체크박스 상태에 따라 개별 체크박스 변경
+        });
+    });
+
+    $(document).ready(function () {
+        function updateNoticeStatus(actionType, message) {
+            const selectedItems = $(".rowCheckbox:checked");
+
+            if (selectedItems.length === 0) {
+                alert(message + "할 항목을 선택하세요.");
+                return;
+            }
+
+            if (!confirm("선택한 항목을 " + message + "하시겠습니까?")) {
+                return;
+            }
+
+            let boardIdxList = [];
+            selectedItems.each(function () {
+                boardIdxList.push($(this).val());
+            });
+
+            $.ajax({
+                url: "AdminController",
+                type: "POST",
+                data:{
+                    type: "adWrite",
+                    actionType: actionType,
+                    selectedNotice: boardIdxList
+                },
+                traditional: true,
+                dataType: "json",
+                success: function (response) {
+                    console.log("서버 응답:", response);
+
+                    if (response.success) {
+                        alert("선택한 항목이 " + message + "되었습니다.");
+                        location.reload();
+                    } else {
+                        alert(message + "에 실패했습니다.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX 요청 오류:", error);
+                    alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+                }
+            });
+        }
+
+        // 종료 버튼 클릭 시
+        $("#endNotice").on("click", function () {
+            updateNoticeStatus("end", "종료");
+        });
+
+        // 게시 버튼 클릭 시
+        $("#startNotice").on("click", function () {
+            updateNoticeStatus("start", "게시");
+        });
+
+        // 삭제 버튼 클릭 시
+        $("#deleteNotice").on("click", function () {
+            updateNoticeStatus("delete", "삭제")
+        });
+    });
+
+
+
+    window.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = urlParams.get("cPage");
+
+        // cPage가 없으면 1로 설정하고 페이지 새로고침
+        if (!currentPage) {
+            urlParams.set("cPage", "1");
+            const newUrl = window.location.pathname + "?" + urlParams.toString();
+            window.history.replaceState({}, "", newUrl);
+        }
+    });
+
+
 </script>
 </body>
 </html>
