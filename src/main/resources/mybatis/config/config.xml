@@ -37,13 +37,14 @@
         <mapper resource="mybatis/mapper/coupon.xml"/>
         <mapper resource="mybatis/mapper/point.xml"/>
         <mapper resource="mybatis/mapper/favoriteMovie.xml"/>
+        <mapper resource="mybatis/mapper/dashboard.xml"/>
+        <mapper resource="mybatis/mapper/admin.xml"/>
         <mapper resource="mybatis/mapper/adminTimetable.xml"/>
-        <mapper resource="mybatis/mapper/log.xml"/>
-        <mapper resource="mybatis/mapper/payment.xml"/>
+        <mapper resource="mybatis/mapper/theaterManagement.xml"/>
         <mapper resource="mybatis/mapper/myReservation.xml"/>
         <mapper resource="mybatis/mapper/reservationPayment.xml"/>
-        <mapper resource="mybatis/mapper/admin.xml"/>
+        <mapper resource="mybatis/mapper/payment.xml"/>
         <mapper resource="mybatis/mapper/adminManagement.xml"/>
-        <mapper resource="mybatis/mapper/dashboard.xml"/>
+        <mapper resource="mybatis/mapper/log.xml"/>
     </mappers>
 </configuration>

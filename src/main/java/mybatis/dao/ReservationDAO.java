@@ -92,18 +92,41 @@ public class ReservationDAO {
   }
 
     // 영화 선택시 가능 상영관 조회
-    public static List<TimetableVO> getAvailableTheaters(String movieIdx) {
+    public static List<TimetableVO> getAvailableTheaters(String movieIdx, String targetDate) {
         SqlSession ss = FactoryService.getFactory().openSession();
 
-        List<TimetableVO> list = ss.selectList("reservation.getAvailableTheaters", movieIdx);
+        // 파라미터를 Map으로 생성
+        Map<String, Object> params = new HashMap<>();
+        params.put("movieIdx", movieIdx);
+        params.put("targetDate", targetDate);
+
+        List<TimetableVO> list = ss.selectList("reservation.getAvailableTheaters", params);
 
         ss.close();
         return list;
     }
 
-  // 특정 극장 및 날짜의 상영 시간표 조회
-  public static TimetableVO[] allTimetable(String theaterIdx, String movieIdx, String targetDate) {
-    TimetableVO[] ar = null;
+    // 상영관 선택시 가능 영화 조회
+    public static List<Integer> getAvailableMovies(String theaterIdx, String targetDate) {
+        SqlSession ss = FactoryService.getFactory().openSession();
+
+        // 파라미터를 Map으로 생성
+        Map<String, Object> params = new HashMap<>();
+        params.put("theaterIdx", theaterIdx);
+        params.put("targetDate", targetDate);
+
+        // 쿼리 실행 (영화 ID 목록 반환)
+        List<Integer> movieList = ss.selectList("reservation.getAvailableMovies", params);
+
+        ss.close();
+        return movieList;
+    }
+
+
+
+    // 특정 극장 및 날짜의 상영 시간표 조회
+    public static TimetableVO[] allTimetable(String theaterIdx, String movieIdx, String targetDate) {
+        TimetableVO[] ar = null;
 
     // MyBatis 파라미터 전달용 HashMap 생성
     HashMap<String, String> map = new HashMap<>();
@@ -111,20 +134,9 @@ public class ReservationDAO {
     map.put("movieIdx", movieIdx);
     map.put("targetDate", targetDate);
 
-    SqlSession ss = FactoryService.getFactory().openSession();
-    try {
-        List<TimetableVO> list = ss.selectList("reservation.allTimetable", map);
-        System.out.println("입력된 theaterIdx: " + theaterIdx);
-        System.out.println("입력된 movieIdx: " + movieIdx);
-        System.out.println("입력된 targetDate: " + targetDate);
-        System.out.println("DB에서 반환된 데이터 개수: " + list.size());
-
-        for (TimetableVO t : list) {
-            System.out.println("상영 시간표 ID: " + t.getTimetableIdx());
-            System.out.println("스크린명: " + t.getScreenName());
-            System.out.println("총 좌석 수: " + t.getScreenSeatCount());
-            System.out.println("사용 가능한 좌석 수: " + t.getAvailableSeats()); // 수정된 부분
-        }
+        SqlSession ss = FactoryService.getFactory().openSession();
+        try {
+            List<TimetableVO> list = ss.selectList("reservation.allTimetable", map);
 
       if (list != null && !list.isEmpty()) {
         ar = new TimetableVO[list.size()];

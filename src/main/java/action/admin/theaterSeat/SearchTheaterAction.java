@@ -1,23 +1,19 @@
 package action.admin.theaterSeat;
 
 import action.Action;
-import mybatis.dao.AdminDAO;
 import mybatis.dao.TheaterManagementDAO;
 import mybatis.vo.AdminVO;
-import mybatis.vo.LogVO;
 import mybatis.vo.TheaterManagementVO;
 import util.Paging;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
 
-public class TheaterAction implements Action {
+public class SearchTheaterAction implements Action {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response){
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
 //        // 로그인 여부 확인 및 관리자 정보 가져오기
 //        AdminVO adminvo = SessionUtil.getLoginAdmin(request);
@@ -27,11 +23,17 @@ public class TheaterAction implements Action {
 //            return "AdminController?type=admin";
 //        }
 
+        String type = request.getParameter("type");
+
         Paging page = new Paging(10, 5);
 
-        int totalRecord = TheaterManagementDAO.getTheaterScreenListCount();
+        String searchType = request.getParameter("searchType");
+        String searchKeyword = request.getParameter("searchKeyword");
+
+        int totalRecord = TheaterManagementDAO.searchTheaterScreenCount(searchType, searchKeyword);
         page.setTotalRecord(totalRecord);
 
+        // 현재 페이지 값 설정
         String cPage = request.getParameter("cPage");
         if (cPage == null) {
             page.setNowPage(1);
@@ -47,12 +49,13 @@ public class TheaterAction implements Action {
         if (begin <= 0) begin = 0;
         if (end <= 0) end = 10; // 기본값 설정
 
-        TheaterManagementVO[] ar = TheaterManagementDAO.getTheaterScreenList(begin, end);
+        TheaterManagementVO[] ar = TheaterManagementDAO.searchTheaterScreenList(searchType, searchKeyword, begin, end);
         request.setAttribute("ar", ar);
         request.setAttribute("page", page);
+        request.setAttribute("searchType", searchType);
+        request.setAttribute("searchKeyword", searchKeyword);
         request.setAttribute("totalCount", totalRecord);
 
         return "/jsp/admin/theaterManagement/theaterManage.jsp";
     }
-
 }
