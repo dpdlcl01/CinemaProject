@@ -13,7 +13,7 @@
                 <!-- 사용자 화면 전환 버튼 -->
                 <a href="${pageContext.request.contextPath}/UserController?type=main"
                    class="btn-user-view" title="사용자 화면 전환">
-                    메가박스
+                    CINEFEEL
                 </a>
                 <!-- 로그아웃 버튼 -->
                 <a href="${pageContext.request.contextPath}/AdminController?type=adminLogout"

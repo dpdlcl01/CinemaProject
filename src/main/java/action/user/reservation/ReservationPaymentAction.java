@@ -56,6 +56,11 @@ public class ReservationPaymentAction implements Action {
     String studentPriceIdx = (String) session.getAttribute("studentPriceIdx");
     String timetableStartTime = (String) session.getAttribute("timetableStartTime");
     String movieIdx = (String) session.getAttribute("movieIdx");
+    String type = request.getParameter("type");
+
+    if (type.equals("reservationPaymentFail")) {
+      return "./jsp/user/reservation/reservationPaymentFail.jsp";
+    }
 
     // 결제 최종 금액이 0원일 경우 Toss API 호출 생략
     JSONObject confirmResponse = new JSONObject();
@@ -162,15 +167,14 @@ public class ReservationPaymentAction implements Action {
 
     boolean watchedMovieSaved = ReservationPaymentDAO.insertWatchedMovie(watchedMovieVO);
 
+    int finalPrice = Integer.parseInt(paymentFinal);
+    double getPointValue = finalPrice * 0.05;
+
     // 포인트 사용시 감소, 포인트 결제금액의 5% 적립
     if (Integer.parseInt(pointDiscount) > 0) {
       System.out.println("포인트 사용 ! pointDiscount:" + pointDiscount);
 
       System.out.println("pointCount:" + pointDiscount);
-
-      int finalPrice = Integer.parseInt(paymentFinal);
-
-      double getPointValue = finalPrice * 0.05;
 
       // 유저 포인트 감소
       boolean pointUpdated = ReservationPaymentDAO.updateUserPointUsage(userIdx, pointDiscount, getPointValue);
@@ -187,14 +191,20 @@ public class ReservationPaymentAction implements Action {
         reservationPointVO.setPointType("1");
 
         ReservationPaymentDAO.insertPointUsage(reservationPointVO);
-
-        // 적립기록
-        int getPoint = (int) getPointValue;
-        reservationPointVO.setPointValue(String.valueOf(getPoint));
-        reservationPointVO.setPointType("0");
-
-        ReservationPaymentDAO.insertPointUsage(reservationPointVO);
       }
+    }
+
+    // 포인트 적립 (비회원은 적립 불가)
+    if (!paymentFinal.equals("0") && uservo.getUserId()!=null && uservo.getUserPassword()!=null) {
+      ReservationPointVO reservationPointVO = new ReservationPointVO();
+
+      // 포인트 적립 기록
+      reservationPointVO.setUserIdx(userIdx);
+      reservationPointVO.setPaymentIdx(paymentIdx);
+      reservationPointVO.setPointValue(String.valueOf(getPointValue));
+      reservationPointVO.setPointType("0");
+
+      ReservationPaymentDAO.insertPointUsage(reservationPointVO);
     }
 
     if (couponIdx != null && !couponIdx.trim().isEmpty() && !"0".equals(couponIdx) && !"null".equals(couponIdx)) {
@@ -211,6 +221,17 @@ public class ReservationPaymentAction implements Action {
     request.setAttribute("vo", reservationDetailVO);
     request.setAttribute("paymentDiscount", paymentDiscount);
     request.setAttribute("paymentFinal", paymentFinal);
+
+    // uservo 유지하고 나머지 세션 값들 삭제
+    String uservoKey = "uservo"; // 유지할 속성명
+
+    java.util.Enumeration<String> sessionAttributes = session.getAttributeNames();
+    while (sessionAttributes.hasMoreElements()) {
+      String attr = sessionAttributes.nextElement();
+      if (!uservoKey.equals(attr)) { // uservo는 유지
+        session.removeAttribute(attr);
+      }
+    }
 
     return "./jsp/user/reservation/reservationPaymentSuccess.jsp";
   }

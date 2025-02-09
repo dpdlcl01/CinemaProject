@@ -1,86 +1,82 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinema Project</title>
+    <title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
         }
-
-        header {
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        main {
+        .index-container {
+            width: 100%;
+            max-width: 480px;
             padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-
-        h1 {
-            font-size: 2.5em;
+        .index-header {
+            font-size: 32px;
+            font-weight: bold;
+            color: #339eb2;
+            margin-bottom: 10px;
+        }
+        .index-subtitle {
+            font-size: 18px;
+            color: #6c757d;
             margin-bottom: 20px;
         }
-
-        h2 {
-            font-size: 1.8em;
-            color: #444;
+        .index-description {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 30px;
         }
-
-        p {
-            font-size: 1.2em;
-            color: #666;
-        }
-
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+        .btn-custom {
+            background-color: #339eb2;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            color: #fff;
+            margin: 5px;
             text-decoration: none;
-            border-radius: 5px;
+            display: inline-block;
         }
-
-        a:hover {
-            background-color: #0056b3;
+        .btn-custom:hover {
+            background-color: #287d8f;
         }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+        .footer-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
         }
     </style>
 </head>
 <body>
-<header>
-    <h1>Cinema Project</h1>
-</header>
-<main>
-    <h2>영화 예매 웹 애플리케이션</h2>
+<div class="index-container">
+    <div class="index-header">CINEFEEL</div>
+    <div class="index-subtitle">NEW OCEAN ESSENTIAL</div>
+    <div>
+        <a href="${pageContext.request.contextPath}/UserController" class="btn btn-custom">User Area</a>
+        <a href="${pageContext.request.contextPath}/AdminController" class="btn btn-custom">Admin Area</a>
+    </div>
+    <div class="footer-text">&copy; 2025 CINEFEEL. All rights reserved.</div>
+</div>
 
-    <a href="${pageContext.request.contextPath}/UserController">Go to UserController</a>
-    <a href="${pageContext.request.contextPath}/AdminController">Go to AdminController</a><br/><br/>
-    <a href="${pageContext.request.contextPath}/AdminController?type=dbMovie">영화 API 연결 확인</a>
-    <a href="${pageContext.request.contextPath}/AdminController?type=dbUpdate">영화 API 업데이트 확인</a>
-    <a href="${pageContext.request.contextPath}/UserController?type=reservationPayment">예매결제화면</a>
-</main>
-
-<footer>
-    <p>&copy; 2025 Cinema Project. All rights reserved.</p>
-</footer>
+<!-- Bootstrap JS Bundle CDN (팝퍼 포함) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

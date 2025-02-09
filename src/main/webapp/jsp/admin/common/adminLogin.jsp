@@ -28,7 +28,7 @@
         .login-header {
             font-size: 24px;
             font-weight: bold;
-            color: #6a5acd;
+            color: #339eb2;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -39,7 +39,7 @@
         }
 
         .btn-primary {
-            background-color: #6c63ff;
+            background-color: #339eb2;
             border: none;
             padding: 12px;
             font-size: 18px;
@@ -55,12 +55,12 @@
             display: flex;
             justify-content: space-around;
             font-size: 14px;
-            color: #6c63ff;
+            color: #339eb2;
         }
 
         .login-links a {
             text-decoration: none;
-            color: #6c63ff;
+            color: #339eb2;
         }
 
         .login-links a:hover {
@@ -84,7 +84,7 @@
         </div>
 
         <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
-        <p class="mt-3 mb-3 text-muted">© 2025</p>
+        <p class="mt-3 mb-3 text-muted">© 2025 CINEFEEL. All rights reserved.</p>
     </form>
 </main>
 
