@@ -19,17 +19,16 @@
     <!-- footer-bottom -->
     <div class="footer-bottom">
         <div class="inner-wrap">
-            <div class="ci">MEGABOX : Life Theater</div>
+            <div class="ci">CINEFEEL : NEW OCEAN ESSENTIAL</div>
             <div class="footer-info">
                 <div>
-                    <address>서울특별시 성동구 왕십리로 50, 6층(성수동 1가, 메가박스스퀘어)</address>
-                    <p>ARS 1544-0070</p>
+                    <address>서울특별시 강남구 테헤란로 132(역삼동) 한독약품빌딩 8층 쌍용교육센터</address>
+                    <p>ARS 02-3482-4632</p>
                 </div>
-                <p>대표자명 김진선</p>
-                <p> · 개인정보보호책임자 BP본부 본부장 박영진</p>
+                <p>대표자명 오경주</p>
                 <p> · 사업자등록번호 211-86-59478</p>
                 <p> · 통신판매업신고번호 제 833호</p>
-                <p class="copy">COPYRIGHT © MegaboxJoongAng, Inc. All rights reserved</p>
+                <p class="copy">COPYRIGHT © 2025 CINEFEEL. All rights reserved</p>
             </div>
             <div class="footer-sns">
                 <a href="https://twitter.com/megaboxon" target="_blank" title="트위터 페이지로 이동">

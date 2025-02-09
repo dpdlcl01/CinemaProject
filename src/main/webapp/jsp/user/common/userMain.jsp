@@ -243,7 +243,7 @@
 
     <!-- section04 -->
     <section id="section04" class="section main-info">
-        <h2 class="tit">메가박스 안내</h2>
+        <h2 class="tit">CINEFEEL 안내</h2>
         <!-- info-special -->
         <div class="info-special">
             <a href="" title="COMFORT 페이지로 이동" class="butique">부띠크</a>
