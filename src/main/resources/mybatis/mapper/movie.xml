@@ -6,7 +6,7 @@
     <!-- 사용자 메인 화면에서 예매율 상위 4개 영화 정보를 반환 -->
     <select id="getTopMovie" resultType="mybatis.vo.MovieVO">
         SELECT * FROM movie
-        ORDER BY movieReservationRate DESC
+        ORDER BY movieReservationRate DESC, movieRank ASC
         LIMIT 4
     </select>
 
@@ -24,7 +24,7 @@
         FROM movie
         WHERE (movieStatus = 0 OR movieStatus = 1)
         AND movieRank IS NOT NULL
-        ORDER BY movieReservationRate DESC
+        ORDER BY movieReservationRate DESC, movieRank ASC
         LIMIT ${offset}, ${pageSize}
     </select>
 
@@ -42,7 +42,7 @@
         FROM movie
         WHERE movieStatus = #{movieStatus}
         AND movieRank IS NOT NULL
-        ORDER BY movieReservationRate DESC
+        ORDER BY movieReservationRate DESC, movieRank ASC
         LIMIT ${offset}, ${pageSize}
     </select>
 
@@ -64,7 +64,7 @@
         WHERE (movieStatus = 0 OR movieStatus = 1)
         AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
         AND movieRank IS NOT NULL
-        ORDER BY movieReservationRate DESC
+        ORDER BY movieReservationRate DESC, movieRank ASC
         LIMIT ${offset}, ${pageSize}
     </select>
 
@@ -84,7 +84,7 @@
         WHERE movieStatus = #{movieStatus}
         AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
         AND movieRank IS NOT NULL
-        ORDER BY movieReservationRate DESC
+        ORDER BY movieReservationRate DESC, movieRank ASC
         LIMIT ${offset}, ${pageSize}
     </select>
 
@@ -101,7 +101,7 @@
         FROM (
             SELECT movieIdx, movieRank, @rank := @rank + 1 AS reservationRank
             FROM movie, (SELECT @rank := 0) r
-            ORDER BY movieRank ASC
+            ORDER BY movieReservationRate DESC, movieRank ASC
             ) AS Movies
         WHERE movieIdx = #{movieIdx}
     </select>
@@ -196,7 +196,7 @@
             </if>
         </trim>
 
-        ORDER BY movieReservationRate DESC
+        ORDER BY movieReservationRate DESC, movieRank ASC
         ) a, (SELECT @RN:=0) b
         ) c
         WHERE c.rnum BETWEEN #{begin} AND #{end}
