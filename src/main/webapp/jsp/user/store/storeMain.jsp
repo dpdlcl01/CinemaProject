@@ -111,8 +111,8 @@
     }
     .name{
         overflow: hidden;
-        height: 39px;
-        margin: 0 0 10px 0;
+        height: 50px;
+
         color: #222;
         font-weight: 700;
     }

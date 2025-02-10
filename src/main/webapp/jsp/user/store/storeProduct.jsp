@@ -187,6 +187,16 @@
         float: none !important; /* 기본 float 제거 */
         display: inline-block; /* 가운데 정렬 */
       }
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* 반투명한 검은 배경 */
+        z-index: 9999; /* 다이얼로그보다 살짝 아래에 배치 */
+        display: none; /* 초기에는 숨김 */
+      }
     </style>
   </head>
   <body>
@@ -308,14 +318,51 @@
   <footer>
     <jsp:include page="../common/footer.jsp"></jsp:include>
   </footer>
-
+  <div class="modal-overlay"></div>
+  <section class="alert-popup" id="loginNoticeModal">
+    <div class="wrap">
+      <header class="layer-header">
+        <h3 class="tit">알림</h3>
+      </header>
+      <div class="layer-con">
+        <p class="txt-common" id="loginNoticeMessage">로그인 후 이용 가능한 서비스입니다.</p>
+        <div class="modal-btn-group">
+          <button type="button" class="modal-btn purple confirm" id="closeLoginNoticeModal">확인</button>
+        </div>
+      </div>
+    </div>
+  </section>
   <script>
+
 
     form0=document.getElementById("form0");
     let productPrice;
     let productQuant;
     let productStock=${requestScope.productStock};
     const ppp=${requestScope.pPrice};
+
+    function showLoginModal() {
+      console.log("showLoginModal 실행됨");
+      $('.modal-overlay').fadeIn();  // 어두운 배경 표시
+      $('#loginNoticeModal').fadeIn(); // 로그인 안내 다이얼로그 표시
+    }
+
+
+    // 로그인 다이얼로그 닫기
+    function closeLoginModal() {
+      $('.modal-overlay').fadeOut();  // 어두운 배경 숨기기
+      $('#loginNoticeModal').fadeOut(); // 다이얼로그 숨기기
+    }
+
+    // 로그인 다이얼로그 닫기 버튼 이벤트
+    $('#closeLoginNoticeModal').click(function () {
+      closeLoginModal();
+    });
+
+    // 오버레이 클릭 시 다이얼로그 닫기
+    $('.modal-overlay').click(function () {
+      closeLoginModal();
+    });
 
     function validateQuantity() {
       if (typeof productQuant === "undefined") {
@@ -338,6 +385,15 @@
 
 
     function addCart() {
+      let userIDX = `${requestScope.uidx}`;
+
+      console.log("UserIDX:", userIDX);
+
+      // userIDX가 "0" 또는 null이면 로그인 안내 다이얼로그 띄우기
+      if (!userIDX || userIDX === "0") {
+        showLoginModal(); // 다이얼로그 표시
+        return;
+      }
 
       if (!validateQuantity()) return;
       $('#notice').dialog({
@@ -355,7 +411,17 @@
     }
 
     function buy() {
+      let userIDX = `${requestScope.uidx}`;
 
+
+      if(userIDX==="0"){
+        if (userIDX === "0") {
+          showLoginModal(); // 다이얼로그 표시
+          return;
+        }
+
+        return;
+      }
       if (!validateQuantity()) return;
       if (typeof productPrice === "undefined") {
         productPrice=document.getElementById("priceEm").innerHTML;
@@ -371,7 +437,7 @@
       console.log("현재 바이 함수가 실행되었습니다,.");
       form0.submit();
     }
-    
+
     let pQuant=document.getElementById("quant");
     let price = document.getElementById("priceEm");
     function plusQuant(p) {
