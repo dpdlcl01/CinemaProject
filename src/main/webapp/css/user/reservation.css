@@ -69,9 +69,17 @@
     background: #eee;
 }
 
-.date-navigation ul li.selected {
+.date-navigation ul li selected {
     font-weight: 800;
     background-color: #f5f5f5;
+}
+
+.region-link.selected {
+    background-color: transparent;
+}
+
+.theater-region-list li.selected {
+    background-color: transparent;
 }
 
 /* 메인 컨텐츠 */

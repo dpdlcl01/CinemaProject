@@ -140,8 +140,15 @@
             link.addEventListener("click", async (event) => {
                 event.preventDefault();
 
+                // 다른 지역 링크에서 selected 클래스 제거
+                regionLinks.forEach(l => l.classList.remove("selected"));
+                // 현재 클릭된 링크에 selected 클래스 추가
+                link.classList.add("selected");
+
                 const parentLi = link.closest("li");
                 const existingList = parentLi.querySelector(".theater-region-list");
+
+
 
                 // 이미 하위 리스트가 있으면 삭제 (토글 기능)
                 if (existingList) {
@@ -190,6 +197,22 @@
 
                                 a.addEventListener("click", (e) => {
                                     e.preventDefault();
+
+                                    // const parentUl = a.closest("li");
+                                    //
+                                    // parentUl.querySelectorAll("li").forEach(item => item.classList.remove("selected"));
+                                    // parentUl.classList.add("selected");
+                                    // 클릭된 요소(a)의 가장 가까운 li 요소를 구합니다.
+
+                                    const clickedLi = a.closest("li");
+                                    // 해당 li가 속한 부모 ul을 구합니다.
+                                    const parentUl = clickedLi.closest("ul");
+
+                                    // 부모 ul의 모든 li 요소에서 selected 클래스를 제거합니다.
+                                    parentUl.querySelectorAll("li").forEach(item => item.classList.remove("selected"));
+                                    // 클릭된 li에 selected 클래스를 추가합니다.
+                                    clickedLi.classList.add("selected");
+
                                     selectedTheaterIdx = theater.theaterIdx;
                                     console.log("🎥 선택한 극장 ID:", selectedTheaterIdx);
                                     updateShowtimes();
