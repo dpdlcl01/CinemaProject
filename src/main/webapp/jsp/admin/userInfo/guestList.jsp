@@ -207,16 +207,16 @@
         font-weight: bold;
     }
 
-    /* 클릭 가능한 행 스타일 */
+/*    !* 클릭 가능한 행 스타일 *!
     .clickable-row {
         cursor: pointer;
         transition: background-color 0.2s ease;
     }
 
-    /* 마우스를 가져갔을 때 배경색 변경 */
+    !* 마우스를 가져갔을 때 배경색 변경 *!
     .clickable-row:hover {
         background-color: #f0f0f0;
-    }
+    }*/
 
     /* 페이지네이션 */
     .pagination {
@@ -338,7 +338,7 @@
                     <tbody>
                     <c:set var="pvo" value="${requestScope.page}"/>
                     <c:forEach var="uvo" items="${userArray }" varStatus="status">
-                        <tr class="clickable-row" data-id="${uvo.userIdx}">
+                        <tr data-id="${uvo.userIdx}">
                             <td>${(pvo.nowPage - 1) * pvo.numPerPage + status.index + 1}</td>
                             <td>${uvo.userName}</td>
                             <td>${uvo.userEmail}</td>

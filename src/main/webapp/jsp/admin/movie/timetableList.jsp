@@ -234,16 +234,16 @@
         font-weight: bold;
     }
 
-    /* 클릭 가능한 행 스타일 */
+/*    !* 클릭 가능한 행 스타일 *!
     .clickable-row {
         cursor: pointer;
         transition: background-color 0.2s ease;
     }
 
-    /* 마우스를 가져갔을 때 배경색 변경 */
+    !* 마우스를 가져갔을 때 배경색 변경 *!
     .clickable-row:hover {
         background-color: #f0f0f0;
-    }
+    }*/
 
 
     /* 페이지네이션 */
@@ -321,10 +321,11 @@
 
     #scheduleModal .field-row {
         display: flex;
-        justify-content: flex-start; /* 중앙 정렬 제거 */
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
         gap: 10px;
+        margin-bottom: 10px;  /* 필드 간 간격 조정 */
     }
 
     #scheduleModal .field-row label {
@@ -343,7 +344,7 @@
 
     #scheduleModal .update-button {
         display: inline-block;
-        padding: 15px 14px;
+        padding: 10px 14px;  /* 패딩 조정 */
         font-size: 14px;
         font-weight: bold;
         text-align: center;
@@ -352,7 +353,14 @@
         border: none;
         border-radius: 6px;
         cursor: pointer;
+        min-width: 140px;  /* 최소 너비 지정 */
+        height: auto;      /* 높이 자동 조정 */
+        line-height: normal; /* 텍스트가 잘리지 않도록 조정 */
+        box-sizing: border-box; /* 패딩 포함 크기 계산 */
     }
+
+
+
 
     #scheduleModal .update-button:hover {
         background-color: #005f6b;
@@ -514,7 +522,7 @@
                     <tbody>
                     <c:set var="pvo" value="${requestScope.page}" />
                     <c:forEach var="vo" items="${timetableArray}" varStatus="vs">
-                        <tr class="clickable-row" data-movie-idx="${vo.movieIdx}">
+                        <tr data-movie-idx="${vo.movieIdx}">
                             <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index) + 1}</td>
                             <td>${vo.theaterName}</td>
                             <td>${vo.screenName}</td>
@@ -617,6 +625,8 @@
                                 * 상영 시간대는 9:00, 11:30, 14:00, 16:30, 19:00, 21:30으로 고정됩니다.<br>
                                 * 하루에 최대 90개의 영화가 상영됩니다.
                             </p>
+                            <span id="scheduleLoadingMessage" class="loading-message" style="display: none;"></span>
+
                         </div>
                     </form>
                 </div>
@@ -632,6 +642,8 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
+        let scheduleUpdateInterval;
+
         // 모달 초기화
         $("#scheduleModal").dialog({
             autoOpen: false,
@@ -644,6 +656,10 @@
                 "생성": function() {
                     const scheduleDays = $("#scheduleDays").val();
                     const schedulePeriod = $("#schedulePeriod").val();
+
+                    // 로딩 메시지 표시 및 상태 업데이트 시작
+                    showLoadingMessage("상영 시간표를 생성 중입니다...");
+                    startScheduleStatusPolling();
 
                     // 상영 시간표 생성 Ajax 요청
                     $.ajax({
@@ -658,13 +674,17 @@
                             if (response.success) {
                                 alert("상영 시간표가 성공적으로 생성되었습니다.");
                                 $("#scheduleModal").dialog("close");
-                                location.reload();  // 새로고침하여 업데이트된 데이터 확인
                             } else {
-                                alert("상영 시간표 생성 중 오류가 발생했습니다: " + response.message);
+                                showErrorMessage("상영 시간표 생성 중 오류가 발생했습니다: " + response.message);
                             }
                         },
                         error: function() {
-                            alert("상영 시간표 생성 요청에 실패했습니다.");
+                            showErrorMessage("상영 시간표 생성 요청에 실패했습니다.");
+                        },
+                        complete: function() {
+                            hideLoadingMessage();
+                            stopScheduleStatusPolling();
+                            location.reload();  // 새로고침하여 업데이트된 데이터 확인
                         }
                     });
                 },
@@ -674,65 +694,66 @@
             }
         });
 
-        $("#generateTimetableBtn").on("click", function(event) {
-            event.preventDefault();  // 기본 동작 방지
-            $("#scheduleModal").dialog("open");
-        });
-
-
-        let updateInterval;
-
-        // 영화 예매율 업데이트 버튼 이벤트
         $("#updateBookingRateBtn").on("click", function(event) {
-            event.preventDefault();  // 기본 동작 방지
-
-            // 로딩 메시지 표시 및 상태 업데이트 시작
+            event.preventDefault();
+            console.log("버튼 클릭됨");  // 버튼이 클릭되는지 확인
             showLoadingMessage("영화 예매율을 업데이트 중입니다...");
-            startStatusPolling();
 
-            // 영화 예매율 업데이트 Ajax 요청
             $.ajax({
-                url: "AdminController?type=dbUpdate",
+                url: "${pageContext.request.contextPath}/AdminController?type=dbUpdate",
                 type: "POST",
                 dataType: "json",
                 success: function(response) {
+                    console.log("응답 성공:", response);  // 응답 데이터 확인
                     if (response.success) {
-                        // 성공 메시지는 마지막 상태 메시지에서 처리하므로 별도로 alert 호출하지 않음
+                        alert("영화 예매율을 업데이트 완료했습니다.");
                     } else {
                         showErrorMessage("업데이트 중 오류가 발생했습니다: " + response.message);
                     }
-                    hideLoadingMessage();
                 },
-                error: function() {
-                    stopStatusPolling();
-                    hideLoadingMessage();
+                error: function(xhr, status, error) {
+                    console.error("AJAX 요청 실패:", error);  // 오류 메시지 확인
                     showErrorMessage("영화 예매율 업데이트 요청에 실패했습니다.");
+                },
+                complete: function() {
+                    hideLoadingMessage();
                 }
             });
         });
 
-        // 상태 메시지 주기적 요청 (Polling)
-        function startStatusPolling() {
-            updateInterval = setInterval(fetchUpdateStatus, 2000);  // 2초마다 상태 확인
+
+        $("#generateTimetableBtn").on("click", function(event) {
+            event.preventDefault();
+            $("#scheduleModal").dialog("open");
+        });
+
+        function showLoadingMessage(message) {
+            $("#scheduleLoadingMessage").text(message).show();
         }
 
-        function stopStatusPolling() {
-            clearInterval(updateInterval);
+        function hideLoadingMessage() {
+            $("#scheduleLoadingMessage").hide();
         }
 
-        function fetchUpdateStatus() {
+        function startScheduleStatusPolling() {
+            scheduleUpdateInterval = setInterval(fetchScheduleStatus, 2000);
+        }
+
+        function stopScheduleStatusPolling() {
+            clearInterval(scheduleUpdateInterval);
+        }
+
+        function fetchScheduleStatus() {
             $.ajax({
-                url: "AdminController?type=updateStatus",
+                url: "AdminController?type=updateScheduleStatus",
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
                     if (response.statusMessage) {
-                        $("#loadingMessage").text(response.statusMessage);  // 서버에서 받은 상태 메시지 표시
+                        $("#scheduleLoadingMessage").text(response.statusMessage);
 
-                        // 상태 메시지가 '업데이트가 완료되었습니다.'인 경우 폴링 중단
-                        if (response.statusMessage === "영화 데이터 업데이트가 완료되었습니다.") {
-                            stopStatusPolling();  // 폴링 중단
-                            $("#loadingMessage").text(response.statusMessage);  // 메시지 그대로 유지
+                        if (response.statusMessage === "상영 시간표 생성이 완료되었습니다.") {
+                            stopScheduleStatusPolling();
                         }
                     }
                 },
@@ -742,27 +763,6 @@
             });
         }
 
-        // 로딩 메시지 표시 함수
-        function showLoadingMessage(message) {
-            $("#loadingMessage").text(message).show();
-        }
-
-        // 로딩 메시지 숨김 함수
-        function hideLoadingMessage() {
-            $("#loadingMessage").hide();
-        }
-
-        // 성공 메시지 표시 함수
-        function showSuccessMessage(message) {
-            alert(message);
-        }
-
-        // 오류 메시지 표시 함수
-        function showErrorMessage(message) {
-            alert(message);
-        }
-
-        // 극장 선택 필터링 이벤트
         $("#theaterSelect").on("change", function() {
             const selectedTheater = $(this).val();
             location.href = "AdminController?type=timetableList&theaterIdx=" + selectedTheater;

@@ -89,7 +89,7 @@
     <div id="main">
 
         <%--여기서 rvo 받아서 아래 뿌려라--%>
-        <div id="review" class="content">
+        <div id="review" class="content active">
           <div class="my-appraisal">
             <ul id="myAppraisal">
               <c:if test="${empty rvo}">
