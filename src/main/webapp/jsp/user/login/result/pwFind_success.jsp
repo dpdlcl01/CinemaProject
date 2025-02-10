@@ -87,13 +87,18 @@
         }
 
         button {
-            width: 100%; /* 버튼 폭 통일 */
+            width: 100%;
             padding: 10px;
             font-size: 16px;
-            background-color: #e0e0e0; /* 버튼 배경색 */
-            color: #4a4a4a; /* 버튼 글자색 */
-            border: none; /* 테두리 제거 */
-            margin-bottom: 10px; /* 버튼 아래 여백 */
+            background-color: #339eb2;
+            border-radius: 4px;
+            color: #fff;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #1e7f9a;
         }
 
         select {
@@ -105,7 +110,7 @@
 <body>
 <div class="container">
     <div class="logo">
-        <img src="${pageContext.request.contextPath}/css/user/images/logo-purple.png" alt="MEGABOX 로고">
+        <img src="${pageContext.request.contextPath}/css/user/images/logo_cinefeel.png" alt="MEGABOX 로고">
     </div>
     <h1><b>아이디/비밀번호 찾기</b></h1>
 

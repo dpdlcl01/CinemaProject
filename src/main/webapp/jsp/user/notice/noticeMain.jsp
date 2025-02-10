@@ -141,8 +141,8 @@
 
         .pagination .active {
             color: #fff;
-            background-color: #01738b;
-            border-color: #01738b;
+            background-color: #339eb2;
+            border-color: #339eb2;
         }
 
         .pagination .control, .pagination a, .pagination strong {

@@ -22,11 +22,14 @@ public class FindPwAction implements Action {
             params.put("userIdx", request.getParameter("userIdx"));
             params.put("userId", request.getParameter("userId"));
             params.put("userName", request.getParameter("userName"));
-            params.put("userEmail", request.getParameter("userEmail"));
+
+            String emailPart1 = request.getParameter("emailpart1");  // 이메일 앞부분
+            String emailPart2 = request.getParameter("emailpart2");  // 이메일 도메인
+            String userEmail = emailPart1 + "@" + emailPart2;        // 이메일 조합
+            params.put("userEmail", userEmail);
 
             // HashMap에서 값 추출
             String userName = params.get("userName");
-            String userEmail = params.get("userEmail");
             String userId = params.get("userId");
 
             try {

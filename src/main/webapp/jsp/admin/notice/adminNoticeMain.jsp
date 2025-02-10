@@ -206,8 +206,8 @@
 
     .pagination .active {
         color: #fff;
-        background-color: #01738b;
-        border-color: #01738b;
+        background-color: #339eb2;
+        border-color: #339eb2;
     }
 
     .pagination .control, .pagination a, .pagination strong {
@@ -260,7 +260,7 @@
     }
 
     .endNotice, .selectNotice, .writeNotice, .startNotice, .deleteNotice{
-        background-color: #01738b;
+        background-color: #339eb2;
         color: #fff;
         border: none;
         border-radius: 5px;

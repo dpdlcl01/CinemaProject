@@ -1,6 +1,7 @@
 package action.user.login;
 
 import action.Action;
+import com.google.gson.JsonObject;
 import mybatis.dao.RegisterDAO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,32 +11,40 @@ import java.util.HashMap;
 public class FindIdAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String userName = request.getParameter("userName");
-        String emailpart1 = request.getParameter("emailpart1");
-        String emailpart2 = request.getParameter("hiddenEmailPart2");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-        String userEmail = emailpart1 + "@" + emailpart2;
+        String userName = request.getParameter("userName");
+        String emailPart1 = request.getParameter("emailpart1");
+        String emailPart2 = request.getParameter("hiddenEmailPart2");
+
+        String userEmail = emailPart1 + "@" + emailPart2;
 
         HashMap<String, String> params = new HashMap<>();
         params.put("userName", userName);
         params.put("userEmail", userEmail);
 
-        try{
+        JsonObject jsonResponse = new JsonObject();
+
+        try {
             String userId = RegisterDAO.UserIdFind(params);
             System.out.println("debug result : " + userId);
 
-            if(userId != null && !userId.isEmpty()) {
-                request.setAttribute("userName", userName);
-                request.setAttribute("userId", userId);
-                return "./jsp/user/login/result/idFind_success.jsp";
+            if (userId != null && !userId.isEmpty()) {
+                jsonResponse.addProperty("status", "success");
+                jsonResponse.addProperty("userId", userId);
+                jsonResponse.addProperty("message", "아이디 찾기가 완료되었습니다.");
             } else {
-                request.setAttribute("error", "사용자를 찾을 수 없습니다.");
-                return "./jsp/user/common/error.jsp";
+                jsonResponse.addProperty("status", "error");
+                jsonResponse.addProperty("message", "사용자를 찾을 수 없습니다.");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "오류가 발생하였습니다.");
-            return "./jsp/user/common/error.jsp";
+            jsonResponse.addProperty("status", "error");
+            jsonResponse.addProperty("message", "오류가 발생하였습니다.");
         }
+
+        response.getWriter().write(jsonResponse.toString());
+        return null;
     }
 }

@@ -647,6 +647,9 @@
         // 모달 초기화
         $("#scheduleModal").dialog({
             autoOpen: false,
+
+
+
             modal: true,
             width: 500,
             classes: {
