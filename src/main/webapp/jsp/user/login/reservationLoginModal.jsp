@@ -27,7 +27,7 @@
 
         /* Header */
         .custom-dialog-header {
-            background-color: #503396;
+            background-color: #339eb2;
             color: white;
             padding: 15px;
             font-size: 18px;
@@ -49,13 +49,13 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            color: #503396;
+            color: #339eb2;
             border-bottom: 2px solid transparent;
         }
 
         .custom-tab.active {
             color: #000;
-            border-bottom: 2px solid #3D2775;
+            border-bottom: 2px solid #1e7f9a
         }
 
         /* Content */
@@ -83,7 +83,7 @@
         }
 
         .custom-login-container button {
-            background-color: #503396;
+            background-color: #339eb2;
             color: white;
             border: none;
             border-radius: 5px;
@@ -91,7 +91,7 @@
         }
 
         .custom-login-container button:hover {
-            background-color: #3D2775;
+            background-color: #1e7f9a;
         }
 
         .custom-login-footer {
@@ -101,7 +101,7 @@
 
         .custom-login-footer a {
             margin: 0 5px;
-            color: #503396;
+            color: #339eb2;
             text-decoration: none;
         }
 
@@ -192,7 +192,7 @@
             height: 32px;
             width: 80px;
             padding: 6px 10px;
-            background-color: #503396;
+            background-color: #339eb2;
             color: white;
             border: none;
             border-radius: 5px;
@@ -201,7 +201,7 @@
         }
 
         .custom-info-box-table button:hover {
-            background-color: #3D2775;
+            background-color: #1e7f9a
         }
 
         /* 오른쪽 정보 박스 */
@@ -249,7 +249,7 @@
 
         .custom-submit-button-container button {
             padding: 8px 16px;
-            background-color: #503396;
+            background-color: #339eb2;
             color: white;
             border: none;
             border-radius: 5px;
@@ -258,7 +258,7 @@
         }
 
         .custom-submit-button-container button:hover {
-            background-color: #3D2775
+            background-color: #1e7f9a
         }
 
         .btn-primary {

@@ -72,17 +72,17 @@
 .dialog-common button {
   width: 80px;
   height: 40px;
-  border: 1px solid #503396;
-  background-color: #503396;
+  border: 1px solid #339eb2;
+  background-color: #339eb2;
   color: white;
   border-radius: 3px;
 }
 
 /* 타이틀 스타일 */
 .dialog-common .ui-dialog-titlebar {
-  background-color: #503396; /* 타이틀 배경색 */
+  background-color: #339eb2;  /* 타이틀 배경색 */
   color: white; /* 텍스트 색상 */
-  border: 2px solid #503396;
+  border: 2px solid #339eb2;
 }
 
 /* 콘텐츠 스타일 */
@@ -104,6 +104,23 @@
 .dialog-common .ui-dialog-buttonset {
   float: none !important;
   display: inline-block;
+}
+
+.ui-draggable .ui-dialog-titlebar {
+  background-color: #339eb2
+}
+
+.ui-dialog .ui-dialog-title {
+  color: #fff;
+}
+
+.ui-dialog {
+  border: 0;
+  padding: 0;
+}
+
+.custom-login-container button {
+  background-color: #339eb2;
 }
 /* ------------------------------------------- 공통 다이얼로그 스타일 ------------------------------------------- */
 
@@ -208,8 +225,8 @@
   font-size: 16px;
 }
 .tab.active {
-  border-bottom: 2px solid #6a5acd;
-  color: #6a5acd;
+  border-bottom: 2px solid #339eb2;
+  color: #339eb2;
 }
 .content {
   display: none;
@@ -238,10 +255,10 @@
   top: 23px;
   transform: translateX(-50%);
   display: block;
-  width: 140px;
+  width: 162px;
   height: 47px;
   text-indent: -9999px;
-  background: url(images/logo-purple.png);
+  background: url(images/logo_cinefeel.png);
 }
 #header .util-area {
   position: relative;
@@ -479,7 +496,7 @@
   width: 150px;
   height: 50px;
   text-indent: -9999px;
-  background: url(https://img.megabox.co.kr/static/pc/images/common/ci/logo-opacity.png);
+  background: url(images/logo_cinefeel_white_half_trans.png);
 }
 #footer .footer-bottom .footer-info {
   float: left;
@@ -533,7 +550,7 @@
 /* 기타 */
 h2.tit {
   font-weight: 400;
-  color: #351f66;
+  color: #1e7f9a;
   font-size: 2em;
 }
 .ico-more-corss {

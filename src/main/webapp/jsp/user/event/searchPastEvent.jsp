@@ -20,8 +20,8 @@
             font-size: 16px;
         }
         .tab.active {
-            border-bottom: 2px solid #6a5acd;
-            color: #6a5acd;
+            border-bottom: 2px solid #339eb2;
+            color: #339eb2;
         }
         .content {
             display: none;

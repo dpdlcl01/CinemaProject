@@ -88,14 +88,14 @@
             height: 46px;
             margin: 10px;
             background-color: white;
-            border: 2px solid #503396;
+            border: 2px solid #339eb2;
             border-radius: 4px;
             font-weight: 500;
             font-size: 16px;
             cursor: pointer;
         }
         #btnDiv>button:hover {
-            background-color: #503396;
+            background-color: #1e7f9a
             color: white;
         }
         #lastElement {

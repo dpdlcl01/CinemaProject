@@ -6,7 +6,7 @@
 <body>
     <form action="${pageContext.request.contextPath}/UserController?type=register" method="post">
     <div id="mainImg">
-        <img src="../../../img/complete.png">
+        <img src="${pageContext.request.contextPath}/css/user/images/logo_cinefeel_big.png">
     </div>
      에러발생! 관리자에게 문의.
     </form>

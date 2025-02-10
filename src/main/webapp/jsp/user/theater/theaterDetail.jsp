@@ -128,13 +128,13 @@
 
     .theater-tabs ul li.active {
         font-weight: bold;
-        border-bottom: 3px solid #5a3dd2;
-        color: #5a3dd2;
+        border-bottom: 3px solid #339eb2;
+        color: #339eb2;
     }
 
 
     .theater-tabs ul li:hover {
-        color: #5a3dd2;
+        color: #1e7f9a;
     }
 
     /* 상세 내용 */
@@ -165,8 +165,8 @@
 
     h3 {
         font-size: 18px;
-        color: #5a3dd2;
-        border-bottom: 2px solid #5a3dd2;
+        color: #339eb2;
+        border-bottom: 2px solid #339eb2;
         padding-bottom: 10px;
         margin-bottom: 20px;
     }
@@ -189,7 +189,7 @@
     /* 컨테이너 */
     .facility-title, .transport-title, .schedule-title, .fees-title {
         font-size: 24px;
-        color: #503396; /* 타이틀 색상 */
+        color: #339eb2;  /* 타이틀 색상 */
     }
 
     .facility-transport-container {
@@ -366,7 +366,7 @@
         display: flex;
         align-items: center;
         padding: 10px 0;
-        border-bottom: 2px solid #5a3dd2;
+        border-bottom: 2px solid #339eb2;
         margin-bottom: 15px;
     }
 
@@ -476,9 +476,9 @@
     }
 
     .time-slots a:hover {
-        background-color: #5a3dd2; /* 호버 시 배경색 */
+        background-color: #1e7f9a; /* 호버 시 배경색 */
         color: white; /* 호버 시 글씨 색상 */
-        border-color: #5a3dd2; /* 테두리 색상 변경 */
+        border-color: #1e7f9a; /* 테두리 색상 변경 */
     }
     .time-slots a:hover span {
         color: white; /* 호버 시 좌석 수 텍스트도 흰색으로 변경 */
@@ -540,7 +540,7 @@
     }
 
     .date-item.active {
-        color: #5a3dd2;
+        color: #339eb2;
         transform: scale(1.2); /* 선택된 날짜 강조 */
         font-weight: bold;
     }
@@ -601,7 +601,7 @@
     .fee-table caption {
         font-size: 18px;
         font-weight: bold;
-        color: #503396;
+        color: #339eb2;
         /*margin-bottom: 10px;*/
         text-align: left;
         padding-top: 30px;

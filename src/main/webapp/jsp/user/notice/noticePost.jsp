@@ -5,14 +5,15 @@
     <jsp:include page="../common/head.jsp"/>
     <style>
         h1 {
-            margin: 50px 0 20px 0;
+            /*margin: 50px 0 20px 0;*/
             text-align: left;
         }
+
 
         .notice-title {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         .notice-info {
@@ -33,20 +34,22 @@
         }
 
         .btn-list {
+            border: 1px solid #339eb2;
             display: block;
             width: 100px;
             margin: 20px auto;
             padding: 10px;
             text-align: center;
             color: #fff;
-            background-color: #6a5acd;
+            background-color: #339eb2;
             text-decoration: none;
             border-radius: 5px;
             font-size: 14px;
         }
 
         .btn-list:hover {
-            background-color: #5a4cad;
+            border: 1px solid #1e7f9a;
+            background-color: #1e7f9a;
         }
 
         .navigation-table {

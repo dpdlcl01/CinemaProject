@@ -50,7 +50,7 @@
             color: #fff;
             border: none;
             border-radius: 5px;
-            background-color: #503396 ;
+            background-color: #339eb2;
 
             width: 74px;
             height: 32px;
@@ -58,7 +58,7 @@
 
         button:hover {
             color: #fff;
-            background-color: #01738b;
+            background-color: #1e7f9a;
         }
 
         .table>:not(caption)>*>* {

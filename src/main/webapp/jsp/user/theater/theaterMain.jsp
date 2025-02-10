@@ -130,7 +130,7 @@
     padding: 0 12px;
     line-height: 30px;
     font-size: .9333em;
-    border: 1px solid #503396;
+    border: 1px solid #339eb2;
     border-radius: 4px;
     background-color: #fff;
     color: #503396;
@@ -138,7 +138,7 @@
   }
 
   button.login:hover {
-    background-color: #503396;
+    background-color: #1e7f9a;
     color: #fff;
   }
 
@@ -202,13 +202,13 @@
   .theater-event .event-title {
     font-size: 24px;
     font-weight: bold;
-    color: #503396; /* 타이틀 색상 */
+    color: #339eb2;  /* 타이틀 색상 */
   }
 
   .theater-notice .notice-title {
     font-size: 24px;
     font-weight: bold;
-    color: #503396; /* 타이틀 색상 */
+    color: #339eb2;  /* 타이틀 색상 */
   }
 
   .theater-notice .more {

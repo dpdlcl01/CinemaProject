@@ -74,14 +74,14 @@
     width: 100px;
     height: 30px;
     font-size: 14px;
-    background-color: #503396;
+    background-color: #339eb2;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
   table button:hover {
-    background-color: #3D2775;
+    background-color: #1e7f9a;
   }
   #btnDiv {
     text-align: center;
@@ -95,25 +95,24 @@
     border-radius: 5px;
     cursor: pointer;
   }
+  #go:hover{
+    background-color: #1e7f9a;
+  }
   #cancel {
     margin: 0 10px;
     border: 1px solid;
     background-color: #fff;
-    color: #503396;
+    color: #339eb2;
   }
 
   #cancel:hover{
-    background-color: #f2f2f2;
+    background-color: #ebebeb;
   }
 
   #go {
-    background-color: #503396;
+    background-color: #339eb2;
     color: white;
   }
-  #go:hover {
-    background-color: #3D2775;
-  }
-
 
 </style>
 <body>

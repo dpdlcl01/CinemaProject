@@ -43,7 +43,7 @@
             padding-top: 20px;
         }
         em{
-            color: #503396;
+            color: #339eb2;
             font-size: 17px;
             font-weight: 600;
         }
@@ -82,14 +82,14 @@
         .btnDiv>.paymentList{
             width: 120px;
             height: 50px;
-            border: 1px solid #503396;
+            border: 1px solid #339eb2;
 
         }
         .btnDiv>.myMega{
             border: 1px solid red;
             width: 120px;
-            border: 1px solid #503396;
-            color: #503396;
+            border: 1px solid #339eb2;
+            color: #339eb2;
         }
     </style>
 </head>

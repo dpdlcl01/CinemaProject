@@ -168,7 +168,7 @@
     .top2>a,.top1>a{
         display: block;
         text-align: center;
-        color: #503396;
+        color: #339eb2;
         font-weight: 600;
         padding-bottom: 10px;
         text-decoration: none;
@@ -228,7 +228,7 @@
     }
     .top1 span{
         text-align: center;
-        color: #503396;
+        color: #339eb2;
         font-weight: 600;
         padding-bottom: 10px;
         text-decoration: none;
@@ -255,17 +255,17 @@
     .ui-dialog button{
         width: 80px;
         height: 40px;
-        border: 1px solid #503396;
-        background-color: #503396;
+        border: 1px solid #339eb2;
+        background-color: #339eb2;
         color: white;
         border-radius: 3px;
     }
 
     /* 다이얼로그 타이틀 색상 변경 */
     .ui-dialog-titlebar {
-        background-color: #503396; /* 타이틀 배경색 */
+        background-color: #339eb2;  /* 타이틀 배경색 */
         color: white; /* 텍스트 색상 */
-        border: 2px solid #503396;
+        border: 2px solid #339eb2;
     }
     .ui-dialog-content {
         color: black; /* 텍스트 색상을 명시적으로 설정 */
@@ -301,15 +301,14 @@
         color: #fff;
         border: none;
         border-radius: 5px;
-        background-color: #503396 ;
-
+        background-color: #339eb2;
         width: 74px;
         height: 32px;
     }
 
     button:hover {
         color: #fff;
-        background-color: #3D2775;
+        background-color: #1e7f9a;
     }
 
     .fv {
@@ -425,7 +424,7 @@
                     <div>
                         <div id="h2">
                             <h2>나의 예매내역</h2>
-                            <a href="${pageContext.request.contextPath}/UserController?type=myReservation">더보기&gt;</a>
+                            <a href="${pageContext.request.contextPath}/UserController?type=myReservation">더보기&nbsp;&gt;</a>
                         </div>
 
                         <c:if test="${requestScope.rvo ne null}">

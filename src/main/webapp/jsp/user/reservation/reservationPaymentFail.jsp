@@ -23,7 +23,7 @@
     }
     .icon {
         font-size: 50px;
-        color: #6c63ff;
+        color: #339eb2;
     }
     h1 {
         color: #333;
@@ -43,7 +43,7 @@
         margin: 5px;
         font-size: 14px;
         color: #fff;
-        background-color: #6c63ff;
+        background-color: #339eb2;
         border-radius: 5px;
         text-decoration: none;
     }

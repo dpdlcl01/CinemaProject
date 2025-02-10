@@ -84,11 +84,15 @@
             width: 100%; /* 버튼 폭 통일 */
             padding: 10px;
             font-size: 16px;
-            background-color: #503396;
+            background-color: #339eb2;
             border-radius: 4px;
             color: #fff;
             border: none; /* 테두리 제거 */
             margin-bottom: 10px; /* 버튼 아래 여백 */
+        }
+
+        button:hover {
+            background-color: #1e7f9a;
         }
 
         .note {

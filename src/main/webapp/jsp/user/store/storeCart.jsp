@@ -73,8 +73,9 @@
 
     .quant{
       width: 40px;
-      height: 30px;
-      font-size: 20px;
+      height: 33px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
       text-align: center;
     }
     #changeQuantBtn, .buyBtn ,#delBtn{
@@ -111,6 +112,16 @@
     }
     tr{
       border-bottom: 1px solid lightgrey;
+    }
+
+    #main button{
+      border-radius: 5px;
+      border: 1px solid #339eb2;
+      background-color: #339eb2;
+      color: #fff;
+    }
+    #main button:hover{
+      background-color: #1e7f9a;
     }
   </style>
 </head>

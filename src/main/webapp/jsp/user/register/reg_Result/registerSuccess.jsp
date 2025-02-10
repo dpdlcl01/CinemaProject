@@ -12,7 +12,7 @@
     #main3Title{
         font-size: 20px;
         font-weight: bold;
-        color: #503396;
+        color: #339eb2;
         padding-bottom: 20px;
     }
     #main3Content{
@@ -24,7 +24,7 @@
 
     /* 버튼 스타일 */
     button {
-        background-color: #503396;
+        background-color: #339eb2;
         color: #fff;
         border: none;
         border-radius: 4px;
@@ -38,7 +38,10 @@
         cursor: not-allowed;
     }
     button:hover:not(:disabled) {
-        background-color: #412a73;
+        background-color: #1e7f9a;
+    }
+    img{
+        width: 1100px;
     }
 
 </style>
@@ -48,7 +51,7 @@
     <form action="${pageContext.request.contextPath}/UserController?type=register" method="post">
         <div id="main3">
         <div id="mainImg">
-        <img src="../../../img/complete.png">
+        <img src="${pageContext.request.contextPath}/css/user/images/logo_cinefeel_big.png">
     </div>
     <div id="main3Title">
         <p>${userName}님 메가박스 가입을 환영합니다.</p>

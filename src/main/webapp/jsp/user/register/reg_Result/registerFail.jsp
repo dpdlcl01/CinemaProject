@@ -7,7 +7,7 @@
 <div>
     <form action="${pageContext.request.contextPath}/UserController?type=register" method="post">
     <div id="mainImg">
-        <img src="../../../img/complete.png">
+        <img src="${pageContext.request.contextPath}/css/user/images/logo_cinefeel_big.png">
     </div>
     <div id="main3Title">
         가입에 실패하였습니다.

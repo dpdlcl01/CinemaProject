@@ -24,7 +24,7 @@
         }
 
         .layer-header {
-            background: #5E3AA6; /* 보라색 */
+            background: #339eb2;  /* 보라색 */
             padding: 15px;
             height: 50px;
             border-radius: 10px 10px 0 0;
@@ -58,26 +58,26 @@
             font-size: 14px;
             border-radius: 5px;
             cursor: pointer;
-            border: 2px solid #5E3AA6;
+            border: 0;
             background: #fff;
-            color: #5E3AA6;
+            color: #339eb2;
             font-weight: bold;
             width: 100px;
             text-align: center;
         }
 
         .button:hover {
-            background: #5E3AA6;
+            background: #1e7f9a;
             color: #fff;
         }
 
         .purple {
-            background: #5E3AA6;
+            background: #339eb2;
             color: #fff;
         }
 
         .purple:hover {
-            background: #4A2E8F;
+            background: #1e7f9a
         }
 
         .btn-layer-close:hover {

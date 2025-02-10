@@ -68,8 +68,8 @@
 
     /* 클릭된 상태 (active 클래스 추가 시) */
     #title a.active {
-        border-bottom: 2px solid #6a5acd;
-        color: #6a5acd;
+        border-bottom: 2px solid #339eb2;
+        color: #339eb2;
     }
 
 
@@ -91,7 +91,7 @@
         display: flex;
     }
     .price{
-        color: #503396;
+        color: #339eb2;
         font-family: Roboto;
         font-size: 1.6em;
         font-weight: 400;
@@ -101,7 +101,7 @@
         margin-bottom: 0;
     }
     em{
-        color: #503396;
+        color: #339eb2;
         font-family: Roboto;
         font-size: 1.2em;
         height: 61px;
@@ -129,7 +129,7 @@
         padding-bottom: 3px
     }
     .card:hover{
-        border: 1px solid #503396 ;
+        border: 1px solid #1e7f9a;
     }
     #contents{
         margin-top: 50px;
@@ -141,12 +141,15 @@
     #cartBtn{
         width: 200px;
         height: 50px;
-        background-color: #eeeeee;
-        color: #503396;
+        background-color: #339eb2;
+        color: #fff;
         font-size: 15px;
         border: 1px solid #eeeeee;
         border-radius: 4px;
         margin-left: 900px;
+    }
+    #cartBtn:hover{
+        background-color: #1e7f9a;
     }
     #cartDiv{
         width: 1100px;

@@ -28,7 +28,7 @@
 
         /* 로고 영역 */
         h1 {
-            background: url("${pageContext.request.contextPath}/css/user/images/logo-purple.png") no-repeat center;
+            background: url("${pageContext.request.contextPath}/css/user/images/logo_cinefeel.png") no-repeat center;
             height: 80px;
             text-indent: -9999px;
             margin-bottom: 30px;
@@ -100,7 +100,7 @@
         }
         /* 버튼 스타일 */
         button {
-            background-color: #503396;
+            background-color: #339eb2;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -115,7 +115,7 @@
             cursor: not-allowed;
         }
         button:hover:not(:disabled) {
-            background-color: #412a73;
+            background-color: #1e7f9a;
         }
 
         .checkbox,
@@ -269,7 +269,7 @@
         }
 
         .layer-header {
-            background: #5E3AA6; /* 보라색 */
+            background: #339eb2;
             padding: 15px;
             height: 50px;
             border-radius: 10px 10px 0 0;
@@ -303,26 +303,26 @@
             font-size: 14px;
             border-radius: 5px;
             cursor: pointer;
-            border: 2px solid #5E3AA6;
+            border: 2px solid #339eb2;
             background: #fff;
-            color: #5E3AA6;
+            color: #339eb2;
             font-weight: bold;
             width: 100px;
             text-align: center;
         }
 
         .button:hover {
-            background: #5E3AA6;
+            background: #1e7f9a;
             color: #fff;
         }
 
         .purple {
-            background: #5E3AA6;
+            background: #339eb2;
             color: #fff;
         }
 
         .purple:hover {
-            background: #4A2E8F;
+            background: #1e7f9a;
         }
 
         .btn-layer-close:hover {
@@ -467,10 +467,10 @@
                     <label for="serviceAgree" class="essential">서비스 이용 약관 동의(필수)</label>
                 </div>
                 <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요" readonly>
-CENEMERGE 서비스 이용 약관
+CENEFEEL 서비스 이용 약관
 
 제 1조 (목적)
-본 약관은 영화관 CENEMERGE(이하 "회사")가 제공하는 영화 예매, 상영 정보 제공, 회원 서비스 등 모든 서비스(이하 "서비스")를 이용함에 있어 회사와 이용자 간의 권리와 의무, 책임사항을 규정함을 목적으로 합니다.
+본 약관은 영화관 CENEFEEL(이하 "회사")가 제공하는 영화 예매, 상영 정보 제공, 회원 서비스 등 모든 서비스(이하 "서비스")를 이용함에 있어 회사와 이용자 간의 권리와 의무, 책임사항을 규정함을 목적으로 합니다.
 
 제 2조 (약관의 효력 및 변경)
 
@@ -518,9 +518,9 @@ CENEMERGE 서비스 이용 약관
                     <label for="personalAgree" class="essential">개인정보 수집 및 이용 동의(필수)</label>
                 </div>
                 <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요" readonly>
-CENEMERGE 개인정보 수집 및 이용 동의서
+CENEFEEL 개인정보 수집 및 이용 동의서
 
-CENEMERGE(이하 "회사")는 고객의 개인정보를 소중히 보호하며, 개인정보 보호법에 따라 개인정보를 수집, 이용, 제공하는 데 필요한 사항을 안내드립니다. 회원가입을 위해 아래와 같이 개인정보 수집 및 이용에 동의해 주시기 바랍니다.
+CENEFEEL(이하 "회사")는 고객의 개인정보를 소중히 보호하며, 개인정보 보호법에 따라 개인정보를 수집, 이용, 제공하는 데 필요한 사항을 안내드립니다. 회원가입을 위해 아래와 같이 개인정보 수집 및 이용에 동의해 주시기 바랍니다.
 
 1. 수집하는 개인정보 항목
 회사는 회원가입 및 서비스 이용을 위해 아래와 같은 개인정보를 수집합니다.
@@ -559,7 +559,7 @@ CENEMERGE(이하 "회사")는 고객의 개인정보를 소중히 보호하며, 
                     <label for="marketingAgree">마케팅 활용을 위한 개인정보 수집 이용 안내(선택)</label>
                 </div>
                 <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요" readonly>
-CENEMERGE 마케팅 활용을 위한 개인정보 수집 및 이용 동의서
+CENEFEEL 마케팅 활용을 위한 개인정보 수집 및 이용 동의서
 
 회사는 이용자의 개인정보를 마케팅 및 광고 목적으로 수집하고 이용할 수 있습니다. 이 정보는 향후 고객 맞춤형 서비스, 프로모션, 이벤트 안내 등 다양한 마케팅 활동에 활용됩니다. 아래 내용을 확인하시고, 마케팅 활용을 위한 개인정보 수집 및 이용에 동의하실 경우 선택해 주세요.
 
@@ -589,7 +589,7 @@ CENEMERGE 마케팅 활용을 위한 개인정보 수집 및 이용 동의서
                     <label for="locationAgree">위치기반서비스 이용 약관 동의(선택)</label>
                 </div>
                 <textarea rows="8" cols="66" placeholder="약관은 마지막에 넣으세요" readonly>
-CENEMERGE 위치기반서비스 이용 약관 동의서
+CENEFEEL 위치기반서비스 이용 약관 동의서
 
 회사는 이용자에게 위치기반 서비스를 제공하기 위해 위치 정보를 수집하고 이용합니다. 위치기반 서비스는 영화관의 상영 정보 제공, 근처 상영관 안내, 할인 혜택 등 다양한 서비스에 활용될 수 있습니다. 이 서비스를 제공하기 위해, 아래와 같은 내용을 확인하시고 위치기반 서비스 이용에 동의해 주시기 바랍니다.
 

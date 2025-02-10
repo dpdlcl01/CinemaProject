@@ -104,7 +104,7 @@
     }
     h3{
         margin-top: 40px;
-        color: #503396;
+        color: #339eb2;
         font-size: 24px;
         padding-bottom: 16px;
     }
@@ -147,17 +147,17 @@
     .ui-dialog button{
         width: 80px;
         height: 40px;
-        border: 1px solid #503396;
-        background-color: #503396;
+        border: 1px solid #339eb2;
+        background-color: #339eb2;
         color: white;
         border-radius: 3px;
     }
 
     /* 다이얼로그 타이틀 색상 변경 */
     .ui-dialog-titlebar {
-        background-color: #503396; /* 타이틀 배경색 */
+        background-color: #339eb2;  /* 타이틀 배경색 */
         color: white; /* 텍스트 색상 */
-        border: 2px solid #503396;
+        border: 2px solid #339eb2;
     }
     .ui-dialog-content {
         color: black; /* 텍스트 색상을 명시적으로 설정 */

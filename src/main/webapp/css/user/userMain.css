@@ -12,10 +12,10 @@
     top: 23px;
     transform: translateX(-50%);
     display: block;
-    width: 140px;
+    width: 162px;
     height: 47px;
     text-indent: -9999px;
-    background: url(images/logo-white.png);
+    background: url(images/logo_cinefeel_white.png);
 }
 
 /* main 페이지 menu 아이콘 색상 : white */
@@ -243,7 +243,11 @@
     width: 50%;
 }
 #main #section01 .cont-area .main-movie-list .btn-util .case .btn1 {
-    background-color: #037b94;
+    background-color: #339eb2;
+    border-radius: 4px;
+}
+#main #section01 .cont-area .main-movie-list .btn-util .case .btn1:hover {
+    background-color: #1e7f9a;
     border-radius: 4px;
 }
 #main #section01 .cont-area .main-movie-list .btn-util .case.col2 .btn2 {

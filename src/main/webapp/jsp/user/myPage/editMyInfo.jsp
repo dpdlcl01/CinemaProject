@@ -57,14 +57,14 @@
   #btnDiv>button, #lastBtnDiv>button{
     border-radius: 5px;
     color: #FFFFFF;
-    background-color: #503396;
+    background-color: #339eb2;
     border: none;
     width: 88px;
     height: 46px;
   }
 
   #btnDiv>button, #lastBtnDiv>button:hover {
-    background-color: #3D2775;;
+    background-color: #1e7f9a;
   }
 
   #btnDiv, #lastBtnDiv{
@@ -108,13 +108,13 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    background-color: #503396;
+    background-color: #339eb2;
     /*width: 60px;*/
     height: 26px;
     /*margin-left: 10px;*/
   }
   #main button:hover {
-    background-color: #3D2775;;
+    background-color: #1e7f9a;
   }
 
   #passwordBtn{
@@ -147,13 +147,12 @@
     margin: 0 10px;
     border: 1px solid;
     background-color: #fff;
-    color: #503396;
+    color: #339eb2;
   }
 
   #lastBtnDiv .cancel:hover{
     background-color: #f2f2f2;
   }
-
 
 </style>
 <body>

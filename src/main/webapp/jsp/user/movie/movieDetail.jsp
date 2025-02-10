@@ -26,17 +26,17 @@
         .dialog-common button {
             width: 80px;
             height: 40px;
-            border: 1px solid #503396;
-            background-color: #503396;
+            border: 1px solid #339eb2;
+            background-color: #339eb2;
             color: white;
             border-radius: 3px;
         }
 
         /* 타이틀 스타일 */
         .dialog-common .ui-dialog-titlebar {
-            background-color: #503396; /* 타이틀 배경색 */
+            background-color: #339eb2;  /* 타이틀 배경색 */
             color: white; /* 텍스트 색상 */
-            border: 2px solid #503396;
+            border: 2px solid #339eb2;
         }
 
         /* 콘텐츠 스타일 */
@@ -133,6 +133,8 @@
         }
 
         .modal-layer .wrap {
+            left: 35%;
+            top: 25%;
             background-color: white;
             border-radius: 10px;
             width: 500px;
@@ -144,7 +146,7 @@
 
         /* 모달 제목 왼쪽 정렬 */
         .layer-header {
-            background-color: #503396;
+            background-color: #339eb2;
             color: white;
             padding: 15px;
             text-align: left; /* 왼쪽 정렬 */
@@ -168,7 +170,7 @@
         /* 취소 버튼 스타일 */
         .button.close-layer {
             background-color: white; /* 흰색 배경 */
-            color: #503396; /* 텍스트 색상 */
+            color: #339eb2;  /* 텍스트 색상 */
             border: 1px solid #ccc;
         }
 
@@ -176,7 +178,7 @@
         .num {
             margin-top: 10px;
             font-size: 1.5em; /* 크기를 조금 더 키움 */
-            color: #503396;
+            color: #339eb2;
             font-weight: bold;
             text-align: center;
         }
@@ -206,7 +208,7 @@
         .btn.left,
         .btn.right {
             width: 15px;
-            height: 30px;
+            height: 50px;
             border: none;
             background-size: cover;
             cursor: pointer;
@@ -238,7 +240,7 @@
         .num {
             margin-top: 10px;
             font-size: 1.2em;
-            color: #503396;
+            color: #339eb2;
         }
 
         /* 텍스트 입력 */
@@ -279,7 +281,7 @@
         }
 
         .button.purple {
-            background-color: #503396;
+            background-color: #339eb2;
             color: white;
         }
 

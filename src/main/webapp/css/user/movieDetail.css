@@ -50,7 +50,7 @@ body {
 }
 
 .movie-detail-page .movie-detail-cont .d-day {
-    background-color: #432e75;
+    background-color: #339eb2;
     display: inline-block;
     padding: 0 10px;
     font-size: .8667em;
@@ -273,7 +273,10 @@ body {
     width: 100%;
     text-align: center;
     border-radius: 5px;
-    border: 1px solid #706f72;
+    border: 0;
+}
+.movie-detail-page .movie-detail-cont .reserve-type .reserve-btn:hover{
+    background-color: #1e7f9a;;
 }
 
 /* --- tab 부분 --- */
@@ -299,14 +302,14 @@ body {
 }
 
 .tab.active {
-    border-bottom: 2px solid #6a5acd;
-    color: #6a5acd;
+    border-bottom: 2px solid #339eb2;
+    color: #339eb2;
 }
 
 .content {
     display: none;
     margin-top: 20px;
-    height: 2000px; /* 임시 */
+    /*height: 2000px; !* 임시 *!*/
 }
 
 .content.active {
@@ -415,7 +418,7 @@ body {
 .titSmall {
     padding: 0 0 16px 0;
     font-size: 1.4666em;
-    color: #503396;
+    color: #339eb2;
     margin-top: 70px;
 }
 
@@ -544,7 +547,7 @@ body {
     line-height: 82px;
     height: 100%;
     width: 105px;
-    color: #503396;
+    color: #339eb2;
 }
 
 .storyText:before {
@@ -585,7 +588,7 @@ body {
     /*border-top: 1px solid #555;*/
     border-bottom: 1px solid #ebebeb;
     font-size: 1.46666em;
-    color: #351f67;
+    color: #1e7f9a;
 }
 
 .trailer .mainTrailer {

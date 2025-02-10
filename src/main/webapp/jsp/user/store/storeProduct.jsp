@@ -75,7 +75,8 @@
       }
       #present{
         display: flex;
-        border: 1px solid #503396;
+        border-radius: 5px;
+        border: 1px solid #339eb2;
         color: black;
         width: 284px;
         height: 46px;
@@ -83,13 +84,16 @@
         align-items: center; /* 세로 중앙 정렬 */
         justify-content: center;
         margin: 10px;
-
+      }
+      #present:hover{
+        border: 1px solid #1e7f9a;
+        background-color: #ebebeb;
       }
       #buy{
+        border-radius: 5px;
         display: flex;
-        border: 1px solid #503396;
-        background-color: #503396;
-        color: gainsboro;
+        background-color: #339eb2;
+        color: #fff;
         width: 284px;
         height: 46px;
         text-decoration:none;
@@ -97,14 +101,29 @@
         justify-content: center;
         margin: 10px;
       }
+
+      #buy:hover{
+        background-color: #1e7f9a;
+      }
       .inputBt{
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        background: #fff;
+        color: #333;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        /* transition: all 0.2s ease; */
       }
       input{
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         text-align: center;
+        border: 1px solid #ddd;
       }
       #price{
         display: flex;
@@ -114,10 +133,10 @@
         width: 1100px;
         height: 39px;
         background-color: white;
-
         border: 1px solid lightgray;
         border-radius: 8px;
       }
+
       #refund{
         margin-top: 50px;
       }
@@ -139,7 +158,7 @@
         margin-left: 400px;
       }
       #bt>div>em, #bt>div>span{
-        color: #503396;
+        color: #339eb2;
         font-weight: 600;
         font-size: 20px;
       }
@@ -159,15 +178,15 @@
       .ui-dialog button{
         width: 80px;
         height: 40px;
-        border: 1px solid #503396;
-        background-color: #503396;
+        border: 1px solid #339eb2;
+        background-color: #339eb2;
         color: white;
         border-radius: 3px;
       }
       .ui-dialog-titlebar {
-        background-color: #503396; /* 타이틀 배경색 */
+        background-color: #339eb2;  /* 타이틀 배경색 */
         color: white; /* 텍스트 색상 */
-        border: 2px solid #503396;
+        border: 2px solid #339eb2;
       }
       .ui-dialog-content {
         color: black;
