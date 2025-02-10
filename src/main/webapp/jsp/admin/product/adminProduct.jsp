@@ -111,7 +111,7 @@
   }
 
   #addBtn {
-    background-color: #503396;
+    background-color: #339eb2;
     float: right;
     color: white;
     border: none;
@@ -124,7 +124,7 @@
   }
 
   button[type="submit"] {
-    background-color: #503396;
+    background-color: #1e7f9a;
     height: 36px;
     width: 100%;
     /*background-color: #bbb;*/
@@ -359,7 +359,7 @@
 </div>
 
 <a href="#" id="member-login-btn" title="로그인" data-bs-toggle="modal" data-bs-target="#AdminLoginModal" style="display: none;">어드민로그인</a>
-<jsp:include page="../login/adminLoginModal.jsp"/>
+<%--<jsp:include page="../login/adminLoginModal.jsp"/>--%>
 
 <%--<jsp:include page="../../user/common/footer.jsp"/>--%>
 

@@ -60,7 +60,7 @@
     .top2 > a {
         display: block;
         text-align: center;
-        color: #503396;
+        color: #339eb2;
         font-weight: 600;
         padding-bottom: 10px;
         text-decoration: none;
@@ -197,7 +197,7 @@
 
     .addBtnDiv {
         text-align: right;
-        margin-right: 50px;
+        /*margin-right: 50px;*/
     }
     #addCoupon label, #addCoupon input{
         margin-bottom: 8px;
@@ -210,6 +210,27 @@
     }
     #issueCoupon label, #issueCoupon select{
         margin-top: 20px;
+    }
+
+   .addBtnDiv button, table button{
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        background-color: #339eb2;
+    }
+
+    button:hover{
+        background-color: #1e7f9a;
+    }
+
+    .ui-dialog-buttonset button{
+        background-color: #339eb2;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+    }
+    .ui-dialog-buttonset button:hover{
+        background-color: #1e7f9a;
     }
 </style>
 

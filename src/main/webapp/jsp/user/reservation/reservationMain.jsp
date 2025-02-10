@@ -66,7 +66,7 @@
                     </div>
                     <div class="time-selection">
                         <h2>시간</h2>
-                        <p id="time-selection">영화와 극장을 선택하시면 상영 시간표를 비교하여 볼 수 있습니다.</p>
+                        <p id="time-selection">영화와 극장을 선택하시면 <br> 상영 시간표를 비교하여 볼 수 있습니다.</p>
                     </div>
                 </div>
             </div>
@@ -476,11 +476,11 @@
 
                 li.innerHTML += "<div class='time-info'>" +
                     "<span>" + showtime.timetableStartTime.split(" ")[1] + " ~ " + showtime.timetableEndTime.split(" ")[1] + "</span>" +
-                    "<span>" + showtime.screenName + "</span>" +
+                    "&nbsp;&nbsp;" + "<span>" + showtime.screenName + "</span>" +
                     "</div>";
 
                 li.innerHTML += "<div class='seat-info'>" +
-                    "<span>" + showtime.availableSeats + " / " + showtime.screenSeatCount + " 좌석</span>" +
+                    "&nbsp;&nbsp;" + "<span>" + showtime.availableSeats + " / " + showtime.screenSeatCount + " 좌석</span>" +
                     "</div>";
 
                 li.setAttribute("data-timetable-id", showtime.timetableIdx);
@@ -702,7 +702,7 @@
             document.querySelectorAll(".theater-region-list").forEach(list => list.remove());
 
             // 시간표 초기화
-            document.getElementById("time-selection").innerHTML = "<p>영화와 극장을 선택하시면 상영 시간표를 비교하여 볼 수 있습니다.</p>";
+            document.getElementById("time-selection").innerHTML = "<p>영화와 극장을 선택하시면<br>상영 시간표를 비교하여 볼 수 있습니다.</p>";
 
             // 극장 활성화
             globalAvailableTheaters = [];

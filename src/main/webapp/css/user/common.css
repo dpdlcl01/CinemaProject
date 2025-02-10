@@ -78,6 +78,11 @@
   border-radius: 3px;
 }
 
+.dialog-common button:hover {
+  border: 1px solid #1e7f9a;
+  background-color: #1e7f9a;
+}
+
 /* 타이틀 스타일 */
 .dialog-common .ui-dialog-titlebar {
   background-color: #339eb2;  /* 타이틀 배경색 */

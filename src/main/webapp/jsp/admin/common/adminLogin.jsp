@@ -47,7 +47,7 @@
         }
 
         .btn-primary:hover {
-            background-color: #584de6;
+            background-color: #1e7f9a;
         }
 
         .login-links {

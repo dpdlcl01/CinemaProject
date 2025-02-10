@@ -36,10 +36,11 @@
 
     <!-- 전체 극장 조회 -->
     <select id="getTheaterRegion" resultType="map">
-        SELECT t.theaterRegion AS region, COUNT(*) AS count
+        SELECT t.theaterRegion AS region, COUNT(*) AS count, MIN(t.theaterIdx) AS minTheaterIdx
         FROM theater t
         WHERE t.theaterStatus = 0
         GROUP BY t.theaterRegion
+        ORDER BY minTheaterIdx ASC
     </select>
 
     <!-- 지역별 극장 리스트 -->

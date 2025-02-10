@@ -89,7 +89,7 @@
         padding: 10px;
         text-align: center;
         color: #fff;
-        background-color: #6a5acd;
+        background-color: #339eb2;
         text-decoration: none;
         border-radius: 5px;
         font-size: 14px;

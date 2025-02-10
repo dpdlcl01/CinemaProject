@@ -13,8 +13,6 @@
         WHERE r.reservationIdx = #{reservationIdx}
     </update>
 
-
-
     <!--  예매 메인 > 좌석 선택으로 넘어갈 때  -->
     <insert id="insertReservation" parameterType="Map">
         INSERT INTO reservation *
@@ -25,7 +23,9 @@
     <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
         SELECT *
         FROM movie
-        WHERE movieStatus = 0 OR movieStatus = 1
+        WHERE (movieStatus = 0 OR movieStatus = 1)
+        AND movieRank IS NOT NULL
+        ORDER BY movieRank ASC
     </select>
 
     <!-- 특정 영화 및 극장의 모든 상영 시간표 조회 -->
