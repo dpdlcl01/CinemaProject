@@ -234,16 +234,16 @@
         font-weight: bold;
     }
 
-    /* 클릭 가능한 행 스타일 */
+/*    !* 클릭 가능한 행 스타일 *!
     .clickable-row {
         cursor: pointer;
         transition: background-color 0.2s ease;
     }
 
-    /* 마우스를 가져갔을 때 배경색 변경 */
+    !* 마우스를 가져갔을 때 배경색 변경 *!
     .clickable-row:hover {
         background-color: #f0f0f0;
-    }
+    }*/
 
 
     /* 페이지네이션 */
@@ -514,7 +514,7 @@
                     <tbody>
                     <c:set var="pvo" value="${requestScope.page}" />
                     <c:forEach var="vo" items="${timetableArray}" varStatus="vs">
-                        <tr class="clickable-row" data-movie-idx="${vo.movieIdx}">
+                        <tr data-movie-idx="${vo.movieIdx}">
                             <td>${((pvo.nowPage - 1) * pvo.numPerPage + vs.index) + 1}</td>
                             <td>${vo.theaterName}</td>
                             <td>${vo.screenName}</td>
