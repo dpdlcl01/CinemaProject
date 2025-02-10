@@ -48,7 +48,7 @@
         width: 1100px;
         margin-left: auto;
         margin-right: auto;
-        padding-bottom: 20px;
+        /*padding-bottom: 20px;*/
         margin-top: 50px;
     }
 
