@@ -674,17 +674,17 @@
                             if (response.success) {
                                 alert("상영 시간표가 성공적으로 생성되었습니다.");
                                 $("#scheduleModal").dialog("close");
-                                stopScheduleStatusPolling();
-                                location.reload();  // 새로고침하여 업데이트된 데이터 확인
                             } else {
                                 showErrorMessage("상영 시간표 생성 중 오류가 발생했습니다: " + response.message);
-                                hideLoadingMessage();
                             }
                         },
                         error: function() {
-                            stopScheduleStatusPolling();
                             showErrorMessage("상영 시간표 생성 요청에 실패했습니다.");
+                        },
+                        complete: function() {
                             hideLoadingMessage();
+                            stopScheduleStatusPolling();
+                            location.reload();  // 새로고침하여 업데이트된 데이터 확인
                         }
                     });
                 },
@@ -694,23 +694,28 @@
             }
         });
 
-        $("#updateBookingRateBtn").on("click", function () {
-            showLoadingMessage("영화 정보를 업데이트 중입니다...");
+        $("#updateBookingRateBtn").on("click", function(event) {
+            event.preventDefault();
+            console.log("버튼 클릭됨");  // 버튼이 클릭되는지 확인
+            showLoadingMessage("영화 예매율을 업데이트 중입니다...");
 
             $.ajax({
-                url: "AdminController?type=updateBookingRate",
+                url: "${pageContext.request.contextPath}/AdminController?type=dbUpdate",
                 type: "POST",
                 dataType: "json",
-                success: function (response) {
+                success: function(response) {
+                    console.log("응답 성공:", response);  // 응답 데이터 확인
                     if (response.success) {
-                        alert("영화 정보가 성공적으로 업데이트되었습니다.");
+                        alert("영화 예매율을 업데이트 완료했습니다.");
                     } else {
-                        showErrorMessage("영화 업데이트 중 오류가 발생했습니다: " + response.message);
+                        showErrorMessage("업데이트 중 오류가 발생했습니다: " + response.message);
                     }
-                    hideLoadingMessage();
                 },
-                error: function () {
-                    showErrorMessage("영화 업데이트 요청에 실패했습니다.");
+                error: function(xhr, status, error) {
+                    console.error("AJAX 요청 실패:", error);  // 오류 메시지 확인
+                    showErrorMessage("영화 예매율 업데이트 요청에 실패했습니다.");
+                },
+                complete: function() {
                     hideLoadingMessage();
                 }
             });
@@ -718,23 +723,20 @@
 
 
         $("#generateTimetableBtn").on("click", function(event) {
-            event.preventDefault();  // 기본 동작 방지
+            event.preventDefault();
             $("#scheduleModal").dialog("open");
         });
 
-        // 로딩 메시지 표시 함수
         function showLoadingMessage(message) {
             $("#scheduleLoadingMessage").text(message).show();
         }
 
-        // 로딩 메시지 숨김 함수
         function hideLoadingMessage() {
             $("#scheduleLoadingMessage").hide();
         }
 
-        // 상태 메시지 주기적 요청 (Polling)
         function startScheduleStatusPolling() {
-            scheduleUpdateInterval = setInterval(fetchScheduleStatus, 2000);  // 2초마다 상태 확인
+            scheduleUpdateInterval = setInterval(fetchScheduleStatus, 2000);
         }
 
         function stopScheduleStatusPolling() {
@@ -761,7 +763,6 @@
             });
         }
 
-        // 극장 선택 필터링 이벤트
         $("#theaterSelect").on("change", function() {
             const selectedTheater = $(this).val();
             location.href = "AdminController?type=timetableList&theaterIdx=" + selectedTheater;
