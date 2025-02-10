@@ -62,55 +62,6 @@ public class TimetableDAO {
 
 
 
-
-/*    // 전체 상영 시간표 수 가져오기
-    public static int getTimetableCount() {
-        SqlSession ss = FactoryService.getFactory().openSession();
-        int count = ss.selectOne("adminTimetable.getTimetableCount");
-        ss.close();
-        return count;
-    }
-
-    // 상영 시간표 목록 가져오기
-    public static TimetableVO[] getTimetableList(int begin, int end) {
-        TimetableVO[] timetableArray = null;
-
-        Map<String, Integer> map = new HashMap<>();
-        map.put("begin", begin);
-        map.put("end", end);
-        SqlSession ss = FactoryService.getFactory().openSession();
-        List<TimetableVO> tList = ss.selectList("adminTimetable.getTimetableList", map);
-        if(tList != null && !tList.isEmpty()) {
-            timetableArray = new TimetableVO[tList.size()];
-            tList.toArray(timetableArray);
-        }
-        ss.close();
-        return timetableArray;
-    }
-
-    // 특정 극장의 상영 시간표 목록 가져오기
-    public static TimetableVO[] getTimetableListByTheater(String theaterIdx, int begin, int end) {
-        TimetableVO[] timetableArray = null;
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("theaterIdx", theaterIdx);
-        map.put("begin", begin);
-        map.put("end", end);
-
-        SqlSession ss = FactoryService.getFactory().openSession();
-        List<TimetableVO> tList = ss.selectList("adminTimetable.getTimetableListByTheater", map);
-        if(tList != null && !tList.isEmpty()) {
-            timetableArray = new TimetableVO[tList.size()];
-            tList.toArray(timetableArray);
-        }
-        ss.close();
-        return timetableArray;
-    }*/
-
-
-
-
-
     // 특정 개수의 예매율 상위 영화 가져오기
     public static List<MovieVO> getMoviesByRange(int limit, int offset){
         Map<String, Integer> map = new HashMap<String, Integer>();
