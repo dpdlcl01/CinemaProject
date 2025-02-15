@@ -26,7 +26,6 @@ public class SuccessAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("[SuccessAction 호출됨]");
 
         // 요청에서 paymentKey, orderId, amount 가져오기
         String paymentKey = request.getParameter("paymentKey");

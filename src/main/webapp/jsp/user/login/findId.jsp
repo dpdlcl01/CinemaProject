@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디/비밀번호 찾기</title>
+    <title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -195,6 +195,7 @@
         * 본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 이용 또는 저장되지 않습니다.
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const domain = document.getElementById("emailDomain");
@@ -237,6 +238,8 @@
             return false;
         }
 
+        var contextPath = "${pageContext.request.contextPath}";
+
         // AJAX 요청
         $.ajax({
             type: "POST",
@@ -250,9 +253,8 @@
             dataType: "json",
             success: function (response) {
                 if (response.status === "success") {
-                    alert(response.message);
                     // 성공 시 처리 (예: 아이디 확인 페이지로 이동)
-                    window.location.href = `${pageContext.request.contextPath}/jsp/user/login/result/idFind_success.jsp`;
+                    window.location.href = contextPath + "/jsp/user/login/result/idFind_success.jsp?userId=" + response.userId + "&userName=" + response.userName;
                 } else {
                     alert(response.message);
                 }

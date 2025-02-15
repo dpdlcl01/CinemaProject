@@ -28,22 +28,12 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        .index-header {
-            font-size: 32px;
-            font-weight: bold;
-            color: #339eb2;
-            margin-bottom: 10px;
-        }
-        .index-subtitle {
-            font-size: 18px;
-            color: #6c757d;
+
+        .logo img {
+            width: 150px;  /* 로고 크기 */
             margin-bottom: 20px;
         }
-        .index-description {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 30px;
-        }
+
         .btn-custom {
             background-color: #339eb2;
             border: none;
@@ -58,6 +48,7 @@
         .btn-custom:hover {
             background-color: #287d8f;
         }
+
         .footer-text {
             margin-top: 20px;
             font-size: 14px;
@@ -67,8 +58,9 @@
 </head>
 <body>
 <div class="index-container">
-    <div class="index-header">CINEFEEL</div>
-    <div class="index-subtitle">NEW OCEAN ESSENTIAL</div>
+    <div class="logo">
+        <img src="${pageContext.request.contextPath}/css/user/images/logo_cinefeel.png" alt="CINEFEEL 로고">
+    </div>
     <div>
         <a href="${pageContext.request.contextPath}/UserController" class="btn btn-custom">User Area</a>
         <a href="${pageContext.request.contextPath}/AdminController" class="btn btn-custom">Admin Area</a>

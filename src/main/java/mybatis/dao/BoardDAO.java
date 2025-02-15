@@ -33,13 +33,13 @@ public class BoardDAO {
     }
 
     // 목록
-    public static BoardVO[] getList(String bType, int begin, int end, String keyword, String region, String theater) {
+    public static BoardVO[] getList(String bType, int begin, int limit, String keyword, String region, String theater) {
         BoardVO[] ar = null;
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("bType", bType);
         map.put("begin", begin);
-        map.put("end", end);
+        map.put("limit", limit);  // end 대신 limit 사용
 
         if (keyword != null && !keyword.isEmpty()) {
             map.put("keyword", keyword);
@@ -60,6 +60,7 @@ public class BoardDAO {
         ss.close();
         return ar;
     }
+
 
     //원하는 게시물 검색
     public static BoardVO getBoard(String boardId) {

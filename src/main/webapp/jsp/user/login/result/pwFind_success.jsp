@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디/비밀번호 찾기</title>
+    <title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -121,8 +121,8 @@
         </div>
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/UserController?type=updatepassword" method="POST">
-        <p>${userId}님의 비밀번호를 재설정 하여주세요.</p>
+    <form id="updatePasswordForm">
+        <p>${param.userId}님의 비밀번호를 재설정 하여주세요.</p>
         <table>
             <tr>
                 <td>비밀번호</td>
@@ -138,10 +138,10 @@
                 </td>
             </tr>
         </table>
-        <button type="submit" id="gosub" name="gosub" disabled>비밀번호 찾기</button>
+        <button type="button" id="gosub" name="gosub" disabled onclick="updatePassword()">비밀번호 변경</button>
     </form>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function pwCheck() {
         const authPwd = document.getElementById('authpwd');
@@ -151,16 +151,49 @@
         if (newPassword === newPassword2 && newPassword.length >= 8) {
             authPwd.innerText = '비밀번호가 일치합니다.';
             authPwd.style.color = 'green';
-            gosub.disabled = false;
+            document.getElementById("gosub").disabled = false;
         } else if (newPassword !== newPassword2) {
             authPwd.innerText = '비밀번호가 불일치합니다.';
             authPwd.style.color = 'red';
-            gosub.disabled = true;
+            document.getElementById("gosub").disabled = true;
         } else if (newPassword.length < 8) {
             authPwd.innerText = '비밀번호는 최소 8자리 이상이어야 합니다.';
             authPwd.style.color = 'red';
-            gosub.disabled = true;
+            document.getElementById("gosub").disabled = true;
         }
+    }
+
+    function updatePassword() {
+        const userId = "${param.userId}";  // JSP에서 받은 userId 사용
+        const newPassword = document.getElementById('newPassword').value.trim();
+
+        if (!newPassword) {
+            alert("새로운 비밀번호를 입력해주세요.");
+            return;
+        }
+
+        // AJAX 요청
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/UserController?type=updatepassword",
+            data: {
+                userId: userId,
+                newPassword: newPassword
+            },
+            dataType: "json",
+            success: function (response) {
+                if (response.status === "success") {
+                    alert(response.message);
+                    // 비밀번호 변경 성공 후 처리 (예: 성공 페이지로 리다이렉트)
+                    window.location.href = "${pageContext.request.contextPath}/jsp/user/login/result/pwFind_Final.jsp";
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert("서버 통신 중 오류가 발생했습니다.");
+            }
+        });
     }
 </script>
 

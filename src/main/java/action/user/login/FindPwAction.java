@@ -1,9 +1,8 @@
 package action.user.login;
 
 import action.Action;
+import com.google.gson.JsonObject;
 import mybatis.dao.RegisterDAO;
-import util.LogUtil;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -12,65 +11,54 @@ import java.util.HashMap;
 public class FindPwAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
         String type = request.getParameter("type");
+        JsonObject jsonResponse = new JsonObject();
 
         if (type.equals("movefindpw")) {
+            // 비밀번호 찾기 페이지를 반환하는 경우 (GET 요청)
             return "./jsp/user/login/findPw.jsp";
         } else if (type.equals("findpw")) {
-            // 요청 파라미터를 HashMap에 저장
-            HashMap<String, String> params = new HashMap<>();
-            params.put("userIdx", request.getParameter("userIdx"));
-            params.put("userId", request.getParameter("userId"));
-            params.put("userName", request.getParameter("userName"));
+            // 비밀번호 찾기 요청 (AJAX 요청)
+            String userId = request.getParameter("userId");
+            String userName = request.getParameter("userName");
 
-            String emailPart1 = request.getParameter("emailpart1");  // 이메일 앞부분
-            String emailPart2 = request.getParameter("emailpart2");  // 이메일 도메인
-            String userEmail = emailPart1 + "@" + emailPart2;        // 이메일 조합
+            String emailPart1 = request.getParameter("emailpart1");
+            String emailPart2 = request.getParameter("hiddenEmailPart2");
+            String userEmail = emailPart1 + "@" + emailPart2;
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("userId", userId);
+            params.put("userName", userName);
             params.put("userEmail", userEmail);
 
-            // HashMap에서 값 추출
-            String userName = params.get("userName");
-            String userId = params.get("userId");
-
             try {
-                // DAO 객체 생성
                 RegisterDAO registerDAO = new RegisterDAO();
 
-                // 개별 값을 전달하여 메서드 호출
+                // 사용자 인증 확인
                 boolean isUserValid = registerDAO.validateUserForPasswordReset(userName, userEmail, userId);
 
                 if (isUserValid) {
-                    // 비밀번호 변경 로직
-                    String newPassword = request.getParameter("newPassword");
-                    params.put("userPw", newPassword); // 새 비밀번호 추가
-
-                    int updateResult = RegisterDAO.updatePassword(params);
-
-                    if (updateResult > 0) {
-                        LogUtil.logChanges(
-                                "1",
-                                null,
-                                "userId : " + userId,
-                                "비밀번호 찾기",
-                                null,
-                                null
-                        );
-                        request.setAttribute("success", "비밀번호가 성공적으로 변경되었습니다.");
-                        return "/jsp/user/login/result/pwFind_success.jsp";
-                    } else {
-                        request.setAttribute("error", "비밀번호 변경에 실패했습니다.");
-                        return "./jsp/user/common/error.jsp";
-                    }
+                    // 인증 성공, 비밀번호 변경 페이지로 리다이렉트
+                    jsonResponse.addProperty("status", "success");
+                    jsonResponse.addProperty("message", "사용자 인증에 성공했습니다. 비밀번호를 변경해주세요.");
+                    jsonResponse.addProperty("userId", userId);  // userId 추가
+                    jsonResponse.addProperty("redirect", "/jsp/user/login/resetPassword.jsp");  // 비밀번호 변경 페이지로 리다이렉트
                 } else {
-                    request.setAttribute("error", "사용자를 찾을 수 없습니다.");
-                    return "./jsp/user/common/error.jsp";
+                    jsonResponse.addProperty("status", "error");
+                    jsonResponse.addProperty("message", "사용자를 찾을 수 없습니다.");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                request.setAttribute("error", "오류가 발생하였습니다. 관리자에게 문의하세요.");
-                return "./jsp/user/common/error.jsp";
+                jsonResponse.addProperty("status", "error");
+                jsonResponse.addProperty("message", "오류가 발생하였습니다. 관리자에게 문의하세요.");
             }
         }
+
+        // JSON 응답 반환
+        response.getWriter().write(jsonResponse.toString());
         return null;
     }
 }

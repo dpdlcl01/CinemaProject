@@ -16,14 +16,8 @@
 
 <!-- header 영역 -->
 <jsp:include page="header.jsp"/>
-<%@ page import="java.text.SimpleDateFormat, java.util.Date" %>
-<%
-    String todayDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-    request.setAttribute("todayDate", todayDate);
-
-    // 터미널(서버 콘솔)에 출력
-    System.out.println("🚀 [DEBUG] 오늘 날짜: " + todayDate);
-%>
+<fmt:formatDate value="<%= new java.util.Date() %>" pattern="yyyy-MM-dd" var="todayDate" />
+<c:set var="todayDate" value="${todayDate}" />
 <main id="main">
     <!-- section01 -->
     <section id="section01" class="section main-movie">

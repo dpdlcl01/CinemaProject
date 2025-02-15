@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디/비밀번호 찾기</title>
+    <title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -149,8 +149,8 @@
 <body>
 <div class="container">
     <div class="logo">
-        <img src="${pageContext.request.contextPath}/css/user/images/logo_cinefeel.png" alt="MEGABOX 로고">
-    </div>
+    <img src="${pageContext.request.contextPath}/css/user/images/logo_cinefeel.png" alt="MEGABOX 로고">
+</div>
     <h1><b>아이디/비밀번호 찾기</b></h1>
 
     <div class="tabs">
@@ -164,7 +164,7 @@
             <p>${error}</p>
         </div>
     </c:if>
-    <form action="${pageContext.request.contextPath}/UserController?type=findpw" method="POST">
+    <form id="findPasswordForm">
         <input type="hidden" id="type" name="type"/>
         <input type="hidden" id="userEmail" name="userEmail"/>
         <input type="hidden" id="hiddenEmailPart2" name="emailpart2"/>
@@ -197,7 +197,7 @@
             </tr>
         </table>
         <div class="button-container">
-            <button type="submit">비밀번호 찾기</button>
+            <button type="button" id="findPasswordButton">비밀번호 찾기</button>
         </div>
     </form>
 
@@ -205,6 +205,7 @@
         * 본인인증 시 제공되는 정보는 해당 인증기관에서 직접 수집하며, 인증 이외의 용도로 이용 또는 저장되지 않습니다.
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const domain = document.getElementById("emailDomain");
@@ -222,7 +223,44 @@
             document.getElementById("hiddenEmailPart2").value = emailpart2input.value;  // 숨겨진 필드에 값 복사
         });
 
+        $("#findPasswordButton").on("click", function() {
+            let userId = $("#userId").val().trim();
+            let userName = $("#userName").val().trim();
+            let emailPart1 = $("#emailpart1").val().trim();
+            let hiddenEmailPart2 = $("#hiddenEmailPart2").val().trim();
 
+            if (!userId || !userName || !emailPart1 || !hiddenEmailPart2) {
+                alert("모든 필드를 정확히 입력해 주세요.");
+                return;
+            }
+
+            var contextPath = "${pageContext.request.contextPath}";
+
+            // AJAX 요청
+            $.ajax({
+                type: "POST",
+                url: contextPath + "/UserController?type=findpw",
+                data: {
+                    userId: userId,
+                    userName: userName,
+                    emailpart1: emailPart1,
+                    hiddenEmailPart2: hiddenEmailPart2
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === "success") {
+                        alert(response.message);
+                        // 성공 시 처리 (예: 비밀번호 재설정 페이지로 이동)
+                        window.location.href = contextPath + "/jsp/user/login/result/pwFind_success.jsp?userId=" + response.userId;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("서버 통신 중 오류가 발생했습니다.");
+                }
+            });
+        });
     });
 </script>
 </body>

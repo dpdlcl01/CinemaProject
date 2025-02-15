@@ -21,11 +21,9 @@
         </if>
     </select>
 
-    <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
+    <!-- 원글들을 가져오는 기능 (status가 1이면 삭제된 글,
         정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
     <select id="list" resultType="mybatis.vo.BoardVO" parameterType="Map">
-        SELECT * FROM (
-        SELECT @RN := @RN + 1 AS rnum, a.* FROM (
         SELECT b.*, t.theaterName
         FROM board b
         LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
@@ -47,9 +45,7 @@
         </if>
 
         ORDER BY b.boardIdx DESC
-        ) a
-        ) c, (SELECT @RN := 0) b
-        WHERE c.rnum BETWEEN #{begin} AND #{end}
+        LIMIT #{begin}, #{limit}
     </select>
 
     <!-- 기본키를 인자로 받아서 원하는 게시물 검색 -->

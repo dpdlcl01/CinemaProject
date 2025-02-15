@@ -13,7 +13,7 @@
 <head>
   <jsp:include page="../common/head.jsp"/>
   <script src="https://js.tosspayments.com/v1"></script>
-  <title>결제하기</title>
+  <title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/payment.css"      type="text/css">

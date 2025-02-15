@@ -28,11 +28,11 @@ public class FindIdAction implements Action {
 
         try {
             String userId = RegisterDAO.UserIdFind(params);
-            System.out.println("debug result : " + userId);
 
             if (userId != null && !userId.isEmpty()) {
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("userId", userId);
+                jsonResponse.addProperty("userName", userName);  // userName 추가
                 jsonResponse.addProperty("message", "아이디 찾기가 완료되었습니다.");
             } else {
                 jsonResponse.addProperty("status", "error");

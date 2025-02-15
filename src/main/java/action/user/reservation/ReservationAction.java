@@ -22,7 +22,6 @@ public class ReservationAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("type"); // reservation은 GET 파라미터로 처리
-        System.out.println("Action 호출됨: type=" + request.getParameter("type"));
 
         if (type.equals("reservation")) {
             // 영화 데이터를 DAO에서 가져옴
@@ -46,7 +45,6 @@ public class ReservationAction implements Action {
         } else if ("subregions".equals(type)) {
             // GET 요청에서 'region' 파라미터 값 읽기
             String region = request.getParameter("region");
-            System.out.println("Received Region: " + region);
 
             // DAO 호출하여 지역 데이터 가져오기
             TheaterVO[] ar = ReservationDAO.theaterName(region);
@@ -79,12 +77,6 @@ public class ReservationAction implements Action {
             }
 
             List<TimetableVO> timetableVOList = ReservationDAO.getAvailableTheaters(movieIdx, targetDate);
-
-            try {
-                System.out.println("🔍 반환된 극장 리스트: " + new ObjectMapper().writeValueAsString(timetableVOList));
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
 
             // JSON 형식으로 응답 반환
             response.setContentType("application/json;charset=utf-8");

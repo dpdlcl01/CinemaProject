@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비회원 예매 확인</title>
+    <title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
     <style>
         body {
             font-family: Arial, sans-serif;

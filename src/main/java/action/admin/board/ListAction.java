@@ -44,8 +44,6 @@ public class ListAction implements Action {
         // 현재페이지 값을 파라미터로 받아보자!
         String cPage = request.getParameter("cPage");
 
-        System.out.println("Raw cPage parameter: [" + cPage + "]");
-
         if (cPage == null || cPage.trim().isEmpty()) {
             page.setNowPage(1);
         } else {

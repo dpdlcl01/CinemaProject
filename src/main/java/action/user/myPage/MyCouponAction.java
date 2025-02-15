@@ -30,7 +30,6 @@ public class MyCouponAction implements Action {
         String cPage = request.getParameter("cPage");
 
         String type = request.getParameter("type");
-        System.out.println("MyCouponAction 호출됨: type=" + request.getParameter("type"));
 
         // AJAX 요청이면 JSON 응답
         if ("couponFilter".equals(type)) {

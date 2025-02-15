@@ -13,7 +13,7 @@
   <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>토스페이먼츠 샘플 프로젝트</title>
+  <title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
   <style>
     .wrapper{
       width: 1100px;

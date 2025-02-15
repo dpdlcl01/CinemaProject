@@ -22,9 +22,6 @@ public class EventAction implements Action {
 
     String type = request.getParameter("type");
 
-    System.out.println("Offset: " + offset);
-    System.out.println("PageSize: " + pageSize);
-
     if (type.equals("event")) {
       // 진행중인 이벤트 게시물의 수 반환
       int totalEventCount = EventDAO.getTotalEventCount();
