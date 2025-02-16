@@ -32,7 +32,7 @@
             <!-- 메인 -->
             <div class="main-content">
                 <!-- Section Header -->
-                <h1>메가박스/제휴쿠폰</h1>
+                <h1>제휴쿠폰</h1>
                 <div class="section">
                     <!-- Information -->
                     <p>• 보유하신 쿠폰 내역입니다.<br>• 각 쿠폰 별 사용 방법이 다르니 사용 전 상세 쿠폰정보를 확인바랍니다.</p>
