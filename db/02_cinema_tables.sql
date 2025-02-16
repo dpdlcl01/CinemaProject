@@ -24,7 +24,7 @@ CREATE TABLE user (
 ) COMMENT='사용자 정보를 저장하는 테이블';
 
 
--- 2. 영화(movie) 테이블 생성 (tmdbId 컬럼 추가)
+-- 2. 영화(movie) 테이블 생성
 CREATE TABLE movie (
     movieIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '영화 고유 ID',
     movieCd VARCHAR(20) NOT NULL COMMENT 'KOFIC 영화 고유 코드',
@@ -105,7 +105,7 @@ CREATE TABLE seatStatus (
     timetableIdx BIGINT NOT NULL COMMENT '상영 시간표 ID',
     seatIdx BIGINT NOT NULL COMMENT '좌석 ID',
     seatStatus TINYINT(1) NOT NULL COMMENT '좌석 상태 (1: 예약됨, 2: 임시 확보)',
-    reservedTime DATETIME NOT NULL COMMENT '좌석 예약 시간',
+    reservedTime DATETIME(6) NOT NULL COMMENT '좌석 예약 시간',
     FOREIGN KEY (timetableIdx) REFERENCES timetable(timetableIdx) ON DELETE CASCADE,
     FOREIGN KEY (seatIdx) REFERENCES seat(seatIdx) ON DELETE CASCADE
 ) COMMENT='상영 시간표별로 좌석 상태를 관리하는 테이블';
@@ -132,6 +132,7 @@ CREATE TABLE reservation (
     timetableIdx BIGINT NOT NULL COMMENT '상영 시간표 ID',
     reservationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '예매일',
     reservationStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '예매 상태 (0: 완료, 1: 취소)',
+    customReservationIdx VARCHAR(20) NOT NULL COMMENT '고유 예약 ID',
     FOREIGN KEY (userIdx) REFERENCES user(userIdx) ON DELETE CASCADE,
     FOREIGN KEY (theaterIdx) REFERENCES theater(theaterIdx) ON DELETE CASCADE,
     FOREIGN KEY (screenIdx) REFERENCES screen(screenIdx) ON DELETE CASCADE,
@@ -143,11 +144,11 @@ CREATE TABLE reservation (
 CREATE TABLE reservationSeatMapping (
     reservationSeatIdx BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '매핑 고유 ID',
     reservationIdx BIGINT NOT NULL COMMENT '예매 ID',
-    seatIdx BIGINT NOT NULL COMMENT '좌석 ID',
-    priceIdx BIGINT NOT NULL  COMMENT '가격 설정 고유 ID',
+    priceIdx BIGINT NOT NULL COMMENT '가격 설정 고유 ID',
+    seatStatusIdx BIGINT NOT NULL COMMENT '좌석 상태 ID',
     FOREIGN KEY (reservationIdx) REFERENCES reservation(reservationIdx) ON DELETE CASCADE,
-    FOREIGN KEY (seatIdx) REFERENCES seat(seatIdx) ON DELETE CASCADE,
-    FOREIGN KEY (priceIdx) REFERENCES price(priceIdx) ON DELETE CASCADE
+    FOREIGN KEY (priceIdx) REFERENCES price(priceIdx) ON DELETE CASCADE,
+    FOREIGN KEY (seatStatusIdx) REFERENCES seatStatus(seatStatusIdx) ON DELETE CASCADE
 ) COMMENT='예매-좌석 매핑 정보를 저장하는 테이블';
 
 
@@ -231,7 +232,7 @@ CREATE TABLE point (
     paymentIdx BIGINT COMMENT '결제 고유 ID (결제 관련 포인트인 경우에만 사용)',
     reviewIdx BIGINT COMMENT '리뷰 고유 ID (리뷰 관련 포인트인 경우에만 사용)',
     pointType TINYINT NOT NULL COMMENT '포인트 종류 (0: 적립, 1: 사용)',
-    pointSource VARCHAR(10) COMMENT '포인트 출처 (예: "PAYMENT", "REVIEW")',
+    pointSource VARCHAR(10) COMMENT '포인트 출처 (예: "PAYMENT", "REVIEW", "STORE")',
     pointValue INT NOT NULL COMMENT '변동된 포인트 값',
     pointDate DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '포인트 변동 일시',
     pointStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '포인트 상태 (0: 정상, 1: 취소)',
