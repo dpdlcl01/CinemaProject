@@ -635,9 +635,9 @@
                     $("#movieTmdbId").val(data.movieTmdbId);
                     $("#movieTitle").val(data.movieTitle);
                     $("#movieTitleEn").val(data.movieTitleEn);
-                    $("#movieRank").val(data.movieRank + "위" || "N/A");
-                    $("#movieReservationRate").val(data.movieReservationRate + "%");
-                    $("#movieTotalAudience").val(data.movieTotalAudience.toLocaleString() + "명");
+                    $("#movieRank").val(data.movieRank != null ? data.movieRank + "위" : "");
+                    $("#movieReservationRate").val(data.movieReservationRate != null ? data.movieReservationRate + "%" : "");
+                    $("#movieTotalAudience").val(data.movieTotalAudience != null ? data.movieTotalAudience.toLocaleString() + "명" : "");
                     $("#movieLikes").val(data.movieLikes + "개");
 
                     // 변경 가능한 정보 채우기

@@ -113,13 +113,7 @@ public class AdminDAO {
 
         try {
             user = ss.selectOne("admin.getUserById", userIdx);
-            if (user == null) {
-                System.out.println("DB에서 해당 userIdx(" + userIdx + ")를 찾을 수 없습니다.");
-            } else {
-                System.out.println("DB에서 가져온 사용자 정보: " + user.toString());
-            }
         } catch (Exception e) {
-            System.out.println("getUserById 오류 발생: " + e.getMessage());
             e.printStackTrace();
         } finally {
             ss.close();
@@ -136,7 +130,6 @@ public class AdminDAO {
             ss.commit();
             return rowsAffected > 0;
         } catch (Exception e) {
-            System.out.println("updateUser 오류 발생: " + e.getMessage());
             e.printStackTrace();
             return false;
         } finally {
@@ -156,7 +149,6 @@ public class AdminDAO {
             ss.commit();
         }
 
-        System.out.println("로그 INSERT 결과: " + result);
         return result > 0;
     }
 
