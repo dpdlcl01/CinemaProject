@@ -3,6 +3,7 @@ package mybatis.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mybatis.vo.MovieVO;
+import util.ConfigReader;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TmdbService {
-    private static final String apiKey = "8b259fc8ed83e644b26793b12795b088";
+    private static final String apiKey = ConfigReader.getTmdbMovieApiKey();
     private static final String tmdbMovieUrl = "https://api.themoviedb.org/3/movie/";
     private static final String tmdbBaseUrl = "https://api.themoviedb.org/3/search/movie";
     private static final ObjectMapper mapper = new ObjectMapper();

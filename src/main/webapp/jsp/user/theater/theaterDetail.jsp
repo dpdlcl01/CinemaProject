@@ -1,3 +1,4 @@
+<%@ page import="util.ConfigReader" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -883,7 +884,7 @@
 
 
 <!-- script 영역 -->
-<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=dc04bf5e499b3bbf3bd615ac599cba19&libraries=services"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=<%= ConfigReader.getKakaoMapApiKey() %>&libraries=services"></script>
 <script>
     /* 카카오지도 API */
     var container = document.getElementById('map');

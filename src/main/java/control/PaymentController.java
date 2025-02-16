@@ -22,13 +22,13 @@ import org.json.JSONObject;
 // MyBatis 관련 (SQL 세션 및 매퍼 인터페이스)
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-
+import util.ConfigReader;
 
 
 @WebServlet("/PaymentController")
 public class PaymentController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final String SECRET_KEY = "test_sk_P9BRQmyarYDmP1Mwz94NVJ07KzLN";
+    private static final String SECRET_KEY = ConfigReader.getTossStoreApiKey();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("doPost");

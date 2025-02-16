@@ -8,6 +8,7 @@ import mybatis.service.TmdbService;
 import mybatis.vo.MovieVO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import util.ConfigReader;
 import util.KobisCrawler;
 import util.WebDriverUtil;
 
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DbUpdateAction implements Action {
+
+    private static final String SECRET_KEY = ConfigReader.getKoficMovieApiKey(); // Kofic API Key
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -157,11 +160,14 @@ public class DbUpdateAction implements Action {
     private MovieVO fetchKoficMovieData(String movieCd) {
         try {
             // API URL 구성
-            String koficUrl = "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?"
-                    + "key=bd3c4ba69fc811ea1666684d81dff7e5&movieCd=" + movieCd;
+            // 상세 정보 API 호출을 위한 URL 구성
+            StringBuffer koficSb = new StringBuffer("https://kobis.or.kr/kobisopenapi/webservice/rest/");
+            koficSb.append("movie/searchMovieInfo.json?"); // 영화 상세 정보를 조회하는 API 엔드포인트 추가
+            koficSb.append("key="+SECRET_KEY+"&"); // KOFIC API 키 추가
+            koficSb.append("movieCd=" + movieCd); // 영화 코드 추가 (크롤링을 통해 추출한 데이터)
 
             // HTTP 요청
-            HttpURLConnection koficConn = (HttpURLConnection) new URL(koficUrl).openConnection();
+            HttpURLConnection koficConn = (HttpURLConnection) new URL(koficSb.toString()).openConnection();
             koficConn.setRequestMethod("GET");
             koficConn.setRequestProperty("Content-Type", "application/json");
 

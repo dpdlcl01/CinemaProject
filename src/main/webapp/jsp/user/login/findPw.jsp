@@ -171,11 +171,11 @@
         <table>
             <tr>
                 <td>아이디</td>
-                <td><input type="text" id="userId" name="userId" placeholder="아이디" required></td>
+                <td><input type="text" id="userId" name="userId" placeholder="아이디"  required class="inputshort"></td>
             </tr>
             <tr>
                 <td>이름</td>
-                <td><input type="text" id="userName" name="userName" placeholder="이름" required></td>
+                <td><input type="text" id="userName" name="userName" placeholder="이름"  required class="inputshort"></td>
             </tr>
             <tr>
                 <td>이메일</td>

@@ -4,6 +4,7 @@ import action.Action;
 import mybatis.dao.ReservationPaymentDAO;
 import mybatis.vo.*;
 import org.json.JSONObject;
+import util.ConfigReader;
 import util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ import java.util.UUID;
 
 public class ReservationPaymentAction implements Action {
 
-  private static final String SECRET_KEY = "test_sk_6bJXmgo28eNZ2KNapENX3LAnGKWx"; // Toss Secret Key
+  private static final String SECRET_KEY = ConfigReader.getTossReservationApiKey(); // Toss Secret Key
 
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
