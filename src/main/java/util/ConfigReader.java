@@ -39,4 +39,12 @@ public class ConfigReader {
     public static String getKoficMovieApiKey() {
         return properties.getProperty("kofic.movie.apiKey");
     }
+
+    public static String getEmailUsername() {
+        return properties.getProperty("smtp.username");
+    }
+
+    public static String getEmailUserpassword() {
+        return properties.getProperty("smtp.password");
+    }
 }
