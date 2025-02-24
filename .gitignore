@@ -39,3 +39,6 @@ build/
 
 ### API KEY ###
 /WEB-INF/classes/config.properties
+
+### DB ###
+/WEB-INF/classes/db.properties
