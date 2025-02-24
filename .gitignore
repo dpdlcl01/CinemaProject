@@ -38,7 +38,7 @@ build/
 .DS_Store
 
 ### API KEY ###
-/WEB-INF/classes/config.properties
+!**/WEB-INF/classes/config.properties
 
 ### DB ###
-/WEB-INF/classes/db.properties
+!**/WEB-INF/classes/db.properties
