@@ -8,10 +8,10 @@
         <environment id="">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-<!--              <property name="driver" value="${driver}"/>
-                <property name="url" value="${url1}"/>
-                <property name="username" value="${username1}"/>
-                <property name="password" value="${password1}"/>-->
+<!--              <property name="driver" value="${driver}"/>-->
+<!--                <property name="url" value="${url1}"/>-->
+<!--                <property name="username" value="${username1}"/>-->
+<!--                <property name="password" value="${password1}"/>-->
                 <property name="driver" value="${driver}"/>
                 <property name="url" value="${url2}"/>
                 <property name="username" value="${username2}"/>
