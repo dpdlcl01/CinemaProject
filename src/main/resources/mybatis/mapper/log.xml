@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="log">
+
+    <!-- 로그 데이터 삽입 -->
+    <select id="insertLog" parameterType="mybatis.vo.LogVO">
+        INSERT INTO log (logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue, logDate)
+        VALUES (#{logType}, #{adminIdx}, #{logTarget}, #{logInfo}, #{logPreValue}, #{logCurValue}, NOW())
+    </select>
+
+    <!-- 로그 조회 -->
+    <select id="getAllLogs" parameterType="map" resultType="mybatis.vo.LogVO">
+        SELECT *
+        FROM log
+        ORDER BY logIdx DESC
+        LIMIT #{begin, jdbcType=INTEGER}, #{end, jdbcType=INTEGER}
+    </select>
+
+    <!-- 총 게시물 수를 반환하는 기능 -->
+    <select id="getTotalCount" resultType="int">
+        select count(*)
+        from log
+    </select>
+
+  <!-- 검색 + 페이징 적용 -->
+  <select id="searchLogs" parameterType="map" resultType="mybatis.vo.LogVO">
+    SELECT *
+    FROM log
+    WHERE 1=1
+    <if test="startDate != null and startDate != ''">
+      AND logDate &gt;= #{startDate}
+    </if>
+    <if test="endDate != null and endDate != ''">
+      AND logDate &lt;= #{endDate}
+    </if>
+    <if test="searchType == 'logInfo' and searchKeyword != null and searchKeyword != ''">
+      AND logInfo LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+    <if test="searchType == 'logTarget' and searchKeyword != null and searchKeyword != ''">
+      AND logTarget LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+    ORDER BY logIdx DESC
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <!-- 총 개수 -->
+  <select id="getFilteredCount" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM log
+    WHERE 1=1
+    <if test="startDate != null and startDate != ''">
+      AND logDate &gt;= #{startDate}
+    </if>
+    <if test="endDate != null and endDate != ''">
+      AND logDate &lt;= #{endDate}
+    </if>
+    <if test="searchType == 'logInfo' and searchKeyword != null and searchKeyword != ''">
+      AND logInfo LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+    <if test="searchType == 'logTarget' and searchKeyword != null and searchKeyword != ''">
+      AND logTarget LIKE CONCAT('%', #{searchKeyword}, '%')
+    </if>
+  </select>
+
+</mapper>

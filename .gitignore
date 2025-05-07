@@ -36,3 +36,11 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### API KEY ###
+# src/main/webapp/WEB-INF/classes/config.properties
+
+### DB ###
+# src/main/webapp/WEB-INF/classes/db.properties
+
+src/main/webapp/WEB-INF/classes/

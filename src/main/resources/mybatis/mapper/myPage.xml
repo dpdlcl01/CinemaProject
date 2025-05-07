@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myPage">
+
+    <delete id="deleteFavoriteTheater" parameterType="map">
+        delete
+        from favoriteTheater
+        where userIdx=#{userIdx} and theaterIdx=#{theaterIdx}
+    </delete>
+
+    <insert id="insertFavoriteTheater" parameterType="Map">
+        insert into favoriteTheater(userIdx,theaterIdx)
+        values(#{userIdx},#{theaterIdx})
+    </insert>
+
+    <select id="favoriteTheater" parameterType="String" resultType="mybatis.vo.FavoriteTheaterVO">
+        select *
+        from favoriteTheater f inner join theater t
+        on f.theaterIdx = t.theaterIdx
+        where userIdx=#{w}
+    </select>
+
+    <select id="cancel" parameterType="String" resultType="mybatis.vo.ReservationVO" >
+        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate, r.customReservationIdx
+        ,m.movieTitle, m.moviePosterUrl,
+        h.theaterName,
+        s.screenName,
+        t.timetableStartTime,
+        p.paymentFinal
+        FROM reservation r
+        INNER JOIN timetable t ON r.timetableIdx = t.timetableIdx
+        INNER JOIN movie m ON t.movieIdx = m.movieIdx
+        inner join theater h on r.theaterIdx = h.theaterIdx
+        inner join screen s on r.screenIdx=s.screenIdx
+        inner join payment p on r.reservationIdx = p.reservationIdx
+        WHERE r.userIdx = #{idx} AND r.reservationStatus = 1
+        ORDER BY reservationIdx DESC;
+    </select>
+
+    <select id="getUser" parameterType="String" resultType="mybatis.vo.UserVO">
+        select *
+        from user
+        where userId = #{s}
+    </select>
+
+    <select id="favorite" resultType="mybatis.vo.FavoriteTheaterVO" parameterType="String">
+        SELECT
+        t.theaterName, t.theaterIdx
+        FROM favoriteTheater f
+        INNER JOIN theater t ON f.theaterIdx = t.theaterIdx
+        WHERE f.userIdx = #{s}
+    </select>
+
+    <select id="reservation" parameterType="String" resultType="mybatis.vo.ReservationVO" >
+        SELECT r.reservationIdx, r.theaterIdx, r.screenIdx, r.timetableIdx, r.reservationDate, r.customReservationIdx
+        ,m.movieTitle, m.moviePosterUrl, m.movieIdx,
+        h.theaterName,
+        s.screenName,
+        t.timetableStartTime,
+        p.paymentFinal
+        FROM reservation r
+        INNER JOIN timetable t ON r.timetableIdx = t.timetableIdx
+        INNER JOIN movie m ON t.movieIdx = m.movieIdx
+        inner join theater h on r.theaterIdx = h.theaterIdx
+        inner join screen s on r.screenIdx=s.screenIdx
+        inner join payment p on r.reservationIdx = p.reservationIdx
+        WHERE r.userIdx = #{idx} AND r.reservationStatus = 0
+        ORDER BY reservationIdx DESC;
+    </select>
+
+    <select id="getTotalPoint" parameterType="String" resultType="int">
+        SELECT SUM(pointValue) AS totalPoints
+        FROM point
+        WHERE userIdx = #{idx}
+        AND YEAR(pointDate) = YEAR(CURDATE()) and pointStatus=0 AND pointValue > 0
+    </select>
+
+    <select id ="checkPassword" parameterType="map" resultType="int">
+        SELECT userPassword FROM user WHERE userId = #{userId}
+    </select>
+
+    <select id="getUser2" parameterType="string" resultType="mybatis.vo.UserVO">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <select id="getPasswordHash" parameterType="string" resultType="string">
+        SELECT userPassword
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
+    <update id="updatePassword" parameterType="map">
+        UPDATE user
+        SET userPassword = #{newPassword}
+        WHERE userId = #{userId}
+    </update>
+</mapper>

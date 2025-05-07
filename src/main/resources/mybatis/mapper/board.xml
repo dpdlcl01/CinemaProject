@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+    <!-- 총 게시물 수를 반환하는 기능 -->
+    <select id="totalCount" resultType="int" parameterType="Map">
+        SELECT COUNT(*) FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardStatus = 0 AND b.boardType = #{bType}
+
+        <if test="keyword != null and keyword !=''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+    </select>
+
+    <!-- 원글들을 가져오는 기능 (status가 1이면 삭제된 글,
+        정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
+    <select id="list" resultType="mybatis.vo.BoardVO" parameterType="Map">
+        SELECT b.*, t.theaterName
+        FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardStatus = 0 AND b.boardType = #{bType}
+
+        <!-- 검색어가 입력된 경우 제목에 해당 검색어가 포함된 데이터만 조회 -->
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+        <!-- 지역이 선택된 경우 해당 지역의 극장만 조회 -->
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+
+        <!-- 극장이 선택된 경우 해당 극장만 조회 -->
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+
+        ORDER BY b.boardIdx DESC
+        LIMIT #{begin}, #{limit}
+    </select>
+
+    <!-- 기본키를 인자로 받아서 원하는 게시물 검색 -->
+    <select id="getBoard" parameterType="String" resultType="mybatis.vo.BoardVO">
+        SELECT b.* , t.theaterName, t.theaterRegion AS theaterRegion
+        FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE boardIdx = #{idx}
+    </select>
+
+    <!-- 이전글(현재 boardIdx보다 작은값 중에서 가장 큰 값)-->
+    <select id="getPreviousBoard" parameterType="Map" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE boardIdx &lt; #{boardIdx}
+        AND b.boardStatus = 0 AND b.boardType = #{bType}
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+        ORDER BY boardIdx DESC
+        LIMIT 1;
+    </select>
+
+    <!-- 다음글(현재 boardIdx보다 큰 값중에서 가장 작은 값)-->
+    <select id="getNextBoard" parameterType="Map" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardIdx &gt; #{boardIdx}
+        AND b.boardStatus = 0 AND b.boardType = #{bType}
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+        ORDER BY b.boardIdx ASC
+        LIMIT 1
+    </select>
+
+    <!-- 관리자 -->
+    <!-- 이벤트를 포함한 총 게시물 수를 반환하는 기능 -->
+    <select id="totalAllCount" resultType="int" parameterType="Map">
+        SELECT COUNT(*) FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        <where>
+            <if test="bType != null and bType != ''">
+                AND b.boardType = #{bType}
+            </if>
+            <if test="keyword != null and keyword !=''">
+                AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="region != null and region != ''">
+                AND t.theaterRegion = #{region}
+            </if>
+            <if test="theater != null and theater != ''">
+                AND t.theaterName = #{theater}
+            </if>
+        </where>
+    </select>
+
+    <!-- 이벤트를 포함한 목록 -->
+    <select id="AllList" resultType="mybatis.vo.BoardVO" parameterType="Map">
+        SELECT b.*, t.theaterName
+        FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+
+        <!-- 검색어가 입력된 경우 제목에 해당 검색어가 포함된 데이터만 조회 -->
+        <where>
+            <if test="bType != null and bType != ''">
+                AND b.boardType = #{bType}
+            </if>
+
+            <if test="keyword != null and keyword != ''">
+                AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+
+            <!-- 지역이 선택된 경우 해당 지역의 극장만 조회 -->
+            <if test="region != null and region != ''">
+                AND t.theaterRegion = #{region}
+            </if>
+
+            <!-- 극장이 선택된 경우 해당 극장만 조회 -->
+            <if test="theater != null and theater != ''">
+                AND t.theaterName = #{theater}
+            </if>
+        </where>
+
+        ORDER BY b.boardIdx DESC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <!-- (이벤트를 포함한) 이전글(현재 boardIdx보다 작은값 중에서 가장 큰 값)-->
+    <select id="getAllPreviousBoard" parameterType="Map" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE boardIdx &lt; #{boardIdx}
+        <if test="bType != null and bType != ''">
+            AND b.boardType = #{bType}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+        ORDER BY boardIdx DESC
+        LIMIT 1;
+    </select>
+
+    <!-- (이벤트를 포함한) 다음글(현재 boardIdx보다 큰 값중에서 가장 작은 값)-->
+    <select id="getAllNextBoard" parameterType="Map" resultType="mybatis.vo.BoardVO">
+        SELECT * FROM board b
+        LEFT JOIN theater t ON b.theaterIdx = t.theaterIdx
+        WHERE b.boardIdx &gt; #{boardIdx}
+        <if test="bType != null and bType != ''">
+            AND b.boardType = #{bType}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND b.boardTitle LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="region != null and region != ''">
+            AND t.theaterRegion = #{region}
+        </if>
+        <if test="theater != null and theater != ''">
+            AND t.theaterName = #{theater}
+        </if>
+        ORDER BY b.boardIdx ASC
+        LIMIT 1
+    </select>
+
+
+    <!-- 종료 -->
+    <update id="endNotices" parameterType="java.util.List">
+        UPDATE board
+        SET boardStatus = 2
+        WHERE boardIdx IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 게시 -->
+    <update id="startNotices" parameterType="java.util.List">
+        UPDATE board
+        SET boardStatus = 0
+        WHERE boardIdx IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="deleteNotices" parameterType="java.util.List">
+        DELETE From board
+        WHERE boardIdx IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- theaterIdx 찾기 -->
+    <select id="getTheaterIdx" parameterType="string" resultType="String">
+        SELECT theaterIdx FROM theater WHERE theaterName = #{theater}
+    </select>
+
+    <!-- 저장 -->
+    <insert id="add" parameterType="Map">
+        INSERT INTO board(adminIdx, theaterIdx, boardType,
+        boardTitle, boardContent, boardRegDate, boardExpDate, boardStatus)
+        VALUES(#{adminIdx}, #{theaterIdx}, #{boardType},
+        #{boardTitle}, #{boardContent}, NOW(), #{boardExpDate}, #{boardStatus})
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update" parameterType="Map">
+        UPDATE board
+        SET
+        theaterIdx = #{theaterIdx},
+        boardType = #{boardType},
+        boardTitle = #{boardTitle},
+        boardContent = #{boardContent},
+        boardExpDate = #{boardExpDate},
+        boardStatus = #{boardStatus}
+        WHERE boardIdx = #{boardIdx}
+    </update>
+</mapper>
+
+
+
+
+
+

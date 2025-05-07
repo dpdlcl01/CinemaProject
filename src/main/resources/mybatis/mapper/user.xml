@@ -3,8 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user">
-    <insert id="add" parameterType="Map">
-        INSERT INTO user(userId, userName, userEmail, userPassword, userPhone, userPoint, userGrade, userRegDate, userStatus)
-        VALUES (#{userId}, #{userName}, #{userEmail}, ${userPassword}, ${userPhone}, 0, normal, now(), 1)
-    </insert>
+    <select id="getPasswordByUserId" parameterType="String" resultType="String">
+        SELECT userPassword
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
+    <update id="updateUserPassword" parameterType="map">
+        UPDATE user
+        SET userPassword = #{userPw}
+        WHERE userIdx = #{userIdx}
+    </update>
+
+    <update id="updateUserStatus" parameterType="String">
+        UPDATE user
+        SET userStatus = 1
+        WHERE userId = #{userId}
+    </update>
+
+    <select id="getUserById" parameterType="String" resultType="mybatis.vo.UserVO">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+
+    <update id="updatePoint" parameterType="map">
+        UPDATE user
+        SET userPoint = userPoint + #{point}
+        WHERE userIdx = #{userIdx}
+    </update>
 </mapper>

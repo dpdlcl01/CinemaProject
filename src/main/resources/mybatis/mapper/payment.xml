@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+
+    <!-- 전체 결제 내역 개수 반환 (동적 쿼리) -->
+    <select id="countPayments" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM payment p
+        LEFT JOIN user u ON p.userIdx = u.userIdx
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <!-- 조건 없는 경우 전체 데이터를 반환 -->
+            <if test="(paymentStatus == null or paymentStatus == '') and
+              (paymentType == null or paymentType == '') and
+              (searchType == null or searchType == 'all') and
+              (paymentMonth == null or paymentMonth == '')">
+                1 = 1  <!-- 조건이 없으면 항상 참인 조건 추가 -->
+            </if>
+            <!-- 검색 대상 조건 처리 -->
+            <if test="searchType != null and searchType != 'all' and searchValue != null and searchValue != ''">
+                <choose>
+                    <when test="searchType == 'user'">
+                        AND u.userId LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'transactionId'">
+                        AND p.paymentTransactionId LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'reservation'">
+                        AND p.reservationIdx = #{searchValue}
+                    </when>
+                    <when test="searchType == 'product'">
+                        AND p.productIdx = #{searchValue}
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 결제 상태 검색 조건 -->
+            <if test="paymentStatus != null and paymentStatus != ''">
+                AND p.paymentStatus = #{paymentStatus}
+            </if>
+
+            <!-- 결제 종류 검색 조건 -->
+            <if test="paymentType != null and paymentType != ''">
+                AND p.paymentType = #{paymentType}
+            </if>
+
+            <!-- 결제 월 검색 조건 -->
+            <if test="paymentMonth != null and paymentMonth != ''">
+                AND DATE_FORMAT(p.paymentDate, '%Y-%m') = #{paymentMonth}
+            </if>
+        </trim>
+    </select>
+
+    <!-- 결제 내역 목록 반환 (동적 쿼리) -->
+    <select id="getPaymentList" resultType="mybatis.vo.PaymentVO" parameterType="java.util.Map">
+        SELECT p.*, u.userId
+        FROM payment p
+        LEFT JOIN user u ON p.userIdx = u.userIdx
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <!-- 조건 없는 경우 전체 데이터를 반환 -->
+            <if test="(paymentStatus == null or paymentStatus == '') and
+                  (paymentType == null or paymentType == '') and
+                  (searchType == null or searchType == 'all') and
+                  (paymentMonth == null or paymentMonth == '')">
+                1 = 1
+            </if>
+            <!-- 검색 대상 조건 처리 -->
+            <if test="searchType != null and searchType != 'all' and searchValue != null and searchValue != ''">
+                <choose>
+                    <when test="searchType == 'user'">
+                        AND u.userId LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'transactionId'">
+                        AND p.paymentTransactionId LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'reservation'">
+                        AND p.reservationIdx = #{searchValue}
+                    </when>
+                    <when test="searchType == 'product'">
+                        AND p.productIdx = #{searchValue}
+                    </when>
+                </choose>
+            </if>
+            <!-- 결제 상태 검색 조건 -->
+            <if test="paymentStatus != null and paymentStatus != ''">
+                AND p.paymentStatus = #{paymentStatus}
+            </if>
+            <!-- 결제 종류 검색 조건 -->
+            <if test="paymentType != null and paymentType != ''">
+                AND p.paymentType = #{paymentType}
+            </if>
+            <!-- 결제 월 검색 조건 -->
+            <if test="paymentMonth != null and paymentMonth != ''">
+                AND DATE_FORMAT(p.paymentDate, '%Y-%m') = #{paymentMonth}
+            </if>
+        </trim>
+        ORDER BY p.paymentDate DESC
+        LIMIT #{begin}, #{limit}
+    </select>
+
+
+
+    <!-- 결제 idx를 받아서 해당 결제 정보 반환 -->
+    <!-- 영화 결제 내역 상세 정보를 반환하는 쿼리 -->
+    <select id="getPaymentByIdx" parameterType="String" resultMap="paymentResultMap">
+        SELECT
+        p.paymentIdx, p.paymentType, p.userIdx, p.reservationIdx, p.paymentQuantity, p.paymentMethod, p.paymentTotal,
+        p.paymentDiscount, p.paymentFinal, p.paymentTransactionId, p.paymentDate, p.paymentStatus, p.paymentCancelDate,
+        m.movieTitle, t.theaterName, s.screenName,
+        CONCAT( DATE_FORMAT(tt.timetableStartTime, '%Y-%m-%d '),
+        DATE_FORMAT(tt.timetableStartTime, '%H:%i'), ' ~ ',
+        DATE_FORMAT(tt.timetableEndTime, '%H:%i') ) AS showTime,
+        GROUP_CONCAT(se.seatNumber ORDER BY se.seatNumber SEPARATOR ', ') AS seatNumbers
+        FROM payment p
+        JOIN reservation r ON p.reservationIdx = r.reservationIdx
+        JOIN timetable tt ON r.timetableIdx = tt.timetableIdx
+        JOIN movie m ON tt.movieIdx = m.movieIdx
+        JOIN theater t ON r.theaterIdx = t.theaterIdx
+        JOIN screen s ON r.screenIdx = s.screenIdx
+        LEFT JOIN reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
+        LEFT JOIN seatStatus ss ON rsm.seatStatusIdx = ss.seatStatusIdx
+        LEFT JOIN seat se ON ss.seatIdx = se.seatIdx
+        WHERE p.paymentIdx = #{paymentIdx}
+        AND p.paymentType = 1
+        GROUP BY p.paymentIdx, m.movieTitle, t.theaterName, s.screenName, showTime,
+        p.paymentQuantity, p.paymentMethod, p.paymentTotal, p.paymentDiscount, p.paymentFinal,
+        p.paymentTransactionId, p.paymentDate, p.paymentStatus, p.paymentCancelDate
+    </select>
+
+    <!-- ResultMap 정의 -->
+    <resultMap id="paymentResultMap" type="mybatis.vo.PaymentVO">
+        <id property="paymentIdx" column="paymentIdx"/>
+        <result property="paymentType" column="paymentType"/>
+        <result property="userIdx" column="userIdx"/>
+        <result property="reservationIdx" column="reservationIdx"/>
+        <result property="paymentQuantity" column="paymentQuantity"/>
+        <result property="paymentMethod" column="paymentMethod"/>
+        <result property="paymentTotal" column="paymentTotal"/>
+        <result property="paymentDiscount" column="paymentDiscount"/>
+        <result property="paymentFinal" column="paymentFinal"/>
+        <result property="paymentTransactionId" column="paymentTransactionId"/>
+        <result property="paymentDate" column="paymentDate"/>
+        <result property="paymentStatus" column="paymentStatus"/>
+        <result property="paymentCancelDate" column="paymentCancelDate"/>
+
+        <!-- 영화 섹션 정보: showTime로 결합된 시간 -->
+        <result property="movieTitle" column="movieTitle"/>
+        <result property="theaterName" column="theaterName"/>
+        <result property="screenName" column="screenName"/>
+        <result property="showTime" column="showTime"/>
+        <result property="seatNumbers" column="seatNumbers"/>
+    </resultMap>
+
+
+    <!-- 결제 idx를 받아 해당 상품 결제 내역을 반환 (상품 결제) -->
+    <select id="getProductPaymentByIdx" parameterType="String" resultMap="productPaymentResultMap">
+        SELECT
+        p.paymentIdx, p.paymentType, p.userIdx, p.productIdx, p.paymentQuantity,
+        p.paymentMethod, p.paymentTotal, p.paymentDiscount, p.paymentFinal,
+        p.paymentTransactionId, p.paymentDate, p.paymentCancelDate, pr.productName
+        FROM payment p
+        JOIN product pr ON p.productIdx = pr.productIdx
+        WHERE p.paymentIdx = #{paymentIdx}
+        AND p.paymentType = 2
+    </select>
+
+    <resultMap id="productPaymentResultMap" type="mybatis.vo.PaymentVO">
+        <id property="paymentIdx" column="paymentIdx"/>
+        <result property="paymentType" column="paymentType"/>
+        <result property="userIdx" column="userIdx"/>
+        <result property="productIdx" column="productIdx"/>
+        <result property="paymentQuantity" column="paymentQuantity"/>
+        <result property="paymentMethod" column="paymentMethod"/>
+        <result property="paymentTotal" column="paymentTotal"/>
+        <result property="paymentDiscount" column="paymentDiscount"/>
+        <result property="paymentFinal" column="paymentFinal"/>
+        <result property="paymentTransactionId" column="paymentTransactionId"/>
+        <result property="paymentDate" column="paymentDate"/>
+        <result property="paymentCancelDate" column="paymentCancelDate"/>
+
+        <!-- 상품 결제 관련 정보 -->
+        <result property="productName" column="productName"/>
+    </resultMap>
+
+
+
+    <insert id="insertPayment" parameterType="mybatis.vo.PaymentVO" useGeneratedKeys="true" keyProperty="paymentIdx">
+        INSERT INTO payment (
+        userIdx, paymentType, productIdx, paymentQuantity, paymentMethod,
+        paymentTotal, paymentDiscount, paymentFinal, paymentTransactionId,
+        paymentDate, paymentStatus
+        ) VALUES (
+        #{userIdx}, #{paymentType}, #{productIdx}, #{paymentQuantity}, #{paymentMethod},
+        #{paymentTotal}, #{paymentDiscount}, #{paymentFinal}, #{paymentTransactionId},
+        NOW(), #{paymentStatus}
+        )
+    </insert>
+
+    <select id="totalSelect" resultType="mybatis.vo.PaymentVO">
+        SELECT p.*, r.productName
+        FROM payment p
+        LEFT JOIN product r
+        ON p.productIdx = r.productIdx;
+    </select>
+
+
+</mapper>
+
+
+
+
+
+

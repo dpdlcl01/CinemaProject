@@ -1,15 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 25. 1. 13.
-  Time: 오후 10:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
     <jsp:include page="../common/head.jsp"/>
-    <title>Title</title>
     <style>
       *{
         margin: 0;
@@ -49,7 +41,7 @@
 
       }
 
-      img{
+      #center img{
         width: 280px; /* 이미지의 너비 */
         height: 340px; /* 이미지의 높이 */
         object-fit: cover; /* 비율 유지하며 크기 맞추기 */
@@ -69,12 +61,7 @@
       #info>.info a{
         color: #01738b;
       }
-      .red{
-        color: red;
-      }
-      .gray{
-        color: gray;
-      }
+
       .front{
 
         width: 120px;
@@ -88,7 +75,8 @@
       }
       #present{
         display: flex;
-        border: 1px solid #503396;
+        border-radius: 5px;
+        border: 1px solid #339eb2;
         color: black;
         width: 284px;
         height: 46px;
@@ -96,13 +84,16 @@
         align-items: center; /* 세로 중앙 정렬 */
         justify-content: center;
         margin: 10px;
-
+      }
+      #present:hover{
+        border: 1px solid #1e7f9a;
+        background-color: #ebebeb;
       }
       #buy{
+        border-radius: 5px;
         display: flex;
-        border: 1px solid #503396;
-        background-color: #503396;
-        color: gainsboro;
+        background-color: #339eb2;
+        color: #fff;
         width: 284px;
         height: 46px;
         text-decoration:none;
@@ -110,14 +101,29 @@
         justify-content: center;
         margin: 10px;
       }
+
+      #buy:hover{
+        background-color: #1e7f9a;
+      }
       .inputBt{
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        background: #fff;
+        color: #333;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        /* transition: all 0.2s ease; */
       }
       input{
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         text-align: center;
+        border: 1px solid #ddd;
       }
       #price{
         display: flex;
@@ -127,10 +133,10 @@
         width: 1100px;
         height: 39px;
         background-color: white;
-
         border: 1px solid lightgray;
         border-radius: 8px;
       }
+
       #refund{
         margin-top: 50px;
       }
@@ -148,7 +154,58 @@
       i{
         text-indent: -9999px;
       }
+      #bt>div{
+        margin-left: 400px;
+      }
+      #bt>div>em, #bt>div>span{
+        color: #339eb2;
+        font-weight: 600;
+        font-size: 20px;
+      }
 
+      #notice {
+        display: none; /* 초기 상태에서 다이얼로그 숨김 */
+      }
+      .ui-dialog{
+        padding: 0;
+        font-weight: 600;
+      }
+      .ui-dialog .ui-btn-div{
+        margin: auto;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .ui-dialog button{
+        width: 80px;
+        height: 40px;
+        border: 1px solid #339eb2;
+        background-color: #339eb2;
+        color: white;
+        border-radius: 3px;
+      }
+      .ui-dialog-titlebar {
+        background-color: #339eb2;  /* 타이틀 배경색 */
+        color: white; /* 텍스트 색상 */
+        border: 2px solid #339eb2;
+      }
+      .ui-dialog-content {
+        color: black;
+        font-size: 14px;
+        padding-bottom: 10px; /* 콘텐츠와 버튼 사이 여백 */
+      }
+      .ui-dialog-titlebar-close {
+        display: none; /* 닫기 버튼 숨김 */
+      }
+      /* 다이얼로그 버튼 가운데 정렬 */
+      .ui-dialog-buttonpane {
+        text-align: center !important; /* 버튼 가운데 정렬 */
+        border-top: none; /* 구분선 제거 */
+        padding-top: 10px; /* 버튼과 콘텐츠 사이 여백 */
+      }
+      .ui-dialog-buttonset {
+        float: none !important; /* 기본 float 제거 */
+        display: inline-block; /* 가운데 정렬 */
+      }
     </style>
   </head>
   <body>
@@ -160,59 +217,65 @@
     <div class="inner-wrap">
       <div class="location">
         <span>Home</span>
-        <span>스토어</span>
-        <span class="pageUtila">상세보기</span>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>스토어</label>
+        <img src="https://img.megabox.co.kr/static/pc/images/common/bg/bg-location-arr.png"/>
+        <label>상세보기</label>
       </div>
     </div>
   </div>
-  <div id="contents">
+  <div class="contents">
 
-
-    <h1>일반관람권</h1>
-    <div id="category">카테고리</div>
+    <h1>${requestScope.pName}</h1>
+    <div id="category">${requestScope.pCategory}</div>
     <div id="wrap">
 
 
       <article id="center">
-        <img src="../../../img/m3.png">
+        <img src="${pageContext.request.contextPath}/css/user/images/KangImg/${requestScope.pImg}">
         <article id="info">
           <div class="info">
             <p class="front">사용극장</p>
             <article>
               <a href="#">사용가능극장</a>
-              <p class="red">※일부 특별관 및 특별석은 차액지불과 상관없이 이용 불가합니다.</p>
             </article>
           </div>
           <div class="info">
             <p class="front">유효기간</p>
             <article>
               <p>구매일로부터 24개월 이내 사용 가능</p>
-              <p class="gray">예매 가능 유효기간은 구매일로부터 2년입니다.</p>
             </article>
           </div>
+
+
           <div class="info">
-            <p class="front">판매수량</p>
-            <p>1회 8개 구매가능</p>
+            <p class="front">남은수량</p>
+            <p>${requestScope.productStock}개</p>
           </div>
+
+
           <div class="info">
             <p class="front">구매 후 취소</p>
             <p>구매일로부터 10일 이내 취소 가능하며, 부분취소는 불가능합니다.</p>
           </div>
-          <hr>
+          <hr width="820px">
           <article id="price">
             <p class="front">수량/금액</p>
             <div id="bt">
-              <button type="button" class="inputBt">-</button>
-              <input type="text" value="1" readonly/>
-              <button type="button" class="inputBt">+</button>
-              <em>13000</em>
-              <span>원</span>
+              <button type="button" class="inputBt" onclick="minusQuant('${requestScope.pPrice}')">-</button>
+              <input type="text" value="1" readonly id="quant"/>
+              <button type="button" class="inputBt" id="plus" onclick="plusQuant('${requestScope.pPrice}')">+</button>
+              <div>
+                <em id="priceEm">${requestScope.pPrice}</em>
+                <span>원</span>
+              </div>
+
             </div>
 
           </article>
           <div id="btnDiv">
-            <a href="#" id="present">선물</a>
-            <a href="#" id="buy">구매</a>
+            <a href="#" id="present" onclick="addCart()">장바구니</a>
+            <a href="#" id="buy" onclick="buy()">구매</a>
           </div>
 
         </article>
@@ -242,10 +305,108 @@
       </div>
     </div>
   </div>
+
+  <form method="post" action="" id="form0">
+    <input type="hidden" name="productImg" id="productImg" value="${requestScope.pImg}">
+    <input type="hidden" name="productName" id="productName" value="${requestScope.pName}">
+    <input type="hidden" name="productCategory" id="productCategory" value="${requestScope.pCategory}">
+    <input type="hidden" name="productQuant" id="productQuant">
+    <input type="hidden" name="productPrice" id="productPrice">
+    <input type="hidden" name="pIdx" id="productIdx" value="${requestScope.pIdx}">
+  </form>
+
+  <article id="notice" title="알림">
+    <p>
+     장바구니에 담았습니다.
+    </p>
+    <div id="btnDiv2" class="ui-btn-div">
+      <button type="button" > 확인 </button>
+    </div>
+  </article>
+
   <footer>
     <jsp:include page="../common/footer.jsp"></jsp:include>
   </footer>
+
   <script>
+
+    form0=document.getElementById("form0");
+    let productPrice;
+    let productQuant;
+    let productStock=${requestScope.productStock};
+    const ppp=${requestScope.pPrice};
+
+    function validateQuantity() {
+      if (typeof productQuant === "undefined") {
+        productQuant = "1";
+      }
+
+      if (productQuant > productStock) {
+        alert("주문수량이 남은수량보다 많습니다");
+
+        pQuant.value = 1;
+        productQuant = pQuant.value;
+        productPrice = ppp;
+        price.innerHTML = productPrice;
+
+        return false; // 🚨 유효성 검사 실패 시 false 반환
+      }
+
+      return true; // ✅ 유효성 검사 통과 시 true 반환
+    }
+
+
+    function addCart() {
+
+      if (!validateQuantity()) return;
+      $('#notice').dialog({
+        modal: true, // 모달 설정
+      });
+      document.getElementById("productQuant").value=productQuant;
+      let Idx = document.getElementById("productIdx").value;
+
+      console.log(Idx);
+      form0.action="${pageContext.request.contextPath}/UserController?type=cart";
+
+
+      form0.submit();
+
+    }
+
+    function buy() {
+
+      if (!validateQuantity()) return;
+      if (typeof productPrice === "undefined") {
+        productPrice=document.getElementById("priceEm").innerHTML;
+      }
+      /*남은 수량보다 프로덕트 퀀트가 크면 리턴*/
+
+      document.getElementById("productQuant").value=productQuant;
+      document.getElementById("productPrice").value=productPrice;
+
+      <%--${pageContext.request.contextPath}/UserController?type=payment--%>
+      form0.action="${pageContext.request.contextPath}/UserController?type=payment";
+
+      console.log("현재 바이 함수가 실행되었습니다,.");
+      form0.submit();
+    }
+    
+    let pQuant=document.getElementById("quant");
+    let price = document.getElementById("priceEm");
+    function plusQuant(p) {
+      pQuant.value = Math.min(parseInt(pQuant.value, 10) + 1, 10);/*minus 함수 참고*/
+      price.innerHTML= pQuant.value*parseInt(p);
+
+      productQuant=pQuant.value
+      productPrice=pQuant.value*parseInt(p);
+    }
+    function minusQuant(p) {
+      pQuant.value = Math.max(parseInt(pQuant.value, 10) - 1, 1);/*10진법 숫자로 문자열 변환 이후 1이하로 내려가지 않게 하는 구문*/
+      price.innerHTML= pQuant.value*parseInt(p);
+
+      productQuant=pQuant.value
+      productPrice=pQuant.value*parseInt(p);
+    }
     function view1() {
       const button = document.getElementById('refund');
       const hiddenDiv = document.getElementById('hideDiv1');

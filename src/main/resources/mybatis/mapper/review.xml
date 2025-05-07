@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+
+    <!-- 총 리뷰 수를 반환하는 기능 -->
+    <select id="getTotalCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM review
+        WHERE movieIdx = #{movieIdx}
+        AND reviewStatus = 0
+    </select>
+
+    <!--  원글들을 가져오는 기능 (status가 1이면 삭제된 글,
+		정렬로 가장 최근의 글을 맨 위로 올라오게 해야 함!) -->
+    <select id="getAllList" parameterType="Map" resultType="mybatis.vo.ReviewVO">
+        SELECT * FROM (
+        SELECT @RN := @RN + 1 AS rnum, r.*, u.userId
+        FROM review r INNER JOIN user u
+        ON r.userIdx = u.userIdx, (SELECT @RN := 0) rn
+        WHERE reviewStatus = 0 AND movieIdx = #{movieIdx}
+        ORDER BY reviewDate DESC
+        ) a
+        WHERE a.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!-- 해당 영화 관람 여부 확인 -->
+    <select id="checkWatchedMovie" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*)
+        FROM watchedMovie
+        WHERE userIdx = #{userIdx}
+        AND movieIdx = #{movieIdx}
+    </select>
+
+    <!-- 이미 작성한 리뷰인지 확인 -->
+    <select id="checkReviewWritten" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*)
+        FROM review
+        WHERE userIdx = #{userIdx}
+        AND movieIdx = #{movieIdx}
+    </select>
+
+    <!-- 리뷰 작성 -->
+    <insert id="writeReview" parameterType="mybatis.vo.ReviewVO">
+        INSERT INTO review(userIdx, movieIdx, reviewRating, reviewContent, reviewDate, reviewStatus)
+        VALUES (#{userIdx}, #{movieIdx}, #{reviewRating}, #{reviewContent}, NOW(), 0)
+    </insert>
+
+    <!-- 리뷰 작성 완료시 100포인트 적립 -->
+    <insert id="plusPointByReview" parameterType="java.util.Map">
+        INSERT INTO point(userIdx, reviewIdx, pointType, pointSource, pointValue, pointDate, pointStatus)
+        VALUES (#{userIdx}, #{reviewIdx}, 1, 'REVIEW', 100, NOW(), 0)
+    </insert>
+
+
+</mapper>

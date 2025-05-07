@@ -1,27 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>로그인</title>
     <style>
-        /* Body 기본 설정 */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
         /* Dialog Container */
-        .nonmember-dialog-container {
+        .custom-dialog-container {
             width: 700px;
+            max-width: 700px;
             height: 480px;
+            max-height: 480px;
             background-color: #fff;
             border-radius: 3px;
             overflow: hidden;
@@ -30,9 +16,18 @@
             flex-direction: column;
         }
 
+        .custom-body {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        .content-body {
+            height: auto !important;
+        }
+
         /* Header */
-        .dialog-header {
-            background-color: #6a5acd;
+        .custom-dialog-header {
+            background-color: #339eb2;
             color: white;
             padding: 15px;
             font-size: 18px;
@@ -40,36 +35,37 @@
         }
 
         /* Tabs */
-        .tabs {
+        .custom-tabs {
             display: flex;
+            width: 100%;
             background-color: #f4f4f4;
             border-bottom: 1px solid #ddd;
         }
 
-        .tab {
+        .custom-tab {
             flex: 1;
             text-align: center;
             padding: 10px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            color: #6a5acd;
+            color: #339eb2;
             border-bottom: 2px solid transparent;
         }
 
-        .tab.active {
+        .custom-tab.active {
             color: #000;
-            border-bottom: 2px solid #6a5acd;
+            border-bottom: 2px solid #1e7f9a
         }
 
         /* Content */
-        .content#member{
+        .custom-content #customMemberLogin {
             display: none;
             flex: 1;
             padding: 20px;
         }
 
-        .content.active#member{
+        .tab-content .active#customMemberLogin {
             display: grid;
             grid-template-columns: 1fr 1fr; /* 좌우 1:1 비율 */
             gap: 20px;
@@ -77,8 +73,8 @@
         }
 
         /* 로그인 영역 */
-        .login-container input,
-        .login-container button {
+        .custom-login-container input,
+        .custom-login-container button {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -86,35 +82,35 @@
             box-sizing: border-box;
         }
 
-        .login-container button {
-            background-color: #6a5acd;
+        .custom-login-container button {
+            background-color: #339eb2;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
-        .login-container button:hover {
-            background-color: #5a4cad;
+        .custom-login-container button:hover {
+            background-color: #1e7f9a;
         }
 
-        .login-footer {
+        .custom-login-footer {
             text-align: center;
             margin-top: 10px;
         }
 
-        .login-footer a {
+        .custom-login-footer a {
             margin: 0 5px;
-            color: #6a5acd;
+            color: #339eb2;
             text-decoration: none;
         }
 
-        .login-footer a:hover {
+        .custom-login-footer a:hover {
             text-decoration: underline;
         }
 
         /* 이미지 영역 */
-        .image-container {
+        .custom-image-container {
             width: 100%;
             height: 100%;
             display: flex;
@@ -122,22 +118,20 @@
             overflow: hidden;
         }
 
-        .image-container img {
+        .custom-image-container img {
             max-width: 100%;
             max-height: 100%;
             object-fit: cover;
         }
 
         /* 비회원 로그인 섹션 */
-
-        /* Content */
-        .content#nonmember{
+        .custom-content #customNonMemberLogin {
             display: none;
             height: 100%;
             padding: 20px 20px 0px 20px;
         }
 
-        .content.active#nonmember {
+        .tab-content .active#customNonMemberLogin {
             display: grid; /* 그리드 레이아웃 */
             grid-template-columns: 1fr 1fr; /* 좌우 1:1 비율 */
             gap: 20px; /* 좌우 간격 */
@@ -145,12 +139,12 @@
         }
 
         /* 공통 폰트 크기 */
-        .info-box, .info-box-table td {
+        .custom-info-box, .custom-info-box-table td {
             font-size: 12px; /* 전체적으로 폰트 크기 줄임 */
         }
 
         /* 왼쪽 테이블 컨테이너 */
-        .info-box-left {
+        .custom-info-box-left {
             display: flex;
             flex-direction: column;
             justify-content: space-between; /* 상하 간격 균일 */
@@ -162,25 +156,25 @@
         }
 
         /* 테이블 스타일 */
-        .info-box-table {
+        .custom-info-box-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .info-box-table td {
+        .custom-info-box-table td {
             padding: 6px; /* 패딩 축소 */
             font-size: 12px; /* 폰트 크기 축소 */
             vertical-align: middle; /* 텍스트 가운데 정렬 */
             background-color: #f5f5f5; /* 기본 회색 배경 */
         }
 
-        .info-box-table td:first-child {
+        .custom-info-box-table td:first-child {
             font-weight: bold;
             width: 30%; /* 첫 번째 열 폭 조정 */
             text-align: left;
         }
 
-        .info-box-table input {
+        .custom-info-box-table input {
             width: 100%;
             padding: 6px; /* 패딩 축소 */
             font-size: 12px; /* 폰트 크기 축소 */
@@ -190,9 +184,15 @@
             background-color: white; /* Input만 흰색 배경 */
         }
 
-        .info-box-table button {
+        .custom-info-box-table input#authcode{
+            width: 130px;
+        }
+
+        .custom-info-box-table button {
+            height: 32px;
+            width: 80px;
             padding: 6px 10px;
-            background-color: #6a5acd;
+            background-color: #339eb2;
             color: white;
             border: none;
             border-radius: 5px;
@@ -200,12 +200,12 @@
             font-size: 12px; /* 버튼 폰트 크기 축소 */
         }
 
-        .info-box-table button:hover {
-            background-color: #5a4cad;
+        .custom-info-box-table button:hover {
+            background-color: #1e7f9a
         }
 
         /* 오른쪽 정보 박스 */
-        .info-box {
+        .custom-info-box {
             background-color: #f9f9f9;
             border-radius: 10px;
             padding: 10px; /* 패딩 축소 */
@@ -213,43 +213,43 @@
             height: 100%; /* 부모 높이에 맞춤 */
         }
 
-        .info-box h3 {
+        .custom-info-box h3 {
             font-size: 14px; /* 제목 크기 유지 */
             color: #333;
             margin-bottom: 10px;
         }
 
-        .info-box .radio-group {
+        .custom-info-box .radio-group {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
 
-        .info-box .radio-group label {
+        .custom-info-box .radio-group label {
             font-size: 12px; /* 라디오 버튼 폰트 축소 */
             color: #666;
         }
 
-        .info-box p {
+        .custom-info-box p {
             font-size: 12px; /* 설명 폰트 축소 */
             color: #555;
             margin-bottom: 8px;
         }
 
-        .info-box p:last-child {
+        .custom-info-box p:last-child {
             font-size: 10px; /* 마지막 문구 크기 더 축소 */
             color: #888;
         }
 
         /* 확인 버튼 스타일 */
-        .submit-button-container {
+        .custom-submit-button-container {
             grid-column: span 2; /* 버튼이 두 열을 차지 */
             text-align: center; /* 가운데 정렬 */
         }
 
-        .submit-button-container button {
+        .custom-submit-button-container button {
             padding: 8px 16px;
-            background-color: #6a5acd;
+            background-color: #339eb2;
             color: white;
             border: none;
             border-radius: 5px;
@@ -257,118 +257,304 @@
             cursor: pointer;
         }
 
-        .submit-button-container button:hover {
-            background-color: #5a4cad;
+        .custom-submit-button-container button:hover {
+            background-color: #1e7f9a
+        }
+
+        .btn-primary {
+            margin-top: 70px;
+        }
+
+        .input-size {
+            width: 130px !important;
+        }
+
+        h5 {
+            color: #fff;
+        }
+
+        h3 {
+            border-bottom: 0 !important;
         }
     </style>
 </head>
 <body>
-<div class="nonmember-dialog-container">
-    <div class="dialog-header">
-        <div class="dialog-title">로그인</div>
-    </div>
-    <div class="tabs">
-        <div class="tab active" data-target="member">회원 로그인</div>
-        <div class="tab" data-target="nonmember">비회원 로그인</div>
-    </div>
-    <!-- 회원 로그인 -->
-    <div class="content active" id="member">
-        <div class="login-container">
-            <input type="text" class="login-input" placeholder="아이디">
-            <input type="password" class="login-input" placeholder="비밀번호">
-            <button class="login-button">로그인</button>
-            <div class="login-footer">
-                <a href="#">ID/PW 찾기</a>
-                <a href="#">회원가입</a>
-                <a href="#">비회원 예매확인</a>
+<div class="modal fade" id="customLoginModal" tabindex="-1" aria-labelledby="customLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content content-body">
+            <!-- 모달 헤더 -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="customLoginModalLabel">로그인</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-        <!-- 이미지 영역 -->
-        <div class="image-container">
-            <%--        <button class="close-button" onclick="closeDialog()"></button>--%>
-            <img src="${pageContext.request.contextPath}/css/user/images/event/렛미인포스터.png" alt="이미지">
-        </div>
-    </div>
-    <!-- 비회원 로그인 -->
-    <div class="content" id="nonmember">
-        <!-- 왼쪽: 테이블 형식 -->
-        <div class="info-box-left">
-            <table class="info-box-table">
-                <tr>
-                    <td>이름</td>
-                    <td><input type="text" placeholder="이름"></td>
-                </tr>
-                <tr>
-                    <td>생년월일</td>
-                    <td><input type="text" placeholder="생년월일 앞 6자리"></td>
-                </tr>
-                <tr>
-                    <td>휴대폰 번호</td>
-                    <td>
-                        <div style="display: flex; gap: 10px;">
-                            <input type="text" placeholder="'-' 없이 입력" style="flex: 1;">
-                            <button>인증요청</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>인증번호</td>
-                    <td>
-                        <div style="display: flex; gap: 10px;">
-                            <input type="text" placeholder="인증번호">
-                            <span style="color: red; font-size: 12px;">3:00</span>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>비밀번호</td>
-                    <td><input type="password" placeholder="비밀번호 (숫자 4자리)"></td>
-                </tr>
-                <tr>
-                    <td>비밀번호 확인</td>
-                    <td><input type="password" placeholder="비밀번호 (숫자 4자리) 확인"></td>
-                </tr>
-            </table>
-        </div>
 
-        <!-- 오른쪽: 개인정보 처리방침 -->
-        <div class="info-box">
-            <h3>비회원 개인정보 처리방침</h3>
-            <p><strong>수집목적:</strong> 비회원 예매 서비스 제공, 이용자 식별, 구매 및 결제</p>
-            <p><strong>수집항목:</strong> 이름, 생년월일, 휴대폰 번호, 비밀번호</p>
-            <p><strong>보유기간:</strong> 관람 또는 취소 후 7일 이내</p>
-            <div class="radio-group">
-                <label><input type="radio" name="agree"> 동의</label>
-                <label><input type="radio" name="agree"> 미동의</label>
+            <!-- 모달 바디 -->
+            <div class="modal-body custom-body">
+                <!-- 탭 메뉴 -->
+
+                <div class="custom-tabs nav nav-tabs d-flex justify-content-center">
+                    <a class="custom-tab nav-link active" data-bs-toggle="tab" href="#customMemberLogin">회원 로그인</a>
+                    <a class="custom-tab nav-link" data-bs-toggle="tab" href="#customNonMemberLogin">비회원 로그인</a>
+                </div>
+
+
+                <!-- 탭 컨텐츠 -->
+                <div class="tab-content mt-3">
+                    <!-- 회원 로그인 -->
+                    <div class="tab-pane fade show active" id="customMemberLogin">
+                        <div class="custom-login-container">
+                            <form method="post" id="loginForm1">
+                                <input type="hidden" name="type" value="action">
+                                <input type="text" id="userId1" name="userId" class="custom-login-input form-control" placeholder="아이디" required>
+                                <input type="password" id="userPassword1" name="userPassword" class="custom-login-input form-control mt-3" placeholder="비밀번호">
+                                <button type="submit" class="custom-login-button btn btn-primary mt-3">로그인</button>
+                            </form>
+                            <div class="login-footer mt-3">
+                                <a href="${pageContext.request.contextPath}/UserController?type=goidfind">ID/PW 찾기</a>
+                                <a href="${pageContext.request.contextPath}/UserController?type=register" class="ms-3">회원가입</a>
+                                <a href="${pageContext.request.contextPath}/UserController?type=guestReservationCheck" class="ms-3 guest-booking-btn">비회원 예매확인</a>
+                            </div>
+                        </div>
+                        <div class="custom-image-container text-center mt-3">
+                            <img src="https://img.megabox.co.kr/SharedImg/frontBanner/2025/02/03/Gj9RZJkAG1LyRddiMjE1yzQqxAakOdKw.jpg" alt="이미지" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <!-- 비회원 로그인 -->
+                    <div class="tab-pane fade custom-content" id="customNonMemberLogin">
+                        <div class="custom-info-box-left">
+                            <table class="custom-info-box-table table">
+                                <tr>
+                                    <td>이름</td>
+                                    <td><input type="text" id="userName" class="form-control" placeholder="이름"></td>
+                                </tr>
+                               <tr>
+                                    <td>이메일</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <input type="text" id="userEmail" name="userEmail" class="form-control input-size" placeholder="이메일">
+                                            <button class="btn btn-outline-primary" onclick="sendAuthCode()">인증요청</button>
+                                            <input type="hidden" id="authcodecheck" value="1">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>인증번호</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+<%--                                            <input type="text" class="form-control" placeholder="인증번호">--%>
+                                                <input type="text" id="authcode" class="form-control" name="authcode" placeholder="인증번호">
+                                                <button type="button" onclick="verifyAuthCode()">인증확인</button>
+                                                <script>
+                                                    function sendAuthCode() {
+                                                        const emailPart1 = document.getElementById("userEmail").value;
+                                                        // console.log("이메일파트:"+emailPart1);
+
+                                                        if (emailPart1 === "") {
+                                                            alert("이메일을 입력해주세요.");
+                                                            return;  // 이메일이 없으면 함수 종료
+                                                        }
+
+                                                        const email = emailPart1
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "${pageContext.request.contextPath}/EmailServlet",
+                                                            data: {
+                                                                actionType: "validateUser",
+                                                                email: email
+                                                            },
+                                                            success: function (response) {
+                                                                showLoginNoticeModal(response.message);
+                                                            },
+                                                            error: function (response) {
+                                                                showLoginNoticeModal("서버 통신 중 오류가 발생했습니다.");
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
+<%--                                            <span class="text-danger" style="font-size: 12px;">3:00</span>--%>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>비밀번호</td>
+                                    <td><input type="password" id="userPasswordPassword" class="form-control" placeholder="비밀번호 (숫자 4자리)"></td>
+                                </tr>
+                                <tr>
+                                    <td>비밀번호 확인</td>
+                                    <td><input type="password" id="userPasswordConfirm" class="form-control" placeholder="비밀번호 (숫자 4자리) 확인"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- 개인정보 처리방침 -->
+                        <div class="custom-info-box">
+                            <h3>비회원 개인정보 처리방침</h3>
+                            <p><strong>수집목적:</strong> 비회원 예매 서비스 제공, 이용자 식별, 구매 및 결제</p>
+                            <p><strong>수집항목:</strong> 이름, 이메일, 비밀번호</p>
+                            <p><strong>보유기간:</strong> 관람 또는 취소 후 7일 이내</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="customAgree"> 동의</label>
+                                <label><input type="radio" name="customAgree"> 미동의</label>
+                            </div>
+                            <p style="font-size: 10px; color: #888;">
+                                정보 수집에 동의하지 않을 경우, 비회원 예매 서비스를 이용할 수 없습니다.
+                            </p>
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary" id="nonMember" disabled>확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p style="font-size: 10px; color: #888;">
-                정보 수집에 동의하지 않을 경우, 비회원 예매 서비스를 이용할 수 없습니다.
-            </p>
-        </div>
-
-        <!-- 확인 버튼 -->
-        <div class="submit-button-container">
-            <button>확인</button>
         </div>
     </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.content');
+    function verifyAuthCode() {
+        console.log("verifyAuthCode 호출.");
+        const authCode = document.getElementById("authcode").value;
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+        if (!authCode) {
+            alert("인증번호를 입력해주세요.");
+            return;
+        }
 
-        const target = tab.getAttribute('data-target');
-        contents.forEach(content => {
-          content.classList.toggle('active', content.id === target);
-        });
-      });
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "${pageContext.request.contextPath}/VerifyCodeServlet", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = xhr.responseText.trim();
+
+                if (response === "인증 성공!") {
+                    alert("인증에 성공했습니다!");
+                    document.getElementById("authcodecheck").value = "0";
+                    document.getElementById("nonMember").disabled = false;
+                } else {
+                    alert("인증에 실패했습니다. 올바른 인증번호를 입력해주세요.");
+                    document.getElementById("nonMember").value = "1";
+                }
+            }
+        };
+        xhr.send("authCode=" + encodeURIComponent(authCode));
+    }
+
+    function userStatus_drop(frm){
+        frm.submit();
+    }
+
+    document.getElementById("loginForm1").addEventListener("submit", function(event) {
+        event.preventDefault();  // 폼 제출 기본 동작 방지
+
+        const userId = document.getElementById("userId1").value;
+        const userPassword = document.getElementById("userPassword1").value;
+        console.log(userId, userPassword);
+
+        // AJAX 요청 보내기
+        fetch('${pageContext.request.contextPath}/UserController?type=login', {
+            method: 'POST',
+            credentials: 'include', // 세션 쿠키 포함
+            body: new URLSearchParams({
+                userId: userId,
+                userPassword: userPassword,
+            })
+        })
+            .then(response => response.json())  // 응답을 JSON으로 처리
+            .then(data => {
+                if (data.success) {
+                    // 로그인 성공 시 페이지 저장된 경로로 이동
+                    const redirectUrl = sessionStorage.getItem('redirectUrl');
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        window.location.reload();
+                    }
+                } else {
+                    // 로그인 실패 시 메시지 표시
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('로그인 처리 중 오류가 발생했습니다.');
+            });
     });
-  });
+
+    document.getElementById("nonMember").addEventListener("click", function() {
+        event.preventDefault();
+
+        const userName = document.getElementById("userName").value;
+        const userEmail = document.getElementById("userEmail").value;
+        const userAuthPassword = document.getElementById("userPasswordPassword").value;
+        const userAuthPasswordConfirm = document.getElementById("userPasswordConfirm").value;
+
+        // 유효성 검사
+        if (!userName || !userEmail || !userAuthPassword || !userAuthPasswordConfirm) {
+            alert('모든 필드를 입력해주세요.');
+            return;
+        }
+
+        if (userAuthPassword !== userAuthPasswordConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        // AJAX 요청 보내기
+        fetch('${pageContext.request.contextPath}/UserController?type=nonMemberLogin', {
+            method: 'POST',
+            credentials: 'include', // 세션 쿠키 포함
+            body: new URLSearchParams({
+                userName: userName,
+                userEmail: userEmail,
+                userAuthPassword: userAuthPassword
+            })
+        })
+            .then(response => response.json())  // 응답을 JSON으로 처리
+            .then(data => {
+                if (data.success) {
+                    // 로그인 성공 시 페이지 저장된 경로로 이동
+                    const redirectUrl = sessionStorage.getItem('redirectUrl');
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        window.location.reload();
+                    }
+                } else {
+                    // 로그인 실패 시 메시지 표시
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('로그인 처리 중 오류가 발생했습니다.');
+            });
+        });
+
+    // 로그아웃 처리
+    document.getElementById("member-logout-btn").addEventListener("click", function(event) {
+        event.preventDefault();  // 기본 동작 방지
+
+        // AJAX 요청 보내기 (로그아웃)
+        fetch('${pageContext.request.contextPath}/UserController?type=logout', {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 로그아웃 후 버튼 상태 변경
+                    // alert(data.message);  // 로그아웃 메시지
+                    window.location.reload();  // 페이지 새로고침
+                } else {
+                    alert("로그아웃 실패");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('로그아웃 처리 중 오류가 발생했습니다.');
+            });
+    });
 </script>
 </body>
-</html>

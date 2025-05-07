@@ -4,7 +4,7 @@
 <!-- 사용자의 환경에 맞게 화면의 크기를 조정할 수 있도록 함. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>라이프시어터, 메가박스</title>
+<title>CINEFEEL - NEW OCEAN ESSENTIAL</title>
 <meta property="name" id="metaTagTitle" content="라이프시어터,메가박스">
 
 <!-- 해당 페이지의 설명(검색 시 페이지의 제목 아래 페이지 내용의 요약 부분) -->
@@ -24,11 +24,12 @@
 <meta property="og:image" id="fbImg" content="https://img.megabox.co.kr/SharedImg/metaTag/2020/02/04/gFfTzMwwiCxhBwcUV5TRGMFX9Cmoj64W.jpg">
 
 <!-- 외부CSS 연결하기 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/main.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/common.css?v=1.0 ">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userMain.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 <!-- 메인화면 하트 아이콘 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
-
-<script src="${pageContext.request.contextPath}/js/app.js"></script>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myMovieStory">
+
+    <select id="review" parameterType="String" resultType="mybatis.vo.ReviewVO">
+        SELECT r.*, m.movieTitle, m.movieGenre, m.movieTime, m.moviePosterUrl
+        FROM review r
+        INNER JOIN movie m ON r.movieIdx = m.movieIdx
+        WHERE r.userIdx = #{idx} AND r.reviewStatus = 0
+    </select>
+
+    <select id="favoritemovie" parameterType="String" resultType="mybatis.vo.FavoritemovieVO">
+        SELECT f.movieIdx, m.movieTitle, m.movieGenre, m.movieTime, m.moviePosterUrl, m.movieGrade, m.movieLikes
+        FROM favoriteMovie f
+        INNER JOIN movie m ON f.movieIdx = m.movieIdx
+        WHERE f.userIdx =  #{idx}
+    </select>
+
+    <!-- 본 영화 db 들어오면 쿼리문 하나 추가해서 마이스토리에 추가해야한다. 그 받은 list.size 반환해서 나의 영화정보에 찍자 -->
+    <select id="watchMovie" parameterType="String" resultType="mybatis.vo.MyMovieStoryVO">
+        select *
+        from  watchedmovie
+        where userIdx = #{id}
+    </select>
+</mapper>

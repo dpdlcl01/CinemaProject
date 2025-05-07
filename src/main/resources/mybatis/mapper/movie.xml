@@ -3,11 +3,279 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movie">
+    <!-- 사용자 메인 화면에서 예매율 상위 4개 영화 정보를 반환 -->
+    <select id="getTopMovie" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie
+        ORDER BY movieReservationRate DESC, movieRank ASC
+        LIMIT 4
+    </select>
+
+    <!-- [박스오피스] 전체 영화 개수 반환 -->
+    <select id="totalMovieCount" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE (movieStatus = 0 OR movieStatus = 1)
+        AND movieRank IS NOT NULL
+    </select>
+
+    <!-- 박스오피스 전체 영화 목록 offset 부터 pageSize만큼의 행 가져오기 -->
+    <select id="getMovieList" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
+        SELECT *
+        FROM movie
+        WHERE (movieStatus = 0 OR movieStatus = 1)
+        AND movieRank IS NOT NULL
+        ORDER BY movieReservationRate DESC, movieRank ASC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+    <!-- 영화 상태에 따른 개수 반환 -->
+    <select id="movieCountByStatus" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieRank IS NOT NULL
+    </select>
+
+    <!-- 영화 상태에 따른 영화 목록 offset 부터 pageSize만큼의 행 가져오기 -->
+    <select id="getMovieListByStatus" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieRank IS NOT NULL
+        ORDER BY movieReservationRate DESC, movieRank ASC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+
+
+    <!-- 영화 검색을 위한 페이징 처리로 일단 전체 검색 결과 개수 -->
+    <select id="searchMovieCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE (movieStatus = 0 OR movieStatus = 1)
+        AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
+        AND movieRank IS NOT NULL
+    </select>
+
+    <!-- 전체 검색 결과 개수를 바탕으로 검색 결과 화면에 표현 -->
+    <select id="searchMovieList" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE (movieStatus = 0 OR movieStatus = 1)
+        AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
+        AND movieRank IS NOT NULL
+        ORDER BY movieReservationRate DESC, movieRank ASC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+    <!-- 영화 검색을 위한 페이징 처리로 영화 상태에 따른 전체 검색 결과 개수 -->
+    <select id="searchByStatusCount" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
+        AND movieRank IS NOT NULL
+    </select>
+
+    <!-- 전체 검색 결과 개수를 바탕으로 영화 상태에 따른 검색 결과 화면에 표현 -->
+    <select id="searchByStatusList" parameterType="java.util.Map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = #{movieStatus}
+        AND movieTitle LIKE CONCAT('%', #{movieTitle}, '%')
+        AND movieRank IS NOT NULL
+        ORDER BY movieReservationRate DESC, movieRank ASC
+        LIMIT ${offset}, ${pageSize}
+    </select>
+
+
+    <!-- 영화 idx를 받아서 사용자 영화 상세 화면으로 해당 영화 정보 반환 -->
+    <select id="getMovieByIdx" parameterType="String" resultType="mybatis.vo.MovieVO">
+        SELECT * FROM movie
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
+    <!-- 영화 idx를 받아서 예매율 순위를 반환. RANK() 함수는 MySQL 8.0 이상에서만 가능 -->
+    <select id="calculateRank" parameterType="String" resultType="int">
+        SELECT reservationRank
+        FROM (
+            SELECT movieIdx, movieRank, @rank := @rank + 1 AS reservationRank
+            FROM movie, (SELECT @rank := 0) r
+            ORDER BY movieReservationRate DESC, movieRank ASC
+            ) AS Movies
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
+
+    <!-- 관리자 화면의 영화 개수 반환 (동적 쿼리) -->
+    <select id="adminMovieCount" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM movie
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="searchType != null and searchType != 'all' and searchValue != null and searchValue != ''">
+                <choose>
+                    <when test="searchType == 'title'">
+                        movieTitle LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'genre'">
+                        movieGenre LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'director'">
+                        movieDirector LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'actor'">
+                        movieActors LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'nation'">
+                        movieNation LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 개봉월 검색 조건 -->
+            <if test="searchMonth != null and searchMonth != ''">
+                AND DATE_FORMAT(movieDate, '%Y-%m') = #{searchMonth}
+            </if>
+
+            <!-- 영화 상태 검색 조건 -->
+            <if test="movieStatus != null and movieStatus != ''">
+                AND movieStatus = #{movieStatus}
+            </if>
+
+            <!-- 관람 등급 검색 조건 -->
+            <if test="movieGrade != null and movieGrade != ''">
+                AND movieGrade = #{movieGrade}
+            </if>
+        </trim>
+    </select>
+
+
+
+    <!--  관리자 화면의 영화 목록 표현 (동적 쿼리) -->
+    <select id="adminMovieList" resultType="mybatis.vo.MovieVO" parameterType="java.util.Map">
+        SELECT * FROM (
+        SELECT @RN:=@RN+1 AS rnum, a.*
+        FROM (
+        SELECT *
+        FROM movie
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 대상 조건 처리 -->
+            <if test="searchType != null and searchType != 'all' and searchValue != null and searchValue != ''">
+                <choose>
+                    <when test="searchType == 'title'">
+                        movieTitle LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'genre'">
+                        movieGenre LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'director'">
+                        movieDirector LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'actor'">
+                        movieActors LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test="searchType == 'nation'">
+                        movieNation LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 개봉월 검색 조건 -->
+            <if test="searchMonth != null and searchMonth != ''">
+                AND DATE_FORMAT(movieDate, '%Y-%m') = #{searchMonth}
+            </if>
+
+            <!-- 영화 상태 검색 조건 -->
+            <if test="movieStatus != null and movieStatus != ''">
+                AND movieStatus = #{movieStatus}
+            </if>
+
+            <!-- 관람 등급 검색 조건 -->
+            <if test="movieGrade != null and movieGrade != ''">
+                AND movieGrade = #{movieGrade}
+            </if>
+        </trim>
+
+        ORDER BY movieReservationRate DESC, movieRank ASC
+        ) a, (SELECT @RN:=0) b
+        ) c
+        WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+
+
+    <!-- 관리자 영화 상세 정보 수정 -->
+    <update id="updateMovieInfo" parameterType="mybatis.vo.MovieVO">
+        UPDATE movie
+        SET movieGenre = #{movieGenre},
+        movieTime = #{movieTime},
+        movieGrade = #{movieGrade},
+        movieDate = #{movieDate},
+        movieDirector = #{movieDirector},
+        movieActors = #{movieActors},
+        movieInfo = #{movieInfo}
+        WHERE movieIdx = #{movieIdx}
+    </update>
+
+    <!-- 관리자 모드에서 OPEN API를 이용하여 영화 정보를 DB에 저장 -->
     <insert id="addNewMovie" parameterType="mybatis.vo.MovieVO">
-        INSERT INTO movie(movieCd, movieTitle, movieTitleEn, movieGenre, movieTime, movieGrade, movieDate,
-        movieDirector, movieActors, movieInfo, moviePosterUrl,
-        movieReservationRate, movieTotalAudience, movieStatus)
-        VALUES (#{movieCd}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieTime}, #{movieGrade}, #{movieDate},
-        #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl}, #{movieReservationRate}, #{movieTotalAudience}, #{movieStatus})
+        INSERT INTO movie(movieCd, movieTmdbId, movieTitle, movieTitleEn, movieGenre, movieNation,
+        movieTime, movieGrade, movieDate, movieDirector, movieActors, movieInfo, moviePosterUrl,
+        movieRank, movieReservationRate, movieTotalAudience, movieLikes, movieStatus)
+        VALUES (#{movieCd}, #{movieTmdbId}, #{movieTitle}, #{movieTitleEn}, #{movieGenre}, #{movieNation},
+        #{movieTime}, #{movieGrade}, #{movieDate}, #{movieDirector}, #{movieActors}, #{movieInfo}, #{moviePosterUrl},
+        #{movieRank}, #{movieReservationRate}, #{movieTotalAudience}, #{movieLikes}, #{movieStatus})
     </insert>
+
+    <!-- 영화 업데이트를 위해 현재 영화의 KOFIC 영화코드를 가져옴 -->
+    <select id="getAllMovieCodes" resultType="mybatis.vo.MovieVO">
+        SELECT movieCd
+        FROM movie
+    </select>
+
+    <!-- DB에 있는 영화는 예매 순위, 예매율, 누적관객수, 영화 상태를 업데이트 -->
+    <update id="updateMovieReservationInfo" parameterType="java.util.Map">
+        UPDATE movie
+        SET movieRank = #{movieRank},
+        movieReservationRate = #{movieReservationRate},
+        movieTotalAudience = #{movieTotalAudience},
+        movieStatus = CASE
+        WHEN movieStatus = '1' AND movieDate &lt;= CURDATE() THEN '0'
+        ELSE movieStatus  <!-- 기존 값 유지 -->
+        END
+        WHERE movieCd = #{movieCd}
+    </update>
+
+
+    <!-- 이번 크롤링에서 업데이트되지 않은 영화 처리 (예매순위, 예매율, 누적관객수 NULL 처리, 영화 상태 업데이트) -->
+    <update id="nullifyMovieReservationInfo" parameterType="String">
+        UPDATE movie
+        SET movieRank = NULL,
+        movieReservationRate = NULL,
+        movieTotalAudience = NULL,
+        movieStatus = CASE
+        WHEN movieStatus = '1' THEN '2'  <!-- 개봉예정이면 기타로 변경 -->
+        ELSE movieStatus  <!-- 나머지는 그대로 유지 -->
+        END
+        WHERE movieCd = #{movieCd}
+    </update>
+
+
+
+
+
+
+    <!-- 예매 가능한 영화 조회  -->
+    <select id="movieList" parameterType="map" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieStatus = 0 OR movieStatus = 1
+    </select>
+    <!--  영화 정보 상세 조회 (seat)  -->
+    <select id="movieDetail" parameterType="String" resultType="mybatis.vo.MovieVO">
+        SELECT *
+        FROM movie
+        WHERE movieIdx = #{movieIdx}
+    </select>
+
 </mapper>

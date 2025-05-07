@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+    <select id="getTheaterList" resultType="hashmap">
+        SELECT t.theaterRegion AS theaterRegion, t.theaterName AS theaterName, s.screenName AS screenName,
+        CASE s.screenType
+            WHEN 1 THEN 'COMFORT'
+            WHEN 2 THEN 'VIP'
+            WHEN 3 THEN 'DOLBY'
+            WHEN 4 THEN '4DX'
+            WHEN 5 THEN 'IMAX'
+        END AS screenType,
+        m.movieTitle AS movieTitle,
+        DATE(tt.timetableStartTime) AS date,
+        TIME(tt.timetableStartTime) AS startTime,
+        TIME(tt.timetableEndTime) AS endTime,
+        s.screenSeatCount AS totalSeats
+        FROM theater t
+        JOIN screen s ON t.theaterIdx = s.theaterIdx
+        JOIN timetable tt ON s.screenIdx = tt.screenIdx
+        JOIN movie m ON tt.movieIdx = m.movieIdx
+        ORDER BY t.theaterRegion, t.theaterName, s.screenName, tt.timetableStartTime
+    </select>
+
+
+    <!-- 관리자 화면의 사용자 수 반환 (동적 쿼리) -->
+    <select id="getTotalUserCount" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 조건 처리 -->
+            <if test="searchType != null and searchType != 'all' and searchKeyword != null and searchKeyword != ''">
+                <choose>
+                    <when test="searchType == 'name'">
+                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'id'">
+                        userId LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'email'">
+                        userEmail LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'phone'">
+                        userPhone LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 가입월 검색 조건 -->
+            <if test="userJoinMonth != null and userJoinMonth != ''">
+                AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
+            </if>
+
+            <!-- 사용자 상태 검색 조건: 회원만 기본적으로 나오게 함 -->
+            <choose>
+                <when test="userStatus != null and userStatus != ''">
+                    AND userStatus = #{userStatus}
+                </when>
+                <otherwise>
+                    AND userStatus IS NOT NULL
+                </otherwise>
+            </choose>
+
+            <!-- 사용자 등급 검색 조건 -->
+            <if test="userGrade != null and userGrade != ''">
+                AND userGrade = #{userGrade}
+            </if>
+        </trim>
+    </select>
+
+
+
+    <!-- 관리자 화면의 사용자 목록 반환 (동적 쿼리) -->
+    <select id="getUsersByPage" resultType="mybatis.vo.UserVO" parameterType="java.util.Map">
+        SELECT * FROM (
+        SELECT @RN := @RN + 1 AS rnum, a.*
+        FROM (
+        SELECT userIdx, userName, userId, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 조건 처리 -->
+            <if test="(searchType != null and searchType != 'all') and (searchKeyword != null and searchKeyword != '')">
+                <choose>
+                    <when test="searchType == 'name'">
+                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'id'">
+                        userId LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'email'">
+                        userEmail LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'phone'">
+                        userPhone LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 가입월 검색 조건 -->
+            <if test="userJoinMonth != null and userJoinMonth != ''">
+                AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
+            </if>
+
+            <!-- 사용자 상태 검색 조건: 회원만 기본적으로 나오게 함 -->
+            <choose>
+                <when test="userStatus != null and userStatus != ''">
+                    AND userStatus = #{userStatus}
+                </when>
+                <otherwise>
+                    AND userStatus IS NOT NULL
+                </otherwise>
+            </choose>
+
+            <!-- 사용자 등급 검색 조건 -->
+            <if test="userGrade != null and userGrade != ''">
+                AND userGrade = #{userGrade}
+            </if>
+        </trim>
+
+        ORDER BY userIdx DESC
+        ) a, (SELECT @RN := 0) b
+        ) c
+        WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+    <!-- 관리자 화면의 비회원 수 반환 (동적 쿼리) -->
+    <select id="getTotalGuestCount" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 조건 처리 -->
+            <if test="searchType != null and searchType != 'all' and searchKeyword != null and searchKeyword != ''">
+                <choose>
+                    <when test="searchType == 'name'">
+                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'email'">
+                        userEmail LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 등록월 검색 조건 -->
+            <if test="userJoinMonth != null and userJoinMonth != ''">
+                AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
+            </if>
+
+            AND userStatus IS NULL
+        </trim>
+    </select>
+
+
+
+    <!-- 관리자 화면의 비회원 목록 반환 (동적 쿼리) -->
+    <select id="getGuestsByPage" resultType="mybatis.vo.UserVO" parameterType="java.util.Map">
+        SELECT * FROM (
+        SELECT @RN := @RN + 1 AS rnum, a.*
+        FROM (
+        SELECT userIdx, userName, userId, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus
+        FROM user
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <!-- 검색 조건 처리 -->
+            <if test="(searchType != null and searchType != 'all') and (searchKeyword != null and searchKeyword != '')">
+                <choose>
+                    <when test="searchType == 'name'">
+                        userName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchType == 'email'">
+                        userEmail LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                </choose>
+            </if>
+
+            <!-- 등록월 검색 조건 -->
+            <if test="userJoinMonth != null and userJoinMonth != ''">
+                AND DATE_FORMAT(userRegDate, '%Y-%m') = #{userJoinMonth}
+            </if>
+
+            AND userStatus IS NULL
+        </trim>
+
+        ORDER BY userIdx DESC
+        ) a, (SELECT @RN := 0) b
+        ) c
+        WHERE c.rnum BETWEEN #{begin} AND #{end}
+    </select>
+
+
+    <select id="getUserById" parameterType="String" resultType="mybatis.vo.UserVO">
+        SELECT * FROM user WHERE userIdx = #{userIdx}
+    </select>
+
+    <update id="updateuser" parameterType="mybatis.vo.UserVO">
+        UPDATE user
+        SET
+        userName = #{userName},
+        userPhone = #{userPhone},
+        userPoint = #{userPoint},
+        userGrade = #{userGrade}
+        WHERE userIdx = #{userIdx};
+    </update>
+
+    <insert id="insertlog" parameterType="mybatis.vo.LogVO">
+        INSERT INTO log(logType, adminIdx, logTarget, logInfo, logPreValue, logCurValue, logDate)
+        VALUES (#{logType}, #{adminIdx}, #{logTarget}, #{logInfo}, #{logPreValue}, #{logCurValue}, now())
+    </insert>
+</mapper>

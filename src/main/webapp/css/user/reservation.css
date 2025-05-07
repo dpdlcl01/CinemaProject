@@ -1,9 +1,31 @@
+.res-main {
+    width: 1100px;
+    margin: 50px auto;
+    max-height: 550px;
+}
+
+.res-title {
+    font-size: 30px;
+    left: 3px;
+    font-weight: normal;
+}
+
+.res-container {
+    max-height: 550px;
+    background: #fff;
+}
+
+#content {
+    height: 600px;
+}
+
 /* 날짜 네비게이션 */
 .date-navigation {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 20px;
+    margin-left: 20px;
 }
 
 .date-navigation ul {
@@ -21,6 +43,9 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    height: 40px;
+    width: 35px;
+    margin: 0 20px 0 20px;
 }
 
 .date-navigation button:hover {
@@ -28,32 +53,33 @@
 }
 
 .date-navigation ul li {
-    padding: 10px 15px;
+    width: 65px;
+    height: 40px;
     background: #f9f9f9;
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
+    font-size: 15px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .date-navigation ul li:hover {
     background: #eee;
 }
 
-.res-main {
-    width: 1000px;
-    margin: 50px auto;
+.date-navigation ul li selected {
+    font-weight: 800;
+    background-color: #f5f5f5;
 }
 
-.res-title {
-    font-size: 30px;
-    left: 3px;
-    font-weight: normal;
+.region-link.selected {
+    background-color: transparent;
 }
 
-.res-container {
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.theater-region-list li.selected {
+    background-color: transparent;
 }
 
 /* 메인 컨텐츠 */
@@ -61,45 +87,114 @@
     display: grid;
     grid-template-columns: 2fr 2fr 3fr;
     gap: 20px;
+    height: 400px;
 }
 
 /* 각 섹션 */
-section {
+.movie-selection, .theater-selection, .time-selection {
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
     background: #fff;
+    max-height: 450px;
 }
 
-section h2 {
+.content.div h2 {
     font-size: 1.2em;
     margin-bottom: 15px;
 }
 
 /* 리스트 스타일 */
-section ul {
+.movie-list {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+}
+.rating-image {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+.content div ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 10px 0 5px 0;
+    font-size: 15px;
+    height: 380px;
+    overflow-y: auto;
 }
 
-section ul li {
+.content div li {
     padding: 10px;
     border-bottom: 1px solid #eee;
     cursor: pointer;
+    display: flex;
+    align-items: stretch;
+}
+.theater-region-list li.selected.active {
+    font-weight: bold;
 }
 
-section ul li:hover {
+.content div li:hover {
     background: #f5f5f5;
 }
 
-section ul li:last-child {
+.content div li:last-child {
     border-bottom: none;
+}
+
+/* 극장 선택 시 스타일 */
+.theater-region-list a.selected {
+    background-color: #f0f8ff; /* 선택된 항목 배경색 */
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px;
+    display: inline-block;
 }
 
 /* 시간 섹션 */
 .time-selection p {
+    max-height: 500px;
     text-align: center;
-    color: #666;
-    font-size: 0.9em;
+    font-size: 14px;
+    color: black;
+    margin: 10px 0 0 5px;
 }
+.selected {
+    background-color: #f5f5f5; /* 선택된 항목의 배경색 */
+    font-weight: bold; /* 글자 굵게 */
+}
+
+li.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
+}
+
+.disabled {
+    color: gray;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* 모달 */
+#reservation-login-btn {
+    display: none;
+}
+
+/* 선택 초기화 버튼 */
+#reset-selection {
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background: #ddd;
+    padding: 10px;
+    margin: 0;
+    width: 40px;
+}
+
+.reset-button img {
+    width: 20px; /* 아이콘 크기 */
+    height: 20px;
+}
+

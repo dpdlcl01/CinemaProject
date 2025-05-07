@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminManagement">
+
+  <!-- admin 정보 조회 -->
+  <select id="getNonSuperAdmin" parameterType="map" resultType="mybatis.vo.AdminVO">
+    SELECT *
+    FROM admin
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <!-- 검색 조건 처리 -->
+      <if test="searchType != null and searchType != 'all' and searchKeyword != null and searchKeyword != ''">
+        <choose>
+          <when test="searchType == 'id'">
+            adminId LIKE CONCAT('%', #{searchKeyword}, '%')
+          </when>
+        </choose>
+      </if>
+
+      <!-- 관리자 상태 검색 조건 -->
+      <if test="adminStatus != null and adminStatus != ''">
+        AND adminStatus = #{adminStatus}
+      </if>
+
+      <!-- 관리자 등급 검색 조건 -->
+      <if test="adminLevel != null and adminLevel != ''">
+        AND adminLevel = #{adminLevel}
+      </if>
+    </trim>
+    ORDER BY adminIdx
+    LIMIT #{begin, jdbcType=INTEGER}, #{end, jdbcType=INTEGER}
+  </select>
+
+  <select id="getTotalCount" resultType="int" parameterType="map">
+    SELECT COUNT(*)
+    FROM admin
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <!-- 검색 조건 처리 -->
+      <if test="searchType != null and searchType != 'all' and searchKeyword != null and searchKeyword != ''">
+          <choose>
+            <when test="searchType == 'id'">
+              adminId LIKE CONCAT('%', #{searchKeyword}, '%')
+            </when>
+          </choose>
+      </if>
+
+      <!-- 관리자 상태 검색 조건 -->
+      <if test="adminStatus != null and adminStatus != ''">
+        AND adminStatus = #{adminStatus}
+      </if>
+
+      <!-- 관리자 등급 검색 조건 -->
+      <if test="adminLevel != null and adminLevel != ''">
+        AND adminLevel = #{adminLevel}
+      </if>
+    </trim>
+  </select>
+
+  <select id="getAdminByIdx" parameterType="String" resultType="mybatis.vo.AdminVO">
+    SELECT * FROM admin WHERE adminIdx = #{adminIdx}
+  </select>
+
+  <update id="updateAdmin" parameterType="mybatis.vo.AdminVO">
+    UPDATE admin
+    SET
+    adminId = #{adminId},
+    adminLevel = #{adminLevel},
+    adminStatus = #{adminStatus}
+    WHERE adminIdx = #{adminIdx};
+  </update>
+
+  <insert id="insertAdmin" parameterType="mybatis.vo.AdminVO">
+    INSERT INTO admin (adminId, adminPassword, adminLevel, adminStatus)
+    VALUES (#{adminId}, #{adminPassword}, #{adminLevel}, #{adminStatus})
+  </insert>
+
+</mapper>

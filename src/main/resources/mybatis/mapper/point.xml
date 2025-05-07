@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="point">
+
+    <select id="selectPoint" parameterType="String" resultType="int">
+        SELECT p.pointValue
+        FROM point p
+        JOIN payment pay ON p.paymentIdx = pay.paymentIdx
+        WHERE pay.reservationIdx = #{reservationIdx}
+    </select>
+
+
+    <update id="deletePoint" parameterType="String">
+        UPDATE point p
+        JOIN payment pay ON p.paymentIdx = pay.paymentIdx
+        SET p.pointStatus = 1
+        WHERE pay.reservationIdx = #{reservationIdx}
+    </update>
+
+
+    <insert id="insertPoint" parameterType="map">
+        insert into point(userIdx, paymentIdx, pointType, pointSource, pointValue, pointDate, pointStatus)
+        values(#{userIdx}, #{paymentIdx}, 0, 'STORE', #{pointSource}, now(), '0');
+    </insert>
+
+
+    <update id="updatePoint" parameterType="map">
+        UPDATE user
+        SET userPoint = userPoint - #{point} + #{addpoint}
+        WHERE userIdx = #{userIdx}
+    </update>
+
+
+    <!--  사용자 포인트 조회  -->
+    <select id="userPoint" parameterType="map" resultType="mybatis.vo.PointVO">
+        SELECT pointIdx, userIdx, pointType, pointSource, pointValue, pointDate, pointStatus
+        FROM point
+        WHERE userIdx = #{userIdx}
+        ORDER BY pointDate DESC
+        LIMIT #{numPerPage} OFFSET #{startIdx}
+    </select>
+
+    <!-- 필터링된 포인트 개수 조회 -->
+    <select id="filteredCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM point
+        WHERE userIdx = #{userIdx}
+        AND pointDate BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <!-- 사용자 포인트 총 개수 조회 -->
+    <select id="userPointCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM point WHERE userIdx = #{userIdx}
+    </select>
+
+    <!-- 전체 포인트 내역 조회 -->
+    <select id="getAllPointList" parameterType="map" resultType="mybatis.vo.PointVO">
+        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus
+        FROM point
+        WHERE userIdx = #{userIdx}
+        ORDER BY pointDate DESC
+    </select>
+
+    <!-- 특정 기간 포인트 조회 (페이징 적용) -->
+    <select id="getPointListByRange" parameterType="map" resultType="mybatis.vo.PointVO">
+        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus
+        FROM point
+        WHERE userIdx = #{userIdx}
+        AND pointDate BETWEEN #{startDate} AND #{endDate}
+        ORDER BY pointDate DESC
+        LIMIT #{numPerPage} OFFSET #{startIdx}
+    </select>
+
+    <!-- 특정 기간 포인트 조회 (페이징 적용X) -->
+    <select id="getPointListByRangeNoPaging" parameterType="map" resultType="mybatis.vo.PointVO">
+        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus
+        FROM point
+        WHERE userIdx = #{userIdx}
+        AND pointDate BETWEEN #{startDate} AND #{endDate}
+        ORDER BY pointDate DESC
+    </select>
+
+    <!--    <select id="getPointListByRange" parameterType="map" resultType="mybatis.vo.PointVO">-->
+<!--        SELECT pointIdx, userIdx, pointDate, pointType, pointSource, pointValue, pointStatus-->
+<!--        FROM point-->
+<!--        WHERE userIdx = #{userIdx}-->
+<!--        AND pointDate BETWEEN #{startDate} AND #{endDate}-->
+<!--        ORDER BY pointDate DESC-->
+<!--    </select>-->
+
+    <!-- 구매 종류별 포인트 조회 -->
+    <select id="userPointBySource" parameterType="string" resultType="mybatis.vo.PointVO">
+        SELECT userIdx,
+        SUM(CASE WHEN pointSource = 'PAYMENT' AND pointType = 0 THEN pointValue ELSE 0 END) AS paymentTotal,
+        SUM(CASE WHEN pointSource = 'STORE' AND pointType = 0 THEN pointValue ELSE 0 END) AS storeTotal,
+        SUM(CASE WHEN pointSource = 'REVIEW' AND pointType = 0 THEN pointValue ELSE 0 END) AS reviewTotal,
+        SUM(CASE WHEN pointType = 0 THEN pointValue ELSE 0 END) AS totalPoints
+        FROM point
+        WHERE userIdx = #{userIdx} AND pointStatus = 0
+    </select>
+
+    <!-- 사용 가능 포인트 계산 -->
+    <select id="availablePoints" parameterType="string" resultType="int">
+        SELECT SUM(
+            CASE
+                WHEN pointType = 0 THEN pointValue    <!-- 적립 -->
+                WHEN pointType = 1 THEN -pointValue  <!-- 사용 -->
+                WHEN pointType = 2 THEN 0           <!-- 만료 -->
+            END
+        ) AS availablePoints
+        FROM point
+        WHERE userIdx = #{userIdx} AND pointStatus = 0; <!-- 정상 상태만 포함 -->
+    </select>
+
+    <!-- VIP 선정 포인트 계산 -->
+    <select id="vipPoints" parameterType="string" resultType="int">
+        SELECT SUM(pointValue)
+        FROM point
+        WHERE userIdx = #{userIdx} AND pointType = 0 AND pointStatus = 0; <!-- 적립된 포인트만 계산 -->
+    </select>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="register">
+    <insert id="reg_add" parameterType="Map">
+        INSERT INTO user (userName, userId, userPassword, userEmail, userPhone, userPoint, userGrade, userRegDate, userStatus)
+        VALUES (#{userName}, #{userId}, #{userPassword}, #{userEmail}, #{userPhone}, #{userPoint}, #{userGrade}, now(), #{userStatus});
+    </insert>
+
+    <select id="useridcheck_search" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM user WHERE userId = #{userId}
+    </select>
+
+    <select id="finduserid" parameterType="Map" resultType="String">
+        SELECT userId FROM user WHERE username = #{userName} AND userEmail = #{userEmail}
+    </select>
+
+    <select id="getEmailIfExists" resultType="int" parameterType="String">
+        SELECT COUNT(*) FROM user WHERE userEmail = #{userEmail}
+    </select>
+
+    <select id="checkUserValidation" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM user WHERE userName = #{userName} AND userEmail = #{userEmail}
+    </select>
+
+    <select id="finduserid_email" parameterType="Map" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM user
+        WHERE username = #{userName}
+        and userEmail = #{userEmail}
+        and userId = #{userId}
+    </select>
+
+    <select id="getPasswordHashByEmail" parameterType="string" resultType="string">
+        SELECT userPassword
+        FROM user
+        WHERE userEmail = #{email}
+    </select>
+
+    <select id="validateForPasswordReset" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        WHERE userName = #{userName}
+        AND userEmail = #{userEmail}
+        AND userId = #{userId}
+    </select>
+
+    <update id="updateUserPassword" parameterType="Map">
+        UPDATE user
+        SET userPassword = #{newPassword}
+        WHERE
+        userId = #{userId}
+    </update>
+</mapper>

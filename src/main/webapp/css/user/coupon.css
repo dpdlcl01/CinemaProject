@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.total-main {
+    width: 1100px;
+    margin: 50px auto;
+}
+
+.myPoint-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+/* 메인 */
+.main-content {
+    width: 850px;
+}
+
+.main-content h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.section {
+    background-color: #fff;
+    /*padding: 20px;*/
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+.section h1 {
+    margin-bottom: 30px; /*다시 보기.*/
+    font-size: 24px;
+}
+
+/* 조회 */
+.filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+.filters input[type="radio"] {
+    margin-right: 5px;
+}
+.select-coupon {
+    width: 90px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table th {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.coupon-type {
+    width: 8%;
+}
+.coupon-name {
+    width: 40%;
+}
+.coupon-exp {
+    width: 17%;
+}
+.coupon-used {
+    width: 10%;
+}
+.detail-btn {
+    width: 10%;
+}
+
+.type {
+    text-align: center;
+}
+.info {
+    font-size: 15px;
+    color: #888;
+}
+.date {
+    text-align: center;
+}
+.used {
+    text-align: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-color: #339eb2;
+    width: 74px;
+    height: 32px;
+}
+
+button:hover {
+    color: #fff;
+    background-color: #1e7f9a;
+}

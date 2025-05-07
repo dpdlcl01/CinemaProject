@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationPayment">
+
+  <select id="getUserCouponList" resultType="mybatis.vo.CouponVO">
+    SELECT c.*
+    FROM couponUserMapping cum
+    JOIN coupon c ON cum.couponIdx = c.couponIdx
+    WHERE cum.userIdx = #{userIdx}
+    AND cum.couponUserStatus = 0
+    AND c.couponStatus = 0
+    AND c.couponType = 1
+  </select>
+
+  <!-- 예약 정보 INSERT (customReservationIdx 포함) -->
+  <insert id="insertReservation" parameterType="mybatis.vo.ReservationTableVO" useGeneratedKeys="true" keyProperty="reservationIdx">
+    INSERT INTO reservation (userIdx, theaterIdx, screenIdx, timetableIdx, reservationDate, reservationStatus, customReservationIdx)
+    VALUES (#{userIdx}, #{theaterIdx}, #{screenIdx}, #{timetableIdx}, NOW(), #{reservationStatus},
+    CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(LAST_INSERT_ID() + 1, 4, '0')))
+  </insert>
+
+  <!-- 방금 INSERT한 예약 정보 가져오기 -->
+  <select id="getInsertedReservation" parameterType="string" resultType="mybatis.vo.ReservationTableVO">
+    SELECT reservationIdx, customReservationIdx FROM reservation WHERE reservationIdx = #{reservationIdx}
+  </select>
+
+  <!-- seatStatus 결제 대기를 결제 완료로 변경 -->
+  <update id="updateSeatStatus">
+    UPDATE seatStatus
+    SET seatStatus = 1, reservedTime = NOW()
+    WHERE seatStatus = 2
+    AND timetableIdx = #{timetableIdx}
+    AND seatIdx IN
+    <foreach item="seatIdx" collection="seatIdxList" open="(" separator="," close=")">
+      #{seatIdx}
+    </foreach>
+  </update>
+
+  <!-- 변경된 seatStatusIdx 가져오기 -->
+  <select id="getUpdatedSeatStatusIdx" resultType="String">
+    SELECT seatStatusIdx FROM seatStatus
+    WHERE timetableIdx = #{timetableIdx}
+    AND seatIdx IN
+    <foreach item="seatIdx" collection="seatIdxList" open="(" separator="," close=")">
+      #{seatIdx}
+    </foreach>
+    AND seatStatus = 1
+  </select>
+
+  <!-- 예약 좌석 매핑 INSERT -->
+  <insert id="insertReservationSeats">
+    INSERT INTO reservationSeatMapping (reservationIdx, priceIdx, seatStatusIdx)
+    VALUES
+    <foreach item="item" collection="seatMappings" separator=",">
+      (#{item.reservationIdx}, #{item.priceIdx}, #{item.seatStatusIdx})
+    </foreach>
+  </insert>
+
+  <!-- 결제 내역 INSERT -->
+  <insert id="insertPayment" parameterType="mybatis.vo.ReservationPaymentVO" useGeneratedKeys="true" keyProperty="paymentIdx">
+    INSERT INTO payment (
+    userIdx,
+    paymentType,
+    reservationIdx,
+    paymentMethod,
+    paymentTotal,
+    paymentDiscount,
+    paymentQuantity,       <!-- 추가 -->
+    paymentFinal,
+    paymentTransactionId,
+    paymentDate,
+    paymentStatus
+    )
+    VALUES (
+    #{userIdx},
+    1,
+    #{reservationIdx},
+    #{paymentMethod},
+    #{paymentTotal},
+    <choose>
+      <when test="paymentDiscount != null">
+        #{paymentDiscount}
+      </when>
+      <otherwise>
+        NULL
+      </otherwise>
+    </choose>,
+    #{paymentQuantity},    <!-- 추가 -->
+    #{paymentFinal},
+    #{paymentTransactionId},
+    NOW(),
+    #{paymentStatus}
+    )
+  </insert>
+
+  <!-- 결제 후 포인트 차감 및 기록 -->
+  <update id="updateUserPoint" parameterType="map">
+    UPDATE user
+    SET userPoint = userPoint - #{pointValue} + #{getPoint}
+    WHERE userIdx = #{userIdx}
+  </update>
+
+  <!-- 포인트 사용 기록 추가 -->
+  <insert id="insertPointUsage" parameterType="mybatis.vo.ReservationPointVO">
+    INSERT INTO point (
+    userIdx,
+    paymentIdx,
+    reviewIdx,
+    pointType,
+    pointSource,
+    pointValue,
+    pointDate,
+    pointStatus
+    ) VALUES (
+    #{userIdx},
+    #{paymentIdx},
+    NULL,
+    #{pointType},  <!-- 1: 포인트 사용, 2: 포인트 적립 -->
+    'PAYMENT',
+    #{pointValue},
+    NOW(),
+    0
+    )
+  </insert>
+
+  <!-- 쿠폰 사용시 쿠폰 status 1로 변경 -->
+  <update id="updateCouponStatus" parameterType="map">
+    UPDATE couponUserMapping
+    SET couponUserStatus = 1, couponUserDate = NOW()
+    WHERE couponIdx = #{couponIdx} AND userIdx = #{userIdx}
+  </update>
+
+  <!-- 예매 내역 조회 -->
+  <select id="getReservationsByUserIdx" parameterType="map" resultMap="reservationResultMap">
+    SELECT
+    r.reservationIdx AS 예매번호,
+    r.reservationDate AS 예매날짜,
+    CONCAT(
+    DATE_FORMAT(r.reservationDate, '%Y%m%d'), '-',
+    LPAD(r.reservationIdx, 4, '0')
+    ) AS formattedReservationIdx,
+    u.userName AS 사용자이름,
+    t.timetableStartTime AS 영화시작시간,
+    t.timetableEndTime AS 영화종료시간,
+    m.movieTitle AS 영화이름,
+    m.moviePosterUrl AS 영화포스터,
+    s.seatNumber AS 좌석번호,
+    p.ageGroup AS 좌석나이대,
+    p.seatPrice AS 가격,
+    th.theaterName AS 영화관이름,
+    sc.screenName AS 스크린이름
+    FROM
+    reservation r
+    JOIN
+    `user` u ON r.userIdx = u.userIdx
+    JOIN
+    timetable t ON r.timetableIdx = t.timetableIdx
+    JOIN
+    movie m ON t.movieIdx = m.movieIdx
+    JOIN
+    theater th ON r.theaterIdx = th.theaterIdx
+    JOIN
+    screen sc ON r.screenIdx = sc.screenIdx
+    JOIN
+    reservationSeatMapping rsm ON r.reservationIdx = rsm.reservationIdx
+    JOIN
+    seatStatus ss ON rsm.seatStatusIdx = ss.seatStatusIdx
+    JOIN
+    seat s ON ss.seatIdx = s.seatIdx
+    JOIN
+    price p ON rsm.priceIdx = p.priceIdx
+    WHERE
+    r.userIdx = #{userIdx} AND r.reservationStatus = 0 AND r.reservationIdx = #{reservationIdx}
+  </select>
+
+  <!-- 결과 매핑 -->
+  <resultMap id="reservationResultMap" type="mybatis.vo.ReservationDetailVO">
+    <id property="reservationIdx" column="예매번호"/>
+    <result property="reservationDate" column="예매날짜"/>
+    <result property="formattedReservationIdx" column="formattedReservationIdx"/>
+    <result property="userName" column="사용자이름"/>
+    <result property="timetableStartTime" column="영화시작시간"/>
+    <result property="timetableEndTime" column="영화종료시간"/>
+    <result property="movieTitle" column="영화이름"/>
+    <result property="moviePosterUrl" column="영화포스터"/>
+    <result property="theaterName" column="영화관이름"/>
+    <result property="screenName" column="스크린이름"/>
+
+    <!-- 좌석 정보를 리스트로 매핑 -->
+    <collection property="seats" ofType="mybatis.vo.SeatDetailVO">
+      <result property="seatNumber" column="좌석번호"/>
+      <result property="seatAgeGroup" column="좌석나이대"/>
+      <result property="seatPrice" column="가격"/>
+    </collection>
+  </resultMap>
+
+  <!-- 관람한 영화 목록 -->
+  <insert id="insertWatchedMovie" parameterType="mybatis.vo.WatchedMovieVO">
+    INSERT INTO watchedMovie (userIdx, movieIdx, reservationIdx, screenIdx, watchedDate)
+    VALUES (#{userIdx}, #{movieIdx}, #{reservationIdx}, #{screenIdx}, #{watchedDate})
+  </insert>
+
+</mapper>

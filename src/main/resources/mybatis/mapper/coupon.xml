@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coupon">
+
+    <insert id="insertCouponForUserGrade" parameterType="map">
+        INSERT INTO couponUserMapping (couponIdx, userIdx, couponUserStatus, couponUserDate)
+        SELECT
+        #{couponIdx}, u.userIdx, 0, NOW()
+        FROM user u
+        WHERE u.userGrade = #{userGrade}
+    </insert>
+
+
+    <insert id="insertCoupon" parameterType="map" useGeneratedKeys="true" keyProperty="couponIdx">
+        INSERT INTO coupon (couponName, couponInfo, couponType, couponValue, couponRegDate, couponExpDate, couponStatus)
+        VALUES (#{couponName}, #{couponInfo}, #{couponType}, #{couponValue}, #{couponRegDate}, #{couponExpDate}, 0)
+    </insert>
+
+    <update id="updateStatus" parameterType="String">
+        update coupon
+        set couponStatus=1
+        where couponIdx=#{couponIdx}
+    </update>
+
+    <select id="list" resultType="mybatis.vo.CouponVO">
+        select *
+        from coupon
+        where couponStatus=0
+        order by couponType ASC
+    </select>
+
+    <update id="updateCoupon" parameterType="map">
+        UPDATE couponUserMapping
+        SET couponUserStatus = 1
+        WHERE couponIdx=#{couponIdx} and userIdx=#{idx};
+    </update>
+
+    <select id="getUserCouponList" resultType="mybatis.vo.CouponVO">
+        SELECT c.*
+        FROM couponUserMapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        AND cum.couponUserStatus = 0
+        AND c.couponStatus = 0
+        AND c.couponType = 2
+    </select>
+
+    <!-- 사용자의 전체 쿠폰 수 구하기 -->
+    <select id="totalCount" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM couponUserMapping
+        WHERE userIdx = #{userIdx}
+    </select>
+
+    <!--  사용자 쿠폰 조회  -->
+    <select id="userCoupon" parameterType="map" resultType="mybatis.vo.CouponVO">
+        SELECT c.couponIdx, c.couponName, c.couponInfo, c.couponType, c.couponValue, c.couponRegDate, c.couponExpDate, c.couponStatus,
+                cum.couponUserIdx, cum.userIdx, cum.couponUserStatus, cum.couponUserDate
+        FROM coupon c
+        JOIN couponUserMapping cum ON c.couponIdx = cum.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+
+        ORDER BY c.couponExpDate DESC
+        LIMIT #{begin}, #{numPerPage};
+    </select>
+
+    <!-- 페이징 없이 -->
+    <select id="userCouponNoPaging" parameterType="map" resultType="mybatis.vo.CouponVO">
+        SELECT c.*, cum.couponUserStatus, cum.couponUserDate
+        FROM couponUserMapping cum
+        JOIN coupon c ON cum.couponIdx = c.couponIdx
+        WHERE cum.userIdx = #{userIdx}
+        <if test="filter == '사용가능'">
+            AND cum.couponUserStatus = 0
+            AND c.couponExpDate >= NOW()
+        </if>
+        <if test="filter == '사용완료'">
+            AND cum.couponUserStatus = 1
+        </if>
+        <if test="filter == '기간만료'">
+            AND c.couponExpDate &lt; NOW()
+            AND cum.couponUserStatus = 0
+        </if>
+        ORDER BY c.couponExpDate ASC
+    </select>
+
+
+</mapper>
