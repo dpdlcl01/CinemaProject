@@ -8,4 +8,4 @@ CREATE SCHEMA IF NOT EXISTS cinema_db DEFAULT CHARACTER SET utf8;
 USE cinema_db;
 
 -- 'test_admin' 사용자에게 'cinema_db' 데이터베이스에 대한 모든 권한 부여
-GRANT ALL PRIVILEGES ON cinema_db.* TO 'test_admin'@'%';
+GRANT ALL PRIVILEGES ON cinema_db.* TO 'user'@'%';

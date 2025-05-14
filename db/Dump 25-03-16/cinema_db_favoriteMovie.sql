@@ -1,0 +1,58 @@
+CREATE DATABASE  IF NOT EXISTS `cinema_db` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `cinema_db`;
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+--
+-- Host: 180.71.29.2    Database: cinema_db
+-- ------------------------------------------------------
+-- Server version	5.7.44
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `favoriteMovie`
+--
+
+DROP TABLE IF EXISTS `favoriteMovie`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `favoriteMovie` (
+  `favoriteMovieIdx` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '선호 영화 고유 ID',
+  `userIdx` bigint(20) NOT NULL COMMENT '사용자 고유 ID',
+  `movieIdx` bigint(20) NOT NULL COMMENT '영화 고유 ID',
+  PRIMARY KEY (`favoriteMovieIdx`),
+  KEY `userIdx` (`userIdx`),
+  KEY `movieIdx` (`movieIdx`),
+  CONSTRAINT `favoriteMovie_ibfk_1` FOREIGN KEY (`userIdx`) REFERENCES `user` (`userIdx`) ON DELETE CASCADE,
+  CONSTRAINT `favoriteMovie_ibfk_2` FOREIGN KEY (`movieIdx`) REFERENCES `movie` (`movieIdx`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8 COMMENT='사용자의 선호 영화 목록을 저장하는 테이블';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `favoriteMovie`
+--
+
+LOCK TABLES `favoriteMovie` WRITE;
+/*!40000 ALTER TABLE `favoriteMovie` DISABLE KEYS */;
+INSERT INTO `favoriteMovie` VALUES (2,1,5),(3,1,10),(4,2,2),(5,2,6),(6,2,8),(7,3,3),(8,3,15),(9,3,23),(10,4,4),(11,4,11),(12,4,12),(13,5,7),(14,5,20),(15,5,25),(16,6,13),(17,6,18),(18,6,22),(19,7,14),(20,7,17),(21,7,19),(22,11,1),(23,7,10),(24,40,1),(25,53,4),(26,10,22),(27,1,12),(28,9,1),(29,7,54),(33,7,28),(54,179,6),(55,179,3),(56,179,2),(168,161,206),(176,161,11),(187,161,24),(193,161,20),(194,161,187),(196,161,12),(198,161,5),(199,161,10),(207,161,194),(261,161,3),(264,161,6),(265,161,1),(266,211,194),(267,211,194),(268,211,194),(269,211,194),(270,211,194),(271,211,194),(275,211,10),(276,211,33),(284,236,11),(288,236,206),(289,236,12),(290,236,20),(292,236,2),(293,236,6),(295,236,3),(296,236,10),(298,236,170),(299,236,5),(300,236,168),(301,236,195),(302,236,4),(304,245,206),(305,191,206),(308,191,3),(309,191,2),(311,191,1),(312,191,194),(314,161,2),(316,179,295),(318,179,30);
+/*!40000 ALTER TABLE `favoriteMovie` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-03-16 19:51:07

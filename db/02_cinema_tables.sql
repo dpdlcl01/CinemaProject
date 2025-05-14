@@ -44,7 +44,7 @@ CREATE TABLE movie (
     movieRank INT COMMENT '영화 예매 순위 (NULL: 영화 목록에 포함되지 않음)',
     movieTotalAudience BIGINT COMMENT '누적 관객수',
     movieLikes INT COMMENT '좋아요 수 (찜하기 기능에 사용)',
-    movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)',
+    movieStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '영화 상태 (0: 개봉, 1: 개봉 예정, 2: 종료)'
 ) COMMENT='영화 정보를 저장하는 테이블';
 
 

@@ -13,8 +13,8 @@ public class SMTPAuth extends Authenticator {
     private static final String SECRET_EmailUserpassword = ConfigReader.getEmailUserpassword();
 
     public SMTPAuth() {
-        String username = "SECRET_EmailUsername";
-        String password = "SECRET_EmailUserpassword";
+        String username = SECRET_EmailUsername;
+        String password = SECRET_EmailUserpassword;
         auth = new PasswordAuthentication(username, password);
     }
 
